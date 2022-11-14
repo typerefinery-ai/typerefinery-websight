@@ -1,0 +1,7 @@
+{
+  "isContainer": true,
+  "group": "Category",
+  "allowedComponents": "/components/accordion/accordionitem",
+  "sling:resourceType": "ws:Component",
+  "title": "Accordion1"
+}

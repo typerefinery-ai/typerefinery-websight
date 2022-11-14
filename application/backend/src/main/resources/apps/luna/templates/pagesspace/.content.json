@@ -1,0 +1,8 @@
+{
+  "allowedChildren": [
+    "/luna/templates/"
+    
+  ],
+  "sling:resourceType": "ws:PagesTemplate",
+  "title": "luna pages"
+}

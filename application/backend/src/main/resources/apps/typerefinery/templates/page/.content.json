@@ -1,0 +1,6 @@
+{  
+  "sling:resourceType": "ws:PageTemplate",
+  "description": "PrimeVue",
+  "title": "Page",
+  "allowedChildren": ["/apps/typerefinery/templates/page"]
+}

@@ -1,0 +1,9 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery",
+  "allowedComponents": "Typerefinery",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/container",
+  "description": "Editable components wrapper",
+  "title": "Container"
+}

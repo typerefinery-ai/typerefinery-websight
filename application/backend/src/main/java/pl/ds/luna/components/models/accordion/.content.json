@@ -1,0 +1,7 @@
+{
+  "isContainer": true,
+  "group": "Category",
+  "allowedComponents": "/libs/howlite/components/accordion/accordionitem",
+  "sling:resourceType": "ws:Component",
+  "title": "Accordionprime"
+}
