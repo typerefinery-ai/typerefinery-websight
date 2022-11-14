@@ -1,0 +1,6 @@
+{  
+  "sling:resourceType": "ws:PageTemplate",
+  "description": "PrimeVue",
+  "title": "Content Page Prime vue",
+  "allowedChildren": ["/apps/luna/templates/contentpageprimevue"]
+}

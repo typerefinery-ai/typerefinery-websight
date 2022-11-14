@@ -1,0 +1,14 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "allowedComponents": [
+    "/apps/typerefinery/components/structure/pagesection",
+    "/apps/typerefinery/components/structure/container",
+    "Empty Sections",
+    "Filled Sections"
+  ],
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/maincontainer",
+  "description": "Use for main content, inside body tag, between header and footer",
+  "title": "Main Content"
+}

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2022 Dynamic Solutions
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pl.ds.luna</groupId>
+  <artifactId>luna-parent</artifactId>
+  <version>2.0.1-SNAPSHOT</version>
+  <name>Luna Project Parent</name>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>application</module>
+    <module>content</module>
+    <module>distribution</module>
+    <module>tests</module>
+  </modules>
+
+  <licenses>
+    <license>
+      <name>Apache License Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git://github.com/websight-io/starter.git</connection>
+    <developerConnection>scm:git:git@github.com:websight-io/starter.git</developerConnection>
+    <url>https://github.com/websight-io/starter</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <organization>
+    <name>Dynamic Solutions sp. z o.o. sp. k.</name>
+    <url>https://websight.io</url>
+  </organization>
+
+  <repositories>
+    <repository>
+      <id>websight-repo</id>
+      <url>https://repo.websight.io/maven/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <properties>
+    <!-- generic -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <!-- base docker distributions -->
+    <docker.cms-project.name>ds/websight-cms-luna</docker.cms-project.name>
+    <docker.cms-project.tag>latest</docker.cms-project.tag>
+    <docker.nginx.name>ds/nginx-luna</docker.nginx.name>
+    <docker.nginx.tag>latest</docker.nginx.tag>
+
+    <!-- admin user default credentials for tests -->
+    <websight.admin.username>wsadmin</websight.admin.username>
+    <websight.admin.password>wsadmin</websight.admin.password>
+    <websight.admin.omitAdminPw>true</websight.admin.omitAdminPw>
+
+    <!-- WebSight CMS Version -->
+    <websight.cms.version>1.2.0</websight.cms.version>
+
+    <timestamp>${maven.build.timestamp}</timestamp>
+    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    <howlite.version>1.0.1</howlite.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-cms-ce-feature</artifactId>
+        <version>${websight.cms.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.0.0-M6</version>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.11.0</version>
+        <configuration>
+          <allowSnapshots>true</allowSnapshots>
+          <includeProperties>websight.cms.version</includeProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <!-- Please do not upgrade to 0.40.2 as there is an issue with multi-platforms support -->
+          <version>0.40.1</version>
+        </plugin>    
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

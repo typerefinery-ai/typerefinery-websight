@@ -1,0 +1,6 @@
+{
+  "group": "Category",
+  "title": "New demo Title",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/title"
+}
