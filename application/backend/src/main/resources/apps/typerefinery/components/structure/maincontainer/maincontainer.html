@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.ai
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 <main class="hl-main-container">
   <sly data-sly-repeat.paragraph="${resource.children}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
   <sly data-sly-test="${!resource.hasChildren}">
-    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+    <sly data-sly-use.lib="/app/typerefinery/components/common/templates.html"
       data-sly-call="${lib.placeholder @ classes='hl-grid hl-grid-12 hl-grid-cols-12'}">
     </sly>
   </sly>
