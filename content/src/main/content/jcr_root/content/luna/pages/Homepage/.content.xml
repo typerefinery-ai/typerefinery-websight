@@ -26,7 +26,7 @@
                             openInNewTab="false"/>
                         <_x0032_
                             jcr:primaryType="nt:unstructured"
-                            label="Products"
+                            label="rahul"
                             link="/content/luna/pages/Products"
                             openInNewTab="false"/>
                         <_x0033_
@@ -226,7 +226,7 @@
                         <card1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/cardslist/card"
-                            content="&lt;p>Tiffany HardWear is elegantly subversive and captures the spirit of the women of New York City. Sleek and simple drop earrings add modern edge to any look.&lt;/p>&lt;p>  &lt;/p>&lt;p>&lt;strong>$1,800&lt;/strong>&lt;/p>"
+                            content="&lt;p>Tiffany HardWear is elegantly subversive and captures the spirit of the women of New York City. Sleek and simple drop earrings add modern edge to any look.&lt;/p>&lt;p>&lt;/p>&lt;p>&lt;strong>$1,800&lt;/strong>&lt;/p>"
                             ctaDisplayIcon="false"
                             ctaOpenInNewTab="false"
                             image="/content/luna/assets/images/homepage/Ball Hook Earrings.png"
@@ -234,7 +234,7 @@
                         <card2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/cardslist/card"
-                            content="&lt;p>Featuring v-shaped details, the nesting band ring is the perfect complement to all Tiffany engagement ring styles.&lt;/p>&lt;p>  &lt;/p>&lt;p>&lt;strong>$1,900&lt;/strong>&lt;/p>"
+                            content="&lt;p>Featuring v-shaped details, the nesting band ring is the perfect complement to all Tiffany engagement ring styles.&lt;/p>&lt;p>&lt;/p>&lt;p>&lt;strong>$1,900&lt;/strong>&lt;/p>"
                             ctaDisplayIcon="false"
                             ctaOpenInNewTab="false"
                             image="/content/luna/assets/images/homepage/Nesting Narrow Band Ring.png"
@@ -242,7 +242,7 @@
                         <card3
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/cardslist/card"
-                            content="&lt;p>Fine jewelry deserves fair prices. And so do you. All of our jewelry is born, raised, and handmade in NYC.&lt;/p>&lt;p>  &lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
+                            content="&lt;p>Fine jewelry deserves fair prices. And so do you. All of our jewelry is born, raised, and handmade in NYC.&lt;/p>&lt;p>&lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
                             ctaDisplayIcon="false"
                             ctaOpenInNewTab="false"
                             image="/content/luna/assets/images/homepage/Layer Cake Necklace Set.png"
@@ -250,7 +250,7 @@
                         <card4
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/cardslist/card"
-                            content="&lt;p>Tiffany round diamonds catch the light and make it dance. Bracelet in 18k rose gold with a round brilliant diamond. 7″ long.&lt;/p>&lt;p>  &lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
+                            content="&lt;p>Tiffany round diamonds catch the light and make it dance. Bracelet in 18k rose gold with a round brilliant diamond. 7″ long.&lt;/p>&lt;p>&lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
                             ctaDisplayIcon="false"
                             ctaOpenInNewTab="false"
                             image="/content/luna/assets/images/homepage/Diamonds By The Yard Bracelet.png"
@@ -258,7 +258,7 @@
                         <card5
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/cardslist/card"
-                            content="&lt;p>A striking display of diamonds scales the ear in this elegant climber earring design.&lt;/p>&lt;p>  &lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
+                            content="&lt;p>A striking display of diamonds scales the ear in this elegant climber earring design.&lt;/p>&lt;p>&lt;/p>&lt;p>&lt;strong>$2,100&lt;/strong>&lt;/p>"
                             ctaDisplayIcon="false"
                             ctaOpenInNewTab="false"
                             image="/content/luna/assets/images/homepage/Diamond Vine Climber Earrings.png"
@@ -289,7 +289,7 @@
                             sling:resourceType="howlite/components/title"
                             headingLevel="h2"
                             headingSize="hl-title__heading--size-2"
-                            title="Beauty Enchanted  in Diamonds"/>
+                            title="Beauty Enchanted in Diamonds"/>
                         <richtext
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/richtext"
@@ -466,7 +466,7 @@
                         lgOffset="2"
                         mdColSize="12"
                         smColSize="12"
-                        title="Luna’s Philosophy that  Beauty and Strength Exist in Both Union and Individuality"/>
+                        title="Luna’s Philosophy that Beauty and Strength Exist in Both Union and Individuality"/>
                     <ctaslist
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="howlite/components/ctaslist">

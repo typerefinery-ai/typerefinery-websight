@@ -10,7 +10,7 @@
         "sling:resourceType": "typerefinery/components/structure/maincontainer",
         "pagesection": {"sling:resourceType": "typerefinery/components/structure/pagesection"}
       },
-      "footer": {"sling:resourceType": "typerefinery/components/structure/footerreference"}
+      "footer": {"sling:resourceType": "typerefinery/components/structure/footer"}
     }
   }
 }
