@@ -11,7 +11,7 @@
             sling:resourceType="typerefinery/components/structure/rootcontainer/fixedrootcontainer">
             <header
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/structure/header"/>
+                sling:resourceType="typerefinery/components/structure/headerreference"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>

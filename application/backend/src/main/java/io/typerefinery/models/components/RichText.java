@@ -37,5 +37,5 @@ import org.apache.sling.models.annotations.Model;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class RichText {
-
 }
+
