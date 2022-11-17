@@ -22,7 +22,7 @@ describe('Typerefinery MainComponent', function () {
   it('renders correctly in preview mode', function () {
     cy.visit('/content/typerefinery-showcase/pages/components/structure/maincomponent.html');
 
-    cy.get("hl-title__heading hl-title__heading--size-2")
+    cy.get(".hl-title__heading.hl-title__heading--size-2")
       .should('have.text', 'Check more details on typerefinery.ai')
   });
 
