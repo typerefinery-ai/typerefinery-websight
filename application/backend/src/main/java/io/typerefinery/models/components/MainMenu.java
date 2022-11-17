@@ -13,18 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//namespace
+package io.typerefinery.models.components;
 
-describe('Typerefinery MainComponent', function () {
-  beforeEach(() => {
-    cy.login();
-  });
+import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-  it('renders correctly in preview mode', function () {
-    cy.visit('/content/typerefinery-showcase/pages/components/structure/maincomponent.html');
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Model;
 
-    cy.get(".hl-title__heading.hl-title__heading--size-2")
-      .should('have.text', 'Check more details on typerefinery.ai')
-  });
-});
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+public class MainMenu {
 
-  
+  // @Inject
+  // @Getter
+  // private ImageComponent image;
+
+  // @Inject
+  // @Getter
+  // private NavigationComponent navigation;
+
+  // @Inject
+  // @Getter
+  // private SocialLinksComponent socialLinks;
+
+  // @Inject
+  // @Getter
+  // private String copyright;
+}
