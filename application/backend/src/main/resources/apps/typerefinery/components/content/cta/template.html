@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2022 Typerefinery.ai
+    Copyright (C) 2022 Dynamic Solutions
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<head>
-    <link href="https://unpkg.com/primevue/resources/themes/lara-light-indigo/theme.css" rel="stylesheet">
-    <link href="https://unpkg.com/primevue/resources/primevue.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet">
-</head>
+<template data-sly-template.cta="${ @ label, link, openInNewTab, displayIcon, classes}">
+    <p-button data-sly-attribute.label="${label}"></p-button>
+</template>
