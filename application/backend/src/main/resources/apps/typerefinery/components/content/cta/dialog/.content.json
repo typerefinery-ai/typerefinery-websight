@@ -11,6 +11,27 @@
         "label": "Text",
         "required": true
       },
+      "displayIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "displayIcon",
+        "label": "Icon"
+      },
+      "iconPos": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "iconPos",
+        "label": "Icon",
+        "dangerButton": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Left",
+          "value": "left",
+          "selected": true
+        },
+        "warningButton": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Right",
+          "value": "right"
+        }
+      },
       "link": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
@@ -21,39 +42,44 @@
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "openInNewTab",
         "label": "Open in new tab"
-      },
-      "displayIcon": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "displayIcon",
-        "label": "Show icon"
       }
     },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Style",
+      "label": "Button Style",
       "cssClasses": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "classes",
         "primaryButton": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Primary Button",
-          "value": "hl-cta--primary"
+          "selected": true,
+          "value": ""
         },
         "secondaryButton": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Secondary Button",
-          "selected": true,
-          "value": "hl-cta--secondary"
+          "value": "p-button-secondary"
         },
-        "smallButton": {
+        "infoButton": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Small Button",
-          "value": "hl-cta--small"
+          "label": "Info Button",
+          "value": "p-button-info"
         },
-        "textLink": {
+        "helpButton": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Text Link",
-          "value": "hl-cta--text"
+          "label": "Help Button",
+          "value": "p-button-help"
+        },
+        "dangerButton": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger Button",
+          "value": "p-button-danger"
+        },
+        "warningButton": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Warning Button",
+          "value": "p-button-warning"
         }
       }
     }
