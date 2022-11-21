@@ -77,3 +77,17 @@ See our dedicated repository for the [WebSight CMS documentation](https://github
 WebSight Starter and [Howlite components](https://github.com/websight-io/howlite) are `open-source` with `Apache License 2.0` license.
 
 WebSight CMS Community Edition is free to use for everyone ([terms of use](https://www.websight.io/terms-of-use/)).
+
+## Deploy
+
+To install application code to your local instance:
+
+```bash
+./mvnw -f application/backend/pom.xml clean install -P autoInstallBundle
+```
+
+To install content to your local instance:
+
+```bash
+./mvnw -f content/pom.xml clean install -P autoInstallPackage
+```
