@@ -1,0 +1,12 @@
+{
+  "group": "Typerefinery",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/maincontainer",
+  "allowedComponents": [
+    "Typerefinery Structure",
+    "Empty Sections",
+    "Filled Sections"
+  ],
+  "description": "This is CTA component for Howlite",
+  "title": "maincontainer"
+}

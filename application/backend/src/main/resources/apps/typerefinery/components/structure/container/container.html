@@ -13,16 +13,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="pl.ds.howlite.components.models.ContainerComponent">
+<sly data-sly-use.model="io.typerefinery.models.components.ContainerComponent">
   <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
-    <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}"
-      style="--bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;">
-      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-    </div>
+  <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}"
+    style="--bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;">
+  </div>
 
-    <sly data-sly-test="${!resource.hasChildren}">
-      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-        data-sly-call="${lib.placeholder @ classes=CSSclasses}">
-      </sly>
+  <sly data-sly-test="${!resource.hasChildren}">
+    <sly data-sly-use.lib="/app/typerefinery/components/common/templates.html"
+      data-sly-call="${lib.placeholder @ classes=CSSclasses}">
     </sly>
+  </sly>
 </sly>

@@ -19,13 +19,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-application</artifactId>
+    <groupId>io.typerefinery</groupId>
+    <artifactId>typerefinery-application</artifactId>
     <version>2.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>luna-backend</artifactId>
-  <name>Luna: Backend</name>
+  <artifactId>typerefinery-backend</artifactId>
+  <name>Typerefinery: Backend</name>
 
   <build>
     <plugins>
@@ -44,6 +44,23 @@
             </goals>
           </execution>
         </executions>
+         <dependencies>
+                    <dependency>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>org.apache.sling.caconfig.bnd-plugin</artifactId>
+                        <version>${sling.caconfig.bnd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>org.apache.sling.bnd.models</artifactId>
+                        <version>${sling.models.bnd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>scriptingbundle-maven-plugin</artifactId>
+                        <version>${sling.scriptbundle.version}</version>
+                    </dependency>
+                </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

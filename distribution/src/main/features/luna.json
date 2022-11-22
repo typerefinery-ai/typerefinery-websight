@@ -9,7 +9,7 @@
       "org.apache.sling.commons.log.file.size": "'.'yyyy-MM-dd",
       "org.apache.sling.commons.log.names": [
         "pl.ds.howlite",
-        "pl.ds.luna"
+        "io.typerefinery"
       ],
       "org.apache.sling.commons.log.additiv": true
     },
@@ -19,12 +19,11 @@
   },
   "bundles": [
     {
-      "id": "pl.ds.luna:luna-backend:${project.version}",
+      "id": "io.typerefinery:typerefinery-backend:${project.version}",
       "start-order": "25"
     }
   ],
   "content-packages:ARTIFACTS|true": [
-    "pl.ds.luna:luna-content:zip:${project.version}"
+    "io.typerefinery:typerefinery-content:zip:${project.version}"
   ]
 }
-  

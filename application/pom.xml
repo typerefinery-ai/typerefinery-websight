@@ -19,14 +19,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-parent</artifactId>
+    <groupId>io.typerefinery</groupId>
+    <artifactId>typerefinery-parent</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-application</artifactId>
-  <name>Luna: Application</name>
+  <artifactId>typerefinery-application</artifactId>
+  <name>Typerefinery: Application</name>
   <description>Parent for application modules.</description>
   <packaging>pom</packaging>
 
@@ -64,7 +64,7 @@
               </goals>
               <configuration>
                 <bnd><![CDATA[
-                  Bundle-Category: pl.ds.luna
+                  Bundle-Category: io.typerefinery
                   Bundle-Description : ${project.name}
                   -exportcontents: ${removeall;${packages;VERSIONED};${packages;CONDITIONAL}}
                   -noextraheaders: true

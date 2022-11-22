@@ -19,8 +19,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-parent</artifactId>
+    <groupId>io.typerefinery</groupId>
+    <artifactId>typerefinery-parent</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -30,8 +30,8 @@
     <module>end-to-end</module>
   </modules>
 
-  <artifactId>luna-tests</artifactId>
-  <name>Luna: Tests</name>
+  <artifactId>typerefinery-tests</artifactId>
+  <name>Typerefinery: Tests</name>
   <packaging>pom</packaging>
 
   <properties>

@@ -16,6 +16,5 @@
 -->
 
 <workspaceFilter version="1.0">
-  <filter root="/content/luna" mode="merge"/>
-  <filter root="/content/typerefinery-showcase" />
+  <filter root="/content/typerefinery" />
 </workspaceFilter>

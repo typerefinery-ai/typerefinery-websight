@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pl.ds.luna.components.models;
+package io.typerefinery.components.models;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;

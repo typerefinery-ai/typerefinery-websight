@@ -15,7 +15,7 @@
  */
 
 @Version("1.0.0")
-package pl.ds.luna.components.models;
+package io.typerefinery.components.models;
 
 import org.osgi.annotation.versioning.Version;
 

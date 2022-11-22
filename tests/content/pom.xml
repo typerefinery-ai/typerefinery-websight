@@ -19,14 +19,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-tests</artifactId>
+    <groupId>io.typerefinery</groupId>
+    <artifactId>typerefinery-tests</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-tests-content</artifactId>
-  <name>Luna: Tests: Content</name>
+  <artifactId>typerefinery-tests-content</artifactId>
+  <name>Typerefinery: Tests: Content</name>
   <packaging>content-package</packaging>
 
   <properties>

@@ -18,8 +18,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>pl.ds.luna</groupId>
-  <artifactId>luna-parent</artifactId>
+  <groupId>io.typerefinery</groupId>
+  <artifactId>typerefinery-parent</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <name>Luna Project Parent</name>
   <packaging>pom</packaging>
@@ -84,6 +84,15 @@
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <howlite.version>1.0.1</howlite.version>
+
+    <!-- plugins -->
+    <bnd.version>6.3.1</bnd.version>
+    <sling.caconfig.bnd.version>1.0.2</sling.caconfig.bnd.version>
+    <sling.models.bnd.version>1.0.0</sling.models.bnd.version>
+    <sling.scriptbundle.version>0.5.2</sling.scriptbundle.version>
+    <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
+    <componentGroupName>pl.ds.howlite</componentGroupName>
+    <checkstyle.severity.level>warning</checkstyle.severity.level>
   </properties>
 
   <dependencyManagement>

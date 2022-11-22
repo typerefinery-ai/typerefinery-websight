@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package pl.ds.luna.components.models;
+package io.typerefinery.components.models;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;

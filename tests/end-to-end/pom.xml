@@ -19,14 +19,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-tests</artifactId>
+    <groupId>io.typerefinery</groupId>
+    <artifactId>typerefinery-tests</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-tests-e2e</artifactId>
-  <name>Luna: Tests: End to end</name>
+  <artifactId>typerefinery-tests-e2e</artifactId>
+  <name>Typerefinery: Tests: End to end</name>
   <packaging>pom</packaging>
 
   <properties>
@@ -43,15 +43,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>pl.ds.luna</groupId>
-      <artifactId>luna-distribution</artifactId>
+      <groupId>io.typerefinery</groupId>
+      <artifactId>typerefinery-distribution</artifactId>
       <version>${project.version}</version>
       <classifier>websight-cms-luna</classifier>
       <type>slingosgifeature</type>
     </dependency>
     <dependency>
-      <groupId>pl.ds.luna</groupId>
-      <artifactId>luna-tests-content</artifactId>
+      <groupId>io.typerefinery</groupId>
+      <artifactId>typerefinery-tests-content</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
     </dependency>
@@ -85,12 +85,12 @@
           </replacePropertyVariables>
           <aggregates>
             <aggregate>
-              <classifier>luna-project-tests</classifier>
+              <classifier>typerefinery-project-tests</classifier>
               <filesInclude>*.json</filesInclude>
               <title>Luna distribution with test data</title>
               <includeArtifact>
-                <groupId>pl.ds.luna</groupId>
-                <artifactId>luna-distribution</artifactId>
+                <groupId>io.typerefinery</groupId>
+                <artifactId>typerefinery-distribution</artifactId>
                 <version>${project.version}</version>
                 <classifier>websight-cms-luna</classifier>
                 <type>slingosgifeature</type>
@@ -99,12 +99,12 @@
           </aggregates>
           <scans>
             <scan>
-              <includeClassifier>luna-project-tests</includeClassifier>
+              <includeClassifier>typerefinery-project-tests</includeClassifier>
             </scan>
           </scans>
           <repositories>
             <repository>
-              <includeClassifier>luna-project-tests</includeClassifier>
+              <includeClassifier>typerefinery-project-tests</includeClassifier>
             </repository>
           </repositories>
           <outputDir>target</outputDir>
@@ -208,12 +208,12 @@
         <configuration>
           <launches>
             <launch>
-              <id>luna-project-tests</id>
+              <id>typerefinery-project-tests</id>
               <feature>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>${project.artifactId}</artifactId>
                 <version>${project.version}</version>
-                <classifier>luna-project-tests</classifier>
+                <classifier>typerefinery-project-tests</classifier>
                 <type>slingosgifeature</type>
               </feature>
               <launcherArguments>
