@@ -1,1 +1,1 @@
-mvn -f content/pom.xml clean install -P autoInstallPackage
+./mvnw -f content/pom.xml clean install -P autoInstallPackage
