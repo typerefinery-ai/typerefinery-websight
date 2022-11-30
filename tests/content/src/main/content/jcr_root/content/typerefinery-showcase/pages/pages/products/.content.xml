@@ -42,7 +42,7 @@
                         <richtext
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/richtext"
-                            text="&lt;p>Luna Soleste® pear-shaped halo engagement ring with a diamond platinum band.&lt;br>&lt;br>&lt;/p>&lt;p>&lt;strong>From $7,900&lt;/strong>&lt;/p>"/>
+                            text="&lt;p>Lun Soleste® pear-shaped halo engagement ring with a diamond platinum band.&lt;br>&lt;br>&lt;/p>&lt;p>&lt;strong>From $7,900&lt;/strong>&lt;/p>"/>
                         <ctaslist
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="howlite/components/ctaslist">
