@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-distribution</artifactId>
-  <name>Typerefinery: Distribution</name>
+  <name>Typerefinery :: Parent :: Distribution</name>
   <description>Typerefinery distribution that builds the Docker Image for the projects running on WebSight.</description>
 
   <dependencies>

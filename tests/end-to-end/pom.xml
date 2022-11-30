@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-tests-e2e</artifactId>
-  <name>Typerefinery: Tests: End to end</name>
+  <name>Typerefinery :: Parent :: Tests :: End to end</name>
   <description>Contains functional and visual tests for the project distribution.</description>
   <packaging>pom</packaging>
 

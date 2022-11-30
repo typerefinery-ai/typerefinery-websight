@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-tests-content</artifactId>
-  <name>Typerefinery: Tests: Content</name>
+  <name>Typerefinery :: Parent :: Tests :: Content</name>
   <description>Contains content used for end to end tests.</description>
   <packaging>content-package</packaging>
 

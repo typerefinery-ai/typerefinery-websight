@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-content</artifactId>
-  <name>Typerefinery: Content</name>
+  <name>Typerefinery :: Parent :: Content</name>
   <description>Contains sample initial content created by using the components delivered in application module.</description>
   <packaging>content-package</packaging>
 

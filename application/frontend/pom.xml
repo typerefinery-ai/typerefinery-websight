@@ -12,7 +12,7 @@
   </parent>
 
   <artifactId>typerefinery-frontend</artifactId>
-  <name>Typerefinery CMS Project - Frontend</name>
+  <name>Typerefinery :: Parent :: Frontend</name>
   <description>Contains application frontend.</description>
 
   <properties>

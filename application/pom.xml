@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-application</artifactId>
-  <name>Typerefinery: Application</name>
+  <name>Typerefinery :: Parent :: Application</name>
   <description>Parent for application modules.</description>
   <packaging>pom</packaging>
 

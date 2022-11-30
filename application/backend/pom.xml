@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-backend</artifactId>
-  <name>Typerefinery: Backend</name>
+  <name>Typerefinery :: Parent :: Backend</name>
   <description>Contains application backend.</description>
 
   <build>

@@ -26,7 +26,7 @@
   </parent>
 
   <artifactId>typerefinery-tests</artifactId>
-  <name>Typerefinery: Tests</name>
+  <name>Typerefinery :: Parent :: Tests</name>
   <packaging>pom</packaging>
 
   <properties>
