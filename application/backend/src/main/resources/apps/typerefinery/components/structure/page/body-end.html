@@ -1,0 +1,31 @@
+<script>
+  const { createApp, ref } = Vue;
+
+  const App = {
+    setup() {
+      const val = ref(null);
+
+      return {
+        val
+      };
+    },
+    components: {
+      "p-button": primevue.button,
+      "p-inputtext": primevue.inputtext
+    },
+  };
+  window.vueapp = createApp(App);
+    (function (vueapp) {
+        vueapp._component.methods={
+          clickevent(){
+            alert("hello")
+          }
+        }
+        console.log("cta javascript");
+        console.log("vueapp", vueapp);
+        console.log("app", vueapp.App);
+        console.log("vue", vueapp.Vue);
+        // vueapp.use(primevue.config.default).mount("#app")
+      })(window.vueapp);
+  vueapp.use(primevue.config.default).mount("#app");
+</script>
