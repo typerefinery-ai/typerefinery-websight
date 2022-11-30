@@ -14,7 +14,7 @@
     limitations under the License.
 */-->
 <template data-sly-template.cta="${ @ label, link, openInNewTab, displayIcon, classes, iconPos}">
-    <p-button icon="${displayIcon}" data-sly-attribute.label="${label}" class=" ${classes @ join=' '}"
-        iconPos="${iconPos}" @click="clickevent">
+    <p-button icon="${displayIcon}" data-sly-attribute.label="${label}" id="button" class=" ${classes @ join=' '}"
+        iconPos="${iconPos}" @click="clickevent">CTA
     </p-button>
 </template>
