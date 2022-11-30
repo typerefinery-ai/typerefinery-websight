@@ -49,3 +49,5 @@ Thumbs.db
 # Project specific
 **/launcher
 
+# Reference files from WS
+_reference

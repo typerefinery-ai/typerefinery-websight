@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,14 +19,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-tests</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <groupId>io.typerefinery.websight</groupId>
+    <artifactId>typerefinery-tests</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-tests-content</artifactId>
-  <name>Luna: Tests: Content</name>
+  <artifactId>typerefinery-tests-content</artifactId>
+  <name>Typerefinery: Tests: Content</name>
+  <description>Contains content used for end to end tests.</description>
   <packaging>content-package</packaging>
 
   <properties>

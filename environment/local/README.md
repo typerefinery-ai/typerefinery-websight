@@ -1,9 +1,9 @@
 # Local Environment
 
-Build the distribution & Docker images running the following command from this directory:
+Build the distribution & Docker images running the following commands from this directory:
 
 ```bash
-../../mvnw -f ../pom.xml clean install
+mvn -f ../../pom.xml clean install
 ```
 
 * Deploy the new environment with:

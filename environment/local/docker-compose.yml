@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Dynamic Solutions
+# Copyright (C) 2022 Typerefinery.io
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,12 +16,15 @@ version: "3.9"
 
 services:
   cms:
-    image: ds/websight-cms-luna:latest
+    build:
+      context: ../../distribution/src/main/docker/typerefinery-websight
+      dockerfile: Dockerfile
+    image: ${DOCKER_CMS_PROJECT_NAME}:${DOCKER_CMS_PROJECT_TAG}
     ports:
       - "8080:8080"
       - "5005:5005"
     environment:
-      WS_ADMIN_USERNAME: "wsadmin"
+      WS_ADMIN_USERNAME: $${WS_ADMIN_USERNAME}
       MONGODB_HOST: "mongo"
       MONGODB_PORT: 27017
       MONGODB_USERNAME: "mongoadmin"
@@ -31,8 +34,8 @@ services:
       # WS_DEBUG: "true" is for local usage only. It enables java debugger.
       WS_DEBUG: "true"
     volumes:
-      - luna-project_cms_logs:/websight/logs
-      - luna-project_site_repository:/websight/docroot
+      - ${VOLUME_NAME_PREFIX}-project_cms_logs:/websight/logs
+      - ${VOLUME_NAME_PREFIX}-project_site_repository:/websight/docroot
     secrets:
       - source: mongo_password
         target: mongo.password
@@ -53,7 +56,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo.password
     volumes:
-      - luna-project_mongo_repository:/data/db
+      - ${VOLUME_NAME_PREFIX}-project_mongo_repository:/data/db
     secrets:
       - source: mongo_password
         target: mongo.password
@@ -61,16 +64,22 @@ services:
 
   # HTTP Server
   nginx:
-    image: ds/nginx-luna:latest
+    build:
+      context: ../../distribution/src/main/docker/typerefinery-websight
+      dockerfile: Dockerfile
+    image: ${DOCKER_CMS_NGINX_NAME}:${DOCKER_CMS_NGINX_TAG}
     ports:
       - "80:80"
     volumes:
-      - luna-project_site_repository:/usr/share/nginx/html:ro
+      - ${VOLUME_NAME_PREFIX}-project_site_repository:/usr/share/nginx/html:ro
 
 volumes:
-  luna-project_cms_logs:
-  luna-project_mongo_repository:
-  luna-project_site_repository:
+  typerefinery-project_cms_logs:
+    name: ${VOLUME_NAME_PREFIX}-project_cms_logs
+  typerefinery-project_mongo_repository:
+    name: ${VOLUME_NAME_PREFIX}-project_mongo_repository
+  typerefinery-project_site_repository:
+    name: ${VOLUME_NAME_PREFIX}-project_site_repository
 
 secrets:
   mongo_password:

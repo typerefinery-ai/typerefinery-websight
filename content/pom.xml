@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,14 +19,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-parent</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <groupId>io.typerefinery.websight</groupId>
+    <artifactId>typerefinery-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-content</artifactId>
+  <artifactId>typerefinery-content</artifactId>
+  <name>Typerefinery: Content</name>
+  <description>Contains sample initial content created by using the components delivered in application module.</description>
   <packaging>content-package</packaging>
-  <name>Luna: Content</name>
 
   <properties>
     <sling.install.package.username>${websight.admin.username}</sling.install.package.username>

@@ -1,4 +1,4 @@
-# Luna test content
+# Typerefinery test content
 Content for testing Luna components
 
 ## Sync test content

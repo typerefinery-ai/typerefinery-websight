@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="io.typerefinery.models.components.PageSection">
+<sly data-sly-use.model="io.typerefinery.websight.models.components.PageSection">
   <sly data-sly-test.CSSclasses="hl-page-section ${model.classes @ join=' '}"></sly>
     <section data-sly-test="${resource.hasChildren}" class="${CSSclasses}"
       style="--bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;">
@@ -21,7 +21,7 @@
     </section>
 
     <sly data-sly-test="${!resource.hasChildren}">
-      <sly data-sly-use.lib="/app/typerefinery/components/common/templates.html"
+      <sly data-sly-use.lib="/apps/typerefinery/components/common/templates.html"
         data-sly-call="${lib.placeholder @ classes=CSSclasses}">
       </sly>
     </sly>

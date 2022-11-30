@@ -30,7 +30,10 @@ to run all tests in the background.
 > For local testing all Percy commands are skipped. It is critical to relay on Cypress tests, treating visual tests as some additional
 > testing layer, however, all critical business scenarios should contain checks in Cypress.
 
-## How to add new tests?
+The architecture for running Cypress locally looks like below:
+
+![Running functional tests locally](../docs/diagrams/generated/websight-e2e-testing-local.png)
+
 
 Install all required dependencies and run auto formatter:
 

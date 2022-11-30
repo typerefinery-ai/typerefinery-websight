@@ -1,1 +1,1 @@
-./mvnw -f application/backend/pom.xml clean install -P autoInstallBundle
+mvn -f application/backend/pom.xml clean install -P autoInstallBundle

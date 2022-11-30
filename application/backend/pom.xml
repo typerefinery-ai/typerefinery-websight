@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,13 +19,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-application</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <groupId>io.typerefinery.websight</groupId>
+    <artifactId>typerefinery-application</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-backend</artifactId>
-  <name>Luna: Backend</name>
+  <artifactId>typerefinery-backend</artifactId>
+  <name>Typerefinery: Backend</name>
+  <description>Contains application backend.</description>
 
   <build>
     <plugins>
@@ -58,10 +60,30 @@
   </build>
 
   <dependencies>
+
+    <dependency>
+      <groupId>pl.ds.websight</groupId>
+      <artifactId>websight-assets-core-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>pl.ds.websight</groupId>
+      <artifactId>websight-pages-core-api</artifactId>
+    </dependency>
     <dependency>
       <groupId>pl.ds.howlite</groupId>
       <artifactId>howlite-core</artifactId>
     </dependency>
+
+    <!-- Other -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
@@ -82,6 +104,8 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.annotation.versioning</artifactId>
     </dependency>
+
+
 
     <!-- TEST -->
     <dependency>

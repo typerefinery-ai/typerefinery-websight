@@ -1,9 +1,0 @@
-{
-  "allowedChildren": [
-    "/libs/howlite/templates/contentpage",
-    "/libs/howlite/templates/homepage",
-    "/apps/luna/templates/contentpageprimevue"
-  ],
-  "sling:resourceType": "ws:PagesTemplate",
-  "title": "luna pages"
-}

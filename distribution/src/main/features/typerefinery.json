@@ -1,0 +1,34 @@
+{
+  "bundles": [
+    {
+      "id": "io.typerefinery.websight:typerefinery-backend:1.0.0-SNAPSHOT",
+      "start-order": "25"
+    },
+    {
+      "id": "io.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
+      "start-order": "25"
+    }
+  ],
+  "content-packages:ARTIFACTS|true": [
+    "io.typerefinery.websight:typerefinery-content:zip:1.0.0-SNAPSHOT"
+  ],
+  "configurations": {
+    "org.apache.sling.commons.log.LogManager.factory.config~typerefinery.log": {
+      "org.apache.sling.commons.log.packagingDataEnabled": true,
+      "org.apache.sling.commons.log.pattern": "%d{dd.MM.yyyy HH:mm:ss.SSS} *%level* [%thread] %logger %msg%n",
+      "org.apache.sling.commons.log.level": "$[env:PROJECT_LOG_LEVEL;default=info]",
+      "org.apache.sling.commons.log.file": "logs/typerefinery.log",
+      "org.apache.sling.commons.log.file.number:Integer": "8",
+      "org.apache.sling.commons.log.file.size": "'.'yyyy-MM-dd",
+      "org.apache.sling.commons.log.names": [
+        "pl.ds.howlite",
+        "io.typerefinery.websight"
+      ],
+      "org.apache.sling.commons.log.additiv": true
+    },
+    "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
+      "shorten.paths": true
+    }
+  }
+}
+  

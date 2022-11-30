@@ -1,1 +1,3 @@
-{"sling:resourceType": "ws:Application"}
+{
+  "sling:resourceType": "ws:Application"
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,14 +19,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>pl.ds.luna</groupId>
-    <artifactId>luna-tests</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <groupId>io.typerefinery.websight</groupId>
+    <artifactId>typerefinery-tests</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>luna-tests-e2e</artifactId>
-  <name>Luna: Tests: End to end</name>
+  <artifactId>typerefinery-tests-e2e</artifactId>
+  <name>Typerefinery: Tests: End to end</name>
+  <description>Contains functional and visual tests for the project distribution.</description>
   <packaging>pom</packaging>
 
   <properties>
@@ -43,15 +44,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>pl.ds.luna</groupId>
-      <artifactId>luna-distribution</artifactId>
+      <groupId>io.typerefinery.websight</groupId>
+      <artifactId>typerefinery-distribution</artifactId>
       <version>${project.version}</version>
-      <classifier>websight-cms-luna</classifier>
+      <classifier>${project.parent.classifier}</classifier>
       <type>slingosgifeature</type>
     </dependency>
     <dependency>
-      <groupId>pl.ds.luna</groupId>
-      <artifactId>luna-tests-content</artifactId>
+      <groupId>io.typerefinery.websight</groupId>
+      <artifactId>typerefinery-tests-content</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
     </dependency>
@@ -85,26 +86,26 @@
           </replacePropertyVariables>
           <aggregates>
             <aggregate>
-              <classifier>luna-project-tests</classifier>
+              <classifier>${project.parent.classifier}-tests</classifier>
               <filesInclude>*.json</filesInclude>
-              <title>Luna distribution with test data</title>
+              <title>Typerefinery distribution with test data</title>
               <includeArtifact>
-                <groupId>pl.ds.luna</groupId>
-                <artifactId>luna-distribution</artifactId>
+                <groupId>io.typerefinery.websight</groupId>
+                <artifactId>typerefinery-distribution</artifactId>
                 <version>${project.version}</version>
-                <classifier>websight-cms-luna</classifier>
+                <classifier>${project.parent.classifier}</classifier>
                 <type>slingosgifeature</type>
               </includeArtifact>
             </aggregate>
           </aggregates>
           <scans>
             <scan>
-              <includeClassifier>luna-project-tests</includeClassifier>
+              <includeClassifier>${project.parent.classifier}-tests</includeClassifier>
             </scan>
           </scans>
           <repositories>
             <repository>
-              <includeClassifier>luna-project-tests</includeClassifier>
+              <includeClassifier>${project.parent.classifier}-tests</includeClassifier>
             </repository>
           </repositories>
           <outputDir>target</outputDir>
@@ -208,12 +209,12 @@
         <configuration>
           <launches>
             <launch>
-              <id>luna-project-tests</id>
+              <id>typerefinery-tests</id>
               <feature>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>${project.artifactId}</artifactId>
                 <version>${project.version}</version>
-                <classifier>luna-project-tests</classifier>
+                <classifier>${project.parent.classifier}-tests</classifier>
                 <type>slingosgifeature</type>
               </feature>
               <launcherArguments>
@@ -330,6 +331,15 @@
         </executions>
         <configuration>
           <nodeVersion>${node.version}</nodeVersion>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.11.0</version>
+        <configuration>
+          <allowSnapshots>true</allowSnapshots>
         </configuration>
       </plugin>
     </plugins>

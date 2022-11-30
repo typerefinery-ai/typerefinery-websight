@@ -3,8 +3,8 @@ It builds a WebSight distribution containing all dependencies, configurations, r
 
 The builds two Docker images:
 
-- CMS with Luna - `ds/websight-cms-luna:latest`
-- HTTP server exposing published assets - `ds/nginx-luna:latest`
+- CMS with Luna - `ghcr.io/innovolve-ai/typerefinery-websight:latest`
+- HTTP server exposing published assets - `ghcr.io/innovolve-ai/typerefinery-websight-nginx:latest`
 
 ## Prerequisites
 

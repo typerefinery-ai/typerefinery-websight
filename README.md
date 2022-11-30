@@ -1,22 +1,8 @@
-[![CI](https://github.com/websight-io/starter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/websight-io/starter/actions/workflows/ci.yml)
+[![CI](https://github.com/innovolve-ai/typerefinery-websight/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/innovolve-ai/typerefinery-websight/actions/workflows/ci.yml)
 
-# WebSight Starter
+# Typerefinery WebSight CMS Project
 
-WebSight Starter is a sample project built on top of the [Websight CMS Community Edition](https://www.websight.io/). It contains a demo page called _Luna_ built with [Howlite](https://github.com/websight-io/howlite) components.
-
-## Playground
-
-Set up a local on-demand environment with the released WebSight CMS CE Docker images by running:
-
-```bash
-curl https://www.websight.io/scripts/get.sh | sh
-```
-
-and then see the results on [localhost:8080/apps/websight/index.html/content::spaces](http://localhost:8080/apps/websight/index.html/content::spaces) (credentials are `wsadmin`/`wsadmin`).
-
-![Luna screenshot](/assets/luna-screenshot.png "Luna screenshot")
-
-For more details see our [Authoring Quick Start Guide](https://www.websight.io/docs/quick-start/).
+This project is adapted from WebSight Starter.
 
 ## Development
 
@@ -57,26 +43,6 @@ docker compose up
 
 ## Contributing
 Please read our [Contributing Guide](./CONTRIBUTING.md) before submitting a Pull Request to the project.
-
-## Community support
-
-To support us, you may follow the project at:
-
-* feel free to star this repository, open [issues](https://github.com/websight-io/starter/issues), and start [discussions](https://github.com/websight-io/starter/discussions)
-* [linkedin.com/company/websight-io/](https://www.linkedin.com/company/websight-io/)
-* [twitter.com/websight_io](https://twitter.com/websight_io)
-
-## Documentation
-See our dedicated repository for the [WebSight CMS documentation](https://github.com/websight-io/docs), or view our documentation live:
-
-- [User guide](https://www.websight.io/docs/quick-start/)
-- [Developer guide](https://www.websight.io/docs/developers/quick-start/)
-
-## License
-
-WebSight Starter and [Howlite components](https://github.com/websight-io/howlite) are `open-source` with `Apache License 2.0` license.
-
-WebSight CMS Community Edition is free to use for everyone ([terms of use](https://www.websight.io/terms-of-use/)).
 
 ## Deploy
 

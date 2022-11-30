@@ -1,0 +1,1 @@
+mvn -f tests/content/pom.xml clean install -P autoInstallPackage
