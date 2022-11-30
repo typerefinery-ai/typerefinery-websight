@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Dynamic Solutions
+# Copyright (C) 2022 Typerefinery.io
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,26 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-server {
-    listen       80;
-    index        Homepage.html;
+FROM nginx
 
-    location /health {
-        access_log off;
-        add_header  Content-Type    text/html;
-        return 200;
-    }
-
-    location /libs/howlite/web_root {
-        root   /usr/share/nginx/html;
-    }
-
-    location ~ (.html|/)$ {
-        root   /usr/share/nginx/html/content/luna/pages;
-    }
-
-    location / {
-        root   /usr/share/nginx/html/content/luna;
-    }
-
-}
+COPY src/main/docker/nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
+COPY src/main/docker/nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
+COPY src/main/docker/nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html
