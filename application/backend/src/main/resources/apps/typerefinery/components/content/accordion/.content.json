@@ -1,0 +1,7 @@
+{
+  "isContainer": true,
+  "group": "Howlite",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/accordion",
+  "title": "Accordion"
+}

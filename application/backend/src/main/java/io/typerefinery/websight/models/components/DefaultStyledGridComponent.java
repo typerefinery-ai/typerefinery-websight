@@ -78,7 +78,6 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgOffset() {
     return grid.getLgOffset();
   }
-
   @PostConstruct
   private void init() {
     componentClasses = Stream.concat(

@@ -30,19 +30,8 @@
 
 <template data-sly-template.cta="${ @ label, link, openInNewTab, displayIcon, classes, iconPos}">
 
-    <p-button
-
-        icon="${displayIcon}"
-
-        data-sly-attribute.label="${label}"
-
-        class=" ${classes @ join=' '}"
-
-        iconPos="${iconPos}"
-
-        onclick="{window.typerefinery.button.vueButtonIsClicked(this)}"
-
-    >
+    <p-button icon="${displayIcon}" data-sly-attribute.label="${label}" class=" ${classes @ join=' '}"
+        iconPos="${iconPos}" onclick="{window.typerefinery.button.vueButtonIsClicked(this)}">
 
         ${label}
 

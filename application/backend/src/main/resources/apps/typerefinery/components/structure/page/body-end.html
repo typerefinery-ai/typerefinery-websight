@@ -9,8 +9,8 @@
 
   window.typerefinery.vueUtils = {};
 
-  (function(vueApp, utils){
-    
+  (function (vueApp, utils) {
+
     utils.addComponent = () => {
       console.log("ADD COMPONENT");
     };
@@ -21,22 +21,22 @@
 
   })(vueApp, window.typerefinery.vueUtils);
 
-  
+
   // component namespace
   window.typerefinery.button = {};
   (function (vueApp, button) {
     console.log("____namespace____");
-    console.log("Prime Vue Button  ",primevue.button);
+    console.log("Prime Vue Button  ", primevue.button);
 
     button.vueButtonIsClicked = () => {
       console.log(this);
       console.log("INSIDE METHOD")
     }
-    
+
     var primeVueButtonExtended = {};
 
     Object.assign(primeVueButtonExtended, primevue.button);
-    
+
     primeVueButtonExtended.methods = {
       vueButtonIsClicked() {
         console.log("Vue Button is clicked");
@@ -46,25 +46,35 @@
     console.log("primeVueButtonExtended  ", primeVueButtonExtended);
 
     vueApp.component("p-button", primeVueButtonExtended);
-    
-    console.log("Vue App after p button added. ",  vueApp);
+
+    console.log("Vue App after p button added. ", vueApp);
     // Adding Component
     // vueApp.addComponent({ "p-button": primevue.button });
-    
+
     // vueApp.addMethod({ "clickHandler": clickHandler });
 
   })(vueApp, window.typerefinery.button);
 
 
-//Inputtext namspace
+  //Inputtext namspace
   window.typerefinery.inputText = {};
-  (function(vueApp,utils){
+  (function (vueApp, utils) {
     utils.vueInputOnChange = (e) => {
       console.log("On change.", e)
     }
-vueApp.component("p-inputtext",primevue.inputtext)
-  })(vueApp,window.typerefinery.inputText)
+    vueApp.component("p-inputtext", primevue.inputtext)
 
+  })(vueApp, window.typerefinery.inputText);
+
+  //Accordion page namespace
+  //  window.typerefinery.inputText = {};
+  (function (vueApp) {
+    console.log("hello", vueApp);
+    vueApp.component("p-accordion", primevue.accordion)
+    vueApp.component("p-card", primevue.card)
+
+    vueApp.component("p-accordiontab", primevue.accordiontab)
+  })(vueApp)
 
   vueApp.mount('#app');
 
