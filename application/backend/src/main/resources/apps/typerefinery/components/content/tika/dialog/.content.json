@@ -1,0 +1,54 @@
+{
+    "sling:resourceType": "wcm/dialogs/dialog",
+    "tabs": {
+        "sling:resourceType": "wcm/dialogs/components/tabs",
+        "generalTab": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "General",
+            "title": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "title",
+                "label": "Title"
+            },
+            "value": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "value",
+                "label": "Value"
+            },
+            "icon": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "icon",
+                "label": "icon"
+            },
+            "badge": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "badge",
+                "label": "badge"
+            }
+        },
+        "stylesTab": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "Styling",
+            "bgColor": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "bgColor",
+                "label": "Card background color"
+            },
+            "titleColor": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "titleColor",
+                "label": "Title text color"
+            },
+            "subtitleColor": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "subtitleColor",
+                "label": "Sub Title text color"
+            },
+            "descriptionColor": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "descriptionColor",
+                "label": "Description text color" 
+            }
+        }
+    }
+}

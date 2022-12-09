@@ -4,22 +4,6 @@
   const { createApp, ref } = Vue;
 
   const vueApp = Vue.createApp({});
-  console.log(vueApp);
-
-
-  window.typerefinery.vueUtils = {};
-
-  (function (vueApp, utils) {
-
-    utils.addComponent = () => {
-      console.log("ADD COMPONENT");
-    };
-
-    utils.addMethod = () => {
-      console.log("ADD METHOD");
-    };
-
-  })(vueApp, window.typerefinery.vueUtils);
 
 
   // component namespace
@@ -32,31 +16,10 @@
       console.log(this);
       console.log("INSIDE METHOD")
     }
-
-    var primeVueButtonExtended = {};
-
-    Object.assign(primeVueButtonExtended, primevue.button);
-
-    primeVueButtonExtended.methods = {
-      vueButtonIsClicked() {
-        console.log("Vue Button is clicked");
-      }
-    }
-
-    console.log("primeVueButtonExtended  ", primeVueButtonExtended);
-
-    vueApp.component("p-button", primeVueButtonExtended);
-
-    console.log("Vue App after p button added. ", vueApp);
-    // Adding Component
-    // vueApp.addComponent({ "p-button": primevue.button });
-
-    // vueApp.addMethod({ "clickHandler": clickHandler });
-
+    vueApp.component("p-button", primevue.button)
   })(vueApp, window.typerefinery.button);
 
 
-  //Inputtext namspace
   window.typerefinery.inputText = {};
   (function (vueApp, utils) {
     utils.vueInputOnChange = (e) => {
@@ -69,12 +32,16 @@
   //Accordion page namespace
   //  window.typerefinery.inputText = {};
   (function (vueApp) {
-    console.log("hello", vueApp);
     vueApp.component("p-accordion", primevue.accordion)
-    vueApp.component("p-card", primevue.card)
-
     vueApp.component("p-accordiontab", primevue.accordiontab)
-  })(vueApp)
+  })(vueApp);
+
+
+  // namespace for cards.
+  (function(){
+    vueApp.component("p-card", primevue.card);
+  })();
+
 
   vueApp.mount('#app');
 

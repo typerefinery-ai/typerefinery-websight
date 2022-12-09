@@ -82,6 +82,16 @@
           "value": "p-button-warning"
         }
       }
+    },
+    "testingTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "New tab",
+      "labelText": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "label",
+        "label": "Text",
+        "required": true
+      }
     }
   }
 }
