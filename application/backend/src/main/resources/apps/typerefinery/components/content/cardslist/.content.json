@@ -1,7 +1,0 @@
-{
-  "isContainer": true,
-  "group": "Howlite",
-  "allowedComponents": "/libs/howlite/components/cardslist/card",
-  "sling:resourceType": "ws:Component",
-  "title": "Cards List"
-}

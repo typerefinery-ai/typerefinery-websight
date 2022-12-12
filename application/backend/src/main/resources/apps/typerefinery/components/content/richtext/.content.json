@@ -1,6 +1,0 @@
-{
-  "group": "Howlite",
-  "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/richtext",
-  "title": "Rich text editor"
-}

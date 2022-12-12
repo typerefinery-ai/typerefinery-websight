@@ -1,7 +1,7 @@
 {
   "group": "Typerefinery",
   "sling:resourceType": "ws:Component",
-  "description": "Tika component",
-  "title": "Tika",
+  "description": "ticker custom component",
+  "title": "ticker",
   "isContainer": true
 }
