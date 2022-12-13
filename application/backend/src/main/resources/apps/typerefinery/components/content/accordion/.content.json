@@ -3,5 +3,5 @@
   "group": "Typerefinery",
   "sling:resourceType": "ws:Component",
   "title": "Accordion",
-  "allowedComponents": "Typerefinery"
+  "allowedComponents": ["Typerefinery", "Howlite"]
 }
