@@ -26,7 +26,7 @@
     <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
         <!-- multiple and active index not working else accordion component working -->
         <!-- <p-accordion :multiple="${multiple}" :active-index="${activeindex}" style="background-color: green"> -->
-        <p-accordion style="background-color: green">
+        <p-accordion :multiple="${multiple}" style="background-color: green">
             <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
             </sly>
             <p></p>
