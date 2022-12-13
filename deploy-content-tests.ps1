@@ -1,1 +1,1 @@
-mvn -f tests/content/pom.xml clean install -P autoInstallPackage
+./mvnw -f tests/content/pom.xml clean install -P autoInstallPackage

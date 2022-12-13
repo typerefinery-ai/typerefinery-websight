@@ -1,0 +1,25 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Title"
+      },
+      "content": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "content",
+        "label": "Content"
+      },
+      "item": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "slides",
+        "label": "Slides"
+      }
+    }
+  }
+}

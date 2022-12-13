@@ -1,0 +1,15 @@
+<sly data-sly-use.model="io.typerefinery.websight.models.components.Accordion">
+    <p-accordiontab header="${model.title}" style="background-color: blue;">
+        <div data-sly-test="${resource.hasChildren}">
+            <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
+            </sly>
+        </div>
+        <sly data-sly-test="${!resource.hasChildren}">
+            <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+                data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+            </sly>
+        </sly>
+        <p></p>
+        <p></p>
+    </p-accordiontab>
+</sly>

@@ -1,0 +1,19 @@
+<template data-sly-template.card="${ @ title, description, subtitle, icon, subtitleColor, descriptionColor, titleColor, bgColor }">
+         <p-card style="width: 25rem; margin-bottom: 2em" :style='{background:"${bgColor}"}'>
+            <template #title>
+                <div :style='{color:"${titleColor}"}'>
+                    ${title}
+                </div>
+            </template>
+            <template #subtitle>
+                <div :style='{color:"${subtitleColor}"}'>
+                    ${subtitle}
+                </div>
+            </template>
+            <template #content>
+                <div :style='{color:"${descriptionColor}"}'>
+                    ${description}
+                </div>
+            </template>
+        </p-card>
+</template>
