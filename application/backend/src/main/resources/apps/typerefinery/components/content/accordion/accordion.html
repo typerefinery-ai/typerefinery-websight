@@ -15,22 +15,12 @@
 */-->
 <sly data-sly-use.model="pl.ds.howlite.components.models.DefaultStyledGridComponent">
     <sly data-sly-test.CSSclasses="hl-accordion ${model.classes @ join=' '}"></sly>
-    <!-- <sly data-sly-test="${wcmmode.isEdit}"> -->
-    <sly data-sly-test.multiple="true"></sly>
-    <sly data-sly-test.activeindex=""></sly>
-    <sly data-sly-repeat.children="${resource.listChildren}">
-        <sly data-sly-test.activeindex="${childrenList.index},"></sly>
-    </sly>
-
-    <!-- </sly> -->
     <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
-        <p-accordion :multiple="${multiple}" :active-index="${activeindex}" style="background-color: green">
-            <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
-            </sly>
-            <p></p>
-            <p></p>
+        <p-accordion>
+            <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
         </p-accordion>
     </div>
+
     <sly data-sly-test="${!resource.hasChildren}">
         <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
             data-sly-call="${lib.placeholder @ classes=CSSclasses}">
