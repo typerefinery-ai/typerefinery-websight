@@ -1,25 +1,24 @@
 <template
     data-sly-template.ticker="${ @ title, value, badge, icon, bgColor, titleColor, valueColor, badgeColor,  iconColor, indicatorValue, indicatorType, badgeBg, badgeInlineColor }">
     <div class="ticker">
-        <div class="container">
-            <div class="body">
-                <div class="title">${title}</div>
-                <div class="content">
-                    <div class="value">
-                        ${value}
-                    </div>
-                    <div class="indicator">
-                        <div class="icon pi pi-arrow-${indicatorType} ${indicatorType}"></div>
-                        <div class="icon pi pi-minus ${indicatorType}"></div> 
-                        <div class="indicator_value">
-                            <span>${indicatorValue} </span>
-                            <span class="hours">(24 hours)</span>
-                        </div>
+        <div class="body">
+            <div class="title">${title}</div>
+            <div class="content">
+                <div class="value">
+                    ${value}
+                </div>
+                <div class="indicator">
+                    <div class="icon pi pi-arrow-${indicatorType} ${indicatorType}"></div>
+                    <div class="icon pi pi-minus ${indicatorType}"></div>
+                    <div class="indicator_value">
+                        <span>${indicatorValue}</span>
+                        <span class="hours">(24 hours)</span>
                     </div>
                 </div>
             </div>
-            <div class="icon ${icon}"></div>
         </div>
+        <div class="icon ${icon}"></div>
+
     </div>
-    
+
 </template>
