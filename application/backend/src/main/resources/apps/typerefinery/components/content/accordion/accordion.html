@@ -17,22 +17,17 @@
     <sly data-sly-test.CSSclasses="hl-accordion ${model.classes @ join=' '}"></sly>
     <!-- <sly data-sly-test="${wcmmode.isEdit}"> -->
     <sly data-sly-test.multiple="true"></sly>
-    <sly data-sly-test.activeindex="[0,1,2,3,4,5]"></sly>
-    <!-- <sly data-sly-repeat.children="${resource.listChildren}">
-        <sly data-sly-test.activeindex="${children.index}"></sly>
-    </sly> -->
-    <!-- <ul data-sly-list.item="${resource.listChildren}">
-        <li>hello ${item.index} ${item}</li>
-    </ul> -->
+    <sly data-sly-test.activeIndex="0"></sly>
+    <ul data-sly-list="${resource.listChildren @ begin = 1}">
+        <sly data-sly-test.activeIndex="${activeIndex},${itemList.index}"></sly>
+    </ul>
 
     <!-- </sly> -->
     <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
         <!-- multiple and active index not working else accordion component working -->
-        <p-accordion :multiple="${multiple}" :active-index="${activeindex}" style="background-color: green">
+        <p-accordion :multiple="${multiple}" :active-index="[${activeIndex}]">
             <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
             </sly>
-            <p></p>
-            <p></p>
         </p-accordion>
     </div>
     <sly data-sly-test="${!resource.hasChildren}">

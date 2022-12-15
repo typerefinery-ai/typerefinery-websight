@@ -10,32 +10,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<!-- <sly data-sly-use.model="io.typerefinery.websight.models.components.Accordion">
-    <li>
-        <p-accordiontab header="${model.title}">
-            <p>${model.content}</p>
-        </p-accordiontab>
-    </li>
-</sly> -->
-
-<!-- <sly data-sly-use.model="io.typerefinery.websight.models.components.Accordion">
-    <li class="hl-accordion-item">
-        <button aria-expanded="false" class="hl-accordion-item__title">
-            ${model.title}
-            <i class="hl-icon icon-chevron-down hl-accordion-item__icon"></i>
-        </button>
-        </p-accordiontab role="region" class="hl-accordion-item__content">
-        ${model.content @ context='html'}
-        </p-accordiontab> -->
-<!-- <p-accordiontab header="${model.title}">
-            <p>${model.content}</p>
-        </p-accordiontab> -->
-<!-- </li>
-</sly> -->
 <!-- new -->
 <sly data-sly-use.model="io.typerefinery.websight.models.components.Accordion">
     <li>
-        <p-accordiontab header="${model.title}" style="background-color: blue;">
+        <p-accordiontab header="${model.title}">
             <sly data-sly-test="${resource.hasChildren}">
                 <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
                 </sly>
@@ -45,8 +23,6 @@
                     data-sly-call="${lib.placeholder @ classes=CSSclasses}">
                 </sly>
             </sly>
-            <p></p>
-            <p></p>
         </p-accordiontab>
     </li>
 </sly>
