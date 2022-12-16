@@ -1,24 +1,74 @@
-<template
-    data-sly-template.ticker="${ @ title, value, badge, icon, bgColor, titleColor, valueColor, badgeColor,  iconColor, indicatorValue, indicatorType, badgeBg, badgeInlineColor }">
+<!-- <template
+    data-sly-template.ticker="${ @ model }">
     <div class="ticker">
         <div class="body">
-            <div class="title">${title}</div>
+            <div class="title">${model.title}</div>
             <div class="content">
                 <div class="value">
-                    ${value}
+                    ${model.value}
                 </div>
                 <div class="indicator">
-                    <div class="icon pi pi-arrow-${indicatorType} ${indicatorType}"></div>
-                    <div class="icon pi pi-minus ${indicatorType}"></div>
+                    <div class="icon pi pi-arrow-${model.indicatorType} ${model.indicatorType}"></div>
+                    <div class="icon pi pi-minus ${model.indicatorType}"></div>
                     <div class="indicator_value">
-                        <span>${indicatorValue}</span>
+                        <span>${model.indicatorValue}</span>
                         <span class="hours">(24 hours)</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="icon ${icon}"></div>
+        <div class="icon ${model.icon}"></div>
 
     </div>
 
-</template>
+</template> -->
+
+<template data-sly-template.ticker="${ @ model }"> 
+    <div id="ticker">
+        <div class="icon dn">${model.icon}</div>
+        <div class="heading dn">${model.title}</div>
+        <div class="value dn">${model.value}</div>
+        <div class="indicator dn">
+            <div class="indicator-type dn">${model.indicatorType}</div>
+            <div class="indicator-value dn">${model.indicatorValue}</div>
+        </div>       
+        <div class="path">
+            ${model.dataSource}
+        </div>
+        <div class="refresh-time">
+            ${model.dataSourceRefreshTime}
+        </div>
+    </div>
+    <script type="text/javascript"> 
+        var randomId = Math.random();
+        var tickerComponent = document.getElementById("ticker");
+        // updating the Id with random one.
+        tickerComponent.setAttribute("id", randomId);
+
+        var defaultJson = {
+            "title": tickerComponent.getElementsByClassName("heading")[0].innerHTML,
+            "value": tickerComponent.getElementsByClassName("value")[0].innerHTML,
+            "icon": tickerComponent.getElementsByClassName("icon")[0].innerHTML,
+            "indicatorType": tickerComponent.getElementsByClassName("indicator-type")[0].innerHTML,
+            "indicatorValue": tickerComponent.getElementsByClassName("indicator-value")[0].innerHTML
+        }
+
+        console.log(defaultJson, "defaultJSON")
+        
+        // getting the dataSource of the component
+        var dataSourcePath = tickerComponent.getElementsByClassName("path")[0].innerHTML;
+
+        // getting the dataSource of the component
+        var dataSourceReferenceTime = tickerComponent.getElementsByClassName("refresh-time")[0].innerHTML;
+        console.log(dataSourceReferenceTime, "dataSourceReferenceTime")
+        // cast to number (ms)
+        if(dataSourceReferenceTime) {
+            dataSourceReferenceTime = Number(dataSourceReferenceTime) * 1000;
+        } else {
+            dataSourceReferenceTime = 5000;
+        }
+
+        // Rendering the template via handlebars.
+        window.getDataFromDataSource(defaultJson, dataSourcePath, randomId, dataSourceReferenceTime);
+    </script>  
+</template> 
