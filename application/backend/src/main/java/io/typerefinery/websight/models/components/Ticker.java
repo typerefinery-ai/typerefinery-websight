@@ -39,28 +39,6 @@ public class Ticker {
 
     @Getter
     @Inject
-    @Default (values = "#001E3C")
-    public String bgColor;
-
-    @Getter
-    @Inject
-    @Default (values = "#bcbcbc")
-    public String titleColor;
-
-
-    @Getter
-    @Inject
-    @Default (values = "#FFF")
-    public String valueColor;
-
-
-    @Getter
-    @Inject
-    @Default (values = "#00B1FF")
-    public String iconColor;
-
-    @Getter
-    @Inject
     @Default (values = "pi pi-arrow-up")
     public String indicatorType;
 
@@ -69,4 +47,15 @@ public class Ticker {
     @Inject
     @Default (values = "12.k")
     public String indicatorValue;
+
+    @Getter
+    @Inject
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/ticker/dataSource_1.json")
+    public String dataSource;
+
+    
+    @Getter
+    @Inject
+    @Default (values = "5")
+    public String dataSourceRefreshTime;
 }

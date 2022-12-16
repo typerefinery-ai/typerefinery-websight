@@ -52,14 +52,15 @@
             "dataSource": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
                 "name": "dataSource",
+                "description": "Please provide url to data source for this ticker.",
                 "label": "Data Source"
-            },
-            "dataSourceRefreshTime": {
+              },
+              "dataSourceRefreshTime": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
                 "name": "dataSourceRefreshTime",
                 "label": "Data Source Refresh Time",
-                "description": "The default value is 1 sec."
-            }
+                "description": "The default value is 5 sec. This will periodically refresh data for ticker."
+              }
         }
     }
 }

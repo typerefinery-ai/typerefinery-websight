@@ -4,13 +4,13 @@
   const { createApp, ref } = Vue;
 
   const vueApp = Vue.createApp({});
+  vueApp.config.compilerOptions.comments = true
 
 
   // component namespace
   window.typerefinery.button = {};
   (function (vueApp, button) {
     console.log("____namespace____");
-    console.log("Prime Vue Button  ", primevue.button);
 
     button.vueButtonIsClicked = () => {
       console.log(this);
