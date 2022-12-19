@@ -1,4 +1,5 @@
-window.getDataFromDataSource = (defaultJson, path, id, refreshTime) => {
+function getDataFromDataSource(defaultJson, path, id, refreshTime) {
+    
     const fetchAndUpdateView = async () => {
         const jsonValue = defaultJson;
         try{
@@ -10,14 +11,19 @@ window.getDataFromDataSource = (defaultJson, path, id, refreshTime) => {
         }
     }
 
+    // Check if path exists.
     if(path.trim().length > 0) {
+
+        // min refresh time will be 1 sec.
         if(refreshTime <= 999) {
             refreshTime = 1000;
         }
+        
         setInterval(() => {
             fetchAndUpdateView();
         }, refreshTime);
     }
+    
     fetchAndUpdateView();
 }
 
@@ -73,4 +79,34 @@ function updateView(jsonValue, id) {
     const tickerComponent = document.getElementById(id);
     tickerComponent.innerHTML = tickerHtmlWithJsonValue;
 
+}
+
+window.tickerComponentMounted = (id, component) => {
+        
+        console.log(id, "componentDataPath")
+
+        var defaultJson = {
+            "title": component.getElementsByClassName("heading")[0].innerHTML,
+            "value": component.getElementsByClassName("value")[0].innerHTML,
+            "icon": component.getElementsByClassName("icon")[0].innerHTML,
+            "indicatorType": component.getElementsByClassName("indicator-type")[0].innerHTML,
+            "indicatorValue": component.getElementsByClassName("indicator-value")[0].innerHTML
+        }
+
+        
+        // getting the dataSource of the component
+        var dataSourcePath = component.getElementsByClassName("path")[0].innerHTML;
+
+        // getting the dataSource of the component
+        var dataSourceReferenceTime = component.getElementsByClassName("refresh-time")[0].innerHTML;
+        // cast to number (ms)
+        if(dataSourceReferenceTime) {
+            dataSourceReferenceTime = Number(dataSourceReferenceTime) * 1000;
+        } else {
+            dataSourceReferenceTime = 5000;
+        }
+
+        // Rendering the template
+        getDataFromDataSource(defaultJson, dataSourcePath, id, dataSourceReferenceTime);
+    
 }
