@@ -3,7 +3,6 @@
   "group": ".hidden",
   "allowedComponents": ["Typerefinery", "Howlite"],
   "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/pagesection",
   "description": "Use for 12 cols page sections, inside main content",
   "title": "Page Section"
 }

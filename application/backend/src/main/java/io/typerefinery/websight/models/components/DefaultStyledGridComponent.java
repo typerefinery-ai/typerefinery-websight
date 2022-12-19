@@ -30,8 +30,8 @@ import io.typerefinery.websight.utils.GridStyle;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import pl.ds.howlite.components.models.DefaultGridComponent;
-import pl.ds.howlite.components.models.DefaultStyledComponent;
+import io.typerefinery.websight.models.components.DefaultGridComponent;
+import io.typerefinery.websight.models.components.DefaultStyledComponent;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledGridComponent implements Styled, Grid {
