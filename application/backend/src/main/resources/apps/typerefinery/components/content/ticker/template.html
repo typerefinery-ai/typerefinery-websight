@@ -23,52 +23,31 @@
 
 </template> -->
 
-<template data-sly-template.ticker="${ @ model }"> 
-    <div id="ticker">
+<template data-sly-template.ticker="${ @ model }">
+    <div 
+        id="ticker"  
+        data-path="${resource.path}" 
+        data-module="tickerComponent"
+    >
         <div class="icon dn">${model.icon}</div>
         <div class="heading dn">${model.title}</div>
         <div class="value dn">${model.value}</div>
         <div class="indicator dn">
             <div class="indicator-type dn">${model.indicatorType}</div>
             <div class="indicator-value dn">${model.indicatorValue}</div>
-        </div>       
+        </div>   
+        
         <div class="path">
             ${model.dataSource}
         </div>
         <div class="refresh-time">
             ${model.dataSourceRefreshTime}
         </div>
-    </div>
+    </div> 
     <script type="text/javascript"> 
-        var randomId = Math.random();
         var tickerComponent = document.getElementById("ticker");
-        // updating the Id with random one.
-        tickerComponent.setAttribute("id", randomId);
-
-        var defaultJson = {
-            "title": tickerComponent.getElementsByClassName("heading")[0].innerHTML,
-            "value": tickerComponent.getElementsByClassName("value")[0].innerHTML,
-            "icon": tickerComponent.getElementsByClassName("icon")[0].innerHTML,
-            "indicatorType": tickerComponent.getElementsByClassName("indicator-type")[0].innerHTML,
-            "indicatorValue": tickerComponent.getElementsByClassName("indicator-value")[0].innerHTML
-        }
-
-        console.log(defaultJson, "defaultJSON")
-        
-        // getting the dataSource of the component
-        var dataSourcePath = tickerComponent.getElementsByClassName("path")[0].innerHTML;
-
-        // getting the dataSource of the component
-        var dataSourceReferenceTime = tickerComponent.getElementsByClassName("refresh-time")[0].innerHTML;
-        console.log(dataSourceReferenceTime, "dataSourceReferenceTime")
-        // cast to number (ms)
-        if(dataSourceReferenceTime) {
-            dataSourceReferenceTime = Number(dataSourceReferenceTime) * 1000;
-        } else {
-            dataSourceReferenceTime = 5000;
-        }
-
-        // Rendering the template via handlebars.
-        window.getDataFromDataSource(defaultJson, dataSourcePath, randomId, dataSourceReferenceTime);
+        var componentDataPath = tickerComponent.getAttribute("data-path");
+        tickerComponent.setAttribute("id", componentDataPath);
+        window.tickerComponentMounted(componentDataPath, tickerComponent);
     </script>  
 </template> 
