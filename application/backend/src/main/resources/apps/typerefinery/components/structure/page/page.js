@@ -1,51 +1,5 @@
-<script>
-  window.typerefinery = {};
-  window.Vue = Vue;
-  const { createApp, ref } = Vue;
 
-  const vueApp = Vue.createApp({});
-  vueApp.config.compilerOptions.comments = true
-
-
-  // component namespace
-  window.typerefinery.button = {};
-  (function (vueApp, button) {
-    console.log("____namespace____");
-
-    button.vueButtonIsClicked = () => {
-      console.log(this);
-      console.log("INSIDE METHOD")
-    }
-    vueApp.component("p-button", primevue.button)
-  })(vueApp, window.typerefinery.button);
-
-
-  window.typerefinery.inputText = {};
-  (function (vueApp, utils) {
-    utils.vueInputOnChange = (e) => {
-      console.log("On change.", e)
-    }
-    vueApp.component("p-inputtext", primevue.inputtext)
-
-  })(vueApp, window.typerefinery.inputText);
-
-  //Accordion page namespace
-  //  window.typerefinery.inputText = {};
-  (function (vueApp) {
-    vueApp.component("p-accordion", primevue.accordion)
-    vueApp.component("p-accordiontab", primevue.accordiontab)
-  })(vueApp);
-
-
-  // namespace for cards.
-  (function(){
-    vueApp.component("p-card", primevue.card);
-  })();
-
-
-  vueApp.mount('#app');
-
-  var listeners = [],
+var listeners = [],
     doc = window.document,
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
     observer;
@@ -88,4 +42,3 @@ function check() {
         }
     }
 }
-</script>
