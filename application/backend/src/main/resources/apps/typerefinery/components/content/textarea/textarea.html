@@ -16,7 +16,7 @@
 <sly data-sly-use.model="pl.ds.howlite.components.models.Textarea">
     <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
     <h5>Basic</h5>
-    <p-textarea v-model="value1" rows="5" cols="30"></p-textarea>
+    <p-textarea  rows="5" cols="30"></p-textarea>
     <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     <sly data-sly-test="${!resource.hasChildren}">
         <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
