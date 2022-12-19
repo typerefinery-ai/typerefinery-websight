@@ -1,6 +1,5 @@
 {
-  "title": "Title",
+  "title": "Textarea",
   "group": "Typerefinery",
-  "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/title"
+  "sling:resourceType": "ws:Component"
 }
