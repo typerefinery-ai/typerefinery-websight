@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.typerefinery.websight.models.components;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
@@ -24,11 +23,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
@@ -41,7 +42,7 @@ import io.typerefinery.websight.utils.LinkUtil;
 
 @Slf4j
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class PageSection implements Grid, Styled {
+public class Container implements Styled, Grid {
 
   private static final String BACKGROUND_NONE = "none";
   private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
@@ -94,11 +95,11 @@ public class PageSection implements Grid, Styled {
 
   @PostConstruct
   private void init() {
-    componentClasses =
-        Stream.concat(
-                Arrays.stream(style.getClasses()),
-                new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[] {});
+    componentClasses = Stream.concat(
+            Arrays.stream(style.getClasses()),
+            new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
+        .collect(Collectors.toCollection(LinkedHashSet::new))
+        .toArray(new String[]{});
   }
+
 }

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.typerefinery.websight.components.Grid;
-import pl.ds.howlite.components.utils.GridDisplayType;
+import io.typerefinery.websight.utils.GridDisplayType;
 
 
 public class GridStyle {
