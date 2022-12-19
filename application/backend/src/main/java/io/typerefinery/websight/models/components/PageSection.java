@@ -32,6 +32,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import io.typerefinery.websight.components.Grid;
 import io.typerefinery.websight.components.Styled;
