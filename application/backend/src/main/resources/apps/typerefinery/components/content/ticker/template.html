@@ -1,28 +1,3 @@
-<!-- <template
-    data-sly-template.ticker="${ @ model }">
-    <div class="ticker">
-        <div class="body">
-            <div class="title">${model.title}</div>
-            <div class="content">
-                <div class="value">
-                    ${model.value}
-                </div>
-                <div class="indicator">
-                    <div class="icon pi pi-arrow-${model.indicatorType} ${model.indicatorType}"></div>
-                    <div class="icon pi pi-minus ${model.indicatorType}"></div>
-                    <div class="indicator_value">
-                        <span>${model.indicatorValue}</span>
-                        <span class="hours">(24 hours)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="icon ${model.icon}"></div>
-
-    </div>
-
-</template> -->
-
 <template data-sly-template.ticker="${ @ model }">
     <div 
         id="ticker"  
@@ -44,10 +19,4 @@
             ${model.dataSourceRefreshTime}
         </div>
     </div> 
-    <script type="text/javascript"> 
-        var tickerComponent = document.getElementById("ticker");
-        var componentDataPath = tickerComponent.getAttribute("data-path");
-        tickerComponent.setAttribute("id", componentDataPath);
-        window.tickerComponentMounted(componentDataPath, tickerComponent);
-    </script>  
 </template> 
