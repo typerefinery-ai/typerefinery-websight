@@ -1,0 +1,6 @@
+<template data-sly-template.checkbox="${ @ model }">   
+    <div class="field-checkbox">
+        <p-checkbox name="${model.name}" inputId="${model.name}" class="${model.cls}" :binary="true" value="${model.value}"></p-checkbox>
+        <label for="${model.name}">${model.label}</label>
+    </div>     
+</template> 

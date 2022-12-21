@@ -35,8 +35,15 @@
     vueApp.component("p-accordion", primevue.accordion)
     vueApp.component("p-accordiontab", primevue.accordiontab)
   })(vueApp);
-
-
+// namespace for checkbox
+  (function (vueApp) {
+    vueApp.component("p-checkbox", primevue.checkbox)  
+  })(vueApp);
+  // namespace for Radiobutton
+  (function (vueApp) {
+    vueApp.component("p-radiobutton", primevue.radiobutton)
+    
+  })(vueApp);
   // namespace for cards.
   (function(){
     vueApp.component("p-card", primevue.card);
