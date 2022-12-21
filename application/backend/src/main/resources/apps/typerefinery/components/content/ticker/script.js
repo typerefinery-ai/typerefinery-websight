@@ -81,7 +81,7 @@ function updateView(jsonValue, id) {
 
 }
 
-window.tickerComponentMounted = (id, component) => {
+function tickerComponentMounted(id, component) {
         
         console.log(id, "componentDataPath")
 
@@ -110,3 +110,12 @@ window.tickerComponentMounted = (id, component) => {
         getDataFromDataSource(defaultJson, dataSourcePath, id, dataSourceReferenceTime);
     
 }
+
+$(document).ready(function(e) {
+   Array.from(document.querySelectorAll("#ticker")).forEach(tickerComponent => {
+    console.log(tickerComponent)
+    var componentDataPath = tickerComponent.getAttribute("data-path");
+    tickerComponent.setAttribute("id", componentDataPath);
+    tickerComponentMounted(componentDataPath, tickerComponent);
+   })
+});
