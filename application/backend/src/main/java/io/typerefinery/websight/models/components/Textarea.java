@@ -17,26 +17,49 @@
 package io.typerefinery.websight.models.components;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-
+import javax.inject.Inject;
+import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Textarea {
 
-  // @Inject
-  // @Getter
-  // private ImageComponent image;
+  @Inject
+  @Getter
+  @Default(values = "textarea")
+  private String label;
 
-  // @Inject
-  // @Getter
-  // private NavigationComponent navigation;
+  @Inject
+  @Getter
+  @Default(values = "Textarea")
+  private String name;
 
-  // @Inject
-  // @Getter
-  // private SocialLinksComponent socialLinks;
+  @Inject
+  @Getter
+  @Default(values = "textarea")
+  private String cls;
 
-  // @Inject
-  // @Getter
-  // private String copyright;
+  @Inject
+  @Getter
+  @Default(values = "false")
+  private String value;
+
+  @Inject
+  @Getter
+  @Default(values = "Enter text here..")
+  private String placeholder;
+
+  @Inject
+  @Getter
+  @Default(values = "5")
+  private String rows;
+
+  @Inject
+  @Getter
+  @Default(values = "30")
+  private String cols;
+
+
 }
