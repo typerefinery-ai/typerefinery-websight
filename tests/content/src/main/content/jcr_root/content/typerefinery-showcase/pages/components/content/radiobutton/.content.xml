@@ -3,20 +3,12 @@
   xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
   xmlns:ws="http://ds.pl/websight"
   xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
-<<<<<<<< HEAD:tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/content/radiobutton/.content.xml
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="RadioButton" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-========
-  <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Textarea" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
->>>>>>>> 2e1d502 (added textarea):tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/content/textarea/.content.xml
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/rootcontainer/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/headerreference"/>
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
-<<<<<<<< HEAD:tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/content/radiobutton/.content.xml
           <radio jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/radio"/>
-========
-          <textarea jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/textarea"/>
->>>>>>>> 2e1d502 (added textarea):tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/content/textarea/.content.xml
         </pagesection>
       </maincontainer>
       <footer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/footer"/>
