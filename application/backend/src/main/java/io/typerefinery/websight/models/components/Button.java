@@ -24,42 +24,26 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Textarea {
+public class Button {
 
-  @Inject
-  @Getter
-  @Default(values = "textarea")
-  private String label;
+    @Inject
+    @Getter
+    @Default(values = "button")
+    private String label;
 
-  @Inject
-  @Getter
-  @Default(values = "Textarea")
-  private String name;
+    @Inject
+    @Getter
+    @Default(values = "Button")
+    private String name;
 
-  @Inject
-  @Getter
-  @Default(values = "textarea")
-  private String cls;
+    @Inject
+    @Getter
+    @Default(values = "button")
+    private String cls;
 
-  @Inject
-  @Getter
-  @Default(values = "false")
-  private String value;
-
-  @Inject
-  @Getter
-  @Default(values = "Enter text here..")
-  private String placeholder;
-
-  @Inject
-  @Getter
-  @Default(values = "5")
-  private String rows;
-
-  @Inject
-  @Getter
-  @Default(values = "30")
-  private String cols;
-
+    @Inject
+    @Getter
+    @Default(values = "false")
+    private String value;
 
 }

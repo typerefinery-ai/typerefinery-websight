@@ -2,6 +2,6 @@
   "isContainer": true,
   "group": "Typerefinery",
   "sling:resourceType": "ws:Component",
-  "title": "Textarea",
+  "title": "Password",
   "allowedComponents": ["Typerefinery"]
 }
