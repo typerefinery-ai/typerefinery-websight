@@ -1,0 +1,54 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldLabel": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "label",
+        "label": "Label"
+      },
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "name",
+        "label": "Name"
+      },
+      "fieldClass": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "cls",
+        "label": "Style"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "label": "Value"
+      }
+    },
+    "buttonType": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Button Type",
+      "cssClasses": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "button",
+        "submitButton": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "label": "Submit",
+          "selected": true,
+          "value": ""
+        },
+        "resetButton": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "label": "Reset",
+          "value": "p-button-reset"
+        },
+        "normalButton": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "label": "Button",
+          "value": "p-button-normalbutton"
+        }
+      }
+    }
+  }
+}

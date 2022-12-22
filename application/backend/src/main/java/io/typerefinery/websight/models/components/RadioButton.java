@@ -19,7 +19,9 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import org.apache.sling.models.annotations.Model;
 import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.api.resource.Resource;
 import lombok.Getter;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class RadioButton {
     @Inject

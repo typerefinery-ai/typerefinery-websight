@@ -15,23 +15,51 @@
  */
 //namespace
 package io.typerefinery.websight.models.components;
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
-import javax.inject.Inject;
-import org.apache.sling.models.annotations.Default;
-import lombok.Getter;
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Accordion {
-  private String label;
-  
- @Inject
- @Getter
- @Default(values = "Accordion Item ")
- private String title;
 
- @Inject
- @Getter
- @Default(values = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
- private String content;
+import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+import javax.inject.Inject;
+import lombok.Getter;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Model;
+
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+public class Textarea {
+
+  @Inject
+  @Getter
+  @Default(values = "textarea")
+  private String label;
+
+  @Inject
+  @Getter
+  @Default(values = "Textarea")
+  private String name;
+
+  @Inject
+  @Getter
+  @Default(values = "textarea")
+  private String cls;
+
+  @Inject
+  @Getter
+  @Default(values = "false")
+  private String value;
+
+  @Inject
+  @Getter
+  @Default(values = "Enter text here..")
+  private String placeholder;
+
+  @Inject
+  @Getter
+  @Default(values = "5")
+  private String rows;
+
+  @Inject
+  @Getter
+  @Default(values = "30")
+  private String cols;
+
+
 }
