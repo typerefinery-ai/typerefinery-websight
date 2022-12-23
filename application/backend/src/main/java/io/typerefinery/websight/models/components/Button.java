@@ -28,7 +28,7 @@ public class Button {
 
     @Inject
     @Getter
-    @Default(values = "button")
+    @Default(values = "Submit")
     private String label;
 
     @Inject

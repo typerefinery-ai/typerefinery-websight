@@ -1,0 +1,58 @@
+.button {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.radiobutton {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.checkbox {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.dropdown {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.inputtext {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+.inputtext-width {
+  width: 30%;
+}
+.password {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.password .p-inputtext {
+  width: 23.7rem;
+}
+.textarea {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.textarea-width {
+  width: 30%;
+}
+.ticker {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}

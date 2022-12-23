@@ -53,12 +53,12 @@ public class Textarea {
 
   @Inject
   @Getter
-  @Default(values = "5")
+  @Default(values = "1")
   private String rows;
 
   @Inject
   @Getter
-  @Default(values = "30")
+  @Default(values = "25")
   private String cols;
 
 

@@ -1,0 +1,7 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery",
+  "sling:resourceType": "ws:Component",
+  "title": "Form container",
+  "allowedComponents": ["Typerefinery"]
+}

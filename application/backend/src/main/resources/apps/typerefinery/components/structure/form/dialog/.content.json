@@ -1,0 +1,30 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Form ",
+      "labelText": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "Description",
+        "label": "Description",
+        "required": true
+      },
+      "displayIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "Name",
+        "label": "Name"
+      },
+      "iconPos": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "Type",
+        "label": "Type"
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/libs/howlite/components/common/gridTab"
+    }
+  }
+}
