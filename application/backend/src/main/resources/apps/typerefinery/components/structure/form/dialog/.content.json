@@ -2,29 +2,57 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "generalTab": {
+    "urlTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Form ",
-      "labelText": {
+      "label": "Url",
+      "fielddescription": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "Description",
         "label": "Description",
         "required": true
       },
-      "displayIcon": {
+      "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "Name",
         "label": "Name"
       },
-      "iconPos": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "Type",
+      "fieldType": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "urlType",
         "label": "Type"
       }
     },
-    "gridTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/libs/howlite/components/common/gridTab"
+    "payloadTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Event Payload",
+      "fielddescription": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "Description",
+        "label": "Description",
+        "required": true
+      },
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "Name",
+        "label": "Name",
+        "value": "Rahul"
+      },
+      "fieldType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "formType",
+        "label": "Type",
+        "form": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "FORM",
+          "value": "application/x-www-form-urlencoded",
+          "selected": true
+        },
+        "json": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "JSON",
+          "value": "application/json"
+        }
+      }
     }
   }
 }
