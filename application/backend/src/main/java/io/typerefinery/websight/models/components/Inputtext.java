@@ -43,6 +43,6 @@ public class Inputtext {
 
     @Inject
     @Getter
-    @Default(values = "Enter the text")
+    @Default(values = "Enter Text")
     private String placeholder;
 }

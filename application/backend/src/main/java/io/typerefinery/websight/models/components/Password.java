@@ -33,7 +33,17 @@ public class Password {
 
     @Inject
     @Getter
-    @Default(values = "Enter your password here")
+    @Default(values = "Enter Password")
     private String placeholder;
+
+    @Inject
+    @Getter
+    @Default(values = "2")
+    private String rows;
+  
+    @Inject
+    @Getter
+    @Default(values = "50")
+    private String cols;
 
 }
