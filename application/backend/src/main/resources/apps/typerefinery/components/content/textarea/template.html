@@ -1,5 +1,8 @@
 <template data-sly-template.textarea="${ @ model }">
     <div class="textarea">
+        <div class="textarea-label">
+            <label>${model.label}</label>
+        </div>
         <p-textarea class="textarea-width" placeholder="${model.placeholder}" rows="${model.rows}" cols="${model.cols}"
             width="100"></p-textarea>
     </div>

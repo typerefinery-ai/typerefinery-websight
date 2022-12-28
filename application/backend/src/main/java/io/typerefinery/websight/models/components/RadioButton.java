@@ -33,7 +33,7 @@ public class RadioButton {
     @Getter
     @Default(values = "Radio Button")
     private String label;
-
+    
     @Inject
     @Getter
     @Default(values = "radio")

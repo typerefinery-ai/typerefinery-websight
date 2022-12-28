@@ -13,7 +13,7 @@ public class Password {
 
     @Inject
     @Getter
-    @Default(values = "password")
+    @Default(values = "Password")
     private String label;
 
     @Inject
