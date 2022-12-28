@@ -28,12 +28,12 @@ public class Inputtext {
 
     @Inject
     @Getter
-    @Default(values = "inputtext")
+    @Default(values = "Input Text")
     private String name;
 
     @Inject
     @Getter
-    @Default(values = "Inputtext")
+    @Default(values = "Input Text")
     private String label;
 
     @Inject
