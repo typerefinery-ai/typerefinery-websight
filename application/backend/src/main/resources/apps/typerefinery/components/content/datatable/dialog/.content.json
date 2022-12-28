@@ -10,16 +10,10 @@
         "name": "label",
         "label": "Label"
       },
-      "placeholder": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "placeholder",
-        "label": "Placeholder"
-      },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "name",
-        "label": "Name",
-        "required": true
+        "label": "Name"
       },
       "fieldClass": {
         "sling:resourceType": "wcm/dialogs/components/textfield",

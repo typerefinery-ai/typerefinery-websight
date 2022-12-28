@@ -13,36 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//namespace
 package io.typerefinery.websight.models.components;
-
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.api.resource.Resource;
 import javax.inject.Inject;
-import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
+import lombok.Getter;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Inputtext {
-
-    @Inject
-    @Getter
-    @Default(values = "Input Text")
-    private String name;
-
-    @Inject
-    @Getter
-    @Default(values = "Input Text")
-    private String label;
-
-    @Inject
-    @Getter
-    @Default(values = "inputtext")
-    private String cls;
-
-    @Inject
-    @Getter
-    @Default(values = "Enter Text")
-    private String placeholder;
+public class Datatable {
+   
 }

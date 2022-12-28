@@ -1,0 +1,6 @@
+{
+  "group": "Typerefinery",
+  "sling:resourceType": "ws:Component",
+  "description": "This is Datatable component for Typerefinery",
+  "title": "Datatable"
+}
