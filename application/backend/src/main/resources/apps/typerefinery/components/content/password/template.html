@@ -1,5 +1,8 @@
 <template data-sly-template.password="${ @ model }">
     <div class="password">
+        <div class="components-label">
+            <label>${model.label}</label>
+        </div>
         <p-password class="password-width" placeholder="${model.placeholder}"></p-password>
     </div>
 </template>

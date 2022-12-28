@@ -28,7 +28,7 @@ public class Textarea {
 
   @Inject
   @Getter
-  @Default(values = "textarea")
+  @Default(values = "Textarea")
   private String label;
 
   @Inject

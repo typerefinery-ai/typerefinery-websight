@@ -1,6 +1,10 @@
-<template data-sly-template.inputtext="${ @ model }"> 
+<template data-sly-template.inputtext="${ @ model }">
     <div class="inputtext">
         <!-- <label for="${model.name}">${model.label}</label> -->
-        <p-inputtext class="inputtext-width" type="text"  placeholder="${model.placeholder}"></p-inputtext>
-    </div>   
-</template> 
+        <div class="components-label">
+            <label>${model.label}</label>
+        </div>
+        <p-inputtext name="data" id="data" class="inputtext-width" type="text"
+            placeholder="${model.placeholder}"></p-inputtext>
+    </div>
+</template>

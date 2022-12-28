@@ -10,17 +10,33 @@
   width: 100%;
   margin-bottom: 1%;
 }
+.radiobutton-width {
+  margin-right: 18%;
+  padding: 1%;
+}
 .checkbox {
   text-align: center;
   margin: 0 auto;
   width: 100%;
   margin-bottom: 1%;
 }
+.checkbox-width {
+  margin-right: 18%;
+  padding: 1%;
+}
+
 .dropdown {
   text-align: center;
   margin: 0 auto;
   width: 100%;
   margin-bottom: 1%;
+}
+.dropdown .p-dropdown {
+  width: 30%;
+}
+.dropdown-label {
+  display: block;
+  margin-right: 23.5%;
 }
 .inputtext {
   text-align: center;
@@ -28,6 +44,10 @@
   width: 100%;
   margin-bottom: 1%;
   margin-top: 1%;
+}
+.components-label {
+  display: block;
+  margin-right: 24.5%;
 }
 .inputtext-width {
   width: 30%;
@@ -39,7 +59,10 @@
   margin-bottom: 1%;
 }
 .password .p-inputtext {
-  width: 23.7rem;
+  width: 100%;
+}
+.password-width {
+  width: 30%;
 }
 .textarea {
   text-align: center;
@@ -49,6 +72,10 @@
 }
 .textarea-width {
   width: 30%;
+}
+.textarea-label {
+  display: block;
+  margin-right: 23.5%;
 }
 .ticker {
   text-align: center;

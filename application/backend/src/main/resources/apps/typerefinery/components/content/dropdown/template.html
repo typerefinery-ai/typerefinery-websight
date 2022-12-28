@@ -1,6 +1,9 @@
 <template data-sly-template.dropdown="${ @ model }">
     <div class="dropdown">
-        <p-dropdown placeholder="${model.placeholder}" list="${model.list}">
+        <div class="dropdown-label">
+            <label>${model.label}</label>
+        </div>
+        <p-dropdown class="dropdown-placeholder" placeholder="${model.placeholder}" list="${model.list}">
         </p-dropdown>
     </div>
 </template>
