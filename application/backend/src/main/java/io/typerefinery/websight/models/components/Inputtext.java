@@ -45,4 +45,9 @@ public class Inputtext {
     @Getter
     @Default(values = "Enter Text")
     private String placeholder;
+
+    @Inject
+    @Getter
+    @Default(values = "text")
+    private String inputType;
 }

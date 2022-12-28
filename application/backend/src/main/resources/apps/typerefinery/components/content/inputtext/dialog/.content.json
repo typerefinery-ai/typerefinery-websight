@@ -25,6 +25,27 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "cls",
         "label": "Style"
+      },
+      "inputType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputType",
+        "label": "Type",
+        "text": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Text",
+          "value": "text",
+          "selected": true
+        },
+        "date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Date",
+          "value": "date"
+        },
+        "number": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Number",
+          "value": "number"
+        }
       }
     }
   }
