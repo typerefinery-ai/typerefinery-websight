@@ -2,41 +2,9 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "urlTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Url",
-      "fielddescription": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "Description",
-        "label": "Description",
-        "required": true
-      },
-      "fieldName": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "Name",
-        "label": "Name"
-      },
-      "fieldType": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "urlType",
-        "label": "Type"
-      }
-    },
     "payloadTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Event Payload",
-      "fielddescription": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "Description",
-        "label": "Description",
-        "required": true
-      },
-      "fieldName": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "Name",
-        "label": "Name",
-        "value": "Rahul"
-      },
       "fieldType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "formType",
@@ -44,14 +12,19 @@
         "form": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "FORM",
-          "value": "application/x-www-form-urlencoded",
-          "selected": true
+          "value": "application/x-www-form-urlencoded"
         },
         "json": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "JSON",
-          "value": "application/json"
+          "value": "application/json",
+          "selected": true
         }
+      },
+      "url": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "url",
+        "label": "API Endpoint URL"
       }
     }
   }
