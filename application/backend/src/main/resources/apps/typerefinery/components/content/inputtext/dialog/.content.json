@@ -46,6 +46,27 @@
           "label": "Number",
           "value": "number"
         }
+      },
+      "inputSize": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputSize",
+        "label": "Size",
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Small",
+          "value": "p-inputtext-sm"
+        },
+        "normal": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Normal",
+          "value": "",
+          "selected": true
+        },
+        "large": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Large",
+          "value": "p-inputtext-lg"
+        }
       }
     }
   }

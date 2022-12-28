@@ -46,4 +46,14 @@ public class Button {
     @Default(values = "false")
     private String value;
 
+    @Inject
+    @Getter
+    @Default(values = "p-normal")
+    private String buttonSize;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String fieldClass;
+
 }

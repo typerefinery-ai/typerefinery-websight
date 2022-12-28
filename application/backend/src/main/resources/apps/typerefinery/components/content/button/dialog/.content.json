@@ -16,14 +16,56 @@
         "label": "Name"
       },
       "fieldClass": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "cls",
-        "label": "Style"
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "fieldClass",
+        "label": "Style",
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary Button",
+          "value": "",
+          "selected": true
+        },
+        "success": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Success Button",
+          "value": "p-button-success"
+        },
+        "warning": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Warning Button",
+          "value": "p-button-warning"
+        },
+        "danger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger Button",
+          "value": "p-button-danger"
+        }
       },
       "fieldValue": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "value",
         "label": "Value"
+      },
+      "buttonSize": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonSize",
+        "label": "Size",
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Small",
+          "value": "p-button-sm"
+        },
+        "normal": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Normal",
+          "value": "",
+          "selected": true
+        },
+        "large": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Large",
+          "value": "p-button-lg"
+        }
       }
     },
     "buttonType": {

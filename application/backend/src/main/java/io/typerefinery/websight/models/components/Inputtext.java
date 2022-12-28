@@ -50,4 +50,10 @@ public class Inputtext {
     @Getter
     @Default(values = "text")
     private String inputType;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String inputSize;
+    
 }
