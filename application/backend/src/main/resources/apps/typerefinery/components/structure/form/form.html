@@ -16,7 +16,12 @@
 <sly data-sly-use.model="io.typerefinery.websight.models.components.Form">
   <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
 
-  <form id="form" data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
+  <form 
+    id="form" 
+    data-sly-test="${resource.hasChildren}" class="${CSSclasses}"
+    data-form-type="${model.formType}"
+    data-url="${model.url}"
+  >
     <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
   </form>
 </sly>

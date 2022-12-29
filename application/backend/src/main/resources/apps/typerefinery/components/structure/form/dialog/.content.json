@@ -17,8 +17,7 @@
         "json": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "JSON",
-          "value": "application/json",
-          "selected": true
+          "value": "application/json"
         }
       },
       "url": {
