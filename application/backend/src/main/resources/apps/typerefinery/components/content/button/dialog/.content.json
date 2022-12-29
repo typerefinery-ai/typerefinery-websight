@@ -39,7 +39,18 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Danger Button",
           "value": "p-button-danger"
+        },
+        "round": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Round Button",
+          "value": "p-button-rounded"
+        },
+        "outlineButton": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Outlined Button",
+          "value": "p-button-outlined"
         }
+
       },
       "fieldValue": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
