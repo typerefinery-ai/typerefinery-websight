@@ -14,15 +14,62 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "name",
         "label": "Name"
-      },
-      "fieldClass": {
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      
+      "buttonSize": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "fieldClass",
-        "label": "Style",
+        "name": "buttonSize",
+        "label": "Size",
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Small",
+          "value": "p-button-sm"
+        },
+        "normal": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Medium",
+          "value": "",
+          "selected": true
+        },
+        "large": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Large",
+          "value": "p-button-lg"
+        }
+      },
+      "buttonType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonType",
+        "label": "Button Type",
+        "submitButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Submit",
+          "selected": true,
+          "value": "submit"
+        },
+        "resetButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Reset",   
+          "value": "reset"
+        },
+        "normalButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Button",
+          "value": "button"
+        }
+      },
+      "buttonVariant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonVariant",
+        "label": "Button Variant",
         "primary": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Primary Button",
-          "value": "",
+          "value": "p-button",
           "selected": true
         },
         "success": {
@@ -39,68 +86,22 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Danger Button",
           "value": "p-button-danger"
-        },
-        "round": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Round Button",
-          "value": "p-button-rounded"
-        },
-        "outlineButton": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Outlined Button",
-          "value": "p-button-outlined"
         }
-
       },
-      "fieldValue": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
+      "isRoundedButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isRoundedButton",
+        "label": "Rounded Button"
       },
-      "buttonSize": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "buttonSize",
-        "label": "Size",
-        "small": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Small",
-          "value": "p-button-sm"
-        },
-        "normal": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Normal",
-          "value": "",
-          "selected": true
-        },
-        "large": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Large",
-          "value": "p-button-lg"
-        }
-      }
-    },
-    "buttonType": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Button Type",
-      "cssClasses": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "button",
-        "submitButton": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "label": "Submit",
-          "selected": true,
-          "value": ""
-        },
-        "resetButton": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "label": "Reset",
-          "value": "p-button-reset"
-        },
-        "normalButton": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "label": "Button",
-          "value": "p-button-normalbutton"
-        }
+      "isRaisedButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isRaisedButton",
+        "label": "Raised Button"
+      },
+      "isOutlinedButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isOutlinedButton",
+        "label": "Outlined Button"
       }
     }
   }

@@ -54,6 +54,30 @@ public class Button {
     @Inject
     @Getter
     @Default(values = "")
-    private String fieldClass;
+    private String buttonVariant;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String buttonType;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String isRoundedButton;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String isRaisedButton;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String isOutlinedButton;
 
 }
