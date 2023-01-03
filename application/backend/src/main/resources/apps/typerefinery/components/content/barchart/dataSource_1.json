@@ -1,4 +1,5 @@
 {
+  "chartData": [60000, 60000, 60000, 50000, 40000, 35000, 30000, 25000, 25000],
   "labels": [
     "Jan",
     "Feb",
@@ -10,20 +11,6 @@
     "August",
     "Sept"
   ],
-  "datasets": [
-    {
-      "data": [60000, 60000, 60000, 50000, 40000, 35000, 30000, 25000, 20000],
-      "backgroundColor": [
-        "#FFB94E",
-        "#FFB94E",
-        "#FFB94E",
-        "#FFB94E",
-        "#FFB94E",
-        "#ED7117",
-        "#FFB94E",
-        "#228B22",
-        "#228B22"
-      ]
-    }
-  ]
+  "dataSetBorderColor": "#0099DE",
+  "canvasBackgroundColor": "#001E3C"
 }

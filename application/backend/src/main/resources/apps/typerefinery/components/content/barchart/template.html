@@ -1,6 +1,11 @@
-<template data-sly-template.barchart="${ @ model}">
-    <div>
-        <canvas id="horizontalBarChartCanvas" width="1000" height="600">
+<template data-sly-template.barchart="${ @ model }">
+    <div 
+        class="barChart"
+        id="barChartContainer"
+        data-path="${resource.path}"
+        data-source="${model.dataSource}"
+    >
+        <canvas width="100%" id="${resource.path}-barChart" data-path="${resource.path}" data-module="barChartComponent">
         </canvas>
     </div>
 </template>

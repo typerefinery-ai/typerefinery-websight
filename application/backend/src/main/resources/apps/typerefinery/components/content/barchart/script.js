@@ -1,23 +1,64 @@
-$(document).ready(function (e) {
+function barChartComponent(component, id) {
   Chart.defaults.global.defaultFontFamily = "Lato";
+  const dataSourceURL = component.getAttribute("data-source");
+  const defaultData = {
+    chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
+    labels: [
+      "Trazen:Win32/Qakbot",
+      "Ranson:Win32/Egre..",
+      "Quakbot",
+      "Android",
+      "Emotet",
+      "XAgentOSX",
+      "Pteranodon",
+      "PsExec",
+      "Minikatz",
+    ],
+    dataSetBorderColor: "#0099DE",
+    canvasBackgroundColor: "#001E3C",
+  };
+  const fetchData = async () => {
+    try {
+      const response = await fetch(dataSourceURL).then((res) => res.json());
+      !response ? drawBarChart(defaultData, id) : drawBarChart(response, id);
+    } catch (error) {
+      drawBarChart(defaultData, id);
+    }
+  };
+  fetchData();
+}
 
-  var horizontalBarChart = new Chart(horizontalBarChartCanvas, {
+function drawBarChart(barChartData, id) {
+  const {
+    labels,
+    chartData,
+    dataSetBorderColor = "#0099DE",
+    canvasBackgroundColor = "#001E3C",
+  } = barChartData;
+
+  const ctx = document.getElementById(`${id}-barChart`).getContext("2d");
+
+  // Canvas Background.
+  const plugin = {
+    id: "customCanvasBackgroundColor",
+    beforeDraw: (chart, args, options) => {
+      const { ctx } = chart;
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#001E3C" || "#99ffff";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
+
+  // Bar chart
+  new Chart(ctx, {
     type: "horizontalBar",
     data: {
-      labels: [
-        "Trazen:Win32/Qakbot",
-        "Ranson:Win32/Egre..",
-        "Quakbot",
-        "Android",
-        "Emotet",
-        "XAgentOSX",
-        "Pteranodon",
-        "PsExec",
-        "Minikatz",
-      ],
+      labels: labels,
       datasets: [
         {
-          data: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
+          data: chartData,
           backgroundColor: [
             "#FFB94E",
             "#FFB94E",
@@ -42,7 +83,7 @@ $(document).ready(function (e) {
         position: "bottom",
         fullWidth: true,
         labels: {
-          boxWidth: 10,
+          boxWidth: 50,
           padding: 50,
         },
       },
@@ -91,7 +132,21 @@ $(document).ready(function (e) {
             },
           },
         ],
+        customCanvasBackgroundColor: {
+          color: canvasBackgroundColor,
+        },
       },
     },
+    plugins: [plugin],
   });
+}
+
+$(document).ready(function (e) {
+  Array.from(document.querySelectorAll("#barChartContainer")).forEach(
+    (component) => {
+      var componentDataPath = component.getAttribute("data-path");
+      component.setAttribute("id", componentDataPath);
+      barChartComponent(component, componentDataPath);
+    }
+  );
 });

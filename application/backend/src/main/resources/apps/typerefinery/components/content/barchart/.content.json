@@ -1,7 +1,6 @@
 {
-  "isContainer": true,
-  "group": "Typerefinery",
-  "sling:resourceType": "ws:Component",
-  "title": "BarChart",
-  "allowedComponents": ["Typerefinery"]
+    "group": "Typerefinery",
+    "sling:resourceType": "ws:Component",
+    "description": "Bar Chart",
+    "title": "Bar Chart"
 }
