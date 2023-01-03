@@ -9,7 +9,7 @@
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="BarChart component" />
-          <barChart jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/barchart">
+          <barChart jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/barChart">
           </barChart>
         </pagesection>
       </maincontainer>

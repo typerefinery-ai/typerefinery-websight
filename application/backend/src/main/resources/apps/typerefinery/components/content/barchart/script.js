@@ -1,5 +1,4 @@
 function barChartComponent(component, id) {
-  Chart.defaults.global.defaultFontFamily = "Lato";
   const dataSourceURL = component.getAttribute("data-source");
   const defaultData = {
     chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
@@ -67,79 +66,51 @@ function drawBarChart(barChartData, id) {
 
   // Bar chart
   new Chart(ctx, {
-    type: "horizontalBar",
+    type: "bar",
     data: {
       labels: labels,
       datasets: [
         {
+          axis: "y",
           data: chartData,
+          fill: false,
           backgroundColor: barbackgroundcolor,
+          borderWidth: 1,
         },
       ],
     },
     options: {
-      tooltips: {
-        enabled: false,
-      },
-      responsive: true,
-      legend: {
-        display: false,
-        position: "bottom",
-        fullWidth: true,
-        labels: {
-          boxWidth: 50,
-          padding: 50,
+      indexAxis: "y",
+      plugins: {
+        legend: {
+          display: false,
         },
       },
       scales: {
-        yAxes: [
-          {
-            barPercentage: 0.75,
-            gridLines: {
-              display: true,
-              drawTicks: true,
-              drawOnChartArea: false,
-            },
-            ticks: {
-              fontColor: "#555759",
-              fontFamily: "Lato",
-              fontSize: 11,
-            },
+        x: {
+          grid: {
+            display: false,
           },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              display: true,
-              drawTicks: false,
-              tickMarkLength: 5,
-              drawBorder: false,
-            },
-            ticks: {
-              padding: 5,
-              beginAtZero: true,
-              fontColor: "#555759",
-              fontFamily: "Lato",
-              fontSize: 11,
-              callback: function (label, index, labels) {
-                return label / 1000;
-              },
-            },
-            scaleLabel: {
-              display: true,
-              padding: 10,
-              fontFamily: "Lato",
-              fontColor: "#555759",
-              fontSize: 16,
-              fontStyle: 700,
-              labelString: labelName,
-            },
+          ticks: {
+            color: "#5D7183",
           },
-        ],
-        customCanvasBackgroundColor: {
-          color: canvasBackgroundColor,
+        },
+        y: {
+          grid: {
+            color: "rgba(191, 193, 194, 0.05)",
+          },
+          ticks: {
+            color: "#5D7183",
+          },
         },
       },
+      customCanvasBackgroundColor: {
+        color: canvasBackgroundColor,
+      },
+      interaction: {
+        intersect: false,
+      },
+      radius: 0,
     },
     plugins: [plugin],
   });
