@@ -3,6 +3,18 @@ function barChartComponent(component, id) {
   const dataSourceURL = component.getAttribute("data-source");
   const defaultData = {
     chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
+    labelName: "Typerefinery Bar Chart",
+    barbackgroundcolor: [
+      "#FFB94E",
+      "#FFB94E",
+      "#FFB94E",
+      "#FFB94E",
+      "#FFB94E",
+      "#ED7117",
+      "#FFB94E",
+      "#228B22",
+      "#228B22",
+    ],
     labels: [
       "Trazen:Win32/Qakbot",
       "Ranson:Win32/Egre..",
@@ -31,7 +43,9 @@ function barChartComponent(component, id) {
 function drawBarChart(barChartData, id) {
   const {
     labels,
+    labelName,
     chartData,
+    barbackgroundcolor,
     dataSetBorderColor = "#0099DE",
     canvasBackgroundColor = "#001E3C",
   } = barChartData;
@@ -59,17 +73,7 @@ function drawBarChart(barChartData, id) {
       datasets: [
         {
           data: chartData,
-          backgroundColor: [
-            "#FFB94E",
-            "#FFB94E",
-            "#FFB94E",
-            "#FFB94E",
-            "#FFB94E",
-            "#ED7117",
-            "#FFB94E",
-            "#228B22",
-            "#228B22",
-          ],
+          backgroundColor: barbackgroundcolor,
         },
       ],
     },
@@ -128,7 +132,7 @@ function drawBarChart(barChartData, id) {
               fontColor: "#555759",
               fontSize: 16,
               fontStyle: 700,
-              labelString: "Scale Label",
+              labelString: labelName,
             },
           },
         ],
