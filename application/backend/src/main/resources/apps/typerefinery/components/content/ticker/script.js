@@ -5,9 +5,9 @@ function getDataFromDataSource(defaultJson, path, id, refreshTime) {
         try {
             const response = await fetch(path).then(res => res.json());
 
-            !response.value ? updateView(jsonValue, id) : updateView(response, id);
+            !response.value ? updateTickerComponent(jsonValue, id) : updateTickerComponent(response, id);
         } catch (error) {
-            updateView(jsonValue, id);
+            updateTickerComponent(jsonValue, id);
         }
     }
 
@@ -27,7 +27,7 @@ function getDataFromDataSource(defaultJson, path, id, refreshTime) {
     fetchAndUpdateView();
 }
 
-function updateView(jsonValue, id) {
+function updateTickerComponent(jsonValue, id) {
 
     const tickerHtmlWithJsonValue = `
         <div class="ticker">
@@ -56,7 +56,7 @@ function updateView(jsonValue, id) {
 
 }
 
-function componentMounted(id, component) {
+function tickerComponentMounted(id, component) {
 
 
 
@@ -89,6 +89,6 @@ $(document).ready(function (e) {
     Array.from(document.querySelectorAll("#ticker")).forEach(component => {
         var componentDataPath = component.getAttribute("data-path");
         component.setAttribute("id", componentDataPath);
-        componentMounted(componentDataPath, component);
+        tickerComponentMounted(componentDataPath, component);
     })
 });

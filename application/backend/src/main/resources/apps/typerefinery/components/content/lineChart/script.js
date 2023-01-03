@@ -1,22 +1,5 @@
 
-// [
-//     "Jan 2021",
-//     "Feb 2021",
-//     "Mar 2021",
-//     "Apl 2021",
-//     "May 2021",
-//     "Jun 2021",
-//     "Jul 2021",
-//     "Aug 2021",
-//     "Sep 2021",
-//     "Oct 2021",
-//     "Nov 2021",
-//     "Dec 2021"
-// ]
-// [1, 1, 2, 3, 55, 50, 44, 39, 6, 7, 9, 35]
-
 function lineChartComponentMounted(component, id) {
-    console.log()
     const dataSourceURL = component.getAttribute("data-source");
     const defaultData = {
         chartData: [1, 1, 2, 3, 55, 50, 44, 39, 6, 7, 9, 35],
@@ -62,9 +45,8 @@ function drawLineChart(
         canvasBackgroundColor = "#001E3C"
     } = lineChartData;
 
-    console.log(lineChartData, " lineChartData")
+    
 
-    console.log(`${id}-lineChart`, "HELLO WORLD")
     const ctx = document.getElementById(`${id}-lineChart`).getContext('2d');
 
     // Linear background for the chart.
@@ -148,7 +130,6 @@ $(document).ready(function (e) {
     Array.from(document.querySelectorAll("#lineChartContainer")).forEach(component => {
         var componentDataPath = component.getAttribute("data-path");
         component.setAttribute("id", componentDataPath);
-        console.log(componentDataPath, " HERE ");
         lineChartComponentMounted(component, componentDataPath);
     });
 
