@@ -1,0 +1,29 @@
+{
+    "labels":  [
+        "Users", 
+        "Groups",  
+        "Tickets Raised", 
+        "Tickets Resolved", 
+        "New Users",
+        "API Keys"
+    ],
+    "labelName": "Typerefinery Pie Chart",
+    "chartData": [178, 53, 83, 15, 2, 4],
+    "backgroundColorForData": [
+        "rgba(255, 84, 84, 0.24)",
+        "rgba(93, 255, 84, 0.24)",
+        "rgba(90, 84, 255, 0.14)",
+        "rgba(255, 168, 84, 0.14)",
+        "rgba(255, 255, 84, 0.24)",
+        "rgba(171, 0, 125, 0.19)"
+    ],
+    "borderColorForData": [
+        "rgba(255, 84, 84, 2222)",
+        "rgba(93, 255, 84, 1)",
+        "rgba(89, 84, 255, 1)",
+        "rgba(255, 168, 84, 1)",
+        "rgba(255, 255, 84, 1)",
+        "rgba(171, 0, 125, 1)"
+    ],
+    "canvasBackgroundColor": "#001E3C"
+}
