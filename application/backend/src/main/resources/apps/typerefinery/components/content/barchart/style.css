@@ -1,0 +1,5 @@
+canvas#horizontalBarChartCanvas {
+  max-width: 768px;
+  margin: 40px auto;
+  background: #001e3c;
+}
