@@ -1,6 +1,0 @@
-{
-  "group": "Typerefinery",
-  "sling:resourceType": "ws:Component",
-  "title": "Chart",
-  "isContainer": true
-}
