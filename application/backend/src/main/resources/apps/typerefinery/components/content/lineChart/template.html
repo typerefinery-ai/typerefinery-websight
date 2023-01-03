@@ -1,0 +1,11 @@
+<template data-sly-template.lineChart="${ @ model }">
+    <div 
+        class="lineChart"
+        id="lineChartContainer"
+        data-path="${resource.path}"
+        data-source="${model.dataSource}"
+    >
+        <canvas width="100%" id="${resource.path}-lineChart" data-path="${resource.path}" data-module="lineChartComponent">
+        </canvas>
+    </div>
+</template>
