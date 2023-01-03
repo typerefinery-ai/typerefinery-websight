@@ -1,0 +1,7 @@
+{
+  "group": "Typerefinery",
+  "sling:resourceType": "ws:Component",
+  "description": "This is CTA component for Howlite",
+  "title": "Small Ticker",
+  "isContainer": true
+}

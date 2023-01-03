@@ -1,0 +1,40 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldTitle": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Title"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "default": "556578",
+        "label": "Value"
+      },
+      "bgColor": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "bgColor",
+        "default": "556578",
+        "label": "Background Color"
+      },
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source for this ticker.",
+        "label": "Data Source"
+      },
+
+      "dataSourceRefreshTime": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSourceRefreshTime",
+        "label": "Data Source Refresh Time",
+        "description": "The default value is 5 sec. This will periodically refresh data for ticker."
+      }
+    }
+  }
+}
