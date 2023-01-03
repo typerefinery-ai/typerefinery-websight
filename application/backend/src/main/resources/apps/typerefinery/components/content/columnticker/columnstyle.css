@@ -1,4 +1,4 @@
-.main{
+/* .main{
     display: block;
     margin: auto;
 }
@@ -10,18 +10,25 @@
 }
 .main .column .title{
     font-size: 0.5rem;
- }
+ } */
 .columnticker{
     font-family: 'Roboto Slab', serif !important;
     display: flex;
-    background-color: blueviolet;
+    border: 1px;
     flex-direction: row;
+    background-color: lightgreen;
     justify-content: space-between;
     align-items: center;
-    width: 148px;
+    width: 121px;
     height: 65px;
     border-radius: 0px;
     padding: 20px
+}
+.columnticker .ticker-value{
+    font-size: 26px;
+}
+.columnticker .ticker-title{
+    font-size: 10px;
 }
 .path{
     display: none;

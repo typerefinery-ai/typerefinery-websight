@@ -19,7 +19,6 @@
       "bgColor": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "bgColor",
-        "default": "556578",
         "label": "Background Color"
       },
       "dataSource": {

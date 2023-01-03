@@ -16,21 +16,21 @@ function getDataFromDataSourceSmallTicker(defaultJson, path, id,bgColor) {
 }
 
 function smallTickerUpdateView(jsonValue, id,bgColor) {
-  const smalltickerHtmlWithJsonValue = `
+  const smallTickerHtmlWithJsonValue = `
     <div class="smallticker">
     <div class="columnticker" style="background-color:${bgColor}">
       <div>
-        <div class="value">${jsonValue.value}</div>
-        <div class="title">${jsonValue.title}</div>
+        <div class="ticker-value">${jsonValue.value}</div>
+        <div class="ticker-title">${jsonValue.title}</div>
       </div>
     </div>
   </div>
     `;
-  const smalltickerComponent = document.getElementById(id);
-  smalltickerComponent.innerHTML = smalltickerHtmlWithJsonValue;
+  const smallTickerComponent = document.getElementById(id);
+  smallTickerComponent.innerHTML = smallTickerHtmlWithJsonValue;
 }
 
-function smalltickerComponentMounted(id, component,bgColor) {
+function smallTickerComponentMounted(id, component,bgColor) {
   var defaultJson = {
     value: component.getElementsByClassName("ticker-value")[0].innerHTML,
     title: component.getElementsByClassName("ticker-title")[0].innerHTML,
@@ -52,14 +52,14 @@ function smalltickerComponentMounted(id, component,bgColor) {
 
 $(document).ready(function (e) {
   Array.from(document.querySelectorAll("#smallticker")).forEach(
-    (smalltickerComponent) => {
+    (smallTickerComponent) => {
       var componentDataPathticker =
-        smalltickerComponent.getAttribute("data-path");
-        var bgColor=smalltickerComponent.getAttribute("data-bgColor");
-      smalltickerComponent.setAttribute("id", componentDataPathticker);
-      smalltickerComponentMounted(
+        smallTickerComponent.getAttribute("data-path");
+        var bgColor=smallTickerComponent.getAttribute("data-bgColor");
+      smallTickerComponent.setAttribute("id", componentDataPathticker);
+      smallTickerComponentMounted(
         componentDataPathticker,
-        smalltickerComponent,
+        smallTickerComponent,
         bgColor
       );
     }
