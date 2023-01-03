@@ -28,12 +28,12 @@ public class SmallTicker {
 
      @Getter
     @Inject
-    @Default(values = "pink")
+    @Default(values = "#D35400")
     public String textColor;
 
      @Getter
     @Inject
-    @Default(values = "")
+    @Default(values = "#F8C471")
     public String bgColor;
 
      @Getter

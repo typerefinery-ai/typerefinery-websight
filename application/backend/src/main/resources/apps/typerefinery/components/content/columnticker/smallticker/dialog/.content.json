@@ -19,20 +19,24 @@
       "bgColor": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "bgColor",
+        "description": "Please provide hex color code",
         "label": "Background Color"
       },
+      "textColor": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "textColor",
+        "description": "Please provide hex color code",
+        "label": "Text Color"
+      }
+    },
+    "dataSource": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",
         "description": "Please provide url to data source for this ticker.",
         "label": "Data Source"
-      },
-
-      "dataSourceRefreshTime": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "dataSourceRefreshTime",
-        "label": "Data Source Refresh Time",
-        "description": "The default value is 5 sec. This will periodically refresh data for ticker."
       }
     }
   }
