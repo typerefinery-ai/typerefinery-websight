@@ -1,5 +1,4 @@
 $(document).ready(function (e) {
-  console.log("helll")
   const key = "WTh8FTa6cT027rlVBBbG";
   const map = new maplibregl.Map({
     container: "map", // container's id or the HTML element in which MapLibre GL JS will render the map
