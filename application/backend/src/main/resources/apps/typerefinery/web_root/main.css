@@ -96,6 +96,12 @@
   height: 320px;
 }
 
+.pieChart {
+  background: #FFF;
+  width: 100%;
+  height: 420px;
+}
+
 .barChart {
   background: #fff;
   width: 100%;
