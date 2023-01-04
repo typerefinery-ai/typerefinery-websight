@@ -1,21 +1,27 @@
-
-function getDataFromDataSourceSmallTicker(defaultJson, path, id,bgColor,textColor) {
+function getDataFromDataSourceSmallTicker(
+  defaultJson,
+  path,
+  id,
+  bgColor,
+  textColor
+) {
   const fetchAndUpdateView = async () => {
-   const jsonValue = defaultJson;
+    const jsonValue = defaultJson;
     try {
       const response = await fetch(path).then((res) => res.json());
 
-      !response.value ? smallTickerUpdateView(jsonValue, id,bgColor) : smallTickerUpdateView(response, id,bgColor);
+      !response.value
+        ? smallTickerUpdateView(jsonValue, id, bgColor)
+        : smallTickerUpdateView(response, id, bgColor);
       console.log("data", response);
     } catch (error) {
-        smallTickerUpdateView(jsonValue, id,bgColor,textColor);
+      smallTickerUpdateView(jsonValue, id, bgColor, textColor);
     }
   };
-
   fetchAndUpdateView();
 }
-
-function smallTickerUpdateView(jsonValue, id,bgColor,textColor) {
+//
+function smallTickerUpdateView(jsonValue, id, bgColor, textColor) {
   const smallTickerHtmlWithJsonValue = `
     <div class="smallticker">
     <div class="columnticker" style="background-color:${bgColor}">
@@ -30,7 +36,7 @@ function smallTickerUpdateView(jsonValue, id,bgColor,textColor) {
   smallTickerComponent.innerHTML = smallTickerHtmlWithJsonValue;
 }
 
-function smallTickerComponentMounted(id, component,bgColor,textColor) {
+function smallTickerComponentMounted(id, component, bgColor, textColor) {
   var defaultJson = {
     value: component.getElementsByClassName("ticker-value")[0].innerHTML,
     title: component.getElementsByClassName("ticker-title")[0].innerHTML,
@@ -38,15 +44,15 @@ function smallTickerComponentMounted(id, component,bgColor,textColor) {
 
   console.log("jsonValue", defaultJson);
   // getting the dataSource of the component
-  var dataSourcePath = component.getElementsByClassName("ticker-path")[0].innerHTML;
-  console.log("datasource", dataSourcePath);
-  // getting the dataSource of the component
+  var dataSourcePath =
+    component.getElementsByClassName("ticker-path")[0].innerHTML;
   // Rendering the template
   getDataFromDataSourceSmallTicker(
     defaultJson,
     dataSourcePath,
     id,
-    bgColor,textColor
+    bgColor,
+    textColor
   );
 }
 
@@ -55,8 +61,8 @@ $(document).ready(function (e) {
     (smallTickerComponent) => {
       var componentDataPathticker =
         smallTickerComponent.getAttribute("data-path");
-        var bgColor=smallTickerComponent.getAttribute("data-bgColor");
-        var textColor=smallTickerComponent.getAttribute("data-textColor");
+      var bgColor = smallTickerComponent.getAttribute("data-bgColor");
+      var textColor = smallTickerComponent.getAttribute("data-textColor");
       smallTickerComponent.setAttribute("id", componentDataPathticker);
       smallTickerComponentMounted(
         componentDataPathticker,

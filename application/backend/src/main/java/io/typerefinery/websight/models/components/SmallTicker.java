@@ -26,21 +26,18 @@ public class SmallTicker {
     @Default(values = "14.5k")
     public String value;
 
-     @Getter
+    @Getter
     @Inject
     @Default(values = "#D35400")
     public String textColor;
 
-     @Getter
+    @Getter
     @Inject
     @Default(values = "#F8C471")
     public String bgColor;
 
-     @Getter
+    @Getter
     @Inject
     // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/columnticker/smallticker/dataSource_1.json")
     public String dataSource;
-
-
-
 }
