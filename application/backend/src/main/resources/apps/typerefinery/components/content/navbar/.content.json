@@ -1,0 +1,5 @@
+{
+    "group": "Typerefinery",
+    "sling:resourceType": "ws:Component",
+    "title": "Header (Prime Vue)"
+}

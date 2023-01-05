@@ -1,6 +1,6 @@
 {
   "isContainer": true,
-  "group": ".hidden",
+  "group": "Typerefinery",
   "allowedComponents": [
     "/apps/typerefinery/components/structure/pagesection",
     "/apps/typerefinery/components/structure/container",
