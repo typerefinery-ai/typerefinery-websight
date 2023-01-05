@@ -6,28 +6,10 @@
     "rootcontainer": {
       "sling:resourceType": "typerefinery/components/structure/rootcontainer/fixedrootcontainer",
       "header": {
-        "sling:resourceType": "typerefinery/components/structure/headerreference"
+        "sling:resourceType": "typerefinery/components/content/header"
       },
       "maincontainer": {
-        "sling:resourceType": "typerefinery/components/structure/maincontainer",
-        "pagesection": {
-          "sling:resourceType": "typerefinery/components/structure/pagesection",
-          "accordion": {
-            "sling:resourceType": "typerefinery/components/structure/accordionreference"
-          },
-          "cta": {
-            "sling:resourceType": "typerefinery/components/structure/ctareference"
-          },
-          "card": {
-            "sling:resourceType": "typerefinery/components/structure/cardreference"
-          },
-          "ticker": {
-            "sling:resourceType": "typerefinery/components/structure/tickerreference"
-          }
-        }
-      },
-      "footer": {
-        "sling:resourceType": "typerefinery/components/structure/footer"
+        "sling:resourceType": "typerefinery/components/structure/maincontainer"
       }
     }
   }
