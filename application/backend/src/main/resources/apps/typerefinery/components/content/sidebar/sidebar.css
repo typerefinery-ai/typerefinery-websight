@@ -1,0 +1,9 @@
+.p-tree {
+  background-color: #001e3c;
+}
+.p-treenode-label{
+  color: white;
+}
+/* [class$="p-treenode"] {
+  background: yellow;
+} */
