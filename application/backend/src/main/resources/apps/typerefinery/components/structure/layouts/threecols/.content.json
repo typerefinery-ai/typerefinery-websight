@@ -1,0 +1,8 @@
+{
+  "instanceResourceType": "/apps/typerefinery/components/structure/pagesection",
+  "isLayout": true,
+  "group": "Empty Sections",
+  "sling:resourceType": "ws:Component",
+  "title": "3 Columns:Typerefinery",
+  "allowedComponents": ["Typerefinery"]
+}
