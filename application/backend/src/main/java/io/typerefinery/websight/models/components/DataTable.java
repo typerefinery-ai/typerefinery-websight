@@ -21,6 +21,8 @@ import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
 import lombok.Getter;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Datatable {
-   
+public class DataTable {
+  @Getter
+  @Inject
+  public String dataSource;
 }

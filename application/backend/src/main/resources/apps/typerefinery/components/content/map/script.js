@@ -12,5 +12,4 @@ $(document).ready(function (e) {
       console.log("MAP ERROR", err)
     });
   }
-
 });

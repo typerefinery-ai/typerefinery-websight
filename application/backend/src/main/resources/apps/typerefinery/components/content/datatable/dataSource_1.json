@@ -1,0 +1,10 @@
+{
+  "data": {
+    "icon": "pi pi-file-edit",
+    "datatype": "File",
+    "description": "UNC1151/GhostWriter",
+    "status": "RiskIQ",
+    "date": "10 Feb,2020",
+    "color": "TLP-RED"
+  }
+}

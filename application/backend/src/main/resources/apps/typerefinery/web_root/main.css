@@ -91,7 +91,7 @@
 }
 
 .lineChart {
-  background: #FFF;
+  background: #fff;
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
@@ -99,7 +99,7 @@
 }
 
 .pieChart {
-  background: #FFF;
+  background: #fff;
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
@@ -119,4 +119,20 @@
   background: #001E3C; 
   color: #FFF !important; 
   margin-top:0rem
+}
+.dataTable {
+  width: 100%;
+}
+.p-datatable .p-datatable-tbody > tr {
+  background: #001e3c;
+  color: white;
+  transition: box-shadow 0.2s;
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+  background: #001e3c;
+}
+.product-badge {
+  background: white;
+  color: #001e3c;
 }
