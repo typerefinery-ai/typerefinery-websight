@@ -95,7 +95,8 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 220px;
+  min-height: 300px;
+  margin-bottom: 1%;
 }
 
 .pieChart {
@@ -103,7 +104,8 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 420px;
+  min-height: 300px;
+  margin-bottom: 1%;
 }
 
 .barChart {
@@ -111,28 +113,35 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 320px;
+  height: 302px;
+  margin-bottom: 1%;
 }
 
 .navbar {
   width: 100%;
-  background: #001E3C; 
-  color: #FFF !important; 
-  margin-top:0rem
+  background: #343a40;
+  color: #fff !important;
+  margin-top: 0rem;
 }
 .dataTable {
   width: 100%;
+  margin-top: 1%;
 }
 .p-datatable .p-datatable-tbody > tr {
-  background: #001e3c;
+  background: #343a40;
   color: white;
   transition: box-shadow 0.2s;
 }
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background: #001e3c;
+  background: #343a40;
 }
 .product-badge {
   background: white;
-  color: #001e3c;
+  color: #343a40;
+}
+
+/* This is used to hide the datatable header */
+th {
+  display: none !important;
 }
