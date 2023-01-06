@@ -1,7 +1,7 @@
 .p-tree {
-  background-color: #001e3c;
+  background-color: #343a40;
 }
-.p-treenode-label{
+.p-treenode-label {
   color: white;
 }
 /* [class$="p-treenode"] {

@@ -30,7 +30,6 @@ function getDataFromDataSource(defaultJson, path, id, refreshTime) {
 function updateTickerComponent(jsonValue, id) {
 
     const tickerHtmlWithJsonValue = `
-        <div class="ticker">
             <div class="body">
                  <div class="title">${jsonValue.title}</div>
                  <div class="content">
@@ -48,7 +47,6 @@ function updateTickerComponent(jsonValue, id) {
                 </div>
             </div>
             <div class="icon ${jsonValue.icon}"></div>
-        </div>
     `;
 
     const component = document.getElementById(id);

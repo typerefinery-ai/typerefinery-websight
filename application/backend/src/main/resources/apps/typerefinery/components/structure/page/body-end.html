@@ -6,66 +6,66 @@
   const vueApp = Vue.createApp({
     data() {
       return {
-        nodes:[
-        {
+        nodes: [
+          {
             "key": "0",
             "label": "Tableau de bord",
             "data": "Tableau de bord",
             "icon": "pi pi-fw pi-star-fill"
-        },
-        {
+          },
+          {
             "key": "1",
             "label": "Activites",
             "data": "Activites Folder",
             "icon": "pi pi-fw pi-inbox",
             "children": [{
-                "key": "1-0",
-                "label": "Analyses",
-                "data": "Analyses",
-                "icon": "pi pi-fw pi-cog"
+              "key": "1-0",
+              "label": "Analyses",
+              "data": "Analyses",
+              "icon": "pi pi-fw pi-cog"
             },
             {
-                "key": "1-1",
-                "label": "Evenments",
-                "data": "Evenments",
-                "icon": "pi pi-fw pi-home"
+              "key": "1-1",
+              "label": "Evenments",
+              "data": "Evenments",
+              "icon": "pi pi-fw pi-home"
             },
             {
-                "key": "1-2",
-                "label": "Observations",
-                "data": "Observations",
-                "icon": "pi pi-fw pi-home"
+              "key": "1-2",
+              "label": "Observations",
+              "data": "Observations",
+              "icon": "pi pi-fw pi-home"
             }]
-        },
-        {
+          },
+          {
             "key": "1",
             "label": "Connaissance",
             "data": "Connaissance Folder",
             "icon": "pi pi-fw pi-calendar",
             "children": [
-                { "key": "1-0", "label": "Menaces", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
-                { "key": "1-1", "label": "Arsenal", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" },
-                { "key": "1-2", "label": "Entites", "icon": "pi pi-fw pi-calendar-plus", "data": "Entites" }]
-        },
-        {
+              { "key": "1-0", "label": "Menaces", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
+              { "key": "1-1", "label": "Arsenal", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" },
+              { "key": "1-2", "label": "Entites", "icon": "pi pi-fw pi-calendar-plus", "data": "Entites" }]
+          },
+          {
             "key": "2",
             "label": "Donnes",
             "data": "Donnes",
             "icon": "pi pi-fw pi-star-fill"
-        },
-        {
+          },
+          {
             "key": "3",
             "label": "Parametres",
             "data": "Parametres",
             "icon": "pi pi-fw pi-star-fill"
-        }
+          }
         ],
         data: [
-          { icon: "pi pi-file", datatype: "Report", description: "Looking for Penquins.", status: "RiskIQ", date: "12 Jan,2021", color: "TLP-WHITE" },
-          { icon: "pi pi-file", datatype: "Report", description: "DiskKill/HermetricWiper", status: "RiskIQ", date: "14 Dec,2022", color: "TLP-WHITE" },
-          { icon: "pi pi-file", datatype: "Report", description: "Destructive Malware", status: "RiskIQ", date: "21 Dec,2018", color: "TLP-WHITE", },
-          { icon: "pi pi-file", datatype: "Report", description: "UNC1151/GhostWriter", status: "RiskIQ", date: "21 Dec,2019", color: "TLP-WHITE", },
-          { icon: "pi pi-file", datatype: "Report", description: "Stealing malware.", status: "AlienVault", date: "05 Jun,2017", color: "TLP-WHITE", },
+          { icon: "pi pi-file", datatype: "Report", description: "Penquins.", status: "RiskIQ", date: "12 Jan,2021", color: "TLP-WHITE" },
+          { icon: "pi pi-file", datatype: "Report", description: "DiskKill", status: "RiskIQ", date: "14 Dec,2022", color: "TLP-WHITE" },
+          { icon: "pi pi-file", datatype: "Report", description: "Malware", status: "RiskIQ", date: "21 Dec,2018", color: "TLP-WHITE", },
+          { icon: "pi pi-file", datatype: "Report", description: "UNC1151", status: "RiskIQ", date: "21 Dec,2019", color: "TLP-WHITE", },
+          { icon: "pi pi-file", datatype: "Report", description: "HermetricWiper", status: "AlienVault", date: "05 Jun,2017", color: "TLP-WHITE", },
         ],
         headerMenuItems: [
           {
@@ -139,7 +139,7 @@
   (function () {
     vueApp.component("p-dropdown", primevue.dropdown);
   })();
-//datatable
+  //datatable
   (function () {
     vueApp.component("p-datatable", primevue.datatable);
     vueApp.component("p-column", primevue.column);
@@ -148,7 +148,7 @@
 
   //Sidebar-tree
   (function () {
-    vueApp.component( "p-tree", primevue.tree,);
+    vueApp.component("p-tree", primevue.tree,);
   })();
 
 

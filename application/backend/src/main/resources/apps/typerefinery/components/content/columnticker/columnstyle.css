@@ -11,29 +11,34 @@
 .main .column .title{
     font-size: 0.5rem;
  } */
-.columnticker{
-    font-family: 'Roboto Slab', serif !important;
-    display: flex;
-    border: 1px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 121px;
-    height: 74px;
-    opacity: 0.5;
-    border-radius: 0px;
-    padding: 20px
+.columnticker {
+  font-family: "Roboto Slab", serif !important;
+  display: flex;
+  border: 1px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-width: 125px;
+  min-height: 74px;
+  height: 100%;
+  opacity: 0.5;
+  border-radius: 0px;
+  padding: 20px;
 }
-.columnticker .ticker-value{
-    font-size: 26px;
+.columnticker .ticker-value {
+  font-size: 26px;
 }
-.columnticker .ticker-title{
-    font-size: 10px;
+.columnticker .ticker-title {
+  font-size: 10px;
 }
-.path{
-    display: none;
+.path {
+  display: none;
 }
-.refresh-time-ticker{
-    display: none;
+.refresh-time-ticker {
+  display: none;
 }
-
+.columnTickerWidth {
+  width: 33.1%;
+  margin-bottom: 1%;
+}

@@ -26,7 +26,7 @@ function barChartComponent(component, id) {
       "Minikatz",
     ],
     dataSetBorderColor: "#0099DE",
-    canvasBackgroundColor: "#001E3C",
+    canvasBackgroundColor: "#343a40",
   };
   const fetchData = async () => {
     try {
@@ -46,7 +46,7 @@ function drawBarChart(barChartData, id) {
     chartData,
     barbackgroundcolor,
     dataSetBorderColor = "#0099DE",
-    canvasBackgroundColor = "#001E3C",
+    canvasBackgroundColor = "#343a40",
   } = barChartData;
 
   const ctx = document.getElementById(`${id}-barChart`).getContext("2d");
@@ -58,7 +58,7 @@ function drawBarChart(barChartData, id) {
       const { ctx } = chart;
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = "#001E3C" || "#99ffff";
+      ctx.fillStyle = "#343a40" || "#99ffff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     },
