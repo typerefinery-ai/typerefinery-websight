@@ -80,4 +80,11 @@ public class Button {
     @Default(values = "")
     private String isOutlinedButton;
 
+    
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String url;
+
 }
