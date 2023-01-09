@@ -42,6 +42,15 @@ public class DefaultGridComponent implements Grid {
   private Integer lgColSize;
 
   @Inject
+  private Integer smRowSize;
+
+  @Inject
+  private Integer mdRowSize;
+
+  @Inject
+  private Integer lgRowSize;
+
+  @Inject
   private Integer smOffset;
 
   @Inject

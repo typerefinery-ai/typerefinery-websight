@@ -35,6 +35,7 @@ public class GridStyle {
   private static final String GRID_CLASS_PREFIX = "hl-grid";
   private static final String GRID_COLS_PREFIX = "hl-cols";
   private static final String GRID_OFFSET_PREFIX = "hl-offset";
+  private static final String GRID_ROWS_PREFIX = "hl-rows";
 
   private static final String SM_CLASS_PART = "-sm";
   private static final String MD_CLASS_PART = "-md";
@@ -58,6 +59,8 @@ public class GridStyle {
     classes.addAll(getGridDisplayClasses());
     classes.addAll(getGridColSizeClasses());
     classes.addAll(getGridOffsetClasses());
+
+    classes.addAll(getGridRowSizeClasses());
 
     return classes;
   }
@@ -83,10 +86,39 @@ public class GridStyle {
     }
   }
 
+  private Collection<String> getGridRowSizeClasses() {
+    if (!hasAnyRowSize()) {
+      //we do not set classes when there is no setting for it
+      return Collections.emptyList();
+    } else if (hasSameRowSizes()) {
+      return prepareDefaultGridRowSizeClass();
+    } else {
+      return prepareGridRowSizeClasses();
+    }
+  }
+
   private Collection<String> prepareDefaultGridColSizeClass() {
     return Collections.singleton(GRID_COLS_PREFIX + "-" + getDefaultColSize());
   }
+  private Collection<String> prepareDefaultGridRowSizeClass() {
+    return Collections.singleton(GRID_ROWS_PREFIX + "-" + getDefaultRowSize());
+  }
 
+  private Collection<String> prepareGridRowSizeClasses() {
+    Set<String> classes = new LinkedHashSet<>();
+    if (gridComponent.getSmRowSize() != null) {
+      classes.add(GRID_ROWS_PREFIX + SM_CLASS_PART + "-" + gridComponent.getSmRowSize());
+    }
+
+    if (gridComponent.getMdRowSize() != null) {
+      classes.add(GRID_ROWS_PREFIX + MD_CLASS_PART + "-" + gridComponent.getMdRowSize());
+    }
+
+    if (gridComponent.getLgRowSize() != null) {
+      classes.add(GRID_ROWS_PREFIX + LG_CLASS_PART + "-" + gridComponent.getLgRowSize());
+    }
+    return classes;
+  }
   private Collection<String> prepareGridColSizeClasses() {
     Set<String> classes = new LinkedHashSet<>();
     if (gridComponent.getSmColSize() != null) {
@@ -146,6 +178,19 @@ public class GridStyle {
     return getCollSizes().count() == 3L && colSizes.size() == 1
         && colSizes.iterator().next() != null;
   }
+  private boolean hasAnyRowSize() {
+    return !getRowSizes()
+        .collect(Collectors.toSet())
+        .isEmpty();
+  }
+
+  private boolean hasSameRowSizes() {
+    Set<Integer> rowSizes = getRowSizes()
+        .collect(Collectors.toSet());
+
+    return getRowSizes().count() == 3L && rowSizes.size() == 1
+        && rowSizes.iterator().next() != null;
+  }
 
   private Integer getDefaultColSize() {
     Set<Integer> colSizes = getCollSizes().collect(Collectors.toSet());
@@ -156,9 +201,24 @@ public class GridStyle {
     return null;
   }
 
+  private Integer getDefaultRowSize() {
+    Set<Integer> rowSizes = getRowSizes().collect(Collectors.toSet());
+
+    if (rowSizes.size() == 1) {
+      return rowSizes.iterator().next();
+    }
+    return null;
+  }
+
   private Stream<Integer> getCollSizes() {
     return Stream.of(gridComponent.getSmColSize(), gridComponent.getMdColSize(),
             gridComponent.getLgColSize())
+        .filter(Objects::nonNull);
+  }
+
+  private Stream<Integer> getRowSizes() {
+    return Stream.of(gridComponent.getSmRowSize(), gridComponent.getMdRowSize(),
+            gridComponent.getLgRowSize())
         .filter(Objects::nonNull);
   }
 

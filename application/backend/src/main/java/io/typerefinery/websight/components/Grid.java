@@ -30,4 +30,9 @@ public interface Grid {
 
   Integer getLgOffset();
 
+  Integer getSmRowSize();
+  
+  Integer getMdRowSize();
+  
+  Integer getLgRowSize();
 }
