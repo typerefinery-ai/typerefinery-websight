@@ -36,6 +36,7 @@ const formRequest = (url, payload) => {
 }
 
 const formHandler = (e) => {
+    console.log("FormHandler")
     e.preventDefault();
     const jsonPayload = getFormData(e.target);
 

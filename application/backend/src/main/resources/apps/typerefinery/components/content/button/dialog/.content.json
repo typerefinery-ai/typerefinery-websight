@@ -14,12 +14,37 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "name",
         "label": "Name"
+      },
+      "buttonType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonType",
+        "label": "Button Type",
+        "submitButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Submit",
+          "value": "submit"
+        },
+        "resetButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Reset",   
+          "value": "reset"
+        },
+        "normalButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Button",
+          "value": "button"
+        }
+      },
+      "url": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "url",
+        "label": "Redirection URL",
+        "description": "Only valid if the button is of type button"
       }
     },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Style",
-      
       "buttonSize": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonSize",
@@ -39,27 +64,6 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Large",
           "value": "p-button-lg"
-        }
-      },
-      "buttonType": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "buttonType",
-        "label": "Button Type",
-        "submitButton": {
-          "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Submit",
-          "selected": true,
-          "value": "submit"
-        },
-        "resetButton": {
-          "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Reset",   
-          "value": "reset"
-        },
-        "normalButton": {
-          "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Button",
-          "value": "button"
         }
       },
       "buttonVariant": {
