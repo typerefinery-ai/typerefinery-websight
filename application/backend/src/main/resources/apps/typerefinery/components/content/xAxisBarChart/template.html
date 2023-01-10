@@ -1,0 +1,8 @@
+<template data-sly-template.xAxisBarChart="${ @ model }">
+    <div class="xAxisBarChart" id="xAxisBarChartContainer" data-path="${resource.path}"
+        data-source="${model.dataSource}">
+        <canvas width="100%" id="${resource.path}-barChart" data-path="${resource.path}"
+            data-module="xAxisBarChartComponent">
+        </canvas>
+    </div>
+</template>
