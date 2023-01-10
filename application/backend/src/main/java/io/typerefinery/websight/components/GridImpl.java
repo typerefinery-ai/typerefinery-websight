@@ -28,8 +28,14 @@ public class GridImpl implements Grid {
   private final Integer smColSize;
 
   private final Integer mdColSize;
-
+  
   private final Integer lgColSize;
+  
+  private final Integer smRowSize;
+
+  private final Integer mdRowSize;
+
+  private final Integer lgRowSize;
 
   private final Integer smOffset;
 

@@ -63,6 +63,21 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgColSize() {
     return grid.getLgColSize();
   }
+  
+  @Override
+  public Integer getSmRowSize() {
+    return grid.getSmRowSize();
+  }
+
+  @Override
+  public Integer getMdRowSize() {
+    return grid.getMdRowSize();
+  }
+
+  @Override
+  public Integer getLgRowSize() {
+    return grid.getLgRowSize();
+  }
 
   @Override
   public Integer getSmOffset() {
