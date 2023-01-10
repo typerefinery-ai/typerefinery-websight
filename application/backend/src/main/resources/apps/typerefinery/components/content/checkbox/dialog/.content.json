@@ -13,7 +13,8 @@
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "name",
-        "label": "Name"
+        "label": "Name",
+        "required": true
       },
       "fieldClass": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
