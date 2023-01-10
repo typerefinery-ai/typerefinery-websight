@@ -1,5 +1,5 @@
 {
-  "instanceResourceType": "/apps/typerefinery/components/structure/pagesection",
+  "instanceResourceType": "/apps/typerefinery/components/structure/container",
   "isLayout": true,
   "group": "Empty Sections",
   "sling:resourceType": "ws:Component",

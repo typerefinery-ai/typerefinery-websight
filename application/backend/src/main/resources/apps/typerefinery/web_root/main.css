@@ -125,7 +125,7 @@
 }
 .dataTable {
   width: 100%;
-  margin-top: 1%;
+  margin-bottom: 1%;
 }
 .p-datatable .p-datatable-tbody > tr {
   background: #343a40;
@@ -145,3 +145,7 @@
 th {
   display: none !important;
 }
+
+/* .hl-rows-md-1 {
+  height: 661px !important;
+} */

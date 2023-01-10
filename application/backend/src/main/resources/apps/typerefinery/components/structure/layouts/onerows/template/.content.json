@@ -6,6 +6,9 @@
     "sling:resourceType": "/apps/typerefinery/components/structure/container",
     "smColSize": 24,
     "mdColSize": 18,
-    "lgColSize": 12
+    "lgColSize": 12,
+    "smRowSize": 1,
+    "mdRowSize": 1,
+    "lgRowSize": 12
   }
 }

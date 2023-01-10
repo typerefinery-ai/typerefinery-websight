@@ -3,6 +3,5 @@
   "isLayout": true,
   "group": "Empty Sections",
   "sling:resourceType": "ws:Component",
-  "title": "1 Columns:Typerefinery",
-  "allowedComponents": ["Typerefinery"]
+  "title": "1 Row:Typerefinery"
 }
