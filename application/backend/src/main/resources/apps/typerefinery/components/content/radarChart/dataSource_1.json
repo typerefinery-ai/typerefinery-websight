@@ -1,0 +1,16 @@
+{
+  "labels": ["RAT 1", "Trojan 1", "Malware 1", "Phishing 1", "Ransomware 1"],
+  "datasets": [
+    {
+      "label": "Demo",
+      "data": [28, 48, 40, 19, 96, 27, 100],
+      "fill": true,
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgb(54, 162, 235)",
+      "pointBackgroundColor": "rgb(54, 162, 235)",
+      "pointBorderColor": "#fff",
+      "pointHoverBackgroundColor": "#fff",
+      "pointHoverBorderColor": "rgb(54, 162, 235)"
+    }
+  ]
+}
