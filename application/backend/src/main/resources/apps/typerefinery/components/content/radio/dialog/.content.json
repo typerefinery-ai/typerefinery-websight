@@ -13,7 +13,16 @@
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "name",
-        "label": "Name"
+        "label": "Name",
+        "required": true,
+        "description": "Radio group name"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "label": "Value",
+        "required": true,
+        "description": "Radio button value"
       },
       "fieldClass": {
         "sling:resourceType": "wcm/dialogs/components/textfield",

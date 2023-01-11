@@ -29,6 +29,11 @@ public class RadioButton {
     @Default(values = "radio")
     private String name;
 
+    
+    @Inject
+    @Getter
+    private String value;
+
     @Inject
     @Getter
     @Default(values = "Radio Button")
