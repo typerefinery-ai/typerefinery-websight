@@ -1,0 +1,11 @@
+<template data-sly-template.pieChartNonpolar="${ @ model }">
+    <div 
+        class="pieChartNonPolar"
+        id="pieChartNonPolarContainer"
+        data-path="${resource.path}"
+        data-source="${model.dataSource}"
+    >
+        <canvas width="100%" id="${resource.path}-pieChartNonPolar" data-path="${resource.path}" data-module="pieChartNonPolarComponent">
+        </canvas>
+    </div>
+</template>
