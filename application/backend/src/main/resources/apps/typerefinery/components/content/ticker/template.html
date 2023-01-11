@@ -4,6 +4,8 @@
         data-path="${resource.path}" 
         data-module="tickerComponent"
         class="ticker"
+        data-source="${model.dataSource}"
+        data-source-refresh-time="${model.dataSourceRefreshTime}"
     >
         <div class="icon dn">${model.icon}</div>
         <div class="heading dn">${model.title}</div>
@@ -12,12 +14,5 @@
             <div class="indicator-type dn">${model.indicatorType}</div>
             <div class="indicator-value dn">${model.indicatorValue}</div>
         </div>   
-        
-        <div class="path">
-            ${model.dataSource}
-        </div>
-        <div class="refresh-time">
-            ${model.dataSourceRefreshTime}
-        </div>
     </div> 
 </template> 

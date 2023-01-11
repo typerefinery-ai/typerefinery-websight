@@ -1,7 +1,0 @@
-{
-  "group": "Typerefinery",
-  "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/cta",
-  "description": "This is CTA component for Howlite",
-  "title": "CTA"
-}
