@@ -2,5 +2,5 @@
     "group": "Typerefinery",
     "sling:resourceType": "ws:Component",
     "description": "Pie Chart (Polar version)",
-    "title": "Pie Chart"
+    "title": "Pie Chart(Polar)"
 }
