@@ -36,14 +36,14 @@
         nodes: [
           {
             "key": "0",
-            "label": "Tableau de bord",
-            "data": "Tableau de bord",
+            "label": "Menu",
+            "data": "Menu",
             "icon": "pi pi-fw pi-star-fill"
           },
           {
             "key": "1",
-            "label": "Activites",
-            "data": "Activites Folder",
+            "label": "Search",
+            "data": "Search",
             "icon": "pi pi-fw pi-inbox",
             "children": [{
               "key": "1-0",
@@ -65,30 +65,18 @@
             }]
           },
           {
-            "key": "1",
-            "label": "Connaissance",
-            "data": "Connaissance Folder",
+            "key": "2",
+            "label": "Dashboards",
+            "data": "Dashboards",
             "icon": "pi pi-fw pi-calendar",
             "children": [
-              { "key": "1-0", "label": "Menaces", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
-              { "key": "1-1", "label": "Arsenal", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" },
+              { "key": "1-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
+              { "key": "1-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" },
               { "key": "1-2", "label": "Entites", "icon": "pi pi-fw pi-calendar-plus", "data": "Entites" }]
           },
           {
             "key": "3",
-            "label": "Donnes",
-            "data": "Donnes",
-            "icon": "pi pi-fw pi-star-fill"
-          },
-          {
-            "key": "4",
-            "label": "Parametres",
-            "data": "Parametres",
-            "icon": "pi pi-fw pi-star-fill"
-          },
-          {
-            "key": "5",
-            "label": "DataStore",
+            "label": "Bookmarks",
             "data": "Store Folder",
             "icon": "pi pi-fw pi-inbox",
             "children": [{
@@ -130,6 +118,15 @@
         ],
         ...otherVueModelObjects
       }
+    },
+    methods: {
+      onNodeSelect(node) {
+        // add url as per requirement
+        window.location.href = "url";
+      },
+      onRowSelect(event) {
+        window.location.href = "url";
+      },
     }
   });
 

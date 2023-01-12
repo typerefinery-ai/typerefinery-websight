@@ -1,5 +1,6 @@
 <template data-sly-template.dataTable="${ @ model }">
-  <div id="dataTable" data-path="${resource.path}" data-module="dataTableComponent" class="dataTable">
+  <div id="dataTable" data-path="${resource.path}" data-module="dataTableComponent" class="dataTable"
+    @click="onRowSelect">
     <p-datatable :value="data" striped-rows responsive-layout="scroll" :scrollable="true" scroll-height="415px">
       <p-column field="icon">
         <template #body="slotProps">
