@@ -95,7 +95,7 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  min-height: 300px;
+  min-height: 302px;
   margin-bottom: 1%;
 }
 
@@ -104,7 +104,7 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  min-height: 300px;
+  min-height: 302px;
   margin-bottom: 1%;
 }
 
@@ -113,7 +113,7 @@
   width: 100%;
   border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 302px;
+  min-height: 302px;
   margin-bottom: 1%;
 }
 
@@ -126,6 +126,7 @@
 .dataTable {
   width: 100%;
   margin-bottom: 1%;
+  min-height: 302px;
 }
 .p-datatable .p-datatable-tbody > tr {
   background: #343a40;
@@ -155,4 +156,9 @@
 
 .d3Graph {
   width: 100%;
+}
+/* //new dashborad css*/
+.section.hl-page-section.hl-grid.hl-cols-12 {
+  align-items: flex-start;
+  margin-top: -67px;
 }
