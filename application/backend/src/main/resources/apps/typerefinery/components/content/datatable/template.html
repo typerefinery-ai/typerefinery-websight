@@ -1,19 +1,23 @@
 <template data-sly-template.dataTable="${ @ model }">
-  <div id="dataTable" data-path="${resource.path}" data-module="dataTableComponent" class="dataTable">
-    <p-datatable :value="data" striped-rows responsive-layout="scroll" :scrollable="true" scroll-height="415px">
-      <p-column field="icon">
-        <template #body="slotProps">
-          <i :class="slotProps.data.icon" style="font-size: 1.5rem" :readonly="true" :cancel="false"></i>
-        </template>
-      </p-column>
-      <p-column field="datatype"></p-column>
-      <p-column field="description"></p-column>
-      <p-column field="status"></p-column>
-      <p-column field="date"></p-column>
-      <p-column>
-        <template #body="slotProps">
-          <span :class="'product-badge status-' + slotProps.data.color">{{slotProps.data.color}}</span>
-        </template>
+  <div 
+    id="dataTable" 
+    data-path="${resource.path}" 
+    data-module="dataTableComponent" 
+    class="dataTable"
+  >
+    <p-datatable 
+      :value="dataTableDefaultValues" 
+      striped-rows 
+      responsive-layout="scroll" 
+      :scrollable="true" 
+      scroll-height="415px"
+    >
+      <p-column 
+        v-for="col of dataTableDefaultHeaders" 
+        :field="col.field" 
+        :header="col.header" 
+        :key="col.field"
+      >
       </p-column>
     </p-datatable>
   </div>
