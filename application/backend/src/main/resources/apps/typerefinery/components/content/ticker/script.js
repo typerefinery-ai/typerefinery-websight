@@ -1,13 +1,12 @@
-function getDataFromDataSource(defaultJson, path, id, refreshTime) {
+function getDataFromDataSource(defaultData, path, id, refreshTime) {
 
     const fetchAndUpdateView = async () => {
-        const jsonValue = defaultJson;
         try {
             const response = await fetch(path).then(res => res.json());
 
-            !response.value ? updateTickerComponent(jsonValue, id) : updateTickerComponent(response, id);
+            !response.value ? updateTickerComponent(defaultData, id) : updateTickerComponent(response, id);
         } catch (error) {
-            updateTickerComponent(jsonValue, id);
+            updateTickerComponent(defaultData, id);
         }
     }
 
@@ -27,26 +26,26 @@ function getDataFromDataSource(defaultJson, path, id, refreshTime) {
     fetchAndUpdateView();
 }
 
-function updateTickerComponent(jsonValue, id) {
+function updateTickerComponent(tickerData, id) {
 
     const tickerHtmlWithJsonValue = `
             <div class="body">
-                 <div class="title">${jsonValue.title}</div>
+                 <div class="title">${tickerData.title}</div>
                  <div class="content">
                     <div class="value">
-                        ${jsonValue.value}
+                        ${tickerData.value}
                     </div>
                     <div class="indicator">
-                        <div class="icon pi pi-arrow-${jsonValue.indicatorType} ${jsonValue.indicatorType}"></div>
-                        <div class="icon pi pi-minus ${jsonValue.indicatorType}"></div>
+                        <div class="icon pi pi-arrow-${tickerData.indicatorType} ${tickerData.indicatorType}"></div>
+                        <div class="icon pi pi-minus ${tickerData.indicatorType}"></div>
                         <div class="indicator_value">
-                            <span>${jsonValue.indicatorValue}</span>
+                            <span>${tickerData.indicatorValue}</span>
                             <span class="hours">(24 hours)</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="icon ${jsonValue.icon}"></div>
+            <div class="icon ${tickerData.icon}"></div>
     `;
 
     const component = document.getElementById(id);
@@ -56,9 +55,7 @@ function updateTickerComponent(jsonValue, id) {
 
 function tickerComponentMounted(id, component) {
 
-
-
-    var defaultJson = {
+    var defaultData = {
         "title": component.getElementsByClassName("heading")[0].innerHTML,
         "value": component.getElementsByClassName("value")[0].innerHTML,
         "icon": component.getElementsByClassName("icon")[0].innerHTML,
@@ -67,10 +64,10 @@ function tickerComponentMounted(id, component) {
     }
 
     // getting the dataSource of the component
-    var dataSourcePath = component.getElementsByClassName("path")[0].innerHTML;
+    var dataSourcePath = component.getAttribute("data-source") || "";
 
     // getting the dataSource of the component
-    var dataSourceReferenceTime = component.getElementsByClassName("refresh-time")[0].innerHTML;
+    var dataSourceReferenceTime = component.getAttribute("data-source-refresh-time") || 5;
     // cast to number (ms)
     if (dataSourceReferenceTime) {
         dataSourceReferenceTime = Number(dataSourceReferenceTime) * 1000;
@@ -79,13 +76,14 @@ function tickerComponentMounted(id, component) {
     }
 
     // Rendering the template
-    getDataFromDataSource(defaultJson, dataSourcePath, id, dataSourceReferenceTime);
+    getDataFromDataSource(defaultData, dataSourcePath, id, dataSourceReferenceTime);
 
 }
 
 $(document).ready(function (e) {
     Array.from(document.querySelectorAll("#ticker")).forEach(component => {
         var componentDataPath = component.getAttribute("data-path");
+        console.log(component)
         component.setAttribute("id", componentDataPath);
         tickerComponentMounted(componentDataPath, component);
     })

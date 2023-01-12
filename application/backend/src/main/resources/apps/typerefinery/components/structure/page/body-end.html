@@ -1,8 +1,6 @@
 <script>
 
-  
   const otherVueModelObjects = {};
-  window.typerefinery = {};
   window.Vue = Vue;
   const { createApp, ref } = Vue;
 
@@ -15,7 +13,7 @@
     });
   }
 
-  function getAllVueRadioButtonComponents () {
+  function getAllVueRadioButtonComponents() {
     document.querySelectorAll('[data-module="vue-radioButton"]').forEach(_ => {
       let modelName = _.getAttribute("name");
       modelName.trim();
@@ -24,14 +22,14 @@
     });
   }
 
-  function getAllVueComponents() { 
+  function getAllVueComponents() {
     getAllVueCheckBoxComponents();
     getAllVueRadioButtonComponents();
   }
 
   getAllVueComponents();
 
-  
+
   const vueApp = Vue.createApp({
     data() {
       return {
@@ -136,74 +134,69 @@
   });
 
 
-  // component namespace
-  window.typerefinery.button = {};
-  (function (vueApp, button) {
-    console.log("____namespace____");
-
-    button.vueButtonIsClicked = () => {
-      console.log(this);
-      console.log("INSIDE METHOD")
+  const vueComponents = [
+    {
+      name: "p-button",
+      component: primevue.button
+    },
+    {
+      name: "p-accordion",
+      component: primevue.accordion
+    },
+    {
+      name: "p-accordiontab",
+      component: primevue.accordiontab
+    },
+    {
+      name: "p-inputtext",
+      component: primevue.button
+    },
+    {
+      name: "p-checkbox",
+      component: primevue.checkbox
+    },
+    {
+      name: "p-radiobutton",
+      component: primevue.radiobutton
+    },
+    {
+      name: "p-card",
+      component: primevue.card
+    },
+    {
+      name: "p-textarea",
+      component: primevue.textarea
+    },
+    {
+      name: "p-password",
+      component: primevue.password
+    },
+    {
+      name: "p-divider",
+      component: primevue.divider
+    },
+    {
+      name: "p-datatable",
+      component: primevue.datatable
+    },
+    {
+      name: "p-column",
+      component: primevue.column
+    },
+    {
+      name: "p-menubar",
+      component: primevue.menubar
+    },
+    {
+      name: "p-tree",
+      component: primevue.tree
     }
-    vueApp.component("p-button", primevue.button)
-  })(vueApp, window.typerefinery.button);
+  ]
 
 
-  window.typerefinery.inputText = {};
-  (function (vueApp, utils) {
-    utils.vueInputOnChange = (e) => {
-      console.log("On change.", e)
-    }
-    vueApp.component("p-inputtext", primevue.inputtext)
-
-  })(vueApp, window.typerefinery.inputText);
-
-  //Accordion page namespace
-  //  window.typerefinery.inputText = {};
-  (function (vueApp) {
-    vueApp.component("p-accordion", primevue.accordion)
-    vueApp.component("p-accordiontab", primevue.accordiontab)
-  })(vueApp);
-  // namespace for checkbox
-  (function (vueApp) {
-    vueApp.component("p-checkbox", primevue.checkbox)
-  })(vueApp);
-  // namespace for Radiobutton
-  (function (vueApp) {
-    vueApp.component("p-radiobutton", primevue.radiobutton)
-
-  })(vueApp);
-  // namespace for cards.
-  (function () {
-    vueApp.component("p-card", primevue.card);
-  })();
-
-  // text area
-  (function () {
-    vueApp.component("p-textarea", primevue.textarea);
-  })();
-
-  // password
-  (function () {
-    vueApp.component("p-password", primevue.password);
-    vueApp.component("p-divider", primevue.divider);
-  })();
-
-  // dropdown
-  (function () {
-    vueApp.component("p-dropdown", primevue.dropdown);
-  })();
-  //datatable
-  (function () {
-    vueApp.component("p-datatable", primevue.datatable);
-    vueApp.component("p-column", primevue.column);
-    vueApp.component("p-menubar", primevue.menubar);
-  })();
-
-  //Sidebar-tree
-  (function () {
-    vueApp.component("p-tree", primevue.tree,);
-  })();
+  vueComponents.forEach(vueComponent => {
+    vueApp.component(vueComponent.name, vueComponent.component);
+  });
 
 
   vueApp.mount('#app');
