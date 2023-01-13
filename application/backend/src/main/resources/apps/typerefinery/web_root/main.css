@@ -158,7 +158,22 @@
   width: 100%;
 }
 /* //new dashborad css*/
+
 .section.hl-page-section.hl-grid.hl-cols-12 {
   align-items: flex-start;
-  margin-top: -67px;
+  padding-top: 0px !important;
+  /* margin-top: -67px; */
 }
+
+
+.hl-container.hl-grid.hl-cols-12 {
+   align-items: baseline;
+ align-content: center;
+ width: 100%;
+ margin: auto;
+}
+
+section.hl-page-section.hl-grid.hl-cols-12 {
+padding-top: 0rem !important;
+}
+
