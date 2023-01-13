@@ -4,5 +4,5 @@
   "description": "ticker custom component",
   "title": "Column Ticker",
   "isContainer": true,
-  "allowedComponents": ["Typerefinery", "Howlite"]
+  "allowedComponents":"/apps/typerefinery/components/content/columnticker/smallticker"
 }
