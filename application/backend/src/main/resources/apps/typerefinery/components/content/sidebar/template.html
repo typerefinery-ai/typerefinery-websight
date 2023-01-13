@@ -1,6 +1,6 @@
 <template data-sly-template.sidebar="${ @ model }">
     <div class="tree">
-        <p-tree :value="sideBarNodes" @click="onNodeSelect">
+        <p-tree :value="sideBarNodes" v-model:expandedKeys="expandedKeys" @click="onNodeSelect">
         </p-tree>
     </div>
 </template>
