@@ -93,28 +93,30 @@
 .lineChart {
   background: #fff;
   width: 100%;
-  border: 1px solid #1d3853;
+
   margin: 0px 5px;
-  min-height: 302px;
-  margin-bottom: 1%;
+  min-height: 350px;
+  margin-bottom: 3rem;
 }
 
 .pieChart {
   background: #fff;
   width: 100%;
-  border: 1px solid #1d3853;
+  
   margin: 0px 5px;
-  min-height: 302px;
-  margin-bottom: 1%;
+  height: 350px;
+  /* margin-bottom: 1%; */
+  margin: auto;
+  margin-bottom: 3rem;
 }
 
 .barChart {
   background: #fff;
   width: 100%;
-  border: 1px solid #1d3853;
+  
   margin: 0px 5px;
-  min-height: 302px;
-  margin-bottom: 1%;
+  min-height: 350px;
+  margin-bottom: 3rem;
 }
 
 .navbar {
@@ -128,7 +130,7 @@
 .dataTable {
   width: 100%;
   margin-bottom: 1%;
-  min-height: 302px;
+  min-height: 350px;
 }
 .p-datatable .p-datatable-tbody > tr {
   background: #343a40;
@@ -155,7 +157,6 @@
 /* .hl-rows-md-1 {
   height: 661px !important;
 } */
-
 .d3Graph {
   width: 90% !important;
   margin: auto;
@@ -163,33 +164,27 @@
 }
 
 .hl-container.hl-grid.hl-cols-12 {
-    align-items: baseline;
-    align-content: center;
-    width: 100%;
-    margin: auto;
+  align-items: baseline;
+  align-content: center;
+  width: 100%;
+  margin: auto;
 }
 
 section.hl-page-section.hl-grid.hl-cols-12 {
   padding-top: 0rem !important;
   width: 100%;
+  padding-bottom: 0px;
 }
-
-.section.hl-page-section.hl-grid.hl-cols-12 {
-  align-items: flex-start;
-  padding-top: 0px !important;
-  /* margin-top: -67px; */
-}
-
 
 .hl-container.hl-grid.hl-cols-12 {
-   align-items: baseline;
- align-content: center;
- width: 100%;
- margin: auto;
+  align-items: baseline;
+  align-content: center;
+  width: 100%;
+  margin: auto;
 }
 
 section.hl-page-section.hl-grid.hl-cols-12 {
-padding-top: 0rem !important;
+  padding-top: 0rem !important;
 }
 
 
@@ -212,7 +207,9 @@ svg {
 
 h2.hl-title__heading.hl-title__heading--size-4 {
   margin-top: 25px;
+  margin-bottom: 10px;
 }
+
 .navbarLogo {
   margin-left: 20px;
 }

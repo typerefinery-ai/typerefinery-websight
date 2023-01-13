@@ -1,12 +1,8 @@
 
 .radarChart {
   background: #fff;
-  width: 100%;
-  border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 302px;
-  margin-bottom: 1%;
-}
-.radarChart .radarCanvas{
-  width: 500px !important;
+  min-height: 350px;
+  margin: auto;
+  margin-bottom: 3rem;
 }

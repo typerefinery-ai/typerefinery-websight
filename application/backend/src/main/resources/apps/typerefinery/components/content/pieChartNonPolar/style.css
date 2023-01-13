@@ -1,11 +1,7 @@
 .pieChartNonPolar {
   background: #fff;
   width: 100%;
-  border: 1px solid #1d3853;
   margin: 0px 5px;
-  height: 302px;
-  margin-bottom: 1%;
-}
-.pieChartNonPolar .pieCanvas{
-  width: 485px !important;
+  height: 350px;
+  margin-bottom: 3rem;
 }
