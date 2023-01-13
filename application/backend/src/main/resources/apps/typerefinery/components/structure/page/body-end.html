@@ -71,6 +71,9 @@
           { serial: "3", name: "Report 3", description: "Malware", status: "RiskIQ", date: "21 Dec, 2018", color: "TLP-WHITE", },
           { serial: "4", name: "Report 4", description: "UNC1151", status: "RiskIQ", date: "21 Dec, 2019", color: "TLP-WHITE", },
           { serial: "5", name: "Report 5", description: "HermetricWiper", status: "AlienVault", date: "05 Jun, 2017", color: "TLP-WHITE", },
+          { serial: "6", name: "Report 6", description: "UNC1151", status: "AlienVault", date: "01 Jun, 2020", color: "TLP-WHITE", },
+          { serial: "7", name: "Report 7", description: "Malware", status: "RiskIQ", date: "03 Jun, 2017", color: "TLP-WHITE", },
+          { serial: "8", name: "Report 8", description: "DiskKill", status: "RiskIQ", date: "05 Jun, 2018", color: "TLP-WHITE", },
         ],
         headerMenuItems: [
           {
@@ -88,6 +91,10 @@
             {field: 'description', header: 'Description'},
             {field: 'date', header: 'Date'}
         ],
+        expandedKeys: {
+          "1":  true,
+         "1-1": true
+        },
         ...otherVueModelObjects
       }
     },
