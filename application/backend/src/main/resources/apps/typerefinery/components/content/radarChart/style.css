@@ -1,6 +1,8 @@
+
 .radarChart {
-  width: 100%;
+  background: #fff;
   margin: 0px 5px;
-  height: 302px;
-  margin-bottom: 1%;
+  min-height: 350px;
+  margin: auto;
+  margin-bottom: 3rem;
 }

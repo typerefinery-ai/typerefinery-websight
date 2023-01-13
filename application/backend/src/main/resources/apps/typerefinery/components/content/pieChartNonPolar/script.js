@@ -68,7 +68,7 @@ function drawPieChartNonPolar(pieChartData, id) {
       plugins: {
         legend: {
           display: true,
-          position: "top",
+          position: "right",
           usePointStyle: true,
           labels: {
             color: "#ebedeb",

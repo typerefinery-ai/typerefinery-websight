@@ -35,35 +35,28 @@
       return {
         sideBarNodes: [
           {
-            "key": "1",
-            "label": "Menu",
-            "data": "Menu",
-            "icon": "pi pi-fw pi-inbox",
+            "key": "1-0",
+            "label": "Search",
+            "data": "Search",
+            "icon": "pi pi-search"
+          },
+          {
+            "key": "1-1",
+            "label": "Dashboard",
+            "data": "Dashboard",
+            "icon": "pi pi-fw pi-calendar",
             "children": [
-              {
-                "key": "1-0",
-                "label": "Search",
-                "data": "Search",
-                "icon": "pi pi-search"
-              },
-              {
-                "key": "1-1",
-                "label": "Dashboards",
-                "data": "Dashboards",
-                "icon": "pi pi-fw pi-calendar",
-                "children": [
-                  { "key": "2-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
-                  { "key": "2-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" }
-                ]
-              },
-              {
-                "key": "3-0",
-                "label": "Bookmarks",
-                "data": "Bookmarks",
-                "icon": "pi pi-bookmark"
-              }
+              { "key": "2-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
+              { "key": "2-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" }
             ]
+          },
+          {
+            "key": "3-0",
+            "label": "Bookmarks",
+            "data": "Bookmarks",
+            "icon": "pi pi-bookmark"
           }
+
         ],
         dataTableDefaultValues: [
           { serial: "1", name: "Report 1", description: "Penquins.", status: "RiskIQ", date: "12 Jan, 2021", color: "TLP-WHITE" },
@@ -135,7 +128,7 @@
     },
     {
       name: "p-inputtext",
-      component: primevue.button
+      component: primevue.inputtext
     },
     {
       name: "p-checkbox",
