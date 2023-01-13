@@ -21,11 +21,6 @@
         "label": "Name",
         "required": true
       },
-      "fieldClass": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "cls",
-        "label": "Style"
-      },
       "inputType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputType",
@@ -43,10 +38,14 @@
         },
         "number": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Number",
-          "value": "number"
+          "label": "Number",      
+          "value": "number"      
         }
-      },
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
       "inputSize": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputSize",
@@ -54,18 +53,18 @@
         "small": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Small",
-          "value": "p-inputtext-sm"
+          "value": "p-inputtext-s"
         },
         "normal": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Normal",
-          "value": "",
-          "selected": true
+          "value": ""
         },
         "large": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Large",
-          "value": "p-inputtext-lg"
+          "label": "Medium",
+          "value": "p-inputtext-m",
+          "selected": true
         }
       }
     }
