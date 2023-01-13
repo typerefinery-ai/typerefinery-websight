@@ -1,6 +1,8 @@
 .p-tree {
   background-color: #343a40;
-  height: 64.5rem;
+  height: 100vh;
+  border-radius: 0px;
+  border-color: #343a40;
 }
 .p-treenode-label {
   color: white;
@@ -8,6 +10,3 @@
 .tree {
   width: 100%;
 }
-/* [class$="p-treenode"] {
-  background: yellow;
-} */

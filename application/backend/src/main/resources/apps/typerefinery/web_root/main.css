@@ -122,6 +122,8 @@
   background: #343a40;
   color: #fff !important;
   margin-top: 0rem;
+  border-radius: 0px;
+  border-color: #343a40;
 }
 .dataTable {
   width: 100%;
@@ -154,5 +156,44 @@
 } */
 
 .d3Graph {
+  width: 90% !important;
+  margin: auto;
+  margin-top: 2rem !important;
+}
+
+.hl-container.hl-grid.hl-cols-12 {
+    align-items: baseline;
+    align-content: center;
+    width: 100%;
+    margin: auto;
+}
+
+section.hl-page-section.hl-grid.hl-cols-12 {
+  padding-top: 0rem !important;
   width: 100%;
+  padding-bottom: 0px;
+}
+
+div#dataTable {
+  width: 90%;
+  margin: auto;
+  margin-top: 2rem !important;
+}
+
+svg {
+  width: 100% !important;
+  margin: auto;
+}
+
+.hl-container.hl-grid {
+  display: flex;
+  align-self: flex-start;
+}
+
+
+h2.hl-title__heading.hl-title__heading--size-4 {
+  margin-top: 25px;
+}
+.navbarLogo {
+  margin-left: 20px;
 }
