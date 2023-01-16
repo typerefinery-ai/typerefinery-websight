@@ -101,7 +101,6 @@
 .lineChart {
   background: #fff;
   width: 100%;
-
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
@@ -110,10 +109,8 @@
 .pieChart {
   background: #fff;
   width: 100%;
-  
   margin: 0px 5px;
-  height: 350px;
-  /* margin-bottom: 1%; */
+  min-height: 350px;
   margin: auto;
   margin-bottom: 3rem;
 }
@@ -121,7 +118,6 @@
 .barChart {
   background: #fff;
   width: 100%;
-  
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
@@ -153,14 +149,6 @@
   background: white;
   color: #343a40;
 }
-
-/* This is used to hide the datatable header */
-/* th {
-  display: none !important;
-} */
-/* .p-datatable.p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table > .p-datatable-thead {
-  background-color: green !important;
-} */
 
 /* .hl-rows-md-1 {
   height: 661px !important;
