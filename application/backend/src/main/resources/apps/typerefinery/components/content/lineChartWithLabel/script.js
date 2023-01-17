@@ -17,8 +17,6 @@ function labelLineChartComponentMounted(component, id) {
       "Nov 2021",
       "Dec 2021",
     ],
-    dataSetBorderColor: "#0099DE",
-    canvasBackgroundColor: "#343a40",
   };
   const fetchData = async () => {
     try {
@@ -30,25 +28,19 @@ function labelLineChartComponentMounted(component, id) {
   };
   fetchData();
 }
-
 function drawLabelLineChart(lineChartData, id) {
   const {
     labels,
     labelName,
     chartData,
-    dataSetBorderColor = "#0099DE",
-    canvasBackgroundColor = "#343a40",
   } = lineChartData;
-
   const ctx = document.getElementById(`${id}-lineChart`).getContext("2d");
-
   // Linear background for the chart.
   const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
   chartBackgroundGradientColor.addColorStop(0.2, "#1c92d2");
   chartBackgroundGradientColor.addColorStop(0.4, "rgba(27, 145, 209, 0.6)");
   chartBackgroundGradientColor.addColorStop(0.6, "rgba(27, 145, 209, 0.4)");
   chartBackgroundGradientColor.addColorStop(1, "rgba(27, 145, 209, 0)");
-
   // Plugin to update the canvas Background.
   const plugin = {
     id: "customCanvasBackgroundColor",
@@ -61,31 +53,28 @@ function drawLabelLineChart(lineChartData, id) {
       ctx.restore();
     },
   };
-
   // Line chart
   new Chart(ctx, {
     type: "line",
-  
     data: {
       labels: labels,
       datasets: [
         {
           label: labelName,
           data: chartData,
-          fill: true,
-          borderColor: dataSetBorderColor,
+          fill: false,
           tension: 0.3,
-          backgroundColor: chartBackgroundGradientColor,
         },
       ],
     },
     plugins: [ChartDataLabels,plugin],
     options: {
       elements: {
+        line:{borderColor: "#0099DE",},
         point: {
           borderWidth: 1,
+          backgroundColor:"#0099DE",
           radius: 10,
-  
         },
       },
       plugins: {       
@@ -93,7 +82,16 @@ function drawLabelLineChart(lineChartData, id) {
           display: false,
         },
         datalabels: {
-          color: 'white',
+           labels: {
+            title: {
+              font: {
+                weight: 'bold'
+              }
+            },
+            value: {
+              color: 'white'
+            }
+          },
         },
     },
       scales: {
@@ -102,7 +100,7 @@ function drawLabelLineChart(lineChartData, id) {
             display: false,
           },
           ticks: {
-            color: "white",
+            color: "#5D7183",
           },
         },
         y: {
@@ -111,26 +109,13 @@ function drawLabelLineChart(lineChartData, id) {
           },
           ticks: {
             color: "#5D7183",
-            // font: {
-            //     size: 13
-            // }
           },
         },
       },
-      // customCanvasBackgroundColor: {
-      //   color: canvasBackgroundColor,
-      // },
-      interaction: {
-        intersect: false,
-      },
-      radius: 0,
     },
-    // plugins: [plugin],
   });
 }
-
 $(document).ready(function (e) {
-  console.log("dfghj")
   Array.from(document.querySelectorAll("#lineChartLabelContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
