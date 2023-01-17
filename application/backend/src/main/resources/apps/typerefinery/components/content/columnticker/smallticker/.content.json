@@ -2,6 +2,5 @@
   "group": "Typerefinery",
   "sling:resourceType": "ws:Component",
   "description": "This is Ticker component for Typerefinery",
-  "title": "Small Ticker",
-  "isContainer": true
+  "title": "Small Ticker"
 }

@@ -101,27 +101,28 @@
 .lineChart {
   background: #fff;
   width: 100%;
-
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
 }
 
 .pieChart {
-  background: #fff;
-  width: 100%;
-  
   margin: 0px 5px;
-  height: 350px;
-  /* margin-bottom: 1%; */
+  min-height: 400px;
   margin: auto;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+}
+
+.pieCanvas {
+  display: block !important;
+  box-sizing: border-box !important;
+  height: 530px !important;
+  width: 320px !important;
 }
 
 .barChart {
   background: #fff;
   width: 100%;
-  
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
@@ -153,14 +154,6 @@
   background: white;
   color: #343a40;
 }
-
-/* This is used to hide the datatable header */
-/* th {
-  display: none !important;
-} */
-/* .p-datatable.p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table > .p-datatable-thead {
-  background-color: green !important;
-} */
 
 /* .hl-rows-md-1 {
   height: 661px !important;
@@ -195,7 +188,6 @@ section.hl-page-section.hl-grid.hl-cols-12 {
   padding-top: 0rem !important;
 }
 
-
 div#dataTable {
   width: 90%;
   margin: auto;
@@ -211,7 +203,6 @@ svg {
   display: flex;
   align-self: flex-start;
 }
-
 
 h2.hl-title__heading.hl-title__heading--size-4 {
   margin-top: 25px;
