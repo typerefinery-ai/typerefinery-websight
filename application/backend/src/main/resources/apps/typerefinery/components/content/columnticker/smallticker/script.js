@@ -41,8 +41,6 @@ function smallTickerComponentMounted(id, component, bgColor, textColor) {
     value: component.getElementsByClassName("ticker-value")[0].innerHTML,
     title: component.getElementsByClassName("ticker-title")[0].innerHTML,
   };
-
-  console.log("jsonValue", defaultJson);
   // getting the dataSource of the component
   var dataSourcePath =
     component.getElementsByClassName("ticker-path")[0].innerHTML;
