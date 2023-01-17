@@ -10,6 +10,7 @@
       striped-rows 
       responsive-layout="scroll" 
       scroll-height="700px"
+      @click="onRowSelect"
     >
       <p-column 
         v-for="col of dataTableDefaultHeaders" 

@@ -36,22 +36,28 @@
         sideBarNodes: [
           {
             "key": "1-0",
+            "label": "Dashboard",
+            "data": "Dashboard",
+            "icon": "pi pi-qrcode"
+          },
+          {
+            "key": "2-0",
             "label": "Search",
             "data": "Search",
             "icon": "pi pi-search"
           },
           {
-            "key": "1-1",
+            "key": "2-1",
             "label": "Dashboard",
             "data": "Dashboard",
             "icon": "pi pi-fw pi-calendar",
             "children": [
-              { "key": "2-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
-              { "key": "2-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" }
+              { "key": "3-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
+              { "key": "3-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" }
             ]
           },
           {
-            "key": "3-0",
+            "key": "4-0",
             "label": "Bookmarks",
             "data": "Bookmarks",
             "icon": "pi pi-bookmark"
@@ -79,14 +85,14 @@
           }
         ],
         dataTableDefaultHeaders: [
-            {field: 'serial', header: 'Type'},
-            {field: 'name', header: 'Type'},
-            {field: 'description', header: 'Description'},
-            {field: 'date', header: 'Date'}
+          { field: 'serial', header: 'Sr. No.' },
+          { field: 'name', header: 'Type' },
+          { field: 'description', header: 'Description' },
+          { field: 'date', header: 'Date' }
         ],
         expandedKeys: {
-          "1":  true,
-         "1-1": true
+          "1": true,
+          "1-1": true
         },
         ...otherVueModelObjects
       }
@@ -94,21 +100,36 @@
     methods: {
       onNodeSelect(e) {
         const sideBarRoutes = {
-          "Feeds" : "feeds.html",
-          "Search" : "dashboard.html",
-          "Trends" : "trends.html",
-          "Bookmarks" : "bookmarks.html",
+          "Dashboard": "dashboard.html",
+          "Feeds": "feeds.html",
+          "Search": "dashboard.html",
+          "Trends": "trends.html",
+          "Bookmarks": "bookmarks.html",
           "Search": "search.html"
         }
         const selectedNodeName = e.target.innerText || "";
-        if(selectedNodeName.trim().length === 0 || !sideBarRoutes[selectedNodeName]) {
-          console.log("RETURN")
+        if (selectedNodeName.trim().length === 0 || !sideBarRoutes[selectedNodeName]) {
           return;
         }
         window.location.href = sideBarRoutes[selectedNodeName];
       },
       onRowSelect(event) {
-        // window.location.href = "url";
+        const dataTableRowType = {
+          "Report 1": "dashboard.html",
+          "Report 2": "feeds.html",
+          "Report 3": "dashboard.html",
+          "Report 4": "trends.html",
+          "Report 5": "bookmarks.html",
+          "Report 6": "search.html",
+          "Report 7": "search.html",
+          "Report 8": "search.html"
+        }
+        const selectedRowType = event.target.innerText || "";
+        console.log("hiii", selectedRowType);
+        if (selectedRowType.trim().length === 0 || !dataTableRowType[selectedRowType]) {
+          return;
+        }
+        window.location.href = dataTableRowType[selectedRowType];
       },
     }
   });
