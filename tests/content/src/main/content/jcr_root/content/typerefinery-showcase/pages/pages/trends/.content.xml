@@ -12,7 +12,7 @@
                 </container1>
                 <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/structure/container" lgColSize="10" mdColSize="10" smColSize="10">
                     <container_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
-                        <header jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/header"/>
+                        <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/breadcrumbs"/>
                     </container_1_1>
                     <container_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
                         <title_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/title" title="Trends" />

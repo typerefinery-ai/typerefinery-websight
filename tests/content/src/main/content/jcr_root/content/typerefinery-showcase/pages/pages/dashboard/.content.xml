@@ -11,6 +11,9 @@
           <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/sidebar"/>
         </container1>
         <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/structure/container" lgColSize="10" mdColSize="10" smColSize="10">
+          <container_1_11 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
+            <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/breadcrumbs"/>
+          </container_1_11>
           <container_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
             <container_1_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
               <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/content/ticker" />
