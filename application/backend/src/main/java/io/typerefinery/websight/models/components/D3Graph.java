@@ -17,6 +17,6 @@ public class D3Graph {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/d3Graph/dataSource_1.txt")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/d3Graph/dataSource_1.txt")
     public String graphData;
 }

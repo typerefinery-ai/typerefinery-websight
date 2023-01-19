@@ -18,6 +18,6 @@ public class LineChartWithLabel {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/lineChartWithLabel/dataSource_1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/lineChartWithLabel/dataSource_1.json")
     public String dataSource;
 }

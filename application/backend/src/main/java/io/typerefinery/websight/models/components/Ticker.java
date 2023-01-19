@@ -50,7 +50,7 @@ public class Ticker {
 
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/ticker/dataSource_1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/widgets/ticker/dataSource_1.json")
     public String dataSource;
 
     

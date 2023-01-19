@@ -38,6 +38,6 @@ public class SmallTicker {
 
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/columnticker/smallticker/dataSource_1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/widgets/columnticker/smallticker/dataSource_1.json")
     public String dataSource;
 }

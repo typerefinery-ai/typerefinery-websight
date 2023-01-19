@@ -1,5 +1,6 @@
 <!--/*
-    Copyright (C) 2022 Typerefinery.ai
+    Copyright (C) 2022 Dynamic Solutions
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -12,27 +13,24 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.header="${ @ model}">
+<template data-sly-template.header="${ @ model }">
     <sly data-sly-test.image="${model.image}"></sly>
     <sly data-sly-test.navigation="${model.navigation}"></sly>
     <sly data-sly-test.cta="${model.cta}"></sly>
 
     <sly data-sly-test="${image || navigation || cta}">
-        <nav class="hl-header">
+        <nav class="hl-header" style="background: #343a40; color: #FFF !important; margin-top:0rem">
             <div class="hl-header__wrapper">
                 <div class="hl-header__top-bar">
-                    <sly data-sly-test="${image}"
-                         data-sly-use.template="/libs/howlite/components/image/template.html"
-                         data-sly-call="${template.simpleImage @ defaultImage=image.defaultImage, alt=image.alt, showLink=image.showLink, url=image.url, openInNewTab=image.openInNewTab, classes='hl-header__logo-image'}">
+                    <sly data-sly-test="${image}" data-sly-use.template="/libs/howlite/components/image/template.html"
+                        data-sly-call="${template.simpleImage @ defaultImage=image.defaultImage, alt=image.alt, showLink=image.showLink, url=image.url, openInNewTab=image.openInNewTab, classes='hl-header__logo-image'}">
                     </sly>
-                    <p>sdfghjk</p>
                     <sly data-sly-test="${navigation}"
-                         data-sly-use.template="/libs/howlite/components/navigation/template.html"
-                         data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
+                        data-sly-use.template="/libs/howlite/components/navigation/template.html"
+                        data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
                     </sly>
-                    <sly data-sly-test="${cta}"
-                         data-sly-use.template="/libs/howlite/components/cta/template.html"
-                         data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--nav'}">
+                    <sly data-sly-test="${cta}" data-sly-use.template="/libs/howlite/components/cta/template.html"
+                        data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--nav'}">
                     </sly>
                     <div class="hl-header__hamburger">
                         <i class="hl-icon icon-menu hl-header__hamburger-open-icon" tabindex="0"></i>
@@ -40,14 +38,14 @@
                     </div>
                 </div>
                 <div class="hl-header__mobile-menu">
-                    <div data-sly-test="${model.mobileMenuTitle}" class="hl-header__ds-tag">${model.mobileMenuTitle}</div>
+                    <div data-sly-test="${model.mobileMenuTitle}" class="hl-header__ds-tag">${model.mobileMenuTitle}
+                    </div>
                     <sly data-sly-test="${navigation}"
-                         data-sly-use.template="/libs/howlite/components/navigation/template.html"
-                         data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
+                        data-sly-use.template="/libs/howlite/components/navigation/template.html"
+                        data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
                     </sly>
-                    <sly data-sly-test="${cta}"
-                         data-sly-use.template="/libs/howlite/components/cta/template.html"
-                         data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--primary'}">
+                    <sly data-sly-test="${cta}" data-sly-use.template="/libs/howlite/components/cta/template.html"
+                        data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--primary'}">
                     </sly>
                 </div>
             </div>
