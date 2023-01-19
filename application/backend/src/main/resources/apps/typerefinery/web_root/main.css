@@ -108,7 +108,6 @@
 .lineChartLabel{
   background: #fff;
   width: 100%;
-
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
@@ -144,6 +143,9 @@
   margin-top: 0rem;
   border-radius: 0px;
   border-color: #343a40;
+}
+.p-menuitem-text{
+  color: white !important;
 }
 .dataTable {
   width: 100%;
@@ -225,4 +227,7 @@ h2.hl-title__heading.hl-title__heading--size-4 {
 .breadcrumb {
   width: 100%; 
   height: 65px;
+}
+.p-breadcrumb.p-component{
+  background: #343a40 !important;
 }
