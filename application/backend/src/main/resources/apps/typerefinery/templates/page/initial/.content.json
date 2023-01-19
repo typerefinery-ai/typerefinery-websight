@@ -6,7 +6,7 @@
     "rootcontainer": {
       "sling:resourceType": "typerefinery/components/structure/rootcontainer/fixedrootcontainer",
       "header": {
-        "sling:resourceType": "typerefinery/components/content/navbar"
+        "sling:resourceType": "typerefinery/components/structure/navbar"
       },
       "container": {
         "sling:resourceType": "typerefinery/components/structure/container"
