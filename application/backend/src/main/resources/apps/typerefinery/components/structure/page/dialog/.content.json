@@ -1,0 +1,56 @@
+{
+    "tabs": {
+        "generalTab": {
+            "icon": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "icon",
+                "name": "icon",
+                "required": true
+            }
+        },
+        "metadataTab": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "Metadata",
+            "title": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Property title",
+                "name": "title"
+            },
+            "description": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Property description",
+                "name": "description"
+            },
+            "ogType": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "label": "Property og:type",
+                "name": "ogType",
+                "article": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "article",
+                    "value": "article"
+                },
+                "website": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "website",
+                    "value": "website"
+                }
+            },
+            "ogUrl": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Property og:url",
+                "name": "ogUrl"
+            },
+            "ogDescription": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Property og:description",
+                "name": "ogDescription"
+            },
+            "ogTitle": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Property og:title",
+                "name": "ogTitle"
+            }
+        }
+    }
+}

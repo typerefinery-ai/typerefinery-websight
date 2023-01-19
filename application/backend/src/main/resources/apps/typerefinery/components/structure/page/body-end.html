@@ -1,34 +1,7 @@
 <script>
 
-  const otherVueModelObjects = {};
-  window.Vue = Vue;
   const { createApp, ref } = Vue;
-  
-  function getAllVueCheckBoxComponents() {
-    document.querySelectorAll('[data-module="vue-checkBox"]').forEach(_ => {
-      let modelName = _.getAttribute("value");
-      modelName.trim();
-      _.setAttribute("v-model", modelName);
-      otherVueModelObjects[modelName] = "";
-    });
-  }
-
-  function getAllVueRadioButtonComponents() {
-    document.querySelectorAll('[data-module="vue-radioButton"]').forEach(_ => {
-      let modelName = _.getAttribute("name");
-      modelName.trim();
-      _.setAttribute("v-model", modelName);
-      otherVueModelObjects[modelName] = "";
-    });
-  }
-
-  function getAllVueComponents() {
-    getAllVueCheckBoxComponents();
-    getAllVueRadioButtonComponents();
-  }
-
-  getAllVueComponents();
-
+  const vueData = window.Typerefinery.Components.getComponentData();
 
   const vueApp = Vue.createApp({
     data() {
@@ -90,10 +63,6 @@
           { field: 'description', header: 'Description' },
           { field: 'date', header: 'Date' }
         ],
-        expandedKeys: {
-          "1": true,
-          "1-1": true
-        },
         sideBarRoutes: {
           "Dashboard": "dashboard.html",
           "Feeds": "feeds.html",
@@ -105,7 +74,7 @@
           home: {},
           items: []
         },
-        ...otherVueModelObjects
+        ...vueData
       }
     }, 
     created() {
