@@ -221,3 +221,8 @@ h2.hl-title__heading.hl-title__heading--size-4 {
 .navbarLogo {
   margin-left: 20px;
 }
+
+.breadcrumb {
+  width: 100%; 
+  height: 65px;
+}

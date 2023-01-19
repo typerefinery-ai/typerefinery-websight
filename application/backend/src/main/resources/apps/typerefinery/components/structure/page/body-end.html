@@ -3,7 +3,7 @@
   const otherVueModelObjects = {};
   window.Vue = Vue;
   const { createApp, ref } = Vue;
-
+  
   function getAllVueCheckBoxComponents() {
     document.querySelectorAll('[data-module="vue-checkBox"]').forEach(_ => {
       let modelName = _.getAttribute("value");
@@ -52,8 +52,8 @@
             "data": "Activities",
             "icon": "pi pi-fw pi-calendar",
             "children": [
-              { "key": "3-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Menaces" },
-              { "key": "3-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Arsenal" }
+              { "key": "3-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Feeds" },
+              { "key": "3-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Trends" }
             ]
           },
           {
@@ -94,23 +94,80 @@
           "1": true,
           "1-1": true
         },
-        ...otherVueModelObjects
-      }
-    },
-    methods: {
-      onNodeSelect(e) {
-        const sideBarRoutes = {
+        sideBarRoutes: {
           "Dashboard": "dashboard.html",
           "Feeds": "feeds.html",
           "Trends": "trends.html",
           "Bookmarks": "bookmarks.html",
           "Search": "search.html"
+        },
+        breadCrumbsItems: {
+          home: {},
+          items: []
+        },
+        ...otherVueModelObjects
+      }
+    }, 
+    created() {
+      // calculate based on the href.
+      const paths = window.location.pathname.split("/");
+      const path = paths[paths.length - 1];
+      const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
+      const temp = arr.filter(_ => _[1] === path);
+      if (temp.length > 0 || path.length === 0) {
+        const key = temp[0][0];
+        const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
+        for(let i = 0; i < sideBarNodeArr.length; i++) {
+          const item = sideBarNodeArr[i][1];
+          if(item.data === key) {
+            this.breadCrumbsItems = {
+              home: {
+                icon: item.icon,
+                to: this.sideBarRoutes[item.data]
+              },
+              items: [
+                { label: item.data }
+              ]
+            }
+            return;
+          }
+          const childrenRecursionHelper = (pre, list) => {
+            for (let i = 0; i < list.length; i++) {
+              const item = list[i];
+              if (item.data === key) {
+                this.breadCrumbsItems = {
+                  home: {
+                    icon: item.icon,
+                    to: this.sideBarRoutes[item.data]
+                  },
+                  items: [
+                    ...pre,
+                    { label: item.data }
+                  ]
+                }
+                return;
+              }
+              if(item.children) {
+                childrenRecursionHelper([...pre, {label: item.data}], item.children);
+                return;
+              }
+              
+            }
+          }
+          if(item.children){
+            childrenRecursionHelper([{ label: item.data }], item.children);
+          }
         }
+        
+      }
+    },
+    methods: {
+      onNodeSelect(e) {
         const selectedNodeName = e.target.innerText || "";
-        if (selectedNodeName.trim().length === 0 || !sideBarRoutes[selectedNodeName]) {
+        if (selectedNodeName.trim().length === 0 || !this.sideBarRoutes[selectedNodeName]) {
           return;
         }
-        window.location.href = sideBarRoutes[selectedNodeName];
+        window.location.href = this.sideBarRoutes[selectedNodeName];
       },
       onRowSelect(event) {
         const dataTableRowType = {
@@ -190,6 +247,10 @@
     {
       name: "p-tree",
       component: primevue.tree
+    },
+    {
+      name: "p-breadcrumb",
+      component: primevue.breadcrumb
     }
   ]
 
@@ -199,6 +260,10 @@
   });
 
 
-  vueApp.mount('#app');
+  const router = VueRouter.createRouter({
+    history: VueRouter.createWebHashHistory(),
+    routes: [{ path: "/" }]
+  });
+  vueApp.use(router).mount('#app');
 
 </script>

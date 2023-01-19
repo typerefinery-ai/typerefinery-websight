@@ -22,6 +22,9 @@
                 <container_1 jcr:primaryType="nt:unstructured"
                     sling:resourceType="/apps/typerefinery/components/structure/container"
                     lgColSize="10" mdColSize="16" smColSize="24">
+                    <container_1_11 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
+                        <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/breadcrumbs"/>
+                    </container_1_11>
                     <title_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/title" title="Search" />
                     <container_1_1 jcr:primaryType="nt:unstructured"
                         sling:resourceType="/apps/typerefinery/components/structure/container"
