@@ -19,7 +19,7 @@ const paths = {
     'ComponentOverlay_rootcontainer/maincontainer/pagesection/cardslist',
   cardItem: 'ComponentOverlay_rootcontainer/maincontainer/pagesection2/card'
 };
-describe('Typerefinery MainComponent', () => {
+describe('Card Component', () => {
   beforeEach(() => {
     cy.login();
   });
