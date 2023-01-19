@@ -16,25 +16,9 @@
 <link href="https://unpkg.com/primevue/resources/primevue.min.css" rel="stylesheet">
 <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet">
 <link href="https://unpkg.com/primeflex@^3/primeflex.min.css" rel="stylesheet" />
-
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://unpkg.com/primevue@^3/core/core.min.js"></script>
-<script src="https://unpkg.com/primevue/button/button.min.js"></script>
-<script src="https://unpkg.com/primevue/inputtext/inputtext.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/accordion/accordion.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/accordiontab/accordiontab.min.js"></script>
 <script src="https://unpkg.com/primevue/core/core.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/card/card.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/checkbox/checkbox.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/radiobutton/radiobutton.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/textarea/textarea.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/password/password.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/divider/divider.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/skeleton/skeleton.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/menubar/menubar.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/tree/tree.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/datatable/datatable.min.js"></script>
-<script src="https://unpkg.com/primevue@^3/column/column.min.js"></script>
 
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.6.2.min.js"
@@ -50,11 +34,35 @@
 <!-- Css Integration For All Components and Pages-->
 <link rel="stylesheet" href="/apps/typerefinery/web_root/main.css" type="text/css">
 
+<!-- Accordion Component -->
+<sly data-sly-include="/apps/typerefinery/components/content/accordion/head-libs.html"></sly>
+
+<!-- Card Component -->
+<sly data-sly-include="/apps/typerefinery/components/content/card/head-libs.html"></sly>
+
+<!-- Datatable Component -->
+<sly data-sly-include="/apps/typerefinery/components/content/datatable/head-libs.html"></sly>
+
 <!-- Form Component -->
 <sly data-sly-include="/apps/typerefinery/components/forms/form/head-libs.html"></sly>
 
 <!-- Button Component -->
 <sly data-sly-include="/apps/typerefinery/components/forms/button/head-libs.html"></sly>
+
+<!-- Checkbox Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/checkbox/head-libs.html"></sly>
+
+<!-- InputText Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/inputtext/head-libs.html"></sly>
+
+<!-- Password Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/password/head-libs.html"></sly>
+
+<!-- RadioButton Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/radio/head-libs.html"></sly>
+
+<!-- Textarea Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/textarea/head-libs.html"></sly>
 
 <!-- Column Ticker -->
 <sly data-sly-include="/apps/typerefinery/components/widgets/columnTicker/head-libs.html"></sly>
@@ -69,11 +77,7 @@
 <sly data-sly-include="/apps/typerefinery/components/widgets/ticker/head-libs.html"></sly>
 
 <!-- Chart JS CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
-    integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
-    crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
+<sly data-sly-include="/apps/typerefinery/components/graphs/head-libs.html"></sly>
 
 <!-- Bar Chart Component -->
 <sly data-sly-include="/apps/typerefinery/components/graphs/barChart/head-libs.html"></sly>
@@ -98,6 +102,9 @@
 
 <!-- X Axis Bar Chart Component -->
 <sly data-sly-include="/apps/typerefinery/components/graphs/xAxisBarChart/head-libs.html"></sly>
+
+<!-- Navbar Component -->
+<sly data-sly-include="/apps/typerefinery/components/structure/navbar/head-libs.html"></sly>
 
 <!-- SideBar Component-->
 <sly data-sly-include="/apps/typerefinery/components/structure/sidebar/head-libs.html"></sly>
