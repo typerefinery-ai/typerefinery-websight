@@ -10,12 +10,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
+
+<!-- Primevue StyleSheet And Its Components CDNs -->
 <link href="https://unpkg.com/primevue/resources/themes/lara-light-indigo/theme.css" rel="stylesheet">
 <link href="https://unpkg.com/primevue/resources/primevue.min.css" rel="stylesheet">
 <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet">
-
 <link href="https://unpkg.com/primeflex@^3/primeflex.min.css" rel="stylesheet" />
-
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://unpkg.com/primevue@^3/core/core.min.js"></script>
@@ -33,14 +33,13 @@
 <script src="https://unpkg.com/primevue@^3/skeleton/skeleton.min.js"></script>
 <script src="https://unpkg.com/primevue@^3/menubar/menubar.min.js"></script>
 <script src="https://unpkg.com/primevue@^3/tree/tree.min.js"></script>
-
-
 <script src="https://unpkg.com/primevue@^3/datatable/datatable.min.js"></script>
 <script src="https://unpkg.com/primevue@^3/column/column.min.js"></script>
 
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.6.2.min.js"
-    integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+    integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous">
+</script>
 
 <!-- Roboto Slab Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,82 +47,60 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
-<!-- Ticker component-->
-<link rel="stylesheet" href="/apps/typerefinery/components/widgets/ticker/style.css">
-<script src="/apps/typerefinery/components/widgets/ticker/script.js"></script>
-<!-- Column Ticker -->
-<script src="/apps/typerefinery/components/widgets/columnTicker/smallTicker/script.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/widgets/columnTicker/columnstyle.css">
-
-<!-- Form Component -->
-<script src="/apps/typerefinery/components/structure/form/script.js"></script>
-
-<!-- Css Integration -->
+<!-- Css Integration For All Components and Pages-->
 <link rel="stylesheet" href="/apps/typerefinery/web_root/main.css" type="text/css">
 
-<!-- Map Component -->
-<script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
-<link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />
-<script src="/apps/typerefinery/components/widgets/map/script.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/widgets/map/style.css" />
+<!-- Form Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/form/head-libs.html"></sly>
+
+<!-- Button Component -->
+<sly data-sly-include="/apps/typerefinery/components/forms/button/head-libs.html"></sly>
+
+<!-- Column Ticker -->
+<sly data-sly-include="/apps/typerefinery/components/widgets/columnTicker/head-libs.html"></sly>
 
 <!-- LeafletMap -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-<script src="/apps/typerefinery/components/widgets/leafletMap/script.js"></script>
-<script src="/apps/typerefinery/components/widgets/leafletMap/defaultLeafletMapCoordinates.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/widgets/leafletMap/style.css" />
+<sly data-sly-include="/apps/typerefinery/components/widgets/leafletMap/head-libs.html"></sly>
 
+<!-- Map Component -->
+<sly data-sly-include="/apps/typerefinery/components/widgets/map/head-libs.html"></sly>
+
+<!-- Ticker component-->
+<sly data-sly-include="/apps/typerefinery/components/widgets/ticker/head-libs.html"></sly>
 
 <!-- Chart JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script
-      src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
-      integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-
-
-<!-- Button Component -->
-<script src="/apps/typerefinery/components/forms/button/script.js"></script>
-
-<!-- Line Chart Component -->
-<script src="/apps/typerefinery/components/graphs/lineChart/script.js"></script>
-<!-- Line chart with label compoenent -->
-<script src="/apps/typerefinery/components/graphs/lineChartWithLabel/script.js"></script>
-
-<!-- Pie Chart Polar Component -->
-<script src="/apps/typerefinery/components/graphs/pieChart/script.js"></script>
-
-<!-- Pie Chart Non Polar Component -->
-<script src="/apps/typerefinery/components/graphs/pieChartNonPolar/script.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/graphs/pieChartNonPolar/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+    integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
 
 <!-- Bar Chart Component -->
-<script src="/apps/typerefinery/components/graphs/barChart/script.js"></script>
-
-
-<!-- Radar Chart Component -->
-<script src="/apps/typerefinery/components/graphs/radarChart/script.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/graphs/radarChart/style.css">
-
-<!-- X Axis Bar Chart Component -->
-<script src="/apps/typerefinery/components/graphs/xAxisBarChart/script.js"></script>
-<link rel="stylesheet" href="/apps/typerefinery/components/graphs/xAxisBarChart/style.css" />
-
-
-<!-- SideBar Component-->
-<link rel="stylesheet" href="/apps/typerefinery/components/structure/sidebar/sidebar.css">
-
-<!-- d3 graph script -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/webcola@3.4.0/WebCola/cola.js"></script>
+<sly data-sly-include="/apps/typerefinery/components/graphs/barChart/head-libs.html"></sly>
 
 <!-- D3Graph component -->
-<script src="/apps/typerefinery/components/graphs/d3Graph/script.js"></script>
+<sly data-sly-include="/apps/typerefinery/components/graphs/d3Graph/head-libs.html"></sly>
+
+<!-- Line Chart Component -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/lineChart/head-libs.html"></sly>
+
+<!-- Line chart with label compoenent -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/lineChartWithLabel/head-libs.html"></sly>
+
+<!-- Pie Chart Polar Component -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/pieChart/head-libs.html"></sly>
+
+<!-- Pie Chart Non Polar Component -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/pieChartNonPolar/head-libs.html"></sly>
+
+<!-- Radar Chart Component -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/radarChart/head-libs.html"></sly>
+
+<!-- X Axis Bar Chart Component -->
+<sly data-sly-include="/apps/typerefinery/components/graphs/xAxisBarChart/head-libs.html"></sly>
+
+<!-- SideBar Component-->
+<sly data-sly-include="/apps/typerefinery/components/structure/sidebar/head-libs.html"></sly>
+
 <!-- Breadcrumbs -->
-<script src="https://unpkg.com/vue-router@4.0.0/dist/vue-router.global.js"></script>
-<script src="https://unpkg.com/primevue@^3/breadcrumb/breadcrumb.min.js"></script>
+<sly data-sly-include="/apps/typerefinery/components/common/breadcrumbs/head-libs.html"></sly>
