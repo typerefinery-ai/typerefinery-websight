@@ -7,7 +7,7 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/rootcontainer/fixedrootcontainer">
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
-          <form jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/form">
+          <form jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
             <title 
               jcr:primaryType="nt:unstructured"
               sling:resourceType="typerefinery/components/content/title"
@@ -15,21 +15,21 @@
             />
             <inputtext1
               jcr:primaryType="nt:unstructured" 
-              sling:resourceType="typerefinery/components/content/inputtext"
+              sling:resourceType="typerefinery/components/forms/inputtext"
               name="firstName"
               label="First Name"
               placeholder=""
             />
             <inputtext2 
               jcr:primaryType="nt:unstructured" 
-              sling:resourceType="typerefinery/components/content/inputtext"
+              sling:resourceType="typerefinery/components/forms/inputtext"
               name="lastName"
               label="Last Name"
               placeholder=""
             />
             <button 
               jcr:primaryType="nt:unstructured" 
-              sling:resourceType="typerefinery/components/content/button"
+              sling:resourceType="typerefinery/components/forms/button"
             />
           </form>
         </pagesection>
