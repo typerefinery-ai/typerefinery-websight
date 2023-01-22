@@ -47,7 +47,7 @@
       <groupId>io.typerefinery.websight</groupId>
       <artifactId>typerefinery-distribution</artifactId>
       <version>${project.version}</version>
-      <classifier>${project.parent.classifier}</classifier>
+      <classifier>${classifier}</classifier>
       <type>slingosgifeature</type>
     </dependency>
     <dependency>
@@ -86,26 +86,26 @@
           </replacePropertyVariables>
           <aggregates>
             <aggregate>
-              <classifier>${project.parent.classifier}-tests</classifier>
+              <classifier>${classifier}-tests</classifier>
               <filesInclude>*.json</filesInclude>
               <title>Typerefinery distribution with test data</title>
               <includeArtifact>
                 <groupId>io.typerefinery.websight</groupId>
                 <artifactId>typerefinery-distribution</artifactId>
                 <version>${project.version}</version>
-                <classifier>${project.parent.classifier}</classifier>
+                <classifier>${classifier}</classifier>
                 <type>slingosgifeature</type>
               </includeArtifact>
             </aggregate>
           </aggregates>
           <scans>
             <scan>
-              <includeClassifier>${project.parent.classifier}-tests</includeClassifier>
+              <includeClassifier>${classifier}-tests</includeClassifier>
             </scan>
           </scans>
           <repositories>
             <repository>
-              <includeClassifier>${project.parent.classifier}-tests</includeClassifier>
+              <includeClassifier>${classifier}-tests</includeClassifier>
             </repository>
           </repositories>
           <outputDir>target</outputDir>
@@ -214,7 +214,7 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>${project.artifactId}</artifactId>
                 <version>${project.version}</version>
-                <classifier>${project.parent.classifier}-tests</classifier>
+                <classifier>${classifier}-tests</classifier>
                 <type>slingosgifeature</type>
               </feature>
               <launcherArguments>
