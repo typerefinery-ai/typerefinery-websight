@@ -24,7 +24,7 @@ services:
       - "8080:8080"
       - "5005:5005"
     environment:
-      WS_ADMIN_USERNAME: $${WS_ADMIN_USERNAME}
+      WS_ADMIN_USERNAME: ${WS_ADMIN_USERNAME}
       MONGODB_HOST: "mongo"
       MONGODB_PORT: 27017
       MONGODB_USERNAME: "mongoadmin"
