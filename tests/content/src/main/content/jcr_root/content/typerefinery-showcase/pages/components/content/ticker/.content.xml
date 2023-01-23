@@ -7,63 +7,24 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/rootcontainer/fixedrootcontainer">
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/maincontainer">
         <pagesection1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
-           <title 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/title"
-            title="Ticker component"
-          />
-          <ticker 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/ticker" 
-            title="Number of Users"
-            icon="pi pi-database"
-            
-            value="131.12K"
-            indicatorType="up"
-            indicatorValue="123"
-          >
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="User's details ticker component" />
+          <ticker jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/ticker" title="Number of Users" icon="pi pi-database" value="131.12K" indicatorType="up" indicatorValue="123">
           </ticker>
-          
+
         </pagesection1>
 
         <pagesection2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
-           <title 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/title"
-            title="Ticker component"
-          />
-          <ticker 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/ticker" 
-            title="Reports"
-            icon="pi pi-file"
-            
-            value="31.12K"
-            indicatorType="down"
-            indicatorValue="4123"
-          >
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Reports ticker component" />
+          <ticker jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/ticker" title="Reports" icon="pi pi-file" value="31.12K" indicatorType="down" indicatorValue="4123">
           </ticker>
-          
+
         </pagesection2>
 
         <pagesection3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
-           <title 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/title"
-            title="Ticker component"
-          />
-          <ticker 
-            jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/ticker" 
-            title="Errors"
-            icon="pi pi-file"
-            
-            value="1.12K"
-            indicatorType="same"
-            indicatorValue="12"
-          >
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Errors ticker component" />
+          <ticker jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/ticker" title="Errors" icon="pi pi-file" value="1.12K" indicatorType="same" indicatorValue="12">
           </ticker>
-          
+
         </pagesection3>
       </maincontainer>
     </rootcontainer>
