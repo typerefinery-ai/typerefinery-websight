@@ -1,11 +1,11 @@
 .p-tree {
-  background-color: #343a40;
+  background-color: var(--primary-object-background-color);
   height: 125vh;
   border-radius: 0px;
-  border-color: #343a40;
+  border-color: var(--primary-object-background-color);
 }
 .p-treenode-label {
-  color: white;
+  color: var(--primary-text-color);
 }
 .tree {
   width: 100%;

@@ -1,3 +1,8 @@
+body {
+  background-color: var(--primary-background-color);
+  color: var(--primary-text-color);
+}
+
 .button {
   text-align: center;
   margin: 5px auto;
@@ -139,14 +144,14 @@
 
 .navbar {
   width: 100%;
-  background: #343a40;
-  color: #fff !important;
+  background: var(--primary-object-background-color);
+  color: var(--primary-text-color) !important;
   margin-top: 0rem;
   border-radius: 0px;
-  border-color: #343a40;
+  border-color: var(--primary-object-background-color);
 }
 .p-menuitem-text{
-  color: white !important;
+  color: var(--primary-text-color) !important;
 }
 .dataTable {
   width: 100%;
@@ -154,17 +159,17 @@
   min-height: 350px;
 }
 .p-datatable .p-datatable-tbody > tr {
-  background: #343a40;
-  color: white;
+  background: var(--primary-object-background-color);
+  color: var(--primary-text-color);
   transition: box-shadow 0.2s;
 }
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background: #343a40;
+  background: var(--primary-object-background-color);
 }
 .product-badge {
   background: white;
-  color: #343a40;
+  color: var(--primary-object-background-color);
 }
 
 /* .hl-rows-md-1 {
@@ -230,5 +235,5 @@ h2.hl-title__heading.hl-title__heading--size-4 {
   height: 65px;
 }
 .p-breadcrumb.p-component{
-  background: #343a40 !important;
+  background: var(--primary-object-background-color) !important;
 }

@@ -23,3 +23,16 @@ window.Typerefinery.Components = {
         Sidebar: {}
     }
 };
+
+let rootEle = document.querySelector(':root');
+window.rootEleStyle = getComputedStyle(rootEle);
+const currentTheme = localStorage.getItem('theme');
+const style = document.getElementById("themeStyles");
+    
+if(!currentTheme) {
+    localStorage.setItem("light");
+    style.setAttribute("active", "light");
+}else{
+    style.setAttribute("active", "dark");
+    style.setAttribute("href", `/apps/typerefinery/web_root/dark.css`);
+}

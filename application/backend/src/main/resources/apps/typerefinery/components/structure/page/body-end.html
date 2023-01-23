@@ -31,59 +31,59 @@
         ...vueData
       }
     }, 
-    created() {
-      // calculate based on the href.
-      const paths = window.location.pathname.split("/");
-      const path = paths[paths.length - 1];
-      const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
-      const temp = arr.filter(_ => _[1] === path);
-      if (temp.length > 0 || path.length === 0) {
-        const key = temp[0][0];
-        const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
-        for(let i = 0; i < sideBarNodeArr.length; i++) {
-          const item = sideBarNodeArr[i][1];
-          if(item.data === key) {
-            this.breadCrumbsItems = {
-              home: {
-                icon: item.icon,
-                to: this.sideBarRoutes[item.data]
-              },
-              items: [
-                { label: item.data }
-              ]
-            }
-            return;
-          }
-          const childrenRecursionHelper = (pre, list) => {
-            for (let i = 0; i < list.length; i++) {
-              const item = list[i];
-              if (item.data === key) {
-                this.breadCrumbsItems = {
-                  home: {
-                    icon: item.icon,
-                    to: this.sideBarRoutes[item.data]
-                  },
-                  items: [
-                    ...pre,
-                    { label: item.data }
-                  ]
-                }
-                return;
-              }
-              if(item.children) {
-                childrenRecursionHelper([...pre, {label: item.data}], item.children);
-                return;
-              }
+    // created() {
+    //   // calculate based on the href.
+    //   const paths = window.location.pathname.split("/");
+    //   const path = paths[paths.length - 1];
+    //   const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
+    //   const temp = arr.filter(_ => _[1] === path);
+    //   if (temp.length > 0 || path.length === 0) {
+    //     const key = temp[0][0];
+    //     const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
+    //     for(let i = 0; i < sideBarNodeArr.length; i++) {
+    //       const item = sideBarNodeArr[i][1];
+    //       if(item.data === key) {
+    //         this.breadCrumbsItems = {
+    //           home: {
+    //             icon: item.icon,
+    //             to: this.sideBarRoutes[item.data]
+    //           },
+    //           items: [
+    //             { label: item.data }
+    //           ]
+    //         }
+    //         return;
+    //       }
+    //       const childrenRecursionHelper = (pre, list) => {
+    //         for (let i = 0; i < list.length; i++) {
+    //           const item = list[i];
+    //           if (item.data === key) {
+    //             this.breadCrumbsItems = {
+    //               home: {
+    //                 icon: item.icon,
+    //                 to: this.sideBarRoutes[item.data]
+    //               },
+    //               items: [
+    //                 ...pre,
+    //                 { label: item.data }
+    //               ]
+    //             }
+    //             return;
+    //           }
+    //           if(item.children) {
+    //             childrenRecursionHelper([...pre, {label: item.data}], item.children);
+    //             return;
+    //           }
               
-            }
-          }
-          if(item.children){
-            childrenRecursionHelper([{ label: item.data }], item.children);
-          }
-        }
+    //         }
+    //       }
+    //       if(item.children){
+    //         childrenRecursionHelper([{ label: item.data }], item.children);
+    //       }
+    //     }
         
-      }
-    },
+    //   }
+    // },
     methods: {
       onNodeSelect(e) {
         const selectedNodeName = e.target.innerText || "";
