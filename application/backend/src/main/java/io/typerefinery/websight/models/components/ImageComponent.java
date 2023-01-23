@@ -14,120 +14,120 @@
  * limitations under the License.
  */
 
-package io.typerefinery.websight.models.components;
+ package io.typerefinery.websight.models.components;
 
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.stream.Stream;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.experimental.Delegate;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
-
-import io.typerefinery.websight.components.Grid;
-import io.typerefinery.websight.components.Styled;
-import io.typerefinery.websight.utils.DefaultImageUtil;
-import io.typerefinery.websight.utils.LinkUtil;
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class ImageComponent implements Styled, Grid {
-
-  static final Integer LG_BREAKPOINT_MIN_WIDTH = 970;
-  static final Integer MD_BREAKPOINT_MIN_WIDTH = 768;
-
-  @SlingObject
-  private ResourceResolver resourceResolver;
-
-  @Inject
-  private String smImageSrc;
-
-  @Inject
-  private String mdImageSrc;
-
-  @Inject
-  private String lgImageSrc;
-
-  @Getter
-  @Inject
-  private String alt;
-
-  @Getter
-  @Inject
-  private Boolean showLink;
-
-  @Inject
-  private String url;
-
-  @Getter
-  @Inject
-  @Default(values = "false")
-  private String openInNewTab;
-
-  @Getter
-  private Collection<ImageSource> imageSources;
-
-  @Getter
-  private String defaultImage;
-
-  @Getter
-  private long imagesCount;
-
-  @Self
-  @Delegate
-  private DefaultStyledGridComponent grid;
-
-  @PostConstruct
-  private void init() {
-    initImagesCount();
-    initDefaultImage();
-    initImageSources();
-  }
-
-  private void initImageSources() {
-    imageSources = new LinkedList<>();
-    if (StringUtils.isNotEmpty(mdImageSrc)) {
-      imageSources.add(new ImageSource(LinkUtil.handleLink(lgImageSrc, resourceResolver),
-          LG_BREAKPOINT_MIN_WIDTH));
-    }
-    if (StringUtils.isNotEmpty(mdImageSrc) && StringUtils.isNotEmpty(smImageSrc)) {
-      imageSources.add(new ImageSource(LinkUtil.handleLink(mdImageSrc, resourceResolver),
-          MD_BREAKPOINT_MIN_WIDTH));
-    }
-  }
-
-  private void initImagesCount() {
-    imagesCount = Stream.of(smImageSrc, mdImageSrc, lgImageSrc)
-        .filter(StringUtils::isNotEmpty)
-        .count();
-  }
-
-  private void initDefaultImage() {
-    defaultImage = LinkUtil.handleLink(
-        DefaultImageUtil.chooseDefaultImage(lgImageSrc, mdImageSrc, smImageSrc),
-        resourceResolver);
-  }
-
-  public String getUrl() {
-    return LinkUtil.handleLink(url, resourceResolver);
-  }
-
-  @Getter
-  @AllArgsConstructor
-  @EqualsAndHashCode
-  public static class ImageSource {
-
-    private String image;
-    private Integer minWidth;
-  }
-}
+ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+ 
+ import java.util.Collection;
+ import java.util.LinkedList;
+ import java.util.stream.Stream;
+ import javax.annotation.PostConstruct;
+ import javax.inject.Inject;
+ import lombok.AllArgsConstructor;
+ import lombok.EqualsAndHashCode;
+ import lombok.Getter;
+ import lombok.experimental.Delegate;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.sling.api.resource.Resource;
+ import org.apache.sling.api.resource.ResourceResolver;
+ import org.apache.sling.models.annotations.Default;
+ import org.apache.sling.models.annotations.Model;
+ import org.apache.sling.models.annotations.injectorspecific.Self;
+ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+ import io.typerefinery.websight.components.Grid;
+ import io.typerefinery.websight.components.Styled;
+ import io.typerefinery.websight.utils.DefaultImageUtil;
+ import io.typerefinery.websight.utils.LinkUtil;
+ 
+ @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+ public class ImageComponent implements Styled, Grid {
+ 
+   static final Integer LG_BREAKPOINT_MIN_WIDTH = 970;
+   static final Integer MD_BREAKPOINT_MIN_WIDTH = 768;
+ 
+   @SlingObject
+   private ResourceResolver resourceResolver;
+ 
+   @Inject
+   private String smImageSrc;
+ 
+   @Inject
+   private String mdImageSrc;
+ 
+   @Inject
+   private String lgImageSrc;
+ 
+   @Getter
+   @Inject
+   private String alt;
+ 
+   @Getter
+   @Inject
+   private Boolean showLink;
+ 
+   @Inject
+   private String url;
+ 
+   @Getter
+   @Inject
+   @Default(values = "false")
+   private String openInNewTab;
+ 
+   @Getter
+   private Collection<ImageSource> imageSources;
+ 
+   @Getter
+   private String defaultImage;
+ 
+   @Getter
+   private long imagesCount;
+ 
+   @Self
+   @Delegate
+   private DefaultStyledGridComponent grid;
+ 
+   @PostConstruct
+   private void init() {
+     initImagesCount();
+     initDefaultImage();
+     initImageSources();
+   }
+ 
+   private void initImageSources() {
+     imageSources = new LinkedList<>();
+     if (StringUtils.isNotEmpty(mdImageSrc)) {
+       imageSources.add(new ImageSource(LinkUtil.handleLink(lgImageSrc, resourceResolver),
+           LG_BREAKPOINT_MIN_WIDTH));
+     }
+     if (StringUtils.isNotEmpty(mdImageSrc) && StringUtils.isNotEmpty(smImageSrc)) {
+       imageSources.add(new ImageSource(LinkUtil.handleLink(mdImageSrc, resourceResolver),
+           MD_BREAKPOINT_MIN_WIDTH));
+     }
+   }
+ 
+   private void initImagesCount() {
+     imagesCount = Stream.of(smImageSrc, mdImageSrc, lgImageSrc)
+         .filter(StringUtils::isNotEmpty)
+         .count();
+   }
+ 
+   private void initDefaultImage() {
+     defaultImage = LinkUtil.handleLink(
+         DefaultImageUtil.chooseDefaultImage(lgImageSrc, mdImageSrc, smImageSrc),
+         resourceResolver);
+   }
+ 
+   public String getUrl() {
+     return LinkUtil.handleLink(url, resourceResolver);
+   }
+ 
+   @Getter
+   @AllArgsConstructor
+   @EqualsAndHashCode
+   public static class ImageSource {
+ 
+     private String image;
+     private Integer minWidth;
+   }
+ }
+ 
