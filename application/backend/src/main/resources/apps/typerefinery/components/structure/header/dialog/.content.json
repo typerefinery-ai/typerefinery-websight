@@ -47,11 +47,6 @@
         "menuTab": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "Menu",
-            "mobileTitle": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "mobileMenuTitle",
-                "label": "Mobile Menu Title"
-            },
             "items": {
                 "name": "navigation/menuItems",
                 "label": "Tabs",
@@ -72,31 +67,6 @@
                     "name": "openInNewTab",
                     "label": "Open link in a new tab"
                 }
-            }
-        },
-        "ctaTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "CTA",
-            "ctaLabel": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "cta/label",
-                "label": "Display name"
-            },
-            "link": {
-                "sling:resourceType": "wcm/dialogs/components/pathpicker",
-                "rootPath": "/content",
-                "name": "cta/link",
-                "label": "URL"
-            },
-            "openInNewTab": {
-                "sling:resourceType": "wcm/dialogs/components/toggle",
-                "name": "cta/openInNewTab",
-                "label": "Open link in a new tab"
-            },
-            "displayIcon": {
-                "sling:resourceType": "wcm/dialogs/components/toggle",
-                "name": "cta/displayIcon",
-                "label": "Show icon"
             }
         }
     }

@@ -14,23 +14,19 @@
     limitations under the License.
 */-->
 <template data-sly-template.header="${ @ model }">
-    <sly data-sly-test.image="${model.image}"></sly>
     <sly data-sly-test.navigation="${model.navigation}"></sly>
-    <sly data-sly-test.cta="${model.cta}"></sly>
 
-    <sly data-sly-test="${image || navigation || cta}">
+    <sly data-sly-test="${navigation}">
         <nav class="hl-header" style="background: #343a40; color: #FFF !important; margin-top:0rem">
             <div class="hl-header__wrapper">
                 <div class="hl-header__top-bar">
-                    <sly data-sly-test="${image}" data-sly-use.template="/libs/howlite/components/image/template.html"
+                    <sly data-sly-test="${image}"
+                        data-sly-use.template="/apps/typerefinery/components/structure/image/template.html"
                         data-sly-call="${template.simpleImage @ defaultImage=image.defaultImage, alt=image.alt, showLink=image.showLink, url=image.url, openInNewTab=image.openInNewTab, classes='hl-header__logo-image'}">
                     </sly>
                     <sly data-sly-test="${navigation}"
-                        data-sly-use.template="/libs/howlite/components/navigation/template.html"
+                        data-sly-use.template="/apps/typerefinery/components/structure/navigation/template.html"
                         data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
-                    </sly>
-                    <sly data-sly-test="${cta}" data-sly-use.template="/libs/howlite/components/cta/template.html"
-                        data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--nav'}">
                     </sly>
                     <div class="hl-header__hamburger">
                         <i class="hl-icon icon-menu hl-header__hamburger-open-icon" tabindex="0"></i>
@@ -38,14 +34,12 @@
                     </div>
                 </div>
                 <div class="hl-header__mobile-menu">
-                    <div data-sly-test="${model.mobileMenuTitle}" class="hl-header__ds-tag">${model.mobileMenuTitle}
+                    <div data-sly-test="${model.mobileMenuTitle}" class="hl-header__ds-tag">
+                        ${model.mobileMenuTitle}
                     </div>
                     <sly data-sly-test="${navigation}"
-                        data-sly-use.template="/libs/howlite/components/navigation/template.html"
+                        data-sly-use.template="/apps/typerefinery/components/structure/navigation/template.html"
                         data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
-                    </sly>
-                    <sly data-sly-test="${cta}" data-sly-use.template="/libs/howlite/components/cta/template.html"
-                        data-sly-call="${template.cta @ label=cta.label, link=cta.link, openInNewTab=cta.openInNewTab, displayIcon=cta.displayIcon, classes='hl-cta--primary'}">
                     </sly>
                 </div>
             </div>
