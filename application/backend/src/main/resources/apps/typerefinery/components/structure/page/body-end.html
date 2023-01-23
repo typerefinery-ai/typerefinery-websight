@@ -6,37 +6,6 @@
   const vueApp = Vue.createApp({
     data() {
       return {
-        sideBarNodes: [
-          {
-            "key": "1-0",
-            "label": "Dashboard",
-            "data": "Dashboard",
-            "icon": "pi pi-qrcode"
-          },
-          {
-            "key": "2-0",
-            "label": "Search",
-            "data": "Search",
-            "icon": "pi pi-search"
-          },
-          {
-            "key": "2-1",
-            "label": "Activities",
-            "data": "Activities",
-            "icon": "pi pi-fw pi-calendar",
-            "children": [
-              { "key": "3-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Feeds" },
-              { "key": "3-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Trends" }
-            ]
-          },
-          {
-            "key": "4-0",
-            "label": "Bookmarks",
-            "data": "Bookmarks",
-            "icon": "pi pi-bookmark"
-          }
-
-        ],
         headerMenuItems: [
         {
           label: 'File',
@@ -59,13 +28,6 @@
           icon: 'pi pi-fw pi-power-off'
         }
         ],
-        sideBarRoutes: {
-          "Dashboard": "dashboard.html",
-          "Feeds": "feeds.html",
-          "Trends": "trends.html",
-          "Bookmarks": "bookmarks.html",
-          "Search": "search.html"
-        },
         ...vueData
       }
     }, 
@@ -225,6 +187,8 @@
     history: VueRouter.createWebHashHistory(),
     routes: [{ path: "/" }]
   });
+
   vueApp.use(router).use(primevue.config.default).mount('#app');
+  
 
 </script>

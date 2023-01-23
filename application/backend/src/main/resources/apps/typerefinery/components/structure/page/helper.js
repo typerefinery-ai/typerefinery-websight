@@ -5,7 +5,8 @@ window.Typerefinery.Components = {
             ...window.Typerefinery.Components.Forms.CheckBox.getData(),
             ...window.Typerefinery.Components.Forms.RadioButton.getData(),
             ...window.Typerefinery.Components.Common.BreadCrumbs.getData(),
-            ...window.Typerefinery.Components.Content.DataTable.getData()
+            ...window.Typerefinery.Components.Content.DataTable.getData(),
+            ...window.Typerefinery.Components.Structure.Sidebar.getData()
         }
     },
     Forms: {
@@ -17,5 +18,8 @@ window.Typerefinery.Components = {
     },
     Content: {
         DataTable: {}
+    },
+    Structure: {
+        Sidebar: {}
     }
 };

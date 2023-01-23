@@ -5,8 +5,10 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import java.util.HashMap;
 import javax.inject.Inject;
 import lombok.Getter;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
@@ -18,6 +20,11 @@ public class SideBar {
     @Getter
     @SlingObject
     private Resource resource;
+
+    @Getter
+    @Inject
+    @Default (values = "http://localhost:8080/apps/typerefinery/components/structure/sidebar/dataSource1.json")
+    private String dataSource;
 
 
     // return output of SideBar.getTree() as a JSON string
@@ -36,15 +43,16 @@ public class SideBar {
         //     put("title", resource.getValueMap().get("jcr:title", ""));
         //     put("hideInNav", resource.getValueMap().get("hideInNav", false));
         // }});
-        
-        tree.put(resource.getName(), getChildren(resource));
+        String resourceName = resource.getName();
+        tree.put(resourceName, getChildren(resource));
         return tree;
         //return getChildren(resource);
     }
     private HashMap<String, Object> getChildren(Resource resource) {
         HashMap<String, Object> children = new HashMap<>();
+        String resourceName = resource.getName();
         children.put("jcr:content", new HashMap<String, Object>() {{
-            put("name", resource.getName());
+            put("name", resourceName);
             put("key", resource.getPath());
             put("title", resource.getValueMap().get("jcr:title", ""));
             put("hideInNav", resource.getValueMap().get("hideInNav", false));

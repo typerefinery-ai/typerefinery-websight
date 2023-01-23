@@ -2,13 +2,15 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "generalTab": {
+    "jsonSource": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "General",
+      "label": "JSON Data Source",
       "fieldLabel": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "label",
-        "label": "Label"
+        "name": "dataSource",
+        "label": "JSON Data Source URL",
+        "description": "Please mention the data that this sidebar component should consist of.",
+        "defaultValue": "http://localhost:8080/apps/typerefinery/components/structure/sidebar/dataSource1.json" 
       }
     }
   }
