@@ -17,6 +17,6 @@ public class LeafletMap {
 
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/leafletMap/dataSource_1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/widgets/leafletMap/dataSource_1.json")
     public String dataSource;
 }

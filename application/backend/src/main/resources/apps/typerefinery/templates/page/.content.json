@@ -1,6 +1,6 @@
 {  
   "sling:resourceType": "ws:PageTemplate",
-  "description": "PrimeVue",
+  "description": "Create a new page.",
   "title": "Page",
   "allowedChildren": ["/apps/typerefinery/templates/page"]
 }

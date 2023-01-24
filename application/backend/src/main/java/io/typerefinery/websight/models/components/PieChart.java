@@ -18,7 +18,7 @@ public class PieChart {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/pieChart/dataSource_1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/pieChart/dataSource_1.json")
     public String dataSource;
 }
 

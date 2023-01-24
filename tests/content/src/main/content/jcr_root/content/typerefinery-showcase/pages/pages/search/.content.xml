@@ -8,8 +8,8 @@
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer jcr:primaryType="nt:unstructured"
             sling:resourceType="howlite/components/rootcontainer/fixedrootcontainer">
-            <navbar jcr:primaryType="nt:unstructured"
-                sling:resourceType="/apps/typerefinery/components/content/navbar" />
+            <header jcr:primaryType="nt:unstructured"
+                sling:resourceType="/apps/typerefinery/components/structure/header"/>
             <twocols jcr:primaryType="nt:unstructured"
                 sling:resourceType="/apps/typerefinery/components/structure/pagesection"
                 classes="\0">
@@ -17,13 +17,13 @@
                     sling:resourceType="/apps/typerefinery/components/structure/container"
                     lgColSize="2" mdColSize="6" smColSize="12">
                     <sidebar jcr:primaryType="nt:unstructured"
-                        sling:resourceType="/apps/typerefinery/components/content/sidebar" />
+                        sling:resourceType="/apps/typerefinery/components/structure/sidebar" />
                 </container1>
                 <container_1 jcr:primaryType="nt:unstructured"
                     sling:resourceType="/apps/typerefinery/components/structure/container"
                     lgColSize="10" mdColSize="16" smColSize="24">
                     <container_1_11 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/structure/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
-                        <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/breadcrumbs"/>
+                        <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/common/breadcrumbs"/>
                     </container_1_11>
                     <title_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/content/title" title="Search" />
                     <container_1_1 jcr:primaryType="nt:unstructured"
@@ -36,13 +36,13 @@
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <button jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/button" label="Search" />
+                                    sling:resourceType="/apps/typerefinery/components/forms/button" label="Search" />
                             </container_1_1_1_1>
                             <container_1_1_1_2 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <button jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/button" label="Save" />
+                                    sling:resourceType="/apps/typerefinery/components/forms/button" label="Save" />
                             </container_1_1_1_2>
                         </container_1_1_1>
                         <container_1_1_2 jcr:primaryType="nt:unstructured"
@@ -52,7 +52,7 @@
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <inputtext jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/inputtext" placeholder="Search Here.."/>
+                                    sling:resourceType="/apps/typerefinery/components/forms/inputtext" placeholder="Search Here.."/>
                             </container_1_1_2_1>
                             <container_1_1_2_2 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
@@ -61,20 +61,20 @@
                                     sling:resourceType="/apps/typerefinery/components/structure/container"
                                     smColSize="8" mdColSize="5" lgColSize="4">
                                     <button jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/apps/typerefinery/components/content/button" label="Object Filter"/>
+                                        sling:resourceType="/apps/typerefinery/components/forms/button" label="Object Filter"/>
                                 </container_1_1_2_2_1>
                                 <container_1_1_2_2_2 jcr:primaryType="nt:unstructured"
                                     sling:resourceType="/apps/typerefinery/components/structure/container"
                                     smColSize="8" mdColSize="5" lgColSize="4">
                                     <button jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/apps/typerefinery/components/content/button"
+                                        sling:resourceType="/apps/typerefinery/components/forms/button"
                                         label="Time Filter" />
                                 </container_1_1_2_2_2>
                                 <container_1_1_2_2_3 jcr:primaryType="nt:unstructured"
                                     sling:resourceType="/apps/typerefinery/components/structure/container"
                                     smColSize="8" mdColSize="5" lgColSize="4">
                                     <button jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="/apps/typerefinery/components/content/button" label="Tags"/>
+                                        sling:resourceType="/apps/typerefinery/components/forms/button" label="Tags"/>
                                 </container_1_1_2_2_3>
                             </container_1_1_2_2>
                         </container_1_1_2>
@@ -85,25 +85,25 @@
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <radio jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/radio" label="Stix Pattern" />
+                                    sling:resourceType="/apps/typerefinery/components/forms/radio" label="Stix Pattern" />
                             </container_1_1_3_1>
                             <container_1_1_3_2 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <radio jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/radio" label="Stix Filter"/>
+                                    sling:resourceType="/apps/typerefinery/components/forms/radio" label="Stix Filter"/>
                             </container_1_1_3_2>
                             <container_1_1_3_3 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <radio jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/radio" label="Kestrel" />
+                                    sling:resourceType="/apps/typerefinery/components/forms/radio" label="Kestrel" />
                             </container_1_1_3_3>
                             <container_1_1_3_4 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="/apps/typerefinery/components/structure/container"
                                 smColSize="24" mdColSize="16" lgColSize="12">
                                 <radio jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="/apps/typerefinery/components/content/radio" label="Text/Regex" />
+                                    sling:resourceType="/apps/typerefinery/components/forms/radio" label="Text/Regex" />
                             </container_1_1_3_4>
                         </container_1_1_3>
                     </container_1_1>
@@ -114,7 +114,7 @@
                             sling:resourceType="/apps/typerefinery/components/structure/container"
                             smColSize="24" mdColSize="16" lgColSize="12">
                             <d3Graph jcr:primaryType="nt:unstructured"
-                        sling:resourceType="/apps/typerefinery/components/content/d3Graph" />
+                        sling:resourceType="/apps/typerefinery/components/graphs/d3Graph" />
                         </container_1_2_1>
                         <container_1_2_2 jcr:primaryType="nt:unstructured"
                             sling:resourceType="/apps/typerefinery/components/structure/container"

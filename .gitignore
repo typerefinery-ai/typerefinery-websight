@@ -21,7 +21,6 @@ dist/
 
 # JetBrains IDE
 .idea/
-.vscode
 *.iml
 
 # Unit test reports

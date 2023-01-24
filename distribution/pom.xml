@@ -92,7 +92,7 @@
           </replacePropertyVariables>
           <aggregates>
             <aggregate>
-              <classifier>${project.parent.classifier}</classifier>
+              <classifier>${classifier}</classifier>
               <title>Typerefinery WebSight CMS project</title>
               <filesInclude>*.json</filesInclude>
               <includeArtifact>
@@ -113,12 +113,12 @@
           </aggregates>
           <scans>
             <scan>
-              <includeClassifier>${project.parent.classifier}</includeClassifier>
+              <includeClassifier>${classifier}</includeClassifier>
             </scan>
           </scans>
           <repositories>
             <repository>
-              <includeClassifier>${project.parent.classifier}</includeClassifier>
+              <includeClassifier>${classifier}</includeClassifier>
               <includeClassifier>docker</includeClassifier>
             </repository>
           </repositories>
