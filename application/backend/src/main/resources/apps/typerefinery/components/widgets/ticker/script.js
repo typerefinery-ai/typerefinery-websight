@@ -42,6 +42,7 @@ function connectTMS(topic, host) {
       if (messageData) {
         const payload = JSON.parse(messageData);
         const { data } = payload;
+        localStorage.setItem(`${topic}`, JSON.stringify(payload) );
         if (data) {
           updateTickerComponent(data, component);
         }
@@ -100,7 +101,13 @@ $(document).ready(function (e) {
 
     // Data can be updated via TMS Connection.
     if (componentTopic && componentHost) {
-      component.setAttribute("id", componentTopic);
+      // component.setAttribute("id", componentTopic);
+      var localStorageValue = window.localStorage.getItem(`${componentTopic}`);
+      if (localStorageValue) {
+        updateTickerComponent(JSON.parse(localStorageValue).data, component);
+      } else {
+        tickerComponentConnectedViaInitialData(component);
+      }
       tickerComponentConnectedViaTMS(componentTopic, componentHost, component);
     }
     // Data can be updated via Data Source JSON
