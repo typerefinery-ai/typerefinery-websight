@@ -53,7 +53,7 @@ function drawPieChart(pieChartData, id) {
   };
 
   // Pie chart (Polar Area)
-  new Chart(ctx, {
+  let chartInstance = new Chart(ctx, {
     type: "polarArea",
     data: {
       labels: labels,
@@ -102,6 +102,9 @@ function drawPieChart(pieChartData, id) {
     },
     plugins: [plugin],
   });
+
+  
+  window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 
 $(document).ready(function (e) {

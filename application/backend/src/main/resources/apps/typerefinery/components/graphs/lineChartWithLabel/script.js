@@ -54,7 +54,7 @@ function drawLabelLineChart(lineChartData, id) {
     },
   };
   // Line chart
-  new Chart(ctx, {
+  let chartInstance = new Chart(ctx, {
     type: "line",
     data: {
       labels: labels,
@@ -114,6 +114,9 @@ function drawLabelLineChart(lineChartData, id) {
       },
     },
   });
+
+  
+  window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 $(document).ready(function (e) {
   Array.from(document.querySelectorAll("#lineChartLabelContainer")).forEach(
