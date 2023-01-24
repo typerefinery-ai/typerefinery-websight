@@ -31,11 +31,6 @@
                     "name": "image/url",
                     "label": "URL"
                 },
-                "openInNewTab": {
-                    "sling:resourceType": "wcm/dialogs/components/toggle",
-                    "name": "image/openInNewTab",
-                    "label": "Open link in a new tab"
-                },
                 "ws:display": {
                     "condition": {
                         "sourceName": "image/showLink",
@@ -47,11 +42,6 @@
         "menuTab": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "Menu",
-            "mobileTitle": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "mobileMenuTitle",
-                "label": "Mobile Menu Title"
-            },
             "items": {
                 "name": "navigation/menuItems",
                 "label": "Tabs",
@@ -66,37 +56,7 @@
                     "rootPath": "/content",
                     "name": "link",
                     "label": "URL"
-                },
-                "newtab": {
-                    "sling:resourceType": "wcm/dialogs/components/checkbox",
-                    "name": "openInNewTab",
-                    "label": "Open link in a new tab"
                 }
-            }
-        },
-        "ctaTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "CTA",
-            "ctaLabel": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "cta/label",
-                "label": "Display name"
-            },
-            "link": {
-                "sling:resourceType": "wcm/dialogs/components/pathpicker",
-                "rootPath": "/content",
-                "name": "cta/link",
-                "label": "URL"
-            },
-            "openInNewTab": {
-                "sling:resourceType": "wcm/dialogs/components/toggle",
-                "name": "cta/openInNewTab",
-                "label": "Open link in a new tab"
-            },
-            "displayIcon": {
-                "sling:resourceType": "wcm/dialogs/components/toggle",
-                "name": "cta/displayIcon",
-                "label": "Show icon"
             }
         }
     }

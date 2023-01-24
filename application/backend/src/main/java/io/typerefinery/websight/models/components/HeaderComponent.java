@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2022 Dynamic Solutions
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,29 @@
  * limitations under the License.
  */
 
-package io.typerefinery.websight.models.components;
 
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
+ package io.typerefinery.websight.models.components;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import javax.inject.Inject;
+import lombok.Getter;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Model;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Image {
+public class HeaderComponent {
+
+  @Getter
+  @Inject
+  private String mobileMenuTitle;
+
+  @Inject
+  @Getter
+  private NavigationComponent navigation;
+
+  @Inject
+  @Getter
+  private ImageComponent image;
+
 }
