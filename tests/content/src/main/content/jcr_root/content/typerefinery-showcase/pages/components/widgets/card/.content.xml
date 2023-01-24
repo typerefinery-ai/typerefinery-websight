@@ -54,7 +54,7 @@
 
            <ticker 
             jcr:primaryType="nt:unstructured" 
-            sling:resourceType="typerefinery/components/content/ticker" 
+            sling:resourceType="typerefinery/components/widgets/ticker" 
             title="Simple Card"
             value="1531.12K"
             icon="pi pi-database"

@@ -17,8 +17,7 @@
     <sly data-sly-test.image="${model.image}"></sly>
     <sly data-sly-test.navigation="${model.navigation}"></sly>
 
-    <sly data-sly-test="${image || navigation || cta}">
-        <nav class="hl-header"
+         <nav class="hl-header"
             style="background: var(--primary-object-background-color); color: var(--primary-text-color) !important; margin-top:0rem">
             <div class="hl-header__wrapper">
                 <div class="hl-header__top-bar">
@@ -34,11 +33,10 @@
                         <i class="hl-icon icon-close hl-header__hamburger-close-icon" tabindex="0"></i>
                     </div>
                     <div>
-                        <i class="pi pi-sun font-bold"></i>
+                        <i class="pi pi-sun font-bold" onclick="switchTheme()"></i>
                         <!-- <i v-else class="pi pi-moon"></i> -->
                     </div>
                 </div>
             </div>
         </nav>
-    </sly>
 </template>
