@@ -53,6 +53,21 @@ public class Ticker {
     // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/ticker/dataSource_1.json")
     public String dataSource;
 
+    @Getter
+    @Inject
+    @Default (values = "ws://localhost:8112/$tms")
+    public String websocketHost;
+
+    @Getter
+    @Inject
+    // @Default (values = "")
+    public String websocketTopic;
+
+    //  @Getter
+    // @Inject
+    // // @Default (values = "")
+    // public String defaultWebsocketHost;
+
     
     @Getter
     @Inject
