@@ -239,5 +239,7 @@ h2.hl-title__heading.hl-title__heading--size-4 {
 }
 
 .hl-header__wrapper {
-  max-width: 1114pt !important;
+  max-width: 100%;
+  padding-left: 50px;
+  padding-right: 50px;
 }
