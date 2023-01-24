@@ -13,7 +13,6 @@ function getDataFromDataSourceSmallTicker(
       !response.value
         ? smallTickerUpdateView(jsonValue, id, bgColor)
         : smallTickerUpdateView(response, id, bgColor);
-      console.log("data", response);
     } catch (error) {
       smallTickerUpdateView(jsonValue, id, bgColor, textColor);
     }
