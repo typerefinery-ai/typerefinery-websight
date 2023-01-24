@@ -71,7 +71,7 @@ function drawPieChartNonPolar(pieChartData, id) {
           position: "right",
           usePointStyle: true,
           labels: {
-            color: "#ebedeb",
+            color: window.rootEleStyle.getPropertyValue('--label-color'),
             usePointStyle: true,
           },
         },

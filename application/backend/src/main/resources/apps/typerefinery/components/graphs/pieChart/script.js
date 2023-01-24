@@ -73,7 +73,7 @@ function drawPieChart(pieChartData, id) {
           position: "right",
           usePointStyle: true,
           labels: {
-            color: "#ebedeb",
+            color: window.rootEleStyle.getPropertyValue('--label-color'),
             usePointStyle: true,
           },
         },
@@ -84,10 +84,10 @@ function drawPieChart(pieChartData, id) {
       scales: {
         r: {
           grid: {
-            color: "rgba(191, 193, 194, .08)",
+            color: window.rootEleStyle.getPropertyValue('--grid-color'),
           },
           ticks: {
-            color: "#ebedeb",
+            color: window.rootEleStyle.getPropertyValue('--ticks-color'),
             z: 0,
             showLabelBackdrop: false,
             precision: 0,

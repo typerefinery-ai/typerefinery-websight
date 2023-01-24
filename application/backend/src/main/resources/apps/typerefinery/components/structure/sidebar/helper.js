@@ -3,10 +3,6 @@ window.Typerefinery.Components.Structure.Sidebar = {
         let data = {
         };
         document.querySelectorAll('[data-module="vue-sidebar"]').forEach(async (_,index) => {
-            // const url = _.getAttribute('data-source');
-            // const response = await fetch(url).then(res => res.json());
-            // console.log(response);
-            
             // unique name
             let modelName = `sideBarNodes${index}`;
             data[modelName] =  [

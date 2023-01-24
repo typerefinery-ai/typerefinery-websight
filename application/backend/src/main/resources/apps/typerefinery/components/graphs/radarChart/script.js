@@ -73,7 +73,7 @@ function drawRadarChart(radarChartData, id) {
           position: "top",
           usePointStyle: false,
           labels: {
-            color: "#ebedeb",
+            color:  window.rootEleStyle.getPropertyValue('--label-color'),
             usePointStyle: false,
           },
         },
@@ -87,10 +87,10 @@ function drawRadarChart(radarChartData, id) {
       scales: {
         r: {
           grid: {
-            color: "white",
+            color: window.rootEleStyle.getPropertyValue('--primary-text-color'),
           },
           ticks: {
-            color: "white",
+            color: window.rootEleStyle.getPropertyValue('--primary-text-color'),
             z: 0,
             showLabelBackdrop: false,
             precision: 0,

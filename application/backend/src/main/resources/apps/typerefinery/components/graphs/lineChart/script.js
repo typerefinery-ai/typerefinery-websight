@@ -90,15 +90,15 @@ function drawLineChart(lineChartData, id) {
             display: false,
           },
           ticks: {
-            color: "#5D7183",
+            color: window.rootEleStyle.getPropertyValue('--ticks-color') || "#5D7183",
           },
         },
         y: {
           grid: {
-            color: "rgba(191, 193, 194, 0.05)",
+            color: window.rootEleStyle.getPropertyValue('--grid-color'),
           },
           ticks: {
-            color: "#5D7183",
+            color: window.rootEleStyle.getPropertyValue('--ticks-color') || "#5D7183",
             // font: {
             //     size: 13
             // }

@@ -24,5 +24,6 @@ import lombok.Getter;
 public class DataTable {
   @Getter
   @Inject
+  // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/datatable/dataSource_1.json")
   public String dataSource;
 }
