@@ -29,7 +29,7 @@ window.rootEleStyle = getComputedStyle(rootEle);
 const currentTheme = localStorage.getItem('theme');
 const style = document.getElementById("themeStyles");
     
-if(!currentTheme) {
+if(!currentTheme || currentTheme === 'light') {
     localStorage.setItem("light");
     style.setAttribute("active", "light");
 }else{
