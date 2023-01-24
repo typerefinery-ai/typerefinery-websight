@@ -21,7 +21,8 @@ window.Typerefinery.Components = {
     },
     Structure: {
         Sidebar: {}
-    }
+    },
+    Graphs: {}
 };
 
 let rootEle = document.querySelector(':root');

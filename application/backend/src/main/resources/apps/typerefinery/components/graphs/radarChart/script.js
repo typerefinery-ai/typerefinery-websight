@@ -60,7 +60,7 @@ function drawRadarChart(radarChartData, id) {
   };
 
   // Radar chart
-  new Chart(ctx, {
+  let chartInstance = (ctx, {
     type: "radar",
     data: {
       labels: labels,
@@ -108,6 +108,8 @@ function drawRadarChart(radarChartData, id) {
     },
     plugins: [plugin],
   });
+  
+  window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 
 $(document).ready(function (e) {

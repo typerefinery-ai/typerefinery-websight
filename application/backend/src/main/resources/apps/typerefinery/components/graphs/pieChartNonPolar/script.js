@@ -51,7 +51,7 @@ function drawPieChartNonPolar(pieChartData, id) {
   };
 
   // Pie chart (Non Polar Area)
-  new Chart(ctx, {
+  let chartInstance = new Chart(ctx, {
     type: "pie",
     data: {
       labels: labels,
@@ -82,6 +82,9 @@ function drawPieChartNonPolar(pieChartData, id) {
     },
     plugins: [plugin],
   });
+
+  
+  window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 
 $(document).ready(function (e) {

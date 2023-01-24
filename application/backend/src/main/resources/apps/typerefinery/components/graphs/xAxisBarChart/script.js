@@ -67,7 +67,7 @@ function drawXAxisBarChart(barChartData, id) {
   };
 
   // Bar chart
-  new Chart(ctx, {
+  let chartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
@@ -101,6 +101,8 @@ function drawXAxisBarChart(barChartData, id) {
     },
     plugins: [plugin],
   });
+  
+  window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 
 $(document).ready(function (e) {

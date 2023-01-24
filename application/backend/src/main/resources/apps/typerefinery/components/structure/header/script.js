@@ -6,6 +6,5 @@ async function switchTheme() {
         style.setAttribute("active", newTheme)
         style.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)
         await localStorage.setItem("theme", newTheme);
-        window.location.reload();
     }
 }
