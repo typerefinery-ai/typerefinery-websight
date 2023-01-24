@@ -8,8 +8,8 @@
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer jcr:primaryType="nt:unstructured"
             sling:resourceType="howlite/components/rootcontainer/fixedrootcontainer">
-            <navbar jcr:primaryType="nt:unstructured"
-                sling:resourceType="/apps/typerefinery/components/structure/navbar" />
+            <header jcr:primaryType="nt:unstructured"
+                sling:resourceType="/apps/typerefinery/components/structure/header"/>
             <twocols jcr:primaryType="nt:unstructured"
                 sling:resourceType="/apps/typerefinery/components/structure/pagesection"
                 classes="\0">

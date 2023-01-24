@@ -35,4 +35,8 @@ public class HeaderComponent {
   @Getter
   private NavigationComponent navigation;
 
+  @Inject
+  @Getter
+  private ImageComponent image;
+
 }

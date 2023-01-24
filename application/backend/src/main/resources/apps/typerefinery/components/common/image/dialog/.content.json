@@ -55,7 +55,7 @@
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/libs/howlite/components/common/gridTab"
+      "path": "/apps/typerefinery/components/common/gridTab"
     }
   }
 }

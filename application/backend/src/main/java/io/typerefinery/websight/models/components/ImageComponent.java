@@ -64,7 +64,7 @@
    @Getter
    @Inject
    private Boolean showLink;
- 
+
    @Inject
    private String url;
  

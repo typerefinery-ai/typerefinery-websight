@@ -31,11 +31,6 @@
                     "name": "image/url",
                     "label": "URL"
                 },
-                "openInNewTab": {
-                    "sling:resourceType": "wcm/dialogs/components/toggle",
-                    "name": "image/openInNewTab",
-                    "label": "Open link in a new tab"
-                },
                 "ws:display": {
                     "condition": {
                         "sourceName": "image/showLink",
@@ -61,11 +56,6 @@
                     "rootPath": "/content",
                     "name": "link",
                     "label": "URL"
-                },
-                "newtab": {
-                    "sling:resourceType": "wcm/dialogs/components/checkbox",
-                    "name": "openInNewTab",
-                    "label": "Open link in a new tab"
                 }
             }
         }
