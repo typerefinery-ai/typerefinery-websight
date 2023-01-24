@@ -6,47 +6,6 @@
   const vueApp = Vue.createApp({
     data() {
       return {
-        sideBarNodes: [
-          {
-            "key": "1-0",
-            "label": "Dashboard",
-            "data": "Dashboard",
-            "icon": "pi pi-qrcode"
-          },
-          {
-            "key": "2-0",
-            "label": "Search",
-            "data": "Search",
-            "icon": "pi pi-search"
-          },
-          {
-            "key": "2-1",
-            "label": "Activities",
-            "data": "Activities",
-            "icon": "pi pi-fw pi-calendar",
-            "children": [
-              { "key": "3-0", "label": "Feeds", "icon": "pi pi-fw pi-calendar-plus", "data": "Feeds" },
-              { "key": "3-1", "label": "Trends", "icon": "pi pi-fw pi-calendar-plus", "data": "Trends" }
-            ]
-          },
-          {
-            "key": "4-0",
-            "label": "Bookmarks",
-            "data": "Bookmarks",
-            "icon": "pi pi-bookmark"
-          }
-
-        ],
-        dataTableDefaultValues: [
-          { serial: "1", name: "Report 1", description: "Penquins.", status: "RiskIQ", date: "12 Jan, 2021", color: "TLP-WHITE" },
-          { serial: "2", name: "Report 2", description: "DiskKill", status: "RiskIQ", date: "14 Dec, 2022", color: "TLP-WHITE" },
-          { serial: "3", name: "Report 3", description: "Malware", status: "RiskIQ", date: "21 Dec, 2018", color: "TLP-WHITE", },
-          { serial: "4", name: "Report 4", description: "UNC1151", status: "RiskIQ", date: "21 Dec, 2019", color: "TLP-WHITE", },
-          { serial: "5", name: "Report 5", description: "HermetricWiper", status: "AlienVault", date: "05 Jun, 2017", color: "TLP-WHITE", },
-          { serial: "6", name: "Report 6", description: "UNC1151", status: "AlienVault", date: "01 Jun, 2020", color: "TLP-WHITE", },
-          { serial: "7", name: "Report 7", description: "Malware", status: "RiskIQ", date: "03 Jun, 2017", color: "TLP-WHITE", },
-          { serial: "8", name: "Report 8", description: "DiskKill", status: "RiskIQ", date: "05 Jun, 2018", color: "TLP-WHITE", },
-        ],
         headerMenuItems: [
         {
           label: 'File',
@@ -69,79 +28,62 @@
           icon: 'pi pi-fw pi-power-off'
         }
         ],
-        dataTableDefaultHeaders: [
-          { field: 'serial', header: 'Sr. No.' },
-          { field: 'name', header: 'Type' },
-          { field: 'description', header: 'Description' },
-          { field: 'date', header: 'Date' }
-        ],
-        sideBarRoutes: {
-          "Dashboard": "dashboard.html",
-          "Feeds": "feeds.html",
-          "Trends": "trends.html",
-          "Bookmarks": "bookmarks.html",
-          "Search": "search.html"
-        },
-        breadCrumbsItems: {
-          home: {},
-          items: []
-        },
         ...vueData
       }
     }, 
-    created() {
-      // calculate based on the href.
-      const paths = window.location.pathname.split("/");
-      const path = paths[paths.length - 1];
-      const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
-      const temp = arr.filter(_ => _[1] === path);
-      if (temp.length > 0 || path.length === 0) {
-        const key = temp[0][0];
-        const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
-        for(let i = 0; i < sideBarNodeArr.length; i++) {
-          const item = sideBarNodeArr[i][1];
-          if(item.data === key) {
-            this.breadCrumbsItems = {
-              home: {
-                icon: item.icon,
-                to: this.sideBarRoutes[item.data]
-              },
-              items: [
-                { label: item.data }
-              ]
-            }
-            return;
-          }
-          const childrenRecursionHelper = (pre, list) => {
-            for (let i = 0; i < list.length; i++) {
-              const item = list[i];
-              if (item.data === key) {
-                this.breadCrumbsItems = {
-                  home: {
-                    icon: item.icon,
-                    to: this.sideBarRoutes[item.data]
-                  },
-                  items: [
-                    ...pre,
-                    { label: item.data }
-                  ]
-                }
-                return;
-              }
-              if(item.children) {
-                childrenRecursionHelper([...pre, {label: item.data}], item.children);
-                return;
-              }
+    // created() {
+    //   // calculate based on the href.
+    //   const paths = window.location.pathname.split("/");
+    //   const path = paths[paths.length - 1];
+    //   const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
+    //   const temp = arr.filter(_ => _[1] === path);
+    //   if (temp.length > 0 || path.length === 0) {
+    //     const key = temp[0][0];
+    //     const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
+    //     for(let i = 0; i < sideBarNodeArr.length; i++) {
+    //       const item = sideBarNodeArr[i][1];
+    //       if(item.data === key) {
+    //         this.breadCrumbsItems = {
+    //           home: {
+    //             icon: item.icon,
+    //             to: this.sideBarRoutes[item.data]
+    //           },
+    //           items: [
+    //             { label: item.data }
+    //           ]
+    //         }
+    //         return;
+    //       }
+    //       const childrenRecursionHelper = (pre, list) => {
+    //         for (let i = 0; i < list.length; i++) {
+    //           const item = list[i];
+    //           if (item.data === key) {
+    //             this.breadCrumbsItems = {
+    //               home: {
+    //                 icon: item.icon,
+    //                 to: this.sideBarRoutes[item.data]
+    //               },
+    //               items: [
+    //                 ...pre,
+    //                 { label: item.data }
+    //               ]
+    //             }
+    //             return;
+    //           }
+    //           if(item.children) {
+    //             childrenRecursionHelper([...pre, {label: item.data}], item.children);
+    //             return;
+    //           }
               
-            }
-          }
-          if(item.children){
-            childrenRecursionHelper([{ label: item.data }], item.children);
-          }
-        }
+    //         }
+    //       }
+    //       if(item.children){
+    //         childrenRecursionHelper([{ label: item.data }], item.children);
+    //       }
+    //     }
         
-      }
-    },
+    //   }
+    // },
     methods: {
       onNodeSelect(e) {
         const selectedNodeName = e.target.innerText || "";
@@ -245,6 +187,8 @@
     history: VueRouter.createWebHashHistory(),
     routes: [{ path: "/" }]
   });
+
   vueApp.use(router).use(primevue.config.default).mount('#app');
+  
 
 </script>

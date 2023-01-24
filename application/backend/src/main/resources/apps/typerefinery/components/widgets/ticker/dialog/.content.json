@@ -1,66 +1,75 @@
 {
-    "sling:resourceType": "wcm/dialogs/dialog",
-    "tabs": {
-        "sling:resourceType": "wcm/dialogs/components/tabs",
-        "generalTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "General",
-            "title": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "title",
-                "label": "Title"
-            },
-            "icon": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "icon",
-                "label": "icon"
-            }
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "defaultDataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Default Data",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Title",
+        "defaultValue": "Demo"
+      },
+      "icon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "icon",
+        "label": "icon"
+      },
+      "value": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "label": "Value"
+      },
+      "indicatorType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "indicatorType",
+        "label": "Indicator Type",
+        "up": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Up",
+          "value": "up"
         },
-        "dataTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "Data",
-            "value": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "value",
-                "label": "Value"
-            },
-            "indicatorType": {
-                "sling:resourceType": "wcm/dialogs/components/select",
-                "name": "indicatorType",
-                "label": "Indicator Type",
-                "up": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Up",
-                    "value": "up"
-                },
-                "down": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Down",
-                    "value": "down"
-                },
-                "same": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Same",
-                    "value": "same"
-                }
-            },
-            "indicatorValue": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "indicatorValue",
-                "label": "Indicator Value"
-            },
-            "dataSource": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "dataSource",
-                "description": "Please provide url to data source for this ticker.",
-                "label": "Data Source"
-              },
-              "dataSourceRefreshTime": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "dataSourceRefreshTime",
-                "label": "Data Source Refresh Time",
-                "description": "The default value is 5 sec. This will periodically refresh data for ticker."
-              }
+        "down": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Down",
+          "value": "down"
+        },
+        "same": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Same",
+          "value": "same"
         }
+      },
+      "indicatorValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "indicatorValue",
+        "label": "Indicator Value"
+      }
+    },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "WebSocket Data Source",
+      "websocketHost": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketHost",
+        "label": "Websocket Host"
+      },
+      "websocketTopic": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketTopic",
+        "label": "Websocket Topic"
+      }
+    },
+    "jsonTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "JSON Data Source",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source(JSON) for this ticker.",
+        "label": "Data Source"
+      }
     }
+  }
 }

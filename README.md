@@ -13,6 +13,12 @@ This project is adapted from WebSight Starter.
 
 ### How to build
 
+First, build and install he project with Maven:
+
+```bash
+./mvnw clean install
+```
+
 Run the command
 
 ```bash
@@ -23,9 +29,10 @@ to build the sample websight, aggregate all required CMS dependencies, run end-t
 
 ### How to run
 
-Once Docker images are ready, all you need is to run Docker Compose from the `environment/local` folder:
+Once you have build the project, you can run local containerized environment:
 
 ```bash
+cd environment/local
 docker compose up
 ```
 

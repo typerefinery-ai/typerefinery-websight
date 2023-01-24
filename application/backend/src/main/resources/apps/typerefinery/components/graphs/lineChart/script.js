@@ -56,7 +56,7 @@ function drawLineChart(lineChartData, id) {
       const { ctx } = chart;
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = "#343a40" || "#99ffff";
+      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--primary-object-background-color') || "#99ffff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     },

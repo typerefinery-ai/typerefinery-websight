@@ -1,18 +1,21 @@
 <template data-sly-template.ticker="${ @ model }">
-    <div 
-        id="ticker"  
-        data-path="${resource.path}" 
-        data-module="tickerComponent"
-        class="ticker"
-        data-source="${model.dataSource}"
-        data-source-refresh-time="${model.dataSourceRefreshTime}"
-    >
-        <div class="icon dn">${model.icon}</div>
-        <div class="heading dn">${model.title}</div>
-        <div class="value dn">${model.value}</div>
-        <div class="indicator dn">
-            <div class="indicator-type dn">${model.indicatorType}</div>
-            <div class="indicator-value dn">${model.indicatorValue}</div>
-        </div>   
-    </div> 
-</template> 
+  <div
+    id="ticker"
+    data-path="${resource.path}"
+    data-module="tickerComponent"
+    class="ticker"
+    data-model='{"title":"${model.title}","value":"${model.value}","icon": "${model.icon}",  "indicatorType":"${model.indicatorType}",
+        "indicatorValue": "${model.indicatorValue}"}'
+    data-source="${model.dataSource}"
+    data-topic="${model.websocketTopic}"
+    data-host="${model.websocketHost}"
+  >
+    <div class="icon dn">${model.icon}</div>
+    <div class="heading dn">${model.title}</div>
+    <div class="value dn">${model.value}</div>
+    <div class="indicator dn">
+      <div class="indicator-type dn">${model.indicatorType}</div>
+      <div class="indicator-value dn">${model.indicatorValue}</div>
+    </div>
+  </div>
+</template>

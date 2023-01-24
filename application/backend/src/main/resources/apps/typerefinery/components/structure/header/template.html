@@ -17,8 +17,8 @@
     <sly data-sly-test.image="${model.image}"></sly>
     <sly data-sly-test.navigation="${model.navigation}"></sly>
 
-    <sly>
-        <nav class="hl-header" style="background: #343a40; color: #FFF !important; margin-top:0rem">
+    <sly data-sly-test="${image || navigation || cta}">
+        <nav class="hl-header" style="background: var(--primary-object-background-color); color: #FFF !important; margin-top:0rem">
             <div class="hl-header__wrapper">
                 <div class="hl-header__top-bar">
                     <sly data-sly-test="${image}"

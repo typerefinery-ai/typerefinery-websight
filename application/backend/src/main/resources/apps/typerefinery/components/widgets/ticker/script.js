@@ -1,34 +1,6 @@
-function getDataFromDataSource(defaultData, path, id, refreshTime) {
-
-    const fetchAndUpdateView = async () => {
-        try {
-            const response = await fetch(path).then(res => res.json());
-
-            !response.value ? updateTickerComponent(defaultData, id) : updateTickerComponent(response, id);
-        } catch (error) {
-            updateTickerComponent(defaultData, id);
-        }
-    }
-
-    // Check if path exists.
-    if (path.trim().length > 0) {
-
-        // min refresh time will be 1 sec.
-        if (refreshTime <= 999) {
-            refreshTime = 1000;
-        }
-
-        setInterval(() => {
-            fetchAndUpdateView();
-        }, refreshTime);
-    }
-
-    fetchAndUpdateView();
-}
-
-function updateTickerComponent(tickerData, id) {
-
-    const tickerHtmlWithJsonValue = `
+// Update the UI
+function updateTickerComponent(tickerData, component) {
+  const tickerHtml = `
             <div class="body">
                  <div class="title">${tickerData.title}</div>
                  <div class="content">
@@ -46,45 +18,98 @@ function updateTickerComponent(tickerData, id) {
                 </div>
             </div>
             <div class="icon ${tickerData.icon}"></div>
-    `;
+  `;
 
-    const component = document.getElementById(id);
-    component.innerHTML = tickerHtmlWithJsonValue;
-
+  component.innerHTML = tickerHtml;
 }
 
-function tickerComponentMounted(id, component) {
-
-    var defaultData = {
-        "title": component.getElementsByClassName("heading")[0].innerHTML,
-        "value": component.getElementsByClassName("value")[0].innerHTML,
-        "icon": component.getElementsByClassName("icon")[0].innerHTML,
-        "indicatorType": component.getElementsByClassName("indicator-type")[0].innerHTML,
-        "indicatorValue": component.getElementsByClassName("indicator-value")[0].innerHTML
-    }
-
-    // getting the dataSource of the component
-    var dataSourcePath = component.getAttribute("data-source") || "";
-
-    // getting the dataSource of the component
-    var dataSourceReferenceTime = component.getAttribute("data-source-refresh-time") || 5;
-    // cast to number (ms)
-    if (dataSourceReferenceTime) {
-        dataSourceReferenceTime = Number(dataSourceReferenceTime) * 1000;
-    } else {
-        dataSourceReferenceTime = 5000;
-    }
-
-    // Rendering the template
-    getDataFromDataSource(defaultData, dataSourcePath, id, dataSourceReferenceTime);
-
+// Update ticker using tms connection and its payload
+function tickerComponentConnectedViaTMS(topic, host) {
+  setTimeout(() => {
+    connectTMS(topic, host);
+  }, 2500);
 }
 
+
+// TMS connection
+function connectTMS(topic, host) {
+  const component = document.getElementById(topic);
+  // listen for messages
+  window.addEventListener(
+    window.MessageService.Client.events.MESSAGE,
+    function (message) {
+      const messageData = message?.detail?.data?.payload;
+      if (messageData) {
+        const payload = JSON.parse(messageData);
+        const { data } = payload;
+        if (data) {
+          updateTickerComponent(data, component);
+        }
+      }
+    }
+  );
+  function payload_insert(data) {
+    console.log("payload_insert", data);
+  }
+
+  // connect to websocket
+  window.MessageService.Client.connect(host, function () {
+    console.log("tms connected cms.");
+    window.MessageService.Client.subscribe("payload_insert", payload_insert);
+  });
+}
+
+// Update ticker using dataSource JSON
+function tickerComponentConnectedViaJSON(jsonUrl, component) {
+  const fetchAndUpdateView = async () => {
+    try {
+      const response = await fetch(jsonUrl).then((res) => res.json());
+
+      !response.value
+        ? tickerComponentConnectedViaInitialData(component)
+        : updateTickerComponent(response, component);
+    } catch (error) {
+      tickerComponentConnectedViaInitialData(component);
+    }
+  };
+  fetchAndUpdateView();
+}
+
+// Default data
+function tickerComponentConnectedViaInitialData(component) {
+  const model = component.getAttribute("data-model");
+  const parsedModel = JSON.parse(model);
+
+  const defaultData = {
+    title: parsedModel.title,
+    value: parsedModel.value,
+    icon: parsedModel.icon,
+    indicatorType: parsedModel.indicatorType,
+    indicatorValue: parsedModel.indicatorValue,
+  };
+
+  updateTickerComponent(defaultData, component);
+}
+
+// Initial Function
 $(document).ready(function (e) {
-    Array.from(document.querySelectorAll("#ticker")).forEach(component => {
-        var componentDataPath = component.getAttribute("data-path");
-        console.log(component)
-        component.setAttribute("id", componentDataPath);
-        tickerComponentMounted(componentDataPath, component);
-    })
+  Array.from(document.querySelectorAll("#ticker")).forEach((component) => {
+    const componentTopic = component.getAttribute("data-topic");
+    const componentHost = component.getAttribute("data-host");
+    const componentDataSource = component.getAttribute("data-source");
+
+    // Data can be updated via TMS Connection.
+    if (componentTopic && componentHost) {
+      component.setAttribute("id", componentTopic);
+      tickerComponentConnectedViaTMS(componentTopic, componentHost, component);
+    }
+    // Data can be updated via Data Source JSON
+    else if (componentDataSource) {
+      tickerComponentConnectedViaJSON(componentDataSource, component);
+    }
+    // Data can be updated via the default values from the model.
+    else {
+      tickerComponentConnectedViaInitialData(component);
+    }
+  });
 });
