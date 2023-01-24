@@ -30,10 +30,10 @@ const currentTheme = localStorage.getItem('theme');
 const style = document.getElementById("themeStyles");
     
 if(!currentTheme) {
-    localStorage.setItem("theme", "light");
+    localStorage.setItem("theme", "dark");
 }
 
-if(!currentTheme || currentTheme === 'light') {
+if(currentTheme === 'light') {
     style.setAttribute("active", "light");
 }else{
     style.setAttribute("active", "dark");
