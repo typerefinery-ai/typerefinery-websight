@@ -35,6 +35,18 @@ setTimeout(() => {
             const messageData = message?.detail?.data?.payload;
             console.log("--------------------------MESSAGE RECEIVED------------------------")
             console.log(messageData);
+            if(messageData){
+                const payload = JSON.parse(messageData);
+                if(payload.data) {
+                    localStorage.setItem(payload.name, JSON.stringify(payload.data));;
+                    const $component = document.getElementById(payload.name);
+                    if($component) {
+                        if($component.getAttribute('data-module') ==='tickerModule') {
+                            window.Typerefinery.Components.Widgets.Ticker.dataReceived(payload.data)
+                        }
+                    }
+                }
+            }
         }
     );
 }, 5000)

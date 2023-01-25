@@ -3,6 +3,10 @@ window.Typerefinery.Components.Widgets.Ticker = {}
     ; (function (ns, window, document) {
         console.log('INIT Function')
         function init() {
+            function getComponentConfig($component) {
+                const componentConfig = JSON.parse($component.getAttribute("data-model"));
+                return componentConfig;
+            }
             ns.updateComponentHTML = (data, $component) => {
                 const componentConfig = getComponentConfig($component);
                 console.log("updateComponentHTML", data, $component, componentConfig)
@@ -65,6 +69,11 @@ window.Typerefinery.Components.Widgets.Ticker = {}
             ns.modelDataConnected = ($component) => {
                 // Passing {} because, The values from the model obj are fetched in bellow function definition.
                 ns.updateComponentHTML({}, $component);
+            }
+
+            ns.dataReceived = (data, $component) => {
+                // Passing {} because, The values from the model obj are fetched in bellow function definition.
+                ns.updateComponentHTML(data, $component);
             }
         }
 
