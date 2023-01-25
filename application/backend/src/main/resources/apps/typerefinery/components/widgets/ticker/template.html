@@ -1,14 +1,11 @@
 <template data-sly-template.ticker="${ @ model }">
+  <!--/* TODO: update to use ${model.jsonString @ context='jsonString'} see: https://sling.apache.org/documentation/bundles/scripting/scripting-htl.html */-->
   <div
-    id="ticker"
-    data-path="${resource.path}"
-    data-module="tickerComponent"
-    class="ticker"
-    data-model='{"title":"${model.title}","value":"${model.value}","icon": "${model.icon}",  "indicatorType":"${model.indicatorType}",
-        "indicatorValue": "${model.indicatorValue}"}'
-    data-source="${model.dataSource}"
-    data-topic="${model.websocketTopic}"
-    data-host="${model.websocketHost}"
+    id="${model.id}"
+    data-path="${model.componentPath}"
+    data-module="${model.module}"
+    class="${model.classNames}"
+    data-model="${model.jsonString}"
   >
     <div class="icon dn">${model.icon}</div>
     <div class="heading dn">${model.title}</div>
