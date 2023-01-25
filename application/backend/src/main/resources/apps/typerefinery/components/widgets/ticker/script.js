@@ -1,39 +1,42 @@
 // Update the UI
+//TODO: move all functions to namespace in clientlibs/functions.js
 function updateTickerComponent(tickerData, component) {
+  // handle default for data that might not be present
+  const componentConfig = getComponentConfig(component);
   const tickerHtml = `
             <div class="body">
-                 <div class="title">${tickerData.title}</div>
+                 <div class="title">${tickerData.title || componentConfig.title}</div>
                  <div class="content">
                     <div class="value">
-                        ${tickerData.value}
+                        ${tickerData.value || componentConfig.value}
                     </div>
                     <div class="indicator">
-                        <div class="icon pi pi-arrow-${tickerData.indicatorType} ${tickerData.indicatorType}"></div>
-                        <div class="icon pi pi-minus ${tickerData.indicatorType}"></div>
+                        <div class="icon pi pi-arrow-${tickerData.indicatorType || componentConfig.indicatorType} ${tickerData.indicatorType || componentConfig.indicatorType}"></div>
+                        <div class="icon pi pi-minus ${tickerData.indicatorType || componentConfig.indicatorType}"></div>
                         <div class="indicator_value">
-                            <span>${tickerData.indicatorValue}</span>
-                            <span class="hours">(24 hours)</span>
+                            <span>${tickerData.indicatorValue || componentConfig.indicatorValue}</span>
+                            <span class="hours">${tickerData.indicatorValuePrecision || componentConfig.indicatorValuePrecision}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="icon ${tickerData.icon}"></div>
+            <div class="icon ${tickerData.icon || componentConfig.icon}"></div>
   `;
 
   component.innerHTML = tickerHtml;
 }
 
 // Update ticker using tms connection and its payload
-function tickerComponentConnectedViaTMS(topic, host) {
+function tickerComponentConnectedViaTMS(componentConfig) {
   setTimeout(() => {
-    connectTMS(topic, host);
+    connectTMS(componentConfig.websocketTopic, componentConfig.websocketHost);
   }, 2500);
 }
 
 
 // TMS connection
 function connectTMS(topic, host) {
-  const component = document.getElementById(topic);
+  const $component = document.getElementById(topic);
   // listen for messages
   window.addEventListener(
     window.MessageService.Client.events.MESSAGE,
@@ -43,7 +46,9 @@ function connectTMS(topic, host) {
         const payload = JSON.parse(messageData);
         const { data } = payload;
         if (data) {
-          updateTickerComponent(data, component);
+          //TODO: make this generic
+          //callback && callback(data, $component);
+          updateTickerComponent(data, $component);
         }
       }
     }
@@ -75,33 +80,37 @@ function tickerComponentConnectedViaJSON(jsonUrl, component) {
   fetchAndUpdateView();
 }
 
-// Default data
-function tickerComponentConnectedViaInitialData(component) {
-  const model = component.getAttribute("data-model");
-  const parsedModel = JSON.parse(model);
-
-  const defaultData = {
-    title: parsedModel.title,
-    value: parsedModel.value,
-    icon: parsedModel.icon,
-    indicatorType: parsedModel.indicatorType,
-    indicatorValue: parsedModel.indicatorValue,
-  };
-
-  updateTickerComponent(defaultData, component);
+function getComponentConfig($component) {
+  const componentConfig = JSON.parse($component.getAttribute("data-model"));
+  return componentConfig;
 }
 
+// Default data
+function tickerComponentConnectedViaInitialData(component) {
+  const componentConfig = JSON.parse(component.getAttribute("data-model"));
+  console.log("tickerComponentConnectedViaInitialData",componentConfig);
+  updateTickerComponent(componentConfig, component);
+}
+
+//TODO: move all functions to namespace in clientlibs/behaviour.js
 // Initial Function
 $(document).ready(function (e) {
   Array.from(document.querySelectorAll("#ticker")).forEach((component) => {
-    const componentTopic = component.getAttribute("data-topic");
-    const componentHost = component.getAttribute("data-host");
-    const componentDataSource = component.getAttribute("data-source");
+    // parse json value from data-model attribute as component config
+    const componentConfig = JSON.parse(component.getAttribute("data-model"));
+    const componentTopic = componentConfig.websocketTopic;
+    const componentHost = componentConfig.websocketHost;
+    const componentDataSource = componentConfig.dataSource;
+    console.log("componentConfig",componentConfig);
+    console.log("componentTopic",componentTopic);
+    console.log("componentHost",componentHost);
+    console.log("componentDataSource",componentDataSource);
+
 
     // Data can be updated via TMS Connection.
     if (componentTopic && componentHost) {
       component.setAttribute("id", componentTopic);
-      tickerComponentConnectedViaTMS(componentTopic, componentHost, component);
+      tickerComponentConnectedViaTMS(componentConfig, component);
     }
     // Data can be updated via Data Source JSON
     else if (componentDataSource) {
