@@ -38,7 +38,9 @@ function xAxisBarChartComponent(component, id) {
       drawXAxisBarChart(defaultData, id);
     }
   };
-  fetchData();
+  if(dataSourceURL){
+    fetchData();
+  }
 }
 
 function drawXAxisBarChart(barChartData, id) {
