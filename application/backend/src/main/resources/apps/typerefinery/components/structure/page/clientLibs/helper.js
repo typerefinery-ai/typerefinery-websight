@@ -20,7 +20,6 @@ setTimeout(() => {
         console.log("payload_insert", data);
     }
 
-    console.log(window.MessageService);
 
     // connect to websocket
     window.MessageService.Client.connect(host, function () {
@@ -31,15 +30,14 @@ setTimeout(() => {
     window.addEventListener(
         window.MessageService.Client.events.MESSAGE,
         function (message) {
-            console.log(message)
             const messageData = message?.detail?.data?.payload;
-            console.log("--------------------------MESSAGE RECEIVED------------------------")
+            console.log("--------------------------MESSAGE RECEIVED ------------------------")
             console.log(messageData);
             if(messageData){
                 const payload = JSON.parse(messageData);
                 if(payload.data) {
-                    localStorage.setItem(payload.name, JSON.stringify(payload.data));;
-                    const $component = document.getElementById(payload.name);
+                    localStorage.setItem(payload.topic, JSON.stringify(payload.data));;
+                    const $component = document.getElementById(payload.topic);
                     if($component) {
                         if($component.getAttribute('data-module') ==='tickerModule') {
                             window.Typerefinery.Components.Widgets.Ticker.dataReceived(payload.data)

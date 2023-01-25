@@ -8,6 +8,10 @@ window.Typerefinery.Components.Widgets.Ticker = {}
                 return componentConfig;
             }
             ns.updateComponentHTML = (data, $component) => {
+                if(!$component) {
+                    console.log('[ticker/clientlibs/functions.js] component does not exist')
+                    return ;
+                }
                 const componentConfig = getComponentConfig($component);
                 console.log("updateComponentHTML", data, $component, componentConfig)
                 const innerHTML = `
