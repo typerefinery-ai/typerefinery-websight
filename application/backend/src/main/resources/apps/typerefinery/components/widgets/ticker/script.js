@@ -30,10 +30,9 @@ function tickerComponentConnectedViaTMS(topic, host) {
   }, 2500);
 }
 
-
 // TMS connection
 function connectTMS(topic, host) {
-  const component = document.getElementById(topic);
+  const components = document.querySelectorAll(`#${topic}`);
   // listen for messages
   window.addEventListener(
     window.MessageService.Client.events.MESSAGE,
@@ -42,9 +41,11 @@ function connectTMS(topic, host) {
       if (messageData) {
         const payload = JSON.parse(messageData);
         const { data } = payload;
-        localStorage.setItem(`${topic}`, JSON.stringify(payload) );
+        localStorage.setItem(`${topic}`, JSON.stringify(payload));
         if (data) {
-          updateTickerComponent(data, component);
+          components.forEach((component) => {
+            updateTickerComponent(data, component);
+          });
         }
       }
     }
@@ -105,7 +106,6 @@ $(document).ready(function (e) {
       var localStorageValue = window.localStorage.getItem(`${componentTopic}`);
       if (localStorageValue) {
         updateTickerComponent(JSON.parse(localStorageValue).data, component);
-        window.reload()
       } else {
         tickerComponentConnectedViaInitialData(component);
       }
