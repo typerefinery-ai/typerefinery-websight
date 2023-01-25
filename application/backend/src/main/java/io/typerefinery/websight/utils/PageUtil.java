@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Dynamic Solutions
+ * Copyright (C) 2022 TypeRefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,13 @@ import org.apache.sling.api.resource.Resource;
 import org.jetbrains.annotations.NotNull;
 import pl.ds.websight.pages.core.api.Page;
 import pl.ds.websight.pages.core.api.PageConstants;
+import org.apache.jackrabbit.JcrConstants;
 
-public class PageUtil {
+public class PageUtil {  
+
+  public static String getResourcePagePath(@NotNull Resource resource) {
+    return resource.getPath().substring(0, resource.getPath().indexOf(JcrConstants.JCR_CONTENT)-1);
+  }
 
   public static Page findTopLevelParentPageForCurrentPage(@NotNull Page page) {
     while (page.getParent() != null) {
@@ -48,15 +53,15 @@ public class PageUtil {
 
   private static Predicate<Resource> isResourceSelectedTemplate(String template) {
     return resource -> {
-      if (resource.getChild(JCR_CONTENT) == null) {
+      if (resource.getChild(JcrConstants.JCR_CONTENT) == null) {
         return false;
       }
-      Object o = resource.getChild(JCR_CONTENT).getValueMap().get(PageConstants.PN_WS_TEMPLATE);
+      Object o = resource.getChild(JcrConstants.JCR_CONTENT).getValueMap().get(PageConstants.PN_WS_TEMPLATE);
       return o != null && o.equals(template);
     };
   }
 
-  private static final String JCR_CONTENT = "jcr:content";
+
 
   private PageUtil() {
     // no instance
