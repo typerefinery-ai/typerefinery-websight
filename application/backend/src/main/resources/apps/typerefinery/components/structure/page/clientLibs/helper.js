@@ -20,6 +20,8 @@ setTimeout(() => {
         console.log("payload_insert", data);
     }
 
+    console.log(window.MessageService);
+
     // connect to websocket
     window.MessageService.Client.connect(host, function () {
         console.log("tms connected cms.");
@@ -29,9 +31,10 @@ setTimeout(() => {
     window.addEventListener(
         window.MessageService.Client.events.MESSAGE,
         function (message) {
-          const messageData = message?.detail?.data?.payload;
-          console.log("--------------------------MESSAGE RECEIVED------------------------")
-          console.log(messageData);
+            console.log(message)
+            const messageData = message?.detail?.data?.payload;
+            console.log("--------------------------MESSAGE RECEIVED------------------------")
+            console.log(messageData);
         }
-      );
+    );
 }, 5000)

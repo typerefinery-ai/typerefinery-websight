@@ -1,9 +1,11 @@
 //this is the namespace for the functions for this component
 window.Typerefinery.Components.Widgets.Ticker = {}
     ; (function (ns, window, document) {
+        console.log('INIT Function')
         function init() {
             ns.updateComponentHTML = (data, $component) => {
                 const componentConfig = getComponentConfig($component);
+                console.log("updateComponentHTML", data, $component, componentConfig)
                 const innerHTML = `
                     <div class="body">
                         <div class="title">${data.title || componentConfig.title}</div>
