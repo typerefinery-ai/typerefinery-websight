@@ -5,7 +5,7 @@
                 "sling:resourceType": "wcm/dialogs/components/textfield",
                 "label": "icon",
                 "name": "icon",
-                "required": true
+                "required": false
             }
         },
         "metadataTab": {
