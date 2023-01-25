@@ -1,4 +1,7 @@
 
+window.Typerefinery = {};
+window.Typerefinery.Components = {};
+window.Vue = Vue;
 window.Typerefinery.Components = {
     getComponentData: function() {
         return {
@@ -22,21 +25,8 @@ window.Typerefinery.Components = {
     Structure: {
         Sidebar: {}
     },
-    Graphs: {}
+    Graphs: {},
+    Widgets: {
+        Ticker: {}
+    }
 };
-
-let rootEle = document.querySelector(':root');
-window.rootEleStyle = getComputedStyle(rootEle);
-const currentTheme = localStorage.getItem('theme');
-const style = document.getElementById("themeStyles");
-    
-if(!currentTheme) {
-    localStorage.setItem("theme", "dark");
-}
-
-if(currentTheme === 'light') {
-    style.setAttribute("active", "light");
-}else{
-    style.setAttribute("active", "dark");
-    style.setAttribute("href", `/apps/typerefinery/web_root/dark.css`);
-}
