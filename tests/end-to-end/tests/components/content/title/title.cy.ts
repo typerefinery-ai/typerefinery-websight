@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-describe('Typerefinery CTA', function () {
+describe('Components - Content - Title', function () {
   beforeEach(() => {
     cy.login();
   });
 
   it('renders correctly in preview mode', function () {
-    cy.visit('/content/typerefinery-showcase/pages/components/content/cta.html');
+    cy.visit('/content/typerefinery-showcase/pages/components/content/title.html');
 
-    cy.get("#button")
-      .contains('CTA')
+    cy.get(".hl-title__heading.hl-title__heading--size-4")
+      .should('have.text', 'Add your heading heretest1')
   });
 });
 
