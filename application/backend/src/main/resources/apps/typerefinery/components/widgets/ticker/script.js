@@ -101,10 +101,11 @@ $(document).ready(function (e) {
 
     // Data can be updated via TMS Connection.
     if (componentTopic && componentHost) {
-      // component.setAttribute("id", componentTopic);
+      component.setAttribute("id", componentTopic);
       var localStorageValue = window.localStorage.getItem(`${componentTopic}`);
       if (localStorageValue) {
         updateTickerComponent(JSON.parse(localStorageValue).data, component);
+        window.reload()
       } else {
         tickerComponentConnectedViaInitialData(component);
       }
