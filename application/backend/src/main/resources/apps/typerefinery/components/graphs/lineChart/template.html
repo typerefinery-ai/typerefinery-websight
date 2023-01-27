@@ -2,10 +2,10 @@
     <div 
         class="linechart"
         id="linechartContainer"
-        data-path="${resource.path}"
         data-source="${model.dataSource}"
+        data-model="${model.jsonString}"
     >
-        <canvas width="100%" id="${resource.path}-linechart" data-path="${resource.path}" data-module="linechartComponent">
+        <canvas width="100%" id="${resource.path}-linechart" data-module="linechartComponent">
         </canvas>
     </div>
 </template>
