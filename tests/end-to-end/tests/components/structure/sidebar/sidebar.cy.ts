@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// assertions: https://docs.cypress.io/guides/references/assertions
 describe('Components - Structure - Sidebar', function () {
   beforeEach(() => {
     cy.login();
