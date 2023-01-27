@@ -6,6 +6,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
+        // TODO: Need to test jquery itr.
         $("#ticker").each(function() {
             ns.init(this);
         });

@@ -3,7 +3,7 @@ window.Typerefinery.Theme = Typerefinery.Theme || {};
 window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
 
-; (function (ns, clientNs, document, window) {
+; (function (ns, themeNs, clientNs, document, window) {
     
     "use strict";
     ns.handleTheme = () => {
@@ -57,7 +57,7 @@ window.MessageService.Client = MessageService.Client || {};
     }
     ns.init = () => {
         const rootElement = document.querySelector(':root');
-        ns.rootElementStyle = getComputedStyle(rootElement);
+        themeNs.rootElementStyle = getComputedStyle(rootElement);
         ns.handleTheme();
 
         // TODO: Remove setTimeout.
@@ -67,4 +67,4 @@ window.MessageService.Client = MessageService.Client || {};
 
     };
 
-})(window.Typerefinery.Theme, document, window);
+})(window.Typerefinery, window.Typerefinery.Theme, window.MessageService.Client, document, window);

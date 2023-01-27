@@ -4,6 +4,6 @@ window.Typerefinery.Theme = Typerefinery.Theme || {};
     "use strict";
 
     $(document).ready(function () {
-        ns.init(this);
+        ns.init();
     });
-})(window.Typerefinery.Theme, document, window);
+})(window.Typerefinery, document, window);
