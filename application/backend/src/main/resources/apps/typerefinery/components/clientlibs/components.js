@@ -3,6 +3,7 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.VueData = Typerefinery.VueData || {};
 
 ;(function(ns, vueDataNs, document, window) {
+    "use strict";
     ns.registerComponent = (componentData) => {
         vueDataNs = {
             ...vueDataNs,

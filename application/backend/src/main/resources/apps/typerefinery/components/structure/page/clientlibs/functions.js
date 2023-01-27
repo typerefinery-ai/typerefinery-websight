@@ -4,6 +4,8 @@ window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
 
 ; (function (ns, clientNs, document, window) {
+    
+    "use strict";
     ns.handleTheme = () => {
         const currentTheme = localStorage.getItem('theme');
         const style = document.getElementById('themeStyles');
