@@ -15,7 +15,7 @@
  */
 
 // assertions: https://docs.cypress.io/guides/references/assertions
-describe('Components - Structure - Sidebar', function () {
+describe('Components - Layout - Sidebar', function () {
   beforeEach(() => {
     cy.login();
   });
