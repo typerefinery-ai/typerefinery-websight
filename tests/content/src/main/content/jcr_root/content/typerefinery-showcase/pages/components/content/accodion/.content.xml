@@ -4,14 +4,14 @@
   xmlns:ws="http://ds.pl/websight"
   xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Accordion" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-    <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/rootcontainer/fixedrootcontainer">
-      <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/headerreference"/>
-      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/maincontainer">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/pagesection">
+    <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
+      <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/headerreference"/>
+      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
+        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
           <accordion jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/accordion"/>
         </pagesection>
       </maincontainer>
-      <footer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/structure/footer"/>
+      <footer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/footer"/>
     </rootcontainer>
   </jcr:content>
 </jcr:root>

@@ -19,11 +19,17 @@ describe('Components - Content - Title', function () {
     cy.login();
   });
 
-  it('renders correctly in preview mode', function () {
+  it('renders default text when blank', function () {
     cy.visit('/content/typerefinery-showcase/pages/components/content/title.html');
 
-    cy.get(".hl-title__heading.hl-title__heading--size-4")
-      .should('have.text', 'Add your heading heretest1')
+    cy.get("#title")
+      .should('have.text', 'Add your heading here')
+  });
+  it('renders authored text', function () {
+    cy.visit('/content/typerefinery-showcase/pages/components/content/title.html');
+
+    cy.get("#title1")
+      .should('have.text', 'test1')
   });
 });
 

@@ -20,7 +20,7 @@ describe('Components - Structure - Sidebar', function () {
   });
 
   it('render sidebar without authored attributes on a page that has children', function () {
-    cy.visit('/content/typerefinery-showcase/pages/components/structure/sidebar.html');
+    cy.visit('/content/typerefinery-showcase/pages/components/layout/sidebar.html');
 
     cy.get("#sidebar")
       .invoke('attr', 'data-tree')
@@ -38,7 +38,7 @@ describe('Components - Structure - Sidebar', function () {
   });
 
   it('render sidebar without authored attributes on a page that hoes not have children', function () {
-    cy.visit('/content/typerefinery-showcase/pages/components/structure/sidebar/sidebarwithoutparent.html');
+    cy.visit('/content/typerefinery-showcase/pages/components/layout/sidebar/sidebarwithoutparent.html');
 
     cy.get("#sidebar")
       .invoke('attr', 'data-tree')
@@ -55,7 +55,7 @@ describe('Components - Structure - Sidebar', function () {
     });
   });
   it('render sidebar without authored parentPagePath on a page that hoes not have children', function () {
-    cy.visit('/content/typerefinery-showcase/pages/components/structure/sidebar/sidebarwithparent.html');
+    cy.visit('/content/typerefinery-showcase/pages/components/layout/sidebar/sidebarwithparent.html');
 
     cy.get("#sidebar")
       .invoke('attr', 'data-tree')
