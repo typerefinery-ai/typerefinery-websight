@@ -1,4 +1,4 @@
-function pieChartComponentMounted(component, id) {
+function piechartComponentMounted(component, id) {
   const defaultData = {
     labels: ["Group A", "Group B", "Group C", "Group D", "Group E", "Group F"],
     labelName: "Typerefinery Pie Chart",
@@ -34,10 +34,10 @@ function pieChartComponentMounted(component, id) {
   fetchData();
 }
 
-function drawPieChart(pieChartData, id) {
-  const { labels, chartData, backgroundColorForData, labelName } = pieChartData;
+function drawPieChart(piechartData, id) {
+  const { labels, chartData, backgroundColorForData, labelName } = piechartData;
 
-  const ctx = document.getElementById(`${id}-pieChart`).getContext("2d");
+  const ctx = document.getElementById(`${id}-piechart`).getContext("2d");
 
   // Plugin to update the canvas Background.
   const plugin = {
@@ -108,11 +108,11 @@ function drawPieChart(pieChartData, id) {
 }
 
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#pieChartContainer")).forEach(
+  Array.from(document.querySelectorAll("#piechartContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
       component.setAttribute("id", componentDataPath);
-      pieChartComponentMounted(component, componentDataPath);
+      piechartComponentMounted(component, componentDataPath);
     }
   );
 });

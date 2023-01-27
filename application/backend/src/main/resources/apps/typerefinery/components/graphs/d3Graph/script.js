@@ -1199,7 +1199,7 @@ var G_graph = (function () {
 new G_graph(Graph_Data, local_svg, theme)
 `;
 
-async function d3GraphComponentMounted(id, component) {
+async function d3graphComponentMounted(id, component) {
     var htmlData = defaultHTMLData;
     const fetchData = async (dataSourceURL) => {
         try {
@@ -1212,16 +1212,16 @@ async function d3GraphComponentMounted(id, component) {
     // if (component.getAttribute("data-html")) {
     //     await fetchData(component.getAttribute("data-html"));
     // }
-    htmlData = htmlData.replaceAll("#svg", `#d3GraphSvg`);
+    htmlData = htmlData.replaceAll("#svg", `#d3graphSvg`);
 
     setTimeout(htmlData, 1);
 }
 
 $(document).ready(function (e) {
     console.log("HELLO WORLD")
-    Array.from(document.querySelectorAll("#d3Graph")).forEach(component => {
+    Array.from(document.querySelectorAll("#d3graph")).forEach(component => {
         var componentDataPath = component.getAttribute("data-path");
         component.setAttribute("id", componentDataPath);
-        d3GraphComponentMounted(componentDataPath, component);
+        d3graphComponentMounted(componentDataPath, component);
     })
 });

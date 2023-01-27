@@ -86,6 +86,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <howlite.version>1.0.1</howlite.version>
     <bulma.version>1.0.3</bulma.version>
+    <sling.feature.launcher.version>1.2.4</sling.feature.launcher.version>
 
     <classifier>typerefinery-websight</classifier>
   </properties>

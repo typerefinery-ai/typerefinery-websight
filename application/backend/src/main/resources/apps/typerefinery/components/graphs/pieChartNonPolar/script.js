@@ -1,4 +1,4 @@
-function pieChartNonPolarComponentMounted(component, id) {
+function piechartnonpolarComponentMounted(component, id) {
   const defaultData = {
     labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
     labelName: "Typerefinery Pie Chart Non Polar",
@@ -32,10 +32,10 @@ function pieChartNonPolarComponentMounted(component, id) {
   fetchData();
 }
 
-function drawPieChartNonPolar(pieChartData, id) {
-  const { labels, chartData, backgroundColorForData, labelName } = pieChartData;
+function drawPieChartNonPolar(piechartData, id) {
+  const { labels, chartData, backgroundColorForData, labelName } = piechartData;
 
-  const ctx = document.getElementById(`${id}-pieChartNonPolar`).getContext("2d");
+  const ctx = document.getElementById(`${id}-piechartnonpolar`).getContext("2d");
 
   // Plugin to update the canvas Background.
   const plugin = {
@@ -88,11 +88,11 @@ function drawPieChartNonPolar(pieChartData, id) {
 }
 
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#pieChartNonPolarContainer")).forEach(
+  Array.from(document.querySelectorAll("#piechartnonpolarContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
       component.setAttribute("id", componentDataPath);
-      pieChartNonPolarComponentMounted(component, componentDataPath);
+      piechartnonpolarComponentMounted(component, componentDataPath);
     }
   );
 });

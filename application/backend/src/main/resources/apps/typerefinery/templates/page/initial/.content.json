@@ -4,12 +4,12 @@
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
     "rootcontainer": {
-      "sling:resourceType": "typerefinery/components/structure/rootcontainer/fixedrootcontainer",
+      "sling:resourceType": "typerefinery/components/layout/fixedrootcontainer",
       "header": {
-        "sling:resourceType": "typerefinery/components/structure/navbar"
+        "sling:resourceType": "typerefinery/components/layout/navbar"
       },
       "container": {
-        "sling:resourceType": "typerefinery/components/structure/container"
+        "sling:resourceType": "typerefinery/components/layout/container"
       }
     }
   }

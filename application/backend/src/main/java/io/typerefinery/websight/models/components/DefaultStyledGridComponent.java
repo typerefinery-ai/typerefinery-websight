@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Dynamic Solutions
+ * Copyright (C) 2022 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
-import io.typerefinery.websight.components.Grid;
-import io.typerefinery.websight.components.Styled;
 import io.typerefinery.websight.utils.GridStyle;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import io.typerefinery.websight.models.components.DefaultGridComponent;
 import io.typerefinery.websight.models.components.DefaultStyledComponent;
+import io.typerefinery.websight.models.components.layout.Grid;
+import io.typerefinery.websight.models.components.layout.Styled;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledGridComponent implements Styled, Grid {

@@ -26,8 +26,10 @@ VOLUME /websight/docroot
 
 COPY src/main/docker/typerefinery-websight/bin /websight/bin
 RUN ["chmod", "+x", "/websight/bin/launch.sh"]
-COPY target/dependency/org.apache.sling.feature.launcher.jar /websight
+COPY target/dependency/org.apache.sling.feature.launcher /websight/org.apache.sling.feature.launcher
 COPY target/artifacts/ /websight/cache/
+
+RUN chmod +x /websight/org.apache.sling.feature.launcher/bin/launcher
 
 RUN apt-get update && apt-get install curl --assume-yes
 HEALTHCHECK --interval=15s --timeout=3s --start-period=5s CMD curl --fail http://localhost:8080/system/health || exit 1

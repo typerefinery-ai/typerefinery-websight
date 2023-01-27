@@ -1,4 +1,4 @@
-function xAxisBarChartComponent(component, id) {
+function xaxisbarchartComponent(component, id) {
   const dataSourceURL = component.getAttribute("data-source");
   const defaultData = {
     chartData: [75000, 75000, 75000, 15000, 14000, 12000, 15200, 14200, 12450],
@@ -32,10 +32,10 @@ function xAxisBarChartComponent(component, id) {
     try {
       const response = await fetch(dataSourceURL).then((res) => res.json());
       !response
-        ? drawXAxisBarChart(defaultData, id)
-        : drawXAxisBarChart(response, id);
+        ? drawxaxisbarchart(defaultData, id)
+        : drawxaxisbarchart(response, id);
     } catch (error) {
-      drawXAxisBarChart(defaultData, id);
+      drawxaxisbarchart(defaultData, id);
     }
   };
   if(dataSourceURL){
@@ -43,7 +43,7 @@ function xAxisBarChartComponent(component, id) {
   }
 }
 
-function drawXAxisBarChart(barChartData, id) {
+function drawxaxisbarchart(barChartData, id) {
   const {
     labels,
     labelName,
@@ -108,11 +108,11 @@ function drawXAxisBarChart(barChartData, id) {
 }
 
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#xAxisBarChartContainer")).forEach(
+  Array.from(document.querySelectorAll("#xaxisbarchartContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
       component.setAttribute("id", componentDataPath);
-      xAxisBarChartComponent(component, componentDataPath);
+      xaxisbarchartComponent(component, componentDataPath);
     }
   );
 });

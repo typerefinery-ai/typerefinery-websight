@@ -1,4 +1,4 @@
-function lineChartComponentMounted(component, id) {
+function linechartComponentMounted(component, id) {
   const dataSourceURL = component.getAttribute("data-source");
   const defaultData = {
     chartData: [1, 1, 2, 3, 55, 50, 44, 39, 6, 7, 9, 35],
@@ -31,16 +31,16 @@ function lineChartComponentMounted(component, id) {
   fetchData();
 }
 
-function drawLineChart(lineChartData, id) {
+function drawLineChart(linechartData, id) {
   const {
     labels,
     labelName,
     chartData,
     dataSetBorderColor = "#0099DE",
     canvasBackgroundColor = "#343a40",
-  } = lineChartData;
+  } = linechartData;
 
-  const ctx = document.getElementById(`${id}-lineChart`).getContext("2d");
+  const ctx = document.getElementById(`${id}-linechart`).getContext("2d");
 
   // Linear background for the chart.
   const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
@@ -121,11 +121,11 @@ function drawLineChart(lineChartData, id) {
 }
 
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#lineChartContainer")).forEach(
+  Array.from(document.querySelectorAll("#linechartContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
       component.setAttribute("id", componentDataPath);
-      lineChartComponentMounted(component, componentDataPath);
+      linechartComponentMounted(component, componentDataPath);
     }
   );
 });
