@@ -17,6 +17,7 @@
 package io.typerefinery.websight.models.components.content;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseComponent;
@@ -24,10 +25,14 @@ import lombok.Getter;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import javax.inject.Inject;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Text extends BaseComponent {
 
     @Getter
+    @Inject
+    @Default(values = "Rich Text")
     private String text;
     
 }
