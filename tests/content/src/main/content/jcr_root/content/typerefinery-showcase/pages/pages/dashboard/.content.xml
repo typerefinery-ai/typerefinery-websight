@@ -66,7 +66,7 @@
           </container_1_3>
           <container_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
             <container_1_4_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "10" lgColSize= "9">
-              <datatable jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/content/datatable" />
+              <table jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/content/table" />
             </container_1_4_1>
             <container_1_4_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "4" lgColSize= "3">
               <piechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/piechart" />

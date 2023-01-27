@@ -153,7 +153,7 @@ body {
 .p-menuitem-text{
   color: var(--primary-text-color) !important;
 }
-.dataTable {
+.table {
   width: 100%;
   margin-bottom: 1%;
   min-height: 350px;
@@ -205,7 +205,7 @@ section.hl-page-section.hl-grid.hl-cols-12 {
   padding-top: 0rem !important;
 }
 
-div#dataTable {
+div#table {
   width: 90%;
   margin: auto;
   margin-top: 2rem !important;

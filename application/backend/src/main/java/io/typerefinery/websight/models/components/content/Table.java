@@ -21,9 +21,8 @@ import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
 import lombok.Getter;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class DataTable {
+public class Table {
   @Getter
   @Inject
-  // @Default (values = "http://localhost:8080/apps/typerefinery/components/content/datatable/dataSource_1.json")
   public String dataSource;
 }
