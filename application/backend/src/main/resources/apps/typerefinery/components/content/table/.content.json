@@ -1,6 +1,0 @@
-{
-  "group": "Typerefinery - Content",
-  "sling:resourceType": "ws:Component",
-  "description": "This is Table component for Typerefinery",
-  "title": "Table"
-}

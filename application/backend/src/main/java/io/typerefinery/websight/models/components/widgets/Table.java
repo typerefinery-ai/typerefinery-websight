@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.typerefinery.websight.models.components.content;
+package io.typerefinery.websight.models.components.widgets;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.api.resource.Resource;
