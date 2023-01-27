@@ -1,5 +1,5 @@
 {
-  "group": "Typerefinery",
+  "group": "Typerefinery - Widgets",
   "sling:resourceType": "ws:Component",
   "description": "ticker custom component",
   "title": "Column Ticker",

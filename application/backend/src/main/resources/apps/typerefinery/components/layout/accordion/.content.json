@@ -3,12 +3,7 @@
   "group": "Typerefinery - Layout",
   "sling:resourceType": "ws:Component",
   "title": "Accordion",
+  "isLayout": true,
   "allowedComponents": [
-    "Typerefinery - Content",
-    "Typerefinery - Details",
-    "Typerefinery - Forms",
-    "Typerefinery - Layout",
-    "Typerefinery - List",
-    "Typerefinery - Widgets"
-  ]
+    "/apps/typerefinery/components/accordion/accordionitem"]
 }

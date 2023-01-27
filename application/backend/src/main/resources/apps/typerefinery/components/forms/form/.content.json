@@ -1,6 +1,6 @@
 {
   "isContainer": true,
-  "group": "Typerefinery",
+  "group": "Typerefinery - Forms",
   "allowedComponents": "Typerefinery",
   "sling:resourceType": "ws:Component",
   "description": "Editable components wrapper",

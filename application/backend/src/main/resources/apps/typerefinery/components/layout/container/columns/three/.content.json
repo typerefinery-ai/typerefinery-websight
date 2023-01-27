@@ -4,5 +4,13 @@
   "group": "Empty Sections",
   "sling:resourceType": "ws:Component",
   "title": "3 Columns:Typerefinery",
-  "allowedComponents": ["Typerefinery"]
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ]
+
 }
