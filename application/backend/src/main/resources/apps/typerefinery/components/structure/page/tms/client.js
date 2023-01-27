@@ -20,7 +20,6 @@ window.MessageService.Client = MessageService.Client || {}
     MESSAGE: "messageservice:message",
     ERROR: "messageservice:error",
     emit: function (eventName, data) {
-      console.log(`Emmit event ${eventName}...`, ns.events[eventName])
       if (eventName) {
         document.body.dispatchEvent(
           new CustomEvent(eventName, {
@@ -46,8 +45,6 @@ window.MessageService.Client = MessageService.Client || {}
 
   //get metadata field messagehost
   ns.connect = function (host, callback) {
-    console.log("host cms",host)
-    console.log("callback cms" ,callback)
     if (typeof host !== "string") {
       ns.events.emit(ns.events.ERROR, `host "${host}" is not a string.`)
       return
@@ -63,12 +60,9 @@ window.MessageService.Client = MessageService.Client || {}
     }
     ns.ws.onmessage = function (event) {
       var message = JSON.parse(event.data)
-      console.log("message cms",message)
       var messageType = message.type
-      console.log("messageType", messageType, message)
       if (messageType === "call") {
         var messageId = message.id
-        console.log("call", message)
         var callbackId = message.callbackid
         let callback = ns.callbacks[callbackId]
         if (callbackId && callback) {
@@ -87,9 +81,7 @@ window.MessageService.Client = MessageService.Client || {}
         ns.publishers[messageId]
       ) {
         // TODO: handle publish - send message to server
-        console.log("publish", message)
         var publisherSchema = ns.publishers[messageId]
-        console.log(publisherSchema)
         var err = []
         var data = JSONSchemas.transform(
           publisherSchema,
@@ -98,18 +90,15 @@ window.MessageService.Client = MessageService.Client || {}
           true
         )
         if (data) {
-          console.log(data)
           for (var fn of ns.subscribers[messageId]) {
             fn(data)
           }
         }
       } else if (messageType === "meta") {
         ns.meta = message
-        console.log("mes",message)
         ns.publishers = {}
         //get list of pubishers schema from metadata
         for (var item of message.publish) {
-          console.log("item cms",item)
           ns.publishers[item.id] = item.schema
         }
         //sync subscribers
@@ -192,7 +181,6 @@ window.MessageService.Client = MessageService.Client || {}
   }
 
   ns.sendData = function (data, force) {
-    console.log(`sendData ready: ${ns.isReady()} force: ${force}`, data)
     if (ns.isReady() || force) {
       if (data === null && ns.dataToSend.length > 0) {
         ns.ws.send(ns.dataToSend.shift())
