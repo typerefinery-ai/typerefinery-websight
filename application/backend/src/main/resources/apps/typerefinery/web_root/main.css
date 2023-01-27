@@ -103,14 +103,14 @@ body {
   margin-right: 23.5%;
 }
 
-.lineChart {
+.linechart {
   background: #fff;
   width: 100%;
   margin: 0px 5px;
   min-height: 350px;
   margin-bottom: 3rem;
 }
-.lineChartLabel{
+.linechartLabel{
   background: #fff;
   width: 100%;
 
@@ -120,7 +120,7 @@ body {
 
 }
 
-.pieChart {
+.piechart {
   margin: 0px 5px;
   min-height: 400px;
   margin: auto;
@@ -175,7 +175,7 @@ body {
 /* .hl-rows-md-1 {
   height: 661px !important;
 } */
-.d3Graph {
+.d3graph {
   width: 90% !important;
   margin: auto;
   margin-top: 2rem !important;

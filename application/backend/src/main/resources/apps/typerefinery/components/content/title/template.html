@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2022 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -12,12 +12,14 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+    title, showSubtitle, subtitle, headingLevel, headingSize, classes
 */-->
-<template data-sly-template.title="${ @ title, showSubtitle, subtitle, headingLevel, headingSize, classes}">
-  <header class="hl-title ${classes @ join=' '}">
-    <sly data-sly-test="${showSubtitle && subtitle}">
-      <p class="subtitle">${subtitle}</p>
+<template data-sly-template.variant="${ @ model }">
+  <header class="hl-title ${model.classes @ join=' '}" id="${model.id}">
+    <sly data-sly-test="${model.showSubtitle && model.subtitle}">
+      <p class="subtitle">${model.subtitle}</p>
     </sly>
-    <h2 data-sly-element="${headingLevel}" class="hl-title__heading ${headingSize}">${title}</h2>
+    <h2 data-sly-element="${model.headingLevel}" class="hl-title__heading ${model.headingSize}">${model.title}</h2>
   </header>
 </template>

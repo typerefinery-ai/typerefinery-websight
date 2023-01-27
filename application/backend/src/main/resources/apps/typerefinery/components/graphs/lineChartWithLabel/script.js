@@ -28,13 +28,13 @@ function labelLineChartComponentMounted(component, id) {
   };
   fetchData();
 }
-function drawLabelLineChart(lineChartData, id) {
+function drawLabelLineChart(linechartData, id) {
   const {
     labels,
     labelName,
     chartData,
-  } = lineChartData;
-  const ctx = document.getElementById(`${id}-lineChart`).getContext("2d");
+  } = linechartData;
+  const ctx = document.getElementById(`${id}-linechart`).getContext("2d");
   // Linear background for the chart.
   const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
   chartBackgroundGradientColor.addColorStop(0.2, "#1c92d2");
@@ -119,7 +119,7 @@ function drawLabelLineChart(lineChartData, id) {
   window.Typerefinery.Components.Graphs[id] = chartInstance;
 }
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#lineChartLabelContainer")).forEach(
+  Array.from(document.querySelectorAll("#linechartLabelContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
       component.setAttribute("id", componentDataPath);

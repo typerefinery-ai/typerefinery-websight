@@ -1,4 +1,4 @@
-function leafletMapMounted(component, id) {
+function leafletmapMounted(component, id) {
   const dataSourceURL = component.getAttribute("data-source");
   const defaultData = polyJson;
   const fetchData = async () => {
@@ -15,13 +15,13 @@ function leafletMapMounted(component, id) {
 }
 
 function drawLeafletMapComponent(mapData, id) {
-  var leafletMapComponent = L.map(id).setView([9.145, 40.4897], 2);
+  var leafletmapComponent = L.map(id).setView([9.145, 40.4897], 2);
 
   // Polygon Layer over map.
   mapData.forEach(_ => {
     L.geoJSON(_.coordinates, {
       style: _.style,
-    }).addTo(leafletMapComponent);
+    }).addTo(leafletmapComponent);
   }); 
 
   //add map style
@@ -32,12 +32,12 @@ function drawLeafletMapComponent(mapData, id) {
       attribution:
         '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
     }
-  ).addTo(leafletMapComponent);
+  ).addTo(leafletmapComponent);
 }
 $(document).ready(function (e) {
-  Array.from(document.querySelectorAll("#leafletMap")).forEach((component) => {
+  Array.from(document.querySelectorAll("#leafletmap")).forEach((component) => {
     const componentDataPath = component.getAttribute("data-path");
     component.setAttribute("id", componentDataPath);
-    leafletMapMounted(component, componentDataPath);
+    leafletmapMounted(component, componentDataPath);
   });
 });

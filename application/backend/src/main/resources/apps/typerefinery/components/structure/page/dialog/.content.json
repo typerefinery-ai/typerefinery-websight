@@ -51,6 +51,30 @@
                 "label": "Property og:title",
                 "name": "ogTitle"
             }
+        },
+        "advanced": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "Advanced",
+            "flowstreamenable": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "label": "Enable Flow",
+                "name": "flowstreamenable",
+                "yes": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "True",
+                    "value": "true"
+                },
+                "no": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "False",
+                    "value": "false"
+                }
+            },
+            "flowstreamid": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "label": "Id of the flow",
+                "name": "flowstreamid"
+            }
         }
     }
 }
