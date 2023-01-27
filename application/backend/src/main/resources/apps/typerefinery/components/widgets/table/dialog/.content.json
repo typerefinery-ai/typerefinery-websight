@@ -8,7 +8,7 @@
           "dataSource": {
               "sling:resourceType": "wcm/dialogs/components/textfield",
               "name": "dataSource",
-              "description": "Please provide url to data source for this Datatable.",
+              "description": "Please provide url to data source for this Table.",
               "label": "Data Source"
           }
       }

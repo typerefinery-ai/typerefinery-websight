@@ -13,6 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.text="${ @ text, classNames}">
-    <div class="hl-rich-text ${classNames @ join=' '}">${text @ context='html'}</div>
+<template data-sly-template.variant="${ @ model}">
+    <div class="hl-rich-text ${model.classNames @ join=' '}">${model.text @ context='html'}</div>
 </template>

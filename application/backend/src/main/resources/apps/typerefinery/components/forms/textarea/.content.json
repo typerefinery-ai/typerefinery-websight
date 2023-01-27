@@ -1,7 +1,6 @@
 {
   "isContainer": true,
-  "group": "Typerefinery",
+  "group": "Typerefinery - Forms",
   "sling:resourceType": "ws:Component",
-  "title": "Textarea",
-  "allowedComponents": ["Typerefinery"]
+  "title": "Textarea"
 }

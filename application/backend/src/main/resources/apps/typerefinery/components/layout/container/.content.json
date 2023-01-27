@@ -1,12 +1,15 @@
 {
   "isContainer": true,
-  "group": "Typerefinery",
+  "group": "Typerefinery - Layout",
+  "isLayout": true,
   "allowedComponents": [
-    "/apps/typerefinery/components/structure/pagesection",
-    "/apps/typerefinery/components/layout/container",
-    "Empty Sections",
-    "Filled Sections",
-    "Typerefinery"
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
   ],
   "sling:resourceType": "ws:Component",
   "description": "Editable components wrapper",

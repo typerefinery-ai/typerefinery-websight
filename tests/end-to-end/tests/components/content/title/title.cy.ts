@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// assertions: https://docs.cypress.io/guides/references/assertions
 describe('Components - Content - Title', function () {
   beforeEach(() => {
     cy.login();

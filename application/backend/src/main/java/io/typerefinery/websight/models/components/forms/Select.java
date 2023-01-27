@@ -6,20 +6,20 @@ import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
 import lombok.Getter;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Dropdown {
+public class Select {
     @Inject
     @Getter
-    @Default(values = "dropdown")
+    @Default(values = "select")
     private String name;
 
     @Inject
     @Getter
-    @Default(values = "Dropdown")
+    @Default(values = "select")
     private String label;
 
     @Inject
     @Getter
-    @Default(values = "dropdown")
+    @Default(values = "select")
     private String cls;
 
     @Inject

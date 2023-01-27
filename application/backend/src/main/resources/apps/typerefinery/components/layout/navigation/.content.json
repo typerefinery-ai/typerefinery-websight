@@ -1,5 +1,6 @@
 {
-  "group": ".hidden",
+  "group": "Typerefinery - Layout",
   "sling:resourceType": "ws:Component",
-  "title": "Navigation"
+  "title": "Navigation",
+  "isLayout": true
 }

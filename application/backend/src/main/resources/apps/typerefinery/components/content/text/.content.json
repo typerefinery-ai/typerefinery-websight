@@ -1,5 +1,5 @@
 {
-  "group": "Typerefinery",
+  "group": "Typerefinery - Content",
   "sling:resourceType": "ws:Component",
-  "title": "Rich text editor"
+  "title": "Text"
 }

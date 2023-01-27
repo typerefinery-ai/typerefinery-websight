@@ -1,6 +1,6 @@
 {
   "title": "Title",
-  "group": "Typerefinery",
+  "group": "Typerefinery - Content",
   "sling:resourceType": "ws:Component",
   "sling:resourceSuperType": "howlite/components/title"
 }

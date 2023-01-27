@@ -1,5 +1,6 @@
 {
   "group": "Typerefinery - Widgets",
   "sling:resourceType": "ws:Component",
-  "title": "Map"
+  "description": "Display table from a URL data source.",
+  "title": "Table"
 }

@@ -1,7 +1,15 @@
 {
   "isContainer": true,
-  "group": "Typerefinery",
+  "group": "Typerefinery - Forms",
   "sling:resourceType": "ws:Component",
   "title": "Password",
-  "allowedComponents": ["Typerefinery"]
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ]
+
 }
