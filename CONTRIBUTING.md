@@ -10,16 +10,6 @@ Typerefinery WebSight CMS Project is using [GitHub issues](https://github.com/in
 ## Code of Conduct
 This project, and everyone participating in it, are governed by the [WebSight Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold it. Make sure to read the [full text](CODE_OF_CONDUCT.md) to understand which type of actions may or may not be tolerated.
 
-## Contributor License Agreement (CLA)
-
-### Individual contribution
-
-You need to sign a [Dynamic Solutions Individual Contributor License Agreement](https://www.websight.io/product/cla/individual/v1/) (CLA) to accept your pull request. You only need to do this once. If you submit a pull request for the first time, we will ask you to sign our CLA before merging the pull request.
-
-### Company contribution
-
-If you make contributions to our repositories on behalf of your company, we will need a [Dynamic Solutions Corporate Contributor License Agreement](https://www.websight.io/product/cla/corporate/v1/) signed. To do that, please get in touch with us at [websight@ds.pl](mailto:websight@ds.pl).
-
 ## Documentation
 
 Pull requests related to fixing documentation for the latest release should be directed towards the [documentation repository](https://github.com/websight-io/docs).
