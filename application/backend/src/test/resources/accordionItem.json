@@ -1,14 +1,14 @@
 {
   "accordion-default": {
     "jcr:primaryType": "nt:unstructured",
-    "sling:resourceType": "howlite/components/accordion",
+    "sling:resourceType": "typerefinery/components/layout/accordion",
     "accordionitem-default": {
       "jcr:primaryType": "nt:unstructured",
-      "sling:resourceType": "howlite/components/accordion/accordionitem"
+      "sling:resourceType": "typerefinery/components/layout/accordionitem"
     },
     "accordionitem-simple": {
       "jcr:primaryType": "nt:unstructured",
-      "sling:resourceType": "howlite/components/accordion/accordionitem",
+      "sling:resourceType": "typerefinery/components/layout/accordionitem",
       "headingLevel": "h6",
       "title": "Simple title",
       "content": "Simple content"
@@ -16,11 +16,11 @@
   },
   "accordion-with-hlevel": {
     "jcr:primaryType": "nt:unstructured",
-    "sling:resourceType": "howlite/components/accordion",
+    "sling:resourceType": "typerefinery/components/layout/accordion",
     "headingLevel": "h1",
     "accordionitem-without-hlevel": {
       "jcr:primaryType": "nt:unstructured",
-      "sling:resourceType": "howlite/components/accordion/accordionitem"
+      "sling:resourceType": "typerefinery/components/layout/accordionitem"
     }
   }
 }
