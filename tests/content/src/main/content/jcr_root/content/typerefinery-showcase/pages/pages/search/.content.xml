@@ -11,7 +11,7 @@
             <header jcr:primaryType="nt:unstructured"
                 sling:resourceType="/apps/typerefinery/components/layout/header"/>
             <twocols jcr:primaryType="nt:unstructured"
-                sling:resourceType="/apps/typerefinery/components/structure/pagesection"
+                sling:resourceType="/apps/typerefinery/components/layout/pagesection"
                 classes="\0">
                 <container1 jcr:primaryType="nt:unstructured"
                     sling:resourceType="/apps/typerefinery/components/layout/container"
