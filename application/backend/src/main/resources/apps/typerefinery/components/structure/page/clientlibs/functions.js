@@ -1,9 +1,10 @@
 window.Typerefinery = window.Typerefinery || {};
+window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Theme = Typerefinery.Theme || {};
 window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
 
-; (function (ns, themeNs, clientNs, document, window) {
+; (function (ns, themeNs, clientNs, componentNs, document, window) {
     
     "use strict";
     ns.handleTheme = () => {
@@ -46,8 +47,8 @@ window.MessageService.Client = MessageService.Client || {};
                         const $component = document.getElementById(payload.topic);
                         if ($component) {
                             // TODO: Need to find solution to update the module.
-                            if ($component.getAttribute('data-module') === 'tickerModule') {
-                                window.Typerefinery.Components.Widgets.Ticker.dataReceived(payload.data)
+                            if ($component.getAttribute('data-module') === 'tickerComponent') {
+                                componentNs?.Widgets?.Ticker?.dataReceived(payload.data)
                             }
                         }
                     }
@@ -67,4 +68,4 @@ window.MessageService.Client = MessageService.Client || {};
 
     };
 
-})(window.Typerefinery, window.Typerefinery.Theme, window.MessageService.Client, document, window);
+})(window.Typerefinery, window.Typerefinery.Theme, window.MessageService.Client, window.Typerefinery.Components, document, window);
