@@ -27,34 +27,34 @@ window.MessageService.Client = MessageService.Client || {};
             console.log("payload_insert", data);
         }
         // connect to websocket
-        // clientNs?.connect(host, function () {
-        //     console.log("tms connected cms.");
-        //     clientNs?.subscribe("payload_insert", payload_insert);
-        // });
+        clientNs?.connect(host, function () {
+            console.log("tms connected cms.");
+            clientNs?.subscribe("payload_insert", payload_insert);
+        });
 
-        // // listen to messages.
-        // window.addEventListener(
-        //     clientNs?.events.MESSAGE,
-        //     function (message) {
-        //         const messageData = message?.detail?.data?.payload;
-        //         console.log("--------------------------MESSAGE RECEIVED ------------------------")
-        //         console.log(messageData);
-        //         if (messageData) {
-        //             const payload = JSON.parse(messageData);
-        //             if (payload.data) {
-        //                 // Persisting data in the localStorage.
-        //                 localStorage.setItem(payload.topic, JSON.stringify(payload.data));;
-        //                 const $component = document.getElementById(payload.topic);
-        //                 if ($component) {
-        //                     // TODO: Need to find solution to update the module.
-        //                     if ($component.getAttribute('data-module') === 'tickerComponent') {
-        //                         componentNs?.Widgets?.Ticker?.dataReceived(payload.data)
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // );
+        // listen to messages.
+        window.addEventListener(
+            clientNs?.events.MESSAGE,
+            function (message) {
+                const messageData = message?.detail?.data?.payload;
+                console.log("--------------------------MESSAGE RECEIVED ------------------------")
+                console.log(messageData);
+                if (messageData) {
+                    const payload = JSON.parse(messageData);
+                    if (payload.data) {
+                        // Persisting data in the localStorage.
+                        localStorage.setItem(payload.topic, JSON.stringify(payload.data));;
+                        const $component = document.getElementById(payload.topic);
+                        if ($component) {
+                            // TODO: Need to find solution to update the module.
+                            if ($component.getAttribute('data-module') === 'tickerComponent') {
+                                componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
+                            }
+                        }
+                    }
+                }
+            }
+        );
     }
     ns.init = () => {
         const rootElement = document.querySelector(':root');
@@ -64,7 +64,7 @@ window.MessageService.Client = MessageService.Client || {};
         // TODO: Remove setTimeout.
         setTimeout(() => {
             ns.tmsConnection();
-        }, 2500);
+        }, 5000);
 
     };
 

@@ -79,10 +79,9 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
     }
 
     ns.init = ($component) => {
-        console.log( "Ticker Init Function")
         // parse json value from data-model attribute as component config
         const componentConfig = componentNs.getComponentConfig($component);
-        const componentTopic = componentConfig.websocketTopic;
+        const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
 
