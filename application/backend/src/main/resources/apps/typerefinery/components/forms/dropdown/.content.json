@@ -1,6 +1,0 @@
-{
-  "group": "Typerefinery - Forms",
-  "sling:resourceType": "ws:Component",
-  "description": "Prime vue card component.",
-  "title": "Select"
-}
