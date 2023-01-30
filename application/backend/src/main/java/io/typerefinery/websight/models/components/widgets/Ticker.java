@@ -11,8 +11,6 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.models.components.BaseComponent;
 
@@ -21,7 +19,6 @@ import io.typerefinery.websight.models.components.BaseComponent;
 @Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Ticker extends BaseComponent {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Ticker.class);
 
     private static final String DEFAULT_ID = "ticker";
     private static final String DEFAULT_CLASS_NAMES = "ticker";
