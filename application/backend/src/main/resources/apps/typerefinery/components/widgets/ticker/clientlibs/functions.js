@@ -35,7 +35,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         $component.innerHTML = innerHTML;
     }
 
-    ns.jsonDataConnected = async (dataSourceURL, $component) => {
+    ns.jsonConnected = async (dataSourceURL, $component) => {
         try {
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
