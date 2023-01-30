@@ -1,1 +1,0 @@
-//this is the namesapce activating this component

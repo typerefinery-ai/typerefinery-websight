@@ -1,9 +1,0 @@
-{
-  "isContainer": true,
-  "group": "Typerefinery - Layout",
-  "sling:resourceType": "ws:Component",
-  "title": "Accordion",
-  "isLayout": true,
-  "allowedComponents": [
-    "/apps/typerefinery/components/accordion/accordionitem"]
-}

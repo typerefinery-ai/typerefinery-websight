@@ -1,7 +1,0 @@
-{
-  "instanceResourceType": "/apps/typerefinery/components/layout/container",
-  "isLayout": true,
-  "group": "Empty Sections",
-  "sling:resourceType": "ws:Component",
-  "title": "1 Row:Typerefinery"
-}

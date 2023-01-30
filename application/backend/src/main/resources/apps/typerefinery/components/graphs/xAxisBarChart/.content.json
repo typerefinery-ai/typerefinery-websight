@@ -1,6 +1,0 @@
-{
-    "group": "Typerefinery - Graphs",
-    "sling:resourceType": "ws:Component",
-    "description": "X Axis Bar Chart",
-    "title": "X Axis Bar Chart"
-}

@@ -1,7 +1,0 @@
-{
-    "group": "Typerefinery - Graphs",
-    "sling:resourceType": "ws:Component",
-    "description": "D3 Graph Component",
-    "title": "D3 Graph"
-  }
-  
