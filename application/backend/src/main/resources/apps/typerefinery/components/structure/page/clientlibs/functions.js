@@ -49,6 +49,8 @@ window.MessageService.Client = MessageService.Client || {};
                             // TODO: Need to find solution to update the module.
                             if ($component.getAttribute('data-module') === 'tickerComponent') {
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
+                            }else if ($component.getAttribute('data-module') === 'linechartComponent') {
+                                componentNs?.Graphs?.LineChart?.dataReceived(payload.data, $component)
                             }
                         }
                     }
