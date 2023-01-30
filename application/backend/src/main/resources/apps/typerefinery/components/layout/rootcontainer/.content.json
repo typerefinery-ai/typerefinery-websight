@@ -1,0 +1,18 @@
+{
+  "isContainer": true,
+  "isLayout": true,
+  "group": ".hidden",
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ],
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/rootcontainer",
+  "description": "Use for most outer, editable (homepage) root",
+  "title": "Body"
+}

@@ -1,0 +1,5 @@
+{
+  "group": "Typerefinery - Widgets",
+  "sling:resourceType": "ws:Component",
+  "title": "Leaflet Map"
+}

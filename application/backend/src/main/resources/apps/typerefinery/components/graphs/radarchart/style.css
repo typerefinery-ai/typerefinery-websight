@@ -1,0 +1,14 @@
+.radarChart {
+  background: #fff;
+  margin: 0px 5px;
+  min-height: 400px;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+.radarCanvas {
+  display: block !important;
+  box-sizing: border-box !important;
+  height: 350px !important;
+  width: 300px !important;
+}

@@ -1,0 +1,6 @@
+{
+  "group": "Typerefinery - Graphs",
+  "sling:resourceType": "ws:Component",
+  "description": "Line Chart with label",
+  "title": "Line Chart Label"
+}

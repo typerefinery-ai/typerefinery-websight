@@ -1,0 +1,7 @@
+{
+  "group": "Typerefinery - Widgets",
+  "sling:resourceType": "ws:Component",
+  "description": "ticker custom component",
+  "title": "Ticker",
+  "isContainer": true
+}

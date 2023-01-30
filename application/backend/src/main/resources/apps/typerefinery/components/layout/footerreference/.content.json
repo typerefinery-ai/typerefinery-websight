@@ -1,0 +1,6 @@
+{
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/footerreference",
+  "title": "Footer"
+}

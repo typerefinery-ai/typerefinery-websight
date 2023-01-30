@@ -1,0 +1,16 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Layout",
+  "sling:resourceType": "ws:Component",
+  "title": "Accordion Item",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ]
+}

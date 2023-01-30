@@ -1,0 +1,17 @@
+{
+  "isContainer": true,
+  "isLayout": true,
+  "group": "Typerefinery - Layout",
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Use for 12 cols page sections, inside main content",
+  "title": "Page Section"
+}

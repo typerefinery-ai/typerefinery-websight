@@ -1,0 +1,28 @@
+{
+  "chartData": [60000, 60000, 60000, 50000, 40000, 35000, 30000, 25000, 25000],
+  "labelName": "Bar Chart",
+  "labels": [
+    "Jan",
+    "Feb",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "Sept"
+  ],
+  "barbackgroundcolor": [
+    "#228B22",
+    "#FFB94E",
+    "#FFB94E",
+    "#FFB94E",
+    "#FFB94E",
+    "#ED7117",
+    "#FFB94E",
+    "#228B22",
+    "#228B22"
+  ],
+  "dataSetBorderColor": "#0099DE",
+  "canvasBackgroundColor": "#343a40"
+}

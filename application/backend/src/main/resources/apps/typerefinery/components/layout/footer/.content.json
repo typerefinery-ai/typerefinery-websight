@@ -1,0 +1,7 @@
+{
+  "isLayout": true,
+  "group": "Typerefinery - Layout",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "howlite/components/footer",
+  "title": "Footer"
+}

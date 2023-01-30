@@ -1,0 +1,15 @@
+{
+  "instanceResourceType": "/apps/typerefinery/components/layout/container",
+  "isLayout": true,
+  "group": "Typerefinery - Layout",
+  "sling:resourceType": "ws:Component",
+  "title": "1 Columns",
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets"
+  ]
+}

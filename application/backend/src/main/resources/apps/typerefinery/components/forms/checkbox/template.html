@@ -1,0 +1,13 @@
+<template data-sly-template.checkbox="${ @ model }">
+    <div class="checkbox">
+        <!-- v-model="checkboxValue" -->
+        <p-checkbox 
+            name="${model.name}" 
+            class="${model.cls}"
+            value="${model.name}"
+            data-module="vue-checkBox"
+        > 
+        </p-checkbox>
+        <label class="checkbox-width" for="${model.name}">${model.label}</label>
+    </div>
+</template>

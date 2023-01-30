@@ -1,0 +1,5 @@
+{
+  "group": "Typerefinery - Content",
+  "sling:resourceType": "ws:Component",
+  "title": "Image"
+}

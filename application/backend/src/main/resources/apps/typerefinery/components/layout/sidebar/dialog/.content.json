@@ -1,0 +1,17 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "parentPagePath": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Parent Page",
+      "fieldLabel": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "parentPagePath",
+        "label": "Parent Pag Path",
+        "description": "Please provide the parent page of this sidebar component, default will be current page.",
+        "defaultValue": "" 
+      }
+    }
+  }
+}

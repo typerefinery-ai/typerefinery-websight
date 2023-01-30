@@ -1,0 +1,149 @@
+/*  
+    <div class="ticker">
+        <div class="icon ${icon}"></div>
+        <div class="heading">${title}</div>
+        <div class="value">${value}</div>
+        <div class="indicator">
+            <div class="icon ${indicatorType}"></div>
+            <div class="value">${indicatorValue}</div>
+        </div>
+    </div> 
+*/
+
+.ticker {
+  font-family: "Roboto Slab", serif !important;
+  background: var(--primary-object-background-color);
+  min-width: 185px;
+  width: 100%;
+  height: 105px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  border-radius: 6px;
+  padding: 20px;
+  margin: 5px;
+  margin-bottom: 1%;
+}
+
+.ticker .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.ticker .body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.ticker .content {
+  display: flex;
+  align-items: center;
+}
+
+.ticker .value {
+  font-weight: 500;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--primary-text-color);
+}
+
+.ticker .icon {
+  color: #00b1ff;
+}
+
+.ticker .title {
+  font-weight: 400;
+  font-size: 15px;
+  color: rgb(188, 188, 188);
+}
+
+.ticker .header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.ticker .indicator {
+  margin-left: 10px;
+  font-size: 10px;
+  color: rgb(226 250 228);
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  border-radius: 4px;
+}
+
+.ticker .indicator_value {
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 11px;
+}
+
+.ticker .indicator .icon {
+  font-size: 10px;
+  color: rgb(226 250 228);
+  margin-left: 10px;
+}
+
+.ticker .indicator .down {
+  color: #f55a32;
+}
+
+.ticker .indicator .same {
+  color: #a696d5;
+}
+
+.indicator:has(.down) {
+  background: #4d3139;
+  color: #f55a32 !important;
+}
+
+.indicator:has(.up) {
+  color: rgb(226 250 228) !important;
+  background: rgb(6, 42, 61);
+}
+
+.ticker .indicator .pi {
+  display: none;
+}
+
+.indicator:has(.same) {
+  background: #33426a;
+  color: #a696d5 !important;
+}
+
+.pi.pi-minus.same {
+  display: block;
+}
+
+.pi.pi-arrow-up.up {
+  display: block;
+}
+.pi.pi-arrow-down.down {
+  display: block;
+}
+.ticker .hours {
+  color: var(--primary-text-color);
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.dn,
+.path,
+.refresh-time {
+  display: none;
+}

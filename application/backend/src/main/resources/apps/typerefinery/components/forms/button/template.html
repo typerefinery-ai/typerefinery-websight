@@ -1,0 +1,18 @@
+<template data-sly-template.button="${ @ model }">
+    <div class="button" >
+        <div data-sly-test.cls="${model.isRoundedButton ? 'p-button-rounded' : ''}"></div>
+        <div data-sly-test.cls="${model.isRaisedButton ? '${cls} p-button-raised'  : cls}"></div>
+        <div data-sly-test.cls="${model.isOutlinedButton ? '${cls} p-button-outlined' : cls}"></div>
+        <p-button 
+            label=${model.label}
+            type="${model.buttonType}" 
+            data-path="${resource.path}"
+            id="button"
+            data-type="${model.buttonType}"
+            class="${model.buttonSize} ${model.buttonVariant} ${cls}"
+            data-redirection-url=${model.url}
+        >
+        </p-button>
+        
+    </div>
+</template>

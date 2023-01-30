@@ -1,0 +1,6 @@
+{
+  "group": "Typerefinery - Graphs",
+  "sling:resourceType": "ws:Component",
+  "description": "radar Chart",
+  "title": "Radar Chart"
+}

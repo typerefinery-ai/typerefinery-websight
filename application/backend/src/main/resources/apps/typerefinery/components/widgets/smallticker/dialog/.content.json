@@ -1,0 +1,43 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldTitle": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Title"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "default": "556578",
+        "label": "Value"
+      },
+      "bgColor": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "bgColor",
+        "description": "Please provide hex color code",
+        "label": "Background Color"
+      },
+      "textColor": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "textColor",
+        "description": "Please provide hex color code",
+        "label": "Text Color"
+      }
+    },
+    "dataSource": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source for this ticker.",
+        "label": "Data Source"
+      }
+    }
+  }
+}
