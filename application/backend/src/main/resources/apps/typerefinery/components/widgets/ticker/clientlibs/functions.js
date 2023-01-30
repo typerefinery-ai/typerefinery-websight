@@ -12,6 +12,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
             return;
         }
         const componentConfig = componentNs.getComponentConfig($component);
+        console.log(componentConfig, "componentConfig", data)
         const innerHTML = `
                 <div class="body">
                     <div class="title">${data.title || componentConfig.title}</div>
@@ -78,6 +79,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
     }
 
     ns.init = ($component) => {
+        console.log( "Ticker Init Function")
         // parse json value from data-model attribute as component config
         const componentConfig = componentNs.getComponentConfig($component);
         const componentTopic = componentConfig.websocketTopic;
