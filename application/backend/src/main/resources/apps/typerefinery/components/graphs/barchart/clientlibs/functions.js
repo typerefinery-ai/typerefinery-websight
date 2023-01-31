@@ -58,7 +58,7 @@ const DEFAULT_BAR_CHART_DATA = {
                 const { ctx } = chart;
                 ctx.save();
                 ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle =data.canvasBackgroundColor || componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#99ffff";;
+                ctx.fillStyle =data.barbackgroundcolor || componentConfig.barbackgroundcolor || themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color') || "#99ffff";;
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
               },
@@ -73,8 +73,8 @@ const DEFAULT_BAR_CHART_DATA = {
                     axis: "y",
                     data: data.chartData || componentConfig.chartData,
                     fill: false,
-                    backgroundColor:"blue",
-                    borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-border-color') || "#001E3C",
+                    backgroundColor:data.dataSetBorderColor || componentConfig.dataSetBorderColor ||  themeNs?.rootElementStyle.getPropertyValue('--primary-object-border-color') || "#001E3C",
+                    borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor ||  themeNs?.rootElementStyle.getPropertyValue('--primary-object-border-color') || "#001E3C",
                     borderWidth: 1,
                   },
                 ],
@@ -92,15 +92,15 @@ const DEFAULT_BAR_CHART_DATA = {
                       display: false,
                     },
                     ticks: {
-                      color:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--ticks-color') || "#5D7183" ,
+                      color: themeNs?.rootElementStyle.getPropertyValue('--ticks-color') || "#5D7183" ,
                     },
                   },
                   y: {
                     grid: {
-                      color: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--grid-color'),
+                      color:  themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
                     },
                     ticks: {
-                      color:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--ticks-color')||"#5D7183"
+                      color: themeNs?.rootElementStyle.getPropertyValue('--ticks-color')||"#5D7183"
                     },
                   },
                 },
@@ -119,7 +119,7 @@ const DEFAULT_BAR_CHART_DATA = {
             graphItemsNs[componentConfig.resourcePath] = chartInstance;
         }
 
-        ns.jsonDataConnected = async (dataSourceURL, $component) => {
+        ns.jsonConnected = async (dataSourceURL, $component) => {
             try {
                 const response = await fetch(dataSourceURL).then((res) => res.json());
                 if (response) {
@@ -135,7 +135,7 @@ const DEFAULT_BAR_CHART_DATA = {
 
         ns.tmsConnected = async (host, topic, $component) => {
             try {
-                host = host && "ws://localhost:8112";
+                host = !host || "ws://localhost:8112";
                 if (!topic) {
                     ns.modelDataConnected($component);
                     return;
@@ -156,10 +156,36 @@ const DEFAULT_BAR_CHART_DATA = {
             // Passing {} because, The values from the model obj are fetched in bellow function definition.
             ns.updateComponentHTML({}, $component);
         }
-
+        ns.updateChartInstance = (data, $component) => {
+          if (!$component) {
+            console.log('[Barchart/clientlibs/functions.js] component does not exist')
+            return;
+          }
+          let componentConfig = componentNs.getComponentConfig($component);
+          componentConfig = {
+            ...componentConfig,
+            ...DEFAULT_BAR_CHART_DATA
+          }
+    
+          graphItemsNs[componentConfig.resourcePath].data = {
+              labels: data.labels || componentConfig.labels,
+              datasets: [
+                {
+                  axis: "y",
+                  data: data.chartData || componentConfig.chartData,
+                  fill: false,
+                  backgroundColor:"blue",
+                  borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor ||  themeNs?.rootElementStyle.getPropertyValue('--primary-object-border-color') || "#001E3C",
+                  borderWidth: 1,
+                },
+              ],
+          }
+    
+          graphItemsNs[componentConfig.resourcePath].update();
+        }
         ns.dataReceived = (data, $component) => {
             // Passing {} because, The values from the model obj are fetched in bellow function definition.
-            ns.updateComponentHTML(data, $component);
+            ns.updateChartInstance(data, $component);
         }
 
         ns.init = ($component) => {
@@ -181,7 +207,7 @@ const DEFAULT_BAR_CHART_DATA = {
             // JSON
             else if (componentDataSource) {
                 $component.setAttribute("id", componentPath);
-                ns.jsonDataConnected(componentDataSource, $component);
+                ns.jsonConnected(componentDataSource, $component);
             }
             // MODEL 
             else {

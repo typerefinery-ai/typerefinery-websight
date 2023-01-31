@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.smallTicker =
-  Typerefinery.Components.Widgets.smallTicker || {};
+  Typerefinery.Components.Widgets.SmallTicker || {};
 
 (function (ns, componentNs, window, document) {
   "use strict";
@@ -35,7 +35,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
     $component.innerHTML = innerHTML;
   };
 
-  ns.jsonDataConnected = async (dataSourceURL, $component) => {
+  ns.jsonConnected = async (dataSourceURL, $component) => {
     console.log("json tikcer");
     try {
       const response = await fetch(dataSourceURL).then((res) => res.json());
@@ -51,7 +51,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
 
   ns.tmsConnected = async (host, topic, $component) => {
     try {
-      host = host && "ws://localhost:8112";
+      host = host || "ws://localhost:8112";
       if (!topic) {
         ns.modelDataConnected($component);
         return;
@@ -95,7 +95,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
     }
     // JSON
     else if (componentDataSource) {
-      ns.jsonDataConnected(componentDataSource, $component);
+      ns.jsonConnected(componentDataSource, $component);
     }
     // MODEL
     else {
@@ -103,7 +103,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
     }
   };
 })(
-  window.Typerefinery.Components.Widgets.smallTicker,
+  window.Typerefinery.Components.Widgets.SmallTicker,
   window.Typerefinery.Components,
   window,
   document

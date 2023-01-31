@@ -1,7 +1,7 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.smallTicker = Typerefinery.Components.Widgets.smallTicker || {};
+window.Typerefinery.Components.Widgets.SmallTicker = Typerefinery.Components.Widgets.SmallTicker || {};
 
 ;(function (ns, document) {
     "use strict";
@@ -10,4 +10,4 @@ window.Typerefinery.Components.Widgets.smallTicker = Typerefinery.Components.Wid
             ns.init(this);
         });
     });
-})(window.Typerefinery.Components.Widgets.smallTicker, document);
+})(window.Typerefinery.Components.Widgets.SmallTicker, document);
