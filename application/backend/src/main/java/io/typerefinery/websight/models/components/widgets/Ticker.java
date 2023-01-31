@@ -18,7 +18,10 @@ import io.typerefinery.websight.models.components.BaseComponent;
 
 
 @Model(adaptables = Resource.class, resourceType = { "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Exporter(name = "jackson", extensions = "json", options = { 
+    @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false") 
+})
 public class Ticker extends BaseComponent {
 
     private static final Logger LOG = LoggerFactory.getLogger(Ticker.class);
@@ -78,7 +81,6 @@ public class Ticker extends BaseComponent {
 
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/widgets/ticker/dataSource_1.json")
     public String dataSource;
 
     @Getter
