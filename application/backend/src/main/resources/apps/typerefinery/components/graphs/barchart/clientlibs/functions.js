@@ -32,10 +32,10 @@ const DEFAULT_BAR_CHART_DATA = {
     "Minikatz",
   ],
     dataSetBorderColor:"#0099DE",
-    canvasBackgroundColor:"#99ffff"
+    canvasBackgroundColor:"#343a40"
 }
 
-    ; (function (ns, componentNs, themeNs, graphItemsNs, document, window) {
+    ; (function (ns, componentNs, themeNs, graphItemsNs, DEFAULT_BAR_CHART_DATA,document, window) {
         "use strict";
 
         ns.updateComponentHTML = (data, $component) => {
@@ -43,19 +43,13 @@ const DEFAULT_BAR_CHART_DATA = {
                 console.log('[barchart/clientlibs/functions.js] component does not exist')
                 return;
             }
-            console.log("bardata",data)
             let componentConfig = componentNs.getComponentConfig($component);
             componentConfig = {
                 ...componentConfig,
                 ...DEFAULT_BAR_CHART_DATA
             }
-            console.log("componentConfig-2",componentConfig)
             var componentDataPath = $component.getAttribute("data-resource-path");
-            console.log("path",componentDataPath)
             const ctx =  document.getElementById(`${componentDataPath}-barChart`).getContext("2d");
-
-
-            // Linear background for the chart.
         
             // Plugin to update the canvas Background.
             const plugin = {
@@ -64,7 +58,7 @@ const DEFAULT_BAR_CHART_DATA = {
                 const { ctx } = chart;
                 ctx.save();
                 ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle ="#99ffff";
+                ctx.fillStyle =data.canvasBackgroundColor || componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#99ffff";;
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
               },
@@ -80,15 +74,7 @@ const DEFAULT_BAR_CHART_DATA = {
                     data: data.chartData || componentConfig.chartData,
                     fill: false,
                     backgroundColor:"blue",
-                    borderColor: [
-                      'rgb(255, 99, 132)',
-                      'rgb(255, 159, 64)',
-                      'rgb(255, 205, 86)',
-                      'rgb(75, 192, 192)',
-                      'rgb(54, 162, 235)',
-                      'rgb(153, 102, 255)',
-                      'rgb(201, 203, 207)'
-                    ],
+                    borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-border-color') || "#001E3C",
                     borderWidth: 1,
                   },
                 ],
@@ -106,20 +92,20 @@ const DEFAULT_BAR_CHART_DATA = {
                       display: false,
                     },
                     ticks: {
-                      color:"#5D7183",
+                      color:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--ticks-color') || "#5D7183" ,
                     },
                   },
                   y: {
                     grid: {
-                      color: "#5D7183",
+                      color: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--grid-color'),
                     },
                     ticks: {
-                      color:"#5D7183"
+                      color:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--ticks-color')||"#5D7183"
                     },
                   },
                 },
                 // customCanvasBackgroundColor: {
-                //   color: canvasBackgroundColor,
+                //   color: data.canvasBackgroundColor,
                 // },
                 interaction: {
                   intersect: false,
@@ -149,7 +135,7 @@ const DEFAULT_BAR_CHART_DATA = {
 
         ns.tmsConnected = async (host, topic, $component) => {
             try {
-                host = !host && "ws://localhost:8112";
+                host = host && "ws://localhost:8112";
                 if (!topic) {
                     ns.modelDataConnected($component);
                     return;
@@ -179,12 +165,13 @@ const DEFAULT_BAR_CHART_DATA = {
         ns.init = ($component) => {
             // parse json value from data-model attribute as component config
             const componentConfig = componentNs.getComponentConfig($component);
+            //For reference of tms statc data
+            // const componentTopic = "barchart1";
+            // const componentHost = "ws://localhost:8112/$tms";
             const componentTopic = componentConfig.websocketTopic;
             const componentHost = componentConfig.websocketHost;
             const componentDataSource = componentConfig.dataSource;
-            console.log("componentDataSource",componentDataSource)
             const componentPath = componentConfig.resourcePath;
-            console.log("componentConfig-1",componentConfig)
             console.log("[barchart.js - functions.js] - Bar Chart Component");
             // TMS.
             if (componentHost && componentTopic) {
@@ -194,11 +181,11 @@ const DEFAULT_BAR_CHART_DATA = {
             // JSON
             else if (componentDataSource) {
                 $component.setAttribute("id", componentPath);
-                ns.jsonConnected(componentDataSource, $component);
+                ns.jsonDataConnected(componentDataSource, $component);
             }
             // MODEL 
             else {
                 ns.modelDataConnected($component);
             }
         }
-    })(window.Typerefinery.Components.Graphs.BarChart, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Graphs.Items, document, window);
+    })(window.Typerefinery.Components.Graphs.BarChart, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Graphs.Items,DEFAULT_BAR_CHART_DATA, document, window);

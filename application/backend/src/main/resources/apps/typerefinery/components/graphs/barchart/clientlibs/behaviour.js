@@ -6,7 +6,6 @@ window.Typerefinery.Components.Graphs.BarChart = Typerefinery.Components.Graphs.
     "use strict";
 
     $(document).ready(function () {
-        console.log("barchart")
         $(".barChart").each(function() {
             ns.init(this);
         });

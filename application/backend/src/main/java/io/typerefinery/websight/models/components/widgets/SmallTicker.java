@@ -44,7 +44,7 @@ public class SmallTicker extends BaseComponent {
         @Getter
         @Inject
         // @Default (values =
-        // "http://localhost:8080/apps/typerefinery/components/widgets/columnticker/smallticker/dataSource_1.json")
+        // "http://localhost:8080/apps/typerefinery/components/widgets/smallticker/mock/dataSource1.json")
         public String dataSource;
 
         @Getter

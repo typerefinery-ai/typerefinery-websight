@@ -6,8 +6,6 @@ window.Typerefinery.Components.Widgets.smallTicker = Typerefinery.Components.Wid
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
-        console.log("hello smallticker")
-        // TODO: Need to test jquery itr.
         $("#smallticker").each(function() {
             ns.init(this);
         });
