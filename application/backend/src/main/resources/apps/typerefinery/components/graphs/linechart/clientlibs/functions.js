@@ -59,7 +59,7 @@ const DEFAULT_LINE_CHART_DATA = {
           ctx.save();
           ctx.globalCompositeOperation = "destination-over";
           // data.canvasBackgroundColor
-          ctx.fillStyle = componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+          ctx.fillStyle = componentConfig.canvasBackgroundColor || themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
           ctx.fillRect(0, 0, chart.width, chart.height);
           ctx.restore();
         },
