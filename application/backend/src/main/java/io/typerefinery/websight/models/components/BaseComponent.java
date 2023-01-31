@@ -33,7 +33,7 @@ public class BaseComponent extends BaseModel {
     @Default(values = "")
     public String module;
     
-    public String componentPath; // full path of the component
+    public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
 
     @JsonIgnore
@@ -49,7 +49,7 @@ public class BaseComponent extends BaseModel {
             this.classNames = PageUtil.getResourceTypeName(resource);
         }
         if (resource != null) {
-            this.componentPath = resource.getPath();
+            this.resourcePath = resource.getPath();
             this.currentPagePath = PageUtil.getResourcePagePath(resource);
             this.currentPage = resourceResolver.getResource(currentPagePath);
         }
