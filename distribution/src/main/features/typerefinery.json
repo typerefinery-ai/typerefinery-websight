@@ -7,6 +7,10 @@
     {
       "id": "io.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
       "start-order": "25"
+    },
+    {
+      "id": "org.apache.sling:org.apache.sling.models.jacksonexporter:1.1.2",
+      "start-order": "25"
     }
   ],
   "content-packages:ARTIFACTS|true": [
