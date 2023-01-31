@@ -67,7 +67,7 @@ const DEFAULT_PIE_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle =  componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') ||"#99ffff";
+        ctx.fillStyle =  componentConfig.canvasBackgroundColor || Typerefinery?.themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') ||"#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
