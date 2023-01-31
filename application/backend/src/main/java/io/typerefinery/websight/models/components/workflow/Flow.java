@@ -22,16 +22,9 @@ import io.typerefinery.websight.models.components.widgets.Ticker;
 import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Flow extends BaseModel {
     
-    private static final Logger LOG = LoggerFactory.getLogger(Ticker.class);
-
-    @SlingObject
-    Resource resource;
-
-    @SlingObject
-    ResourceResolver resourceResolver;
+    private static final Logger LOG = LoggerFactory.getLogger(Flow.class);
     
     @Getter
     @Inject
@@ -42,9 +35,6 @@ public class Flow extends BaseModel {
     @Inject
     @Default(values = "")
     public String flowstreamid;
-
-    public String id;
-    public String path;
 
     @Override
     @PostConstruct
