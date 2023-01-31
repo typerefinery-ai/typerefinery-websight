@@ -23,15 +23,29 @@
         "label": "Background Color"
       },
       "textColor": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "sling:resourceTypse": "wcm/dialogs/components/textfield",
         "name": "textColor",
         "description": "Please provide hex color code",
         "label": "Text Color"
       }
     },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "WebSocket Data Source",
+      "websocketHost": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketHost",
+        "label": "Websocket Host"
+      },
+      "websocketTopic": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketTopic",
+        "label": "Websocket Topic"
+      }
+    },
     "dataSource": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Data",
+      "label": "JSON Data Source",
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",

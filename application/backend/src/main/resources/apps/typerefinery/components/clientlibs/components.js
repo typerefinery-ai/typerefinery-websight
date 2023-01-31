@@ -11,7 +11,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         }
     };
     ns.getComponentConfig = ($component) => {
-        console.log("$component", $component)
+        console.log("$component-get", $component)
         return JSON.parse($component.getAttribute('data-model') || '{}');
     };
 })(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
