@@ -11,12 +11,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         }
     };
     ns.getComponentConfig = ($component) => {
-        const lineChartDefaultData = JSON.stringify({
-            resourcePath: $component.getAttribute("data-resource-path") || "/content/typerefinery-showcase/pages/components/widgets/ticker/jcr:content/rootcontainer/maincontainer/pagesection1/linechart",
-            dataSource: "",
-            websocketHost: "ws://localhost:8112/$tms",
-            websocketTopic: "linechartdata1"
-        });
-        return JSON.parse($component.getAttribute('data-model') || lineChartDefaultData);
+        
+        return JSON.parse($component.getAttribute('data-model') || '{}');
     };
 })(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
