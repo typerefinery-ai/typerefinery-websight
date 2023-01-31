@@ -5,13 +5,13 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 ; (function (ns, vueDataNs, document, window) {
     "use strict";
     ns.registerComponent = (componentData) => {
-        vueDataNs = {
+        vueDataNs.data = {
             ...vueDataNs,
-            componentData
+            ...componentData
         }
     };
     ns.getComponentConfig = ($component) => {
-        
-        return JSON.parse($component.getAttribute('data-model') || '{}');
+
+        return JSON.parse($component.getAttribute('data-model') || lineChartDefaultData);
     };
 })(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
