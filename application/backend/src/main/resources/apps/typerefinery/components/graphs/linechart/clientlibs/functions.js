@@ -58,7 +58,8 @@ const DEFAULT_LINE_CHART_DATA = {
           const { ctx } = chart;
           ctx.save();
           ctx.globalCompositeOperation = "destination-over";
-          ctx.fillStyle = data.canvasBackgroundColor || componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+          // data.canvasBackgroundColor
+          ctx.fillStyle = componentConfig.canvasBackgroundColor || Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
           ctx.fillRect(0, 0, chart.width, chart.height);
           ctx.restore();
         },
@@ -78,13 +79,13 @@ const DEFAULT_LINE_CHART_DATA = {
               tension: 0.3,
               backgroundColor: chartBackgroundGradientColor
             }
-          ],
+          ]
         },
         options: {
           plugins: {
             legend: {
               display: false,
-            },
+            }
           },
           scales: {
             x: {
@@ -93,7 +94,7 @@ const DEFAULT_LINE_CHART_DATA = {
               },
               ticks: {
                 color: themeNs?.rootElementStyle.getPropertyValue('--ticks-color') || "#5D7183",
-              },
+              }
             },
             y: {
               grid: {
@@ -110,7 +111,7 @@ const DEFAULT_LINE_CHART_DATA = {
           interaction: {
             intersect: false,
           },
-          radius: 0,
+          radius: 0
         },
         plugins: [plugin]
       });
@@ -157,9 +158,33 @@ const DEFAULT_LINE_CHART_DATA = {
       ns.updateComponentHTML({}, $component);
     }
 
+    ns.updateChartInstance = (data, $component) => {
+      if (!$component) {
+        console.log('[linechart/clientlibs/functions.js] component does not exist')
+        return;
+      }
+      let componentConfig = componentNs.getComponentConfig($component);
+      componentConfig = {
+        ...componentConfig,
+        ...DEFAULT_LINE_CHART_DATA
+      }
+
+      graphItemsNs[componentConfig.resourcePath].data = {
+        labels: data.labels || componentConfig.labels,
+        datasets: [
+          {
+            label: data.labelName || componentConfig.labelName,
+            data: data.chartData || componentConfig.chartData,
+            borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor
+          }
+        ]
+      }
+
+      graphItemsNs[componentConfig.resourcePath].update();
+    }
+
     ns.dataReceived = (data, $component) => {
-      // Passing {} because, The values from the model obj are fetched in bellow function definition.
-      ns.updateComponentHTML(data, $component);
+      ns.updateChartInstance(data, $component);
     }
 
     ns.init = ($component) => {
