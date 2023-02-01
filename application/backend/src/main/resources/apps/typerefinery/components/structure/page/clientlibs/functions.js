@@ -51,6 +51,8 @@ window.MessageService.Client = MessageService.Client || {};
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'linechartComponent') {
                                 componentNs?.Graphs?.LineChart?.dataReceived(payload.data, $component)
+                            }else if ($component.getAttribute('data-module') === 'piechartComponent') {
+                                componentNs?.Graphs?.PieChart?.dataReceived(payload.data, $component)
                             }
                         }
                     }

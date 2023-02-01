@@ -1,10 +1,8 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Graphs = Typerefinery.Components.Graphs || {};
-window.Typerefinery.Components.Graphs.PieChart =
-  Typerefinery.Components.Graphs.PieChart || {};
-window.Typerefinery.Components.Graphs.Items =
-  Typerefinery.Components.Graphs.Items || {};
+window.Typerefinery.Components.Graphs.PieChart = Typerefinery.Components.Graphs.PieChart || {};
+window.Typerefinery.Components.Graphs.Items = Typerefinery.Components.Graphs.Items || {};
 window.Typerefinery.Theme = Typerefinery.Theme || {};
 
 const DEFAULT_PIE_CHART_DATA = {
@@ -42,7 +40,6 @@ const DEFAULT_PIE_CHART_DATA = {
   "use strict";
 
   ns.updateComponentHTML = (data, $component) => {
-    console.log($component, "component");
     if (!$component) {
       console.log(
         "[piechart/clientlibs/functions.js] component does not exist"
@@ -58,7 +55,7 @@ const DEFAULT_PIE_CHART_DATA = {
       componentConfig.resourcePath =
         data.resourcePath || $component.getAttribute(`data-resource-path`);
     }
-    const ctx = $(`${componentConfig.resourcePath}-piechart`).getContext("2d");
+    const ctx = document.getElementById(`${componentConfig.resourcePath}-piechart`).getContext("2d");
 
     // Plugin to update the canvas Background.
     const plugin = {
@@ -82,10 +79,10 @@ const DEFAULT_PIE_CHART_DATA = {
           {
             label: data.labelName || componentConfig.labelName,
             data: data.chartData || componentConfig.chartData,
-            backgroundColor: backgroundColorForData,
+            backgroundColor: data.backgroundColorForData ||  componentConfig.backgroundColorForData,
             borderColor:
-              data.backgroundColorForData ||
-              componentConfig.backgroundColorForData,
+              data.borderColorForData ||
+              componentConfig.borderColorForData,
           },
         ],
       },
@@ -198,10 +195,8 @@ const DEFAULT_PIE_CHART_DATA = {
 
 
   ns.init = ($component) => {
-    console.log("Pie chart init function", $component);
     // parse json value from data-model attribute as component config
     const componentConfig = componentNs.getComponentConfig($component);
-    console.log("componentConfig", componentConfig);
     const componentTopic = componentConfig.websocketTopic;
     const componentHost = componentConfig.websocketHost;
     const componentDataSource = componentConfig.dataSource;
