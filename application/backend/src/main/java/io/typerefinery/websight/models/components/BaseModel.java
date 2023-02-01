@@ -62,13 +62,17 @@ public class BaseModel {
         }
     }
 
-
     @JsonIgnore
     public String getJsonString() {
+        return getJsonString(this);
+    }
+    
+    @JsonIgnore
+    public String getJsonString(Object source) {
         ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         String jsonString =null;
         try {
-            JsonNode node = mapper.valueToTree(this);
+            JsonNode node = mapper.valueToTree(source);
             jsonString = mapper.writeValueAsString(node);
         } catch (JsonProcessingException e) {
             e.getMessage();
