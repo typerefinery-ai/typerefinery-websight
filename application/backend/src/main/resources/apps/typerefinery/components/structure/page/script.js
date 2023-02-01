@@ -1,5 +1,4 @@
 $(document).ready(() => {
-    const { createApp, ref } = Vue;
     const vueApp = Vue.createApp({
         data() {
             return window.Typerefinery.VueData.data;
