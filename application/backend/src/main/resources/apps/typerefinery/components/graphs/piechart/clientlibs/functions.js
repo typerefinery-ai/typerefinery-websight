@@ -53,8 +53,7 @@ const DEFAULT_PIE_CHART_DATA = {
       ...DEFAULT_PIE_CHART_DATA,
     };
     if (!componentConfig.resourcePath) {
-      componentConfig.resourcePath =
-        data.resourcePath || $component.getAttribute(`data-resource-path`);
+      componentConfig.resourcePath = data.resourcePath;
     }
     const ctx = document.getElementById(`${componentConfig.resourcePath}-piechart`).getContext("2d");
 
@@ -65,12 +64,12 @@ const DEFAULT_PIE_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle =themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') ||"#99ffff";
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color');
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
     };
-
+    
     // Pie chart
     const chartInstance = new Chart(ctx, {
       type: "polarArea",
@@ -92,10 +91,10 @@ const DEFAULT_PIE_CHART_DATA = {
             position: "right",
             usePointStyle: true,
             labels: {
-              color:   themeNs?.rootElementStyle.getPropertyValue("--labels-color") ||"#99ffff",
-              usePointStyle: true,
-            },
-          },
+              color: themeNs?.rootElementStyle.getPropertyValue("--label-color"),
+              usePointStyle: true
+            }
+          }
         },
         customCanvasBackgroundColor: {
           color:  themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color'),
@@ -109,17 +108,17 @@ const DEFAULT_PIE_CHART_DATA = {
               color: themeNs?.rootElementStyle.getPropertyValue('--ticks-color') ||"#99ffff",
               z: 0,
               showLabelBackdrop: false,
-              precision: 0,
-            },
+              precision: 0
+            }
           },
         },
         scale: {
           ticks: {
-            z: 1,
-          },
-        },
+            z: 1
+          }
+        }
       },
-      plugins: [plugin],
+      plugins: [plugin]
     });
 
     graphItemsNs[componentConfig.resourcePath] = chartInstance;
