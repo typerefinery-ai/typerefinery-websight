@@ -26,7 +26,7 @@ const DEFAULT_LINE_CHART_DATA = {
   canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C"
 }
 
-  ; (function (ns, componentNs, themeNs, graphItemsNs, DEFAULT_LINE_CHART_DATA, document, window) {
+  ; (function (ns,typerefineryNs, componentNs, themeNs, graphItemsNs, DEFAULT_LINE_CHART_DATA, document, window) {
     "use strict";
 
     ns.updateComponentHTML = (data, $component) => {
@@ -59,7 +59,7 @@ const DEFAULT_LINE_CHART_DATA = {
           ctx.save();
           ctx.globalCompositeOperation = "destination-over";
           // data.canvasBackgroundColor
-          ctx.fillStyle = componentConfig.canvasBackgroundColor || themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+          ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
           ctx.fillRect(0, 0, chart.width, chart.height);
           ctx.restore();
         },
@@ -75,7 +75,7 @@ const DEFAULT_LINE_CHART_DATA = {
               label: data.labelName || componentConfig.labelName,
               data: data.chartData || componentConfig.chartData,
               fill: true,
-              borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor,
+              borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
               tension: 0.3,
               backgroundColor: chartBackgroundGradientColor
             }
@@ -136,7 +136,8 @@ const DEFAULT_LINE_CHART_DATA = {
 
     ns.tmsConnected = async (host, topic, $component) => {
       try {
-        host = !host && "ws://localhost:8112";
+        host = host || "ws://localhost:8112";
+        typerefineryNs.hostAdded(host);
         if (!topic) {
           ns.modelDataConnected($component);
           return;
@@ -160,25 +161,39 @@ const DEFAULT_LINE_CHART_DATA = {
 
     ns.updateChartInstance = (data, $component) => {
       if (!$component) {
-        console.log('[linechart/clientlibs/functions.js] component does not exist')
+        console.log(
+          "[linechart/clientlibs/functions.js] component does not exist"
+        );
         return;
       }
       let componentConfig = componentNs.getComponentConfig($component);
       componentConfig = {
         ...componentConfig,
-        ...DEFAULT_LINE_CHART_DATA
-      }
-
+        ...DEFAULT_LINE_CHART_DATA,
+      };
+      const ctx = document.getElementById(`${componentConfig.resourcePath}-linechart`).getContext("2d");
+      // Linear background for the chart.
+      const chartBackgroundGradientColor = ctx.createLinearGradient(0,0,0,400);
+      chartBackgroundGradientColor.addColorStop(0.2, "#1c92d2");
+      chartBackgroundGradientColor.addColorStop(0.4, "rgba(27, 145, 209, 0.6)");
+      chartBackgroundGradientColor.addColorStop(0.6, "rgba(27, 145, 209, 0.4)");
+      chartBackgroundGradientColor.addColorStop(1, "rgba(27, 145, 209, 0)");
       graphItemsNs[componentConfig.resourcePath].data = {
         labels: data.labels || componentConfig.labels,
         datasets: [
           {
             label: data.labelName || componentConfig.labelName,
             data: data.chartData || componentConfig.chartData,
-            borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor
-          }
-        ]
-      }
+            fill: true,
+            borderColor:
+              Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
+                "--border-color"
+              ) || "#0099DE",
+            tension: 0.3,
+            backgroundColor: chartBackgroundGradientColor,
+          },
+        ],
+      };
 
       graphItemsNs[componentConfig.resourcePath].update();
     }
@@ -213,4 +228,4 @@ const DEFAULT_LINE_CHART_DATA = {
         ns.modelDataConnected($component);
       }
     }
-  })(window.Typerefinery.Components.Graphs.LineChart, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Graphs.Items, DEFAULT_LINE_CHART_DATA, document, window);
+  })(window.Typerefinery.Components.Graphs.LineChart,window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Graphs.Items, DEFAULT_LINE_CHART_DATA, document, window);
