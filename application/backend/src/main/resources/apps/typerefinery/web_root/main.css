@@ -108,7 +108,8 @@ body {
   width: 100%;
   margin: 0px 5px;
   min-height: 350px;
-  margin-bottom: 3rem;
+  margin-bottom: 1.2rem;
+  margin-top: 1.2rem;
 }
 .linechartLabel{
   background: #fff;
@@ -191,6 +192,7 @@ section.hl-page-section.hl-grid.hl-cols-12 {
   padding-top: 0rem !important;
   width: 100%;
   padding-bottom: 0px;
+  margin: 0px !important;
 }
 
 .hl-container.hl-grid.hl-cols-12 {

@@ -1,9 +1,10 @@
 :root {
-    --primary-background-color: #FFFFFF;
+    --primary-background-color: #FFF;
     --primary-text-color: #1A2027;
-    --primary-object-background-color: rgb(243, 246, 249);
+    --subtitle-color: #343a40;
+    --primary-object-background-color: rgb(233 233 233);
     --ticks-color: #151e26;
     --grid-color: #5D7183;
     --label-color: #072b4a;
-    --border-color: #0099DE;
+    --border-color: #1a6c93;
 }
