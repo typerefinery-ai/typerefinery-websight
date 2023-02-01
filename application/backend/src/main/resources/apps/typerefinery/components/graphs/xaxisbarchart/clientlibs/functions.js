@@ -37,6 +37,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
 
 (function (
   ns,
+  typerefineryNs,
   componentNs,
   themeNs,
   graphItemsNs,
@@ -65,7 +66,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle =  componentConfig.canvasBackgroundColor || Typerefinery?.themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40" || "#99ffff";
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40" || "#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -79,6 +80,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
           {
             data: data.chartData || componentConfig.chartData,
             fill: false,
+            borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
             backgroundColor: data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
             borderWidth: 1,
           },
@@ -125,6 +127,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
   ns.tmsConnected = async (host, topic, $component) => {
     try {
       host = host || "ws://localhost:8112";
+      typerefineryNs.hostAdded(host);
       if (!topic) {
         ns.modelDataConnected($component);
         return;
@@ -161,11 +164,13 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
       labels: data.labels || componentConfig.labels,
       datasets: [
         {
-          label: data.labelName || componentConfig.labelName,
           data: data.chartData || componentConfig.chartData,
-          borderColor: data.dataSetBorderColor || componentConfig.dataSetBorderColor
-        }
-      ]
+          fill: false,
+          borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+          backgroundColor: data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
+          borderWidth: 1,
+        },
+      ],
     }
 
     graphItemsNs[componentConfig.resourcePath].update();
@@ -203,6 +208,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
 
 })(
   window.Typerefinery.Components.Graphs.XAxisBarChart,
+  window.Typerefinery,
   window.Typerefinery.Components,
   window.Typerefinery.Theme,
   window.Typerefinery.Components.Graphs.Items,
