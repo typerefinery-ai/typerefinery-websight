@@ -6,7 +6,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
-        $("#ticker").each(function() {
+        $(".ticker").each(function() {
             ns.init(this);
         });
     });
