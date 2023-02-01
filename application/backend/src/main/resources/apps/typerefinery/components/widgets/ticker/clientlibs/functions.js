@@ -3,7 +3,7 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
 
-; (function (ns, componentNs, window, document) {
+; (function (ns, typerefineryNs, componentNs, window, document) {
     "use strict";
 
     ns.updateComponentHTML = (data, $component) => {
@@ -52,6 +52,7 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
     ns.tmsConnected = async (host, topic, $component) => {
         try {
             host = host || "ws://localhost:8112";
+            typerefineryNs.hostAdded(host);
             if (!topic) {
                 ns.modelDataConnected($component);
                 return;
@@ -101,4 +102,4 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Ticker, window.Typerefinery.Components, window, document);
+})(window.Typerefinery.Components.Widgets.Ticker, window.Typerefinery, window.Typerefinery.Components, window, document);

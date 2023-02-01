@@ -19,7 +19,7 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             "icon": "pi pi-check"
           },
           {
-            "label": "Dashboard Child",
+            "label": "Search",
             "link": "path2",
             "parentName": "dashboard",
             "name": "dashboardChild1",
@@ -30,14 +30,13 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
         let menuItems = DEFAULT_MENU_ITEMS;
 
         const sidebarContainer = document.getElementsByClassName('sidebar-container');
-        if(sidebarContainer.length === 0) {
-            return;
-        }
-        const dataModel = JSON.parse(sidebarContainer[0].getAttribute('data-model') || '{}');
-        console.log(dataModel, "dataModel")
-
-        if(dataModel?.navigation?.menuItems?.length > 0) {
-            menuItems = dataModel?.navigation?.menuItems;
+        
+        if(sidebarContainer.length !== 0) {
+            const dataModel = JSON.parse(sidebarContainer[0].getAttribute('data-model') || '{}');
+       
+            if(dataModel?.navigation?.menuItems?.length > 0) {
+                menuItems = dataModel?.navigation?.menuItems;
+            }
         }
         let formattedMenuItems = [];
         menuItems.forEach(menuItem => {
@@ -70,7 +69,6 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             data["sidebarRoutes"] = formattedMenuItems;
             $component.setAttribute(":value", "sidebarRoutes");
         });
-
         // Register vue data.
         componentNs.registerComponent(data);
     }

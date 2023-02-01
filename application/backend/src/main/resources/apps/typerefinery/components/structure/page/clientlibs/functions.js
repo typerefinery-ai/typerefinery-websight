@@ -20,17 +20,28 @@ window.MessageService.Client = MessageService.Client || {};
             style.setAttribute('href', `/apps/typerefinery/web_root/dark.css`);
         }
     };
+    ns.hostAdded = (newHost) => {
+        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '');
+        const filteredHost = listOfHost.filter(host => host === newHost);
+        if(filteredHost.length === 0) {
+            listOfHost.push(newHost);
+            localStorage.setItem(JSON.parse(listOfHost));
+        }
+    }
     ns.tmsConnection = () => {
-        // TODO: Host should come as a arg.
-        const host = "ws://localhost:8112/$tms";
+        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '["ws://localhost:8112/$tms"]')
+        
         function payload_insert(data) {
             console.log("payload_insert", data);
         }
-        // connect to websocket
-        clientNs?.connect(host, function () {
-            console.log("tms connected cms.");
-            clientNs?.subscribe("payload_insert", payload_insert);
-        });
+
+        listOfHost.forEach(host => {
+            // connect to websocket
+            clientNs?.connect(host, function () {
+                clientNs?.subscribe("payload_insert", payload_insert);
+            });
+        })
+        
 
         // listen to messages.
         window.addEventListener(
@@ -46,7 +57,6 @@ window.MessageService.Client = MessageService.Client || {};
                         localStorage.setItem(payload.topic, JSON.stringify(payload.data));;
                         const $component = document.getElementById(payload.topic);
                         if ($component) {
-                            // TODO: Need to find solution to update the module.
                             if ($component.getAttribute('data-module') === 'tickerComponent') {
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'linechartComponent') {

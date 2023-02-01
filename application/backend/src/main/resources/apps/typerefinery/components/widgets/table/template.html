@@ -1,21 +1,20 @@
 <template data-sly-template.variant="${ @ model }">
   <div 
-    id="table" 
-    data-path="${resource.path}" 
+    id="${resource.path}" 
     data-module="tableComponent" 
     class="table"
+    data-model="${model.jsonString}"
   >
     <p-datatable 
-      :value="defaultValues" 
+      :value="tableValues" 
       data-module="vue-dataTable" 
       data-source="${model.dataSource}"
       striped-rows 
       responsive-layout="scroll" 
-      scroll-height="700px"
-      @click="onRowSelect"
+      scroll-height="500px"
     >
       <p-column 
-        v-for="col of defaultHeaders" 
+        v-for="col of tableHeader" 
         :field="col.field" 
         :header="col.header" 
         :key="col.field"
