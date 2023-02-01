@@ -141,7 +141,7 @@ const DEFAULT_PIE_CHART_DATA = {
 
   ns.tmsConnected = async (host, topic, $component) => {
     try {
-      host = !host && "ws://localhost:8112";
+      host = !host || "ws://localhost:8112";
       if (!topic) {
         ns.modelDataConnected($component);
         return;
