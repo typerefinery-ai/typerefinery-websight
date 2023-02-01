@@ -2,10 +2,10 @@
 Typerefinery WebSight CMS Project.
 
 ## Feature Requests
-Feature Requests by the community are highly encouraged. Feel free to [submit a new one](https://github.com/innovolve-ai/typerefinery-websight/issues/new?assignees=&labels=&template=feature_request.md&title=).
+Feature Requests by the community are highly encouraged. Feel free to [submit a new one](https://github.com/typerefinery-ai/typerefinery-websight/issues/new?assignees=&labels=&template=feature_request.md&title=).
 
 ## Bugs
-Typerefinery WebSight CMS Project is using [GitHub issues](https://github.com/innovolve-ai/typerefinery-websight/issues) to manage bugs. We keep a close eye on them. Before filing a new issue, try to ensure your problem does not already exist.
+Typerefinery WebSight CMS Project is using [GitHub issues](https://github.com/typerefinery-ai/typerefinery-websight/issues) to manage bugs. We keep a close eye on them. Before filing a new issue, try to ensure your problem does not already exist.
 
 ## Code of Conduct
 This project, and everyone participating in it, are governed by the [WebSight Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold it. Make sure to read the [full text](CODE_OF_CONDUCT.md) to understand which type of actions may or may not be tolerated.

@@ -39,9 +39,9 @@
   </licenses>
 
   <scm>
-    <connection>https://github.com/innovolve-ai/typerefinery-websight.git</connection>
-    <developerConnection>https://github.com/innovolve-ai/typerefinery-websight.git</developerConnection>
-    <url>https://github.com/innovolve-ai/typerefinery-websight</url>
+    <connection>https://github.com/typerefinery-ai/typerefinery-websight.git</connection>
+    <developerConnection>https://github.com/typerefinery-ai/typerefinery-websight.git</developerConnection>
+    <url>https://github.com/typerefinery-ai/typerefinery-websight</url>
     <tag>HEAD</tag>
   </scm>
 

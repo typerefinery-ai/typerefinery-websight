@@ -1,4 +1,4 @@
-[![CI](https://github.com/innovolve-ai/typerefinery-websight/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/innovolve-ai/typerefinery-websight/actions/workflows/ci.yml)
+[![CI](https://github.com/typerefinery-ai/typerefinery-websight/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/typerefinery-ai/typerefinery-websight/actions/workflows/ci.yml)
 
 # Typerefinery WebSight CMS Project
 
