@@ -121,8 +121,9 @@ body {
 }
 
 .piechart {
+  background: #fff;
   margin: 0px 5px;
-  min-height: 400px;
+  min-height: 350px;
   margin: auto;
   margin-top: 2rem;
 }
