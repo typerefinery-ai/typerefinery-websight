@@ -15,63 +15,32 @@
             <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/breadcrumbs"/>
           </container_1_11>
           <container_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
-            <container_1_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Users" icon="pi pi-database" value="131.12K" indicatorType="down" indicatorValue="745" indicatorValuePrecision="24hrs"/>
+            <container_1_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "3">
+              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Users" icon="pi pi-database" value="131.12K" indicatorType="up" indicatorValue="145" indicatorValuePrecision="(24hrs)"/>
             </container_1_1_1>
-            <container_1_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Tables" icon="pi pi-database" value="211.12K" indicatorType="up" indicatorValue="145" indicatorValuePrecision="24hrs"/>
+            <container_1_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "3">
+              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Active Users" icon="pi pi-database" value="55.12K" indicatorType="up" indicatorValue="45" indicatorValuePrecision="(24hrs)"/>
             </container_1_1_2>
-            <container_1_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Rows" icon="pi pi-database" value="541.2K" indicatorType="down" indicatorValue="175" indicatorValuePrecision="24hrs"/>
+            <container_1_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "3">
+              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Quries" icon="pi pi-database" value="205.2K" indicatorType="same" indicatorValue="0" indicatorValuePrecision="(24hrs)"/>
             </container_1_1_3>
-            <container_1_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">  <ticker jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" title="Number of Errors" icon="pi pi-database" value="55.12K" indicatorType="same" indicatorValue="545" indicatorValuePrecision="24hrs"/>
-              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Errors" icon="pi pi-database" value="55.12K" indicatorType="same" indicatorValue="545" indicatorValuePrecision="24hrs"/>
+            <container_1_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "3">  
+              <ticker jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" title="Number of Bugs Reported" icon="pi pi-database" value="1.2K" indicatorType="down" indicatorValue="5" indicatorValuePrecision="(24hrs)"/>
             </container_1_1_4>
           </container_1_1>
           <container_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_2_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-              <container_1_2_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_1>
-              <container_1_2_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_2>
-              <container_1_2_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_3>
-            </container_1_2_1>
-            <container_1_2_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "22" mdColSize= "10" lgColSize= "8">
+            <container_1_2_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
               <linechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/linechart" />
             </container_1_2_2>
           </container_1_2>
           <container_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_3_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "6">
-              <barChart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/barchart" />
+            <container_1_3_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "6">
+              <xaxisbarchart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/xaxisbarchart" />
             </container_1_3_1>
-            <container_1_3_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "6">
+            <container_1_3_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "6">
               <map jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/map" />
             </container_1_3_2>
           </container_1_3>
-          <container_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_4_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "10" lgColSize= "9">
-              <table jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/table" />
-            </container_1_4_1>
-            <container_1_4_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "4" lgColSize= "3">
-              <piechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/piechart" />
-            </container_1_4_2>
-          </container_1_4>
         </container_1>
       </twocols>
     </rootcontainer>
