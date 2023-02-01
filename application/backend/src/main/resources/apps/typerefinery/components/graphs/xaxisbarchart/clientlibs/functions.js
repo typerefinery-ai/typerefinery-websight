@@ -175,7 +175,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
   }
 
   ns.init = ($component) => {
-    console.log("Line chart init function", $component)
+    console.log("XAxisBar chart init function", $component)
     // parse json value from data-model attribute as component config
     const componentConfig = componentNs.getComponentConfig($component);
     const componentTopic = componentConfig.websocketTopic;
@@ -183,7 +183,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
     const componentDataSource = componentConfig.dataSource;
     const componentPath = componentConfig.resourcePath;
 
-    console.log("[linechart.js - functions.js] - Line Chart Component");
+    console.log("[xaxisbar.js - functions.js] - XAxisBar Chart Component");
     // TMS.
     if (componentHost && componentTopic) {
       $component.setAttribute("id", componentTopic);
