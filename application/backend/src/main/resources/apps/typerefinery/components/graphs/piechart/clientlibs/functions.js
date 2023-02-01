@@ -30,6 +30,7 @@ const DEFAULT_PIE_CHART_DATA = {
 
 ; (function (
   ns,
+  typerefineryNs,
   componentNs,
   themeNs,
   graphItemsNs,
@@ -64,7 +65,7 @@ const DEFAULT_PIE_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle =  componentConfig.canvasBackgroundColor || Typerefinery?.themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') ||"#99ffff";
+        ctx.fillStyle =themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') ||"#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -80,9 +81,7 @@ const DEFAULT_PIE_CHART_DATA = {
             label: data.labelName || componentConfig.labelName,
             data: data.chartData || componentConfig.chartData,
             backgroundColor: data.backgroundColorForData ||  componentConfig.backgroundColorForData,
-            borderColor:
-              data.borderColorForData ||
-              componentConfig.borderColorForData,
+            borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
           },
         ],
       },
@@ -142,6 +141,7 @@ const DEFAULT_PIE_CHART_DATA = {
   ns.tmsConnected = async (host, topic, $component) => {
     try {
       host = host || "ws://localhost:8112";
+      typerefineryNs.hostAdded(host);
       if (!topic) {
         ns.modelDataConnected($component);
         return;
@@ -180,8 +180,8 @@ const DEFAULT_PIE_CHART_DATA = {
         {
           label: data.labelName || componentConfig.labelName,
           data: data.chartData || componentConfig.chartData,
-          borderColor:
-            data.dataSetBorderColor || componentConfig.dataSetBorderColor,
+          backgroundColor: data.backgroundColorForData ||  componentConfig.backgroundColorForData,
+          borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
         },
       ],
     };
@@ -220,6 +220,7 @@ const DEFAULT_PIE_CHART_DATA = {
   };
 })(
   window.Typerefinery.Components.Graphs.PieChart,
+  window.Typerefinery,
   window.Typerefinery.Components,
   window.Typerefinery.Theme,
   window.Typerefinery.Components.Graphs.Items,
