@@ -121,8 +121,7 @@ body {
 }
 
 .piechart {
-  margin: 0px 5px;
-  min-height: 400px;
+  min-height: 350px;
   margin: auto;
   margin-top: 2rem;
 }
@@ -130,8 +129,8 @@ body {
 .pieCanvas {
   display: block !important;
   box-sizing: border-box !important;
-  height: 530px !important;
-  width: 320px !important;
+  height: 530px ;
+  width: 100%;
 }
 
 .barChart {
