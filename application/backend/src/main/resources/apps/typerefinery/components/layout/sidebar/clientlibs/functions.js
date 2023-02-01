@@ -13,17 +13,24 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
 
         const DEFAULT_MENU_ITEMS = [{
             "label": "Dashboard",
-            "link": "path1",
+            "link": "content/typerefinery-showcase/pages/pages/dashboard",
             "parentName": "",
             "name": "dashboard",
-            "icon": "pi pi-check"
+            "icon": "pi pi-inbox"
           },
           {
             "label": "Search",
-            "link": "path2",
+            "link": "content/typerefinery-showcase/pages/pages/search",
             "parentName": "dashboard",
-            "name": "dashboardChild1",
-            "icon": "pi pi-check"
+            "name": "search",
+            "icon": "pi pi-search"
+          },
+          {
+            "label": "Feeds",
+            "link": "content/typerefinery-showcase/pages/pages/feeds",
+            "parentName": "",
+            "name": "search",
+            "icon": "pi pi-book"
           }
         ];
 
