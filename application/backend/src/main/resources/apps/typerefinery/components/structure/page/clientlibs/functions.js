@@ -53,6 +53,8 @@ window.MessageService.Client = MessageService.Client || {};
                                 componentNs?.Graphs?.LineChart?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'piechartComponent') {
                                 componentNs?.Graphs?.PieChart?.dataReceived(payload.data, $component)
+                            }else if ($component.getAttribute('data-module') === 'xaxisbarchartComponent') {
+                                componentNs?.Graphs?.XAxisBarChart?.dataReceived(payload.data, $component)
                             }
                         }
                     }
