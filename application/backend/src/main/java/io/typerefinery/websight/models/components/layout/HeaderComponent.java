@@ -22,12 +22,20 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 
+import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.content.Image;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class HeaderComponent {
+
+@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/layout/header" }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = { 
+    @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false") 
+})
+public class HeaderComponent extends BaseComponent {
 
   @Getter
   @Inject

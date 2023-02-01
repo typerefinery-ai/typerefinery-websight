@@ -2,15 +2,41 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "parentPagePath": {
+    "menuTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Parent Page",
-      "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "parentPagePath",
-        "label": "Parent Pag Path",
-        "description": "Please provide the parent page of this sidebar component, default will be current page.",
-        "defaultValue": "" 
+      "label": "Menu",
+      "items": {
+        "name": "navigation/menuItems",
+        "label": "Tabs",
+        "menuItemName": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "name",
+          "label": "Menu Name (Must be unique).",
+          "description": "Must be unique."
+        },
+        "parentName": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "parentName",
+          "label": "Parent Menu name (If this is the child tab, please mention the parent menu name).",
+          "description": "If this is the child tab, please mention the parent menu name."
+        },
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "icon",
+          "label": "Icon"
+        },
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "rootPath": "/content",
+          "name": "link",
+          "label": "URL"
+        }
       }
     }
   }
