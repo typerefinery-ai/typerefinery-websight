@@ -1,0 +1,19 @@
+{
+	"TYPE": "flow/flowstream",
+	"version": 24,
+	"paused": false,
+	"node": "v18.6.0",
+	"total": 4074,
+	"name": "<FLOW NAME>",
+	"version2": "1.0",
+	"icon": "fa fa-satellite",
+	"reference": "<GUID>",
+	"author": "typerefinery",
+	"color": "#61C83B",
+	"origin": "http://localhost:8111",
+	"readme": "Typerefinery flow",
+	"url": "https://localhost",
+	"proxypath": "",
+	"env": "dev",
+	"worker": "Child Process"
+}
