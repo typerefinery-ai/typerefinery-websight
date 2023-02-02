@@ -31,7 +31,7 @@ const DEFAULT_BAR_CHART_DATA = {
     ) || "#0099DE",
   canvasBackgroundColor:
     Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
-      "--subtitle-color"
+      "--primary-object-border-color"
     ) || "#343a40",
 };
 
@@ -59,9 +59,11 @@ const DEFAULT_BAR_CHART_DATA = {
       ...componentConfig,
       ...DEFAULT_BAR_CHART_DATA,
     };
-    var componentDataPath = $component.getAttribute("data-resource-path");
+    if(!componentConfig.resourcePath){
+      componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
+    }
     const ctx = document
-      .getElementById(`${componentDataPath}-barChart`)
+      .getElementById(`${componentConfig.resourcePath}-barChart`)
       .getContext("2d");
 
     // Plugin to update the canvas Background.

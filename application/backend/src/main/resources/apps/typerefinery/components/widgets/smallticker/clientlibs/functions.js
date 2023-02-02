@@ -4,7 +4,7 @@ window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.smallTicker =
   Typerefinery.Components.Widgets.SmallTicker || {};
 
-(function (ns, componentNs, window, document) {
+(function (ns, componentNs,typerefineryNs, window, document) {
   "use strict";
 
   ns.updateComponentHTML = (data, $component) => {
@@ -52,6 +52,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
   ns.tmsConnected = async (host, topic, $component) => {
     try {
       host = host || "ws://localhost:8112";
+      typerefineryNs.hostAdded(host);
       if (!topic) {
         ns.modelDataConnected($component);
         return;
@@ -105,6 +106,7 @@ window.Typerefinery.Components.Widgets.smallTicker =
 })(
   window.Typerefinery.Components.Widgets.SmallTicker,
   window.Typerefinery.Components,
+  window.Typerefinery,
   window,
   document
 );
