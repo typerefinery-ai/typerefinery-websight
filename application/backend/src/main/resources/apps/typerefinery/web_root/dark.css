@@ -3,10 +3,10 @@
   --primary-text-color:#fff;
   --subtitle-color: rgb(188, 188, 188);
   --primary-object-background-color:#001E3C;
-  --ticks-color:green;
-  --grid-color:blue;
-  --label-color:red;
-  --border-color:pink;
+  --ticks-color: #5D7183;	 
+  --grid-color: #5D7183;	  
+  --label-color: #ebedeb;
+  --border-color:#ebedeb;
   --primary-object-border-color:#001E3C;
   --primary-object-barborder-color:#FFB94E;
 }
