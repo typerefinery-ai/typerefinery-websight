@@ -186,9 +186,9 @@ const DEFAULT_LINE_CHART_DATA = {
             data: data.chartData || componentConfig.chartData,
             fill: true,
             borderColor:
-              Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
+              themeNs?.rootElementStyle?.getPropertyValue(
                 "--border-color"
-              ) || "#0099DE",
+              ).trim() || "#0099DE",
             tension: 0.3,
             backgroundColor: chartBackgroundGradientColor,
           },
