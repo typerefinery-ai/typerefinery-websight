@@ -244,3 +244,7 @@ h2.hl-title__heading.hl-title__heading--size-4 {
   padding-left: 50px;
   padding-right: 50px;
 }
+
+.p-treenode-label {
+  cursor: pointer;
+}

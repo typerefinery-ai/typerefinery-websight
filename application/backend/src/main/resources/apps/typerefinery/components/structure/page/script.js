@@ -4,12 +4,50 @@ $(document).ready(() => {
             return window.Typerefinery.VueData.data;
         },
         methods: {
-            onNodeSelect(e) {
+            onSidebarItemClicked(e) {
                 const selectedNodeName = e.target.innerText || "";
-                if (selectedNodeName.trim().length === 0 || !this.sideBarRoutes[selectedNodeName]) {
+                if (selectedNodeName.trim().length === 0 ) {
                     return;
                 }
-                window.location.href = this.sideBarRoutes[selectedNodeName];
+
+                const DEFAULT_MENU_ITEMS = [{
+                    "label": "Dashboard",
+                    "link": "content/typerefinery-showcase/pages/pages/dashboard",
+                    "parentName": "",
+                    "name": "dashboard",
+                    "icon": "pi pi-inbox"
+                  },
+                  {
+                    "label": "Search",
+                    "link": "content/typerefinery-showcase/pages/pages/search",
+                    "parentName": "dashboard",
+                    "name": "search",
+                    "icon": "pi pi-search"
+                  },
+                  {
+                    "label": "Feeds",
+                    "link": "content/typerefinery-showcase/pages/pages/feeds",
+                    "parentName": "",
+                    "name": "search",
+                    "icon": "pi pi-book"
+                  }
+                ];
+                let menuItems = DEFAULT_MENU_ITEMS;
+                
+                const sidebarContainer = document.getElementsByClassName('sidebar-container');
+                if(sidebarContainer.length !== 0) {
+                    const dataModel = JSON.parse(sidebarContainer[0].getAttribute('data-model') || '{}');
+            
+                    if(dataModel?.navigation?.menuItems?.length > 0) {
+                        menuItems = dataModel?.navigation?.menuItems;
+                    }
+                }
+                menuItems.forEach(menuItem => {
+                    if(menuItem.label === selectedNodeName) {
+                        window.location.href = `${window.location.origin}/${menuItem.link}.html`;
+                        return;
+                    }
+                })
             }
         }
     });
