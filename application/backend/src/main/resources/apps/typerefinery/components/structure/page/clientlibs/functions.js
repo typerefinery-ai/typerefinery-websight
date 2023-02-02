@@ -65,7 +65,11 @@ window.MessageService.Client = MessageService.Client || {};
                                 componentNs?.Graphs?.PieChart?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'xaxisbarchartComponent') {
                                 componentNs?.Graphs?.XAxisBarChart?.dataReceived(payload.data, $component)
-                            }
+                            }else if ($component.getAttribute("data-module") === "barchartComponent"
+                            ) {componentNs?.Graphs?.BarChart?.dataReceived(payload.data,
+                                $component
+                              );
+                            } 
                         }
                     }
                 }
