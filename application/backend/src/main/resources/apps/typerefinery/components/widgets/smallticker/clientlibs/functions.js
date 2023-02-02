@@ -1,7 +1,7 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.smallTicker =
+window.Typerefinery.Components.Widgets.SmallTicker =
   Typerefinery.Components.Widgets.SmallTicker || {};
 
 (function (ns, componentNs,typerefineryNs, window, document) {
