@@ -1,11 +1,12 @@
 <template data-sly-template.piechart="${ @ model }">
     <div 
         class="piechart"
-        id="piechartContainer"
-        data-path="${resource.path}"
         data-source="${model.dataSource}"
+        data-model="${model.jsonString}"
+        data-resource-path="${resource.path}"
+        data-module="piechartComponent"
     >
-        <canvas class="pieCanvas" id="${resource.path}-piechart" data-path="${resource.path}" data-module="linechartComponent">
+        <canvas class="pieCanvas" id="${resource.path}-piechart">
         </canvas>
     </div>
 </template>

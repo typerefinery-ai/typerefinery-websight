@@ -7,6 +7,6 @@
 .p-treenode-label {
   color: var(--primary-text-color);
 }
-.tree {
+.sidebar-container {
   width: 100%;
 }

@@ -32,6 +32,11 @@ public class SideBar extends BaseComponent {
     @Inject
     public String parentPagePath;
 
+    
+    @Inject
+    @Getter
+    private NavigationComponent navigation;
+
     /**
      * Returns the tree as a JSON string
      * @return the tree as a JSON string

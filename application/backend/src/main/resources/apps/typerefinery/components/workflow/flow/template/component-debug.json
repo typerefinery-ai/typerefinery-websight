@@ -1,0 +1,730 @@
+{
+	"paused": false,
+	"id": "fxqxw001ey41d",
+	"reference": "dashboard-reference",
+	"author": "",
+	"group": "/content/typerefinery-showcase/pages/pages/dashboard",
+	"icon": "fa fa-puzzle-piece",
+	"color": "",
+	"version": "",
+	"readme": "",
+	"url": "https://",
+	"name": "#component-name",
+	"components": {
+		"pubsrcrrawbb2daXsvg_insert": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-broadcast-tower';\n\texports.config = {};\n\texports.outputs = [{ id: 'publish', name: 'Output' }];\n\texports.group = 'Publishers';\n\texports.type = 'pub';\n\texports.schemaid = ['srcrrawbb2da', 'svg_insert'];\n\n\texports.make = function(instance) {\n\t\tinstance.process = function(msg, client) {\n\t\t\tinstance.send('publish', msg, client);\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-pubsrcrrawbb2daXsvg_insert .url { font-size: 11px; }\n</style>\n\n<readme>\n# svg_insert\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __publish__\n- JSON schema `svg_insert.json`\n- Version: 24\n\n```json\n{\n  \"$id\": \"https://schemas.totaljs.com/Svg.json\",\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"stepId\": {\n      \"type\": \"string\"\n    },\n    \"flowId\": {\n      \"type\": \"string\"\n    },\n    \"stepName\": {\n      \"type\": \"string\"\n    },\n    \"path\": {\n      \"type\": \"string\"\n    },\n    \"projectId\": {\n      \"type\": \"string\"\n    },\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"dtcreated\": {\n      \"type\": \"date\"\n    },\n    \"dtupdated\": {\n      \"type\": \"date\"\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-broadcast-tower mr5\"></i><span>TMS Message ... / <b>svg_insert</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"pubsrcrrawbb2daXpayload_insert": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-broadcast-tower';\n\texports.config = {};\n\texports.outputs = [{ id: 'publish', name: 'Output' }];\n\texports.group = 'Publishers';\n\texports.type = 'pub';\n\texports.schemaid = ['srcrrawbb2da', 'payload_insert'];\n\n\texports.make = function(instance) {\n\t\tinstance.process = function(msg, client) {\n\t\t\tinstance.send('publish', msg, client);\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-pubsrcrrawbb2daXpayload_insert .url { font-size: 11px; }\n</style>\n\n<readme>\n# payload_insert\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __publish__\n- JSON schema `payload_insert.json`\n- Version: 24\n\n```json\n{\n  \"$id\": \"https://schemas.totaljs.com/Payload.json\",\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"payload\": {\n      \"type\": \"string\"\n    },\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"dtcreated\": {\n      \"type\": \"date\"\n    },\n    \"dtupdated\": {\n      \"type\": \"date\"\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-broadcast-tower mr5\"></i><span>TMS Message ... / <b>payload_insert</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"subsrcrrawbb2daXsvg_insert": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-satellite-dish';\n\texports.group = 'Subscribers';\n\texports.config = {};\n\texports.inputs = [{ id: 'subscribe', name: 'Input' }];\n\texports.type = 'sub';\n\texports.schemaid = ['srcrrawbb2da', 'svg_insert'];\n\n\texports.make = function(instance) {\n\t\tinstance.message = function($) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.subscribers && socket.subscribers['svg_insert']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.destroy();\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tsocket.send({ type: 'subscribe', id: 'svg_insert', data: data });\n\t\t\t}\n\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-subsrcrrawbb2daXsvg_insert .url { font-size: 11px; }\n</style>\n\n<readme>\n# svg_insert\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __subscribe__\n- JSON schema `svg_insert.json`\n- Version: 24\n\n```json\n{\n  \"id\": \"svg_insert\",\n  \"schema\": {\n    \"$id\": \"https://schemas.totaljs.com/Svg.json\",\n    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n    \"type\": \"object\",\n    \"properties\": {\n      \"stepId\": {\n        \"type\": \"string\"\n      },\n      \"flowId\": {\n        \"type\": \"string\"\n      },\n      \"stepName\": {\n        \"type\": \"string\"\n      },\n      \"path\": {\n        \"type\": \"string\"\n      },\n      \"projectId\": {\n        \"type\": \"string\"\n      },\n      \"id\": {\n        \"type\": \"string\"\n      },\n      \"dtcreated\": {\n        \"type\": \"date\"\n      },\n      \"dtupdated\": {\n        \"type\": \"date\"\n      }\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-satellite-dish mr5\"></i><span>TMS Message ... / <b>svg_insert</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"subsrcrrawbb2daXpayload_insert": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-satellite-dish';\n\texports.group = 'Subscribers';\n\texports.config = {};\n\texports.inputs = [{ id: 'subscribe', name: 'Input' }];\n\texports.type = 'sub';\n\texports.schemaid = ['srcrrawbb2da', 'payload_insert'];\n\n\texports.make = function(instance) {\n\t\tinstance.message = function($) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.subscribers && socket.subscribers['payload_insert']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.destroy();\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tsocket.send({ type: 'subscribe', id: 'payload_insert', data: data });\n\t\t\t}\n\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-subsrcrrawbb2daXpayload_insert .url { font-size: 11px; }\n</style>\n\n<readme>\n# payload_insert\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __subscribe__\n- JSON schema `payload_insert.json`\n- Version: 24\n\n```json\n{\n  \"id\": \"payload_insert\",\n  \"schema\": {\n    \"$id\": \"https://schemas.totaljs.com/Payload.json\",\n    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n    \"type\": \"object\",\n    \"properties\": {\n      \"payload\": {\n        \"type\": \"string\"\n      },\n      \"id\": {\n        \"type\": \"string\"\n      },\n      \"dtcreated\": {\n        \"type\": \"date\"\n      },\n      \"dtupdated\": {\n        \"type\": \"date\"\n      }\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-satellite-dish mr5\"></i><span>TMS Message ... / <b>payload_insert</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"subsrcrrawbb2daXpayload_update": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-satellite-dish';\n\texports.group = 'Subscribers';\n\texports.config = {};\n\texports.inputs = [{ id: 'subscribe', name: 'Input' }];\n\texports.type = 'sub';\n\texports.schemaid = ['srcrrawbb2da', 'payload_update'];\n\n\texports.make = function(instance) {\n\t\tinstance.message = function($) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.subscribers && socket.subscribers['payload_update']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.destroy();\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tsocket.send({ type: 'subscribe', id: 'payload_update', data: data });\n\t\t\t}\n\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-subsrcrrawbb2daXpayload_update .url { font-size: 11px; }\n</style>\n\n<readme>\n# payload_update\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __subscribe__\n- JSON schema `payload_update.json`\n- Version: 24\n\n```json\n{\n  \"id\": \"payload_update\",\n  \"schema\": {\n    \"$id\": \"https://schemas.totaljs.com/Payload.json\",\n    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n    \"type\": \"object\",\n    \"properties\": {\n      \"payload\": {\n        \"type\": \"string\"\n      },\n      \"id\": {\n        \"type\": \"string\"\n      },\n      \"dtcreated\": {\n        \"type\": \"date\"\n      },\n      \"dtupdated\": {\n        \"type\": \"date\"\n      }\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-satellite-dish mr5\"></i><span>TMS Message ... / <b>payload_update</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"subsrcrrawbb2daXpayload_remove": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fas fa-satellite-dish';\n\texports.group = 'Subscribers';\n\texports.config = {};\n\texports.inputs = [{ id: 'subscribe', name: 'Input' }];\n\texports.type = 'sub';\n\texports.schemaid = ['srcrrawbb2da', 'payload_remove'];\n\n\texports.make = function(instance) {\n\t\tinstance.message = function($) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.subscribers && socket.subscribers['payload_remove']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.destroy();\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tsocket.send({ type: 'subscribe', id: 'payload_remove', data: data });\n\t\t\t}\n\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-subsrcrrawbb2daXpayload_remove .url { font-size: 11px; }\n</style>\n\n<readme>\n# payload_remove\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __subscribe__\n- JSON schema `payload_remove.json`\n- Version: 24\n\n```json\n{\n  \"id\": \"payload_remove\",\n  \"schema\": {\n    \"$id\": \"https://schemas.totaljs.com/Payload.json\",\n    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n    \"type\": \"object\",\n    \"properties\": {\n      \"payload\": {\n        \"type\": \"string\"\n      },\n      \"id\": {\n        \"type\": \"string\"\n      },\n      \"dtcreated\": {\n        \"type\": \"date\"\n      },\n      \"dtupdated\": {\n        \"type\": \"date\"\n      }\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fas fa-satellite-dish mr5\"></i><span>TMS Message ... / <b>payload_remove</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"calsrcrrawbb2daXsvg_query": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fa fa-plug';\n\texports.config = { timeout: 60000 };\n\texports.inputs = [{ id: 'input', name: 'Input' }];\n\texports.outputs = [{ id: 'output', name: 'Output' }, { id: 'error', name: 'Error' }];\n\texports.group = 'Calls';\n\texports.type = 'call';\n\texports.schemaid = ['srcrrawbb2da', 'svg_query'];\n\n\texports.make = function(instance, config) {\n\n\t\tinstance.message = function($, client) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.calls && socket.calls['svg_query']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.send('error', err.toString());\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tvar callback = function(err, response) {\n\t\t\t\t\tif (err)\n\t\t\t\t\t\t$.send('error', err);\n\t\t\t\t\telse\n\t\t\t\t\t\t$.send('output', response);\n\t\t\t\t};\n\n\t\t\t\tvar callbackid = (socket.callbackindexer++) + '';\n\n\t\t\t\tif (socket.callbackindexer > 999999999)\n\t\t\t\t\tsocket.callbackindexer = 0;\n\n\t\t\t\tsocket.callbacks[callbackid] = { callback: callback, id: setTimeout(socket.callbacktimeout, config.timeout, callbackid) };\n\t\t\t\tsocket.send({ type: 'call', id: 'svg_query', data: data, callbackid: callbackid });\n\n\t\t\t} else\n\t\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-calsrcrrawbb2daXsvg_query .url { font-size: 11px; }\n</style>\n\n<readme>\n# svg_query\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __call__\n- JSON schema `svg_query.json`\n- Version: 24\n\n```json\n{\n  \"$id\": \"https://schemas.totaljs.com/Svg.json\",\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"stepId\": {\n      \"type\": \"string\"\n    },\n    \"flowId\": {\n      \"type\": \"string\"\n    },\n    \"stepName\": {\n      \"type\": \"string\"\n    },\n    \"path\": {\n      \"type\": \"string\"\n    },\n    \"projectId\": {\n      \"type\": \"string\"\n    },\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"dtcreated\": {\n      \"type\": \"date\"\n    },\n    \"dtupdated\": {\n      \"type\": \"date\"\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fa fa-plug mr5\"></i><span>TMS Message ... / <b>svg_query</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"calsrcrrawbb2daXpayload_query": "<script total>\n\n\texports.name = 'TMS Message Service';\n\texports.icon = 'fa fa-plug';\n\texports.config = { timeout: 60000 };\n\texports.inputs = [{ id: 'input', name: 'Input' }];\n\texports.outputs = [{ id: 'output', name: 'Output' }, { id: 'error', name: 'Error' }];\n\texports.group = 'Calls';\n\texports.type = 'call';\n\texports.schemaid = ['srcrrawbb2da', 'payload_query'];\n\n\texports.make = function(instance, config) {\n\n\t\tinstance.message = function($, client) {\n\t\t\tvar socket = instance.main.sockets['srcrrawbb2da'];\n\t\t\tif (socket && socket.calls && socket.calls['payload_query']) {\n\n\t\t\t\tvar data = $.data;\n\n\t\t\t\t/*\n\t\t\t\t\tvar err = new ErrorBuilder();\n\t\t\t\t\tdata = framework_jsonschema.transform(schema, err, data, true);\n\n\t\t\t\t\tif (err.is) {\n\t\t\t\t\t\t$.send('error', err.toString());\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t*/\n\n\t\t\t\tvar callback = function(err, response) {\n\t\t\t\t\tif (err)\n\t\t\t\t\t\t$.send('error', err);\n\t\t\t\t\telse\n\t\t\t\t\t\t$.send('output', response);\n\t\t\t\t};\n\n\t\t\t\tvar callbackid = (socket.callbackindexer++) + '';\n\n\t\t\t\tif (socket.callbackindexer > 999999999)\n\t\t\t\t\tsocket.callbackindexer = 0;\n\n\t\t\t\tsocket.callbacks[callbackid] = { callback: callback, id: setTimeout(socket.callbacktimeout, config.timeout, callbackid) };\n\t\t\t\tsocket.send({ type: 'call', id: 'payload_query', data: data, callbackid: callbackid });\n\n\t\t\t} else\n\t\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<style>\n\t.f-calsrcrrawbb2daXpayload_query .url { font-size: 11px; }\n</style>\n\n<readme>\n# payload_query\n- URL address: <ws://127.0.0.1:8112>\n- Channel: __call__\n- JSON schema `payload_query.json`\n- Version: 24\n\n```json\n{\n  \"$id\": \"https://schemas.totaljs.com/Payload.json\",\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"payload\": {\n      \"type\": \"string\"\n    },\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"dtcreated\": {\n      \"type\": \"date\"\n    },\n    \"dtupdated\": {\n      \"type\": \"date\"\n    }\n  }\n}\n```\n</readme>\n\n<body>\n\t<header>\n\t\t<div><i class=\"fa fa-plug mr5\"></i><span>TMS Message ... / <b>payload_query</b></span></div>\n\t\t<div class=\"url\"></div>\n\t</header>\n</body>",
+		"json_schema_validator": "<script total>\n\texports.id = 'json_schema_validator';\n\texports.name = 'JSON Schema validator';\n\texports.icon = 'fa fa-code';\n\texports.author = 'Total Avengers';\n\texports.version = '1';\n\texports.config = {};\n\texports.inputs = [{ id: 'input', name: 'Input' }, { id: 'schema', name: 'Schema' }];\n\texports.outputs = [{ id: 'output', name: 'Output' }, { id: 'schema', name: 'Schema' }, { id: 'error', name: 'Error' }];\n\n\texports.make = function(instance, config) {\n\n\t\tvar schema;\n\n\t\tinstance.message = function($) {\n\t\t\tif (!schema) {\n\t\t\t\t$.send('error', { error: 'Not ready' });\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tif ($.input === 'schema') {\n\t\t\t\t$.send('schema', { schema });\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tvar data = $.data;\n\t\t\tJSONSCHEMA(schema, data, function(error, response){\n\t\t\t\tif (error)\n\t\t\t\t\t$.send('error', { msg: 'Invalid data', error });\n\t\t\t\telse\n\t\t\t\t\t$.send('output', data);\n\t\t\t});\n\t\t};\n\n\t\tinstance.configure = function() {\n\t\t\t// \"config\" is changed\n\t\t\tschema = config.schema && config.schema.parseJSON();\n\t\t};\n\n\t\tinstance.configure();\n\t};\n\n</script>\n\n<readme>\nJSON schema [documentation](https://json-schema.org/learn/getting-started-step-by-step.html)\n## Inputs\n\t- input -> validate data and send the result to output if no error, otherwise send error to error output\n\t- schema -> read the schema and send it to the schema output\n</readme>\n\n<settings>\n\t<div class=\"padding\">\n\t\t<div data---=\"codemirror__?.schema__type:javascript;required:true;height:500\">JSON schema</div>\n\t</div>\n</settings>\n\n<style>\n\t.CLASS .output { text-align: right }\n</style>\n\n<script>\n\n</script>\n\n<body>\n\t<header>\n\t\t<i class=\"ICON\"></i>NAME\n\t</header>\n</body>",
+		"cyijj2a452": "<script total>\n\n\texports.name = 'Output';\n\texports.group = 'FlowStream';\n\texports.version = '1';\n\texports.icon = 'fa fa-crosshairs';\n\texports.author = 'Total.js';\n\texports.config = { name: 'Output', readme: '' };\n\texports.inputs = [{ id: 'data', name: 'Data' }];\n\texports.type = 'output';\n\n\texports.make = function(instance, config) {\n\t\tinstance.message = function($) {\n\t\t\tinstance.output($.data);\n\t\t\t$.destroy();\n\t\t};\n\t};\n\n</script>\n\n<settings>\n\t<div class=\"padding\">\n\t\t<div data---=\"input__?.name__required:1\" class=\"m\"><b>Output name</b></div>\n\t\t<div data---=\"textarea__?.readme__monospace:1;height:250\">Readme</div>\n\t\t<div class=\"help\">Supports markdown format</div>\n\t</div>\n</settings>\n\n<readme>\nThe component sends data to a `Subscribe` component in another FlowStream.\n</readme>\n\n<body>\n\t<header>\n\t\t<i class=\"ICON\"></i>NAME: <b data-bind=\"CONFIG.name__text__empty\"></b>\n\t</header>\n</body>",
+		"cv4wla7775": "<script total>\n\n\texports.name = 'Input';\n\texports.group = 'FlowStream';\n\texports.version = '1';\n\texports.icon = 'fa fa-broadcast-tower';\n\texports.author = 'Total.js';\n\texports.config = { name: '', readme: '' };\n\texports.outputs = [{ id: 'data', name: 'Data' }];\n\texports.type = 'input';\n\n\texports.make = function(instance, config) {\n\n\t\tinstance.input = function(fromflowstreamid, fromid, data) {\n\t\t\tinstance.send('data', data);\n\t\t};\n\n\t};\n\n</script>\n\n<settings>\n\t<div class=\"padding\">\n\t\t<div data---=\"input__?.name__required:1\" class=\"m\"><b>Input name</b></div>\n\t\t<div data---=\"input__?.readme__monospace:1;type:multiline;height:250\">Readme</div>\n\t\t<div class=\"help\">Supports markdown format</div>\n\t</div>\n</settings>\n\n<readme>\nThe component receives data from a `Publish` component from another FlowStream instance.\n</readme>\n\n<body>\n\t<header>\n\t\t<i class=\"ICON\"></i>NAME: <b data-bind=\"CONFIG.name__text__empty\"></b>\n\t</header>\n</body>",
+		"typerefinery_senddata": "<script total>\r\n\r\n\texports.id = 'typerefinery_senddata';\r\n\texports.name = 'Send Data';\r\n\texports.group = '@TypeRefinery';\r\n\texports.version = '2';\r\n\texports.icon = 'fa fa-bullhorn';\r\n\texports.author = 'Team_Typerefinery';\r\n\texports.config = { title: exports.name, version: exports.version, random: true, type: 'object', data: '', restart: false };\r\n\texports.outputs = [{ id: 'output', name: 'Output' }];\r\n\r\n\texports.make = function(instance, config) {\r\n\r\n\t\tinstance.trigger = function() {\r\n\r\n\t\t\tvar val;\r\n\r\n\t\t\tswitch (config.type) {\r\n\t\t\t\tcase 'number':\r\n\t\t\t\t\tval = config.random ? U.random() : config.data.parseFloat();\r\n\t\t\t\t\tbreak;\r\n\t\t\t\tcase 'buffer':\r\n\t\t\t\t\ttry {\r\n\t\t\t\t\t\tval = config.random ? Buffer.from(U.random_string()) : Buffer.from(config.data, 'base64');\r\n\t\t\t\t\t} catch (e) {\r\n\t\t\t\t\t\tinstance.throw(e);\r\n\t\t\t\t\t}\r\n\t\t\t\t\tbreak;\r\n\t\t\t\tcase 'date':\r\n\t\t\t\t\tval = config.random ? NOW.add('-' + U.random(500, 10) + ' seconds') : config.data.parseDate();\r\n\t\t\t\t\tbreak;\r\n\t\t\t\tcase 'object':\r\n\t\t\t\t\ttry {\r\n\t\t\t\t\t\tval = config.random ? {} : (new Function('return ' + config.data))();\r\n\t\t\t\t\t} catch (e) {\r\n\t\t\t\t\t\tinstance.throw(e);\r\n\t\t\t\t\t}\r\n\t\t\t\t\tbreak;\r\n\t\t\t\tcase 'boolean':\r\n\t\t\t\t\tval = config.random ? U.random() % 2 === 0 : config.data === 'true' || config.data === 'on' || config.data === '1';\r\n\t\t\t\t\tbreak;\r\n\t\t\t\tdefault:\r\n\t\t\t\t\tval = config.random ? U.random_string(20) : config.data;\r\n\t\t\t\t\tbreak;\r\n\t\t\t}\r\n\r\n\t\t\tinstance.send('output', val);\r\n\t\t};\r\n\r\n\t\tinstance.configure = function() {\r\n\t\t\tif (config.title === \"\") {\r\n\t\t\t\tconfig.title = exports.name;\r\n\t\t\t}\r\n\t\t\tconfig.version = exports.version;\r\n\t\t};\r\n\r\n\t\tinstance.configure();\r\n\r\n\t\tconfig.restart && setTimeout(() => instance.trigger(), 5000);\r\n\t};\r\n\r\n</script>\r\n\r\n<style>\r\n\t.CLASS .padding { padding: 0 10px 10px; }\r\n\t.CLASS footer > div { margin: 10px; }\r\n\t.CLASS pre { font-size: 10px; margin: 0; padding: 5px; background-color: #F0F0F0; border-radius: var(--radius); }\r\n\t.CLASS button { width: 100%; height: 24px; border: 1px solid #E0E0E0; border-radius: var(--radius); color: #000; background-color: #F0F0F0; margin: 0; }\r\n\t.CLASS button:hover { background-color: #F8F8F8; }\r\n\t.CLASS button:active { background-color: #E0E0E0; }\r\n\t.CLASS .ui-objecttree { background-color: #f0f0f0; padding: 4px; }\r\n\t.CLASS .largetext { max-height: 100px; overflow-y: auto; }\r\n\r\n\t.ui-dark .CLASS button { border-color: #404040; color: #FFF; background-color: #222; }\r\n\t.ui-dark .CLASS button:hover { background-color: #303030; }\r\n\t.ui-dark .CLASS button:active { background-color: #404040; }\r\n\r\n\t.CLASS .output { text-align: right }\r\n</style>\r\n\r\n<settings>\r\n\t<div class=\"padding\">\r\n\t\t<div data---=\"input__?.title__text\"><b>Title</b></div>\r\n\t\t<div data---=\"input__?.type__dirsource:string|String,number|Number,boolean|Boolean,date|Date,object|Object,buffer|Buffer as Base64;required:1\">Type</div>\r\n\t\t<div class=\"mt10 m\">\r\n\t\t\t<div data---=\"input__?.restart__type:checkbox\">Trigger 5s after initialization.</div>\r\n\t\t\t<div data---=\"input__?.random__type:checkbox\">Random data</div>\r\n\t\t</div>\r\n\t\t<div data-bind=\"?.random__hide\" class=\"hidden\">\r\n\t\t\t<hr />\r\n\t\t\t<div data---=\"input__?.data__required:1;height:250;type:multiline;maxlength:100000;monospace:1\">Data</div>\r\n\t\t</div>\r\n\t</div>\r\n</settings>\r\n\r\n<readme>\r\nThe component triggers data into the Flow.\r\n</readme>\r\n\r\n<body>\r\n\t<header>\r\n\t\t<i class=\"ICON\"></i><b class=\"monospace\" data-bind=\"CONFIG.title__text__empty\"></b>\r\n\t\t<div><small><i>NAME v<span data-bind=\"CONFIG.version__text__empty\"></span></i> - <b class=\"monospace\" data-bind=\"CONFIG.type__text__empty\"></b></small></div>\r\n\t</header>\r\n\t<div class=\"padding\">\r\n\t\t<button class=\"exec\" data-exec=\"FUNC.trigger\">Run</button>\r\n\t</div>\r\n\t<footer>\r\n\t\t<div class=\"monospace selectable largetext\" data---=\"objecttree__!CONFIG.data__text__empty\"></div>\r\n\t</footer>\r\n</body>",
+		"typerefinery_printjson": "<script total>\r\n\r\n\texports.id = 'typerefinery_printjson';\r\n\texports.name = 'Print JSON';\r\n\texports.icon = 'fa fa-print';\r\n\texports.group = '@TypeRefinery';\r\n\texports.author = 'TypeRefinery.io';\r\n\texports.version = '2';\r\n\r\n\texports.config = { title: exports.name, version: exports.version, repo: false, data: true };\r\n\texports.inputs = [{ id: 'input', name: 'Input' }];\r\n\r\n\texports.make = function(instance, config) {\r\n\t\tinstance.message = function($) {\r\n\r\n\t\t\tvar data = $.data;\r\n\r\n\t\t\tif (config.data !== false) {\r\n\t\t\t\tif (data instanceof Buffer)\r\n\t\t\t\t\tdata = data.toString('hex').substring(0, 200);\r\n\t\t\t}\r\n\r\n\t\t\tvar count = 0;\r\n\r\n\t\t\tfor (var key in config) {\r\n\t\t\t\tif (key == \"repo\" || key == \"data\" ) {\r\n\t\t\t\t\tif (config[key]) {\r\n\t\t\t\t\t\tcount++;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\r\n\t\t\tvar output = count > 1 ? {} : null;\r\n\r\n\t\t\tif (config.repo) {\r\n\t\t\t\tif (output)\r\n\t\t\t\t\toutput.repo = $.repo;\r\n\t\t\t\telse\r\n\t\t\t\t\toutput = $.repository;\r\n\t\t\t}\r\n\r\n\t\t\tif (config.data) {\r\n\t\t\t\tif (output)\r\n\t\t\t\t\toutput.data = $.data;\r\n\t\t\t\telse\r\n\t\t\t\t\toutput = $.data;\r\n\t\t\t}\r\n\r\n\t\t\toutput && instance.status(output);\r\n\t\t\t$.destroy();\r\n\t\t};\r\n\r\n\t\tinstance.trigger = function() {\r\n\t\t\tinstance.status('');\r\n\t\t};\r\n\r\n\t\tinstance.configure = function() {\r\n\t\t\tif (config.title === \"\") {\r\n\t\t\t\tconfig.title = exports.name;\r\n\t\t\t}\r\n\t\t\tconfig.version = exports.version;\r\n\t\t};\r\n\r\n\t\tinstance.configure();\r\n\r\n\t};\r\n\r\n</script>\r\n\r\n<style>\r\n\t.CLASS footer > div { margin: 10px; }\r\n\t.CLASS pre { font-size: 10px; margin: 0; padding: 5px; background-color: #F0F0F0; border-radius: var(--radius); }\r\n\t.CLASS button { float: right; height: 20px; font-size: 11px; border: 1px solid #E0E0E0; border-radius: var(--radius); color: #000; background-color: transparent; margin: 0; padding: 0 5px; }\r\n\t.CLASS button:hover { background-color: #F8F8F8; }\r\n\t.CLASS button:active { background-color: #E0E0E0; }\r\n\t.CLASS .ui-objecttree { background-color: #f0f0f0; padding: 4px; }\r\n\r\n\t.ui-dark .CLASS pre { background-color: #404040; tab-size: 2; }\r\n\t.ui-dark .CLASS button { border-color: #404040; color: #FFF; }\r\n\t.ui-dark .CLASS button:hover { background-color: #303030; }\r\n\t.ui-dark .CLASS button:active { background-color: #404040; }\r\n</style>\r\n\r\n<readme>\r\n\tThe component prints incoming data in a JSON format.\r\n</readme>\r\n\r\n<settings>\r\n\t<div class=\"padding\">\r\n\t\t<div data---=\"input__?.title__text\"><b>Title</b></div>\r\n\t\t<div data---=\"input__?.repo__type:checkbox\">Shows repository</div>\r\n\t\t<div data---=\"input__?.data__type:checkbox\">Shows data</div>\r\n\t</div>\r\n</settings>\r\n\r\n<script>\r\n\tFUNC.printjson_click = function(type, data) { // type = path/data\r\n\t\tnavigator.clipboard.writeText(type === 'path' ? data : STRINGIFY(data)).catch(e => console.error(e));\r\n\t};\r\n\r\n\t$('body').on('click', '.ui-objecttree .fa-copy, .ui-objecttree .fa-link', function(){\r\n\t\tvar el = $(this);\r\n\t\tvar iscopy = el.hclass('fa-copy');\r\n\t\tel.tclass(iscopy ? 'fa-copy' : 'fa-link').tclass('fa-check');\r\n\t\tsetTimeout(function(){\r\n\t\t\tel.tclass('fa-check').tclass(iscopy ? 'fa-copy' : 'fa-link');\r\n\t\t}, 2000);\r\n\t});\r\n</script>\r\n\r\n<body>\r\n\t<header>\r\n\t\t<button class=\"exec\" data-exec=\"FUNC.trigger\">Clear</button>\r\n\t\t<i class=\"ICON\"></i><b class=\"monospace\" data-bind=\"CONFIG.title__text__empty\"></b>\r\n\t\t<div><small><i>NAME v<span data-bind=\"CONFIG.version__text__empty\"></span></i></small></div>\r\n\t</header>\r\n\t<footer>\r\n\t\t<div data---=\"objecttree__!STATUS__exec:FUNC.printjson_click\" class=\"selectable\"></div>\r\n\t</footer>\r\n</body>",
+		"typerefinery_api_payload": "<script total>\n\n\texports.id = 'typerefinery_api_payload';\n\texports.name = 'API Payload';\n\texports.icon = 'fa fa-code';\n\texports.group = '@TypeRefinery';\n\texports.author = 'TypeRefinery.io';\n\texports.version = '2';\n\n\texports.config = { title: exports.name, version: exports.version, topic: \"topic\", type: \"wrap\", topicforce: true };\n\texports.inputs = [{ id: 'input', name: 'Input' }];\n\texports.outputs = [{ id: 'output', name: 'Output' }];\n\n\texports.meta = { settingswidth: 1200 };\n\n\texports.make = function(instance, config) {\n\n\t\tvar fn;\n\n\t\tinstance.message = function($) {\n\t\t\tvar data = $.data;\n\t\t\tif (config.topicforce) {\n\t\t\t\tdata.topic = config.topic;\n\t\t\t}\n\t\t\tswitch (config.type) {\n\t\t\t\tcase 'wrap':\n\t\t\t\t\tinstance.send('output', { payload: JSON.stringify(data) });\n\t\t\t\t\tbreak;\n\t\t\t\tdefault:\n\t\t\t\t\tvar payloadData = JSON.parse(data.payload);\n\t\t\t\t\tvar payloadTopic = payloadData.topic || \"no topic\";\n\t\t\t\t\t//skip if topic is not the same\n\t\t\t\t\tif (config.topic === payloadTopic) {\n\t\t\t\t\t\tinstance.send('output', payloadData);\n\t\t\t\t\t}\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\t$.destroy();\n\t\t};\n\n\t\tinstance.configure = function() {\n\t\t\tif (config.topic === \"\") {\n\t\t\t\tconfig.topic = \"topic\";\n\t\t\t}\n\t\t\tif (config.type === \"\") {\n\t\t\t\tconfig.type = \"wrap\";\n\t\t\t}\n\t\t\tif (config.title === \"\") {\n\t\t\t\tconfig.title = exports.name;\n\t\t\t}\n\t\t\tconfig.version = exports.version;\n\t\t};\n\n\t\tinstance.close = function() {\n\t\t\tfn = null;\n\t\t};\n\n\t\tinstance.configure();\n\n\t};\n\n</script>\n\n<readme>\n\tWrap input data into Payload schema.\n</readme>\n\n<style>\n\t.CLASS .output { text-align: right }\n</style>\n\n<settings>\n\t<div class=\"padding\">\n\t\t<div data---=\"input__?.title__text\"><b>Title</b></div>\n\t\t<div data---=\"input__?.topic__text\"><b>Topic</b></div>\n\t\t<div data---=\"input__?.type__dirsource:wrap|Wrap,unwrap|Unwrap;required:1\">Type</div>\n\t\t<div data---=\"input__?.topicforce__type:checkbox\">Overwrite data Topic?</div>\n\t</div>\n</settings>\n\n<body>\n\t<header>\n\t\t<i class=\"ICON\"></i><b class=\"monospace\" data-bind=\"CONFIG.title__text__empty\"></b>\n\t\t<div><small><i>NAME v<span data-bind=\"CONFIG.version__text__empty\"></span></i></small></div>\n\t\t<div>Topic: <b class=\"monospace\" data-bind=\"CONFIG.topic__text__empty\"></b></div>\n\t\t<div>Type: <b class=\"monospace\" data-bind=\"CONFIG.type__text__empty\"></b></div>\n\t</header>\n</body>"
+	},
+	"design": {
+		"ildh7sbs6": {
+			"id": "ildh7sbs6",
+			"config": {},
+			"x": 70,
+			"y": 125,
+			"component": "pubsrcrrawbb2daXpayload_insert",
+			"connections": {
+				"publish": [
+					{
+						"id": "ildkdgs99",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"type": "pub",
+				"icon": "fas fa-broadcast-tower",
+				"group": "Publishers",
+				"name": "TMS Message Service",
+				"outputs": [
+					{
+						"id": "publish",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildh922pb": {
+			"id": "ildh922pb",
+			"config": {},
+			"x": 1869.0001525878906,
+			"y": 98,
+			"component": "subsrcrrawbb2daXpayload_insert",
+			"connections": {},
+			"template": {
+				"type": "sub",
+				"icon": "fas fa-satellite-dish",
+				"group": "Subscribers",
+				"name": "TMS Message Service",
+				"inputs": [
+					{
+						"id": "subscribe",
+						"name": "Input"
+					}
+				]
+			}
+		},
+		"ildh9ym1i": {
+			"id": "ildh9ym1i",
+			"config": {
+				"name": "#component-name-output",
+				"readme": ""
+			},
+			"x": 783.0000305175781,
+			"y": 119,
+			"note": "",
+			"component": "cyijj2a452",
+			"connections": {},
+			"template": {
+				"type": "output",
+				"icon": "fa fa-crosshairs",
+				"group": "FlowStream",
+				"name": "Output",
+				"inputs": [
+					{
+						"id": "data",
+						"name": "Data"
+					}
+				]
+			}
+		},
+		"ildiev7s3": {
+			"id": "ildiev7s3",
+			"config": {
+				"name": "#component-name-input",
+				"readme": ""
+			},
+			"x": 1144.0000305175781,
+			"y": 104,
+			"component": "cv4wla7775",
+			"connections": {
+				"data": [
+					{
+						"id": "ildjg3h0q",
+						"index": "input"
+					},
+					{
+						"id": "ildkdglwk",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"type": "input",
+				"icon": "fa fa-broadcast-tower",
+				"group": "FlowStream",
+				"name": "Input",
+				"outputs": [
+					{
+						"id": "data",
+						"name": "Data"
+					}
+				]
+			}
+		},
+		"ildjeteic": {
+			"id": "ildjeteic",
+			"config": {
+				"title": "Data sent to TMS",
+				"version": "2",
+				"repo": false,
+				"data": true
+			},
+			"x": 1865.0001525878906,
+			"y": 261,
+			"component": "typerefinery_printjson",
+			"connections": {},
+			"template": {
+				"icon": "fa fa-print",
+				"group": "@TypeRefinery",
+				"name": "Print JSON",
+				"inputs": [
+					{
+						"id": "input",
+						"name": "Input"
+					}
+				]
+			}
+		},
+		"ildjfr6qg": {
+			"id": "ildjfr6qg",
+			"config": {
+				"title": "Sample TMS Message \"sampleA\"",
+				"version": "2",
+				"random": false,
+				"type": "object",
+				"data": "{\"payload\":\"{\\\"data\\\":\\\"sample\\\",\\\"topic\\\":\\\"sampleA\\\"}\"}",
+				"restart": false
+			},
+			"x": 63,
+			"y": 300,
+			"component": "typerefinery_senddata",
+			"connections": {
+				"output": [
+					{
+						"id": "ildkdgs99",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-bullhorn",
+				"group": "@TypeRefinery",
+				"name": "Send Data",
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildjfry95": {
+			"id": "ildjfry95",
+			"config": {
+				"title": "Data sent as Flow output",
+				"version": "2",
+				"repo": false,
+				"data": true
+			},
+			"x": 783.0000305175781,
+			"y": 312,
+			"component": "typerefinery_printjson",
+			"connections": {},
+			"template": {
+				"icon": "fa fa-print",
+				"group": "@TypeRefinery",
+				"name": "Print JSON",
+				"inputs": [
+					{
+						"id": "input",
+						"name": "Input"
+					}
+				]
+			}
+		},
+		"ildjftef8": {
+			"id": "ildjftef8",
+			"config": {
+				"title": "Sample TMS Message \"sampleB\"",
+				"version": "2",
+				"random": false,
+				"type": "object",
+				"data": "{\"payload\":\"{\\\"data\\\":\\\"sample\\\",\\\"topic\\\":\\\"sampleB\\\"}\"}",
+				"restart": false
+			},
+			"x": 66,
+			"y": 506,
+			"component": "typerefinery_senddata",
+			"connections": {
+				"output": [
+					{
+						"id": "ildkdgs99",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-bullhorn",
+				"group": "@TypeRefinery",
+				"name": "Send Data",
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildjfwp6w": {
+			"id": "ildjfwp6w",
+			"config": {
+				"title": "Send Data with topic",
+				"version": "2",
+				"random": false,
+				"type": "object",
+				"data": "{\ndata: \"test1\",\ntopic: \"sampleA\"\n}",
+				"restart": false
+			},
+			"x": 1151.0000305175781,
+			"y": 516,
+			"component": "typerefinery_senddata",
+			"connections": {
+				"output": [
+					{
+						"id": "ildkdglwk",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-bullhorn",
+				"group": "@TypeRefinery",
+				"name": "Send Data",
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildjg150m": {
+			"id": "ildjg150m",
+			"config": {
+				"title": "Send Data without topic",
+				"version": "2",
+				"random": false,
+				"type": "object",
+				"data": "{\ndata: \"test2\"\n}",
+				"restart": false
+			},
+			"x": 1455.0000305175781,
+			"y": 518,
+			"component": "typerefinery_senddata",
+			"connections": {
+				"output": [
+					{
+						"id": "ildkdglwk",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-bullhorn",
+				"group": "@TypeRefinery",
+				"name": "Send Data",
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildjg3h0q": {
+			"id": "ildjg3h0q",
+			"config": {
+				"title": "Data sent from another flow",
+				"version": "2",
+				"repo": false,
+				"data": true
+			},
+			"x": 1181.0000305175781,
+			"y": 254,
+			"component": "typerefinery_printjson",
+			"connections": {},
+			"template": {
+				"icon": "fa fa-print",
+				"group": "@TypeRefinery",
+				"name": "Print JSON",
+				"inputs": [
+					{
+						"id": "input",
+						"name": "Input"
+					}
+				]
+			}
+		},
+		"ildkdglwk": {
+			"id": "ildkdglwk",
+			"config": {
+				"title": "API Payload",
+				"version": "2",
+				"topic": "sampleA",
+				"type": "wrap",
+				"topicforce": true
+			},
+			"x": 1555.0000305175781,
+			"y": 61,
+			"component": "typerefinery_api_payload",
+			"connections": {
+				"output": [
+					{
+						"id": "ildjeteic",
+						"index": "input"
+					},
+					{
+						"id": "ildh922pb",
+						"index": "subscribe"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-code",
+				"group": "@TypeRefinery",
+				"name": "API Payload",
+				"inputs": [
+					{
+						"id": "input",
+						"name": "Input"
+					}
+				],
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildkdgs99": {
+			"id": "ildkdgs99",
+			"config": {
+				"title": "API Payload Unwrap and Filter",
+				"version": "2",
+				"topic": "sampleA",
+				"type": "unwrap",
+				"topicforce": true
+			},
+			"x": 427.0000305175781,
+			"y": 105,
+			"component": "typerefinery_api_payload",
+			"connections": {
+				"output": [
+					{
+						"id": "ildjfry95",
+						"index": "input"
+					},
+					{
+						"id": "ildh9ym1i",
+						"index": "data"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-code",
+				"group": "@TypeRefinery",
+				"name": "API Payload",
+				"inputs": [
+					{
+						"id": "input",
+						"name": "Input"
+					}
+				],
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"ildkdkcci": {
+			"id": "ildkdkcci",
+			"config": {
+				"title": "Send Data without topic",
+				"version": "2",
+				"random": false,
+				"type": "object",
+				"data": "{\ndata: \"test3\",\ntopic: \"sampleB\"\n}",
+				"restart": false
+			},
+			"x": 1748.0000305175781,
+			"y": 511,
+			"component": "typerefinery_senddata",
+			"connections": {
+				"output": [
+					{
+						"id": "ildkdglwk",
+						"index": "input"
+					}
+				]
+			},
+			"template": {
+				"icon": "fa fa-bullhorn",
+				"group": "@TypeRefinery",
+				"name": "Send Data",
+				"outputs": [
+					{
+						"id": "output",
+						"name": "Output"
+					}
+				]
+			}
+		},
+		"groups": [
+			{
+				"id": "gldh7c51h",
+				"x": 24,
+				"y": 21,
+				"width": 1051,
+				"height": 733,
+				"name": "Read message from TMS",
+				"background": "rgba(97,200,59,0.3)"
+			},
+			{
+				"id": "gldh7cktg",
+				"x": 1125.0000305175781,
+				"y": 23,
+				"width": 993,
+				"height": 733,
+				"name": "Send message to TMS",
+				"background": "rgba(185,38,26,0.3)"
+			}
+		]
+	},
+	"variables": {},
+	"sources": {
+		"srcrrawbb2da": {
+			"token": "typerefinery",
+			"url": "ws://127.0.0.1:8112/$tms",
+			"id": "srcrrawbb2da",
+			"meta": {
+				"type": "meta",
+				"name": "TMS Message Service",
+				"subscribe": [
+					{
+						"id": "svg_insert",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Svg.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"stepId": {
+									"type": "string"
+								},
+								"flowId": {
+									"type": "string"
+								},
+								"stepName": {
+									"type": "string"
+								},
+								"path": {
+									"type": "string"
+								},
+								"projectId": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					},
+					{
+						"id": "payload_insert",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Payload.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"payload": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					},
+					{
+						"id": "payload_update",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Payload.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"payload": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					},
+					{
+						"id": "payload_remove",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Payload.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"payload": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					}
+				],
+				"publish": [
+					{
+						"id": "svg_insert",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Svg.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"stepId": {
+									"type": "string"
+								},
+								"flowId": {
+									"type": "string"
+								},
+								"stepName": {
+									"type": "string"
+								},
+								"path": {
+									"type": "string"
+								},
+								"projectId": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					},
+					{
+						"id": "payload_insert",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Payload.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"payload": {
+									"type": "string",
+									"$$ID": "payload",
+									"$$REQUIRED": false
+								},
+								"id": {
+									"type": "string",
+									"$$ID": "id",
+									"$$REQUIRED": false
+								},
+								"dtcreated": {
+									"type": "date",
+									"$$ID": "dtcreated",
+									"$$REQUIRED": false
+								},
+								"dtupdated": {
+									"type": "date",
+									"$$ID": "dtupdated",
+									"$$REQUIRED": false
+								}
+							}
+						}
+					}
+				],
+				"subscribers": [
+					"svg_insert",
+					"payload_insert",
+					"payload_update",
+					"payload_remove"
+				],
+				"call": [
+					{
+						"id": "svg_query",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Svg.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"stepId": {
+									"type": "string"
+								},
+								"flowId": {
+									"type": "string"
+								},
+								"stepName": {
+									"type": "string"
+								},
+								"path": {
+									"type": "string"
+								},
+								"projectId": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					},
+					{
+						"id": "payload_query",
+						"schema": {
+							"$id": "https://schemas.totaljs.com/Payload.json",
+							"$schema": "https://json-schema.org/draft/2020-12/schema",
+							"type": "object",
+							"properties": {
+								"payload": {
+									"type": "string"
+								},
+								"id": {
+									"type": "string"
+								},
+								"dtcreated": {
+									"type": "date"
+								},
+								"dtupdated": {
+									"type": "date"
+								}
+							}
+						}
+					}
+				]
+			},
+			"checksum": "7615986881",
+			"restart": false,
+			"error": 0,
+			"init": true,
+			"online": true
+		}
+	},
+	"proxypath": "",
+	"origin": "http://localhost:8111",
+	"dtcreated": "2023-01-29T09:43:32.699Z",
+	"size": 44718
+}

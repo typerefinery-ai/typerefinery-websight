@@ -37,6 +37,21 @@ public class NavigationItemComponent {
   @Inject
   private String label;
 
+  
+  @Getter
+  @Inject
+  private String parentName;
+
+  
+  @Getter
+  @Inject
+  private String icon;
+
+  
+  @Getter
+  @Inject
+  private String name;
+
   @Inject
   private String link;
 

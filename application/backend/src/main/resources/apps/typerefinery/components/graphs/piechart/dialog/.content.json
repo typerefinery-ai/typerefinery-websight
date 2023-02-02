@@ -11,6 +11,20 @@
                 "description": "Please provide url to data source for this ticker.",
                 "label": "Data Source"
             }
+        },
+        "websocketTab": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "WebSocket Data Source",
+            "websocketHost": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "websocketHost",
+                "label": "Websocket Host"
+            },
+            "websocketTopic": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "websocketTopic",
+                "label": "Websocket Topic"
+            }
         }
     }
 }

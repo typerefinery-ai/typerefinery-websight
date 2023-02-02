@@ -14,15 +14,40 @@
  * limitations under the License.
  */
 package io.typerefinery.websight.models.components.widgets;
+
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.api.resource.Resource;
-import javax.inject.Inject;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Default;
+
+
+import javax.inject.Inject;
 import lombok.Getter;
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Table {
+
+import io.typerefinery.websight.models.components.BaseComponent;
+
+
+
+@Model(adaptables = Resource.class, resourceType = {
+    "typerefinery/components/widgets/table" }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+})
+public class Table extends BaseComponent {
   @Getter
   @Inject
   public String dataSource;
+
+  @Getter
+  @Inject
+  @Default(values = "ws://localhost:8112/$tms")
+  public String websocketHost;
+
+  @Getter
+  @Inject
+  // @Default (values = "")
+  public String websocketTopic;
 }

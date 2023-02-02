@@ -11,12 +11,16 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
-public class BaseComponent extends BaseModel{
+public class BaseComponent extends BaseModel {
 
 
     @Getter
@@ -29,8 +33,11 @@ public class BaseComponent extends BaseModel{
     @Default(values = "")
     public String module;
     
-    public String componentPath; // full path of the component
+    public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
+
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Resource currentPage; // resource of the page the component is on
 
     @Override
@@ -42,7 +49,7 @@ public class BaseComponent extends BaseModel{
             this.classNames = PageUtil.getResourceTypeName(resource);
         }
         if (resource != null) {
-            this.componentPath = resource.getPath();
+            this.resourcePath = resource.getPath();
             this.currentPagePath = PageUtil.getResourcePagePath(resource);
             this.currentPage = resourceResolver.getResource(currentPagePath);
         }

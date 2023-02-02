@@ -142,6 +142,13 @@
   margin-left: 5px;
 }
 
+.hours {
+  color: #FFF !important;
+}
+.title {
+  color: var(--subtitle-color) !important;
+}
+
 .dn,
 .path,
 .refresh-time {

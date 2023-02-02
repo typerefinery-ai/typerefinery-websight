@@ -1,16 +1,15 @@
 async function switchTheme() {
-    const style = document.getElementById("themeStyles");
-    if(style) {
+    const themeStyles = document.getElementById("themeStyles");
+    if(themeStyles) {
         const currentTheme = style.getAttribute('active') || 'dark';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         style.setAttribute("active", newTheme)
         style.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)
         await localStorage.setItem("theme", newTheme);
-        // window.location.reload();
         setTimeout(() => {
-            Object.entries(window.Typerefinery.Components.Graphs).forEach(_ => {
+            Object.entries(window.Typerefinery.Components.Graphs.Items).forEach(_ => {
                 _[1]?.update();
             })
-        }, [125])
+        }, [100])
     }
 }

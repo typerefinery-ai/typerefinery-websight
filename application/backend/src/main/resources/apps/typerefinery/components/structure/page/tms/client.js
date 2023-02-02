@@ -30,8 +30,6 @@ window.MessageService.Client = MessageService.Client || {}
             })
           )
         } else {
-          // console.log("Event name is required.")
-          throw new Error("Event name is required.")
         }
       },
     }
