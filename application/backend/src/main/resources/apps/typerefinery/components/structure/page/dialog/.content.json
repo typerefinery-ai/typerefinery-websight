@@ -55,6 +55,11 @@
         "advanced": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "Advanced",
+            "hideInNav": {
+                "sling:resourceType": "wcm/dialogs/components/checkbox",
+                "name": "hideInNav",
+                "label": "Hide page from navigation components"
+            },
             "flowstreamenable": {
                 "sling:resourceType": "wcm/dialogs/components/select",
                 "label": "Enable Flow",
