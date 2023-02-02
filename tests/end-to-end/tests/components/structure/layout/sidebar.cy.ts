@@ -38,7 +38,7 @@ describe('Components - Layout - Sidebar', function () {
     });
   });
 
-  it('render sidebar without authored attributes on a page that hoes not have children', function () {
+  it('render sidebar without authored attributes on a page that does not have children', function () {
     cy.visit('/content/typerefinery-showcase/pages/components/layout/sidebar/sidebarwithoutparent.html');
 
     cy.get("#sidebar")
@@ -55,7 +55,7 @@ describe('Components - Layout - Sidebar', function () {
     
     });
   });
-  it('render sidebar without authored parentPagePath on a page that hoes not have children', function () {
+  it('render sidebar with authored parentPagePath on a page that does not have children', function () {
     cy.visit('/content/typerefinery-showcase/pages/components/layout/sidebar/sidebarwithparent.html');
 
     cy.get("#sidebar")

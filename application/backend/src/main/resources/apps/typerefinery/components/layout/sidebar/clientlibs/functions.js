@@ -11,68 +11,42 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
 
         const data = {};
 
-        const DEFAULT_MENU_ITEMS = [{
-            "label": "Dashboard",
-            "link": "content/typerefinery-showcase/pages/pages/dashboard",
-            "parentName": "",
-            "name": "dashboard",
-            "icon": "pi pi-inbox"
-          },
-          {
-            "label": "Search",
-            "link": "content/typerefinery-showcase/pages/pages/search",
-            "parentName": "dashboard",
-            "name": "search",
-            "icon": "pi pi-search"
-          },
-          {
-            "label": "Feeds",
-            "link": "content/typerefinery-showcase/pages/pages/feeds",
-            "parentName": "",
-            "name": "search",
-            "icon": "pi pi-book"
-          }
-        ];
+        const sidebarContainer = document.getElementById('sidebar');
 
-        let menuItems = DEFAULT_MENU_ITEMS;
-
-        const sidebarContainer = document.getElementsByClassName('sidebar-container');
-        
-        if(sidebarContainer.length !== 0) {
-            const dataModel = JSON.parse(sidebarContainer[0].getAttribute('data-model') || '{}');
-       
-            if(dataModel?.navigation?.menuItems?.length > 0) {
-                menuItems = dataModel?.navigation?.menuItems;
-            }
-        }
         let formattedMenuItems = [];
-        menuItems.forEach(menuItem => {
-            let children = [];
-            menuItems.forEach(_ => {
-                if(_.parentName === menuItem.name) {
-                    children.push(
-                        {
-                            "key": `${menuItem.name}-${_.name}`,
-                            "label": _.label,
-                            "data": _.label,
-                            "icon": _.icon
-                        }
-                    )
-                }
-            })
-            if(menuItem.parentName.trim().length === 0) {
-                formattedMenuItems.push({
-                    "key": menuItem.name,
-                    "label": menuItem.label,
-                    "data": menuItem.label,
-                    "icon": menuItem.icon,
-                    "children": children
-                })
-            }
-        })
-        
 
-        document.querySelectorAll('[data-module="vue-sidebar"]').forEach($component => {  
+        if (sidebarContainer) {
+            const dataTree = JSON.parse(sidebarContainer.getAttribute('data-tree') || '{}');
+
+            function fetchMenuItemHelper(obj) {
+                const result = [];
+                for (const keyItr in obj) {
+                    if (keyItr === "jcr:content") {
+                        continue;
+                    }
+                    const _obj = obj[keyItr];
+                    result.push({
+                        key: _obj["jcr:content"].key,
+                        label: _obj["jcr:content"].title,
+                        data: _obj["jcr:content"].title,
+                        icon: _obj["jcr:content"].icon,
+                        children: fetchMenuItemHelper(_obj)
+                    })
+                }
+                return result;
+            }
+            for (const key1 in dataTree) {
+                formattedMenuItems = fetchMenuItemHelper(dataTree[key1]);
+                // Only this loops runs for one time.
+                break;
+            }
+
+        }
+        console.log(formattedMenuItems, "formattedMenuItems")
+
+
+
+        document.querySelectorAll('[data-module="vue-sidebar"]').forEach($component => {
             data["sidebarRoutes"] = formattedMenuItems;
             $component.setAttribute(":value", "sidebarRoutes");
         });

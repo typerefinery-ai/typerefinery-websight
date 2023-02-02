@@ -89,14 +89,15 @@ public class SideBar extends BaseComponent {
         children.put(JcrConstants.JCR_CONTENT, new TreeMap<String, Object>() {{
             put("name", resourceName);
             put("key", parentPage.getPath());
-            put("title", parentPage.getValueMap().get(JcrConstants.JCR_TITLE, resourceName));
-            // put(PageUtil.PROPERY_HIDEINNAV, parentPage.getValueMap().get(PageUtil.PROPERY_HIDEINNAV, false));
+            put("title", parentPage.getValueMap().get(PageUtil.PROPERTY_TITLE, resourceName));
+            put("icon", parentPage.getValueMap().get(PageUtil.PROPERTY_ICON, ""));
+            put("description", parentPage.getValueMap().get(PageUtil.PROPERTY_DESCRIPTION, ""));
         }});
         
         for (Resource child : parentPage.getChildren()) {
             if (child.getResourceType().equals(resourceType)) {
                 //if child has hideInNav property is not set to true, add it to the children hashmap
-                if (child.getValueMap().get(PageUtil.PROPERY_HIDEINNAV, "false").equals("false")) {
+                if (child.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, "false").equals("false")) {
                     children.put(child.getName(), getChildrenPages(child, resourceType));
                 }
             }

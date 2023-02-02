@@ -1,8 +1,5 @@
 <template data-sly-template.sidebar="${ @ model }">
-    <div 
-        class="sidebar-container" 
-        data-model="${model.jsonString}"
-    >
+    <div class="${model.classNames}" id="${model.id}" data-model="${model.jsonString}" data-tree="${model.treeJSON}">
         <p-tree data-module="vue-sidebar" @click="onSidebarItemClicked">
         </p-tree>
     </div>

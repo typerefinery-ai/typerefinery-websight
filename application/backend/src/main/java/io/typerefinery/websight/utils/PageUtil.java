@@ -29,7 +29,10 @@ import org.apache.jackrabbit.vault.util.JcrConstants;
 public class PageUtil {  
 
   public static String PATH_SEPARATOR = "/";
-  public static String PROPERY_HIDEINNAV = "hideInNav";
+  public static String PROPERTY_HIDEINNAV = "hideInNav";
+  public static String PROPERTY_ICON = "icon";
+  public static String PROPERTY_TITLE = "title";
+  public static String PROPERTY_DESCRIPTION = "description";
 
   /**
    * get page path from resource path
