@@ -38,6 +38,7 @@ const DEFAULT_BAR_CHART_DATA = {
 (function (
   ns,
   componentNs,
+  typerefineryNs,
   themeNs,
   graphItemsNs,
   DEFAULT_BAR_CHART_DATA,
@@ -167,7 +168,8 @@ const DEFAULT_BAR_CHART_DATA = {
 
   ns.tmsConnected = async (host, topic, $component) => {
     try {
-      host = !host || "ws://localhost:8112";
+      host = host || "ws://localhost:8112";
+      typerefineryNs.hostAdded(host);
       if (!topic) {
         ns.modelDataConnected($component);
         return;
@@ -261,6 +263,7 @@ const DEFAULT_BAR_CHART_DATA = {
 })(
   window.Typerefinery.Components.Graphs.BarChart,
   window.Typerefinery.Components,
+  window.Typerefinery,
   window.Typerefinery.Theme,
   window.Typerefinery.Components.Graphs.Items,
   DEFAULT_BAR_CHART_DATA,
