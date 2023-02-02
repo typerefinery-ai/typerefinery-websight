@@ -15,6 +15,10 @@
     {
       "id": "org.apache.sling:org.apache.sling.query:4.0.4",
       "start-order": "25"
+    },
+    {
+      "id": "org.osgi:org.osgi.service.cm:1.6.1",
+      "start-order": "25"
     }
   ],
   "content-packages:ARTIFACTS|true": [
@@ -36,6 +40,11 @@
     },
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
+    },
+    "io.typerefinery.websight.models.components.workflow.Flow": {
+      "host": "http://localhost:8000",
+      "endpoint.export": "/flow/export/%s",
+      "endpoint.import": "/flow/import"
     }
   }
 }
