@@ -11,7 +11,7 @@
 .main .column .title{
     font-size: 0.5rem;
  } */
-.columnticker {
+ .columnticker {
   font-family: "Roboto Slab", serif !important;
   display: flex;
   border: 1px;
@@ -19,8 +19,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-width: 141px;
-  min-height: 117px;
+  min-height: 116px; 
   height: 100%;
   opacity: 0.5;
   border-radius: 0px;
@@ -40,5 +39,6 @@
 }
 .columnTickerWidth {
   width: 100%;
-  margin-bottom: 1%;
+  /* margin-bottom: 1%; */
+  margin: 19.4px -1px -9px 2px;
 }
