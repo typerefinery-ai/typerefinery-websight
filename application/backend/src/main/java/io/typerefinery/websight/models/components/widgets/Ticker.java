@@ -34,7 +34,7 @@ public class Ticker extends BaseComponent {
         this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
-     }
+    }
     
     @Getter
     @Inject
