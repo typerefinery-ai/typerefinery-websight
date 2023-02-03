@@ -91,7 +91,7 @@ const DEFAULT_PIE_CHART_DATA = {
             position: "right",
             usePointStyle: true,
             labels: {
-              color: themeNs?.rootElementStyle.getPropertyValue("--label-color"),
+              color:"#5D7183",
               usePointStyle: true
             }
           }
@@ -105,7 +105,7 @@ const DEFAULT_PIE_CHART_DATA = {
               color:themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
             },
             ticks: {
-              color: themeNs?.rootElementStyle.getPropertyValue('--ticks-color') ||"#99ffff",
+              color: "#5D7183",
               z: 0,
               showLabelBackdrop: false,
               precision: 0
