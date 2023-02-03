@@ -10,10 +10,17 @@ window.Typerefinery.Theme = Typerefinery.Theme || {};
 const DEFAULT_BAR_CHART_DATA = {
   chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
   labelName: "Typerefinery Bar Chart",
-  barbackgroundcolor:
-    Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
-      "--primary-object-barborder-color"
-    ) || "#FFB94E",
+  barbackgroundcolor: [
+    "#3d405b",
+    "#b9fbc0",
+    "#FFB94E",
+    "#228B22",
+    "#FFB94E",
+    "#ED7117",
+    "#3d405b",
+    "#005f73",
+    "#52796f",
+  ],
   labels: [
     "Trazen:Win32/Qakbot",
     "Ranson:Win32/Egre..",
@@ -25,14 +32,8 @@ const DEFAULT_BAR_CHART_DATA = {
     "PsExec",
     "Minikatz",
   ],
-  dataSetBorderColor:
-    Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
-      "--primary-object-border-color"
-    ) || "#0099DE",
-  canvasBackgroundColor:
-    Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
-      "--primary-object-border-color"
-    ) || "#343a40",
+  dataSetBorderColor:   Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40",
 };
 
 (function (
@@ -74,12 +75,7 @@ const DEFAULT_BAR_CHART_DATA = {
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
         ctx.fillStyle =
-          data.barbackgroundcolor ||
-          componentConfig.barbackgroundcolor ||
-          themeNs?.rootElementStyle.getPropertyValue(
-            "--primary-object-background-color"
-          ) ||
-          "#99ffff";
+        themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40" || "#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -95,19 +91,8 @@ const DEFAULT_BAR_CHART_DATA = {
             data: data.chartData || componentConfig.chartData,
             fill: false,
             backgroundColor:
-              data.dataSetBorderColor ||
-              componentConfig.dataSetBorderColor ||
-              themeNs?.rootElementStyle.getPropertyValue(
-                "--primary-object-border-color"
-              ) ||
-              "#001E3C",
-            borderColor:
-              data.dataSetBorderColor ||
-              componentConfig.dataSetBorderColor ||
-              themeNs?.rootElementStyle.getPropertyValue(
-                "--primary-object-border-color"
-              ) ||
-              "#001E3C",
+            data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
+            borderColor:           themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
             borderWidth: 1,
           },
         ],
@@ -125,9 +110,7 @@ const DEFAULT_BAR_CHART_DATA = {
               display: false,
             },
             ticks: {
-              color:
-                themeNs?.rootElementStyle.getPropertyValue("--ticks-color") ||
-                "#5D7183",
+              color:"#5D7183",
             },
           },
           y: {
@@ -136,14 +119,13 @@ const DEFAULT_BAR_CHART_DATA = {
             },
             ticks: {
               color:
-                themeNs?.rootElementStyle.getPropertyValue("--ticks-color") ||
                 "#5D7183",
             },
           },
         },
-        // customCanvasBackgroundColor: {
-        //   color: data.canvasBackgroundColor,
-        // },
+        customCanvasBackgroundColor: {
+          color:themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color')||data.canvasBackgroundColor ,
+        },
         interaction: {
           intersect: false,
         },
