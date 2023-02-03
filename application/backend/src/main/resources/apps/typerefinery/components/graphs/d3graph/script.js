@@ -1218,7 +1218,6 @@ async function d3graphComponentMounted(id, component) {
 }
 
 $(document).ready(function (e) {
-    console.log("HELLO WORLD")
     Array.from(document.querySelectorAll("#d3graph")).forEach(component => {
         var componentDataPath = component.getAttribute("data-path");
         component.setAttribute("id", componentDataPath);

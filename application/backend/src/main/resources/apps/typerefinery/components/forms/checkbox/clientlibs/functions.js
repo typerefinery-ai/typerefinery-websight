@@ -12,7 +12,6 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
         const data = {};
 
         document.querySelectorAll('[data-module="vue-checkBox"]').forEach($component => {
-            console.log($component, "$component")
             let modelName = $component.getAttribute("value");
             modelName.trim();
             $component.setAttribute("v-model", modelName);

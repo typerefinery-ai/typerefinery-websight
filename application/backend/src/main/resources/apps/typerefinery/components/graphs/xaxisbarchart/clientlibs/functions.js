@@ -180,15 +180,12 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
   }
 
   ns.init = ($component) => {
-    console.log("XAxisBar chart init function", $component)
     // parse json value from data-model attribute as component config
     const componentConfig = componentNs.getComponentConfig($component);
     const componentTopic = componentConfig.websocketTopic;
     const componentHost = componentConfig.websocketHost;
     const componentDataSource = componentConfig.dataSource;
     const componentPath = componentConfig.resourcePath;
-
-    console.log("[xaxisbar.js - functions.js] - XAxisBar Chart Component");
     // TMS.
     if (componentHost && componentTopic) {
       $component.setAttribute("id", componentTopic);

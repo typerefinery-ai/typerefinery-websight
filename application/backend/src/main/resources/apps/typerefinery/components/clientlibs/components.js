@@ -5,7 +5,6 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 ; (function (ns, vueDataNs, document, window) {
     "use strict";
     ns.registerComponent = (componentData) => {
-        console.log(componentData)
         vueDataNs.data = {
             ...vueDataNs.data,
             ...componentData
