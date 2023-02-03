@@ -155,7 +155,7 @@ const DEFAULT_LINE_CHART_DATA = {
     }
 
     ns.modelDataConnected = ($component) => {
-      // Passing {} because, The values from the model obj are fetched in bellow function definition.
+      // Passing {} because, The values from the model obj are fetched in below function definition.
       ns.updateComponentHTML({}, $component);
     }
 

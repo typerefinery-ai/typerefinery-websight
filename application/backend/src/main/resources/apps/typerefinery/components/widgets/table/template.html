@@ -1,25 +1,7 @@
-<template data-sly-template.variant="${ @ model }">
-  <div 
-    id="${resource.path}" 
-    data-module="tableComponent" 
-    class="table"
-    data-model="${model.jsonString}"
-  >
-    <p-datatable 
-      :value="tableValues" 
-      data-module="vue-dataTable" 
-      data-source="${model.dataSource}"
-      striped-rows 
-      responsive-layout="scroll" 
-      scroll-height="500px"
-    >
-      <p-column 
-        v-for="col of tableHeader" 
-        :field="col.field" 
-        :header="col.header" 
-        :key="col.field"
-      >
-      </p-column>
-    </p-datatable>
+<template data-sly-template.table="${ @ model }">
+  <div id="table" 
+    data-module="tableComponent"
+    class="${model.classNames}"
+    data-model="${model.jsonString}">
   </div>
 </template>
