@@ -8,7 +8,7 @@
       <header jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/header"/>
       <twocols jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/pagesection" classes="\0">
         <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="2" smColSize="12" smRowSize="1" mdRowSize="1" lgRowSize="12">
-          <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar"/>
+          <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar" parentPagePath="/content/typerefinery-showcase/pages/pages" />
         </container1>
         <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="10" mdColSize="10" smColSize="10">
           <container_1_11 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
@@ -29,30 +29,7 @@
             </container_1_1_4>
           </container_1_1>
           <container_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_2_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-              <container_1_2_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="12,77K" title="osint" bgColor="#442355" textColor="#D82D8B"></smallTicker1>
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="10,77K" title="opencti" bgColor="#2B2861" textColor="#8B3FB3" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="5,66K" title="apt" bgColor="#0B3A2A" textColor="#217106"/>
-                </columnticker>
-              </container_1_2_1_1>
-              <container_1_2_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="88,66K" title="geopoltical" bgColor="#32426A" textColor="#9489C5" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="22,66K" title="malware" bgColor="#4B4A32" textColor="#D2991F"/>
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="4,66K" title="blog-post" bgColor="#47624E" textColor="#CDE26E" />
-                </columnticker>
-              </container_1_2_1_2>
-              <container_1_2_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="266K" title="ransomware" bgColor="#2B564C" textColor="#8ED571"/>
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="566K" title="android" bgColor="#22255D" textColor="#6F36A8"/>
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" value="666K" title="mobile" bgColor="#4D3139" textColor="#F95B31"/>
-                </columnticker>
-              </container_1_2_1_3>
-            </container_1_2_1>
-            <container_1_2_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "22" mdColSize= "10" lgColSize= "8">
+            <container_1_2_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
               <linechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/linechart" />
             </container_1_2_2>
           </container_1_2>
