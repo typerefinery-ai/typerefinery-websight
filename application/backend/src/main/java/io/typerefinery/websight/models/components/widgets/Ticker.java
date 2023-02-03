@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
@@ -37,6 +38,10 @@ public class Ticker extends BaseComponent {
         this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
+
+        if (StringUtils.isBlank(this.websocketTopic)) {
+            this.websocketTopic = this.flowapi_topic;
+        }
      }
     
     @Getter
