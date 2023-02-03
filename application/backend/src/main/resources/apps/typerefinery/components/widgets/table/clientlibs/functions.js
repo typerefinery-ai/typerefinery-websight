@@ -3,7 +3,23 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
 
-; (function (ns, typerefineryNs, componentNs, window, document) {
+const DEFAULT_TABLE_DATA = {
+    columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
+    data: [
+        ["John", 25, "john@gmail.com", "91934399421", "India"],
+        ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
+        ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
+        ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
+        ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
+        ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
+        ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
+        ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"]
+    ],
+    sort: false,
+    search: false
+};
+
+; (function (ns, typerefineryNs, componentNs, DEFAULT_TABLE_DATA, window, document) {
     "use strict";
 
     ns.updateComponentHTML = (id, data, $component) => {
@@ -11,28 +27,33 @@ window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.T
             console.log('[Table/clientlibs/functions.js] component does not exist')
             return;
         }
-        const componentConfig = componentNs.getComponentConfig($component);
+        if(!data?.columns || !data?.data) {
+            data = DEFAULT_TABLE_DATA;
+        }
+        $(`#${id}`).empty();
         $(`#${id}`).Grid({
-            sort: true,
-            columns: ["Name", "Age", "Email"],
-            data: [
-              ["John", 25, "john@k.com"],
-              ["Mark", 59, "mark@e.com"]
-            ]
-          });
+            ...data,
+            className: {
+                td: 'table-td-class',
+                table: 'custom-table-class' 
+              }
+        });
     }
 
     ns.jsonConnected = async (dataSourceURL, $component) => {
         try {
+
+            console.log(dataSourceURL, "dataSourceURL")
+            
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
                 ns.updateComponentHTML(dataSourceURL, response, $component);
                 return;
             }
-            ns.modelDataConnected($component);
+            ns.modelDataConnected(dataSourceURL, $component);
         }
         catch (error) {
-            ns.modelDataConnected($component);
+            ns.modelDataConnected(dataSourceURL, $component);
         }
     }
 
@@ -41,29 +62,28 @@ window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.T
             host = host || "ws://localhost:8112";
             typerefineryNs.hostAdded(host);
             if (!topic) {
-                ns.modelDataConnected($component);
+                ns.modelDataConnected(topic, $component);
                 return;
             }
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
-                ns.modelDataConnected($component);
+                ns.modelDataConnected(topic, $component);
                 return;
             }
             ns.updateComponentHTML(topic, JSON.parse(componentData), $component);
         }
         catch (error) {
-            ns.modelDataConnected($component);
+            ns.modelDataConnected(topic, $component);
         }
     }
 
-    ns.modelDataConnected = ($component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
-        ns.updateComponentHTML($component.getAttribute(`id`), {}, $component);
+    ns.modelDataConnected = (id, $component) => {
+        ns.updateComponentHTML(id, {}, $component);
     }
 
     ns.dataReceived = (data, $component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
-        ns.updateComponentHTML($component.getAttribute(`id`), data, $component);
+        const componentConfig = componentNs.getComponentConfig($component);
+        ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
     }
 
     ns.init = ($component) => {
@@ -72,9 +92,7 @@ window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.T
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
-        const componentPath = componentConfig.resourcePath;
 
-        console.log("[Table - functions.js] - Table Component");
         // TMS.
         if (componentHost && componentTopic) {
             $component.setAttribute("id", componentTopic);
@@ -87,9 +105,8 @@ window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.T
         }
         // MODEL 
         else {
-            $component.setAttribute("id", componentPath);
-            ns.modelDataConnected($component);
+            ns.modelDataConnected(componentConfig.id, $component);
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery, window.Typerefinery.Components, window, document);
+})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery, window.Typerefinery.Components, DEFAULT_TABLE_DATA, window, document);

@@ -1,7 +1,8 @@
 <template data-sly-template.table="${ @ model }">
-  <div id="table" 
-    data-module="tableComponent"
+  <div 
+    id="${model.id}" 
+    data-module="${model.module}"
     class="${model.classNames}"
-    data-model="${model.jsonString}">
-  </div>
+    data-model="${model.jsonString}"
+  ></div>
 </template>

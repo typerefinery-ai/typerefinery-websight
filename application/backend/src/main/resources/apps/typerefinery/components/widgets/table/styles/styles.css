@@ -1,0 +1,12 @@
+.table-td-class {
+    background-color: var(--primary-object-background-color) !important;
+    color: var(--primary-text-color) !important;
+}
+
+.custom-table-class {
+    background-color: var(--primary-object-background-color) !important;
+    color: var(--primary-text-color) !important;
+}
+td.gridjs-td {
+    border: 1px solid #ffffff !important;
+}
