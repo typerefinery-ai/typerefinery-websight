@@ -53,7 +53,8 @@
       "websocketHost": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "websocketHost",
-        "label": "Websocket Host"
+        "label": "Websocket Host",
+        "placeholder": "ws://localhost:8112/$tms"
       },
       "websocketTopic": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
