@@ -1,0 +1,10 @@
+{
+	"TYPE": "reconfigure",
+	"id": "ildlsa7ba",
+	"data": {
+		"title": "Print JSON2",
+		"version": "2",
+		"repo": false,
+		"data": true
+	}
+}

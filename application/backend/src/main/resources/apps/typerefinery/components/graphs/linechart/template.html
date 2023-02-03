@@ -1,10 +1,9 @@
 <template data-sly-template.linechart="${ @ model }">
     <div 
-        class="linechart"
-        data-source="${model.dataSource}"
+        class="${model.classNames}"
+        id="${model.id}"
         data-model="${model.jsonString}"
-        data-resource-path="${resource.path}"
-        data-module="linechartComponent"
+        data-module="${model.module}"
     >
         <canvas width="100%" id="${resource.path}-linechart">
         </canvas>

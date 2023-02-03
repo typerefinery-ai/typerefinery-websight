@@ -33,6 +33,7 @@ services:
       LEASE_CHECK_MODE: "LENIENT"
       # WS_DEBUG: "true" is for local usage only. It enables java debugger.
       WS_DEBUG: "true"
+      FLOW_HOST_URL: "http://host.docker.internal:8000"
     volumes:
       - ${VOLUME_NAME_PREFIX}-project_cms_logs:/websight/logs
       - ${VOLUME_NAME_PREFIX}-project_site_repository:/websight/docroot

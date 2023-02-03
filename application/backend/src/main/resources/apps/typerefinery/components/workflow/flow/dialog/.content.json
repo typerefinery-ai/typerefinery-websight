@@ -1,0 +1,25 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Flow Config",
+      "enable": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "flowapi_enable",
+        "label": "Enable Flow API"
+      },
+      "topc": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_topic",
+        "label": "Topic"
+      },
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_flowstreamid",
+        "label": "ID"
+      }
+    }
+  }
+}

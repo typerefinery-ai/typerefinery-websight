@@ -1,10 +1,11 @@
 package io.typerefinery.websight.models.components.graphs;
 
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 
+import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
@@ -21,6 +22,20 @@ import io.typerefinery.websight.models.components.BaseComponent;
 public class LineChart extends BaseComponent {
     @SlingObject
     private ResourceResolver resourceResolver;
+    
+    
+    private static final String DEFAULT_ID = "linechart";
+    private static final String DEFAULT_CLASS_NAMES = "linechart";
+    private static final String DEFAULT_MODULE = "linechartComponent";
+    
+    @Override
+    @PostConstruct
+    protected void init() {
+        this.id = DEFAULT_ID;
+        this.classNames = DEFAULT_CLASS_NAMES;
+        this.module = DEFAULT_MODULE;
+        super.init();
+    }
     
     
     @Getter
