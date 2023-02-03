@@ -93,10 +93,10 @@ public class Ticker extends BaseComponent {
     // @Default (values = "")
     public String websocketTopic;
 
-    //  @Getter
-    // @Inject
-    // // @Default (values = "")
-    // public String defaultWebsocketHost;
+    @Getter
+    @Inject
+    @Default(values = "")
+    public String flowapi_topic;
 
     
     @Getter
