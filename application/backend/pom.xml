@@ -174,6 +174,43 @@
         <artifactId>org.apache.sling.bundleresource.impl</artifactId>
         <version>2.3.4</version>
     </dependency>
+    <dependency>
+      <artifactId>jackrabbit-jcr-commons</artifactId>
+      <version>2.20.4</version>
+      <groupId>org.apache.jackrabbit</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- OSGI -->
+    <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.cm</artifactId>
+        <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.sling.commons.osgi</artifactId>
+      <version>2.4.2</version>
+      <groupId>org.apache.sling</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype.annotations</artifactId>
+        <version>1.4.1</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.5.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.framework</artifactId>
+      <version>1.10.0</version>
+      <scope>provided</scope>
+    </dependency>
 
 
   </dependencies>

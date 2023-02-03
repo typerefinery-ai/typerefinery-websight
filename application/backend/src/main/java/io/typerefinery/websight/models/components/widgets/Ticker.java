@@ -88,4 +88,9 @@ public class Ticker extends BaseComponent {
     @Getter
     @Inject
     public String websocketTopic;
+
+    @Getter
+    @Inject
+    @Default(values = "")
+    public String flowapi_topic;
 }
