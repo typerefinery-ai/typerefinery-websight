@@ -10,15 +10,29 @@
         "name": "flowapi_enable",
         "label": "Enable Flow API"
       },
-      "topc": {
+      "topic": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_topic",
-        "label": "Topic"
+        "label": "Topic",
+        "disblaed": true
       },
-      "id": {
+      "flowstreamid": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_flowstreamid",
-        "label": "ID"
+        "label": "Flow ID",
+        "disblaed": true
+      },
+      "createdon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_createdon",
+        "label": "Created On",
+        "disblaed": true
+      },
+      "updatedon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_updatedon",
+        "label": "Updated On",
+        "disblaed": true
       }
     }
   }
