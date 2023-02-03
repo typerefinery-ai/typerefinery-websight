@@ -25,7 +25,6 @@ import org.apache.sling.models.annotations.Default;
 
 import javax.inject.Inject;
 import lombok.Getter;
-import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseComponent;
 
@@ -37,21 +36,7 @@ import io.typerefinery.websight.models.components.BaseComponent;
     @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Table extends BaseComponent {
-
-  private static final String DEFAULT_ID = "table";
-  private static final String DEFAULT_CLASS_NAMES = "table";
-  private static final String DEFAULT_MODULE = "tableComponent";
-  
-  @Override
-  @PostConstruct
-  protected void init() {
-      this.id = DEFAULT_ID;
-      this.classNames = DEFAULT_CLASS_NAMES;
-      this.module = DEFAULT_MODULE;
-      super.init();
-   }
-
+public class DataTable extends BaseComponent {
   @Getter
   @Inject
   public String dataSource;

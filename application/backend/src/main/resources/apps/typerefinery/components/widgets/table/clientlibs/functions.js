@@ -3,31 +3,110 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
 
+const DEFAULT_TABLE_DATA = {
+    columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
+    data: [
+        ["John", 25, "john@gmail.com", "91934399421", "India"],
+        ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
+        ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
+        ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
+        ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
+        ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
+        ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
+        ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"]
+    ],
+    sort: false,
+    search: false
+};
 
-; (function (ns, componentNs, window, document) {
+; (function (ns, typerefineryNs, componentNs, DEFAULT_TABLE_DATA, window, document) {
     "use strict";
 
-
-    ns.init = () => {
-        console.log("[Table - functions.js] - Table Component");
-        const data = {
-            tableValues: [
-                { serial: "1", name: "Report 1", description: "Penquins.", status: "RiskIQ", date: "12 Jan, 2021"},
-                { serial: "2", name: "Report 2", description: "DiskKill", status: "RiskIQ", date: "14 Dec, 2022"},
-                { serial: "3", name: "Report 3", description: "Malware", status: "RiskIQ", date: "21 Dec, 2018"},
-                { serial: "4", name: "Report 4", description: "UNC1151", status: "RiskIQ", date: "21 Dec, 2019"},
-                { serial: "5", name: "Report 5", description: "HermetricWiper", status: "AlienVault", date: "05 Jun, 2017"},
-                { serial: "6", name: "Report 6", description: "UNC1151", status: "AlienVault", date: "01 Jun, 2020"},
-                { serial: "7", name: "Report 7", description: "Malware", status: "RiskIQ", date: "03 Jun, 2017"}
-            ],
-            tableHeader: [
-                { field: 'serial', header: 'Sr. No.' },
-                { field: 'name', header: 'Type' },
-                { field: 'description', header: 'Description' },
-                { field: 'date', header: 'Date' }
-            ]
+    ns.updateComponentHTML = (id, data, $component) => {
+        if (!$component) {
+            console.log('[Table/clientlibs/functions.js] component does not exist')
+            return;
         }
-        componentNs.registerComponent(data);
+        if(!data?.columns || !data?.data) {
+            data = DEFAULT_TABLE_DATA;
+        }
+        $(`#${id}`).empty();
+        $(`#${id}`).Grid({
+            ...data,
+            className: {
+                td: 'table-td-class',
+                table: 'custom-table-class' 
+              }
+        });
     }
 
-})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery.Components, window, document);
+    ns.jsonConnected = async (dataSourceURL, $component) => {
+        try {
+
+            console.log(dataSourceURL, "dataSourceURL")
+            
+            const response = await fetch(dataSourceURL).then((res) => res.json());
+            if (response) {
+                ns.updateComponentHTML(dataSourceURL, response, $component);
+                return;
+            }
+            ns.modelDataConnected(dataSourceURL, $component);
+        }
+        catch (error) {
+            ns.modelDataConnected(dataSourceURL, $component);
+        }
+    }
+
+    ns.tmsConnected = async (host, topic, $component) => {
+        try {
+            host = host || "ws://localhost:8112";
+            typerefineryNs.hostAdded(host);
+            if (!topic) {
+                ns.modelDataConnected(topic, $component);
+                return;
+            }
+            const componentData = localStorage.getItem(`${topic}`);
+            if (!componentData) {
+                ns.modelDataConnected(topic, $component);
+                return;
+            }
+            ns.updateComponentHTML(topic, JSON.parse(componentData), $component);
+        }
+        catch (error) {
+            ns.modelDataConnected(topic, $component);
+        }
+    }
+
+    ns.modelDataConnected = (id, $component) => {
+        ns.updateComponentHTML(id, {}, $component);
+    }
+
+    ns.dataReceived = (data, $component) => {
+        const componentConfig = componentNs.getComponentConfig($component);
+        ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
+    }
+
+    ns.init = ($component) => {
+        // parse json value from data-model attribute as component config
+        const componentConfig = componentNs.getComponentConfig($component);
+        const componentTopic = componentConfig?.websocketTopic;
+        const componentHost = componentConfig.websocketHost;
+        const componentDataSource = componentConfig.dataSource;
+
+        // TMS.
+        if (componentHost && componentTopic) {
+            $component.setAttribute("id", componentTopic);
+            ns.tmsConnected(componentHost, componentTopic, $component);
+        }
+        // JSON
+        else if (componentDataSource) {
+            $component.setAttribute("id", componentDataSource);
+            ns.jsonConnected(componentDataSource, $component);
+        }
+        // MODEL 
+        else {
+            ns.modelDataConnected(componentConfig.id, $component);
+        }
+    }
+
+})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery, window.Typerefinery.Components, DEFAULT_TABLE_DATA, window, document);
