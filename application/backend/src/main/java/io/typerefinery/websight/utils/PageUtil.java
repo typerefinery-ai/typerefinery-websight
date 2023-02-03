@@ -17,19 +17,34 @@
 package io.typerefinery.websight.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pl.ds.websight.pages.core.api.Page;
 import pl.ds.websight.pages.core.api.PageConstants;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.util.JcrConstants;
+
+import static java.text.MessageFormat.format;
 
 public class PageUtil {  
 
-  public static String PATH_SEPARATOR = "/";
-  public static String PROPERY_HIDEINNAV = "hideInNav";
+  private static final Logger LOGGER = LoggerFactory.getLogger(PageUtil.class);
+
+  public static final String PATH_SEPARATOR = "/";
+  public static final String PROPERY_HIDEINNAV = "hideInNav";
+  public static final String COMPONENT_CANCEL_INHERIT_PARENT = "cancelInheritParent";
 
   /**
    * get page path from resource path
@@ -98,6 +113,94 @@ public class PageUtil {
     };
   }
 
+
+    /***
+     * find an ancestor resource matching current resource.
+     * @param resource resource to use path for look up
+     * @return found resource
+     */
+    @SuppressWarnings("squid:S3776")
+    public static Resource findInheritedResource(Resource thisResource) {
+        final String pageResourcePath = getResourcePagePath(thisResource); // assume that page have resource
+        final String nodeResourceType = thisResource.getResourceType();
+        final String relativePath = thisResource.getPath().replaceFirst(pageResourcePath.concat(PATH_SEPARATOR), StringUtils.EMPTY);
+
+        // defn of a parent node
+        // 1. is from parent page
+        // 2. same sling resource type
+        // 3. same relative path
+
+        Resource curPage = thisResource.getResourceResolver().getResource(pageResourcePath);
+        Resource curResource = null;
+        Boolean curResourceTypeMatch = false;
+        Boolean curCancelInheritParent = false;
+        ValueMap curProperties = null;
+
+        try {
+            while (null != curPage) {
+                // find by same relative path
+
+                String error = format(
+                        "findInheritedResource: looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\""
+                        , pageResourcePath, relativePath, curPage.getPath());
+                LOGGER.info(error);
+
+                try {
+                    curResource = curPage.getChild(relativePath);
+                } catch (Exception e) {
+                    LOGGER.info("Failed to get {} from {}", relativePath, curPage.getPath());
+                }
+
+                if (null != curResource) {
+                    //check for inherit flag + sling resource type
+
+                    curProperties = curResource.adaptTo(ValueMap.class);
+                    if (curProperties != null) {
+                        curResourceTypeMatch = curResource.isResourceType(nodeResourceType);
+                        curCancelInheritParent = curProperties.get(COMPONENT_CANCEL_INHERIT_PARENT, StringUtils.EMPTY).contentEquals("true");
+
+                        if (curResourceTypeMatch && curCancelInheritParent) {
+                            String found = format("findInheritedResource: FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
+                            LOGGER.info(found);
+
+                            break;
+                        } else {
+                            String notfound = format("findInheritedResource: NOT FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
+                            LOGGER.info(notfound);
+
+                        }
+                    } else {
+                        LOGGER.error("findInheritedResource: could not convert resource to value map, curResource={}", curResource);
+                    }
+                }
+
+                curPage = curPage.getParent();
+            }
+        } catch (Exception ex) {
+            LOGGER.warn("Failed to find inherited resource. {}", ex);
+        }
+
+        return curResource;
+    }
+
+  /**
+   * update resource properties
+   * @param resourceToUpdate
+   * @param response
+   */
+  public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
+    try {
+
+        LOGGER.info("updateFlowStreamResponse: {}", response);
+        ResourceResolver resourceResolver = resourceToUpdate.getResourceResolver();
+        ModifiableValueMap properties = resourceToUpdate.adaptTo(ModifiableValueMap.class);
+        properties.putAll(response);
+        resourceResolver.commit();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+  }
 
 
   private PageUtil() {
