@@ -34,7 +34,7 @@ public class Ticker extends BaseComponent {
         this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
-     }
+    }
     
     @Getter
     @Inject
@@ -87,23 +87,10 @@ public class Ticker extends BaseComponent {
 
     @Getter
     @Inject
-    // @Default (values = "")
     public String websocketTopic;
 
-    //  @Getter
-    // @Inject
-    // // @Default (values = "")
-    // public String defaultWebsocketHost;
-
-    
     @Getter
     @Inject
-    @Default (values = "5")
-    public String dataSourceRefreshTime;
-
-    @Getter
-    @Inject
-    @Default (values = "")
-    public String configSourceURL;
-
+    @Default(values = "")
+    public String flowapi_topic;
 }

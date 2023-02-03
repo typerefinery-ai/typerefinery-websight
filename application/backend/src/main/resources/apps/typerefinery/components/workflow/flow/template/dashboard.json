@@ -1,7 +1,7 @@
 {
 	"paused": false,
 	"id": "fxpou001dy41d",
-	"reference": "dashboard-reference",
+	"reference": "@dashboard",
 	"author": "",
 	"group": "/content/typerefinery-showcase/pages/pages/dashboard",
 	"icon": "fa fa-project-diagram",
@@ -23,7 +23,7 @@
 			"id": "ildfvqrwd",
 			"config": {
 				"name": "",
-				"id": "fxqxw001ey41d_ildh9ym1i"
+				"id": "fxqxw001ey41d_flow_output"
 			},
 			"x": 220,
 			"y": 133.00000762939453,
@@ -113,7 +113,7 @@
 			"config": {
 				"name": "",
 				"readme": "",
-				"id": "fxqxw001ey41d_ildiev7s3"
+				"id": "fxqxw001ey41d_flow_input"
 			},
 			"x": 611.0000305175781,
 			"y": 440.00000762939453,

@@ -1,0 +1,56 @@
+{
+	"TYPE": "save",
+	"data": {
+		"ildlrilw3": {
+			"id": "ildlrilw3",
+			"connections": {
+				"output": [
+					{
+						"id": "ildlrimqw",
+						"index": "input"
+					}
+				]
+			},
+			"config": {
+				"title": "Send Data",
+				"version": "2",
+				"random": true,
+				"type": "string",
+				"data": "",
+				"restart": false
+			},
+			"component": "typerefinery_senddata",
+			"x": 362.0000305175781,
+			"y": 193,
+			"connected": true
+		},
+		"ildlrimqw": {
+			"id": "ildlrimqw",
+			"connections": {},
+			"config": {
+				"title": "Print JSON",
+				"version": "2",
+				"repo": false,
+				"data": true
+			},
+			"component": "typerefinery_printjson",
+			"x": 718.0000305175781,
+			"y": 196,
+			"connected": true
+		},
+		"ildlsa7ba": {
+			"id": "ildlsa7ba",
+			"connections": {},
+			"config": {
+				"title": "Print JSON",
+				"version": "2",
+				"repo": false,
+				"data": true
+			},
+			"component": "typerefinery_printjson",
+			"x": 539,
+			"y": 435,
+			"connected": true
+		}
+	}
+}

@@ -58,6 +58,7 @@
       "websocketTopic": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "websocketTopic",
+        "description": "Please provide a topic for this widget to use, this can not be updated later, default value will be generated if not provided.",
         "label": "Websocket Topic"
       }
     },
@@ -70,6 +71,10 @@
         "description": "Please provide url to data source(JSON) for this ticker.",
         "label": "Data Source"
       }
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/workflow/flow/dialog/tabs/flowTab"
     }
   }
 }
