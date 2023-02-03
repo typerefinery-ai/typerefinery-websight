@@ -7,10 +7,10 @@
         <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="howlite/components/rootcontainer/fixedrootcontainer">
             <header jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/header"/>
             <twocols jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/pagesection" classes="\0">
-                <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="2" smColSize="2" smRowSize="1" mdRowSize="1" lgRowSize="12">
-                    <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar"/>
+                <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12">
+                    <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar" parentPagePath="/content/typerefinery-showcase/pages/pages" />
                 </container1>
-                <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="10" mdColSize="10" smColSize="10">
+                <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="10" mdColSize="12" smColSize="12">
                     <container_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
                         <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/breadcrumbs"/>
                     </container_1_1>
