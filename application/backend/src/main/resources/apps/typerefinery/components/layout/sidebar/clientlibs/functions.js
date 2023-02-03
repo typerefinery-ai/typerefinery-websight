@@ -42,7 +42,6 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             }
 
         }
-        console.log(formattedMenuItems, "formattedMenuItems")
 
 
 

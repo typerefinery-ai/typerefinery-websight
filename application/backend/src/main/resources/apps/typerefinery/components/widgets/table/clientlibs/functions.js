@@ -42,8 +42,6 @@ const DEFAULT_TABLE_DATA = {
 
     ns.jsonConnected = async (dataSourceURL, $component) => {
         try {
-
-            console.log(dataSourceURL, "dataSourceURL")
             
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {

@@ -8,7 +8,6 @@ window.Typerefinery.Components.Widgets.SmallTicker =
   "use strict";
 
   ns.updateComponentHTML = (data, $component) => {
-    console.log("ticker update");
     if (!$component) {
       console.log(
         "[smallticker/clientlibs/functions.js] component does not exist"
@@ -36,7 +35,6 @@ window.Typerefinery.Components.Widgets.SmallTicker =
   };
 
   ns.jsonConnected = async (dataSourceURL, $component) => {
-    console.log("json tikcer");
     try {
       const response = await fetch(dataSourceURL).then((res) => res.json());
       if (response) {
@@ -84,11 +82,7 @@ window.Typerefinery.Components.Widgets.SmallTicker =
     const componentTopic = componentConfig.websocketTopic;
     const componentHost = componentConfig.websocketHost;
     const componentDataSource = componentConfig.dataSource
-    // For reference of tms static data of ticker
-    // const componentTopic = "ticker1";
-    // const componentHost = "ws://localhost:8112/$tms";
-    // const componentDataSource ="http://localhost:8080/apps/typerefinery/components/widgets/smallticker/mock/dataSource_2.json";
-    console.log("[smallticker - functions.js] - smallTicker Component");
+    
     // TMS.
     if (componentHost && componentTopic) {
       $component.setAttribute("id", componentTopic);

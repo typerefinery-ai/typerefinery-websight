@@ -1,6 +1,5 @@
 function radarChartComponent(component, id) {
   const dataSourceURL = component.getAttribute("data-source");
-  console.log("dataSourceURL", dataSourceURL);
   const defaultData = {
     labels: ["RAT", "Trojan", "Malware", "Phishing", "Ransomware"],
     datasets: [
@@ -116,7 +115,6 @@ $(document).ready(function (e) {
   Array.from(document.querySelectorAll("#radarChartContainer")).forEach(
     (component) => {
       var componentDataPath = component.getAttribute("data-path");
-      console.log("path", componentDataPath);
       component.setAttribute("id", componentDataPath);
       radarChartComponent(component, componentDataPath);
     }
