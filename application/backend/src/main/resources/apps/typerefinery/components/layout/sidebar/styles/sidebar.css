@@ -10,3 +10,8 @@
 .sidebar {
   width: 100%;
 }
+
+nav.p-breadcrumb.p-component{
+  border-radius: 0px;
+  background: var(--primary-text-color);
+}
