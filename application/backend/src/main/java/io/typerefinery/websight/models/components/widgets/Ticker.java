@@ -87,23 +87,5 @@ public class Ticker extends BaseComponent {
 
     @Getter
     @Inject
-    // @Default (values = "")
     public String websocketTopic;
-
-    //  @Getter
-    // @Inject
-    // // @Default (values = "")
-    // public String defaultWebsocketHost;
-
-    
-    @Getter
-    @Inject
-    @Default (values = "5")
-    public String dataSourceRefreshTime;
-
-    @Getter
-    @Inject
-    @Default (values = "")
-    public String configSourceURL;
-
 }
