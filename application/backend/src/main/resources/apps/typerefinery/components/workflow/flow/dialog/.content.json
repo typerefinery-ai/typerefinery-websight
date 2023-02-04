@@ -14,26 +14,33 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_topic",
         "label": "Topic",
-        "disblaed": true
+        "disabled": true
       },
       "flowstreamid": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_flowstreamid",
         "label": "Flow ID",
-        "disblaed": true
+        "disabled": true
       },
       "createdon": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_createdon",
         "label": "Created On",
-        "disblaed": true
+        "disabled": true
       },
       "updatedon": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_updatedon",
         "label": "Updated On",
-        "disblaed": true
+        "disabled": true
+      },
+      "editflow1": {
+        "sling:resourceType": "typerefinery/components/dialog/url",
+        "name": "flowapi_editurl",
+        "label": "Flow Designer",
+        "disabled": true
       }
+
     }
   }
 }
