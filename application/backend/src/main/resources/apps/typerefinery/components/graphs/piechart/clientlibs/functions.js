@@ -201,7 +201,6 @@ const DEFAULT_PIE_CHART_DATA = {
     const componentDataSource = componentConfig.dataSource;
     const componentPath = componentConfig.resourcePath;
 
-    console.log("[piechart.js - functions.js ] - Pie Chart Component");
     // TMS.
     if (componentHost && componentTopic) {
       $component.setAttribute("id", componentTopic);

@@ -1,5 +1,4 @@
 $(document).ready(function (e) {
-console.log("json")
 window.JSONSchemas = {}
 ;(function (ns) {
   ns.REG_NUMBER = /[\d,\\.]+/g

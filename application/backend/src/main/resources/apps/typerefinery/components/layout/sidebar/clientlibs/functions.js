@@ -47,7 +47,7 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             }
 
         }
-
+        
         // breadcrumb 
         const dataModel = JSON.parse(document.querySelector('.sidebar').getAttribute('data-model'));
         const currentPath = dataModel.currentPagePath;

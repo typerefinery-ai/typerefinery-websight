@@ -32,7 +32,7 @@ window.MessageService.Client = MessageService.Client || {};
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '["ws://localhost:8112/$tms"]')
         
         function payload_insert(data) {
-            console.log("payload_insert", data);
+            console.log("--------------------------Payload Inserted ------------------------");
         }
 
         listOfHost.forEach(host => {
@@ -49,7 +49,6 @@ window.MessageService.Client = MessageService.Client || {};
             function (message) {
                 const messageData = message?.detail?.data?.payload;
                 console.log("--------------------------MESSAGE RECEIVED ------------------------")
-                console.log(messageData);
                 if (messageData) {
                     const payload = JSON.parse(messageData);
                     if (payload.data) {

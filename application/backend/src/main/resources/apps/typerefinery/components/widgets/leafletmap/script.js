@@ -14,11 +14,11 @@ function leafletmapMounted(component, id) {
   dataSourceURL ? fetchData() : drawLeafletMapComponent(defaultData, id);
 }
 
-function drawLeafletMapComponent(mapData, id) {
+function drawLeafletMapComponent(mapData, id, defaultData) {
   var leafletmapComponent = L.map(id).setView([9.145, 40.4897], 2);
 
   // Polygon Layer over map.
-  mapData.forEach(_ => {
+  defaultData.forEach(_ => {
     L.geoJSON(_.coordinates, {
       style: _.style,
     }).addTo(leafletmapComponent);
