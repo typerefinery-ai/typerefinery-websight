@@ -14,7 +14,12 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
         const sidebarContainer = document.getElementById('sidebar');
 
         let formattedMenuItems = [];
+        let breadcrumb = {
+            home: {},
+            items: []
+        };
 
+        // sidebar 
         if (sidebarContainer) {
             const dataTree = JSON.parse(sidebarContainer.getAttribute('data-tree') || '{}');
 
@@ -42,6 +47,57 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             }
 
         }
+        
+        // breadcrumb 
+        const dataModel = JSON.parse(document.querySelector('.sidebar').getAttribute('data-model'));
+        const currentPath = dataModel.currentPagePath;
+        for(let i = 0; i < formattedMenuItems.length; i++) {
+            const menuItem = formattedMenuItems[i];
+            if(menuItem.key === currentPath) {
+                breadcrumb.home = {
+                    label: menuItem.label,
+                    icon: menuItem.icon
+                };
+                breadcrumb.items = [];
+                break;
+            }
+            function fetchBreadcrumbItemHelper(menuItems) {
+                const result = [];
+                for (let i = 0; i < menuItems.length; i++) {
+                    const menuItem = menuItems[i];
+                    if(menuItem.key === currentPath) {
+                        result.push({
+                            label: menuItem.label,
+                            icon: menuItem.icon
+                        });
+                        return result;
+                    }
+                    result.push({
+                        label: menuItem.label,
+                        icon: menuItem.icon
+                    });
+                    const recResult = fetchBreadcrumbItemHelper(menuItem.children);
+                    if(recResult.length === 0) {
+                        result.pop();
+                    }else {
+                        return [
+                            ...result,
+                            ...recResult
+                        ];
+                    }
+                }
+                return result;
+            }
+            let tempBreadCrumbItems = fetchBreadcrumbItemHelper(formattedMenuItems[i].children);
+            if(tempBreadCrumbItems.length > 0) {
+                breadcrumb.home = {
+                    label: menuItem.label,
+                    icon: menuItem.icon
+                };
+                breadcrumb.items = tempBreadCrumbItems;
+                break;
+            }
+        }
 
 
 
@@ -49,6 +105,11 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             data["sidebarRoutes"] = formattedMenuItems;
             $component.setAttribute(":value", "sidebarRoutes");
         });
+
+        data["breadcrumb"] = breadcrumb;
+
+        console.log("breadcrumb", data);
+
         // Register vue data.
         componentNs.registerComponent(data);
     }
