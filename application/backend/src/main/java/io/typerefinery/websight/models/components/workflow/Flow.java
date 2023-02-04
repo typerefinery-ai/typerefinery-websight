@@ -3,6 +3,8 @@ package io.typerefinery.websight.models.components.workflow;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +18,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.typerefinery.websight.models.components.BaseModel;
 import io.typerefinery.websight.services.workflow.FlowService;
+import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
+
+import static io.typerefinery.websight.services.workflow.FlowService.PROPERTY_EDITURL;
+import static io.typerefinery.websight.services.workflow.FlowService.prop;
 
 @Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
 public class Flow extends BaseModel {
@@ -48,6 +54,11 @@ public class Flow extends BaseModel {
     @Inject
     @Default(values = "")
     public String title;
+
+    @Getter
+    @Inject
+    @Default(values = "")
+    public String flowapi_editurl;
 
     // accept HTL attributes
 
@@ -90,6 +101,16 @@ public class Flow extends BaseModel {
                 } else {
                     flowService.updateFlowFromTemplate(template, resource, title, flowapi_flowstreamid);
                 }
+            }
+
+            //if edit url has been cleared then update it if we have a flowstreamid
+            if (StringUtils.isBlank(flowapi_editurl) && StringUtils.isNotBlank(flowapi_flowstreamid)) {
+                // set edit url
+                flowapi_editurl = flowService.compileEditUrl(flowapi_flowstreamid);
+                // update current resource
+                HashMap<String, Object> data = new HashMap<>();
+                data.put(prop(PROPERTY_EDITURL), flowapi_editurl);
+                PageUtil.updatResourceProperties(resource, data);
             }
         }
     }

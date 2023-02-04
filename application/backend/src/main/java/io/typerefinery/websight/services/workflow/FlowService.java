@@ -2,9 +2,11 @@ package io.typerefinery.websight.services.workflow;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,11 +47,12 @@ public class FlowService {
 
     private static final String TAG = FlowService.class.getSimpleName();
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowService.class);
-    private static final String PROPERTY_PREFIX = "flowapi_";
-    private static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
-    private static final String PROPERTY_TOPIC = "topic";
-    private static final String PROPERTY_CREATEDON = "createdon";
-    private static final String PROPERTY_UPDATEDON = "updatedon";
+    public static final String PROPERTY_PREFIX = "flowapi_";
+    public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
+    public static final String PROPERTY_TOPIC = "topic";
+    public static final String PROPERTY_CREATEDON = "createdon";
+    public static final String PROPERTY_UPDATEDON = "updatedon";
+    public static final String PROPERTY_EDITURL = "editurl";
 
 
     private FlowServiceConfiguration configuration;
@@ -121,8 +124,12 @@ public class FlowService {
                     flowResponse.put(prop("error"), responseAsString);
                     return flowResponse;
                 }
+                
+                String flowstreamid = json.get("value").asText();
+                String flowapi_editurl = compileEditUrl(flowstreamid);
 
-                flowResponse.put(prop(PROPERTY_FLOWSTREAMID), json.get("value").asText());
+                flowResponse.put(prop(PROPERTY_FLOWSTREAMID), flowstreamid);
+                flowResponse.put(prop(PROPERTY_EDITURL), flowapi_editurl);
                 flowResponse.put(prop("success"), json.get("success").asText());
                 flowResponse.put(prop("error"), json.get("error").asText());
 
@@ -142,12 +149,22 @@ public class FlowService {
         return flowResponse;
     }
 
+    public String compileEditUrl(String flowstreamid) {
+        return compileEditUrl(configuration, flowstreamid) ;
+    }
+
+    public static String compileEditUrl(FlowServiceConfiguration configuration, String flowstreamid) {
+        String flowWsUString = String.format(configuration.flow_ws_url(),flowstreamid);
+        String flowapi_editurl = String.format(configuration.flow_designer_url(),"0", URLEncoder.encode(flowWsUString, StandardCharsets.UTF_8),"");
+        return flowapi_editurl;
+    }
+
     public static String prop(String key) {
         return PROPERTY_PREFIX + key;
     }
     
     // create a flow from content
-    public HashMap<String, Object> doFlowStreamUpdateData(String content) {
+    public HashMap<String, Object> doFlowStreamUpdateData(String content, String flowstreamid) {
 
         String url = getFlowStreamUpdateAPIURL();
         
@@ -179,6 +196,9 @@ public class FlowService {
                     flowResponse.put(prop("error"), responseAsString);
                     return flowResponse;
                 }
+
+                String flowapi_editurl = compileEditUrl(flowstreamid);
+                flowResponse.put(prop(PROPERTY_EDITURL), flowapi_editurl);
 
                 flowResponse.put(prop("success"), json.get("success").asText());
 
@@ -332,7 +352,7 @@ public class FlowService {
         String componentJson = JsonUtil.getJsonString(componentTemplate);
 
         // send to flowstream
-        HashMap<String, Object> response = doFlowStreamUpdateData(componentJson);
+        HashMap<String, Object> response = doFlowStreamUpdateData(componentJson, flowstreamid);
         
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
 
@@ -382,6 +402,8 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
+        public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
+        public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
         
         @AttributeDefinition(
             name = "Host URL",
@@ -410,5 +432,19 @@ public class FlowService {
                 defaultValue = FLOW_ENDPOINT_IMPORT
         )
         String endpoint_update() default FLOW_ENDPOINT_UPDATE;
+
+        @AttributeDefinition(
+            name = "Flow WS URL",
+            description = "Flow websocket url that will be used in designer url",
+            defaultValue = FLOW_WS_URL
+        )
+        String flow_ws_url() default FLOW_WS_URL;
+
+        @AttributeDefinition(
+            name = "Flow Designer URL",
+            description = "Flow Designer url where to open flow editor",
+            defaultValue = FLOW_DESIGNER_URL
+        )
+        String flow_designer_url() default FLOW_DESIGNER_URL;
     }
 }
