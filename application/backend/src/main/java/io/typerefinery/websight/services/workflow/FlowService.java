@@ -403,6 +403,7 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
         public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
+        public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
         public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
         
         @AttributeDefinition(
@@ -446,5 +447,12 @@ public class FlowService {
             defaultValue = FLOW_DESIGNER_URL
         )
         String flow_designer_url() default FLOW_DESIGNER_URL;
+
+        @AttributeDefinition(
+            name = "Flow Message Service URL",
+            description = "Flow message service url where components can connect to for data",
+            defaultValue = FLOW_TMS_URL
+        )
+        String flow_tms_url() default FLOW_TMS_URL;
     }
 }
