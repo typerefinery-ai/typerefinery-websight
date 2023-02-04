@@ -38,6 +38,7 @@
         "sling:resourceType": "typerefinery/components/dialog/url",
         "name": "flowapi_editurl",
         "label": "Flow Designer",
+        "title": "Edit this flow in Flow Designer",
         "disabled": true
       }
 
