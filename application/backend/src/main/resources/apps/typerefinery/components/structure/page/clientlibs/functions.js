@@ -21,11 +21,11 @@ window.MessageService.Client = MessageService.Client || {};
         }
     };
     ns.hostAdded = (newHost) => {
-        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '');
+        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
         const filteredHost = listOfHost.filter(host => host === newHost);
         if(filteredHost.length === 0) {
             listOfHost.push(newHost);
-            localStorage.setItem(JSON.parse(listOfHost));
+            localStorage.setItem("tmsHost", JSON.stringify(listOfHost));
         }
     }
     ns.tmsConnection = () => {
@@ -36,10 +36,16 @@ window.MessageService.Client = MessageService.Client || {};
         }
 
         listOfHost.forEach(host => {
-            // connect to websocket
-            clientNs?.connect(host, function () {
-                clientNs?.subscribe("payload_insert", payload_insert);
-            });
+            try{
+                // connect to websocket
+                clientNs?.connect(host, function () {
+                    clientNs?.subscribe("payload_insert", payload_insert);
+                });
+            }catch(error) {
+                console.log("page/clientlibs/functions");
+                console.error(error);
+            }
+            
         })
         
 
