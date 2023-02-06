@@ -85,13 +85,13 @@ public class SideBar extends BaseComponent {
             put("name", resourceName);
             put("key", parentPage.getPath());
             put("title", parentPage.getValueMap().get(JcrConstants.JCR_TITLE, resourceName));
-            // put(PageUtil.PROPERY_HIDEINNAV, parentPage.getValueMap().get(PageUtil.PROPERY_HIDEINNAV, false));
+            // put(PageUtil.PROPERTY_HIDEINNAV, parentPage.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, false));
         }});
         
         for (Resource child : parentPage.getChildren()) {
             if (child.getResourceType().equals(resourceType)) {
                 //if child has hideInNav property is not set to true, add it to the children hashmap
-                if (child.getValueMap().get(PageUtil.PROPERY_HIDEINNAV, "false").equals("false")) {
+                if (child.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, "false").equals("false")) {
                     children.put(child.getName(), getChildrenPages(child, resourceType));
                 }
             }
