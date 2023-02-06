@@ -17,8 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Component(
-    immediate = true,
-    configurationPolicy = ConfigurationPolicy.IGNORE
+    immediate = true
 )
 public class ContentAccessImpl implements ContentAccess {
     

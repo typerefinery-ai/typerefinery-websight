@@ -8,7 +8,6 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.event.jobs.Job;
 import org.apache.sling.event.jobs.consumer.JobConsumer;
-import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Component;
@@ -17,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.events.flow.FlowResourceChangeListener;
-import io.typerefinery.websight.services.content.ContentAccessImpl;
+import io.typerefinery.websight.services.ContentAccess;
 import io.typerefinery.websight.services.workflow.FlowService;
 
 import org.osgi.framework.Constants;
@@ -42,7 +41,7 @@ public class FlowJobConsumer implements JobConsumer {
     private boolean enabled;
 
     @Reference
-    ContentAccessImpl contentAccess;
+    ContentAccess contentAccess;
     
     @Reference
     private ResourceResolverFactory resourceResolverFactory;

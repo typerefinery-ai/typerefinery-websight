@@ -73,7 +73,7 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
         @Reference
         FlowService flowService;
 
-        @OSGiService
+        @Reference
         ContentAccess contentAccess;
     
         private boolean enabled;
