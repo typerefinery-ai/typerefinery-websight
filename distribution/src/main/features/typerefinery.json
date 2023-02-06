@@ -57,7 +57,14 @@
       "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
       "endpoint.export": "/flow/export/%s",
       "endpoint.import": "/flow/import",
-      "endpoint.update": "/flow/update"
+      "endpoint.update": "/flow/update",
+      "flow.page.change.listener.enabled": true
+    },
+    "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
+      "user.default": "sling-readall",
+      "user.mapping": [
+        "typerefinery-backend:content-services=sling-readall"
+      ]
     }
   }
 }
