@@ -14,7 +14,10 @@ import org.apache.sling.api.resource.observation.ResourceChange;
 import org.apache.sling.api.resource.observation.ResourceChangeListener;
 import org.apache.sling.event.jobs.JobManager;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -22,7 +25,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.typerefinery.websight.services.content.ContentAccess;
+import io.typerefinery.websight.services.ContentAccess;
 import io.typerefinery.websight.services.workflow.FlowService;
 
 /**
@@ -78,12 +81,18 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
         @Activate
         protected void activate() {
             //this.enabled = flowService.configuration.flow_page_change_listener_enabled();
+
             LOGGER.error("activated");
         }
 
         @Override
         public void onChange(List<ResourceChange> changes) {
-            this.enabled = flowService.configuration.flow_page_change_listener_enabled();
+            // BundleContext bundleContext = FrameworkUtil.getBundle(ContentAccessImpl.class).getBundleContext();
+            // ServiceReference factoryRef = bundleContext.getServiceReference(ContentAccessImpl.class.getName());
+            // if (factoryRef != null) {
+            //     ContentAccessImpl contentAccess1 = (ContentAccessImpl) bundleContext.getService(factoryRef);
+            // }
+            // this.enabled = flowService.configuration.flow_page_change_listener_enabled();
             if (enabled) {
 
                 try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
