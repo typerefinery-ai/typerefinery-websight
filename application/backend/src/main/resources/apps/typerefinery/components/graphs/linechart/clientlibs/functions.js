@@ -203,16 +203,14 @@ const DEFAULT_LINE_CHART_DATA = {
     }
 
     ns.init = ($component) => {
-      console.log("Line chart init function", $component)
       // parse json value from data-model attribute as component config
       const componentConfig = componentNs.getComponentConfig($component);
-      console.log("componentConfig", componentConfig)
       const componentTopic = componentConfig.websocketTopic;
       const componentHost = componentConfig.websocketHost;
       const componentDataSource = componentConfig.dataSource;
       const componentPath = componentConfig.resourcePath;
 
-      console.log("[linechart.js - functions.js] - Line Chart Component");
+      
       // TMS.
       if (componentHost && componentTopic) {
         $component.setAttribute("id", componentTopic);

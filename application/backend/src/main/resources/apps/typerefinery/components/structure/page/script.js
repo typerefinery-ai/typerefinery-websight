@@ -19,7 +19,7 @@ $(document).ready(() => {
                         const _obj = obj[keyItr];
 
                         if (_obj["jcr:content"].title === selectedNodeName) {
-                            window.location.href = `${window.location.origin}/${_obj["jcr:content"].key}.html`;
+                            window.location.href = `${window.location.origin}${_obj["jcr:content"].key}.html`;
                             return;
                         }
                         fetchMenuItemHelper(_obj)

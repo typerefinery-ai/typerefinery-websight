@@ -85,7 +85,6 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
 
-        console.log("[ticker - functions.js] - Ticker Component");
         // TMS.
         if (componentHost && componentTopic) {
             $component.setAttribute("id", componentTopic);

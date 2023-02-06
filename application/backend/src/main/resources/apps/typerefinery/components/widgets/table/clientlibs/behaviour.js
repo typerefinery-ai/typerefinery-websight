@@ -7,7 +7,6 @@ window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.T
     "use strict";
     $(document).ready(function () {
         $("#table").each(function() {
-            console.log("FETCHING TABLE 123");
             ns.init(this);
         });
     });

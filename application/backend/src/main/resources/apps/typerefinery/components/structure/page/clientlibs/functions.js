@@ -21,25 +21,31 @@ window.MessageService.Client = MessageService.Client || {};
         }
     };
     ns.hostAdded = (newHost) => {
-        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '');
+        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
         const filteredHost = listOfHost.filter(host => host === newHost);
         if(filteredHost.length === 0) {
             listOfHost.push(newHost);
-            localStorage.setItem(JSON.parse(listOfHost));
+            localStorage.setItem("tmsHost", JSON.stringify(listOfHost));
         }
     }
     ns.tmsConnection = () => {
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '["ws://localhost:8112/$tms"]')
         
         function payload_insert(data) {
-            console.log("payload_insert", data);
+            console.log("--------------------------Payload Inserted ------------------------");
         }
 
         listOfHost.forEach(host => {
-            // connect to websocket
-            clientNs?.connect(host, function () {
-                clientNs?.subscribe("payload_insert", payload_insert);
-            });
+            try{
+                // connect to websocket
+                clientNs?.connect(host, function () {
+                    clientNs?.subscribe("payload_insert", payload_insert);
+                });
+            }catch(error) {
+                console.log("page/clientlibs/functions");
+                console.error(error);
+            }
+            
         })
         
 
@@ -49,7 +55,6 @@ window.MessageService.Client = MessageService.Client || {};
             function (message) {
                 const messageData = message?.detail?.data?.payload;
                 console.log("--------------------------MESSAGE RECEIVED ------------------------")
-                console.log(messageData);
                 if (messageData) {
                     const payload = JSON.parse(messageData);
                     if (payload.data) {
