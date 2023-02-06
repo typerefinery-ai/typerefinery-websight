@@ -1,9 +1,10 @@
 <template data-sly-template.leafletmap="${ @ model }">
   <div 
-      id="leafletmap"
-      class="leafletmap"
-      data-path="${resource.path}"
-      data-source="${model.dataSource}"
+    id="${model.id}"
+    data-path="${model.componentPath}"
+    data-module="leafletMapComponent"
+    class="${model.classNames}"
+    data-model="${model.jsonString}"
   >
   </div>
 </template>
