@@ -14,6 +14,7 @@ import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.api.resource.ValueMap;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,12 +87,22 @@ public class SideBar extends BaseComponent {
     private TreeMap<String, Object> getChildrenPages(Resource parentPage, String resourceType) {
         TreeMap<String, Object> children = new TreeMap<>();
         String resourceName = parentPage.getName();
+        ValueMap parentPageContentVM = PageUtil.getResourceContentValueMap(parentPage);
+
+        if(parentPageContentVM == null){
+            parentPageContentVM = parentPage.getValueMap();
+        }
+
+        String title = parentPageContentVM.get(PageUtil.PROPERTY_TITLE, resourceName);
+        String icon = parentPageContentVM.get(PageUtil.PROPERTY_ICON, "");
+        String description = parentPageContentVM.get(PageUtil.PROPERTY_DESCRIPTION, "");
+        
         children.put(JcrConstants.JCR_CONTENT, new TreeMap<String, Object>() {{
             put("name", resourceName);
             put("key", parentPage.getPath());
-            put("title", parentPage.getValueMap().get(PageUtil.PROPERTY_TITLE, resourceName));
-            put("icon", parentPage.getValueMap().get(PageUtil.PROPERTY_ICON, ""));
-            put("description", parentPage.getValueMap().get(PageUtil.PROPERTY_DESCRIPTION, ""));
+            put("title", title);
+            put("icon", icon);
+            put("description", description);
         }});
         
         for (Resource child : parentPage.getChildren()) {

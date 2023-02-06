@@ -32,8 +32,8 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
                     const _obj = obj[keyItr];
                     result.push({
                         key: _obj["jcr:content"].key,
-                        label: _obj["jcr:content"].title,
-                        data: _obj["jcr:content"].title,
+                        label: _obj["jcr:content"].name,
+                        data: _obj["jcr:content"].name,
                         icon: _obj["jcr:content"].icon,
                         children: fetchMenuItemHelper(_obj)
                     })
