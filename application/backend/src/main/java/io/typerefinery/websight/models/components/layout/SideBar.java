@@ -29,8 +29,8 @@ public class SideBar extends BaseComponent {
     /**
      * page to use as the root of the tree
      */
-    @Getter
     @Inject
+    @Getter
     public String parentPagePath;
 
     
@@ -38,6 +38,7 @@ public class SideBar extends BaseComponent {
     @Getter
     private NavigationComponent navigation;
 
+    
     /**
      * Returns the tree as a JSON string
      * @return the tree as a JSON string
@@ -57,6 +58,7 @@ public class SideBar extends BaseComponent {
         return "";
     }
    
+    
     /**
      * Returns a tree map of the current page and all its children
      * @return a tree map of the current page and all its children
@@ -89,7 +91,7 @@ public class SideBar extends BaseComponent {
         String resourceName = parentPage.getName();
         ValueMap parentPageContentVM = PageUtil.getResourceContentValueMap(parentPage);
 
-        if(parentPageContentVM == null){
+        if(parentPageContentVM == null) {
             parentPageContentVM = parentPage.getValueMap();
         }
 
@@ -100,14 +102,14 @@ public class SideBar extends BaseComponent {
         children.put(JcrConstants.JCR_CONTENT, new TreeMap<String, Object>() {{
             put("name", resourceName);
             put("key", parentPage.getPath());
-            put("title", parentPage.getValueMap().get(JcrConstants.JCR_TITLE, resourceName));
-            // put(PageUtil.PROPERTY_HIDEINNAV, parentPage.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, false));
+            put("title", title);
+            put("icon", icon);
+            put("description", description);
         }});
         
         for (Resource child : parentPage.getChildren()) {
             if (child.getResourceType().equals(resourceType)) {
                 //if child has hideInNav property is not set to true, add it to the children hashmap
-                if (child.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, "false").equals("false")) {
                 if (child.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, "false").equals("false")) {
                     children.put(child.getName(), getChildrenPages(child, resourceType));
                 }
