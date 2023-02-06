@@ -45,7 +45,7 @@ public class PageUtil {
 
     public static final String PRIMARY_TYPE_PAGE = "ws:Page";
     public static final String PATH_SEPARATOR = "/";
-    public static final String PROPERY_HIDEINNAV = "hideInNav";
+    public static final String PROPERTY_HIDEINNAV = "hideInNav";
     public static final String COMPONENT_CANCEL_INHERIT_PARENT = "cancelInheritParent";
 
     public ValueMap getResourceContentValueMap(@NotNull Resource resource) {
