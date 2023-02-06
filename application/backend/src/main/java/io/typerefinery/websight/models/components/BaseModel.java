@@ -28,6 +28,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import io.typerefinery.websight.utils.JsonUtil;
 import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
@@ -64,19 +65,7 @@ public class BaseModel {
 
     @JsonIgnore
     public String getJsonString() {
-        return getJsonString(this);
+        return JsonUtil.getJsonString(this);
     }
-    
-    @JsonIgnore
-    public String getJsonString(Object source) {
-        ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        String jsonString =null;
-        try {
-            JsonNode node = mapper.valueToTree(source);
-            jsonString = mapper.writeValueAsString(node);
-        } catch (JsonProcessingException e) {
-            e.getMessage();
-        }
-        return jsonString;
-    }
+
 }
