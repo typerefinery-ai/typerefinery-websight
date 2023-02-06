@@ -74,7 +74,8 @@ public class FlowJobConsumer implements JobConsumer {
                 });
 
             } catch (Exception e) {
-                LOGGER.error("Could not get resource resolver", e);
+                LOGGER.error("Could not process paths.", e);
+                return JobResult.FAILED;
             }
 
         }

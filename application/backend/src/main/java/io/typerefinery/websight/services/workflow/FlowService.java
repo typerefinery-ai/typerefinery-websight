@@ -408,7 +408,7 @@ public class FlowService {
         String flowstreamid = properties.get(prop(PROPERTY_FLOWSTREAMID), "");
         boolean flowenabled = properties.get(prop(PROPERTY_ENABLE), false);
 
-        LOGGER.info("isFlowEnabledResource: {} {} {}", isPage, flowenabled, flowstreamid);
+        LOGGER.info("isFlowEnabledResource: isPage: {}, flowenabled: {}, flowstreamid: {}", isPage, flowenabled, flowstreamid);
 
         if (flowenabled && StringUtils.isNotBlank(flowstreamid)) {
             return true;
