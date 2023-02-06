@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.events.flow.FlowResourceChangeListener;
-import io.typerefinery.websight.services.content.ContentAccess;
+import io.typerefinery.websight.services.content.ContentAccessImpl;
 import io.typerefinery.websight.services.workflow.FlowService;
 
 import org.osgi.framework.Constants;
@@ -42,7 +42,7 @@ public class FlowJobConsumer implements JobConsumer {
     private boolean enabled;
 
     @Reference
-    ContentAccess contentAccess;
+    ContentAccessImpl contentAccess;
     
     @Reference
     private ResourceResolverFactory resourceResolverFactory;

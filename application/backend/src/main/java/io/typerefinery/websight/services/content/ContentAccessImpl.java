@@ -11,6 +11,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.typerefinery.websight.services.ContentAccess;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -18,9 +20,9 @@ import java.util.Map;
     immediate = true,
     configurationPolicy = ConfigurationPolicy.IGNORE
 )
-public class ContentAccess {
+public class ContentAccessImpl implements ContentAccess {
     
-    protected static final Logger LOGGER = LoggerFactory.getLogger(ContentAccess.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(ContentAccessImpl.class);
 
     private static final String SERVICE_NAME = "content-services";
     private Map<String, Object> AUTH_INFO;
