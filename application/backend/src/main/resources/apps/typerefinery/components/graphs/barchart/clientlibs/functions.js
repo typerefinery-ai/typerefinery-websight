@@ -32,8 +32,14 @@ const DEFAULT_BAR_CHART_DATA = {
     "PsExec",
     "Minikatz",
   ],
-  dataSetBorderColor:   Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40",
+  dataSetBorderColor:
+    Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
+      "-border-color"
+    ) || "#0099DE",
+  canvasBackgroundColor:
+    Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
+      "--primary-bg-color"
+    ) || "#343a40",
 };
 
 (function (
@@ -75,7 +81,7 @@ const DEFAULT_BAR_CHART_DATA = {
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
         ctx.fillStyle =
-        themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40" || "#99ffff";
+        themeNs?.rootElementStyle?.getPropertyValue('--primary-bg-color') || "#343a40" || "#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -92,7 +98,8 @@ const DEFAULT_BAR_CHART_DATA = {
             fill: false,
             backgroundColor:
             data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
-            borderColor:           themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+            borderColor:
+            themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
             borderWidth: 1,
           },
         ],
@@ -124,7 +131,7 @@ const DEFAULT_BAR_CHART_DATA = {
           },
         },
         customCanvasBackgroundColor: {
-          color:themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color')||data.canvasBackgroundColor ,
+          color:themeNs?.rootElementStyle.getPropertyValue('--primary-bg-color')||data.canvasBackgroundColor ,
         },
         interaction: {
           intersect: false,
@@ -196,14 +203,14 @@ const DEFAULT_BAR_CHART_DATA = {
           backgroundColor: data.dataSetBorderColor ||
           componentConfig.dataSetBorderColor ||
           themeNs?.rootElementStyle.getPropertyValue(
-            "--primary-object-border-color"
+            "--primary-bg-color"
           ) ||
           "#001E3C",
           borderColor:
             data.dataSetBorderColor ||
             componentConfig.dataSetBorderColor ||
             themeNs?.rootElementStyle.getPropertyValue(
-              "--primary-object-border-color"
+              "--border-color"
             ) ||
             "#001E3C",
           borderWidth: 1,

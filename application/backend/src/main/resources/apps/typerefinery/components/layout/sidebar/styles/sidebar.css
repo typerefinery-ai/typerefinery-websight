@@ -1,8 +1,8 @@
 .p-tree {
-  background-color: var(--primary-object-background-color);
+  background-color: var(--primary-bg-color);
   height: 125vh;
   border-radius: 0px;
-  border-color: var(--primary-object-background-color);
+  border-color: var(--primary-border-color);
 }
 .p-treenode-label {
   color: var(--primary-text-color);
