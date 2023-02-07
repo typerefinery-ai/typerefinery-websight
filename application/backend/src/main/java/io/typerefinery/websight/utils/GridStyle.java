@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.utils.GridDisplayType;
 
 
 public class GridStyle {
@@ -44,8 +43,8 @@ public class GridStyle {
   private final Grid gridComponent;
   private final GridDisplayType displayType;
 
-  public GridStyle(Grid gridComponent, GridDisplayType displayType) {
-    this.gridComponent = gridComponent;
+  public GridStyle(Grid container, GridDisplayType displayType) {
+    this.gridComponent = container;
     this.displayType = displayType;
   }
 
