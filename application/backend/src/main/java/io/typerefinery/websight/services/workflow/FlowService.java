@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -32,15 +33,19 @@ import io.typerefinery.websight.utils.PageUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
+
+import static io.typerefinery.websight.utils.PageUtil.PRIMARY_TYPE_PAGE;;
 
 @Component(
         service = FlowService.class,
         immediate = true,
         property = {
                 Constants.SERVICE_ID + "=TypeRefinery - Flow Service",
-                Constants.SERVICE_DESCRIPTION + "=This is the service for accessing external Flow service"
+                Constants.SERVICE_DESCRIPTION + "=This is the service for accessing external Flow service",
+                Constants.SERVICE_RANKING+":Integer=1000"
         })
 @Designate(ocd = FlowService.FlowServiceConfiguration.class)
 public class FlowService {
@@ -53,9 +58,10 @@ public class FlowService {
     public static final String PROPERTY_CREATEDON = "createdon";
     public static final String PROPERTY_UPDATEDON = "updatedon";
     public static final String PROPERTY_EDITURL = "editurl";
+    public static final String PROPERTY_ENABLE = "enable";
 
 
-    private FlowServiceConfiguration configuration;
+    public FlowServiceConfiguration configuration;
 
     // create http client
     protected static HttpClient client;
@@ -392,6 +398,25 @@ public class FlowService {
         return null;
     }
     
+    public boolean isFlowEnabledResource(Resource resource) {
+        if (resource == null) {
+            return false;
+        }
+        ValueMap properties = resource.getValueMap();
+        boolean isPage = properties.get(JcrConstants.JCR_PRIMARYTYPE, "").equals(PRIMARY_TYPE_PAGE);
+
+        String flowstreamid = properties.get(prop(PROPERTY_FLOWSTREAMID), "");
+        boolean flowenabled = properties.get(prop(PROPERTY_ENABLE), false);
+
+        LOGGER.info("isFlowEnabledResource: isPage: {}, flowenabled: {}, flowstreamid: {}", isPage, flowenabled, flowstreamid);
+
+        if (flowenabled && StringUtils.isNotBlank(flowstreamid)) {
+            return true;
+        }
+        return false;
+    }
+
+
     @ObjectClassDefinition(
         name = "TypeRefinery - Flow Configuration",
         description = "This is the configuration for the Flow service"
@@ -405,6 +430,7 @@ public class FlowService {
         public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
         public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
         public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
+        public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
         
         @AttributeDefinition(
             name = "Host URL",
@@ -454,5 +480,12 @@ public class FlowService {
             defaultValue = FLOW_TMS_URL
         )
         String flow_tms_url() default FLOW_TMS_URL;
+
+        @AttributeDefinition(
+            name = "Flow Page Change Listener Enabled",
+            description = "Flow Designer dark mode",
+            type = AttributeType.BOOLEAN
+        )
+        boolean flow_page_change_listener_enabled() default FLOW_PAGE_CHNAGE_LISTENER_ENABLE;
     }
 }

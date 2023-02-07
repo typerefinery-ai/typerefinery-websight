@@ -29,8 +29,8 @@ public class SideBar extends BaseComponent {
     /**
      * page to use as the root of the tree
      */
-    @Getter
     @Inject
+    @Getter
     public String parentPagePath;
 
     
@@ -38,6 +38,7 @@ public class SideBar extends BaseComponent {
     @Getter
     private NavigationComponent navigation;
 
+    
     /**
      * Returns the tree as a JSON string
      * @return the tree as a JSON string
@@ -57,6 +58,7 @@ public class SideBar extends BaseComponent {
         return "";
     }
    
+    
     /**
      * Returns a tree map of the current page and all its children
      * @return a tree map of the current page and all its children
@@ -89,7 +91,7 @@ public class SideBar extends BaseComponent {
         String resourceName = parentPage.getName();
         ValueMap parentPageContentVM = PageUtil.getResourceContentValueMap(parentPage);
 
-        if(parentPageContentVM == null){
+        if(parentPageContentVM == null) {
             parentPageContentVM = parentPage.getValueMap();
         }
 
