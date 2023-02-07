@@ -32,7 +32,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
     "Store",
   ],
   dataSetBorderColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-bg-color') || "#343a40",
+  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#343a40",
 };
 
 (function (
@@ -66,7 +66,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-bg-color') || "#343a40" || "#99ffff";
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#343a40" || "#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -95,10 +95,13 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
         scales: {
           y: {
             beginAtZero: true,
+            grid: {
+              color: themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color"),
+            },
           },
         },
         customCanvasBackgroundColor: {
-          color:  themeNs?.rootElementStyle.getPropertyValue('--primary-bg-color')||data.canvasBackgroundColor ,
+          color:  themeNs?.rootElementStyle.getPropertyValue('--card-bg-color')||data.canvasBackgroundColor ,
         },
         interaction: {
           intersect: false,

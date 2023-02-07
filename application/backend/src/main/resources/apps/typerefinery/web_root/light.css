@@ -1,11 +1,11 @@
 :root {
-    --primary-panel-color: #FFF;
+    --primary-bg-color: #adb5bd;
     --primary-text-color: #1A2027;
     --subtitle-color: #343a40;
-    --primary-bg-color: rgb(233 233 233);
-    --ticks-color: #151e26;
-    --grid-color: #5D7183;
-    --label-color: #072b4a;    
-    --border-color: #1a6c93;
-    --primary-border-color:#0099DE;
+    --card-bg-color: #dee2e6;
+    --sidebar-bg-color:#ced4da;
+    --chart-grid-color: #5D7183;
+    --chart-label-color: #072b4a;    
+    --border-color: #343a40;
+    --primary-border-color:#6c757d;
 }

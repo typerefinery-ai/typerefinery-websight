@@ -25,7 +25,7 @@ const DEFAULT_PIE_CHART_DATA = {
     "rgba(255, 255, 84, 1)",
     "rgba(171, 0, 125, 1)",
   ],
-  canvasBackgroundColor:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue("--primary-bg-color") || "#343a40",
+  canvasBackgroundColor:Typerefinery?.Theme?.rootElementStyle?.getPropertyValue("--card-bg-color") || "#343a40",
 };
 
 ; (function (
@@ -64,7 +64,7 @@ const DEFAULT_PIE_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-bg-color');
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -97,12 +97,12 @@ const DEFAULT_PIE_CHART_DATA = {
           }
         },
         customCanvasBackgroundColor: {
-          color:  themeNs?.rootElementStyle.getPropertyValue('--primary-bg-color'),
+          color:  themeNs?.rootElementStyle.getPropertyValue('--card-bg-color'),
         },
         scales: {
           r: {
             grid: {
-              color:themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
+              color:themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
             },
             ticks: {
               color: "#5D7183",

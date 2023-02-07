@@ -1,5 +1,5 @@
 .p-tree {
-  background-color: var(--primary-bg-color);
+  background-color: var(--sidebar-bg-color);
   height: 125vh;
   border-radius: 0px;
   border-color: var(--primary-border-color);
@@ -14,4 +14,5 @@
 nav.p-breadcrumb.p-component{
   border-radius: 0px;
   background: var(--primary-text-color);
+  border-color: var(--primary-border-color);
 }

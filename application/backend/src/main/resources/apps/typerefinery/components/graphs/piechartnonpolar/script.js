@@ -44,7 +44,7 @@ function drawPieChartNonPolar(piechartData, id) {
       const { ctx } = chart;
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--primary-bg-color') || "#99ffff";
+      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--card-bg-color') || "#99ffff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     },
@@ -71,7 +71,7 @@ function drawPieChartNonPolar(piechartData, id) {
           position: "right",
           usePointStyle: true,
           labels: {
-            color: window.rootEleStyle.getPropertyValue('--label-color'),
+            color: window.rootEleStyle.getPropertyValue('--chart-label-color'),
             usePointStyle: true,
           },
         },
