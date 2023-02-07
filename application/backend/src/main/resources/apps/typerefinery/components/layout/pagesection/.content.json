@@ -13,5 +13,6 @@
   ],
   "sling:resourceType": "ws:Component",
   "description": "Use for 12 cols page sections, inside main content",
-  "title": "Page Section"
+  "title": "Page Section",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
 }
