@@ -48,7 +48,7 @@ function drawLabelLineChart(linechartData, id) {
       const { ctx } = chart;
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--primary-object-background-color') || "#99ffff";
+      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--card-bg-color') || "#99ffff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     },
@@ -100,15 +100,15 @@ function drawLabelLineChart(linechartData, id) {
             display: false,
           },
           ticks: {
-            color: window.rootEleStyle.getPropertyValue('--ticks-color') || "#5D7183",
+            color: window.rootEleStyle.getPropertyValue('--chart-ticks-color') || "#5D7183",
           },
         },
         y: {
           grid: {
-            color: window.rootEleStyle.getPropertyValue('--grid-color'),
+            color: window.rootEleStyle.getPropertyValue('--chart-grid-color'),
           },
           ticks: {
-            color: window.rootEleStyle.getPropertyValue('--ticks-color') || "#5D7183",
+            color: window.rootEleStyle.getPropertyValue('--chart-ticks-color') || "#5D7183",
           },
         },
       },

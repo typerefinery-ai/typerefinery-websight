@@ -23,7 +23,7 @@ const DEFAULT_LINE_CHART_DATA = {
     "Dec 2021",
   ],
   dataSetBorderColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C"
+  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#001E3C"
 }
 
   ; (function (ns,typerefineryNs, componentNs, themeNs, graphItemsNs, DEFAULT_LINE_CHART_DATA, document, window) {
@@ -59,7 +59,7 @@ const DEFAULT_LINE_CHART_DATA = {
           ctx.save();
           ctx.globalCompositeOperation = "destination-over";
           // data.canvasBackgroundColor
-          ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+          ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#001E3C";
           ctx.fillRect(0, 0, chart.width, chart.height);
           ctx.restore();
         },
@@ -98,7 +98,7 @@ const DEFAULT_LINE_CHART_DATA = {
             },
             y: {
               grid: {
-                color: themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
+                color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
               },
               ticks: {
                 color:"#5D7183"
@@ -106,7 +106,7 @@ const DEFAULT_LINE_CHART_DATA = {
             }
           },
           customCanvasBackgroundColor: {
-            color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color') ,
+            color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color') ,
           },
           interaction: {
             intersect: false,
