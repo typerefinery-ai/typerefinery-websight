@@ -1,5 +1,5 @@
 {
-    "group": "Typerefinery - Graphs",
+    "group": "Typerefinery - Widgets",
     "sling:resourceType": "ws:Component",
     "description": "Chart",
     "title": "Chart"

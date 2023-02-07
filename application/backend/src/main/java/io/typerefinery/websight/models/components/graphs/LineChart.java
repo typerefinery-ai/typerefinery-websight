@@ -56,5 +56,5 @@ public class LineChart extends BaseComponent {
     @Getter
     @Inject
     @Default (values = "lineChartWithoutlabel")
-    public String chartVarient;
+    public String chartVariant;
 }

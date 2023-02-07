@@ -5,10 +5,10 @@
     "general": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "chartVarient": {
+      "chartVariant": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "graphVarient",
-        "label": "Graph Varients",
+        "name": "graphVariant",
+        "label": "Choose Graph Variants",
         "pieChartPolar": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Pie (Polar)",
@@ -32,12 +32,12 @@
         "lineChartWithlabel": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Line Chart (With Label)",
-          "value": "lineChartWithlabel"
+          "value": "lineChart"
         },
         "lineChartWithoutlabel": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Line Chart (Without Label)",
-          "value": "lineChartWithoutlabel",
+          "value": "lineChartWithoutLabel",
           "selected": "true"
         }
       }
