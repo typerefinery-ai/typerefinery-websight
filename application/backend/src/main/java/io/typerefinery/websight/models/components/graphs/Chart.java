@@ -17,16 +17,16 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import io.typerefinery.websight.models.components.BaseComponent;
 
 
-@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/graphs/linechart" }, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/graphs/chart" }, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
-public class LineChart extends BaseComponent {
+public class Chart extends BaseComponent {
     @SlingObject
     private ResourceResolver resourceResolver;
     
     
-    private static final String DEFAULT_ID = "linechart";
-    private static final String DEFAULT_CLASS_NAMES = "linechart";
-    private static final String DEFAULT_MODULE = "linechartComponent";
+    private static final String DEFAULT_ID = "chart";
+    private static final String DEFAULT_CLASS_NAMES = "chart";
+    private static final String DEFAULT_MODULE = "chartComponent";
     
     @Override
     @PostConstruct
@@ -40,7 +40,7 @@ public class LineChart extends BaseComponent {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/linechart/mock/datasource1.json")
+    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/chart/mock/datasource1.json")
     public String dataSource;
     
     @Getter

@@ -1,0 +1,11 @@
+<template data-sly-template.chart="${ @ model }">
+    <div 
+        class="${model.classNames}"
+        id="${model.id}"
+        data-model="${model.jsonString}"
+        data-module="chart"
+    >
+        <canvas width="100%" id="${resource.path}-chart">
+        </canvas>
+    </div>
+</template>

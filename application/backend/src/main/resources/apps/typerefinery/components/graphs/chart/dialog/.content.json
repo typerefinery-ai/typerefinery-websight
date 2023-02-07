@@ -1,0 +1,70 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "general": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "chartVarient": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "graphVarient",
+        "label": "Graph Varients",
+        "pieChartPolar": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Pie (Polar)",
+          "value": "pieChart"
+        },
+        "pieChartNonPolar": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Pie (Non Polar)",
+          "value": "pieChartNonPolar"
+        },
+        "barChartVertical": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Bar (Vertical)",
+          "value": "barChartVertical"
+        },
+        "barChartHorizontal": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Bar (Horizontal)",
+          "value": "barChartHorizontal"
+        },
+        "lineChartWithlabel": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Line Chart (With Label)",
+          "value": "lineChartWithlabel"
+        },
+        "lineChartWithoutlabel": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Line Chart (Without Label)",
+          "value": "lineChartWithoutlabel",
+          "selected": "true"
+        }
+      }
+    },
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source for this ticker.",
+        "label": "Data Source"
+      }
+    },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "WebSocket Data Source",
+      "websocketHost": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketHost",
+        "label": "Websocket Host"
+      },
+      "websocketTopic": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "websocketTopic",
+        "label": "Websocket Topic"
+      }
+    }
+  }
+}
