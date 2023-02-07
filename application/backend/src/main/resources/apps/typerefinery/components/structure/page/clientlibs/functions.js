@@ -3,9 +3,12 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Theme = Typerefinery.Theme || {};
 window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
+window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
+window.Typerefinery.Components.Widgets.Charts = Typerefinery.Components.Widgets.Charts || {};
+window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Components.Widgets.Charts.Instances || {};
 
-; (function (ns, themeNs, clientNs, componentNs, document, window) {
-    
+; (function (ns, themeNs, clientNs, componentNs, chartInstances, document, window) {
+
     "use strict";
     ns.handleTheme = () => {
         const currentTheme = localStorage.getItem('theme');
@@ -23,31 +26,31 @@ window.MessageService.Client = MessageService.Client || {};
     ns.hostAdded = (newHost) => {
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
         const filteredHost = listOfHost.filter(host => host === newHost);
-        if(filteredHost.length === 0) {
+        if (filteredHost.length === 0) {
             listOfHost.push(newHost);
             localStorage.setItem("tmsHost", JSON.stringify(listOfHost));
         }
     }
     ns.tmsConnection = () => {
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '["ws://localhost:8112/$tms"]')
-        
+
         function payload_insert(data) {
             console.log("--------------------------Payload Inserted ------------------------");
         }
 
         listOfHost.forEach(host => {
-            try{
+            try {
                 // connect to websocket
                 clientNs?.connect(host, function () {
                     clientNs?.subscribe("payload_insert", payload_insert);
                 });
-            }catch(error) {
+            } catch (error) {
                 console.log("page/clientlibs/functions");
                 console.error(error);
             }
-            
+
         })
-        
+
 
         // listen to messages.
         window.addEventListener(
@@ -64,9 +67,9 @@ window.MessageService.Client = MessageService.Client || {};
                         if ($component) {
                             if ($component.getAttribute('data-module') === 'tickerComponent') {
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'chartComponent') {
+                            } else if ($component.getAttribute('data-module') === 'chartComponent') {
                                 componentNs?.Widgets?.Chart?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'tableComponent') {
+                            } else if ($component.getAttribute('data-module') === 'tableComponent') {
                                 componentNs?.Widgets?.Table?.dataReceived(payload.data, $component);
                             }
                         }
@@ -75,10 +78,31 @@ window.MessageService.Client = MessageService.Client || {};
             }
         );
     }
+
+    ns.toggleTheme = () => {
+        const themeStyles = document.getElementById("themeStyles");
+        if (themeStyles) {
+            const currentTheme = themeStyles.getAttribute('active') || 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            themeStyles.setAttribute("active", newTheme)
+            themeStyles.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)
+            localStorage.setItem("theme", newTheme);
+            setTimeout(() => {
+                Object.entries(chartInstances).forEach($chart => {
+                    $chart[1]?.update();
+                })
+            }, 15);
+        }
+    }
+
     ns.init = () => {
         const rootElement = document.querySelector(':root');
         themeNs.rootElementStyle = getComputedStyle(rootElement);
         ns.handleTheme();
+
+        $("#themeHandler").click(function () {
+            ns.toggleTheme();
+        });
 
         // TODO: Remove setTimeout.
         setTimeout(() => {
@@ -87,4 +111,4 @@ window.MessageService.Client = MessageService.Client || {};
 
     };
 
-})(window.Typerefinery, window.Typerefinery.Theme, window.MessageService.Client, window.Typerefinery.Components, document, window);
+})(window.Typerefinery, window.Typerefinery.Theme, window.MessageService.Client, window.Typerefinery.Components, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);
