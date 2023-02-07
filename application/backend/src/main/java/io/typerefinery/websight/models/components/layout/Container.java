@@ -31,6 +31,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
@@ -44,62 +45,66 @@ import io.typerefinery.websight.utils.LinkUtil;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Container implements Styled, Grid {
 
-  private static final String BACKGROUND_NONE = "none";
-  private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
+    private static final String BACKGROUND_NONE = "none";
+    private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
-  @SlingObject
-  private ResourceResolver resourceResolver;
+    @RequestAttribute(name = "decorationTagName")
+    @Default(values = "div")
+    protected String decorationTagName;
 
-  @Inject
-  private String backgroundImageSm;
+    @SlingObject
+    private ResourceResolver resourceResolver;
 
-  @Inject
-  private String backgroundImageMd;
+    @Inject
+    private String backgroundImageSm;
 
-  @Inject
-  private String backgroundImageLg;
+    @Inject
+    private String backgroundImageMd;
 
-  public String getBackgroundImageSm() {
-    return getBackgroundImage(backgroundImageSm);
-  }
+    @Inject
+    private String backgroundImageLg;
 
-  public String getBackgroundImageMd() {
-    return getBackgroundImage(backgroundImageMd);
-  }
-
-  public String getBackgroundImageLg() {
-    return getBackgroundImage(backgroundImageLg);
-  }
-
-  private String getBackgroundImage(String image) {
-    if (StringUtils.isEmpty(image)) {
-      return BACKGROUND_NONE;
+    public String getBackgroundImageSm() {
+        return getBackgroundImage(backgroundImageSm);
     }
 
-    return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
-  }
+    public String getBackgroundImageMd() {
+        return getBackgroundImage(backgroundImageMd);
+    }
 
-  @Self
-  private DefaultStyledComponent style;
+    public String getBackgroundImageLg() {
+        return getBackgroundImage(backgroundImageLg);
+    }
 
-  @Self
-  @Delegate
-  private DefaultGridComponent grid;
+    private String getBackgroundImage(String image) {
+        if (StringUtils.isEmpty(image)) {
+        return BACKGROUND_NONE;
+        }
 
-  private String[] componentClasses;
+        return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
+    }
 
-  @Override
-  public String[] getClasses() {
-    return componentClasses;
-  }
+    @Self
+    private DefaultStyledComponent style;
 
-  @PostConstruct
-  private void init() {
-    componentClasses = Stream.concat(
-            Arrays.stream(style.getClasses()),
-            new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
-        .collect(Collectors.toCollection(LinkedHashSet::new))
-        .toArray(new String[]{});
-  }
+    @Self
+    @Delegate
+    private DefaultGridComponent grid;
+
+    private String[] componentClasses;
+
+    @Override
+    public String[] getClasses() {
+        return componentClasses;
+    }
+
+    @PostConstruct
+    private void init() {
+        componentClasses = Stream.concat(
+                Arrays.stream(style.getClasses()),
+                new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+    }
 
 }
