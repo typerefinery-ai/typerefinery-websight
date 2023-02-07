@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.resource.Resource;
@@ -37,6 +38,8 @@ import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
+import org.apache.sling.api.SlingConstants;
+
 import static io.typerefinery.websight.utils.PageUtil.PRIMARY_TYPE_PAGE;;
 
 @Component(
@@ -60,6 +63,10 @@ public class FlowService {
     public static final String PROPERTY_EDITURL = "editurl";
     public static final String PROPERTY_ENABLE = "enable";
 
+    public final String[] FLOW_ENABLED_COMPONENTS = {
+        "typerefinery/components/workflow/flow",
+        "typerefinery/components/widgets/ticker"
+    };
 
     public FlowServiceConfiguration configuration;
 
@@ -403,12 +410,23 @@ public class FlowService {
             return false;
         }
         ValueMap properties = resource.getValueMap();
+        String slingResourceType = properties.get(SlingConstants.PROPERTY_RESOURCE_TYPE, "");
+        boolean isComponentFlowEnabled = ArrayUtils.contains(this.FLOW_ENABLED_COMPONENTS, slingResourceType);
+
+        // quick exit
+        if (isComponentFlowEnabled == false) {
+            return false;
+        }
+
+        // String primaryType = properties.get(JcrConstants.JCR_PRIMARYTYPE, "");
         boolean isPage = properties.get(JcrConstants.JCR_PRIMARYTYPE, "").equals(PRIMARY_TYPE_PAGE);
 
         String flowstreamid = properties.get(prop(PROPERTY_FLOWSTREAMID), "");
         boolean flowenabled = properties.get(prop(PROPERTY_ENABLE), false);
 
-        LOGGER.info("isFlowEnabledResource: isPage: {}, flowenabled: {}, flowstreamid: {}", isPage, flowenabled, flowstreamid);
+        LOGGER.info("isFlowEnabledResource: isPage: {}, isComponentFlowEnabled: {}, flowenabled: {}, flowstreamid: {}", 
+            isPage, isComponentFlowEnabled, flowenabled, flowstreamid
+        );
 
         if (flowenabled && StringUtils.isNotBlank(flowstreamid)) {
             return true;
