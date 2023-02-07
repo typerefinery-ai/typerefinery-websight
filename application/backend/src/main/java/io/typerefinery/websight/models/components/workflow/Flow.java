@@ -16,7 +16,7 @@ import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.typerefinery.websight.models.components.BaseModel;
+import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.services.workflow.FlowService;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
@@ -25,10 +25,11 @@ import static io.typerefinery.websight.services.workflow.FlowService.PROPERTY_ED
 import static io.typerefinery.websight.services.workflow.FlowService.prop;
 
 @Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-public class Flow extends BaseModel {
+public class Flow extends BaseComponent {
     
     private static final Logger LOG = LoggerFactory.getLogger(Flow.class);
-
+    private static final String DEFAULT_ID = "flow";
+    private static final String DEFAULT_MODULE = "flowComponent";
     // read properties from resource
 
     // if true will create/update flow
@@ -76,6 +77,10 @@ public class Flow extends BaseModel {
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
+        super.init();
+
         LOG.info("init template: {}", template);
 
         //quick fail
