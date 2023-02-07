@@ -7,38 +7,38 @@
       "label": "General",
       "chartVariant": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "graphVariant",
+        "name": "chartVariant",
         "label": "Choose Graph Variants",
-        "pieChartPolar": {
+        "lineChart": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Pie (Polar)",
+          "label": "Line Chart",
+          "value": "lineChart",
+          "selected": "true"
+        },
+        "barChart": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Bar Chart",
+          "value": "barChart"
+        },
+        "pieChart": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Pie Chart",
           "value": "pieChart"
         },
-        "pieChartNonPolar": {
+        "lineChartWithoutLabel": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Pie (Non Polar)",
-          "value": "pieChartNonPolar"
-        },
-        "barChartVertical": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Bar (Vertical)",
-          "value": "barChartVertical"
+          "label": "Line Chart(Without Label)",
+          "value": "lineChartWithoutLabel"
         },
         "barChartHorizontal": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Bar (Horizontal)",
+          "label": "Bar Chart(Horizontal)",
           "value": "barChartHorizontal"
         },
-        "lineChartWithlabel": {
+        "pieChartNonPolar": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Line Chart (With Label)",
-          "value": "lineChart"
-        },
-        "lineChartWithoutlabel": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Line Chart (Without Label)",
-          "value": "lineChartWithoutLabel",
-          "selected": "true"
+          "label": "Pie Chart(Non Polar)",
+          "value": "pieChartNonPolar"
         }
       }
     },

@@ -64,14 +64,8 @@ window.MessageService.Client = MessageService.Client || {};
                         if ($component) {
                             if ($component.getAttribute('data-module') === 'tickerComponent') {
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'linechartComponent') {
-                                componentNs?.Graphs?.LineChart?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'piechartComponent') {
-                                componentNs?.Graphs?.PieChart?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'xaxisbarchartComponent') {
-                                componentNs?.Graphs?.XAxisBarChart?.dataReceived(payload.data, $component)
-                            }else if ($component.getAttribute('data-module') === 'barchartComponent') {
-                                componentNs?.Graphs?.BarChart?.dataReceived(payload.data, $component);
+                            }else if ($component.getAttribute('data-module') === 'chartComponent') {
+                                componentNs?.Widgets?.Chart?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'tableComponent') {
                                 componentNs?.Widgets?.Table?.dataReceived(payload.data, $component);
                             }

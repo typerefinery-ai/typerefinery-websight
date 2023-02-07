@@ -2,14 +2,10 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Theme = Typerefinery.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.Variants = Typerefinery.Components.Widgets.Variants || {};
-window.Typerefinery.Components.Widgets.Variants.LineChart = Typerefinery.Components.Widgets.Variants.LineChart || {};
-// TODO :should be handle while update the theme
-window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.Chart.Instances || {};
-
-
-
+window.Typerefinery.Components.Widgets.Charts = Typerefinery.Components.Widgets.Charts || {};
+window.Typerefinery.Components.Widgets.Charts.Variants = Typerefinery.Components.Widgets.Charts.Variants || {};
+window.Typerefinery.Components.Widgets.Charts.Variants.LineChart = Typerefinery.Components.Widgets.Charts.Variants.LineChart || {};
+window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Components.Widgets.Charts.Instances || {};
 
 (function (ns, typerefineryNs, componentNs, themeNs, chartInstanceNs, document, window) {
   "use strict";
@@ -34,6 +30,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
     canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C"
   };
+
   ns.updateComponentHTML = (data, $component) => {
     if (!$component) {
       return;
@@ -46,7 +43,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     if (!componentConfig.resourcePath) {
       componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
     }
-    const ctx = document.getElementById(`${componentConfig.resourcePath}-linechart`).getContext("2d");
+    const ctx = document.getElementById(`${componentConfig.resourcePath}-chart`).getContext("2d");
 
     // Linear background for the chart.
     const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
@@ -69,8 +66,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       },
     };
 
-    // Line chart
-    const chartInstance = new Chart(ctx, {
+    const chartOptions = {
       type: "line",
       data: {
         labels: data.labels || componentConfig.labels,
@@ -118,9 +114,12 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         radius: 0
       },
       plugins: [plugin]
-    });
+    };
 
+    console.log("LINE CHART")
+    const chartInstance = new Chart(ctx, chartOptions);
 
+    // Stored in the namespace in order to update them.
     chartInstanceNs[componentConfig.resourcePath] = chartInstance;
   }
 
@@ -172,13 +171,14 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       ...componentConfig,
       ...DEFAULT_DATA,
     };
-    const ctx = document.getElementById(`${componentConfig.resourcePath}-linechart`).getContext("2d");
+    const ctx = document.getElementById(`${componentConfig.resourcePath}-chart`).getContext("2d");
     // Linear background for the chart.
     const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
     chartBackgroundGradientColor.addColorStop(0.2, "#1c92d2");
     chartBackgroundGradientColor.addColorStop(0.4, "rgba(27, 145, 209, 0.6)");
     chartBackgroundGradientColor.addColorStop(0.6, "rgba(27, 145, 209, 0.4)");
     chartBackgroundGradientColor.addColorStop(1, "rgba(27, 145, 209, 0)");
+    
     chartInstanceNs[componentConfig.resourcePath].data = {
       labels: data.labels || componentConfig.labels,
       datasets: [
@@ -186,14 +186,11 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
           label: data.labelName || componentConfig.labelName,
           data: data.chartData || componentConfig.chartData,
           fill: true,
-          borderColor:
-            themeNs?.rootElementStyle?.getPropertyValue(
-              "--border-color"
-            ).trim() || "#0099DE",
+          borderColor: themeNs?.rootElementStyle?.getPropertyValue("--border-color").trim() || "#0099DE",
           tension: 0.3,
-          backgroundColor: chartBackgroundGradientColor,
-        },
-      ],
+          backgroundColor: chartBackgroundGradientColor
+        }
+      ]
     };
 
     chartInstanceNs[componentConfig.resourcePath].update();
@@ -204,8 +201,6 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
   }
 
   ns.init = ($component) => {
-
-    console.log("componentConfig", $component);
     // parse json value from data-model attribute as component config
     const componentConfig = componentNs.getComponentConfig($component);
     const componentTopic = componentConfig.websocketTopic;
@@ -213,8 +208,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     const componentDataSource = componentConfig.dataSource;
     const componentPath = componentConfig.resourcePath;
 
-    console.log("componentConfig", componentConfig);
-
+    // TODO: Update the data-module for the TMS Connection.
 
     // TMS.
     if (componentHost && componentTopic) {
@@ -231,4 +225,4 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       ns.modelDataConnected($component);
     }
   }
-})(window.Typerefinery.Components.Widgets.Variants.LineChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Chart.Instances, document, window);
+})(window.Typerefinery.Components.Widgets.Charts.Variants.LineChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);

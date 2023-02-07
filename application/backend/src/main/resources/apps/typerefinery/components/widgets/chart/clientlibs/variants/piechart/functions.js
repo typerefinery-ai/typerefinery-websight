@@ -4,39 +4,33 @@ window.Typerefinery.Theme = Typerefinery.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Charts = Typerefinery.Components.Widgets.Charts || {};
 window.Typerefinery.Components.Widgets.Charts.Variants = Typerefinery.Components.Widgets.Charts.Variants || {};
-window.Typerefinery.Components.Widgets.Charts.Variants.BarChart = Typerefinery.Components.Widgets.Charts.Variants.BarChart || {};
+window.Typerefinery.Components.Widgets.Charts.Variants.PieChart = Typerefinery.Components.Widgets.Charts.Variants.PieChart || {};
 window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Components.Widgets.Charts.Instances || {};
 
 (function (ns, typerefineryNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
 
     const DEFAULT_DATA = {
-        chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
-        labelName: "Typerefinery Bar Chart",
-        barbackgroundcolor: [
-            "#3d405b",
-            "#b9fbc0",
-            "#FFB94E",
-            "#228B22",
-            "#FFB94E",
-            "#ED7117",
-            "#3d405b",
-            "#005f73",
-            "#52796f",
+        labels: ["Group A", "Group B", "Group C", "Group D", "Group E", "Group F"],
+        labelName: "Typerefinery Pie Chart",
+        chartData: [178, 53, 83, 15, 2, 4],
+        backgroundColorForData: [
+            "rgba(255, 84, 84, 0.24)",
+            "rgba(93, 255, 84, 0.24)",
+            "rgba(90, 84, 255, 0.14)",
+            "rgba(255, 168, 84, 0.14)",
+            "rgba(255, 255, 84, 0.24)",
+            "rgba(171, 0, 125, 0.19)",
         ],
-        labels: [
-            "Trazen:Win32/Qakbot",
-            "Ranson:Win32/Egre..",
-            "Quakbot",
-            "Android",
-            "Emotet",
-            "XAgentOSX",
-            "Pteranodon",
-            "PsExec",
-            "Minikatz",
+        borderColorForData: [
+            "rgba(255, 84, 84, 2222)",
+            "rgba(93, 255, 84, 1)",
+            "rgba(89, 84, 255, 1)",
+            "rgba(255, 168, 84, 1)",
+            "rgba(255, 255, 84, 1)",
+            "rgba(171, 0, 125, 1)",
         ],
-        dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40",
+        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue("--primary-object-background-color") || "#343a40",
     };
 
     ns.updateComponentHTML = (data, $component) => {
@@ -44,15 +38,14 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             return;
         }
         let componentConfig = componentNs.getComponentConfig($component);
-
         componentConfig = {
             ...componentConfig,
-            ...DEFAULT_DATA,
-        };
-
-        const ctx = document
-            .getElementById(`${componentConfig.resourcePath}-chart`)
-            .getContext("2d");
+            ...DEFAULT_DATA
+        }
+        if (!componentConfig.resourcePath) {
+            componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
+        }
+        const ctx = document.getElementById(`${componentConfig.resourcePath}-chart`).getContext("2d");
 
         // Plugin to update the canvas Background.
         const plugin = {
@@ -61,69 +54,68 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
                 const { ctx } = chart;
                 ctx.save();
                 ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40";
+                // data.canvasBackgroundColor
+                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
             },
         };
 
         const chartOptions = {
-            type: "bar",
+            type: "polarArea",
             data: {
                 labels: data.labels || componentConfig.labels,
                 datasets: [
                     {
-                        axis: "y",
+                        label: data.labelName || componentConfig.labelName,
                         data: data.chartData || componentConfig.chartData,
-                        fill: false,
-                        backgroundColor:
-                            data.barbackgroundcolor || componentConfig.barbackgroundcolor,
+                        backgroundColor: data.backgroundColorForData || componentConfig.backgroundColorForData,
                         borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-                        borderWidth: 1
-                    }
-                ]
+                    },
+                ],
             },
             options: {
-                indexAxis: "y",
                 plugins: {
                     legend: {
-                        display: false,
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false,
-                        },
-                        ticks: {
-                            color: "#5D7183"
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: themeNs?.rootElementStyle.getPropertyValue("--grid-color")
-                        },
-                        ticks: {
-                            color: "#5D7183"
+                        display: true,
+                        position: "right",
+                        usePointStyle: true,
+                        labels: {
+                            color: "#5D7183",
+                            usePointStyle: true
                         }
                     }
                 },
                 customCanvasBackgroundColor: {
-                    color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color') || data.canvasBackgroundColor,
+                    color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color'),
                 },
-                interaction: {
-                    intersect: false
+                scales: {
+                    r: {
+                        grid: {
+                            color: themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
+                        },
+                        ticks: {
+                            color: "#5D7183",
+                            z: 0,
+                            showLabelBackdrop: false,
+                            precision: 0
+                        }
+                    },
                 },
-                radius: 0
+                scale: {
+                    ticks: {
+                        z: 1
+                    }
+                }
             },
             plugins: [plugin]
-        }
+        };
 
         const chartInstance = new Chart(ctx, chartOptions);
 
         // Stored in the namespace in order to update them.
         chartInstanceNs[componentConfig.resourcePath] = chartInstance;
-    };
+    }
 
     ns.jsonConnected = async (dataSourceURL, $component) => {
         try {
@@ -133,10 +125,11 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
                 return;
             }
             ns.modelDataConnected($component);
-        } catch (error) {
+        }
+        catch (error) {
             ns.modelDataConnected($component);
         }
-    };
+    }
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
@@ -152,20 +145,19 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
                 return;
             }
             ns.updateComponentHTML(JSON.parse(componentData), $component);
-        } catch (error) {
+        }
+        catch (error) {
             ns.modelDataConnected($component);
         }
-    };
+    }
 
     ns.modelDataConnected = ($component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
+        // Passing {} because, The values from the model obj are fetched in below function definition.
         ns.updateComponentHTML({}, $component);
-    };
+    }
+
     ns.updateChartInstance = (data, $component) => {
         if (!$component) {
-            console.log(
-                "[Barchart/clientlibs/functions.js] component does not exist"
-            );
             return;
         }
         let componentConfig = componentNs.getComponentConfig($component);
@@ -173,35 +165,13 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             ...componentConfig,
             ...DEFAULT_DATA,
         };
+        
+        // TODO: Need to be completed.
+    }
 
-        chartInstanceNs[componentConfig.resourcePath].data = {
-            labels: data.labels || componentConfig.labels,
-            datasets: [
-                {
-                    axis: "y",
-                    data: data.chartData || componentConfig.chartData,
-                    fill: false,
-                    backgroundColor: data.dataSetBorderColor ||
-                        componentConfig.dataSetBorderColor ||
-                        themeNs?.rootElementStyle.getPropertyValue(
-                            "--primary-object-border-color"
-                        ) ||
-                        "#001E3C",
-                    borderColor:
-                        data.dataSetBorderColor ||
-                        componentConfig.dataSetBorderColor ||
-                        themeNs?.rootElementStyle.getPropertyValue("--primary-object-border-color") || "#001E3C",
-                    borderWidth: 1,
-                },
-            ],
-        };
-
-        chartInstanceNs[componentConfig.resourcePath].update();
-    };
     ns.dataReceived = (data, $component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
         ns.updateChartInstance(data, $component);
-    };
+    }
 
     ns.init = ($component) => {
         // parse json value from data-model attribute as component config
@@ -210,7 +180,9 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
         const componentPath = componentConfig.resourcePath;
-        
+
+        // TODO: Update the data-module for the TMS Connection.
+
         // TMS.
         if (componentHost && componentTopic) {
             $component.setAttribute("id", componentTopic);
@@ -221,9 +193,9 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             $component.setAttribute("id", componentPath);
             ns.jsonConnected(componentDataSource, $component);
         }
-        // MODEL
+        // MODEL 
         else {
             ns.modelDataConnected($component);
         }
-    };
-})(window.Typerefinery.Components.Widgets.Charts.Variants.BarChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);
+    }
+})(window.Typerefinery.Components.Widgets.Charts.Variants.PieChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);

@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
@@ -39,8 +38,6 @@ public class Chart extends BaseComponent {
 
     @Getter
     @Inject
-    // @Default (values =
-    // "http://localhost:8080/apps/typerefinery/components/chart/mock/datasource1.json")
     public String dataSource;
 
     @Getter
@@ -50,7 +47,6 @@ public class Chart extends BaseComponent {
 
     @Getter
     @Inject
-    // @Default (values = "")
     public String websocketTopic;
 
     @Getter
