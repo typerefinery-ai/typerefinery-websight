@@ -116,9 +116,7 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
       plugins: [plugin]
     };
 
-    console.log("LINE CHART")
     const chartInstance = new Chart(ctx, chartOptions);
-
     // Stored in the namespace in order to update them.
     chartInstanceNs[componentConfig.resourcePath] = chartInstance;
   }
