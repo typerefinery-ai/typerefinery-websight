@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.TreeMap;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 
@@ -39,6 +40,13 @@ public class SideBar extends BaseComponent {
     private NavigationComponent navigation;
 
     
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+    }
+    
+
     /**
      * Returns the tree as a JSON string
      * @return the tree as a JSON string
