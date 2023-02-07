@@ -16,29 +16,35 @@
 package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.models.annotations.Model;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
 import lombok.Getter;
+
+import io.typerefinery.websight.models.components.BaseFormComponent;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Checkbox {
-    @Inject
-    @Getter
-    @Default(values = "checkbox")
-    private String name;
+public class Checkbox extends BaseFormComponent {
 
-    @Inject
-    @Getter
-    @Default(values = "Checkbox")
-    private String label;
-
-    @Inject
-    @Getter
-    @Default(values = "checkbox")
-    private String cls;
+    protected static final String DEFAULT_LABEL = "Checkbox";
 
     @Inject
     @Getter
     @Default(values = "false")
     private String value;
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+
+        if (StringUtils.isBlank(label)) {
+            label = DEFAULT_LABEL;
+        }
+        
+    }
+
 }

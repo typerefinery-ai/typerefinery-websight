@@ -6,21 +6,12 @@
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
       "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "label",
-        "label": "Label"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
       "fieldName": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "name",
-        "label": "Name",
-        "required": true,
-        "description": "Make sure every check box have unique name."
-      },
-      "fieldClass": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "cls",
-        "label": "Style"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       }
     }
   }

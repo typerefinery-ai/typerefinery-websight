@@ -23,6 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
@@ -45,6 +47,15 @@ public class DefaultStyledComponent implements Styled {
 
   public String[] getClasses() {
     return componentClasses;
+  }
+
+  public void addClasses(String className) {
+    if (componentClasses == null) {
+        componentClasses = new String[]{};
+    }
+
+    ArrayUtils.add(componentClasses, className);
+    
   }
 
   @PostConstruct

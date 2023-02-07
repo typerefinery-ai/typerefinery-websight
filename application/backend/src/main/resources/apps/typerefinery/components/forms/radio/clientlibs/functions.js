@@ -2,7 +2,7 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
-window.Typerefinery.Components.Forms.RadioButton = Typerefinery.Components.Forms.RadioButton || {};
+window.Typerefinery.Components.Forms.Radio = Typerefinery.Components.Forms.Radio || {};
 
 ; (function (ns, componentNs, window, document) {
     "use strict";
@@ -24,4 +24,4 @@ window.Typerefinery.Components.Forms.RadioButton = Typerefinery.Components.Forms
         componentNs.registerComponent(data);
     }
 
-})(window.Typerefinery.Components.Forms.RadioButton, window.Typerefinery.Components, window, document);
+})(window.Typerefinery.Components.Forms.Radio, window.Typerefinery.Components, window, document);

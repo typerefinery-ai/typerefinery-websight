@@ -1,0 +1,16 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "General",
+  "fieldLabel": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "label",
+    "label": "Label"
+  },
+  "fieldName": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "name",
+    "label": "Name",
+    "required": true,
+    "description": "Make sure every check box have unique name."
+  }
+}

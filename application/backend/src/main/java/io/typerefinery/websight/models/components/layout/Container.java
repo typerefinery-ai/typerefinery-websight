@@ -40,22 +40,28 @@ import io.typerefinery.websight.models.components.DefaultGridComponent;
 import io.typerefinery.websight.utils.GridDisplayType;
 import io.typerefinery.websight.utils.GridStyle;
 import io.typerefinery.websight.utils.LinkUtil;
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-public class Container extends BaseComponent implements Grid {
+public class Container extends BaseComponent {
 
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
     @RequestAttribute(name = "decorationTagName")
-    @Default(values = "div")
+    @Default(values = "")
     private String decorationTagName;
 
     @SlingObject
     private ResourceResolver resourceResolver;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String type;
 
     @Inject
     private String backgroundImageSm;
@@ -86,9 +92,6 @@ public class Container extends BaseComponent implements Grid {
         return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
     }
 
-    @Self
-    @Delegate
-    private DefaultGridComponent grid;
 
     @Override
     public String[] getClasses() {
@@ -104,15 +107,15 @@ public class Container extends BaseComponent implements Grid {
     protected void init() {
         super.init();
 
-        grid = resource.adaptTo(DefaultGridComponent.class);
         
-        if (grid != null && this.getStyle() != null) {
-            componentClasses = Stream.concat(
-                Arrays.stream(this.getStyle().getClasses()),
-                new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
+        if (StringUtils.isBlank(decorationTagName)) {
+            decorationTagName = "div";
         }
+
+        if (StringUtils.isNotBlank(type)) {
+            decorationTagName = type;
+        }
+
     }
 
 }

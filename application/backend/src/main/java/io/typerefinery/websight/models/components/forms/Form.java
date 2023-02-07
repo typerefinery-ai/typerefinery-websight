@@ -20,8 +20,11 @@ import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
+
+import io.typerefinery.websight.models.components.BaseFormComponent;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Form {
+public class Form extends BaseFormComponent {
   @Inject
   @Getter
   private String url;

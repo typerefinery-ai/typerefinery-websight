@@ -15,25 +15,30 @@
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Style",
-      "cssClasses": {
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tab/style/classes"
+      },
+      "theme": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "classes",
+        "name": "theme",
+        "label": "Theme",
         "default": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Default",
           "selected": true,
           "value": ""
         },
-        "black": {
+        "checked": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Checked bullet points",
-          "value": "hl-rich-text--checked-bullet-points"
+          "value": "checked"
         }
       }
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/libs/howlite/components/common/gridTab"
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }

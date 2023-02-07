@@ -31,7 +31,7 @@ import lombok.experimental.Delegate;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
-public class BaseComponent extends BaseModel implements Styled {
+public class BaseComponent extends BaseModel implements Styled, Grid {
 
     @Getter
     @Inject
@@ -47,9 +47,19 @@ public class BaseComponent extends BaseModel implements Styled {
 
     @Self
     protected DefaultStyledComponent style;
+
+    @Self
+    @Delegate
+    protected DefaultGridComponent grid;
+
     
     public DefaultStyledComponent getStyle() {
         return style;
+    }
+  
+
+    public DefaultGridComponent getGrid() {
+        return grid;
     }
   
 
@@ -69,12 +79,15 @@ public class BaseComponent extends BaseModel implements Styled {
         super.init();
 
         style = resource.adaptTo(DefaultStyledComponent.class);
+        grid = resource.adaptTo(DefaultGridComponent.class);
 
         // collect all authorable classes
-        if (style != null) {
-            componentClasses = Arrays.stream(style.getClasses())
-                .collect(Collectors.toCollection(LinkedHashSet::new))
-                .toArray(new String[]{});
+        if (grid != null && style != null) {
+            componentClasses = Stream.concat(
+                Arrays.stream(style.getClasses()),
+                new GridStyle(grid, GridDisplayType.GRID).getClasses().stream())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
         }
 
         // get common properties

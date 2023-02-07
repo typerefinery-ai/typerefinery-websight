@@ -18,32 +18,34 @@ package io.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+
+import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.utils.GridDisplayType;
+import io.typerefinery.websight.utils.GridStyle;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Input {
+public class Input extends BaseFormComponent {
+
+    protected static final String DEFAULT_LABEL = "Input Text";
+    protected static final String DEFAULT_PLACEHOLDER = "Enter Text";
 
     @Inject
     @Getter
-    @Default(values = "Input Text")
-    private String name;
-
-    @Inject
-    @Getter
-    @Default(values = "Input Text")
-    private String label;
-
-    @Inject
-    @Getter
-    @Default(values = "input")
-    private String cls;
-
-    @Inject
-    @Getter
-    @Default(values = "Enter Text")
+    @Default(values = "")
     private String placeholder;
 
     @Inject
@@ -56,4 +58,41 @@ public class Input {
     @Default(values = "")
     private String inputSize;
     
+    private Map<String, String> inputSizeConfig = new HashMap<String, String>(){{
+        put("small", "p-inputtext-s");
+        put("normal", "");
+        put("large", "p-inputtext-m");
+    }};
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+
+        if (StringUtils.isNotBlank(inputSize)) {
+            inputSize = inputSizeConfig.getOrDefault(inputSize, "");
+        }
+
+        if (StringUtils.isBlank(label)) {
+            label = DEFAULT_LABEL;
+        }
+
+        if (StringUtils.isBlank(placeholder)) {
+            placeholder = DEFAULT_PLACEHOLDER;
+        }
+
+        
+        if (grid != null && style != null) {
+            style.addClasses(inputSize);
+            
+            componentClasses = Stream.concat(
+                Arrays.stream(style.getClasses()),
+                new GridStyle(grid, GridDisplayType.GRID).getClasses().stream())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+
+
+    }
+
 }

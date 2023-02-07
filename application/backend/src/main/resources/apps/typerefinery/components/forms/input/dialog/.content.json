@@ -6,20 +6,17 @@
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
       "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "label",
-        "label": "Label"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      },
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
       "placeholder": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "placeholder",
         "label": "Placeholder"
-      },
-      "fieldName": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "name",
-        "label": "Name",
-        "required": true
       },
       "inputType": {
         "sling:resourceType": "wcm/dialogs/components/select",
@@ -46,27 +43,40 @@
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Style",
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tab/style/classes"
+      },
       "inputSize": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputSize",
         "label": "Size",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
         "small": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Small",
-          "value": "p-inputtext-s"
+          "value": "small"
         },
         "normal": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Normal",
-          "value": ""
+          "value": "normal"
         },
         "large": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Medium",
-          "value": "p-inputtext-m",
-          "selected": true
+          "value": "large"
         }
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }
