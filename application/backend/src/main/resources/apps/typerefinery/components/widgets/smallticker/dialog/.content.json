@@ -15,18 +15,61 @@
         "name": "value",
         "default": "556578",
         "label": "Value"
-      },
-      "bgColor": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "bgColor",
-        "description": "Please provide hex color code",
-        "label": "Background Color"
-      },
-      "textColor": {
-        "sling:resourceTypse": "wcm/dialogs/components/textfield",
-        "name": "textColor",
-        "description": "Please provide hex color code",
-        "label": "Text Color"
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "backGroundVariant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "backGroundClass",
+        "label": "Background Color",
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary",
+          "selected": true
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "indigo": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Indigo",
+          "value": "indigo"
+        },
+        "purple": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Purple",
+          "value": "purple"
+        },
+        "light-brown": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light Brown",
+          "value": "light-brown"
+        },
+        "light-green": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light Green",
+          "value": "light-green"
+        },
+        "green": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Green",
+          "value": "green"
+        },
+        "dark-blue": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark Blue",
+          "value": "dark-blue"
+        },
+        "brown": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Brown",
+          "value": "brown"
+        }
       }
     },
     "websocketTab": {

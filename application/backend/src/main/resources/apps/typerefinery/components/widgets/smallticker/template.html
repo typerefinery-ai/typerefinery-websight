@@ -1,14 +1,12 @@
 <template data-sly-template.smallTicker="${ @ model }">
   <div
-    class="smallticker"
-    id="smallticker"
-    data-path="${resource.path}"
+    
+    id=${model.id}
     data-module="smallTickerComponent"
     class="${model.classNames}"
-    data-bgColor="${model.bgColor}"
     data-model="${model.jsonString}"
   >
-    <div class="columnticker" >
+    <div class="columnticker">
       <div>
         <div class="ticker-value">${model.value}</div>
         <div class="ticker-title">${model.title}</div>

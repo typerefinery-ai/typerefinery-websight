@@ -51,16 +51,6 @@ public class SmallTicker extends BaseComponent {
 
         @Getter
         @Inject
-        // @Default(values = "#D35400")
-        public String textColor;
-
-        @Getter
-        @Inject
-        // @Default(values = "#F8C471")
-        public String bgColor;
-
-        @Getter
-        @Inject
         // @Default (values =
         // "http://localhost:8080/apps/typerefinery/components/widgets/smallticker/mock/dataSource1.json")
         public String dataSource;
@@ -79,4 +69,9 @@ public class SmallTicker extends BaseComponent {
         @Inject
         @Default(values = "")
         public String flowapi_topic;
+
+        @Getter
+        @Inject
+        // @Default (values = "")
+        public String backGroundClass;
 }

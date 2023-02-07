@@ -64,6 +64,8 @@ window.MessageService.Client = MessageService.Client || {};
                         if ($component) {
                             if ($component.getAttribute('data-module') === 'tickerComponent') {
                                 componentNs?.Widgets?.Ticker?.dataReceived(payload.data, $component)
+                            }else if ($component.getAttribute('data-module') === 'smallTickerComponent') {
+                                componentNs?.Widgets?.SmallTicker?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'linechartComponent') {
                                 componentNs?.Graphs?.LineChart?.dataReceived(payload.data, $component)
                             }else if ($component.getAttribute('data-module') === 'piechartComponent') {

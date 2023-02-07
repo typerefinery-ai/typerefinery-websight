@@ -4,7 +4,7 @@ window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.SmallTicker =
   Typerefinery.Components.Widgets.SmallTicker || {};
 
-(function (ns, componentNs,typerefineryNs, window, document) {
+(function (ns,typerefineryNs,componentNs, window, document) {
   "use strict";
 
   ns.updateComponentHTML = (data, $component) => {
@@ -17,16 +17,10 @@ window.Typerefinery.Components.Widgets.SmallTicker =
     const componentConfig = componentNs.getComponentConfig($component);
     const innerHTML = `
         <div class="smallticker">
-        <div class="columnticker" style="background-color:${
-          data.bgColor || componentConfig.bgColor
-        }">
+        <div class="columnticker ${data.backGroundClass || componentConfig.backGroundClass}" >
           <div>
-            <div class="ticker-value" style="color:${
-              data.textColor || componentConfig.textColor
-            }">${data.value || componentConfig.value}</div>
-            <div class="ticker-title" style="color:${
-              data.textColor || componentConfig.textColor
-            }">${data.title || componentConfig.title}</div>
+            <div class="ticker-value">${data.value || componentConfig.value}</div>
+            <div class="ticker-title">${data.title || componentConfig.title}</div>
           </div>
         </div>
       </div>
@@ -81,8 +75,7 @@ window.Typerefinery.Components.Widgets.SmallTicker =
     const componentConfig = componentNs.getComponentConfig($component);
     const componentTopic = componentConfig.websocketTopic;
     const componentHost = componentConfig.websocketHost;
-    const componentDataSource = componentConfig.dataSource
-    
+    const componentDataSource = componentConfig.dataSource;   
     // TMS.
     if (componentHost && componentTopic) {
       $component.setAttribute("id", componentTopic);
@@ -98,9 +91,9 @@ window.Typerefinery.Components.Widgets.SmallTicker =
     }
   };
 })(
-  window.Typerefinery.Components.Widgets.SmallTicker,
-  window.Typerefinery.Components,
+  window.Typerefinery.Components.Widgets.SmallTicker,  
   window.Typerefinery,
+  window.Typerefinery.Components,
   window,
   document
 );

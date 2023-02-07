@@ -1,5 +1,5 @@
 {
   "value": "23.23K",
   "title": "Ticker 1",
-  "bgColor": "green"
+  "backGroundClass": "green"
 }
