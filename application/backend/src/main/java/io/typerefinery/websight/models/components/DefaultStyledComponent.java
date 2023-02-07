@@ -54,7 +54,7 @@ public class DefaultStyledComponent implements Styled {
         componentClasses = new String[]{};
     }
 
-    ArrayUtils.add(componentClasses, className);
+    componentClasses = ArrayUtils.add(componentClasses, className);
     
   }
 

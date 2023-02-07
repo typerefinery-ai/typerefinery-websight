@@ -127,7 +127,10 @@ public class Button extends BaseFormComponent {
             }
 
             style.addClasses(buttonSize);
-            style.addClasses(buttonVariant);
+            
+            if (StringUtils.isNotBlank(buttonVariant)) {
+                style.addClasses(buttonVariant);
+            }            
             
             componentClasses = Stream.concat(
                 Arrays.stream(style.getClasses()),
