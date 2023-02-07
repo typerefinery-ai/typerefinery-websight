@@ -2,8 +2,10 @@ package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
@@ -20,6 +22,22 @@ import io.typerefinery.websight.models.components.BaseComponent;
 public class SmallTicker extends BaseComponent {
         @SlingObject
         private ResourceResolver resourceResolver;
+        private static final String DEFAULT_ID = "smallticker";
+        private static final String DEFAULT_CLASS_NAMES = "smallticker";
+        private static final String DEFAULT_MODULE = "smallTickerComponent";
+        
+        @Override
+        @PostConstruct
+        protected void init() {
+                this.id = DEFAULT_ID;
+                this.classNames = DEFAULT_CLASS_NAMES;
+                this.module = DEFAULT_MODULE;
+                super.init();
+
+                if (StringUtils.isBlank(this.websocketTopic)) {
+                this.websocketTopic = this.flowapi_topic;
+                }
+        }
 
         @Getter
         @Inject
@@ -33,12 +51,12 @@ public class SmallTicker extends BaseComponent {
 
         @Getter
         @Inject
-        @Default(values = "#D35400")
+        // @Default(values = "#D35400")
         public String textColor;
 
         @Getter
         @Inject
-        @Default(values = "#F8C471")
+        // @Default(values = "#F8C471")
         public String bgColor;
 
         @Getter
@@ -56,4 +74,9 @@ public class SmallTicker extends BaseComponent {
         @Inject
         // @Default (values = "")
         public String websocketTopic;
+
+        @Getter
+        @Inject
+        @Default(values = "")
+        public String flowapi_topic;
 }
