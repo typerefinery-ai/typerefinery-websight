@@ -1,6 +1,0 @@
-{  
-  "sling:resourceType": "ws:PageTemplate",
-  "description": "Empty page",
-  "title": "Base",
-  "allowedChildren": ["/apps/typerefinery/templates/page"]
-}

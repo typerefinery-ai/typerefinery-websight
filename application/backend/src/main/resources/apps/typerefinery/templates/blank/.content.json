@@ -1,0 +1,10 @@
+{  
+  "sling:resourceType": "ws:PageTemplate",
+  "description": "Empty page",
+  "title": "Blank",
+  "allowedChildren": [
+    "/apps/typerefinery/templates/blank",
+    "/apps/typerefinery/templates/page",
+    "/apps/typerefinery/templates/dashboard"
+  ]
+}

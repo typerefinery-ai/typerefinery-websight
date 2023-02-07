@@ -1,6 +1,8 @@
 {
   "allowedChildren": [
-    "/apps/typerefinery/templates/page"    
+    "/apps/typerefinery/templates/blank",
+    "/apps/typerefinery/templates/page",
+    "/apps/typerefinery/templates/dashboard"
   ],
   "sling:resourceType": "ws:PagesTemplate",
   "title": "Typerefinery pages"

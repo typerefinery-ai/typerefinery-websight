@@ -80,19 +80,13 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
         
         @Activate
         protected void activate() {
-            //this.enabled = flowService.configuration.flow_page_change_listener_enabled();
+            this.enabled = flowService.configuration.flow_page_change_listener_enabled();
 
-            LOGGER.error("activated");
+            LOGGER.error("activated and enabled: {}", enabled);
         }
 
         @Override
         public void onChange(List<ResourceChange> changes) {
-            // BundleContext bundleContext = FrameworkUtil.getBundle(ContentAccessImpl.class).getBundleContext();
-            // ServiceReference factoryRef = bundleContext.getServiceReference(ContentAccessImpl.class.getName());
-            // if (factoryRef != null) {
-            //     ContentAccessImpl contentAccess1 = (ContentAccessImpl) bundleContext.getService(factoryRef);
-            // }
-            // this.enabled = flowService.configuration.flow_page_change_listener_enabled();
             if (enabled) {
 
                 try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
@@ -100,7 +94,6 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
                 } catch (Exception e) {
                   LOGGER.error("Could not get resource resolver", e);
                 }
-            
                 
             }
         }

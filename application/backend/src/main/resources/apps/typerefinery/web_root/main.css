@@ -248,3 +248,9 @@ h2.hl-title__heading.hl-title__heading--size-4 {
 .p-treenode-label {
   cursor: pointer;
 }
+
+.header {
+  background: var(--header-bg-color) !important; 
+  color: var(--header-text-color) !important; 
+  margin-top: 0rem !important;
+}
