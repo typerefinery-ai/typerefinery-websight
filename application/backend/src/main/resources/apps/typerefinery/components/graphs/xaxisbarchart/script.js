@@ -62,7 +62,7 @@ function drawxaxisbarchart(barChartData, id) {
       const { ctx } = chart;
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--primary-object-background-color') || "#99ffff";
+      ctx.fillStyle = window.rootEleStyle.getPropertyValue('--card-bg-color') || "#99ffff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     },
