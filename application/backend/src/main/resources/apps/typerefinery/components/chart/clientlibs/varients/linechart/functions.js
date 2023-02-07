@@ -1,8 +1,9 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Graphs = Typerefinery.Components.Graphs || {};
-window.Typerefinery.Components.Charts.Varients.LineChartWithLabel = Typerefinery.Components.Charts.Varients.LineChartWithLabel || {};
-window.Typerefinery.Components.Graphs.Items = Typerefinery.Components.Graphs.Items || {};
+window.Typerefinery.Components.Chart = Typerefinery.Components.Chart || {};
+window.Typerefinery.Components.Chart.Varients.LineChart = Typerefinery.Components.Chart.Varients.LineChart || {};
+// TODO :should be handle while update the theme
+window.Typerefinery.Components.Chart.Items = Typerefinery.Components.Chart.Items || {};
 window.Typerefinery.Theme = Typerefinery.Theme || {};
 
 const DEFAULT_LINE_CHART_DATA = {
@@ -203,12 +204,16 @@ const DEFAULT_LINE_CHART_DATA = {
     }
 
     ns.init = ($component) => {
+      
+      console.log("componentConfig",$component);
       // parse json value from data-model attribute as component config
       const componentConfig = componentNs.getComponentConfig($component);
       const componentTopic = componentConfig.websocketTopic;
       const componentHost = componentConfig.websocketHost;
       const componentDataSource = componentConfig.dataSource;
       const componentPath = componentConfig.resourcePath;
+
+      console.log("componentConfig",componentConfig);
 
       
       // TMS.
@@ -226,4 +231,4 @@ const DEFAULT_LINE_CHART_DATA = {
         ns.modelDataConnected($component);
       }
     }
-  })(window.Typerefinery.Components.Graphs.LineChart,window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Graphs.Items, DEFAULT_LINE_CHART_DATA, document, window);
+  })(window.Typerefinery.Components.Chart.Varients.LineChart,window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Chart.Items, DEFAULT_LINE_CHART_DATA, document, window);

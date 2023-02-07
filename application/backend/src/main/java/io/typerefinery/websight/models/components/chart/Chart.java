@@ -1,5 +1,4 @@
-package io.typerefinery.websight.models.components.graphs;
-
+package io.typerefinery.websight.models.components.chart;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -16,18 +15,18 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import io.typerefinery.websight.models.components.BaseComponent;
 
-
-@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/graphs/chart" }, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Model(adaptables = Resource.class, resourceType = {
+        "typerefinery/components/chart" }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Chart extends BaseComponent {
     @SlingObject
     private ResourceResolver resourceResolver;
-    
-    
+
     private static final String DEFAULT_ID = "chart";
     private static final String DEFAULT_CLASS_NAMES = "chart";
     private static final String DEFAULT_MODULE = "chartComponent";
-    
+
     @Override
     @PostConstruct
     protected void init() {
@@ -36,16 +35,16 @@ public class Chart extends BaseComponent {
         this.module = DEFAULT_MODULE;
         super.init();
     }
-    
-    
+
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/chart/mock/datasource1.json")
+    // @Default (values =
+    // "http://localhost:8080/apps/typerefinery/components/chart/mock/datasource1.json")
     public String dataSource;
-    
+
     @Getter
     @Inject
-    @Default (values = "ws://localhost:8112/$tms")
+    @Default(values = "ws://localhost:8112/$tms")
     public String websocketHost;
 
     @Getter
@@ -55,6 +54,6 @@ public class Chart extends BaseComponent {
 
     @Getter
     @Inject
-    @Default (values = "lineChartWithoutlabel")
+    @Default(values = "lineChart")
     public String chartVarient;
 }
