@@ -24,14 +24,12 @@ public class LeafletMap extends BaseComponent {
 
 
     private static final String DEFAULT_ID = "leafletMap";
-    private static final String DEFAULT_CLASS_NAMES = "leafletMap";
     private static final String DEFAULT_MODULE = "leafletMapComponent";
 
     @Override
     @PostConstruct
     protected void init() {
         this.id = DEFAULT_ID;
-        this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
     }

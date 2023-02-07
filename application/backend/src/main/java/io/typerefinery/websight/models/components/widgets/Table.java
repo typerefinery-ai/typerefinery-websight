@@ -40,14 +40,12 @@ import io.typerefinery.websight.models.components.BaseComponent;
 public class Table extends BaseComponent {
 
   private static final String DEFAULT_ID = "table";
-  private static final String DEFAULT_CLASS_NAMES = "table";
   private static final String DEFAULT_MODULE = "tableComponent";
   
   @Override
   @PostConstruct
   protected void init() {
       this.id = DEFAULT_ID;
-      this.classNames = DEFAULT_CLASS_NAMES;
       this.module = DEFAULT_MODULE;
       super.init();
    }
