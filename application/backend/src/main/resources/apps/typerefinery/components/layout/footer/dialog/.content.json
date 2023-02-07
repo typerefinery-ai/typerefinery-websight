@@ -7,7 +7,9 @@
       "label": "Logo",
       "lgImageSrc": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "image/lgImageSrc",
         "label": "Choose image"
       },
@@ -34,10 +36,12 @@
           "name": "image/openInNewTab",
           "label": "Open link in a new tab"
         },
-        "ws:display": {"condition": {
-          "sourceName": "image/showLink",
-          "values": true
-        }}
+        "ws:display": {
+          "condition": {
+            "sourceName": "image/showLink",
+            "values": true
+          }
+        }
       }
     },
     "menuTab": {
