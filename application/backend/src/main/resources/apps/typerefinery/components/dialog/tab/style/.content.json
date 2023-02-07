@@ -1,0 +1,9 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Style",
+  "classNames": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "classNames",
+    "label": "Class Names"
+  }
+}

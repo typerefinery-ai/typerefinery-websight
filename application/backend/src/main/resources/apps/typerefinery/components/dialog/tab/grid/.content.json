@@ -1,6 +1,6 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
-  "label": "Layout",
+  "label": "Grid",
   "smOffset": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "smOffset",
