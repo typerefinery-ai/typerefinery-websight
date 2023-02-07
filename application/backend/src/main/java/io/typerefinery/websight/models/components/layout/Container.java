@@ -21,12 +21,12 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import lombok.Getter;
-import lombok.experimental.Delegate;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
@@ -35,22 +35,24 @@ import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
+import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.DefaultGridComponent;
-import io.typerefinery.websight.models.components.DefaultStyledComponent;
 import io.typerefinery.websight.utils.GridDisplayType;
 import io.typerefinery.websight.utils.GridStyle;
 import io.typerefinery.websight.utils.LinkUtil;
+import lombok.experimental.Delegate;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Container implements Styled, Grid {
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+public class Container extends BaseComponent implements Grid {
 
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
     @RequestAttribute(name = "decorationTagName")
     @Default(values = "div")
-    protected String decorationTagName;
+    private String decorationTagName;
 
     @SlingObject
     private ResourceResolver resourceResolver;
@@ -85,26 +87,32 @@ public class Container implements Styled, Grid {
     }
 
     @Self
-    private DefaultStyledComponent style;
-
-    @Self
     @Delegate
     private DefaultGridComponent grid;
-
-    private String[] componentClasses;
 
     @Override
     public String[] getClasses() {
         return componentClasses;
     }
+    
+    public String getDecorationTagName() {
+        return decorationTagName;
+    }
 
+    // @Override
     @PostConstruct
-    private void init() {
-        componentClasses = Stream.concat(
-                Arrays.stream(style.getClasses()),
+    protected void init() {
+        super.init();
+
+        grid = resource.adaptTo(DefaultGridComponent.class);
+        
+        if (grid != null && this.getStyle() != null) {
+            componentClasses = Stream.concat(
+                Arrays.stream(this.getStyle().getClasses()),
                 new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
             .collect(Collectors.toCollection(LinkedHashSet::new))
             .toArray(new String[]{});
+        }
     }
 
 }
