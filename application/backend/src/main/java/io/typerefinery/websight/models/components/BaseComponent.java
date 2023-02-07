@@ -46,9 +46,14 @@ public class BaseComponent extends BaseModel implements Styled {
     public Resource currentPage; // resource of the page the component is on
 
     @Self
-    private DefaultStyledComponent style;
+    protected DefaultStyledComponent style;
     
-    private String[] componentClasses;
+    public DefaultStyledComponent getStyle() {
+        return style;
+    }
+  
+
+    protected String[] componentClasses;
   
     public String[] getClasses() {
       return componentClasses;
@@ -63,17 +68,13 @@ public class BaseComponent extends BaseModel implements Styled {
     protected void init() {
         super.init();
 
-        // add default class name as first class
-        componentClasses = new String[]{ this.getClass().getSimpleName().toLowerCase() };
+        style = resource.adaptTo(DefaultStyledComponent.class);
 
         // collect all authorable classes
         if (style != null) {
-            componentClasses = Stream.concat(
-                Arrays.stream(componentClasses),
-                 Arrays.stream(style.getClasses())
-                )
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
+            componentClasses = Arrays.stream(style.getClasses())
+                .collect(Collectors.toCollection(LinkedHashSet::new))
+                .toArray(new String[]{});
         }
 
         // get common properties

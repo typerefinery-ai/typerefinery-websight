@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import io.typerefinery.websight.models.components.layout.Styled;
 
@@ -34,6 +35,11 @@ public class DefaultStyledComponent implements Styled {
 
   @Inject
   private String classes;
+
+  @SlingObject
+  private Resource resource;
+
+  private String componentName;
 
   private String[] componentClasses;
 
@@ -44,6 +50,13 @@ public class DefaultStyledComponent implements Styled {
   @PostConstruct
   private void init() {
     List<String> componentClasses = new LinkedList<>();
+
+
+    // add default class name as first class
+    String resourceSuperType = resource.getResourceType();
+    componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+    componentClasses.add(componentName);
+
 
     if (StringUtils.isNotEmpty(classes)) {
       componentClasses.addAll(Arrays.asList(classes.split(" ")));
