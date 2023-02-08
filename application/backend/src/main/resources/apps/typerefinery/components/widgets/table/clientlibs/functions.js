@@ -2,6 +2,8 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
+window.Typerefinery.Page = Typerefinery.Page || {}; 
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 const DEFAULT_TABLE_DATA = {
     columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
@@ -19,12 +21,11 @@ const DEFAULT_TABLE_DATA = {
     search: false
 };
 
-; (function (ns, typerefineryNs, componentNs, DEFAULT_TABLE_DATA, window, document) {
+(function (ns, tmsNs, componentNs, DEFAULT_TABLE_DATA, document, window) {
     "use strict";
 
     ns.updateComponentHTML = (id, data, $component) => {
         if (!$component) {
-            console.log('[Table/clientlibs/functions.js] component does not exist')
             return;
         }
         if(!data?.columns || !data?.data) {
@@ -40,29 +41,31 @@ const DEFAULT_TABLE_DATA = {
         });
     }
 
-    ns.jsonConnected = async (dataSourceURL, $component) => {
+    ns.jsonConnected = async (dataSourceURL, componentPath, $component) => {
         try {
             
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
-                ns.updateComponentHTML(dataSourceURL, response, $component);
+                ns.updateComponentHTML(componentPath, response, $component);
                 return;
             }
-            ns.modelDataConnected(dataSourceURL, $component);
+            ns.modelDataConnected(componentPath, $component);
         }
         catch (error) {
-            ns.modelDataConnected(dataSourceURL, $component);
+            ns.modelDataConnected(componentPath, $component);
         }
     }
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
+            host = host || "ws://localhost:8112/$tms";
+            tmsNs.hostAdded(host);
             if (!topic) {
-                ns.modelDataConnected(topic, $component);
+                ns.modelDataConnected($component);
                 return;
             }
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(componentConfig.resourcePath, ns.dataReceived);
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected(topic, $component);
@@ -90,6 +93,7 @@ const DEFAULT_TABLE_DATA = {
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
+        const componentPath = componentConfig.resourcePatj;
 
         // TMS.
         if (componentHost && componentTopic) {
@@ -98,13 +102,14 @@ const DEFAULT_TABLE_DATA = {
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentDataSource);
-            ns.jsonConnected(componentDataSource, $component);
+            $component.setAttribute("id", componentPath);
+            ns.jsonConnected(componentDataSource, componentPath, $component);
         }
         // MODEL 
         else {
-            ns.modelDataConnected(componentConfig.id, $component);
+            $component.setAttribute("id", componentPath);
+            ns.modelDataConnected(componentPath, $component);
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery, window.Typerefinery.Components, DEFAULT_TABLE_DATA, window, document);
+})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, DEFAULT_TABLE_DATA, document, window);

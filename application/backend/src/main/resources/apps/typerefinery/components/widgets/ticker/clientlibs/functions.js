@@ -2,13 +2,14 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-; (function (ns, typerefineryNs, componentNs, window, document) {
+(function (ns, tmsNs, componentNs, document, window) {
     "use strict";
 
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
-            console.log('[ticker/clientlibs/functions.js] component does not exist')
             return;
         }
         const componentConfig = componentNs.getComponentConfig($component);
@@ -50,12 +51,14 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
+            host = host || "ws://localhost:8112/$tms";
+            tmsNs.hostAdded(host);
             if (!topic) {
                 ns.modelDataConnected($component);
                 return;
             }
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(componentConfig.resourcePath, ns.dataReceived);
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -100,4 +103,4 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Ticker, window.Typerefinery, window.Typerefinery.Components, window, document);
+})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, document, window);
