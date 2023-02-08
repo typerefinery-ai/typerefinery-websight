@@ -25,6 +25,31 @@
         "name": "value",
         "label": "Value"
       }
-    }
+    },
+    "style": {
+      "sling:resourceType": "wcm/dialogs/components/tabs",
+      "label": "Grid",
+      "smOffset": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "sizeClass",
+        "description": "Contols left offset - columns to be skipped",
+        "label": "Width breakpoints",
+        "column1": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Col",
+          "value": "col"
+        },
+        "column2": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Col-1",
+          "value": "col-1"
+        },
+        "column3": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Col-2",
+          "value": "col-2"
+        }
+      }
   }
+}
 }

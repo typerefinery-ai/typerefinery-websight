@@ -43,6 +43,11 @@ public class Password extends BaseFormComponent {
     @Getter
     @Default(values = "")
     private String placeholder;
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String sizeClass;
 
     @Override
     @PostConstruct

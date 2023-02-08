@@ -1,6 +1,7 @@
 {
   "isContainer": true,
   "group": "Typerefinery - Forms",
+  "isLayout": true,
   "sling:resourceType": "ws:Component",
   "title": "Button",
   "allowedComponents": [
