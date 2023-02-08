@@ -13,4 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-include="${'container.html' @ prependPath='/apps/typerefinery/components/layout/container'}"></sly>
+<sly data-sly-use.model="${'io.typerefinery.websight.models.components.layout.Container' @ decorationTagName='div'}"
+    data-sly-use.template="./template.html"
+    data-sly-call="${template.variant @ model=model}">
+</sly>
