@@ -2,6 +2,16 @@
   "isContainer": true,
   "group": "Typerefinery - Workflow",
   "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Workflow"
+  ],
   "sling:resourceType": "ws:Component",
   "description": "Container to group flow components into a single dashboard.",
   "title": "Flow Container",
