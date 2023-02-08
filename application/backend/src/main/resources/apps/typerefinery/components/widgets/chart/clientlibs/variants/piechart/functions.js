@@ -1,13 +1,16 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Theme = Typerefinery.Theme || {};
+window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.Charts = Typerefinery.Components.Widgets.Charts || {};
-window.Typerefinery.Components.Widgets.Charts.Variants = Typerefinery.Components.Widgets.Charts.Variants || {};
-window.Typerefinery.Components.Widgets.Charts.Variants.PieChart = Typerefinery.Components.Widgets.Charts.Variants.PieChart || {};
-window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Components.Widgets.Charts.Instances || {};
+window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets.Chart || {};
+window.Typerefinery.Components.Widgets.Chart.Variants = Typerefinery.Components.Widgets.Chart.Variants || {};
+window.Typerefinery.Components.Widgets.Chart.Variants.PieChart = Typerefinery.Components.Widgets.Chart.Variants.PieChart || {};
+window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.Chart.Instances || {};
+window.Typerefinery.Page = Typerefinery.Page || {}; 
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-(function (ns, typerefineryNs, componentNs, themeNs, chartInstanceNs, document, window) {
+
+(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
 
     const DEFAULT_DATA = {
@@ -45,7 +48,7 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
         if (!componentConfig.resourcePath) {
             componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
         }
-        const ctx = document.getElementById(`${componentConfig.resourcePath}-chart`).getContext("2d");
+        const ctx = document.getElementById(`${componentConfig.resourcePath}-pieChart`).getContext("2d");
 
         // Plugin to update the canvas Background.
         const plugin = {
@@ -133,12 +136,15 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
+            host = host || "ws://localhost:8112/$tms";
+            tmsNs.hostAdded(host);
             if (!topic) {
                 ns.modelDataConnected($component);
                 return;
             }
+            
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(componentConfig.resourcePath, ns.updateChartInstance);
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -166,7 +172,19 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             ...DEFAULT_DATA,
         };
         
-        // TODO: Need to be completed.
+        chartInstanceNs[componentConfig.resourcePath].data = { 
+            labels: data.labels || componentConfig.labels, 
+            datasets: [
+                { 
+                    label: data.labelName || componentConfig.labelName, 
+                    data: data.chartData || componentConfig.chartData,
+                    backgroundColor: data.backgroundColorForData || componentConfig.backgroundColorForData, 
+                    borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE", 
+                }
+            ]
+        };
+        
+        chartInstanceNs[componentConfig.resourcePath].update();
     }
 
     ns.dataReceived = (data, $component) => {
@@ -198,4 +216,4 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             ns.modelDataConnected($component);
         }
     }
-})(window.Typerefinery.Components.Widgets.Charts.Variants.PieChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);
+})(Typerefinery.Components.Widgets.Chart.Variants.PieChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

@@ -1,19 +1,22 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Theme = Typerefinery.Theme || {};
+window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.Charts = Typerefinery.Components.Widgets.Charts || {};
-window.Typerefinery.Components.Widgets.Charts.Variants = Typerefinery.Components.Widgets.Charts.Variants || {};
-window.Typerefinery.Components.Widgets.Charts.Variants.BarChart = Typerefinery.Components.Widgets.Charts.Variants.BarChart || {};
-window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Components.Widgets.Charts.Instances || {};
+window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets.Chart || {};
+window.Typerefinery.Components.Widgets.Chart.Variants = Typerefinery.Components.Widgets.Chart.Variants || {};
+window.Typerefinery.Components.Widgets.Chart.Variants.BarChart = Typerefinery.Components.Widgets.Chart.Variants.BarChart || {};
+window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.Chart.Instances || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-(function (ns, typerefineryNs, componentNs, themeNs, chartInstanceNs, document, window) {
+
+(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
 
     const DEFAULT_DATA = {
         chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
         labelName: "Typerefinery Bar Chart",
-        barbackgroundcolor: [
+        backgroundColor: [
             "#3d405b",
             "#b9fbc0",
             "#FFB94E",
@@ -51,7 +54,7 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
         };
 
         const ctx = document
-            .getElementById(`${componentConfig.resourcePath}-chart`)
+            .getElementById(`${componentConfig.resourcePath}-${componentConfig.variant}`)
             .getContext("2d");
 
         // Plugin to update the canvas Background.
@@ -77,7 +80,7 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
                         data: data.chartData || componentConfig.chartData,
                         fill: false,
                         backgroundColor:
-                            data.barbackgroundcolor || componentConfig.barbackgroundcolor,
+                            data.backgroundColor || componentConfig.backgroundColor,
                         borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
                         borderWidth: 1
                     }
@@ -140,12 +143,15 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
+            host = host || "ws://localhost:8112/$tms";
+            tmsNs.hostAdded(host);
             if (!topic) {
                 ns.modelDataConnected($component);
                 return;
             }
+            
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(componentConfig.resourcePath, ns.updateChartInstance);
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -163,9 +169,6 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
     };
     ns.updateChartInstance = (data, $component) => {
         if (!$component) {
-            console.log(
-                "[Barchart/clientlibs/functions.js] component does not exist"
-            );
             return;
         }
         let componentConfig = componentNs.getComponentConfig($component);
@@ -192,8 +195,8 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
                         componentConfig.dataSetBorderColor ||
                         themeNs?.rootElementStyle.getPropertyValue("--primary-object-border-color") || "#001E3C",
                     borderWidth: 1,
-                },
-            ],
+                }
+            ]
         };
 
         chartInstanceNs[componentConfig.resourcePath].update();
@@ -226,4 +229,4 @@ window.Typerefinery.Components.Widgets.Charts.Instances = Typerefinery.Component
             ns.modelDataConnected($component);
         }
     };
-})(window.Typerefinery.Components.Widgets.Charts.Variants.BarChart, window.Typerefinery, window.Typerefinery.Components, window.Typerefinery.Theme, window.Typerefinery.Components.Widgets.Charts.Instances, document, window);
+})(Typerefinery.Components.Widgets.Chart.Variants.BarChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

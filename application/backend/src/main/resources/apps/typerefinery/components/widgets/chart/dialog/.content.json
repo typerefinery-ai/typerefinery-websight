@@ -5,15 +5,14 @@
     "general": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "chartVariant": {
+      "variant": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "chartVariant",
-        "label": "Choose Graph Variants",
+        "name": "variant",
+        "label": "Variants",
         "lineChart": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Line Chart",
-          "value": "lineChart",
-          "selected": "true"
+          "value": "lineChart"
         },
         "barChart": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -24,21 +23,6 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Pie Chart",
           "value": "pieChart"
-        },
-        "lineChartWithoutLabel": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Line Chart(Without Label)",
-          "value": "lineChartWithoutLabel"
-        },
-        "barChartHorizontal": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Bar Chart(Horizontal)",
-          "value": "barChartHorizontal"
-        },
-        "pieChartNonPolar": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Pie Chart(Non Polar)",
-          "value": "pieChartNonPolar"
         }
       }
     },
@@ -48,23 +32,13 @@
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",
-        "description": "Please provide url to data source for this ticker.",
+        "description": "Please provide JSON url",
         "label": "Data Source"
       }
     },
     "websocketTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "WebSocket Data Source",
-      "websocketHost": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "websocketHost",
-        "label": "Websocket Host"
-      },
-      "websocketTopic": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "websocketTopic",
-        "label": "Websocket Topic"
-      }
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/websocket"
     }
   }
 }

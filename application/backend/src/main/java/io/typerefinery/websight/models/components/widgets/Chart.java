@@ -31,7 +31,6 @@ public class Chart extends BaseComponent {
     @PostConstruct
     protected void init() {
         this.id = DEFAULT_ID;
-        this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
     }
@@ -52,5 +51,5 @@ public class Chart extends BaseComponent {
     @Getter
     @Inject
     @Default(values = "lineChart")
-    public String chartVariant;
+    public String variant;
 }
