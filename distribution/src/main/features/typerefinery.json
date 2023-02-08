@@ -58,7 +58,9 @@
       "endpoint.export": "/flow/export/%s",
       "endpoint.import": "/flow/import",
       "endpoint.update": "/flow/update",
-      "flow.page.change.listener.enabled": true
+      "endpoint.save": "/flow/%s/save",
+      "flow.page.change.listener.enabled": true,
+      "flow.meta.author": "TypeRefinery.io"
     },
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
       "user.default": "sling-readall",
