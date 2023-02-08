@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,85 +21,101 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import lombok.Getter;
-import lombok.experimental.Delegate;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
+import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.DefaultGridComponent;
-import io.typerefinery.websight.models.components.DefaultStyledComponent;
 import io.typerefinery.websight.utils.GridDisplayType;
 import io.typerefinery.websight.utils.GridStyle;
 import io.typerefinery.websight.utils.LinkUtil;
+import lombok.Getter;
+import lombok.experimental.Delegate;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Container implements Styled, Grid {
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+public class Container extends BaseComponent {
 
-  private static final String BACKGROUND_NONE = "none";
-  private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
+    private static final String BACKGROUND_NONE = "none";
+    private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
-  @SlingObject
-  private ResourceResolver resourceResolver;
+    @RequestAttribute(name = "decorationTagName")
+    @Default(values = "")
+    private String decorationTagName;
 
-  @Inject
-  private String backgroundImageSm;
+    @SlingObject
+    private ResourceResolver resourceResolver;
 
-  @Inject
-  private String backgroundImageMd;
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String type;
 
-  @Inject
-  private String backgroundImageLg;
+    @Inject
+    private String backgroundImageSm;
 
-  public String getBackgroundImageSm() {
-    return getBackgroundImage(backgroundImageSm);
-  }
+    @Inject
+    private String backgroundImageMd;
 
-  public String getBackgroundImageMd() {
-    return getBackgroundImage(backgroundImageMd);
-  }
+    @Inject
+    private String backgroundImageLg;
 
-  public String getBackgroundImageLg() {
-    return getBackgroundImage(backgroundImageLg);
-  }
-
-  private String getBackgroundImage(String image) {
-    if (StringUtils.isEmpty(image)) {
-      return BACKGROUND_NONE;
+    public String getBackgroundImageSm() {
+        return getBackgroundImage(backgroundImageSm);
     }
 
-    return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
-  }
+    public String getBackgroundImageMd() {
+        return getBackgroundImage(backgroundImageMd);
+    }
 
-  @Self
-  private DefaultStyledComponent style;
+    public String getBackgroundImageLg() {
+        return getBackgroundImage(backgroundImageLg);
+    }
 
-  @Self
-  @Delegate
-  private DefaultGridComponent grid;
+    private String getBackgroundImage(String image) {
+        if (StringUtils.isEmpty(image)) {
+        return BACKGROUND_NONE;
+        }
 
-  private String[] componentClasses;
+        return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
+    }
 
-  @Override
-  public String[] getClasses() {
-    return componentClasses;
-  }
 
-  @PostConstruct
-  private void init() {
-    componentClasses = Stream.concat(
-            Arrays.stream(style.getClasses()),
-            new GridStyle(this, GridDisplayType.GRID).getClasses().stream())
-        .collect(Collectors.toCollection(LinkedHashSet::new))
-        .toArray(new String[]{});
-  }
+    @Override
+    public String[] getClasses() {
+        return componentClasses;
+    }
+    
+    public String getDecorationTagName() {
+        return decorationTagName;
+    }
+
+    // @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+
+        
+        if (StringUtils.isBlank(decorationTagName)) {
+            decorationTagName = "div";
+        }
+
+        if (StringUtils.isNotBlank(type)) {
+            decorationTagName = type;
+        }
+
+    }
 
 }

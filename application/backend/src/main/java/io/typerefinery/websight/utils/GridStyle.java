@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.utils.GridDisplayType;
 
 
 public class GridStyle {
@@ -44,8 +43,8 @@ public class GridStyle {
   private final Grid gridComponent;
   private final GridDisplayType displayType;
 
-  public GridStyle(Grid gridComponent, GridDisplayType displayType) {
-    this.gridComponent = gridComponent;
+  public GridStyle(Grid container, GridDisplayType displayType) {
+    this.gridComponent = container;
     this.displayType = displayType;
   }
 

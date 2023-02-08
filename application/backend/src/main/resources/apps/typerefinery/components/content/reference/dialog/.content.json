@@ -1,0 +1,12 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "path": {
+      "sling:resourceType": "wcm/dialogs/components/pathpicker",
+      "rootPath": "/content",
+      "name": "path",
+      "label": "Path"
+    }
+  }
+}

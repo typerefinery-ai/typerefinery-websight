@@ -25,14 +25,12 @@ public class LineChart extends BaseComponent {
     
     
     private static final String DEFAULT_ID = "linechart";
-    private static final String DEFAULT_CLASS_NAMES = "linechart";
     private static final String DEFAULT_MODULE = "linechartComponent";
     
     @Override
     @PostConstruct
     protected void init() {
         this.id = DEFAULT_ID;
-        this.classNames = DEFAULT_CLASS_NAMES;
         this.module = DEFAULT_MODULE;
         super.init();
     }

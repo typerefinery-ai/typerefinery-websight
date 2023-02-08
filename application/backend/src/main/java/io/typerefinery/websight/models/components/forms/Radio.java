@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,39 @@
 package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.models.annotations.Model;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.api.resource.Resource;
 import lombok.Getter;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class RadioButton {
-    @Inject
-    @Getter
-    @Default(values = "radio")
-    private String name;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Model;
 
-    
+import io.typerefinery.websight.models.components.BaseFormComponent;
+
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+public class Radio extends BaseFormComponent {
+
+    protected static final String DEFAULT_LABEL = "Radio";
+
     @Inject
     @Getter
     private String value;
 
-    @Inject
-    @Getter
-    @Default(values = "Radio Button")
-    private String label;
-    
-    @Inject
-    @Getter
-    @Default(values = "radio")
-    private String cls;
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+
+        if (StringUtils.isBlank(label)) {
+            label = DEFAULT_LABEL;
+        }
+        
+    }  
 
 }

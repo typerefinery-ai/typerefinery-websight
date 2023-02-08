@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,14 +40,12 @@ import io.typerefinery.websight.models.components.BaseComponent;
 public class Table extends BaseComponent {
 
   private static final String DEFAULT_ID = "table";
-  private static final String DEFAULT_CLASS_NAMES = "table";
   private static final String DEFAULT_MODULE = "tableComponent";
   
   @Override
   @PostConstruct
   protected void init() {
       this.id = DEFAULT_ID;
-      this.classNames = DEFAULT_CLASS_NAMES;
       this.module = DEFAULT_MODULE;
       super.init();
    }

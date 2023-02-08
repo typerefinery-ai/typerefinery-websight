@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,53 +13,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//namespace
+
 package io.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
+import io.typerefinery.websight.models.components.BaseFormComponent;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Textarea {
+public class Textarea extends BaseFormComponent {
 
-  @Inject
-  @Getter
-  @Default(values = "Textarea")
-  private String label;
+    protected static final String DEFAULT_LABEL = "Textarea";
+    protected static final String DEFAULT_PLACEHOLDER = "Enter text here..";
 
-  @Inject
-  @Getter
-  @Default(values = "Textarea")
-  private String name;
+    @Inject
+    @Getter
+    @Default(values = "false")
+    private String value;
 
-  @Inject
-  @Getter
-  @Default(values = "textarea")
-  private String cls;
+    @Inject
+    @Getter
+    @Default(values = "Enter text here..")
+    private String placeholder;
 
-  @Inject
-  @Getter
-  @Default(values = "false")
-  private String value;
+    @Inject
+    @Getter
+    @Default(values = "1")
+    private String rows;
+  
+    @Inject
+    @Getter
+    @Default(values = "25")
+    private String cols;
 
-  @Inject
-  @Getter
-  @Default(values = "Enter text here..")
-  private String placeholder;
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
 
-  @Inject
-  @Getter
-  @Default(values = "1")
-  private String rows;
-
-  @Inject
-  @Getter
-  @Default(values = "25")
-  private String cols;
-
+        if (StringUtils.isBlank(label)) {
+            label = DEFAULT_LABEL;
+        }
+        if (StringUtils.isBlank(placeholder)) {
+            placeholder = DEFAULT_PLACEHOLDER;
+        }
+        
+    }  
 
 }

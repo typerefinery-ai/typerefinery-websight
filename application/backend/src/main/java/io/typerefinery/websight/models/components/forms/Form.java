@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery.io
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,11 @@ import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
+
+import io.typerefinery.websight.models.components.BaseFormComponent;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Form {
+public class Form extends BaseFormComponent {
   @Inject
   @Getter
   private String url;

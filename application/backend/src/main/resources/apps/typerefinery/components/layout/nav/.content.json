@@ -1,0 +1,19 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Layout",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Workflow"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Nav Container to group components under a nav tag.",
+  "title": "Nav",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
+}
