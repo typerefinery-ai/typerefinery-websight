@@ -13,7 +13,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 (function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
 
-    const DEFAULT_DATA = {
+    ns.defaultData = {
         chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
         labelName: "Typerefinery Bar Chart",
         backgroundColor: [
@@ -50,7 +50,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         componentConfig = {
             ...componentConfig,
-            ...DEFAULT_DATA,
+            ...ns.defaultData,
         };
 
         const ctx = document
@@ -174,7 +174,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         let componentConfig = componentNs.getComponentConfig($component);
         componentConfig = {
             ...componentConfig,
-            ...DEFAULT_DATA,
+            ...ns.defaultData,
         };
 
         chartInstanceNs[componentConfig.resourcePath].data = {

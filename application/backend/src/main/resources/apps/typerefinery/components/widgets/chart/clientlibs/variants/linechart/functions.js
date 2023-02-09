@@ -13,7 +13,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 (function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
   "use strict";
 
-  const DEFAULT_DATA = {
+  ns.defaultData = {
     chartData: [1, 1, 2, 3, 55, 50, 44, 39, 6, 7, 9, 35],
     labelName: "Typerefinery Line Chart",
     labels: [
@@ -41,10 +41,9 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
     let componentConfig = componentNs.getComponentConfig($component);
     componentConfig = {
       ...componentConfig,
-      ...DEFAULT_DATA
+      ...ns.defaultData
     }
-    console.log(`${componentConfig.resourcePath}-${componentConfig.variant}`, "Hello")
-    
+
     const ctx = document.getElementById(`${componentConfig.resourcePath}-${componentConfig.variant}`).getContext("2d");
 
     // TODO: Make them all dynamic.
@@ -174,7 +173,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
     let componentConfig = componentNs.getComponentConfig($component);
     componentConfig = {
       ...componentConfig,
-      ...DEFAULT_DATA,
+      ...ns.defaultData,
     };
     const ctx = document.getElementById(`${componentConfig.resourcePath}-${componentConfig.variant}`).getContext("2d");
     // Linear background for the chart.

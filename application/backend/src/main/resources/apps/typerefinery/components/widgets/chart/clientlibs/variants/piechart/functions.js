@@ -13,7 +13,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 (function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
 
-    const DEFAULT_DATA = {
+    ns.defaultData = {
         labels: ["Group A", "Group B", "Group C", "Group D", "Group E", "Group F"],
         labelName: "Typerefinery Pie Chart",
         chartData: [178, 53, 83, 15, 2, 4],
@@ -43,7 +43,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         let componentConfig = componentNs.getComponentConfig($component);
         componentConfig = {
             ...componentConfig,
-            ...DEFAULT_DATA
+            ...ns.defaultData
         }
         if (!componentConfig.resourcePath) {
             componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
@@ -169,7 +169,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         let componentConfig = componentNs.getComponentConfig($component);
         componentConfig = {
             ...componentConfig,
-            ...DEFAULT_DATA,
+            ...ns.defaultData,
         };
         
         chartInstanceNs[componentConfig.resourcePath].data = { 
