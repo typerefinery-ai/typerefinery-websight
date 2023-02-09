@@ -96,7 +96,7 @@ public class Flow extends BaseComponent {
                 && StringUtils.isNotBlank(template)
             ) {
                 // use topic from resource as priority
-                flowService.createFlowFromTemplate(template, resource, topic, title);
+                flowService.createFlowFromTemplate(template, resource, topic, title, flowapi_enable);
             } else if (StringUtils.isNotBlank(flowapi_flowstreamid) 
                 && StringUtils.isNotBlank(template)
             ) {

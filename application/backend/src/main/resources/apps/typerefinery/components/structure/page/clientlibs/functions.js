@@ -17,7 +17,7 @@ window.MessageService.Client = MessageService.Client || {};
             style.setAttribute('active', 'light');
         } else {
             style.setAttribute('active', 'dark');
-            style.setAttribute('href', `/apps/typerefinery/web_root/dark.css`);
+            style.setAttribute('href', `/apps/typerefinery/clientlibs/dark.css`);
         }
     };
     ns.hostAdded = (newHost) => {

@@ -4,7 +4,7 @@ async function switchTheme() {
       const currentTheme = themeStyles.getAttribute('active') || 'dark';
       const newTheme = currentTheme === 'light' ? 'dark' : 'light';
       themeStyles.setAttribute("active", newTheme)
-      themeStyles.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)
+      themeStyles.setAttribute("href", `/apps/typerefinery/clientlibs/${newTheme}.css`)
       await localStorage.setItem("theme", newTheme);
       setTimeout(() => {
           Object.entries(window.Typerefinery.Components.Graphs.Items).forEach(_ => {
