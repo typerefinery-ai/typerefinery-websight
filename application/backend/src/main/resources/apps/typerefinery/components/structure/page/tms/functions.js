@@ -3,11 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
-window.Typerefinery.Page.Tms.Cb = Typerefinery.Page.Tms.Cb || {};
 window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
 
-(function (ns, componentNs, clientNs, tmsCbNs, document, window) {
+(function (ns, clientNs, document, window) {
     "use strict";
 
     ns.registery = {};
@@ -107,4 +106,4 @@ window.MessageService.Client = MessageService.Client || {};
     ns.init = () => {
         ns.connect();
     };
-})(Typerefinery.Page.Tms, Typerefinery.Components, MessageService.Client, Typerefinery.Page.Tms.Cb, document, window);
+})(Typerefinery.Page.Tms, MessageService.Client, document, window);
