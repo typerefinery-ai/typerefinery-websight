@@ -93,7 +93,7 @@ const DEFAULT_LINE_CHART_DATA = {
                 display: false,
               },
               ticks: {
-                color:"#5D7183",
+                color: themeNs?.rootElementStyle.getPropertyValue('--chart-ticks-color'),
               }
             },
             y: {
@@ -101,7 +101,7 @@ const DEFAULT_LINE_CHART_DATA = {
                 color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
               },
               ticks: {
-                color:"#5D7183"
+                color: themeNs?.rootElementStyle.getPropertyValue('--chart-ticks-color')
               }
             }
           },

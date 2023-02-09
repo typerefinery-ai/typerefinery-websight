@@ -35,11 +35,11 @@ const DEFAULT_BAR_CHART_DATA = {
   dataSetBorderColor:
     Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
       "--border-color"
-    ) || "#0099DE",
+    ),
   canvasBackgroundColor:
     Typerefinery?.Theme?.rootElementStyle?.getPropertyValue(
       "--card-bg-color"
-    ) || "#343a40",
+    ),
 };
 
 (function (
@@ -81,7 +81,7 @@ const DEFAULT_BAR_CHART_DATA = {
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
         ctx.fillStyle =
-        themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#343a40" || "#99ffff";
+        themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -117,7 +117,7 @@ const DEFAULT_BAR_CHART_DATA = {
               display: false,
             },
             ticks: {
-              color:"#5D7183",
+              color: themeNs?.rootElementStyle.getPropertyValue('--chart-ticks-color'),
             },
           },
           y: {
@@ -126,7 +126,7 @@ const DEFAULT_BAR_CHART_DATA = {
             },
             ticks: {
               color:
-                "#5D7183",
+              themeNs?.rootElementStyle.getPropertyValue('--chart-ticks-color'),
             },
           },
         },
