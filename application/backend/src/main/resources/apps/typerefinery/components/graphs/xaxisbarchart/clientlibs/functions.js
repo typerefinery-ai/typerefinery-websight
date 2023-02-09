@@ -31,8 +31,8 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
     "IPV2",
     "Store",
   ],
-  dataSetBorderColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color'),
-  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--card-bg-color'),
+  dataSetBorderColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+  canvasBackgroundColor: Typerefinery?.Theme?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#343a40",
 };
 
 (function (
@@ -66,7 +66,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
         const { ctx } = chart;
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color') || "#343a40" || "#99ffff";
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -80,7 +80,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
           {
             data: data.chartData || componentConfig.chartData,
             fill: false,
-            borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
+            borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
             backgroundColor: data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
             borderWidth: 1,
           },
@@ -169,7 +169,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
         {
           data: data.chartData || componentConfig.chartData,
           fill: false,
-          borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
+          borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
           backgroundColor: data.barbackgroundcolor|| componentConfig.barbackgroundcolor,
           borderWidth: 1,
         },
