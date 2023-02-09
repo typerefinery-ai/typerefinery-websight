@@ -57,7 +57,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             }
             
             let componentConfig = componentNs.getComponentConfig($component);
-            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.dataReceived(data, $component));
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -74,8 +74,9 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         ns.updateComponentHTML({}, $component);
     }
 
-    ns.dataReceived = (data, $component) => {
-        ns.updateComponentHTML(data, $component);
+    ns.callbackFn = (data, $component) => {
+        let componentConfig = componentNs.getComponentConfig($component);
+        ns.updateComponentHTML(data, document.getElementById(`${componentConfig.resourcePath}-${componentConfig.websocketTopic}`))
     }
 
     ns.init = ($component) => {
@@ -84,10 +85,11 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
+        const componentPath = componentConfig.resourcePath;
 
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
+            $component.setAttribute("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON

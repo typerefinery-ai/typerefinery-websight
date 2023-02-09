@@ -64,7 +64,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             }
             
             let componentConfig = componentNs.getComponentConfig($component);
-            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.dataReceived(data, $component));
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected(topic, $component);
@@ -81,7 +81,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         ns.updateComponentHTML(id, {}, $component);
     }
 
-    ns.dataReceived = (data, $component) => {
+    ns.callbackFn = (data, $component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
     }

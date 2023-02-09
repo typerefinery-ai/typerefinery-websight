@@ -185,7 +185,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         chartInstanceNs[componentConfig.resourcePath].update();
     }
 
-    ns.dataReceived = (data, $component) => {
+    ns.callbackFn = (data, $component) => {
         ns.updateChartInstance(data, $component);
     }
 

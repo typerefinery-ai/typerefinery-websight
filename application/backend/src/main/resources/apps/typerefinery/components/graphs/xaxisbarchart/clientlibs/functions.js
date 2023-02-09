@@ -175,7 +175,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
 
     graphItemsNs[componentConfig.resourcePath].update();
   }
-  ns.dataReceived = (data, $component) => {
+  ns.callbackFn = (data, $component) => {
     ns.updateChartInstance(data, $component);
   }
 

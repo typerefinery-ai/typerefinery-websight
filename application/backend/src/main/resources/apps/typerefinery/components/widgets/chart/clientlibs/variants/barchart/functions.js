@@ -199,7 +199,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         chartInstanceNs[componentConfig.resourcePath].update();
     };
-    ns.dataReceived = (data, $component) => {
+    ns.callbackFn = (data, $component) => {
         // Passing {} because, The values from the model obj are fetched in bellow function definition.
         ns.updateChartInstance(data, $component);
     };

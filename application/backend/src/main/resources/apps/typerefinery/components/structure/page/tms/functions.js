@@ -3,7 +3,6 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
-// Tms.Cb refers to callback.
 window.Typerefinery.Page.Tms.Cb = Typerefinery.Page.Tms.Cb || {};
 window.MessageService = window.MessageService || {};
 window.MessageService.Client = MessageService.Client || {};
@@ -87,9 +86,11 @@ window.MessageService.Client = MessageService.Client || {};
                     
                     if(host) {
                         try{
-                            Object.entries(ns.registery[host[0]]).forEach(item => {
+                            const listOfRegisteredComponents = Object.entries(ns.registery[host[0]]);
+                            listOfRegisteredComponents.forEach(item => {
                                 if(item[0] === payload.topic) {
-                                    Object.values(item[1])[0](payload.data);
+                                    const listOfCallbacks = Object.values(item[1]);
+                                    listOfCallbacks.forEach(callback => callback(payload.data));
                                 }
                             })
                         }catch(error){
