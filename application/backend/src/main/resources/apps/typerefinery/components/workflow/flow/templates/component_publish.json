@@ -1,0 +1,24 @@
+{
+	"id": "<input-id>",
+	"config": {
+		"name": "",
+		"readme": "",
+		"id": "<flowid>_flowinput"
+	},
+	"x": 611.0000305175781,
+	"y": 440.00000762939453,
+	"component": "component_flow_input",
+	"connections": {},
+	"template": {
+		"type": "output2",
+		"icon": "fa fa-crosshairs",
+		"group": "FlowStream",
+		"name": "Publish",
+		"inputs": [
+			{
+				"id": "data",
+				"name": "Data"
+			}
+		]
+	}
+}
