@@ -33,7 +33,7 @@ describe('Table Component', () => {
       .find(selectors.overlayName)
       .should('contain.text', 'Table');
 
-    cy.screenshot('Linechart Edited')
+    cy.screenshot('Table Edited')
 
   });
 });
