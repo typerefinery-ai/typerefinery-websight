@@ -42,7 +42,6 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
     ns.init = () => {
         const rootElement = document.querySelector(':root');
         themeNs.rootElementStyle = getComputedStyle(rootElement);
-        ns.updateTheme();
 
         // Event Listener for toggle theme (dark | light);
         $("#themeHandler").click(function () {
@@ -50,7 +49,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         });
 
         tmsNs.init();
-
+        ns.updateTheme();
     };
 
     $(document).ready(function () {

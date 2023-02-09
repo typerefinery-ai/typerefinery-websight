@@ -58,14 +58,13 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112/$tms";
-            tmsNs.hostAdded(host);
-            if (!topic) {
+            if (!topic || !host) {
                 ns.modelDataConnected($component);
                 return;
             }
+            
             let componentConfig = componentNs.getComponentConfig($component);
-            tmsNs.registerToTms(componentConfig.resourcePath, ns.dataReceived);
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.dataReceived(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected(topic, $component);

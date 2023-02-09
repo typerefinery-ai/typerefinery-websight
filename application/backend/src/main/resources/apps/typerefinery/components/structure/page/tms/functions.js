@@ -11,7 +11,7 @@ window.MessageService.Client = MessageService.Client || {};
 (function (ns, componentNs, clientNs, tmsCbNs, document, window) {
     "use strict";
 
-    
+    ns.registery = {};
 
     ns.persistData = (key, data) => {
         localStorage.setItem(key, data);
@@ -19,6 +19,7 @@ window.MessageService.Client = MessageService.Client || {};
     
     
     ns.hostAdded = (newHost) => {
+        console.log("new host", newHost)
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
         const filteredHost = listOfHost.filter(host => host === newHost);
         if (filteredHost.length === 0) {
@@ -27,34 +28,30 @@ window.MessageService.Client = MessageService.Client || {};
         }
     }
 
-    ns.validateMessage = (message) => {
-        message = message?.detail?.data?.payload || null;
-        if (message) {
-            const payload = JSON.parse(message);
+    ns.persistMessagePayloadData = (message) => {
+        let payload = message?.detail?.data?.payload || null;
+        if (payload) {
+            payload = JSON.parse(payload);
             if (payload.data) {
-                ns.persistData(payload.topic, JSON.stringify(payload.data));;
-                const $component = document.getElementById(payload.topic);
-                if($component) {
-                    return {
-                        data: payload.data,
-                        $component
-                    };
-                }
+                ns.persistData(payload.topic, JSON.stringify(payload.data));
+                return payload;
             }
         }
         return null;
     };
 
-    ns.registerToTms = (key, cb) => {
-        tmsCbNs[key] = cb;
+    ns.registerToTms = (host, topic, key, callbackFn) => {
+        ns.hostAdded(host);
+        ns.registery[host] = ns.registery[host] || {};
+        ns.registery[host][topic] = ns.registery[host][topic] || {};
+        ns.registery[host][topic][key] = callbackFn;
     };
 
     ns.getCbFromNs = (key) => {
-        return tmsCbNs[key] || null;
     };
 
     ns.connect = () => {
-        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '');
+        const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
 
         function payload_insert(data) {
             console.log("--------------------------Payload Inserted ------------------------");
@@ -73,18 +70,31 @@ window.MessageService.Client = MessageService.Client || {};
         });
 
 
-            // listen to messages.
+        // listen to messages.
         window.addEventListener(
             clientNs?.events.MESSAGE,
             function (message) {
                 console.log("--------------------------MESSAGE RECEIVED ------------------------")
-                const validatedPayload = ns.validateMessage(message);
-                if(validatedPayload !== null) {
-                    const { $component, data } = validatedPayload;
-                    const componentConfig = componentNs.getComponentConfig($component);
-                    const cb = ns.getCbFromNs(componentConfig.path || componentConfig.resourcePath);
-                    if(cb) {
-                        cb(data, $component);
+                let payload = message?.detail?.data?.payload || null;
+                if (payload) {
+                    payload = JSON.parse(payload);
+                    if(!payload.topic || !payload.data) {
+                        return;
+                    }
+                    ns.persistData(payload.topic, JSON.stringify(payload.data));
+                    // TODO: get host from the message.
+                    const host = Object.entries(ns.registery)[0];
+                    
+                    if(host) {
+                        try{
+                            Object.entries(ns.registery[host[0]]).forEach(item => {
+                                if(item[0] === payload.topic) {
+                                    Object.values(item[1])[0](payload.data);
+                                }
+                            })
+                        }catch(error){
+
+                        }
                     }
                 }
             }
