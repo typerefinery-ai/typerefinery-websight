@@ -1,0 +1,30 @@
+{
+  "id": "<subscribe-id>",
+  "config": {
+    "name": "",
+    "id": "<flowid>_flowoutput"
+  },
+  "x": 220,
+  "y": 132,
+  "component": "component_flow_output",
+  "connections": {
+    "data": [
+      {
+        "id": "<printjson-id>",
+        "index": "input"
+      }
+    ]
+  },
+  "template": {
+    "type": "input2",
+    "icon": "fa fa-broadcast-tower",
+    "group": "FlowStream",
+    "name": "Subscribe",
+    "outputs": [
+      {
+        "id": "data",
+        "name": "Data"
+      }
+    ]
+  }
+}

@@ -269,7 +269,11 @@ public class FlowService {
      * @param title title to use for the flow
      * @param id id to use for the flow
      */
-    public void createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title) {
+    public void createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title, Boolean isContainer) {
+
+        if (StringUtils.isBlank(title)) {
+            title = "flow";
+        }
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
 
@@ -277,7 +281,13 @@ public class FlowService {
         JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
 
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
         
+        String flowGroup = currentPagePath;
+        if (currentFlowContainerResource != null) {
+            flowGroup = currentFlowContainerResource.getPath();
+        }
+
         String flowTopic = topic;
         // if topic is blank then generate a unique topic
         if (StringUtils.isBlank(flowTopic)) {
@@ -287,10 +297,8 @@ public class FlowService {
         // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
         // componentTemplateObject.put("reference", "dashboard-reference");
-        componentTemplateObject.put("author", "TypeRefinery.io");
-        componentTemplateObject.put("group", currentPagePath);
-        componentTemplateObject.put("icon", "fa fa-puzzle-piece");
-        componentTemplateObject.put("readme", "");
+        componentTemplateObject.put("author", configuration.flow_meta_author());
+        componentTemplateObject.put("group", flowGroup);
         componentTemplateObject.put("name", title);
         
         // remove id
@@ -351,14 +359,18 @@ public class FlowService {
         JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
 
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
         
+        String flowGroup = currentPagePath;
+        if (currentFlowContainerResource != null) {
+            flowGroup = currentFlowContainerResource.getPath();
+        }
+
         // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
         componentTemplateObject.put("id", flowstreamid);
-        componentTemplateObject.put("author", "TypeRefinery.io");
-        componentTemplateObject.put("group", currentPagePath);
-        componentTemplateObject.put("icon", "fa fa-puzzle-piece");
-        componentTemplateObject.put("readme", "");
+        componentTemplateObject.put("author", configuration.flow_meta_author());
+        componentTemplateObject.put("group", flowGroup);
         componentTemplateObject.put("name", newTitle);
 
         // get json string
@@ -445,10 +457,12 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
+        public final static String FLOW_ENDPOINT_SAVE = "/flow/%s/save";
         public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
         public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
         public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
         public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
+        public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
         
         @AttributeDefinition(
             name = "Host URL",
@@ -476,7 +490,14 @@ public class FlowService {
                 description = "URL of the endpoint to update flow",
                 defaultValue = FLOW_ENDPOINT_IMPORT
         )
-        String endpoint_update() default FLOW_ENDPOINT_UPDATE;
+        String endpoint_update() default FLOW_ENDPOINT_IMPORT;
+
+        @AttributeDefinition(
+                name = "Endpoint Save",
+                description = "URL of the endpoint to update flow designs",
+                defaultValue = FLOW_ENDPOINT_SAVE
+        )
+        String endpoint_save() default FLOW_ENDPOINT_SAVE;
 
         @AttributeDefinition(
             name = "Flow WS URL",
@@ -505,5 +526,11 @@ public class FlowService {
             type = AttributeType.BOOLEAN
         )
         boolean flow_page_change_listener_enabled() default FLOW_PAGE_CHNAGE_LISTENER_ENABLE;
+
+        @AttributeDefinition(
+            name = "Flow Meta - Author",
+            description = "Flow author to be used in meta data"
+        )
+        String flow_meta_author() default FLOW_META_AUTHOR;
     }
 }

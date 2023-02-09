@@ -51,6 +51,27 @@ public class PageUtil {
     public static final String PROPERTY_DESCRIPTION = "description";
     public static final String COMPONENT_CANCEL_INHERIT_PARENT = "cancelInheritParent";
 
+    /**
+     * find resource parent that matcher a resourceType
+     * @param resource resource to use
+     * @param resourceType resource type to match on a parent
+     */
+    public static Resource getResourceParentByResourceType(@NotNull Resource resource, @NotNull String resourceType) {
+        Resource parent = resource.getParent();
+        while (parent != null) {
+            if (parent.getResourceType().equals(resourceType)) {
+                return parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
+    }
+
+    /**
+     * return resource child JCR_CONTENT as a ValueMap
+     * @param resource resource to use
+     * @return ValueMap of JCR_CONTENT
+     */
     public static ValueMap getResourceContentValueMap(@NotNull Resource resource) {
         if (resource != null && resource.getChild(JcrConstants.JCR_CONTENT) != null) {
             return resource.getChild(JcrConstants.JCR_CONTENT).getValueMap();
