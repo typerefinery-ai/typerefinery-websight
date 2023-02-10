@@ -113,7 +113,8 @@ public class Flow extends BaseComponent {
             // create new flow or update existing flow
             if (!isFlowExists && isTemplateExists) {
                 // use topic from resource as priority
-                flowService.createFlowFromTemplate(template, resource, topic, title);
+                flowapi_flowstreamid = flowService.createFlowFromTemplate(template, resource, topic, title);
+                isFlowExists = flowService.isFlowExists(flowapi_flowstreamid);
             } else if (isFlowExists && isTemplateExists) {
 
                 // if flowapi_title and title are different then update flowstream

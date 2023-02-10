@@ -415,7 +415,7 @@ public class FlowService {
      * @param id id to use for the flow
      * @param isContainer if true then create a flow container
      */
-    public void createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title) {
+    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title) {
 
         if (StringUtils.isBlank(title)) {
             title = "flow";
@@ -487,6 +487,9 @@ public class FlowService {
 
         // update component with response
         PageUtil.updatResourceProperties(componentResource, response);
+
+        //return flowstreamid
+        return response.get(PROPERTY_FLOWSTREAMID).toString();
 
     }
 
