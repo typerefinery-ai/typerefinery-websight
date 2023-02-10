@@ -45,9 +45,6 @@ window.MessageService.Client = MessageService.Client || {};
         ns.registery[host][topic][key] = callbackFn;
     };
 
-    ns.getCbFromNs = (key) => {
-    };
-
     ns.connect = () => {
         const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || '[]');
 
