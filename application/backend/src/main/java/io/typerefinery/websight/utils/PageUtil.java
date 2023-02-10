@@ -131,6 +131,9 @@ public class PageUtil {
             .findFirst().orElse(null);
     }
 
+    public static boolean isResourceExists(@NotNull String resourcePath, @NotNull ResourceResolver resourceResolver) {
+        return !ResourceUtil.isNonExistingResource(resourceResolver.resolve(resourcePath));
+    }
     /**
      * check if page using specific template
      * @param template template path
