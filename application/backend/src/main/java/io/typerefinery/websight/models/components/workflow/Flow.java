@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
@@ -71,6 +72,14 @@ public class Flow extends BaseComponent {
     @RequestAttribute(name = "topic")
     private String topic;
 
+    // which topic to use for flow
+    @RequestAttribute(name = "iscontainer")
+    private boolean isContainer;
+
+    // which design template to use for flow update
+    @RequestAttribute(name = "designtemplate")
+    private String designTemplate;
+
     @OSGiService
     FlowService flowService;
 
@@ -90,26 +99,36 @@ public class Flow extends BaseComponent {
 
         super.init();
 
+        if (StringUtils.isBlank(title)) {
+            title = resource.getName();
+        }
+
         if (flowapi_enable) {
+            boolean isFlowExists = flowService.isFlowExists(flowapi_flowstreamid);
+            boolean isTemplateExists = PageUtil.isResourceExists(template, resourceResolver);
+            if (!isTemplateExists) {
+                LOG.info("nothing to do, template not found: {}", template);
+                return;
+            }
             // create new flow or update existing flow
-            if (StringUtils.isBlank(flowapi_flowstreamid) 
-                && StringUtils.isNotBlank(template)
-            ) {
+            if (!isFlowExists && isTemplateExists) {
                 // use topic from resource as priority
-                flowService.createFlowFromTemplate(template, resource, topic, title, flowapi_enable);
-            } else if (StringUtils.isNotBlank(flowapi_flowstreamid) 
-                && StringUtils.isNotBlank(template)
-            ) {
+                flowService.createFlowFromTemplate(template, resource, topic, title);
+            } else if (isFlowExists && isTemplateExists) {
+
                 // if flowapi_title and title are different then update flowstream
                 if (flowapi_title.equals(title)) {
                     LOG.info("nothing to update.");
                 } else {
                     flowService.updateFlowFromTemplate(template, resource, title, flowapi_flowstreamid);
+                    if (isContainer & StringUtils.isNotBlank(designTemplate)) {
+                        flowService.updateFlowDesignFromTemplate(designTemplate, resource, title, flowapi_flowstreamid);
+                    }
                 }
-            }
+            } 
 
             //if edit url has been cleared then update it if we have a flowstreamid
-            if (StringUtils.isBlank(flowapi_editurl) && StringUtils.isNotBlank(flowapi_flowstreamid)) {
+            if (isFlowExists && StringUtils.isBlank(flowapi_editurl)) {
                 // set edit url
                 flowapi_editurl = flowService.compileEditUrl(flowapi_flowstreamid);
                 // update current resource
