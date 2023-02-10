@@ -5,6 +5,11 @@
     "variantTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Variant",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Title"
+      },
       "type": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "type",
@@ -22,9 +27,9 @@
         }
       }
     },
-    "generalTab": {
+    "backgroundTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "General",
+      "label": "Background",
       "backgroundImageLg": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
         "mimeTypes": ["image/*"],
