@@ -69,7 +69,7 @@ window.MessageService.Client = MessageService.Client || {};
         window.addEventListener(
             clientNs?.events.MESSAGE,
             function (message) {
-                console.log("--------------------------MESSAGE RECEIVED ------------------------")
+                console.log("-------------------------- 12 MESSAGE RECEIVED ------------------------")
                 let payload = message?.detail?.data?.payload || null;
                 if (payload) {
                     payload = JSON.parse(payload);
@@ -80,17 +80,13 @@ window.MessageService.Client = MessageService.Client || {};
                     // TODO: get host from the message.
                     const host = Object.entries(ns.registery)[0];
                     
-                    if(host) {
-                        try{
-                            const listOfRegisteredComponents = Object.entries(ns.registery[host[0]]);
-                            listOfRegisteredComponents.forEach(item => {
-                                if(item[0] === payload.topic) {
-                                    const listOfCallbacks = Object.values(item[1]);
-                                    listOfCallbacks.forEach(callback => callback(payload.data));
-                                }
-                            })
-                        }catch(error){
-
+                    // first idx[key, values].
+                    if (host) {
+                        // grab the topic from the host.
+                        const topic = host[1][payload.topic];
+                        if (topic) {
+                            // foreach with the topic to trigger the callback.
+                            Object.values(topic).forEach(callback => callback(payload.data));
                         }
                     }
                 }
