@@ -5,7 +5,7 @@ window.Typerefinery.Components.Graphs.XAxisBarChart =
   Typerefinery.Components.Graphs.XAxisBarChart || {};
 window.Typerefinery.Components.Graphs.Items =
   Typerefinery.Components.Graphs.Items || {};
-window.Typerefinery.Theme = Typerefinery.Theme || {};
+window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 const DEFAULT_XAXISBAR_CHART_DATA = {
   chartData: [75000, 75000, 75000, 15000, 14000, 12000, 15200, 14200, 12450],
   labelName: "Typerefinery X-Axis Bar Chart",
@@ -175,7 +175,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
 
     graphItemsNs[componentConfig.resourcePath].update();
   }
-  ns.dataReceived = (data, $component) => {
+  ns.callbackFn = (data, $component) => {
     ns.updateChartInstance(data, $component);
   }
 
@@ -207,7 +207,7 @@ const DEFAULT_XAXISBAR_CHART_DATA = {
   window.Typerefinery.Components.Graphs.XAxisBarChart,
   window.Typerefinery,
   window.Typerefinery.Components,
-  window.Typerefinery.Theme,
+  window.Typerefinery.Page.Theme,
   window.Typerefinery.Components.Graphs.Items,
   DEFAULT_XAXISBAR_CHART_DATA,
   document,

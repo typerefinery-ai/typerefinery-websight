@@ -2,33 +2,34 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
+window.Typerefinery.Page = Typerefinery.Page || {}; 
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-const DEFAULT_TABLE_DATA = {
-    columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
-    data: [
-        ["John", 25, "john@gmail.com", "91934399421", "India"],
-        ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
-        ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
-        ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
-        ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
-        ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
-        ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
-        ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"]
-    ],
-    sort: false,
-    search: false
-};
-
-; (function (ns, typerefineryNs, componentNs, DEFAULT_TABLE_DATA, window, document) {
+(function (ns, tmsNs, componentNs, document, window) {
     "use strict";
+
+    ns.defaultData = {
+        columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
+        data: [
+            ["John", 25, "john@gmail.com", "91934399421", "India"],
+            ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
+            ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
+            ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
+            ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
+            ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
+            ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
+            ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"]
+        ],
+        sort: false,
+        search: false
+    };
 
     ns.updateComponentHTML = (id, data, $component) => {
         if (!$component) {
-            console.log('[Table/clientlibs/functions.js] component does not exist')
             return;
         }
         if(!data?.columns || !data?.data) {
-            data = DEFAULT_TABLE_DATA;
+            data = ns.defaultData;
         }
         $(`#${id}`).empty();
         $(`#${id}`).Grid({
@@ -40,29 +41,30 @@ const DEFAULT_TABLE_DATA = {
         });
     }
 
-    ns.jsonConnected = async (dataSourceURL, $component) => {
+    ns.jsonConnected = async (dataSourceURL, componentPath, $component) => {
         try {
             
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
-                ns.updateComponentHTML(dataSourceURL, response, $component);
+                ns.updateComponentHTML(componentPath, response, $component);
                 return;
             }
-            ns.modelDataConnected(dataSourceURL, $component);
+            ns.modelDataConnected(componentPath, $component);
         }
         catch (error) {
-            ns.modelDataConnected(dataSourceURL, $component);
+            ns.modelDataConnected(componentPath, $component);
         }
     }
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
-            if (!topic) {
-                ns.modelDataConnected(topic, $component);
+            if (!topic || !host) {
+                ns.modelDataConnected($component);
                 return;
             }
+            
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected(topic, $component);
@@ -79,7 +81,7 @@ const DEFAULT_TABLE_DATA = {
         ns.updateComponentHTML(id, {}, $component);
     }
 
-    ns.dataReceived = (data, $component) => {
+    ns.callbackFn = (data, $component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
     }
@@ -90,6 +92,7 @@ const DEFAULT_TABLE_DATA = {
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
+        const componentPath = componentConfig.resourcePatj;
 
         // TMS.
         if (componentHost && componentTopic) {
@@ -98,13 +101,14 @@ const DEFAULT_TABLE_DATA = {
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentDataSource);
-            ns.jsonConnected(componentDataSource, $component);
+            $component.setAttribute("id", componentPath);
+            ns.jsonConnected(componentDataSource, componentPath, $component);
         }
         // MODEL 
         else {
-            ns.modelDataConnected(componentConfig.id, $component);
+            $component.setAttribute("id", componentPath);
+            ns.modelDataConnected(componentPath, $component);
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Table, window.Typerefinery, window.Typerefinery.Components, DEFAULT_TABLE_DATA, window, document);
+})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, document, window);

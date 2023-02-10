@@ -50,4 +50,9 @@ public class LineChart extends BaseComponent {
     @Inject
     // @Default (values = "")
     public String websocketTopic;
+
+    @Getter
+    @Inject
+    @Default (values = "lineChartWithoutlabel")
+    public String chartVariant;
 }

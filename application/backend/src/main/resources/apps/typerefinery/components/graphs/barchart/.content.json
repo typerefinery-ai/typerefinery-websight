@@ -1,6 +1,0 @@
-{
-    "group": "Typerefinery - Graphs",
-    "sling:resourceType": "ws:Component",
-    "description": "Bar Chart",
-    "title": "Bar Chart"
-}

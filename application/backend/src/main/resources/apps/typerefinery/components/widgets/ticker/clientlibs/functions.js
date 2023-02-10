@@ -2,13 +2,14 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-; (function (ns, typerefineryNs, componentNs, window, document) {
+(function (ns, tmsNs, componentNs, document, window) {
     "use strict";
 
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
-            console.log('[ticker/clientlibs/functions.js] component does not exist')
             return;
         }
         const componentConfig = componentNs.getComponentConfig($component);
@@ -50,12 +51,13 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
-            if (!topic) {
+            if (!topic || !host) {
                 ns.modelDataConnected($component);
                 return;
             }
+            
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -69,13 +71,12 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
     }
 
     ns.modelDataConnected = ($component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
         ns.updateComponentHTML({}, $component);
     }
 
-    ns.dataReceived = (data, $component) => {
-        // Passing {} because, The values from the model obj are fetched in bellow function definition.
-        ns.updateComponentHTML(data, $component);
+    ns.callbackFn = (data, $component) => {
+        let componentConfig = componentNs.getComponentConfig($component);
+        ns.updateComponentHTML(data, document.getElementById(`${componentConfig.resourcePath}-${componentConfig.websocketTopic}`))
     }
 
     ns.init = ($component) => {
@@ -84,10 +85,11 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
+        const componentPath = componentConfig.resourcePath;
 
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
+            $component.setAttribute("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
@@ -100,4 +102,4 @@ window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.
         }
     }
 
-})(window.Typerefinery.Components.Widgets.Ticker, window.Typerefinery, window.Typerefinery.Components, window, document);
+})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, document, window);
