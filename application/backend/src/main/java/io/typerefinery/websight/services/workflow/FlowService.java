@@ -66,6 +66,7 @@ public class FlowService {
     public static final String PROPERTY_PREFIX = "flowapi_";
     public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
     public static final String PROPERTY_TOPIC = "topic";
+    public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_CREATEDON = "createdon";
     public static final String PROPERTY_UPDATEDON = "updatedon";
     public static final String PROPERTY_EDITURL = "editurl";
@@ -505,6 +506,7 @@ public class FlowService {
         HashMap<String, Object> response = doFlowStreamImportData(componentJson);
         
         response.put(prop(PROPERTY_TOPIC), flowTopic);
+        response.put(prop(PROPERTY_TITLE), title);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
 
         LOGGER.info("flowstreamdata: {}", response);
