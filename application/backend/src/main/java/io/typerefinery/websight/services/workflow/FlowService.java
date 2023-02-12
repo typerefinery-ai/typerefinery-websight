@@ -27,6 +27,8 @@ import org.apache.sling.api.resource.ValueMap;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -328,7 +330,24 @@ public class FlowService {
         return false;
     }
 
-    // do a http client call to get the flow data
+    public HashMap<String, Object> getFlowStreamData(String flowstreamid) {
+        String responseAsString = getFlowStreamReadData(flowstreamid);
+
+        HashMap<String, Object> flowResponse = new HashMap<String, Object>();
+
+        if (StringUtils.isNotBlank(responseAsString)) {
+            // convert response to json
+            ObjectMapper mapper = new ObjectMapper();
+            flowResponse = mapper.convertValue(responseAsString, new TypeReference<HashMap<String, Object>>(){});
+            return flowResponse;
+        } else {
+            LOGGER.error("flowstream return empty response for streamid {}", flowstreamid);
+            flowResponse.put(prop("error"), "no response");
+        }
+        return flowResponse;
+    }
+
+    // do a http client call to get the flow meta data
     public String getFlowStreamReadData(String flowstreamid) {
 
         String url = getFlowStreamReadAPIURL(flowstreamid);
@@ -428,10 +447,15 @@ public class FlowService {
 
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
-        
+
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
-            flowGroup = currentFlowContainerResource.getPath();
+            //get flow group from parent flow container
+            String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
+            if (StringUtils.isNotBlank(parentFlowstreamuid)) {
+                HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
+                flowGroup = (String)parentMetadata.get("group");
+            }
         }
 
         String flowTopic = topic;
@@ -512,7 +536,14 @@ public class FlowService {
         
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
-            flowGroup = currentFlowContainerResource.getPath();
+            if (currentFlowContainerResource != null) {
+                //get flow group from parent flow container
+                String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get("flowstreamid", "");
+                if (StringUtils.isNotBlank(parentFlowstreamuid)) {
+                    HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
+                    flowGroup = (String)parentMetadata.get("group");
+                }
+            }
         }
 
         // update component meta
