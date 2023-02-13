@@ -30,8 +30,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
       "Nov 2021",
       "Dec 2021",
     ],
-    dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-    canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C"
+    dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
+    canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color')
   };
 
   ns.updateComponentHTML = (data, $component) => {
@@ -62,7 +62,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         ctx.save();
         ctx.globalCompositeOperation = "destination-over";
         // data.canvasBackgroundColor
-        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+        ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
         ctx.fillRect(0, 0, chart.width, chart.height);
         ctx.restore();
       },
@@ -96,20 +96,20 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
               display: false
             },
             ticks: {
-              color: "#5D7183"
+              color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color")
             }
           },
           y: {
             grid: {
-              color: themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
+              color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
             },
             ticks: {
-              color: "#5D7183"
+              color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color")
             }
           }
         },
         customCanvasBackgroundColor: {
-          color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color')
+          color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color')
         },
         interaction: {
           intersect: false
@@ -188,7 +188,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
           label: data.labelName || componentConfig.labelName,
           data: data.chartData || componentConfig.chartData,
           fill: true,
-          borderColor: themeNs?.rootElementStyle?.getPropertyValue("--border-color").trim() || "#0099DE",
+          borderColor: themeNs?.rootElementStyle?.getPropertyValue("--border-color").trim(),
           tension: 0.3,
           backgroundColor: chartBackgroundGradientColor
         }
