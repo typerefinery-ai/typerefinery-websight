@@ -33,7 +33,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             "rgba(255, 255, 84, 1)",
             "rgba(171, 0, 125, 1)",
         ],
-        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue("--primary-object-background-color") || "#343a40",
+        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue("--card-bg-color"),
     };
 
     ns.updateComponentHTML = (data, $component) => {
@@ -58,7 +58,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 ctx.save();
                 ctx.globalCompositeOperation = "destination-over";
                 // data.canvasBackgroundColor
-                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#001E3C";
+                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
             },
@@ -73,7 +73,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         label: data.labelName || componentConfig.labelName,
                         data: data.chartData || componentConfig.chartData,
                         backgroundColor: data.backgroundColorForData || componentConfig.backgroundColorForData,
-                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
                     },
                 ],
             },
@@ -84,21 +84,21 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         position: "right",
                         usePointStyle: true,
                         labels: {
-                            color: "#5D7183",
+                            color: themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color"),
                             usePointStyle: true
                         }
                     }
                 },
                 customCanvasBackgroundColor: {
-                    color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color'),
+                    color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color'),
                 },
                 scales: {
                     r: {
                         grid: {
-                            color: themeNs?.rootElementStyle.getPropertyValue('--grid-color'),
+                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
                         },
                         ticks: {
-                            color: "#5D7183",
+                            color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color"),
                             z: 0,
                             showLabelBackdrop: false,
                             precision: 0
