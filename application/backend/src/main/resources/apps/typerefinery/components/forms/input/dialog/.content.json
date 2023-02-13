@@ -25,8 +25,7 @@
         "text": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Text",
-          "value": "text",
-          "selected": true
+          "value": "text"
         },
         "date": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",

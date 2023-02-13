@@ -1,20 +1,10 @@
 {
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
-      "sling:resourceType": "wcm/dialogs/components/tabs",
-      "websocketTab": {
-        "sling:resourceType": "wcm/dialogs/components/tab",
-        "label": "WebSocket Data Source",
-        "websocketHost": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "websocketHost",
-          "label": "Websocket Host"
-        },
-        "websocketTopic": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "websocketTopic",
-          "label": "Websocket Topic"
-        }
-      }
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/websocket"
+    }
   }
 }

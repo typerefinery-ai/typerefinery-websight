@@ -8,10 +8,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.util.JcrConstants;
@@ -22,9 +27,12 @@ import org.apache.sling.api.resource.ValueMap;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import io.typerefinery.websight.utils.DateUtil;
@@ -58,6 +66,7 @@ public class FlowService {
     public static final String PROPERTY_PREFIX = "flowapi_";
     public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
     public static final String PROPERTY_TOPIC = "topic";
+    public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_CREATEDON = "createdon";
     public static final String PROPERTY_UPDATEDON = "updatedon";
     public static final String PROPERTY_EDITURL = "editurl";
@@ -85,13 +94,19 @@ public class FlowService {
     }
 
 
-    // get flow data from flowstreamid
+    // export flow data from flowstreamid
     public String getFlowStreamExportAPIURL(String flowstreamid) {
         String url = String.format(configuration.host_url() + configuration.endpoint_export(), flowstreamid);
         return url;
     }
 
     // get flow data from flowstreamid
+    public String getFlowStreamReadAPIURL(String flowstreamid) {
+        String url = String.format(configuration.host_url() + configuration.endpoint_read(), flowstreamid);
+        return url;
+    }
+
+    // import flow data from flowstreamid
     public String getFlowStreamImportAPIURL() {
         String url = String.format(configuration.host_url() + configuration.endpoint_import());
         return url;
@@ -100,6 +115,18 @@ public class FlowService {
     // get flow data from flowstreamid
     public String getFlowStreamUpdateAPIURL() {
         String url = String.format(configuration.host_url() + configuration.endpoint_update());
+        return url;
+    }
+
+    // get flow data from flowstreamid
+    public String getFlowStreamDesignSaveAPIURL(String flowstreamid) {
+        String url = String.format(configuration.host_url() + configuration.endpoint_design_save(), flowstreamid);
+        return url;
+    }
+
+    // get flow data from flowstreamid
+    public String getFlowStreamDesignAPIURL(String flowstreamid) {
+        String url = String.format(configuration.host_url() + configuration.endpoint_design(), flowstreamid);
         return url;
     }
 
@@ -196,6 +223,12 @@ public class FlowService {
             // send request
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+            if (response.statusCode() != 200) {
+                LOGGER.error("flowstream could not update flow: {}", response.body());
+                flowResponse.put(prop("error"), "flow does not exist.");
+                return flowResponse;
+            }
+
             LOGGER.info("flowstream response: {}", response);
 
             String responseAsString = response.body();
@@ -230,16 +263,148 @@ public class FlowService {
 
         return flowResponse;
     }
+
+    
+    // create a flow from content
+    public HashMap<String, Object> doFlowStreamDesignSaveData(String content, String flowstreamid) {
+
+        String url = getFlowStreamDesignSaveAPIURL(flowstreamid);
+        
+        HashMap<String, Object> flowResponse = new HashMap<String, Object>();
+
+        try {
+
+            // create request
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .POST(HttpRequest.BodyPublishers.ofString(content))
+                .build();
+            
+            LOGGER.info("flowstream request: {}", request.uri());
+            
+            // send request
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            LOGGER.info("flowstream response: {}", response);
+
+            String responseAsString = response.body();
+            flowResponse.put(prop("response"), responseAsString);
+
+            if (StringUtils.isNotBlank(responseAsString)) {
+                // convert response to json
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode json = mapper.readTree(responseAsString);
+
+                if (json != null) {
+                    flowResponse.put(prop("error"), json.get("wserror").asText());
+                } else {
+                    flowResponse.put(prop("error"), "could not parse response");
+                }
+
+                return flowResponse;
+            } else {
+                LOGGER.error("flowstream return empty response: {}", url);
+                flowResponse.put(prop("error"), "no response");
+            }
+           
+
+        } catch (Exception e) {
+            LOGGER.error("flowstream could not update flow: {}", url);
+            flowResponse.put(prop("error"), "error executing flowstream update");
+            e.printStackTrace();
+        }
+
+        return flowResponse;
+    }
     
     // generate a new topic
     public String generateTopic(String name) {
         return String.format("%s_%s", name, UUID.randomUUID().toString().replace("-", ""));
     }
 
+    public boolean isFlowExists(String flowstreamid) {
+        String responseAsString = getFlowStreamReadData(flowstreamid);
+
+        if (StringUtils.isNotBlank(responseAsString)) {
+            return true;
+        }
+        return false;
+    }
+
+    public HashMap<String, Object> getFlowStreamData(String flowstreamid) {
+        String responseAsString = getFlowStreamReadData(flowstreamid);
+
+        HashMap<String, Object> flowResponse = new HashMap<String, Object>();
+
+        if (StringUtils.isNotBlank(responseAsString)) {
+            // convert response to json
+            ObjectMapper mapper = new ObjectMapper();
+            flowResponse = mapper.convertValue(responseAsString, new TypeReference<HashMap<String, Object>>(){});
+            return flowResponse;
+        } else {
+            LOGGER.error("flowstream return empty response for streamid {}", flowstreamid);
+            flowResponse.put(prop("error"), "no response");
+        }
+        return flowResponse;
+    }
+
+    // do a http client call to get the flow meta data
+    public String getFlowStreamReadData(String flowstreamid) {
+
+        String url = getFlowStreamReadAPIURL(flowstreamid);
+        
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .GET()
+                .build();
+
+            HttpClient client = HttpClient.newBuilder().build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                return response.body();
+            } else {
+                return "";
+            }            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
     // do a http client call to get the flow data
     public String getFlowStreamExportData(String flowstreamid) {
 
         String url = getFlowStreamExportAPIURL(flowstreamid);
+        
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .GET()
+                .build();
+
+            HttpClient client = HttpClient.newBuilder().build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.body();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    
+    // do a http client call to get the flow data
+    public String getFlowStreamDesignData(String flowstreamid) {
+
+        String url = getFlowStreamDesignAPIURL(flowstreamid);
         
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -268,8 +433,9 @@ public class FlowService {
      * @param topic topic to use for the flow
      * @param title title to use for the flow
      * @param id id to use for the flow
+     * @param isContainer if true then create a flow container
      */
-    public void createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title, Boolean isContainer) {
+    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title) {
 
         if (StringUtils.isBlank(title)) {
             title = "flow";
@@ -282,10 +448,15 @@ public class FlowService {
 
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
-        
+
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
-            flowGroup = currentFlowContainerResource.getPath();
+            //get flow group from parent flow container
+            String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
+            if (StringUtils.isNotBlank(parentFlowstreamuid)) {
+                HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
+                flowGroup = (String)parentMetadata.get("group");
+            }
         }
 
         String flowTopic = topic;
@@ -335,6 +506,7 @@ public class FlowService {
         HashMap<String, Object> response = doFlowStreamImportData(componentJson);
         
         response.put(prop(PROPERTY_TOPIC), flowTopic);
+        response.put(prop(PROPERTY_TITLE), title);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
 
         LOGGER.info("flowstreamdata: {}", response);
@@ -342,14 +514,17 @@ public class FlowService {
         // update component with response
         PageUtil.updatResourceProperties(componentResource, response);
 
+        //return flowstreamid
+        return response.get(PROPERTY_FLOWSTREAMID).toString();
+
     }
 
     /**
      * update flow from template
-     * @param templatePath
-     * @param componentResource
-     * @param newTitle
-     * @param flowstreamid
+     * @param templatePath template path in repository to use as a template
+     * @param componentResource resource of the component which to update with outcome of api call
+     * @param newTitle new title to use for the flow
+     * @param flowstreamid flowstream id to update
      */
     public void updateFlowFromTemplate(String templatePath, Resource componentResource, String newTitle, String flowstreamid) {
         
@@ -363,7 +538,14 @@ public class FlowService {
         
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
-            flowGroup = currentFlowContainerResource.getPath();
+            if (currentFlowContainerResource != null) {
+                //get flow group from parent flow container
+                String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get("flowstreamid", "");
+                if (StringUtils.isNotBlank(parentFlowstreamuid)) {
+                    HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
+                    flowGroup = (String)parentMetadata.get("group");
+                }
+            }
         }
 
         // update component meta
@@ -387,6 +569,174 @@ public class FlowService {
         PageUtil.updatResourceProperties(componentResource, response);
     }
 
+
+    /**
+     * update flow from template
+     * @param templatePath template path in repository to use as a template
+     * @param componentResource resource of the component which to update with outcome of api call
+     * @param newTitle new title to use for the flow
+     * @param flowstreamid flowstream id to update
+     * @param isContainer if true then create a flow container
+     */
+    public void updateFlowDesignFromTemplate(String designTemplate, Resource componentResource, String newTitle, String flowstreamid) {
+        
+        ResourceResolver resourceResolver = componentResource.getResourceResolver();
+
+        String parentPath = componentResource.getPath();
+        // update flow design with child flows
+        List<Resource> flowResources = findContainerFlowResources(componentResource, new ArrayList<Resource>());
+        // new design components
+        ObjectNode newDesignComponents = JsonNodeFactory.instance.objectNode();
+
+        if (flowResources != null) {
+
+            ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
+            // get current flow design
+            String flowDesign = getFlowStreamDesignData(flowstreamid);
+            JsonNode currentDesign = null;
+            try {
+                currentDesign = mapper.readTree(flowDesign);
+            } catch (Exception e) {
+                LOGGER.error("error parsing flow current design: {}", e.getMessage());
+            }
+
+            for (Resource flowResource : flowResources) {
+
+                String flowId = flowResource.getValueMap().get(PROPERTY_FLOWSTREAMID, String.class);
+                if (StringUtils.isNotBlank(flowId)) {
+
+
+                    // get template json
+                    // JsonNode componentTemplate = getTemplateTree(designTemplate, resourceResolver);
+                    String designTemplateString = getResourceInputStreamAsString(designTemplate, resourceResolver);
+
+                    if (StringUtils.isBlank(designTemplateString)) {
+                        LOGGER.error("design template not found: {}", designTemplate);
+                        return;
+                    }
+
+                    // get path to child flow relative to parent
+                    String childPath = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
+
+                    // setup a list of replace strings
+                    HashMap<String, String> replaceMap = new HashMap<String, String>(){{
+                        put("<flowid>", flowstreamid);
+                        put("<subscribe-id>", StringUtils.join(childPath, "subscribe"));
+                        put("<printjson-id>", StringUtils.join(childPath, "printjson"));
+                        put("<senddata-id>", StringUtils.join(childPath, "senddata"));
+                        put("<publish-id>", StringUtils.join(childPath, "publish"));
+
+                    }};
+
+                    boolean flowIsUsed = false;
+                    // check if any replacemap nodes existing in current design
+                    if (currentDesign != null) {
+                        for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
+                            if (currentDesign.has(entry.getValue())) {
+                                flowIsUsed = true;
+                                JsonNode components = currentDesign.get(entry.getValue());
+                                newDesignComponents.set(flowId, components.get(flowId));        
+                                LOGGER.error("flow [{}] already has using this flow step resource: {}", flowstreamid, entry.getValue());
+                            }
+                        }
+                    }
+                    
+                    // if steps already exists do nothing and continue
+                    if (flowIsUsed) {
+                        LOGGER.error("flow [{}] already has using this flow resource: {}", flowstreamid, flowResource.getPath());
+                        continue;
+                    }
+
+                    // get resource component sample data
+                    String componentSampleData = getComponentSampleJson(flowResource, resourceResolver);
+                    if (StringUtils.isBlank(componentSampleData)) {
+                        LOGGER.error("sample data not found for flow: {}", flowResource.getPath());
+                        replaceMap.put("<sample-data>", "");
+                    } else {
+                        
+                        try {
+                            JsonNode componentSampleDataJson = mapper.readTree(designTemplateString);
+                            // update sample data
+                            //<sample-data>
+                            replaceMap.put("<sample-data>", mapper.writeValueAsString(componentSampleDataJson));
+                        } catch (Exception e) {
+                            LOGGER.error("error parsing design template: {}", e.getMessage());
+                            return;
+                        }
+                    }
+
+                    //replace values in design
+                    for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
+                        designTemplateString = designTemplateString.replaceAll(entry.getKey(), entry.getValue());
+                    }
+
+                    // add new design steps to flow design
+                    try {
+                        JsonNode newDesign = mapper.readTree(designTemplateString);
+                        // add to desing
+                        newDesignComponents.set(flowId, newDesign);
+                    } catch (Exception e) {
+                        LOGGER.error("error parsing design template: {}", e.getMessage());
+                        return;
+                    }
+                }
+            }
+            
+            
+            
+            //update flow
+            // ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+            // String newDesignComponentsString = mapper.writeValueAsString(newDesignComponents);
+            // doFlowStreamDesignSaveData(newDesignComponentsString, flowstreamid);
+        }
+    }
+
+
+    /**
+     * get sample.json from resource path
+     * @param resource resource to get sample.json from
+     * @param resourceResolver resource resolver
+     */
+    public String getComponentSampleJson(Resource resource, ResourceResolver resourceResolver) {
+        pl.ds.websight.components.core.api.Component resourceComponent = resource.adaptTo(pl.ds.websight.components.core.api.Component.class);
+        
+        String samplePath = resourceComponent.getPath() + "/sample.json";
+        if (!resourceResolver.getResource(samplePath).isResourceType("nt:file")) {
+            return "";
+        }
+        String sampleJson = getResourceInputStreamAsString(samplePath, resourceResolver);
+        return sampleJson;
+    }
+
+
+    public String formatResourcePathToId(String path) {
+        //regex replace all non word characters
+        return path.replaceAll("[^\\w]", "");
+    }
+
+    /**
+     * walk the container and find all flow resources
+     * @param templatePath template path in repository to use as a template
+     * @param resourceResolver resource resolver
+     * @return json tree
+     */
+    public List<Resource> findContainerFlowResources(Resource containerResource, List<Resource> flowResources) {
+        if (containerResource == null) {
+            return null;
+        }
+        Iterator<Resource> children = containerResource.listChildren();
+        while (children.hasNext()) {
+            Resource child = children.next();
+            if (isFlowEnabledResource(child)) {
+                flowResources.add(child);
+            }
+            findContainerFlowResources(child, flowResources);
+        }
+        return flowResources;
+    }
+
+
     public boolean isUpdateRequired(Resource componentResource) {
         // quick fail
         if (componentResource == null) {
@@ -402,14 +752,46 @@ public class FlowService {
 
     //read the json file from a template and convert it to JSON Tree
     @SuppressWarnings("unchecked")
+    public String getResourceInputStreamAsString(String resourcePath, ResourceResolver resourceResolver) {
+        try {
+            InputStream inputStream = getResourceInputStream(resourcePath, resourceResolver);
+            if (inputStream == null) {
+                return StringUtils.EMPTY;
+            }
+            return  IOUtils.toString(inputStream, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return StringUtils.EMPTY;
+    }
+    
+    //read the json file from a template and convert it to JSON Tree
+    @SuppressWarnings("unchecked")
+    public InputStream getResourceInputStream(String resourcePath, ResourceResolver resourceResolver) {
+        try {
+            Resource resource = resourceResolver.getResource(resourcePath);
+            if (ResourceUtil.isNonExistingResource(resource) == false) {
+                return resource.adaptTo(InputStream.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+
+    //read the json file from a template and convert it to JSON Tree
+    @SuppressWarnings("unchecked")
     public JsonNode getTemplateTree(String templatePath, ResourceResolver resourceResolver) {
         try {
-            Resource templateComponentResource = resourceResolver.getResource(templatePath);
-            ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            if (ResourceUtil.isNonExistingResource(templateComponentResource) == false) {
-                InputStream inputStream = templateComponentResource.adaptTo(InputStream.class);
-                return mapper.readTree(inputStream);
+            InputStream inputStream = getResourceInputStream(templatePath, resourceResolver);
+            if (inputStream == null) {
+                return null;
             }
+            ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+            return mapper.readTree(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -457,7 +839,9 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
-        public final static String FLOW_ENDPOINT_SAVE = "/flow/%s/save";
+        public final static String FLOW_ENDPOINT_DESIGN_SAVE = "/flow/%s/design/save";
+        public final static String FLOW_ENDPOINT_DESIGN = "/flow/%s/design";
+        public final static String FLOW_ENDPOINT_READ = "/flow/read/%s";
         public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
         public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
         public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
@@ -479,6 +863,13 @@ public class FlowService {
         String endpoint_export() default FLOW_ENDPOINT_EXPORT;
 
         @AttributeDefinition(
+                name = "Endpoint Read",
+                description = "URL of the endpoint to read flow data",
+                defaultValue = FLOW_ENDPOINT_READ
+        )
+        String endpoint_read() default FLOW_ENDPOINT_READ;
+
+        @AttributeDefinition(
                 name = "Endpoint Import",
                 description = "URL of the endpoint to import data",
                 defaultValue = FLOW_ENDPOINT_IMPORT
@@ -493,11 +884,18 @@ public class FlowService {
         String endpoint_update() default FLOW_ENDPOINT_IMPORT;
 
         @AttributeDefinition(
-                name = "Endpoint Save",
+                name = "Endpoint Design Save",
                 description = "URL of the endpoint to update flow designs",
-                defaultValue = FLOW_ENDPOINT_SAVE
+                defaultValue = FLOW_ENDPOINT_DESIGN_SAVE
         )
-        String endpoint_save() default FLOW_ENDPOINT_SAVE;
+        String endpoint_design_save() default FLOW_ENDPOINT_DESIGN_SAVE;
+
+        @AttributeDefinition(
+                name = "Endpoint Design",
+                description = "URL of the endpoint to get flow design",
+                defaultValue = FLOW_ENDPOINT_DESIGN
+        )
+        String endpoint_design() default FLOW_ENDPOINT_DESIGN;
 
         @AttributeDefinition(
             name = "Flow WS URL",

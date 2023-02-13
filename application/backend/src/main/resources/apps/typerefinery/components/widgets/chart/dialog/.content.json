@@ -1,0 +1,44 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "general": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variants",
+        "lineChart": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Line Chart",
+          "value": "lineChart"
+        },
+        "barChart": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Bar Chart",
+          "value": "barChart"
+        },
+        "pieChart": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Pie Chart",
+          "value": "pieChart"
+        }
+      }
+    },
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide JSON url",
+        "label": "Data Source"
+      }
+    },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/websocket"
+    }
+  }
+}

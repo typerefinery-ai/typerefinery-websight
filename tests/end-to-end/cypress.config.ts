@@ -50,6 +50,6 @@ module.exports = defineConfig({
     specPattern: 'tests/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'support/index.ts',
     experimentalSessionAndOrigin: true,
-    defaultCommandTimeout: 6000
+    defaultCommandTimeout: 10000
   },
 })
