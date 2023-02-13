@@ -29,6 +29,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
@@ -65,20 +66,17 @@ public class Button extends BaseFormComponent {
     
     @Inject
     @Getter
-    @Default(values = "")
-    private String isRoundedButton;
+    private Boolean isRoundedButton;
 
     
     @Inject
     @Getter
-    @Default(values = "")
-    private String isRaisedButton;
+    private Boolean isRaisedButton;
 
     
     @Inject
     @Getter
-    @Default(values = "")
-    private String isOutlinedButton;
+    private Boolean isOutlinedButton;
 
     
     
@@ -116,13 +114,13 @@ public class Button extends BaseFormComponent {
 
         if (grid != null && style != null) {
 
-            if (Boolean.valueOf(isRoundedButton)) {
+            if (BooleanUtils.isTrue(isRoundedButton)) {
                 style.addClasses("p-button-rounded");
             }
-            if (Boolean.valueOf(isRaisedButton)) {
+            if (BooleanUtils.isTrue(isRaisedButton)) {
                 style.addClasses("p-button-raised");
             }
-            if (Boolean.valueOf(isOutlinedButton)) {
+            if (BooleanUtils.isTrue(isOutlinedButton)) {
                 style.addClasses("p-button-outlined");
             }
 
@@ -132,9 +130,7 @@ public class Button extends BaseFormComponent {
                 style.addClasses(buttonVariant);
             }            
             
-            componentClasses = Stream.concat(
-                Arrays.stream(style.getClasses()),
-                new GridStyle(grid, GridDisplayType.GRID).getClasses().stream())
+            componentClasses = Arrays.stream(style.getClasses())
             .collect(Collectors.toCollection(LinkedHashSet::new))
             .toArray(new String[]{});
         }
