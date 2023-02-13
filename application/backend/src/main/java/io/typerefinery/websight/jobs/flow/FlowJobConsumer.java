@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.event.jobs.Job;
 import org.apache.sling.event.jobs.consumer.JobConsumer;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.events.flow.FlowResourceChangeListener;
+import io.typerefinery.websight.models.components.workflow.Flow;
 import io.typerefinery.websight.services.ContentAccess;
 import io.typerefinery.websight.services.workflow.FlowService;
 
@@ -65,8 +67,12 @@ public class FlowJobConsumer implements JobConsumer {
 
                 paths.forEach(path -> {
                     Resource resource = resourceResolver.getResource(path);
-                    if (resource != null) {
-                        ValueMap valueMap = resource.getValueMap();
+                    if (!ResourceUtil.isNonExistingResource(resource)) {
+                        //adapt to flow and let init do its job
+                        // resource.adaptTo(Flow.class);
+                        // run resource processing
+                        flowService.doProcessFlowResource(resource);
+                        // ValueMap valueMap = resource.getValueMap();
 
                     } else {
                         LOGGER.warn("Could not have access to resource {}.", path);
