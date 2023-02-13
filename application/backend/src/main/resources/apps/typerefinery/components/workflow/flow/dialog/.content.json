@@ -16,6 +16,36 @@
         "label": "Topic",
         "disabled": true
       },
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_title",
+        "label": "Title",
+        "disabled": true
+      },
+      "group": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_group",
+        "label": "Group",
+        "disabled": true
+      },
+      "template": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_template",
+        "label": "Template",
+        "disabled": true
+      },
+      "designtemplate": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_designtemplate",
+        "label": "Design Template",
+        "disabled": true
+      },
+      "iscontainer": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_iscontainer",
+        "label": "Is Container",
+        "disabled": true
+      },
       "flowstreamid": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_flowstreamid",

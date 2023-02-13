@@ -1,5 +1,5 @@
 body {
-  background-color: var(--primary-background-color);
+  background-color: var(--primary-bg-color);
   color: var(--primary-text-color);
 }
 
@@ -136,11 +136,11 @@ body {
 
 .navbar {
   width: 100%;
-  background: var(--primary-object-background-color);
+  background: var(--card-bg-color);
   color: var(--primary-text-color) !important;
   margin-top: 0rem;
   border-radius: 0px;
-  border-color: var(--primary-object-background-color);
+  border-color: var(--card-bg-color);
 }
 .p-menuitem-text{
   color: var(--primary-text-color) !important;
@@ -151,17 +151,17 @@ body {
   min-height: 350px;
 }
 .p-datatable .p-datatable-tbody > tr {
-  background: var(--primary-object-background-color);
+  background: var(--card-bg-color);
   color: var(--primary-text-color);
   transition: box-shadow 0.2s;
 }
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
-  background: var(--primary-object-background-color);
+  background: var(--card-bg-color);
 }
 .product-badge {
   background: white;
-  color: var(--primary-object-background-color);
+  color: var(--card-bg-color);
 }
 
 /* .hl-rows-md-1 {
@@ -228,7 +228,7 @@ h2.hl-title__heading.hl-title__heading--size-4 {
   height: 65px;
 }
 .p-breadcrumb.p-component{
-  background: var(--primary-object-background-color) !important;
+  background: var(--card-bg-color) !important;
 }
 
 .hl-header__wrapper {

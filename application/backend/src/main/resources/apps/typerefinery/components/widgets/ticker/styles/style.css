@@ -11,7 +11,7 @@
 */
 
 .ticker {
-  background: var(--primary-object-background-color);
+  background: var(--card-bg-color);
   min-width: 185px;
   width: 100%;
   height: 105px;

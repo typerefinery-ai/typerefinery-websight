@@ -3,15 +3,12 @@ package io.typerefinery.websight.models.components.workflow;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.HashMap;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceUtil;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
@@ -19,11 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.services.workflow.FlowService;
-import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
-
-import static io.typerefinery.websight.services.workflow.FlowService.PROPERTY_EDITURL;
-import static io.typerefinery.websight.services.workflow.FlowService.prop;
 
 @Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
 public class Flow extends BaseComponent {
@@ -36,30 +29,37 @@ public class Flow extends BaseComponent {
     // if true will create/update flow
     @Getter
     @Inject
-    @Default(values = "false")
     public Boolean flowapi_enable;
 
     // if blank will create new flow, if not blank will be used to update existing flow
     @Getter
     @Inject
-    @Default(values = "")
     public String flowapi_flowstreamid;
 
     // will be used to test if update of flow should happen
     @Getter
     @Inject
-    @Default(values = "")
     public String flowapi_title;
+
+    @Getter
+    @Inject
+    public String flowapi_template;
+    
+    @Getter
+    @Inject
+    public String flowapi_designtemplate;    
+
+    @Getter
+    @Inject
+    public Boolean flowapi_iscontainer;
     
     // authored title and will be used compared to flowapi_title to determine if update of flow should happen
     @Getter
     @Inject
-    @Default(values = "")
     public String title;
 
     @Getter
     @Inject
-    @Default(values = "")
     public String flowapi_editurl;
 
     // accept HTL attributes
@@ -103,41 +103,8 @@ public class Flow extends BaseComponent {
             title = resource.getName();
         }
 
-        if (flowapi_enable) {
-            boolean isFlowExists = flowService.isFlowExists(flowapi_flowstreamid);
-            boolean isTemplateExists = PageUtil.isResourceExists(template, resourceResolver);
-            if (!isTemplateExists) {
-                LOG.info("nothing to do, template not found: {}", template);
-                return;
-            }
-            // create new flow or update existing flow
-            if (isFlowExists == false && isTemplateExists) {
-                // use topic from resource as priority
-                flowapi_flowstreamid = flowService.createFlowFromTemplate(template, resource, topic, title);
-                isFlowExists = flowService.isFlowExists(flowapi_flowstreamid);
-            } else if (isFlowExists && isTemplateExists) {
+        flowService.doProcessFlowResource(resource, title, topic, template, designTemplate, isContainer);
 
-                // if flowapi_title and title are different then update flowstream
-                if (flowapi_title.equals(title)) {
-                    LOG.info("nothing to update.");
-                } else {
-                    flowService.updateFlowFromTemplate(template, resource, title, flowapi_flowstreamid);
-                    if (isContainer & StringUtils.isNotBlank(designTemplate)) {
-                        flowService.updateFlowDesignFromTemplate(designTemplate, resource, title, flowapi_flowstreamid);
-                    }
-                }
-            } 
-
-            //if edit url has been cleared then update it if we have a flowstreamid
-            if (isFlowExists && StringUtils.isBlank(flowapi_editurl)) {
-                // set edit url
-                flowapi_editurl = flowService.compileEditUrl(flowapi_flowstreamid);
-                // update current resource
-                HashMap<String, Object> data = new HashMap<>();
-                data.put(prop(PROPERTY_EDITURL), flowapi_editurl);
-                PageUtil.updatResourceProperties(resource, data);
-            }
-        }
     }
 
 }
