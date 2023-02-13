@@ -23,18 +23,12 @@ body {
 .checkbox {
   display: flex;
   flex-direction: row;
-  width: 100%;
   align-items: center;
   justify-content: center;
 }
 .p-checkbox {
   text-align: center;
   margin: 0;
-  width: 2%;
-}
-.checkbox-width {
-  margin-right: 18%;
-  padding: 1%;
 }
 
 .dropdown {
@@ -63,9 +57,7 @@ body {
 .inputtext-label {
   margin-right: 23.5%;
 }
-#inputtext-width {
-  width: 85%;
-}
+
 .p-inputtext-m {
   width: 85% !important;
 }
