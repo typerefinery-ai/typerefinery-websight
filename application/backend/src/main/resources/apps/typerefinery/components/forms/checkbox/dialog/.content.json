@@ -11,7 +11,7 @@
       },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
       }
     }
   }
