@@ -24,8 +24,8 @@
 		"typerefinery_api_payload": "<script total>\n\n\texports.id = 'typerefinery_api_payload';\n\texports.name = 'API Payload';\n\texports.icon = 'fa fa-code';\n\texports.group = '@TypeRefinery';\n\texports.author = 'TypeRefinery.io';\n\texports.version = '2';\n\n\texports.config = { title: exports.name, version: exports.version, topic: \"topic\", type: \"wrap\", topicforce: true };\n\texports.inputs = [{ id: 'input', name: 'Input' }];\n\texports.outputs = [{ id: 'output', name: 'Output' }];\n\n\texports.meta = { settingswidth: 1200 };\n\n\texports.make = function(instance, config) {\n\n\t\tvar fn;\n\n\t\tinstance.message = function($) {\n\t\t\tvar data = $.data;\n\t\t\tif (config.topicforce) {\n\t\t\t\tdata.topic = config.topic;\n\t\t\t}\n\t\t\tswitch (config.type) {\n\t\t\t\tcase 'wrap':\n\t\t\t\t\tinstance.send('output', { payload: JSON.stringify(data) });\n\t\t\t\t\tbreak;\n\t\t\t\tdefault:\n\t\t\t\t\tvar payloadData = JSON.parse(data.payload);\n\t\t\t\t\tvar payloadTopic = payloadData.topic || \"no topic\";\n\t\t\t\t\t//skip if topic is not the same\n\t\t\t\t\tif (config.topic === payloadTopic) {\n\t\t\t\t\t\tinstance.send('output', payloadData);\n\t\t\t\t\t}\n\t\t\t\t\tbreak;\n\t\t\t}\n\t\t\t\n\t\t\t$.destroy();\n\t\t};\n\n\t\tinstance.configure = function() {\n\t\t\tif (config.topic === \"\") {\n\t\t\t\tconfig.topic = \"topic\";\n\t\t\t}\n\t\t\tif (config.type === \"\") {\n\t\t\t\tconfig.type = \"wrap\";\n\t\t\t}\n\t\t\tif (config.title === \"\") {\n\t\t\t\tconfig.title = exports.name;\n\t\t\t}\n\t\t\tconfig.version = exports.version;\n\t\t};\n\n\t\tinstance.close = function() {\n\t\t\tfn = null;\n\t\t};\n\n\t\tinstance.configure();\n\n\t};\n\n</script>\n\n<readme>\n\tWrap input data into Payload schema.\n</readme>\n\n<style>\n\t.CLASS .output { text-align: right }\n</style>\n\n<settings>\n\t<div class=\"padding\">\n\t\t<div data---=\"input__?.title__text\"><b>Title</b></div>\n\t\t<div data---=\"input__?.topic__text\"><b>Topic</b></div>\n\t\t<div data---=\"input__?.type__dirsource:wrap|Wrap,unwrap|Unwrap;required:1\">Type</div>\n\t\t<div data---=\"input__?.topicforce__type:checkbox\">Overwrite data Topic?</div>\n\t</div>\n</settings>\n\n<body>\n\t<header>\n\t\t<i class=\"ICON\"></i><b class=\"monospace\" data-bind=\"CONFIG.title__text__empty\"></b>\n\t\t<div><small><i>NAME v<span data-bind=\"CONFIG.version__text__empty\"></span></i></small></div>\n\t\t<div>Topic: <b class=\"monospace\" data-bind=\"CONFIG.topic__text__empty\"></b></div>\n\t\t<div>Type: <b class=\"monospace\" data-bind=\"CONFIG.type__text__empty\"></b></div>\n\t</header>\n</body>"
 	},
 	"design": {
-		"ildh7sbs6": {
-			"id": "ildh7sbs6",
+		"flowtmsinput": {
+			"id": "flowtmsinput",
 			"config": {},
 			"x": 66,
 			"y": 143,
@@ -51,8 +51,8 @@
 				]
 			}
 		},
-		"ildh922pb": {
-			"id": "ildh922pb",
+		"flowtmsoutput": {
+			"id": "flowtmsoutput",
 			"config": {},
 			"x": 1855.0001525878906,
 			"y": 135,
@@ -140,7 +140,7 @@
 			"connections": {
 				"output": [
 					{
-						"id": "ildh922pb",
+						"id": "flowtmsoutput",
 						"index": "subscribe"
 					}
 				]
