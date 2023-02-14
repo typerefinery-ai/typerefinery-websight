@@ -99,19 +99,19 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
         }
 
         public void processChanges(List<ResourceChange> changes, ResourceResolver resourceResolver) {
-            List<String> paths = new ArrayList<>();
+            final Map<String, Object> props = new HashMap<>();
+            HashMap<String, ResourceChange.ChangeType> changeMap = new HashMap<>();
             for (ResourceChange change : changes) {
                 String path = change.getPath();
                 Resource resource = resourceResolver.getResource(path);
 
                 if (flowService.isFlowEnabledResource(resource)) {
-                    paths.add(path);
+                    changeMap.put(path, change.getType());
                 }
             }
 
-            if (!paths.isEmpty()) {
-                final Map<String, Object> props = new HashMap<>();
-                props.put("paths", paths);
+            if (!changeMap.isEmpty()) {
+                props.put("changes", changeMap);
                 jobManager.addJob(JOB_TOPIC, props);
             }
 
