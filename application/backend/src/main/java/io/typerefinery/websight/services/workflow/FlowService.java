@@ -24,6 +24,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.resource.observation.ResourceChange;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,10 +133,7 @@ public class FlowService {
         return url;
     }
 
-    public void doProcessFlowResource(Resource resource) {
-        doProcessFlowResource(resource, null, null, null, null, null);
-    }
-    public void doProcessFlowResource(Resource resource, String title, String topic, String template, String designTemplate, Boolean isContainer) {
+    public void doProcessFlowResource(Resource resource, ResourceChange.ChangeType changeType) {
         ResourceResolver resourceResolver = resource.getResourceResolver();
         if (resource == null && ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
             return;
@@ -150,36 +148,35 @@ public class FlowService {
         String flowapi_designtemplate = properties.get(prop(PROPERTY_TEMPLATE_DESIGN), String.class);
         String flowapi_template = properties.get(prop(PROPERTY_TEMPLATE), String.class);
         String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
+        Boolean flowapi_enable = properties.get(prop(PROPERTY_ENABLE), false);
+        String authored_title = properties.get(PROPERTY_TITLE, String.class);
         
-        if (properties.get(prop(PROPERTY_ENABLE), false) == null) {
+        if (flowapi_enable && StringUtils.isNotBlank(flowapi_template)) {
 
             boolean isFlowExists = isFlowExists(flowapi_flowstreamid);
 
             //pick templates
-            String flowTemplate = StringUtils.isNotBlank(template) ? template : flowapi_template;
-            String flowTemplateDesign = StringUtils.isNotBlank(designTemplate) ? designTemplate : flowapi_designtemplate;
-            Boolean flowIsContainer = isContainer ? isContainer : BooleanUtils.isTrue(flowapi_iscontainer);
 
             boolean isTemplateExists = PageUtil.isResourceExists(flowapi_template, resourceResolver);
             if (!isTemplateExists) {
-                LOGGER.info("nothing to do, template not found: {}", template);
+                LOGGER.info("nothing to do, template not found: {}", flowapi_template);
                 return;
             }
             // create new flow or update existing flow
             if (isFlowExists == false && isTemplateExists) {
                 // use topic from resource as priority
-                flowapi_flowstreamid = createFlowFromTemplate(flowTemplate, resource, topic, title, designTemplate, flowIsContainer);
+                flowapi_flowstreamid = createFlowFromTemplate(flowapi_template, resource, flowapi_topic, flowapi_title, flowapi_designtemplate, flowapi_iscontainer);
                 isFlowExists = isFlowExists(flowapi_flowstreamid);
             } else if (isFlowExists && isTemplateExists) {
 
                 // if flowapi_title and title are different then update flowstream
-                if (flowapi_title.equals(title)) {
+                if (flowapi_title.equals(authored_title)) {
                     LOGGER.info("nothing to update.");
                     return;
                 } else {
-                    updateFlowFromTemplate(flowTemplate, resource, title, flowapi_flowstreamid);
-                    if (isContainer & StringUtils.isNotBlank(flowTemplateDesign)) {
-                        updateFlowDesignFromTemplate(flowTemplateDesign, resource, title, flowapi_flowstreamid);
+                    updateFlowFromTemplate(flowapi_template, resource, authored_title, flowapi_flowstreamid);
+                    if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
+                        updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid);
                     }
                 }
             } 
