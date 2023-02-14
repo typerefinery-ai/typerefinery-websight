@@ -27,10 +27,10 @@ import lombok.Getter;
  * 
  */
 @Component
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = Resource.class, resourceType = { FlowContainer.RESOURCE_TYPE }, defaultInjectionStrategy = OPTIONAL)
 public class FlowContainer extends BaseComponent implements FlowComponent {
     
-    public static final String RESOURCE_TYPE = "typerefinery/components/flow/container";
+    public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
 
     private static final Logger LOG = LoggerFactory.getLogger(FlowContainer.class);
     private static final String DEFAULT_ID = "flow";
