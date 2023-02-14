@@ -32,7 +32,7 @@ public class FlowContainer extends BaseComponent implements FlowComponent {
     
     public static final String RESOURCE_TYPE = "typerefinery/components/flow/container";
 
-    private static final Logger LOG = LoggerFactory.getLogger(Flow.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FlowContainer.class);
     private static final String DEFAULT_ID = "flow";
     private static final String DEFAULT_MODULE = "flowComponent";
     // read properties from resource
