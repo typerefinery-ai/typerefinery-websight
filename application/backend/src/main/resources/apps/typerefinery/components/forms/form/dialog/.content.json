@@ -2,13 +2,13 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "payloadTab": {
+    "writeTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Event Payload",
-      "fieldType": {
+      "label": "Write",
+      "writePayloadType": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "formType",
-        "label": "Type",
+        "name": "writePayloadType",
+        "label": "Payload Type",
         "form": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "FORM",
@@ -20,10 +20,49 @@
           "value": "application/json"
         }
       },
-      "url": {
+      "writeMethod": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "writeMethod",
+        "label": "Method",
+        "form": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "POST Request",
+          "value": "POST"
+        },
+        "json": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "PUT Request",
+          "value": "PUT"
+        }
+      },
+      "writeUrl": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "url",
-        "label": "API Endpoint URL"
+        "name": "writeUrl",
+        "label": "Endpoint URL"
+      }
+    },
+    "readTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Read",
+      "readMethod": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "readMethod",
+        "label": "Method",
+        "form": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "GET Request",
+          "value": "GET"
+        },
+        "json": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "POST Request",
+          "value": "POST"
+        }
+      },
+      "readUrl": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readUrl",
+        "label": "Endpoint URL"
       }
     }
   }
