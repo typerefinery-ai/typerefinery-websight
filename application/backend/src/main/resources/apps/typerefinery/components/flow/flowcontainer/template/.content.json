@@ -1,0 +1,5 @@
+{
+  "flowapi_template": "/apps/typerefinery/components/flow/flowcontainer/templates/component.json",
+  "flowapi_designtemplate": "/apps/typerefinery/components/flow/flowcontainer/templates/dashboard_design.json",
+  "flowapi_iscontainer": true
+}

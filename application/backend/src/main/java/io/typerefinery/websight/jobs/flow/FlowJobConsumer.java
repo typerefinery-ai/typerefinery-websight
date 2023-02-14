@@ -21,7 +21,7 @@ import org.apache.sling.api.resource.observation.ResourceChange;
 import io.typerefinery.websight.events.flow.FlowResourceChangeListener;
 import io.typerefinery.websight.models.components.workflow.Flow;
 import io.typerefinery.websight.services.ContentAccess;
-import io.typerefinery.websight.services.workflow.FlowService;
+import io.typerefinery.websight.services.flow.FlowService;
 
 import org.osgi.framework.Constants;
 

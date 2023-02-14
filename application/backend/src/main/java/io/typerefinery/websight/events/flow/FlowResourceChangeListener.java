@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.services.ContentAccess;
-import io.typerefinery.websight.services.workflow.FlowService;
+import io.typerefinery.websight.services.flow.FlowService;
 
 /**
  * The Sling Resource Change Listener is the preferred method for listening for Resource Change

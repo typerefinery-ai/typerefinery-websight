@@ -53,7 +53,7 @@
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
     },
-    "io.typerefinery.websight.services.workflow.FlowService": {
+    "io.typerefinery.websight.services.flow.FlowService": {
       "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
       "endpoint.export": "/flow/export/%s",
       "endpoint.import": "/flow/import",

@@ -1,4 +1,4 @@
-package io.typerefinery.websight.services.workflow;
+package io.typerefinery.websight.services.flow;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -36,12 +36,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegistry;
 import io.typerefinery.websight.utils.DateUtil;
 import io.typerefinery.websight.utils.JsonUtil;
 import io.typerefinery.websight.utils.PageUtil;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
@@ -75,12 +77,12 @@ public class FlowService {
     public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
     public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
 
-    public final String[] FLOW_ENABLED_COMPONENTS = {
-        "typerefinery/components/workflow/flow",
-        "typerefinery/components/widgets/ticker"
-    };
+    public static final String FLOW_SPI_KEY = "io.typerefinery.flow.spi.extension";
 
     public FlowServiceConfiguration configuration;
+
+    @Reference
+    private FlowComponentRegistry flowComponentRegistry;
 
     // create http client
     protected static HttpClient client;
@@ -866,14 +868,25 @@ public class FlowService {
         return null;
     }
     
+    /**
+     * check if resource is a flow enabled component
+     * @param resource
+     * @return
+     */
     public boolean isFlowEnabledResource(Resource resource) {
         if (resource == null) {
             return false;
         }
+
+        boolean isComponentFlowEnabled = false;
         ValueMap properties = resource.getValueMap();
         String slingResourceType = properties.get(SLING_RESOURCE_TYPE_PROPERTY, "");
-        boolean isComponentFlowEnabled = ArrayUtils.contains(this.FLOW_ENABLED_COMPONENTS, slingResourceType);
 
+        if (flowComponentRegistry != null) {
+            List<String> list = flowComponentRegistry.getComponents(FLOW_SPI_KEY);
+            isComponentFlowEnabled = list.contains(slingResourceType);
+        }
+        
         return isComponentFlowEnabled;
     }
 

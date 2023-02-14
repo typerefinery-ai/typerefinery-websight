@@ -1,4 +1,4 @@
-package io.typerefinery.websight.models.components.workflow;
+package io.typerefinery.websight.models.components.flow;
 
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
@@ -12,15 +12,26 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
+import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.services.workflow.FlowService;
+import io.typerefinery.websight.services.flow.FlowService;
+import io.typerefinery.websight.services.flow.registry.FlowComponent;
 import lombok.Getter;
 
+/*
+ * Flow component
+ * 
+ * register component as FlowComponent to be able to use it in FlowService to determine if component needs Flow Sync
+ * 
+ */
+@Component
 @Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-public class Flow extends BaseComponent {
+public class FlowContainer extends BaseComponent implements FlowComponent {
     
+    public static final String RESOURCE_TYPE = "typerefinery/components/flow/container";
+
     private static final Logger LOG = LoggerFactory.getLogger(Flow.class);
     private static final String DEFAULT_ID = "flow";
     private static final String DEFAULT_MODULE = "flowComponent";
@@ -62,23 +73,6 @@ public class Flow extends BaseComponent {
     @Inject
     public String flowapi_editurl;
 
-    // accept HTL attributes
-
-    // which template to use for flow
-    @RequestAttribute(name = "template")
-    private String template;
-
-    // which topic to use for flow
-    @RequestAttribute(name = "topic")
-    private String topic;
-
-    // which topic to use for flow
-    @RequestAttribute(name = "iscontainer")
-    private boolean isContainer;
-
-    // which design template to use for flow update
-    @RequestAttribute(name = "designtemplate")
-    private String designTemplate;
 
     @OSGiService
     FlowService flowService;
@@ -89,22 +83,21 @@ public class Flow extends BaseComponent {
         this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
+    }
 
-        LOG.info("init template: {}", template);
+    @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
 
-        //quick fail
-        if (StringUtils.isBlank(template)) {
-            return;
-        }
+    @Override
+    public String getComponent() {        
+        return RESOURCE_TYPE;
+    }
 
-        super.init();
-
-        if (StringUtils.isBlank(title)) {
-            title = resource.getName();
-        }
-
-        // flowService.doProcessFlowResource(resource, title, topic, template, designTemplate, isContainer);
-
+    @Override
+    public int getRanking() {
+        return 200;
     }
 
 }
