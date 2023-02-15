@@ -173,13 +173,6 @@ body {
   margin-top: 2rem !important;
 }
 
-.hl-container.hl-grid.hl-cols-12 {
-  align-items: baseline;
-  align-content: center;
-  width: 100%;
-  margin: auto;
-}
-
 section.hl-page-section.hl-grid.hl-cols-12 {
   padding-top: 0rem !important;
   width: 100%;
@@ -192,6 +185,7 @@ section.hl-page-section.hl-grid.hl-cols-12 {
   align-content: center;
   width: 100%;
   margin: auto;
+  justify-content: center;
 }
 
 section.hl-page-section.hl-grid.hl-cols-12 {
