@@ -106,7 +106,7 @@ jobs:
       - name: Install test content
         run: |
           cd tests/content
-          export APP_IP=$(docker network inspect bridge --format='{{( index .IPAM.Config 0).Gateway}}')"
+          export APP_IP=$(docker network inspect bridge --format="{( index .IPAM.Config 0).Gateway}}")
           echo APP_IP=${APP_IP}
           curl -vL -u wsadmin:wsadmin http://0.0.0.0:8080
           curl -vL -u wsadmin:wsadmin http://127.0.0.1:8080
