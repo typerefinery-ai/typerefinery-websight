@@ -13,7 +13,7 @@
     "rebuild-content": "cd ../content && mvn clean install -P autoInstallPackage",
     "report:merge": "npx mochawesome-merge -f cypress/results/json/*.json -o cypress/results/mochawesome-bundle.json",
     "report:clean": "rm -rf cypress/results cypress/screenshots cypress/reports || true",
-    "report:generate": "npx marge cypress/results/mochawesome-bundle.json -o cypress/reports/html",
+    "report:generate": "npx marge cypress/results/mochawesome-bundle.json -o cypress/reports/html -f report.html --inline",
     "report:moveScreenshots": "mv cypress/screenshots cypress/reports/html/screenshots 2>/dev/null || true",
     "report:moveVideos": "mv cypress/videos cypress/reports/html/videos 2>/dev/null || true",
     "report:moveData": "mv cypress/results/data cypress/reports/html/data 2>/dev/null || true",

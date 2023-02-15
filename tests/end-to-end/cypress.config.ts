@@ -39,7 +39,7 @@ const { defineConfig } = require("cypress")
 module.exports = defineConfig({
   chromeWebSecurity: false,
   screenshotsFolder: 'cypress/screenshots',
-  videosFolder: 'cypress/video',
+  videosFolder: 'cypress/videos',
   fixturesFolder: false,
   video: true,
   viewportWidth: 1280,
