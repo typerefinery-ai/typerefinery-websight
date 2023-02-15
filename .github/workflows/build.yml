@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up jdk ${{ matrix.java-version }}
-        uses: actions/setup-java@v3.4.1
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java-version }}
@@ -71,7 +71,7 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        
+
       - name: Build Everything
         run: |
           mvn clean install
