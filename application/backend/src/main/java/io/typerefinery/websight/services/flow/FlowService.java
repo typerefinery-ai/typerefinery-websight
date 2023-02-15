@@ -628,6 +628,7 @@ public class FlowService {
         
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
+        response.put(prop(PROPERTY_TITLE), newTitle);
 
         LOGGER.info("flowstreamdata: {}", response);
 
