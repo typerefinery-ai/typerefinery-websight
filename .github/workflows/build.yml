@@ -1,4 +1,7 @@
-name: build
+name: E2E Tests
+
+env:
+  MAVEN_ARGS: -B -C -V -ntp -Dhttp.keepAlive=false -e
 
 on:
   push:
@@ -17,7 +20,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: "pages"
+  group:  ci-e2e-docker-maven-plugin-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -74,7 +77,7 @@ jobs:
 
       - name: Build Everything
         run: |
-          mvn clean install
+          mvn ${MAVEN_ARGS} clean install -DskipTests -Djacoco.skip=true
 
       - name: Start the stack
         run: |
