@@ -112,7 +112,7 @@ jobs:
         run: |
           cd tests/end-to-end
           npm install
-          npm run test
+          npm run test:cireports
 
       - name: Stop the stack
         run: docker-compose down
