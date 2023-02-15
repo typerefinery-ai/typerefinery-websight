@@ -19,7 +19,7 @@ Cypress.on('test:after:run', (test, runnable) => {
         .join(' -- ')           // this is how cypress joins the test title fragments
 
     console.log(Cypress.spec.relative)
-    const assetPath = `${Cypress.spec.relative}`.replace("tests\\","").replace("\\", "/")
+    const assetPath = `${Cypress.spec.relative}`.replace("tests\\","").replaceAll("\\", "/")
 
     if (test.state === 'failed') {
 
