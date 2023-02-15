@@ -89,7 +89,7 @@ jobs:
           docker ps
           ls ~/.m2
           ls /home/runner/.m2
-          docker-compose up --profile devops cmswait 
+          docker-compose --profile up devops cmswait 
 
       - name: Install test content
         run: |
@@ -100,7 +100,6 @@ jobs:
         run: |
           cd tests/end-to-end
           npm install
-          docker ps -a
           export APP_IP=$(docker network inspect bridge --format='{{( index .IPAM.Config 0).Gateway}}')"
           echo APP_IP=${APP_IP}
           curl -vL -u wsadmin:wsadmin http://0.0.0.0:8080
