@@ -12,10 +12,11 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
         const data = {};
 
         document.querySelectorAll('[data-module="vue-checkBox"]').forEach($component => {
-            let modelName = $component.getAttribute("value");
+            let modelName = $component.getAttribute("name");
+            let value = $component.getAttribute("value");
             modelName.trim();
             $component.setAttribute("v-model", modelName);
-            data[modelName] = "";
+            data[modelName] = [value] || "";
         });
 
         // Register vue data.
