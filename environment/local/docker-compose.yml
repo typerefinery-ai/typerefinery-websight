@@ -93,8 +93,6 @@ services:
     volumes:
       - ./playbooks:/build/source
       - "~/.m2:/build/.m2"
-    networks:
-      - internal
 
 volumes:
   typerefinery-project_cms_logs:
