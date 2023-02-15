@@ -109,9 +109,8 @@ jobs:
           export APP_IP=$(docker network inspect bridge --format="{( index .IPAM.Config 0).Gateway}}")
           echo APP_IP=${APP_IP}
           curl -vL -u wsadmin:wsadmin http://0.0.0.0:8080
-          curl -vL -u wsadmin:wsadmin http://127.0.0.1:8080
           curl -vL -u wsadmin:wsadmin http://${APP_IP}:8080
-          mvn clean install -P autoInstallPackage -Dsling.install.package.host=${APP_IP}
+          mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
       - name: Run Automation tests
         run: |
