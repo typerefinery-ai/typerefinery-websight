@@ -75,7 +75,7 @@ jobs:
 
       - name: Start the stack
         run: |
-          cd environment\local
+          cd environment/local
           docker-compose up -d
 
       - name: Wait for aem using ansible
@@ -87,12 +87,12 @@ jobs:
 
       - name: Install test content
         run: |
-          cd tests\content
+          cd tests/content
           mvn clean install -P autoInstallBundle
 
       - name: Run Automation tests
         run: |
-          cd tests\end-to-end
+          cd tests/end-to-end
           npm run test
 
       - name: Stop the stack
@@ -102,7 +102,7 @@ jobs:
         run: |
           df
           docker ps -a
-          cd environment\local
+          cd environment/local
           docker-compose down
         if: failure()
 
