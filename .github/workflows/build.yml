@@ -84,11 +84,24 @@ jobs:
           cd environment/local
           docker-compose up -d
 
-      - name: Wait for aem using ansible
+      - name: Wait for CMS to start
         run: |
-          ls ~/.m2
-          ls /home/runner/.m2
-          docker-compose --profile devops up cmswait 
+          echo "Waiting for bundles to be installed"
+          export LOGIN="wsadmin:wsadmin"
+          export ADDRESS="http://0.0.0.0:8080"
+          export INSTALL_CHECK="/system/console/bundles.json"
+          echo "curl -u $LOGIN --header Referer:${ADDRESS} --silent --connect-timeout 5 --max-time 5 ${ADDRESS}${INSTALL_CHECK} | grep -q \"state\":\"Installed\" && echo true || echo false"
+
+          echo "Wait: "
+          echo -n "." ""
+          while [[ "true" == "$(curl -L -u "$LOGIN" --header "Referer:${ADDRESS}" --silent -N --connect-timeout 5 --max-time 5 "${ADDRESS}${INSTALL_CHECK}" | grep -q "\"state\":\"Installed\"" && echo true || echo false)" ]]; do
+              echo -n "." ""
+              $SLEEP 1
+          done
+          echo "" ""
+
+          echo "Bundles are installed"
+
 
       - name: Install test content
         run: |
