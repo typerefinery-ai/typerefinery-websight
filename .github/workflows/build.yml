@@ -106,7 +106,7 @@ jobs:
       - name: Install test content
         run: |
           cd tests/content
-          mvn clean install -P autoInstallBundle
+          mvn clean install -P autoInstallPackage
 
       - name: Run Automation tests
         run: |
