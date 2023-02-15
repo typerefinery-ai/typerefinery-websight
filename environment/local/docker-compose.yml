@@ -78,11 +78,6 @@ services:
     image: aemdesign/java-buildpack:jdk11
     hostname: cmswait
     working_dir: "/build/source"
-    environment:
-      aem_port: 4502
-      aem_host: author
-      aem_username: admin
-      aem_password: admin
     profiles:
       - devops
     command:
