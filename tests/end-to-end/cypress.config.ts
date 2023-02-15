@@ -38,12 +38,19 @@ const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
-  screenshotsFolder: 'build/screenshots',
-  videosFolder: 'build/video',
+  screenshotsFolder: 'cypress/screenshots',
+  videosFolder: 'cypress/video',
   fixturesFolder: false,
-  video: false,
+  video: true,
   viewportWidth: 1280,
   viewportHeight: 1024,
+  reporter: "cypress-multi-reporters",
+  reporterOptions: {
+    configFile: "reporter-config.json",
+    overwrite: false,
+    html: false,
+    json: true
+  },
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost:8080',
