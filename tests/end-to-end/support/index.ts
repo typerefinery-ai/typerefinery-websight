@@ -15,6 +15,7 @@
  */
 
 import './commands';
+import './reports';
 import '@percy/cypress';
 import { SnapshotOptions } from '@percy/core';
 

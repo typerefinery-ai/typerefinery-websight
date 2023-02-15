@@ -33,6 +33,6 @@ describe('barChart Component', () => {
     );
     cy.reload();
     cy.get('.css-7uss0q').click();
-    cy.screenshot('Barchart Edited');
+    cy.screenshot();
   });
 });
