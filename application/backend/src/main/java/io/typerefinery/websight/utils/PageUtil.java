@@ -241,7 +241,7 @@ public class PageUtil {
      * @param response
      */
     public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
-        ModifiableValueMap properties;
+        ModifiableValueMap properties = null;
         try {
 
             LOGGER.info("updateFlowStreamResponse: {}", response);
