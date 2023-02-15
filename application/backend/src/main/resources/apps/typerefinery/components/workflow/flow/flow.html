@@ -1,7 +1,0 @@
-<sly data-sly-use.model="${'io.typerefinery.websight.models.components.layout.Container' @ decorationTagName='section'}"
-    data-sly-set.flowtemplate="/apps/typerefinery/components/workflow/flow/templates/dashboard.json"
-    data-sly-set.flowdesigntemplate="/apps/typerefinery/components/workflow/flow/templates/dashboard_design.json"
-    data-sly-use.flow="${'io.typerefinery.websight.models.components.workflow.Flow' @ template=flowtemplate, designtemplate=flowdesigntemplate, iscontainer=true}"
-    data-sly-use.template="./variant.html"
-    data-sly-call="${template.variant @ model=model}">
-</sly>

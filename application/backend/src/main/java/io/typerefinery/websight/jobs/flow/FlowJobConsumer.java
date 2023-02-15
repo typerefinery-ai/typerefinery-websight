@@ -1,5 +1,6 @@
 package io.typerefinery.websight.jobs.flow;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.sling.api.resource.Resource;
@@ -16,10 +17,11 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.sling.api.resource.observation.ResourceChange;
 import io.typerefinery.websight.events.flow.FlowResourceChangeListener;
-import io.typerefinery.websight.models.components.workflow.Flow;
+import io.typerefinery.websight.models.components.flow.FlowContainer;
 import io.typerefinery.websight.services.ContentAccess;
-import io.typerefinery.websight.services.workflow.FlowService;
+import io.typerefinery.websight.services.flow.FlowService;
 
 import org.osgi.framework.Constants;
 
@@ -61,24 +63,20 @@ public class FlowJobConsumer implements JobConsumer {
     public JobResult process(final Job job) {
         this.enabled = flowService.configuration.flow_page_change_listener_enabled();
         if (enabled) {
-            List<String> paths = job.getProperty("paths", List.class);
+            HashMap<String, ResourceChange.ChangeType> changeMap = job.getProperty("changes", HashMap.class);
 
             try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
 
-                paths.forEach(path -> {
+                changeMap.forEach((path, changeType) -> {
                     Resource resource = resourceResolver.getResource(path);
                     if (!ResourceUtil.isNonExistingResource(resource)) {
-                        //adapt to flow and let init do its job
-                        // resource.adaptTo(Flow.class);
                         // run resource processing
-                        flowService.doProcessFlowResource(resource);
-                        // ValueMap valueMap = resource.getValueMap();
-
+                        flowService.doProcessFlowResource(resource, changeType);
                     } else {
                         LOGGER.warn("Could not have access to resource {}.", path);
                     }
                 });
-
+                
             } catch (Exception e) {
                 LOGGER.error("Could not process paths.", e);
                 return JobResult.FAILED;
