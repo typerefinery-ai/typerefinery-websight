@@ -4,7 +4,7 @@
   become: true
   vars:
     PORT: "8080"
-    HOST: "author"
+    HOST: "host.docker.internal"
     USERNAME: "wsadmin"
     PASSWORD: "wsadmin"
     debug_hide: false
