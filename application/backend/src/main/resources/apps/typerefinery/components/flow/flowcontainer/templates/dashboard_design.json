@@ -7,7 +7,7 @@
 		},
 		"x": 220,
 		"y": 132,
-		"component": "component_flow_output",
+		"component": "component_flow_subscribe",
 		"connections": {
 			"data": [
 				{
@@ -95,7 +95,7 @@
 		},
 		"x": 611.0000305175781,
 		"y": 440.00000762939453,
-		"component": "component_flow_input",
+		"component": "component_flow_publish",
 		"connections": {},
 		"template": {
 			"type": "output2",
