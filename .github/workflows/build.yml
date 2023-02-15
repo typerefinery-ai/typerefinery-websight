@@ -69,9 +69,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build Docker
+      - name: Build Everything
         run: |
-          cd distribution
           mvn clean install
 
       - name: Start the stack
