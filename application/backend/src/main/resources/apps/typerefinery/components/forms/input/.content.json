@@ -2,6 +2,6 @@
   "group": "Typerefinery - Forms",
   "isLayout": true,
   "sling:resourceType": "ws:Component",
-  "description": "This is CTA component for Howlite",
+  "description": "This is Input Field",
   "title": "Inputtext"
 }

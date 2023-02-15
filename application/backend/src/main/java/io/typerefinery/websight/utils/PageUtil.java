@@ -241,16 +241,18 @@ public class PageUtil {
      * @param response
      */
     public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
+        ModifiableValueMap properties = null;
         try {
 
             LOGGER.info("updateFlowStreamResponse: {}", response);
             ResourceResolver resourceResolver = resourceToUpdate.getResourceResolver();
-            ModifiableValueMap properties = resourceToUpdate.adaptTo(ModifiableValueMap.class);
+            properties = resourceToUpdate.adaptTo(ModifiableValueMap.class);
             properties.putAll(response);
             resourceResolver.commit();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOGGER.warn("Failed update resource node, check permissions, properties are {}. Error {}", properties, ex);
+            ex.printStackTrace();
         }
     }
 

@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
-
+import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
@@ -27,9 +27,38 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
 public class Form extends BaseFormComponent {
   @Inject
   @Getter
-  private String url;
+  private String writeUrl;
 
   @Inject
   @Getter
-  private String formType;
+  private String writePayloadType;
+
+  
+  @Inject
+  @Getter
+  private String writeMethod;
+
+  @Inject
+  @Getter
+  private String readUrl;
+
+  @Inject
+  @Getter
+  private String readPayloadType;
+
+  
+  @Inject
+  @Getter
+  private String readMethod;
+
+  private static final String DEFAULT_ID = "form";
+  private static final String DEFAULT_MODULE = "formComponent";
+    
+  @Override
+  @PostConstruct
+  protected void init() {
+      this.id = DEFAULT_ID;
+      this.module = DEFAULT_MODULE;
+      super.init();
+  }
 }

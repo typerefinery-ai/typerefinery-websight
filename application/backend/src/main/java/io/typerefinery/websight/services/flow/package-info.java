@@ -15,7 +15,6 @@
  */
 
 @Version("1.0.0")
-package io.typerefinery.websight.models.components.workflow;
+package io.typerefinery.websight.services.flow;
 
 import org.osgi.annotation.versioning.Version;
-

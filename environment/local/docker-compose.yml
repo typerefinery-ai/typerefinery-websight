@@ -74,6 +74,21 @@ services:
     volumes:
       - ${VOLUME_NAME_PREFIX}-project_site_repository:/usr/share/nginx/html:ro
 
+  cmswait:
+    image: aemdesign/java-buildpack:jdk11
+    hostname: cmswait
+    working_dir: "/build/source"
+    profiles:
+      - devops
+    command:
+      - bash
+      - -l
+      - -c
+      - "ls -latr /build/.m2/repository && pwd && ls -l && ansible-galaxy install -r requirements.yml && ansible-playbook testingprep.yml --extra-vars debug_hide=true"
+    volumes:
+      - ./playbooks:/build/source
+      - "~/.m2:/build/.m2"
+
 volumes:
   typerefinery-project_cms_logs:
     name: ${VOLUME_NAME_PREFIX}-project_cms_logs

@@ -1,4 +1,4 @@
-package io.typerefinery.websight.services.workflow;
+package io.typerefinery.websight.services.flow;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -17,13 +17,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.resource.observation.ResourceChange;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +34,18 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegistry;
 import io.typerefinery.websight.utils.DateUtil;
 import io.typerefinery.websight.utils.JsonUtil;
 import io.typerefinery.websight.utils.PageUtil;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
-import org.osgi.service.metatype.annotations.ObjectClassDefinition;
-
-import org.apache.sling.api.SlingConstants;
-
-import static io.typerefinery.websight.utils.PageUtil.PRIMARY_TYPE_PAGE;;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;;
 
 @Component(
         service = FlowService.class,
@@ -66,18 +63,24 @@ public class FlowService {
     public static final String PROPERTY_PREFIX = "flowapi_";
     public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
     public static final String PROPERTY_TOPIC = "topic";
+    public static final String PROPERTY_GROUP = "group";
     public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_CREATEDON = "createdon";
     public static final String PROPERTY_UPDATEDON = "updatedon";
     public static final String PROPERTY_EDITURL = "editurl";
     public static final String PROPERTY_ENABLE = "enable";
+    public static final String PROPERTY_TEMPLATE = "template";
+    public static final String PROPERTY_TEMPLATE_DESIGN = "designtemplate";
+    public static final String PROPERTY_ISCONTAINER = "iscontainer";
+    public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
+    public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
 
-    public final String[] FLOW_ENABLED_COMPONENTS = {
-        "typerefinery/components/workflow/flow",
-        "typerefinery/components/widgets/ticker"
-    };
+    public static final String FLOW_SPI_KEY = "io.typerefinery.flow.spi.extension";
 
     public FlowServiceConfiguration configuration;
+
+    @Reference
+    private FlowComponentRegistry flowComponentRegistry;
 
     // create http client
     protected static HttpClient client;
@@ -130,6 +133,57 @@ public class FlowService {
         return url;
     }
 
+    public void doProcessFlowResource(Resource resource, ResourceChange.ChangeType changeType) {
+        ResourceResolver resourceResolver = resource.getResourceResolver();
+        if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
+            return;
+        }
+        ValueMap properties = resource.getValueMap();
+
+        Boolean flowapi_enable = properties.get(prop(PROPERTY_ENABLE), false);
+        String flowapi_template = properties.get(prop(PROPERTY_TEMPLATE), String.class);
+        
+        if (flowapi_enable && StringUtils.isNotBlank(flowapi_template)) {
+
+            String authored_title = properties.get(PROPERTY_TITLE, String.class);
+            Boolean flowapi_iscontainer = properties.get(prop(PROPERTY_ISCONTAINER), false);
+            String flowapi_flowstreamid = properties.get(prop(PROPERTY_FLOWSTREAMID), String.class);
+            String flowapi_topic = properties.get(prop(PROPERTY_TOPIC), String.class);
+            String flowapi_title = properties.get(prop(PROPERTY_TITLE), String.class);
+            String flowapi_group = properties.get(prop(PROPERTY_GROUP), String.class);
+            String flowapi_designtemplate = properties.get(prop(PROPERTY_TEMPLATE_DESIGN), String.class);
+            String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
+    
+            boolean isFlowExists = isFlowExists(flowapi_flowstreamid);
+
+            //pick templates
+
+            boolean isTemplateExists = PageUtil.isResourceExists(flowapi_template, resourceResolver);
+            if (!isTemplateExists) {
+                LOGGER.info("nothing to do, template not found: {}", flowapi_template);
+                return;
+            }
+            // create new flow or update existing flow
+            if (isFlowExists == false && isTemplateExists) {
+                // use topic from resource as priority
+                flowapi_flowstreamid = createFlowFromTemplate(flowapi_template, resource, flowapi_topic, flowapi_title, flowapi_designtemplate, flowapi_iscontainer);
+                isFlowExists = isFlowExists(flowapi_flowstreamid);
+            } else if (isFlowExists && isTemplateExists) {
+
+                // if flowapi_title and title are different then update flowstream
+                if (flowapi_title.equals(authored_title) || StringUtils.isBlank(authored_title)) {
+                    LOGGER.info("nothing to update.");
+                    return;
+                } else {
+                    updateFlowFromTemplate(flowapi_template, resource, authored_title, flowapi_flowstreamid);
+                    if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
+                        updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid);
+                    }
+                }
+            } 
+        }        
+    }
+
 
     // create a flow from content
     public HashMap<String, Object> doFlowStreamImportData(String content) {
@@ -165,6 +219,7 @@ public class FlowService {
                     return flowResponse;
                 }
                 
+                // get flowstreamid
                 String flowstreamid = json.get("value").asText();
                 String flowapi_editurl = compileEditUrl(flowstreamid);
 
@@ -435,10 +490,11 @@ public class FlowService {
      * @param id id to use for the flow
      * @param isContainer if true then create a flow container
      */
-    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title) {
+    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title, String designTemplatePath, boolean isContainer) {
 
+        // generate a title if its not specified
         if (StringUtils.isBlank(title)) {
-            title = "flow";
+            title = componentResource.getName() + " flow";
         }
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
@@ -483,17 +539,19 @@ public class FlowService {
         // JsonNode component_flow_input = components.get("flow_input");
         if (componentTemplate.has("design")) {
             JsonNode design = componentTemplate.get("design");
-
-            // update topic in flow_tms_filter_update
-            if (design.has("flow_tms_filter_update")) {
-                JsonNode instance_design_flowtmsfilterupdate = design.get("flow_tms_filter_update");
+            
+            // update topic in flow tms filter update block
+            // this is used to wrap data incoming into flow before its sent to TMS
+            if (design.has("flowtmsfilterupdate")) {
+                JsonNode instance_design_flowtmsfilterupdate = design.get("flowtmsfilterupdate");
                 JsonNode instance_design_flowtmsfilterupdate_config = instance_design_flowtmsfilterupdate.get("config");
                 ((ObjectNode)instance_design_flowtmsfilterupdate_config).put("topic", flowTopic);
             }
 
-            //update topic in flow_tms_filter_get
-            if (design.has("flow_tms_filter_get")) {
-                JsonNode instance_design_flowtmsfilterget = design.get("flow_tms_filter_get");
+            //update topic in flow tms filter get block
+            // this is used to unwrap data incoming from TMS before its sent as flow output
+            if (design.has("flowtmsfilterget")) {
+                JsonNode instance_design_flowtmsfilterget = design.get("flowtmsfilterget");
                 JsonNode instance_design_flowtmsfilterget_config = instance_design_flowtmsfilterget.get("config");
                 ((ObjectNode)instance_design_flowtmsfilterget_config).put("topic", flowTopic);
             }
@@ -505,9 +563,16 @@ public class FlowService {
         // send to flowstream
         HashMap<String, Object> response = doFlowStreamImportData(componentJson);
         
+        String responseFlowId = (String)response.get(prop(PROPERTY_FLOWSTREAMID));
+
         response.put(prop(PROPERTY_TOPIC), flowTopic);
+        response.put(prop(PROPERTY_GROUP), flowGroup);
         response.put(prop(PROPERTY_TITLE), title);
+        response.put(prop(PROPERTY_TEMPLATE), templatePath);
+        response.put(prop(PROPERTY_TEMPLATE_DESIGN), designTemplatePath);
+        response.put(prop(PROPERTY_ISCONTAINER), isContainer);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
+        response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -515,7 +580,7 @@ public class FlowService {
         PageUtil.updatResourceProperties(componentResource, response);
 
         //return flowstreamid
-        return response.get(PROPERTY_FLOWSTREAMID).toString();
+        return responseFlowId;
 
     }
 
@@ -562,6 +627,7 @@ public class FlowService {
         HashMap<String, Object> response = doFlowStreamUpdateData(componentJson, flowstreamid);
         
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
+        response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -799,33 +865,26 @@ public class FlowService {
         return null;
     }
     
+    /**
+     * check if resource is a flow enabled component
+     * @param resource
+     * @return
+     */
     public boolean isFlowEnabledResource(Resource resource) {
         if (resource == null) {
             return false;
         }
+
+        boolean isComponentFlowEnabled = false;
         ValueMap properties = resource.getValueMap();
-        String slingResourceType = properties.get(SlingConstants.PROPERTY_RESOURCE_TYPE, "");
-        boolean isComponentFlowEnabled = ArrayUtils.contains(this.FLOW_ENABLED_COMPONENTS, slingResourceType);
+        String slingResourceType = properties.get(SLING_RESOURCE_TYPE_PROPERTY, "");
 
-        // quick exit
-        if (isComponentFlowEnabled == false) {
-            return false;
+        if (flowComponentRegistry != null) {
+            List<String> list = flowComponentRegistry.getComponents(FLOW_SPI_KEY);
+            isComponentFlowEnabled = list.contains(slingResourceType);
         }
-
-        // String primaryType = properties.get(JcrConstants.JCR_PRIMARYTYPE, "");
-        boolean isPage = properties.get(JcrConstants.JCR_PRIMARYTYPE, "").equals(PRIMARY_TYPE_PAGE);
-
-        String flowstreamid = properties.get(prop(PROPERTY_FLOWSTREAMID), "");
-        boolean flowenabled = properties.get(prop(PROPERTY_ENABLE), false);
-
-        LOGGER.info("isFlowEnabledResource: isPage: {}, isComponentFlowEnabled: {}, flowenabled: {}, flowstreamid: {}", 
-            isPage, isComponentFlowEnabled, flowenabled, flowstreamid
-        );
-
-        if (flowenabled && StringUtils.isNotBlank(flowstreamid)) {
-            return true;
-        }
-        return false;
+        
+        return isComponentFlowEnabled;
     }
 
 

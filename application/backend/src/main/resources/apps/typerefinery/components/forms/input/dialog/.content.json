@@ -11,7 +11,7 @@
       },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
       },
       "placeholder": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -31,6 +31,11 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Date",
           "value": "date"
+        },
+        "tel": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Mobile Number",      
+          "value": "tel"      
         },
         "number": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",

@@ -38,8 +38,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             "PsExec",
             "Minikatz",
         ],
-        dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
-        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40",
+        dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
+        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color'),
     };
 
     ns.updateComponentHTML = (data, $component) => {
@@ -64,7 +64,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 const { ctx } = chart;
                 ctx.save();
                 ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--primary-object-background-color') || "#343a40";
+                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
             },
@@ -81,7 +81,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         fill: false,
                         backgroundColor:
                             data.backgroundColor || componentConfig.backgroundColor,
-                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE",
+                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
                         borderWidth: 1
                     }
                 ]
@@ -99,20 +99,20 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                             display: false,
                         },
                         ticks: {
-                            color: "#5D7183"
+                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
                         }
                     },
                     y: {
                         grid: {
-                            color: themeNs?.rootElementStyle.getPropertyValue("--grid-color")
+                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color')
                         },
                         ticks: {
-                            color: "#5D7183"
+                            color:themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color')
                         }
                     }
                 },
                 customCanvasBackgroundColor: {
-                    color: themeNs?.rootElementStyle.getPropertyValue('--primary-object-background-color') || data.canvasBackgroundColor,
+                    color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color') || data.canvasBackgroundColor,
                 },
                 interaction: {
                     intersect: false
@@ -186,12 +186,11 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         componentConfig.dataSetBorderColor ||
                         themeNs?.rootElementStyle.getPropertyValue(
                             "--primary-object-border-color"
-                        ) ||
-                        "#001E3C",
+                        ),
                     borderColor:
                         data.dataSetBorderColor ||
                         componentConfig.dataSetBorderColor ||
-                        themeNs?.rootElementStyle.getPropertyValue("--primary-object-border-color") || "#001E3C",
+                        themeNs?.rootElementStyle.getPropertyValue("--primary-object-border-color"),
                     borderWidth: 1,
                 }
             ]
