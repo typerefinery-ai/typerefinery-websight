@@ -3,7 +3,7 @@
 		"id": "<subscribe-id>",
 		"config": {
 			"name": "",
-			"id": "<flowid>_flowoutput"
+			"id": "<childflowid>_flowoutput"
 		},
 		"x": 220,
 		"y": 132,
@@ -91,7 +91,7 @@
 		"config": {
 			"name": "",
 			"readme": "",
-			"id": "<flowid>_flowinput"
+			"id": "<childflowid>_flowinput"
 		},
 		"x": 611.0000305175781,
 		"y": 440.00000762939453,

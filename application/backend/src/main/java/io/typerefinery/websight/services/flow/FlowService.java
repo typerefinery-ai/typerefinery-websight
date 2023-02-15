@@ -15,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -673,7 +675,7 @@ public class FlowService {
 
             for (Resource flowResource : flowResources) {
 
-                String flowId = flowResource.getValueMap().get(PROPERTY_FLOWSTREAMID, String.class);
+                String flowId = flowResource.getValueMap().get(prop(PROPERTY_FLOWSTREAMID), String.class);
                 if (StringUtils.isNotBlank(flowId)) {
 
 
@@ -691,7 +693,8 @@ public class FlowService {
 
                     // setup a list of replace strings
                     HashMap<String, String> replaceMap = new HashMap<String, String>(){{
-                        put("<flowid>", flowstreamid);
+                        put("<childflowid>", flowId);
+                        put("<parentflowid>", flowstreamid);
                         put("<subscribe-id>", StringUtils.join(childPath, "subscribe"));
                         put("<printjson-id>", StringUtils.join(childPath, "printjson"));
                         put("<senddata-id>", StringUtils.join(childPath, "senddata"));
@@ -701,10 +704,12 @@ public class FlowService {
 
                     boolean flowIsUsed = false;
                     // check if any replacemap nodes existing in current design
+                    // do we have components in current design that we need to copy over as is
                     if (currentDesign != null) {
                         for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
                             if (currentDesign.has(entry.getValue())) {
                                 flowIsUsed = true;
+                                //copy existing component to new design
                                 JsonNode components = currentDesign.get(entry.getValue());
                                 newDesignComponents.set(flowId, components.get(flowId));        
                                 LOGGER.error("flow [{}] already has using this flow step resource: {}", flowstreamid, entry.getValue());
@@ -726,39 +731,59 @@ public class FlowService {
                     } else {
                         
                         try {
-                            JsonNode componentSampleDataJson = mapper.readTree(designTemplateString);
+                            JsonNode componentSampleDataJson = mapper.readTree(componentSampleData);
                             // update sample data
                             //<sample-data>
-                            replaceMap.put("<sample-data>", mapper.writeValueAsString(componentSampleDataJson));
+                            String escapedJson = StringEscapeUtils.escapeJson(mapper.writeValueAsString(componentSampleDataJson));
+                            replaceMap.put("<sample-data>", escapedJson);
                         } catch (Exception e) {
                             LOGGER.error("error parsing design template: {}", e.getMessage());
                             return;
                         }
                     }
 
-                    //replace values in design
+                    StringBuilder designTemplateStringBuilder = new StringBuilder(designTemplateString);
+                                        //replace values in design
                     for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
+                        
+                        // replace value in designTemplateStringBuilder while it exists
+                        while (designTemplateStringBuilder.indexOf(entry.getKey()) != -1) {
+                            designTemplateStringBuilder.replace(designTemplateStringBuilder.indexOf(entry.getKey()), designTemplateStringBuilder.indexOf(entry.getKey()) + entry.getKey().length(), entry.getValue());
+                        }
+
                         designTemplateString = designTemplateString.replaceAll(entry.getKey(), entry.getValue());
                     }
 
                     // add new design steps to flow design
                     try {
-                        JsonNode newDesign = mapper.readTree(designTemplateString);
-                        // add to desing
-                        newDesignComponents.set(flowId, newDesign);
+                        JsonNode newDesign = mapper.readTree(designTemplateStringBuilder.toString());
+                        
+                        //for each step in new design
+                        Iterator<Entry<String, JsonNode>> fieldsIterator = newDesign.fields();
+                        while (fieldsIterator.hasNext()) {
+                            Entry<String, JsonNode> field = fieldsIterator.next();
+                            //add to new design components
+                            newDesignComponents.set(field.getKey(), field.getValue());
+                        }
+
+                        String newDesignComponentsString = mapper.writeValueAsString(newDesignComponents);
+                        
+                        // update flow
+                        doFlowStreamDesignSaveData(newDesignComponentsString, flowstreamid);
+
                     } catch (Exception e) {
                         LOGGER.error("error parsing design template: {}", e.getMessage());
+                        e.printStackTrace();
                         return;
                     }
+            
+
+
                 }
             }
             
             
-            
-            //update flow
-            // ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            // String newDesignComponentsString = mapper.writeValueAsString(newDesignComponents);
-            // doFlowStreamDesignSaveData(newDesignComponentsString, flowstreamid);
+
         }
     }
 
@@ -769,9 +794,8 @@ public class FlowService {
      * @param resourceResolver resource resolver
      */
     public String getComponentSampleJson(Resource resource, ResourceResolver resourceResolver) {
-        pl.ds.websight.components.core.api.Component resourceComponent = resource.adaptTo(pl.ds.websight.components.core.api.Component.class);
         
-        String samplePath = resourceComponent.getPath() + "/sample.json";
+        String samplePath = "/apps/" + resource.getResourceType() + "/sample.json";
         if (!resourceResolver.getResource(samplePath).isResourceType("nt:file")) {
             return "";
         }
