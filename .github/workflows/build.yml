@@ -1,0 +1,103 @@
+name: build
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+
+    strategy:
+      max-parallel: 4
+      matrix:
+        java-version: [ 17 ]
+        python-version: [ 3.6 ]
+        node-version: [ 14 ]
+
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up jdk ${{ matrix.java-version }}
+        uses: actions/setup-java@v3.4.1
+        with:
+          distribution: 'adopt'
+          java-version: ${{ matrix.java-version }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Get release notes
+        id: config
+        run: |
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_version.sh)
+
+      - name: Output release notes
+        run: |
+          echo "${{ steps.config.outputs.GIT_RELEASE_NOTES }}"
+          echo CURRENT_VERSION="${{ steps.config.outputs.CURRENT_VERSION }}"
+
+      - name: Cache maven packages
+        uses: actions/cache@v3.0.8
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build Docker
+        run: |
+          cd distribution
+          mvn clean install
+
+      - name: Start the stack
+        run: |
+          cd environment\local
+          docker-compose up -d
+
+      - name: Wait for aem using ansible
+        run: |
+          docker ps
+          ls ~/.m2
+          ls /home/runner/.m2
+          docker-compose up --profile devops cmswait 
+
+      - name: Run Automation tests
+        run: |
+          cd tests\end-to-end
+          npm run test
+
+      - name: Stop the stack
+        run: docker-compose down
+
+      - name: Automation test if failure
+        run: |
+          df
+          docker ps -a
+          docker-compose down
+        if: failure()
+
