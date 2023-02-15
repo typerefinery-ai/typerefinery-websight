@@ -99,6 +99,7 @@ jobs:
       - name: Run Automation tests
         run: |
           cd tests/end-to-end
+          npm install
           npm run test
 
       - name: Stop the stack
