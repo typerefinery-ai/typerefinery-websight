@@ -71,8 +71,7 @@ public class FlowJobConsumer implements JobConsumer {
                     Resource resource = resourceResolver.getResource(path);
                     if (!ResourceUtil.isNonExistingResource(resource)) {
                         // run resource processing
-                        //flowService.doProcessFlowResource(resource, changeType);
-                        // ValueMap valueMap = resource.getValueMap();
+                        flowService.doProcessFlowResource(resource, changeType);
                     } else {
                         LOGGER.warn("Could not have access to resource {}.", path);
                     }
