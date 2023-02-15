@@ -100,7 +100,7 @@ jobs:
         run: |
           cd tests/end-to-end
           npm install
-          npm run test
+          CYPRESS_BASE_URL=http://0.0.0.0:8080 npm run test
 
       - name: Stop the stack
         run: docker-compose down
