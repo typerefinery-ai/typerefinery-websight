@@ -167,6 +167,9 @@ public class FlowService {
             if (isFlowExists == false && isTemplateExists) {
                 // use topic from resource as priority
                 flowapi_flowstreamid = createFlowFromTemplate(flowapi_template, resource, flowapi_topic, flowapi_title, flowapi_designtemplate, flowapi_iscontainer);
+                if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
+                    updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid);
+                }
                 isFlowExists = isFlowExists(flowapi_flowstreamid);
             } else if (isFlowExists && isTemplateExists) {
 
