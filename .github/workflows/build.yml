@@ -86,6 +86,11 @@ jobs:
           ls /home/runner/.m2
           docker-compose up --profile devops cmswait 
 
+      - name: Install test content
+        run: |
+          cd tests\content
+          mvn clean install -P autoInstallBundle
+
       - name: Run Automation tests
         run: |
           cd tests\end-to-end
