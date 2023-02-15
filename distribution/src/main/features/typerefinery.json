@@ -63,9 +63,14 @@
       "flow.meta.author": "TypeRefinery.io"
     },
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
-      "user.default": "sling-readall",
+      "user.default": "sling-adminall",
       "user.mapping": [
-        "typerefinery-backend:content-services=sling-readall"
+        "typerefinery-backend:content-services=sling-adminall"
+      ]
+    },
+    "org.apache.sling.jcr.repoinit.RepositoryInitializer~repoinit2": {
+      "scripts": [
+        " create service user sling-adminall with path system/sling \n        set ACL for sling-adminall\n            allow   jcr:all    on /\n            allow   jcr:read,rep:write    on /content\n        end\n"
       ]
     }
   }
