@@ -103,6 +103,7 @@ jobs:
         run: |
           df
           docker ps -a
+          cd environment\local
           docker-compose down
         if: failure()
 
