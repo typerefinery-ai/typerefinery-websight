@@ -86,10 +86,9 @@ jobs:
 
       - name: Wait for aem using ansible
         run: |
-          docker ps
           ls ~/.m2
           ls /home/runner/.m2
-          docker-compose --profile up devops cmswait 
+          docker-compose --profile devops up cmswait 
 
       - name: Install test content
         run: |
