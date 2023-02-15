@@ -12,6 +12,6 @@ describe('Ticker Component', () => {
       '/content/typerefinery-showcase/pages/components/widgets/table.html'
     );
     cy.get('.table')
-    cy.screenshot('Table')
+    cy.screenshot()
   });
 });

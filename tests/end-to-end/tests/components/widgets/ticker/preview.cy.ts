@@ -8,6 +8,6 @@ describe('Ticker Component', () => {
     );
 cy.get('#ticker')
 cy.get('.value').eq(0).contains('131.12K')
-cy.screenshot('Ticker')
+cy.screenshot()
   });
 });

@@ -30,7 +30,7 @@ describe('Trends Page', () => {
   //   cy.getByTestId(testIds.dialogSubmitButton).click();
   //   cy.reload()
   //   cy.get('.css-7uss0q').click();
-  //   cy.screenshot('Linechart Edited')
+  //   cy.screenshot()
 
   });
 });

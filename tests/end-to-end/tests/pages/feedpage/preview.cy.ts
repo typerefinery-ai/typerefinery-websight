@@ -24,7 +24,7 @@ describe('Feeds Page', ()=>{
       '/content/typerefinery-showcase/pages/pages/feeds.html'
     );
     cy.viewport(1500,1200)
-    cy.screenshot('Feeds')
+    cy.screenshot()
   })
 
 })
