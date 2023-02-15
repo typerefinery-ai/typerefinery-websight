@@ -20,7 +20,7 @@
     "report:createHtml": "npm run report:merge && npm run report:generate && npm run report:moveScreenshots && npm run report:moveVideos && npm run report:moveData",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:cireports": "npm run report:clean && cypress run --headless && npm run report:createHtml;",
+    "test:cireports": "npm run report:clean && cypress run --headless && npm run report:createHtml",
     "test:ci": "cypress run --headless"
   },
   "devDependencies": {
