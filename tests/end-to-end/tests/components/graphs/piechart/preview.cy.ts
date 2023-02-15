@@ -15,6 +15,6 @@ describe('pieChart Component', () => {
 
     cy.get('.hl-title__heading').contains('PieChart component');
     cy.get('.piechart');
-    cy.screenshot('Piechart Preview')
+    cy.screenshot()
   });
 });

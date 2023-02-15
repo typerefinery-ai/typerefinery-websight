@@ -16,6 +16,6 @@ describe('lineChart Component', () => {
     cy.get('.hl-title__heading').contains('LineChart component');
     // eslint-disable-next-line no-useless-escape
     cy.get('.lineChart');
-    cy.screenshot('Linechart Preview')
+    cy.screenshot()
   });
 });

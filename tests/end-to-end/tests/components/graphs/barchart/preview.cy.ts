@@ -14,7 +14,7 @@ describe('barChart Component', () => {
 
     cy.get('.hl-title__heading').contains('BarChart component');
     cy.get('.barChart');
-    cy.screenshot('Barchart Preview')
+    cy.screenshot()
   });
  
   });

@@ -102,22 +102,17 @@ jobs:
 
           echo "Bundles are installed"
 
-
       - name: Install test content
         run: |
           cd tests/content
-          mvn clean install -P autoInstallPackage
+          mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
       - name: Run Automation tests
         run: |
           cd tests/end-to-end
           npm install
-          export APP_IP=$(docker network inspect bridge --format='{{( index .IPAM.Config 0).Gateway}}')"
-          echo APP_IP=${APP_IP}
-          curl -vL -u wsadmin:wsadmin http://0.0.0.0:8080
-          curl -vL -u wsadmin:wsadmin http://127.0.0.1:8080
-          curl -vL -u wsadmin:wsadmin http://${APP_IP}:8080
-          CYPRESS_BASE_URL=http://${APP_IP}:8080 npm run test
+          npm run test:ci
+          npm run report:createHtml
 
       - name: Stop the stack
         run: docker-compose down
@@ -130,3 +125,16 @@ jobs:
           docker-compose down
         if: failure()
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./tests/end-to-end/cypress/reports/html/
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

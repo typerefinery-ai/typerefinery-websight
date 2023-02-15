@@ -30,6 +30,6 @@ describe('Search Page', ()=>{
       '/content/typerefinery-showcase/pages/pages/search.html'
     );
     cy.viewport(1500,1200)
-    cy.screenshot('Feeds')
+    cy.screenshot()
   })
 })

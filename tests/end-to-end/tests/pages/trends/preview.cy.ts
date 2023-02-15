@@ -24,6 +24,6 @@ describe('Trends Page', ()=>{
       '/content/typerefinery-showcase/pages/pages/trends.html'
     );
     cy.viewport(1500,1200)
-    cy.screenshot('Trends')
+    cy.screenshot()
   })
 })
