@@ -32,7 +32,7 @@
         "name": "value",
         "label": "Value"
       },
-      "container_1": {
+      "secondaryContainer": {
         "sling:resourceType": "wcm/dialogs/components/container",
         "backGroundVariant": {
           "sling:resourceType": "wcm/dialogs/components/select",
@@ -91,7 +91,7 @@
           "values":  "secondaryTicker"
         }}
       },
-      "container": {
+      "primaryContainer": {
         "sling:resourceType": "wcm/dialogs/components/container",
         "indicatorType": {
           "sling:resourceType": "wcm/dialogs/components/select",
@@ -138,6 +138,10 @@
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/websocket"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/style"
     },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
