@@ -5,12 +5,11 @@ window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
 window.Typerefinery.Components.Widgets.Ticker.Variants = Typerefinery.Components.Widgets.Ticker.Variants || {};
 window.Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker = Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker || {};
-window.Typerefinery.Components.Widgets.Ticker.Instances = Typerefinery.Components.Widgets.Ticker.Instances || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
+(function (ns, tmsNs, componentNs, themeNs, document, window) {
     "use strict";
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
@@ -104,4 +103,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Ticker.Instances, document, window);
+})(Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
