@@ -24,7 +24,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
                     },
                     body
                 }
-            );
+            ).then(response => response.json());
             console.log("RESPONSE", response);
             successCallback();
         }catch(error) {
@@ -44,8 +44,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     };
 
     ns.jsonRequest = (url, componentConfig, payload) => {
-        const { payloadType, writeMethod } = componentConfig;
-        ns.submit(url, writeMethod, payloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
+        const { writePayloadType, writeMethod } = componentConfig;
+        ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
     ns.formRequest = (url, componentConfig, payload) => {
@@ -74,11 +74,48 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     };
 
+    ns.loadInitialData = async ($component) => {
+        try{
+            const componentConfig = componentNs.getComponentConfig($component);
+            const { resourcePath, readUrl, readMethod = "GET", readPayloadType = "application/json" } = componentConfig;
+            const parent = document.getElementById(resourcePath);
+            if(!readUrl) {
+                return;
+            }
+            const response = await fetch(
+                readUrl, 
+                {
+                    method: readMethod,
+                    headers: {
+                        "Content-Type": readPayloadType
+                    }
+                }
+            ).then(response => response.json());
+            
+            Object.entries(response).forEach(item => {
+                const el = document.getElementById(resourcePath).querySelector(`[name="${item[0]}"]`);
+                el.setAttribute("value", item[1] || "");
+                console.log(el)
+            })
+        }catch(error) {
+            console.log("ERROR IN LOADING", error);
+        }
+    }
+
     ns.addEventListener = () => {
-        $(document).on("submit", "#form", function (e) {
+        $(document).on("submit", "form", function (e) {
             e.preventDefault();
             const { target } = e;
             ns.formSubmitHandler(target);
         });
     };
+
+    ns.init = ($component) => {
+        const componentConfig = componentNs.getComponentConfig($component);
+        const { resourcePath } = componentConfig;
+        $component.setAttribute("id", resourcePath);
+        ns.loadInitialData($component);
+        ns.addEventListener(resourcePath);
+    }
+
 })(Typerefinery.Components.Forms.Form, Typerefinery.Components, document, window);

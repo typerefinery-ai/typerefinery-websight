@@ -3,6 +3,7 @@
   height: 125vh;
   border-radius: 0px;
   border-color: var(--primary-border-color);
+  width: 100%;
 }
 .p-treenode-label {
   color: var(--primary-text-color);

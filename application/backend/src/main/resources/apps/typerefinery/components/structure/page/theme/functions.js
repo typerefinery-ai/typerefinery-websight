@@ -13,14 +13,14 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         if (themeStyles) {
             const currentTheme = themeStyles.getAttribute('active') || 'dark';
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            themeStyles.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)
+            themeStyles.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)          
             themeStyles.setAttribute("active", newTheme)
             localStorage.setItem("theme", newTheme);
             setTimeout(() => {
                 Object.entries(chartInstances)?.forEach($chart => {
                     $chart[1]?.update();
                 })
-            }, 5);
+            }, 250);
         }
     };
 
@@ -39,6 +39,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     };
 
     ns.attachEventListener = () => {
+        console.log("attachEventListener")
         // Event Listener for toggle theme (dark | light);
         $(document).on("click", "#themeHandler", ns.toggleTheme);
     };

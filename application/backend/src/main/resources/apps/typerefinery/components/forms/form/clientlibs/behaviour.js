@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     "use strict";
     $(document).ready(function () {
         $("#form").each(function () {
-            ns.addEventListener(this);
+            ns.init(this);
         });
     });
 })(window.Typerefinery.Components.Forms.Form, document);
