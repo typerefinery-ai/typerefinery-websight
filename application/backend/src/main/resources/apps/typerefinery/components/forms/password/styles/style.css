@@ -1,0 +1,17 @@
+.password {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.password .p-inputtext {
+  width: 100%;
+}
+.password-width {
+  width: 30%;
+}
+
+.components-label {
+  display: block;
+  margin-right: 24.5%;
+}

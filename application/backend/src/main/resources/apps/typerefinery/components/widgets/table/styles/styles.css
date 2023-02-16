@@ -10,3 +10,9 @@
 td.gridjs-td {
     border: 1px solid #ffffff !important;
 }
+
+.table {
+    width: 100%;
+    margin-bottom: 1%;
+    min-height: 350px;
+  }
