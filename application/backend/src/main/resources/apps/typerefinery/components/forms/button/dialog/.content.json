@@ -9,10 +9,6 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
-      "fieldName": {
-        "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
-      },
       "buttonType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonType",
@@ -22,11 +18,6 @@
           "label": "Submit",
           "value": "submit"
         },
-        "resetButton": {
-          "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Reset",   
-          "value": "reset"
-        },
         "normalButton": {
           "sling:resourceType": "wcm/dialogs/components/selectitem",
           "label": "Button",
@@ -34,10 +25,29 @@
         }
       },
       "url": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
         "name": "url",
-        "label": "Redirection URL",
-        "description": "Only valid if the button is of type button"
+        "label": "Navigate to",
+        "description": "When click on the button the page will be redirected to the the URL provided.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "buttonType",
+            "values": "button"
+          }
+        }
+      },
+      "openInNewTab": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "openInNewTab",
+        "label": "Open in new tab",
+        "description": "Open the page in new tab.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "buttonType",
+            "values": "button"
+          }
+        }
       }
     },
     "styleTab": {
@@ -65,7 +75,7 @@
         "large": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Large",
-          "value": "a"
+          "value": "large"
         }
       },
       "buttonVariant": {
@@ -97,6 +107,21 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Danger Button",
           "value": "danger"
+        },
+        "text": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Text Button",
+          "value": "text"
+        },
+        "help": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Help Button",
+          "value": "help"
+        },
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Link Button",
+          "value": "link"
         }
       },
       "isRoundedButton": {
