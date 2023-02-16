@@ -1,8 +1,0 @@
-{
-  "group": "Typerefinery - Widgets",
-  "sling:resourceType": "ws:Component",
-  "description": "ticker custom component",
-  "title": "Column Ticker",
-  "isContainer": true,
-  "allowedComponents":"/apps/typerefinery/components/widgets/columnticker/smallticker"
-}

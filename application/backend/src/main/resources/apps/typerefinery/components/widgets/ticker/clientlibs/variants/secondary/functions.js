@@ -21,13 +21,11 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
       }
       const componentConfig = componentNs.getComponentConfig($component);
       const innerHTML = `
-          <div class="smallticker">
-          <div class="columnticker ${data.backGroundClass || componentConfig.backGroundClass}">
+          <div class="smallticker ${data.backGroundClass || componentConfig.backGroundClass}">
             <div>
               <div class="ticker-value">${data.value || componentConfig.value}</div>
               <div class="ticker-title">${data.title || componentConfig.title}</div>
             </div>
-          </div>
         </div>
               `;
       $component.innerHTML = innerHTML;
@@ -95,4 +93,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         ns.modelDataConnected($component);
       }
     };
-})(Typerefinery.Components.Widgets.Ticker.Variants.SecondaryTicker, Typerefinery.Page.Theme, document, window);
+})(Typerefinery.Components.Widgets.Ticker.Variants.SecondaryTicker,Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
