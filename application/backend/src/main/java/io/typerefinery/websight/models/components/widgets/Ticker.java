@@ -98,7 +98,7 @@ public class Ticker extends BaseComponent implements FlowComponent {
 
     @Inject
     @Getter
-    @Default(values = "col-3")
+    @Default(values = "col")
     private String sizeType;
 
     @Inject
