@@ -43,11 +43,23 @@ import io.typerefinery.websight.utils.LinkUtil;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
+import org.osgi.service.component.annotations.Component;
+import java.util.HashMap;
+import java.util.Map;
 
-@Slf4j
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Component
+@Model(adaptables = Resource.class, resourceType = { Container.RESOURCE_TYPE }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+})
 public class Container extends BaseComponent {
 
+    public static final String RESOURCE_TYPE = "typerefinery/components/layout/container";
+    private static final String DEFAULT_ID = "container";
+    private static final String DEFAULT_MODULE = "container";
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
@@ -62,6 +74,11 @@ public class Container extends BaseComponent {
     @Getter
     @Default(values = "")
     private String type;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String flex;
 
     @Inject
     private String backgroundImageSm;
@@ -86,28 +103,48 @@ public class Container extends BaseComponent {
 
     private String getBackgroundImage(String image) {
         if (StringUtils.isEmpty(image)) {
-        return BACKGROUND_NONE;
+            return BACKGROUND_NONE;
         }
 
         return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
     }
 
-
     @Override
     public String[] getClasses() {
         return componentClasses;
     }
-    
+
     public String getDecorationTagName() {
         return decorationTagName;
     }
 
-    // @Override
+    private Map<String, String> flexConfig = new HashMap<String, String>() {
+        {
+            put("enabled", "flex");
+        }
+    };
+
+    @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
-        
+        if (StringUtils.isNotBlank(flex)) {
+            flex = flexConfig.getOrDefault(flex, "");
+        }
+
+        if (grid != null && style != null) {
+            
+            if (StringUtils.isNotBlank(flex)) {
+                grid.addClasses(flex);
+            }
+            componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+
         if (StringUtils.isBlank(decorationTagName)) {
             decorationTagName = "div";
         }
@@ -115,7 +152,6 @@ public class Container extends BaseComponent {
         if (StringUtils.isNotBlank(type)) {
             decorationTagName = type;
         }
-
     }
 
 }

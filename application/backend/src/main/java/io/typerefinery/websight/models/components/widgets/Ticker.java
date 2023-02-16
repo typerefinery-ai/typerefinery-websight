@@ -36,17 +36,7 @@ public class Ticker extends BaseComponent implements FlowComponent {
     private static final String DEFAULT_ID = "ticker";
     private static final String DEFAULT_MODULE = "tickerComponent";
     
-    @Override
-    @PostConstruct
-    protected void init() {
-        this.id = DEFAULT_ID;
-        this.module = DEFAULT_MODULE;
-        super.init();
-
-        if (StringUtils.isBlank(this.websocketTopic)) {
-            this.websocketTopic = this.flowapi_topic;
-        }
-     }
+    
     
     @Getter
     @Inject
@@ -106,6 +96,26 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Default(values = "")
     public String flowapi_topic;
 
+    @Inject
+    @Getter
+    @Default(values = "col-3")
+    private String sizeType;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginValue;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String alignmentHorizontal;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String alignmentVirtical;
+
     @Override
     public String getKey() {
         return FlowService.FLOW_SPI_KEY;
@@ -120,4 +130,20 @@ public class Ticker extends BaseComponent implements FlowComponent {
     public int getRanking() {
         return 200;
     }
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
+        super.init();
+        if (grid != null && style != null) {
+            grid.addClasses(sizeType);
+            grid.addClasses(marginValue);
+        }
+
+        if (StringUtils.isBlank(this.websocketTopic)) {
+            this.websocketTopic = this.flowapi_topic;
+        }
+     }
 }

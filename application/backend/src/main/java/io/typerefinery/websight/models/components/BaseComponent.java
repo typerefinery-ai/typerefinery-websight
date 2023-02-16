@@ -30,14 +30,15 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class BaseComponent extends BaseModel implements Styled, Grid {
 
     @Getter
     @Inject
     @Default(values = "")
     public String module;
-    
+
     public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
 
@@ -50,45 +51,47 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
 
     @Self
     @Delegate
-    protected DefaultGridComponent grid;
+    protected DefaultStyledGridComponent grid;
 
-    
     public DefaultStyledComponent getStyle() {
         return style;
     }
-  
 
-    public DefaultGridComponent getGrid() {
+    public DefaultStyledGridComponent getGrid() {
         return grid;
     }
-  
 
     protected String[] componentClasses;
-  
+
     public String[] getClasses() {
-      return componentClasses;
+        // collect all authorable classes
+        if (style != null) {
+            componentClasses = Arrays.stream(style.getClasses())
+                    .collect(Collectors.toCollection(LinkedHashSet::new))
+                    .toArray(new String[] {});
+        }
+        return componentClasses;
     }
-    
-    public String getClassNames() {
-      return StringUtils.join(componentClasses, " ");
+
+    public String getVariantClassNames() {
+        // this will used for variant
+        return StringUtils.join(getClasses(), " ");
     }
-    
+
+    public String getComponentClassNames() {
+        if (grid != null) {
+            return StringUtils.join(grid.getClasses(), " ");
+        }
+        return "";
+    }
+
     @Override
     @PostConstruct
     protected void init() {
         super.init();
 
         style = resource.adaptTo(DefaultStyledComponent.class);
-        grid = resource.adaptTo(DefaultGridComponent.class);
-
-        // collect all authorable classes
-        if (grid != null && style != null) {
-            componentClasses = Stream.concat(
-                Arrays.stream(style.getClasses()),
-                new GridStyle(grid, GridDisplayType.GRID).getClasses().stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
-        }
+        grid = resource.adaptTo(DefaultStyledGridComponent.class);
 
         // get common properties
         if (resource != null) {
@@ -96,9 +99,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             this.currentPagePath = PageUtil.getResourcePagePath(resource);
             this.currentPage = resourceResolver.getResource(currentPagePath);
         }
+
+        // add default class name as first class
+        String resourceSuperType = resource.getResourceType();
+        String componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+        // componentClasses.add(componentName); 
+        style.addClasses(componentName);
     }
-
-
-  
-
 }
