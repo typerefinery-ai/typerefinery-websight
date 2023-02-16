@@ -1,6 +1,0 @@
-{
-    "group": "Typerefinery - Widgets",
-    "sling:resourceType": "ws:Component",
-    "description": "Ticker",
-    "title": "Ticker Variant"
-}
