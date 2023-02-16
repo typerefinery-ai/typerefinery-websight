@@ -102,11 +102,10 @@ jobs:
 
           echo "Bundles are installed"
 
-
       - name: Install test content
         run: |
           cd tests/content
-          mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0
+          mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
       - name: Run Automation tests
         run: |
@@ -126,3 +125,16 @@ jobs:
           docker-compose down
         if: failure()
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./tests/end-to-end/cypress/reports/html/
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
