@@ -66,6 +66,11 @@ public class Button extends BaseFormComponent {
     
     @Inject
     @Getter
+    private Boolean openInNewTab;
+
+    
+    @Inject
+    @Getter
     private Boolean isRoundedButton;
 
     
@@ -91,6 +96,9 @@ public class Button extends BaseFormComponent {
         put("success", "p-button-success");
         put("warning", "p-button-warning");
         put("danger", "p-button-danger");
+        put("text", "p-button-text");
+        put("help", "p-button-help");
+        put("link", "p-button-link");
     }};
 
     private Map<String, String> buttonSizeConfig = new HashMap<String, String>(){{
