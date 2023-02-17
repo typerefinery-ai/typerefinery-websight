@@ -1,9 +1,6 @@
 .ticker-secondaryTicker {
     font-family: "Roboto Slab", serif !important;
-    display: flex;
     border: 1px;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     min-height: 116px; 

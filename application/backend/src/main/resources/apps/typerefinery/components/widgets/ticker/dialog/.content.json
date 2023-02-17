@@ -146,6 +146,10 @@
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/flow/flowcontainer/dialog"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/primeflexgrid"
     }
   }
 }
