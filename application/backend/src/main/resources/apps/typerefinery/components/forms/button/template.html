@@ -1,15 +1,11 @@
 <template data-sly-template.button="${ @ model }">
-    <div class="button" >
+    <div class="button">
         <p-button 
             label=${model.label}
-            type="${model.buttonType}" 
-            data-path="${resource.path}"
-            id="button"
-            data-type="${model.buttonType}"
+            data-model="${model.jsonString}" 
+            id="${model.id}"
             class="${model.classNames}"
-            data-redirection-url=${model.url}
         >
         </p-button>
-        
     </div>
 </template>

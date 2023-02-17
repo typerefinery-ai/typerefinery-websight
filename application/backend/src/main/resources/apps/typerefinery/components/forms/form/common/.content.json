@@ -10,7 +10,7 @@
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "name",
     "label": "Name",
-    "description": "Make sure every check box have unique name."
+    "description": "Make sure every component have unique name."
   },
   "fieldValue": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
