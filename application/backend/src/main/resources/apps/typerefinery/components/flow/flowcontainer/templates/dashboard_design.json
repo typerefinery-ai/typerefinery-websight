@@ -5,8 +5,8 @@
 			"name": "",
 			"id": "<childflowid>_flowoutput"
 		},
-		"x": 220,
-		"y": 132,
+		"x": 100,
+		"y": 100,
 		"component": "component_flow_subscribe",
 		"connections": {
 			"data": [
@@ -37,8 +37,8 @@
 			"repo": false,
 			"data": true
 		},
-		"x": 637.0000305175781,
-		"y": 127.00000762939453,
+		"x": 478,
+		"y": 96,
 		"component": "typerefinery_printjson",
 		"connections": {},
 		"template": {
@@ -63,8 +63,8 @@
 			"data": "<sample-data>",
 			"restart": false
 		},
-		"x": 198,
-		"y": 343.00000762939453,
+		"x": 90,
+		"y": 322,
 		"component": "typerefinery_senddata",
 		"connections": {
 			"output": [
@@ -93,8 +93,8 @@
 			"readme": "",
 			"id": "<childflowid>_flowinput"
 		},
-		"x": 611.0000305175781,
-		"y": 440.00000762939453,
+		"x": 485,
+		"y": 350,
 		"component": "component_flow_publish",
 		"connections": {},
 		"template": {
