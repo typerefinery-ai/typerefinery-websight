@@ -675,7 +675,7 @@ public class FlowService {
             CompletableFuture<String> existingFlowDesignStringPromise = getFlowStreamDesignData(flowstreamid);
 
             // create flow grid
-            GridTitles flowGridTiles = new GridTitles(3, 900D, 700D, 50D, 50D);
+            GridTitles flowGridTiles = new GridTitles(3, 900D, 700D, 50D, 20D);
             
             try {
                 String existingFlowDesignString = existingFlowDesignStringPromise.get();
@@ -1114,6 +1114,10 @@ public class FlowService {
          */
         public GridTile nextTile(String id, String name) {
 
+            if (tiles.size() == 0) {
+                return addFirstTile(new GridTile(id, currentX, currentY, tileWidth, tileHeight, name, tilePadding));
+            }
+
             boolean isNewRow = tiles.size() % columns == 0;
 
             if (isNewRow) {
@@ -1123,7 +1127,7 @@ public class FlowService {
                 currentX += tileWidth + tileMargin;
             }
             
-            GridTile newTile = new GridTile(id, currentX, currentY, tileWidth, tileHeight, name, tileMargin);
+            GridTile newTile = new GridTile(id, currentX, currentY, tileWidth, tileHeight, name, tilePadding);
             newTile.column = tiles.size() == 0 ? 0 : tiles.size() % columns;
             newTile.row = tiles.size() == 0 ? 0 : tiles.size() / columns;
 
