@@ -1,8 +1,4 @@
 {
-  "sling:resourceType": "wcm/dialogs/dialog",
-  "tabs": {
-    "sling:resourceType": "wcm/dialogs/components/tabs",
-    "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Flow Config",
       "enable": {
@@ -73,5 +69,3 @@
       }
 
     }
-  }
-}

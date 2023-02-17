@@ -1,13 +1,16 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
+window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
+window.Typerefinery.Components.Widgets.Ticker.Variants = Typerefinery.Components.Widgets.Ticker.Variants || {};
+window.Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker = Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-(function (ns, tmsNs, componentNs, document, window) {
-    "use strict";
 
+(function (ns, tmsNs, componentNs, themeNs, document, window) {
+    "use strict";
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
             return;
@@ -86,9 +89,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
         const componentPath = componentConfig.resourcePath;
-
         // TMS.
-        if (componentHost && componentTopic) {
+        if (componentHost && componentTopic) {            
             $component.setAttribute("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
@@ -101,5 +103,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-
-})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, document, window);
+})(Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
