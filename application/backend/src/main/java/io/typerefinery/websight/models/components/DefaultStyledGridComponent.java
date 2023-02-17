@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.utils.GridStyle;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
@@ -49,6 +51,15 @@ public class DefaultStyledGridComponent implements Styled, Grid {
     return componentClasses;
   }
 
+  public void addClasses(String className) {
+    if (componentClasses == null) {
+      componentClasses = new String[] {};
+    }
+
+    componentClasses = ArrayUtils.add(componentClasses, className);
+
+  }
+
   @Override
   public Integer getSmColSize() {
     return grid.getSmColSize();
@@ -63,7 +74,7 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgColSize() {
     return grid.getLgColSize();
   }
-  
+
   @Override
   public Integer getSmRowSize() {
     return grid.getSmRowSize();
@@ -93,12 +104,11 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgOffset() {
     return grid.getLgOffset();
   }
+
   @PostConstruct
   private void init() {
-    componentClasses = Stream.concat(
-            Arrays.stream(style.getClasses()),
-            new GridStyle( this).getClasses().stream())
+    componentClasses = Arrays.stream(style.getClasses())
         .collect(Collectors.toCollection(LinkedHashSet::new))
-        .toArray(new String[]{});
+        .toArray(new String[] {});
   }
 }
