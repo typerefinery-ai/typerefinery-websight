@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -33,6 +35,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -462,7 +465,7 @@ public class FlowService {
 
     
     // do a http client call to get the flow data
-    public String getFlowStreamDesignData(String flowstreamid) {
+    public CompletableFuture<String> getFlowStreamDesignData(String flowstreamid) {
 
         String url = getFlowStreamDesignAPIURL(flowstreamid);
         
@@ -474,15 +477,17 @@ public class FlowService {
 
             HttpClient client = HttpClient.newBuilder().build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return response.body();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
+
+            // return response.body();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 
 
@@ -657,27 +662,123 @@ public class FlowService {
         String parentPath = componentResource.getPath();
         // update flow design with child flows
         List<Resource> flowResources = findContainerFlowResources(componentResource, new ArrayList<Resource>());
-        // new design components
+        // contains all of the existing and new design components
         ObjectNode newDesignComponents = JsonNodeFactory.instance.objectNode();
+        // contains all of the existing and new groups
+        ArrayNode newDesignComponentsGroups = JsonNodeFactory.instance.arrayNode();
 
         if (flowResources != null) {
 
             ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
             // get current flow design
-            String flowDesign = getFlowStreamDesignData(flowstreamid);
-            JsonNode currentDesign = null;
+            CompletableFuture<String> existingFlowDesignStringPromise = getFlowStreamDesignData(flowstreamid);
+
+            // create flow grid
+            GridTitles flowGridTiles = new GridTitles(3, 900D, 700D, 50D, 50D);
+            
             try {
-                currentDesign = mapper.readTree(flowDesign);
+                String existingFlowDesignString = existingFlowDesignStringPromise.get();
+                // use existing flow components as a base
+                newDesignComponents = (ObjectNode) mapper.readTree(existingFlowDesignString);
+
+                // based on flow elements
+                // find the place y coord where to start adding new flows
+                // for each child in newDesignComponents get x and y
+                Iterator<Entry<String, JsonNode>> fieldsIterator = newDesignComponents.fields();
+                GridTile existingDesignTile = null;
+                //determine how far x and y to place new flows, by finding the max x and y of existing flow elements
+                // if there are no existing flows then start at 0,0
+                if ( fieldsIterator.hasNext() ) {
+                    existingDesignTile = new GridTile("existing", "existing", flowGridTiles.tilePadding);
+                    boolean foundExistingFlowElements = false;
+                    while (fieldsIterator.hasNext()) {
+                        Entry<String, JsonNode> field = fieldsIterator.next();
+                        if (field.getValue().isObject()) {
+                            ObjectNode afield = (ObjectNode) field.getValue();
+                            if (afield.has("x") && afield.has("y") ) {
+                                String xValue = afield.get("x").asText();
+                                String yValue = afield.get("y").asText();
+                                if (xValue != null && yValue != null) {
+                                    Double xValueD = Double.parseDouble(xValue);
+                                    Double yValueD = Double.parseDouble(yValue);
+                                    // collect all x and y values
+                                    if (xValueD > existingDesignTile.x) {
+                                        existingDesignTile.setX(xValueD);
+                                    }
+                                    if (yValueD > existingDesignTile.y) {
+                                        existingDesignTile.setY(yValueD);
+                                    }
+                                }
+                                foundExistingFlowElements = true;
+                            }
+                        } else if (field.getKey().equals("groups") && field.getValue().isArray()) {
+                            //check if there are any groups and use those as x+width and y+height for max values to avoid overlaps
+                            newDesignComponentsGroups = (ArrayNode) field.getValue();
+
+                            Iterator<JsonNode> groupsIterator = newDesignComponentsGroups.elements();
+                            while (groupsIterator.hasNext()) {
+                                JsonNode group = groupsIterator.next();
+                                if (group.has("x") && group.has("y") && group.has("width") && group.has("height") ) {
+                                    String xValue = group.get("x").asText();
+                                    String yValue = group.get("y").asText();
+                                    String widthValue = group.get("width").asText();
+                                    String heightValue = group.get("height").asText();
+                                    if (xValue != null && yValue != null && widthValue != null && heightValue != null) {
+                                        Double xValueD = Double.parseDouble(xValue);
+                                        Double yValueD = Double.parseDouble(yValue);
+                                        Double widthValueD = Double.parseDouble(widthValue);
+                                        Double heightValueD = Double.parseDouble(heightValue);
+
+                                        // collect all x and y values
+                                        if (xValueD > existingDesignTile.x) {
+                                            existingDesignTile.setX(xValueD);
+                                        }
+                                        if (yValueD > existingDesignTile.y) {
+                                            existingDesignTile.setY(yValueD);
+                                        }
+
+                                        // collect all the max x and max y
+                                        if (xValueD + widthValueD > existingDesignTile.x) {
+                                            existingDesignTile.setX(xValueD + widthValueD);
+                                        }
+                                        if (yValueD + heightValueD > existingDesignTile.y) {
+                                            existingDesignTile.setY(yValueD + heightValueD);
+                                        }
+                                    }
+                                    foundExistingFlowElements = true;
+                                }
+                            }
+
+                        }
+                    }
+                    if (foundExistingFlowElements) {
+                        //this will reset the x and y to the next available spot as well as set width and height of all tiles
+                        flowGridTiles.addFirstTile(existingDesignTile); 
+                    }
+                } else {
+                    newDesignComponents.set("groups", JsonNodeFactory.instance.arrayNode());
+                }
+                
             } catch (Exception e) {
                 LOGGER.error("error parsing flow current design: {}", e.getMessage());
+                e.printStackTrace();
             }
 
+            int flowCount = 1;
             for (Resource flowResource : flowResources) {
-
+                flowCount++;
                 String flowId = flowResource.getValueMap().get(prop(PROPERTY_FLOWSTREAMID), String.class);
                 if (StringUtils.isNotBlank(flowId)) {
+                    //get flow title to use as group title
+                    String flowTitle = flowResource.getValueMap().get(prop(PROPERTY_TITLE), String.class);
+                    if (StringUtils.isBlank(flowTitle)) {
+                        flowTitle = flowResource.getName();
+                    }
 
+                    // this will add a new tile to the grid and return the tile
+                    // this will be used to update the x and y values of the new flow elements
+                    GridTile flowGridTile = flowGridTiles.nextTile(flowId, flowTitle);
 
                     // get template json
                     // JsonNode componentTemplate = getTemplateTree(designTemplate, resourceResolver);
@@ -689,37 +790,33 @@ public class FlowService {
                     }
 
                     // get path to child flow relative to parent
-                    String childPath = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
+                    String childPathId = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
 
                     // setup a list of replace strings
                     HashMap<String, String> replaceMap = new HashMap<String, String>(){{
                         put("<childflowid>", flowId);
                         put("<parentflowid>", flowstreamid);
-                        put("<subscribe-id>", StringUtils.join(childPath, "subscribe"));
-                        put("<printjson-id>", StringUtils.join(childPath, "printjson"));
-                        put("<senddata-id>", StringUtils.join(childPath, "senddata"));
-                        put("<publish-id>", StringUtils.join(childPath, "publish"));
-
+                        put("<subscribe-id>", StringUtils.join(childPathId, "subscribe"));
+                        put("<printjson-id>", StringUtils.join(childPathId, "printjson"));
+                        put("<senddata-id>", StringUtils.join(childPathId, "senddata"));
+                        put("<publish-id>", StringUtils.join(childPathId, "publish"));
                     }};
 
                     boolean flowIsUsed = false;
                     // check if any replacemap nodes existing in current design
                     // do we have components in current design that we need to copy over as is
-                    if (currentDesign != null) {
+                    if (newDesignComponents != null) {
                         for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
-                            if (currentDesign.has(entry.getValue())) {
+                            if (newDesignComponents.has(entry.getValue())) {
                                 flowIsUsed = true;
-                                //copy existing component to new design
-                                JsonNode components = currentDesign.get(entry.getValue());
-                                newDesignComponents.set(flowId, components.get(flowId));        
-                                LOGGER.error("flow [{}] already has using this flow step resource: {}", flowstreamid, entry.getValue());
+                                LOGGER.error("flow [{}] already has using this flow step resource: {}", flowstreamid, entry.getKey(), entry.getValue());
                             }
                         }
                     }
                     
                     // if steps already exists do nothing and continue
                     if (flowIsUsed) {
-                        LOGGER.error("flow [{}] already has using this flow resource: {}", flowstreamid, flowResource.getPath());
+                        LOGGER.error("some items from child flow [{}] already exist in this flow [{}]: {}", flowId, flowstreamid, flowResource.getPath());
                         continue;
                     }
 
@@ -743,7 +840,7 @@ public class FlowService {
                     }
 
                     StringBuilder designTemplateStringBuilder = new StringBuilder(designTemplateString);
-                                        //replace values in design
+                    //replace values in design
                     for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
                         
                         // replace value in designTemplateStringBuilder while it exists
@@ -758,18 +855,67 @@ public class FlowService {
                     try {
                         JsonNode newDesign = mapper.readTree(designTemplateStringBuilder.toString());
                         
-                        //for each step in new design
+                        //for each step in new design, update x and y positions and add to new design components
                         Iterator<Entry<String, JsonNode>> fieldsIterator = newDesign.fields();
                         while (fieldsIterator.hasNext()) {
                             Entry<String, JsonNode> field = fieldsIterator.next();
-                            //add to new design components
-                            newDesignComponents.set(field.getKey(), field.getValue());
-                        }
+                            ObjectNode aComponent = (ObjectNode) field.getValue();
+                            //skip if already exists
+                            if (newDesignComponents.has(field.getKey())) {
+                                LOGGER.error("flow [{}] already has using this flow step resource: {}", flowstreamid, field.getKey());
+                                continue;
+                            }
+                            
+                            try {
+                                //TODO: update X and Y positions of new design components                                
+                                if (aComponent.has("x") && aComponent.has("y") ) {
+                                    String xValue = aComponent.get("x").asText();
+                                    String yValue = aComponent.get("y").asText();
+                                    if (xValue != null && yValue != null) {
+                                        // update component x and y positions to be relative to flow grid tile
+                                        Double xValueD = Double.parseDouble(xValue) + flowGridTile.innerX;
+                                        Double yValueD = Double.parseDouble(yValue) + flowGridTile.innerY;
+                                        aComponent.set("x", JsonNodeFactory.instance.numberNode(xValueD));
+                                        aComponent.set("y", JsonNodeFactory.instance.numberNode(yValueD));
+                                    }
+                                }
+                            } catch (Exception e) {
+                                LOGGER.error("error parsing flow item design: {}", e.getMessage());
+                                e.printStackTrace();
+                            }
 
-                        String newDesignComponentsString = mapper.writeValueAsString(newDesignComponents);
-                        
-                        // update flow
-                        doFlowStreamDesignSaveData(newDesignComponentsString, flowstreamid);
+                            //add to new design components
+                            newDesignComponents.set(field.getKey(), (JsonNode)aComponent);
+
+                        }
+                         
+                        //add group under new design components
+                        if (newDesignComponentsGroups != null) {
+                            int groupOffset = flowGridTiles.tilePadding.intValue() / 2;
+                            HashMap<String, Object> flowGroup = new HashMap<String, Object>(){{
+                                put("id", "group"+flowId);
+                                put("x", flowGridTile.boundaryX.intValue() + groupOffset);
+                                put("y", flowGridTile.boundaryY.intValue() + groupOffset);
+                                put("width", flowGridTile.boundaryWidth.intValue() - groupOffset);
+                                put("height", flowGridTile.boundaryHeight.intValue() - groupOffset);
+                            }};
+
+                            flowGroup.put("name", flowTitle);
+
+                            // add new group
+                            newDesignComponentsGroups.add(mapper.valueToTree(flowGroup));
+                            //TODO: add groups around new design components
+                            // "groups": [
+                            //     {
+                            //         "id": "gldh7c51h",
+                            //         "x": 24,
+                            //         "y": 21,
+                            //         "width": 1038,
+                            //         "height": 288,
+                            //         "name": "Read message from TMS",
+                            //         "background": "rgba(97,200,59,0.3)"
+                            //     },
+                        }
 
                     } catch (Exception e) {
                         LOGGER.error("error parsing design template: {}", e.getMessage());
@@ -782,7 +928,21 @@ public class FlowService {
                 }
             }
             
-            
+            try {
+                // add new design groups into new design
+                newDesignComponents.set("groups", (JsonNode)newDesignComponentsGroups);
+
+                // once all new design components are added, update flow design
+                String newDesignComponentsString = mapper.writeValueAsString(newDesignComponents);
+                            
+                // update flow
+                doFlowStreamDesignSaveData(newDesignComponentsString, flowstreamid);
+
+            } catch (Exception e) {
+                LOGGER.error("could not update flow, error parsing design template: {}", e.getMessage());
+                e.printStackTrace();
+                return;
+            }
 
         }
     }
@@ -806,7 +966,7 @@ public class FlowService {
 
     public String formatResourcePathToId(String path) {
         //regex replace all non word characters
-        return path.replaceAll("[^\\w]", "");
+        return path.replaceAll("[^\\w]", "").replaceAll("[_-]", "");
     }
 
     /**
@@ -915,6 +1075,154 @@ public class FlowService {
         return isComponentFlowEnabled;
     }
 
+    public class GridTitles {
+        public LinkedHashMap<String, GridTile> tiles = new LinkedHashMap<String, GridTile>();
+        public Double tileWidth = 1000D;
+        public Double tileHeight = 500D;
+        public Double currentX = 0D;
+        public Double currentY = 0D;
+        public Double tileMargin = 50D; // margin between tiles
+        public Double tilePadding = 50D; // padding inside tile
+        public int columns = 3;
+
+        GridTitles(int columns, Double tileWidth, Double tileHeight, Double tileMargin, Double tilePadding) {
+            this.columns = columns;
+            this.tileWidth = tileWidth;
+            this.tileHeight = tileHeight;
+            this.tileMargin = tileMargin;
+            this.tilePadding = tilePadding;
+        }
+
+        /**
+         * add first tile to grid and update grid tile width and height
+         * @param tile
+         * @return
+         */
+        public GridTile addFirstTile(GridTile tile) {            
+            if (tile.width > 0) {
+                tileWidth = tile.width;
+            }
+            if (tile.height > 0) {
+                tileHeight = tile.height;
+            }
+            tiles.put(tile.id, tile);
+            return tiles.get(tile.id);
+        }
+
+        /**
+         * add tile to grid
+         */
+        public GridTile nextTile(String id, String name) {
+
+            boolean isNewRow = tiles.size() % columns == 0;
+
+            if (isNewRow) {
+                currentY += tileHeight + tileMargin;
+                currentX = 0D;
+            } else {
+                currentX += tileWidth + tileMargin;
+            }
+            
+            GridTile newTile = new GridTile(id, currentX, currentY, tileWidth, tileHeight, name, tileMargin);
+            newTile.column = tiles.size() == 0 ? 0 : tiles.size() % columns;
+            newTile.row = tiles.size() == 0 ? 0 : tiles.size() / columns;
+
+            tiles.put(id, newTile);
+            return tiles.get(id);
+        }
+
+    }
+
+    public class GridTile {
+
+        // tile position
+        public int column;
+        public int row;
+
+        //tile coordinates
+        public String id;
+        public Double boundaryX = 0D; // tile grid y based on row
+        public Double boundaryY = 0D; // tile grid x based on column
+        public Double boundaryWidth = 0D; // tile width based on row
+        public Double boundaryHeight = 0D; // tile height based on row
+        public Double x = 0D; // tile x position
+        public Double y = 0D; // tile y position
+        public Double width = 0D; // tile width
+        public Double height = 0D; // tile height
+        public Double padding = 0D; // tile padding
+        public String name;
+
+        // group coordinates
+        public Double innerX; // x boudnary for components
+        public Double innerY; // y boudnary for components
+        public Double innerHeight; // height boudnary for components
+        public Double innerWidth; // width boudnary for components
+
+        public void setX(Double x) {
+            this.x = x;
+            // if x is more than the width of the tile then we need to expand width
+            if (x > boundaryWidth) {
+                width = x + padding;
+            }
+        }
+
+        public void setY(Double y) {
+            this.y = y;
+            // if y is more than the height of the tile then we need to expand height
+            if (y > boundaryHeight) {
+                height = y + padding;
+            }
+        }
+
+        public void setWidth(Double width) {
+            this.width = width;
+            this.innerWidth = width - (padding * 2);
+        }
+
+        public void setHeight(Double height) {
+            this.height = height;
+            this.innerHeight = height - (padding * 2);
+        }
+
+        public GridTile(String id, String name, Double padding) {
+            this.id = id;
+            this.name = name;
+            this.padding = padding;
+        }
+        
+        /**
+         * create a new tile with boundaries
+         * @param id
+         * @param boundaryX x position of the tile
+         * @param boundaryY y position of the tile
+         * @param boundaryWidth initial width of the tile
+         * @param boundaryHeight initial height of the tile
+         * @param name name of the tile
+         * @param padding how much padding to use for inner boundaries
+         */
+        public GridTile(String id, Double boundaryX, Double boundaryY, Double boundaryWidth, Double boundaryHeight, String name, Double padding) {
+            this.id = id;
+            this.name = name;
+            this.padding = padding;
+
+            // set the boundaries
+            this.boundaryX = boundaryX;
+            this.boundaryY = boundaryY;
+            this.boundaryWidth = boundaryWidth;
+            this.boundaryHeight = boundaryHeight;
+
+            // set the inner boundaries
+            this.innerX = boundaryX + padding;
+            this.innerY = boundaryY + padding;
+            this.innerWidth = boundaryWidth - (padding * 2);
+            this.innerHeight = boundaryHeight - (padding * 2);
+
+            // set the tile position
+            this.x = boundaryX + padding;
+            this.y = boundaryY + padding;
+        }
+        
+    }
 
     @ObjectClassDefinition(
         name = "TypeRefinery - Flow Configuration",
