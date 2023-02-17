@@ -1,0 +1,10 @@
+.d3graph {
+  width: 90% !important;
+  margin: auto;
+  margin-top: 2rem !important;
+}
+
+svg {
+  width: 100% !important;
+  margin: auto;
+}

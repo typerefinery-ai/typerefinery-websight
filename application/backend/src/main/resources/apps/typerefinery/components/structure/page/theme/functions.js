@@ -13,7 +13,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         if (themeStyles) {
             const currentTheme = themeStyles.getAttribute('active') || 'dark';
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            themeStyles.setAttribute("href", `/apps/typerefinery/web_root/${newTheme}.css`)          
+            themeStyles.setAttribute("href", `/apps/typerefinery/clientlibs/styles/${newTheme}.css`)
             themeStyles.setAttribute("active", newTheme)
             localStorage.setItem("theme", newTheme);
             setTimeout(() => {
@@ -34,7 +34,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
             style.setAttribute('active', 'light');
         } else {
             style.setAttribute('active', 'dark');
-            style.setAttribute('href', `/apps/typerefinery/web_root/dark.css`);
+            style.setAttribute('href', `/apps/typerefinery/clientlibs/styles/dark.css`);
         }
     };
 

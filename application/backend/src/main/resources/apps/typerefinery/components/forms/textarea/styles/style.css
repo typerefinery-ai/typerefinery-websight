@@ -1,0 +1,13 @@
+.textarea {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.textarea-width {
+  width: 30%;
+}
+.textarea-label {
+  display: block;
+  margin-right: 23.5%;
+}
