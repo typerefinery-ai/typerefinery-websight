@@ -16,10 +16,7 @@
     title, showSubtitle, subtitle, headingLevel, headingSize, classes
 */-->
 <template data-sly-template.variant="${ @ model }">
-  <header class="hl-title ${model.classes @ join=' '}" id="${model.id}">
-    <sly data-sly-test="${model.showSubtitle && model.subtitle}">
-      <p class="subtitle">${model.subtitle}</p>
-    </sly>
-    <h2 data-sly-element="${model.headingLevel}" class="hl-title__heading ${model.headingSize}">${model.title}</h2>
-  </header>
+  <div class="${model.componentClassNames} ${model.variantClassNames}" id="${model.id}" data-model="${model.jsonString}">
+      ${model.title}
+  </div>
 </template>
