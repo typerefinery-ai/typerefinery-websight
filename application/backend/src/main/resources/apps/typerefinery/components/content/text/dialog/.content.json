@@ -6,34 +6,9 @@
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
       "text": {
-        "sling:resourceType": "wcm/dialogs/components/richtext",
+        "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "text",
-        "label": "Text",
-        "required": true
-      }
-    },
-    "styleTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Style",
-      "classes": {
-        "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/dialog/tab/style/classes"
-      },
-      "theme": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "theme",
-        "label": "Theme",
-        "default": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Default",
-          "selected": true,
-          "value": ""
-        },
-        "checked": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Checked bullet points",
-          "value": "checked"
-        }
+        "label": "Text/Label"
       }
     },
     "gridTab": {

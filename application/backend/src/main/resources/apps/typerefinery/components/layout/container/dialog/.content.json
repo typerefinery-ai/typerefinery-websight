@@ -2,6 +2,141 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
+    },
+    "alignmentTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Alignment & Spacing",
+      "flexEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "flexEnabled",
+        "label": "Align Components Horizontally",
+        "description": "Components arranged in Horizontal Direction"
+      },
+      "verticalAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "verticalAlignment",
+        "label": "Vertical alignment",
+        "start": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Start",
+          "value": "start"
+        },
+        "center": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Center",
+          "value": "center"
+        },
+        "end": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "End",
+          "value": "end"
+        },
+        "ws:display": {
+          "condition": {
+            "sourceName": "flexEnabled",
+            "values": true
+          }
+        }
+      },
+      "horizontalAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "horizontalAlignment",
+        "label": "Horizontal alignment",
+        "start": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Start",
+          "value": "start"
+        },
+        "center": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Center",
+          "value": "center"
+        },
+        "end": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "End",
+          "value": "end"
+        },
+        "around": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Space Around",
+          "value": "around"
+        },
+        "evenly": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Space Evenly",
+          "value": "evenly"
+        },
+        "between": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Space Between",
+          "value": "between"
+        }
+      },
+      "rowGap": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "rowGap",
+        "label": "Row Spacing",
+        "1": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "1",
+          "value": "1"
+        },
+        "2": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "2",
+          "value": "2"
+        },
+        "3": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "3",
+          "value": "3"
+        },
+        "4": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "4",
+          "value": "4"
+        },
+        "5": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "5",
+          "value": "5"
+        }
+      },
+      "columnGap": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "columnGap",
+        "label": "Column Spacing",
+        "1": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "1",
+          "value": "1"
+        },
+        "2": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "2",
+          "value": "2"
+        },
+        "3": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "3",
+          "value": "3"
+        },
+        "4": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "4",
+          "value": "4"
+        },
+        "5": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "5",
+          "value": "5"
+        }
+      }
+    },
     "variantTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Variant",
@@ -32,30 +167,28 @@
       "label": "Background",
       "backgroundImageLg": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageLg",
         "label": "Background image - L breakpoint"
       },
       "backgroundImageMd": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageMd",
         "label": "Background image - M breakpoint"
       },
       "backgroundImageSm": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageSm",
         "label": "Background image - S breakpoint"
       }
-    },
-    "styleTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/style"
-    },
-    "gridTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }
