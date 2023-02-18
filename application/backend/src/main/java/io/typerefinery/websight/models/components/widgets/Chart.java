@@ -24,7 +24,6 @@ import io.typerefinery.websight.models.components.BaseComponent;
 public class Chart extends BaseComponent {
     
     private static final String DEFAULT_ID = "chart";
-    private static final String DEFAULT_CLASS_NAMES = "chart";
     private static final String DEFAULT_MODULE = "chartComponent";
 
     @Override

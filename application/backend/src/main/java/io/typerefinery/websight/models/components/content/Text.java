@@ -16,7 +16,6 @@
 
 package io.typerefinery.websight.models.components.content;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
@@ -26,8 +25,6 @@ import lombok.Getter;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -37,26 +34,15 @@ public class Text extends BaseComponent {
 
     @Getter
     @Inject
-    @Default(values = "Rich Text")
+    @Default(values = "Your Text goes here")
     private String text;
     
-    @Getter
-    @Inject
-    @Default(values = "")
-    private String theme;
     
-    private Map<String, String> themeConfig = new HashMap<String, String>(){{
-        put("checked", "hl-rich-text--checked-bullet-points");
-    }};
 
     @Override
     @PostConstruct
     protected void init() {
         super.init();
-
-        if (StringUtils.isNotBlank(theme)) {
-            theme = themeConfig.getOrDefault(theme, "");
-        }
     }
 
 
