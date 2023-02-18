@@ -51,8 +51,8 @@ import java.util.Map;
 public class Container extends BaseComponent {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/layout/container";
-    private static final String DEFAULT_ID = "container_";
-    private static final String DEFAULT_MODULE = "container_";
+    private static final String DEFAULT_ID = "container";
+    private static final String DEFAULT_MODULE = "container";
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 

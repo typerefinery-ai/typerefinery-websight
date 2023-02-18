@@ -17,18 +17,20 @@
 package io.typerefinery.websight.models.components.content;
 
 import lombok.Getter;
-import lombok.experimental.Delegate;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.Self;
 
 import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.models.components.DefaultStyledGridComponent;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
 
 import javax.inject.Inject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 @Model(adaptables = Resource.class)
 public class Title extends BaseComponent implements Styled, Grid {
@@ -40,25 +42,58 @@ public class Title extends BaseComponent implements Styled, Grid {
 
     @Inject
     @Getter
-    @Default(values = "h2")
+    @Default(values = "2")
     private String headingLevel;
 
     @Inject
     @Getter
-    @Default(values = "hl-title__heading--size-4")
+    @Default(values = "4")
     private String headingSize;
+
 
     @Inject
     @Getter
-    @Default(booleanValues = false)
-    private Boolean showSubtitle;
+    @Default(values = "center")
+    private String textAlignment;
 
     @Inject
     @Getter
     @Default(values = "Add your text here")
     private String subtitle;
 
-    @Self
-    @Delegate
-    private DefaultStyledGridComponent style;
+    private Map<String, String> headingLevelConfig = new HashMap<String, String>(){{
+        put("h1", "fw-bolder");
+        put("h2", "fw-bold");
+        put("h3", "fw-semibold");
+        put("h4", "fw-normal");
+        put("h5", "fw-light");
+        put("h6", "fw-lighter");
+    }};
+
+    private Map<String, String> textAlignmentConfig = new HashMap<String, String>(){{
+        put("center", "text-center");
+        put("left", "text-start");
+        put("right", "text-end");
+    }};
+
+    private Map<String, String> headingSizeConfig = new HashMap<String, String>(){{
+        put("XXL", "fs-1");
+        put("XL", "fs-2");
+        put("L", "fs-3");
+        put("M", "fs-4");
+        put("S", "fs-5");
+        put("XS", "fs-6");
+    }};
+
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+        if (style != null) {
+            style.addClasses(headingLevelConfig.get(headingLevel));
+            style.addClasses(headingSizeConfig.get(headingSize));
+            style.addClasses(textAlignmentConfig.get(textAlignment));
+        }
+    }
 }
