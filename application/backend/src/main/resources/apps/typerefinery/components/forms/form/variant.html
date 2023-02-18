@@ -1,0 +1,14 @@
+<template data-sly-template.variant="${ @ model }">
+
+    <sly data-sly-test.CSSclasses="hl-container"></sly>
+    <div class="${model.componentClassNames}">
+        <form id="${model.id}" class="${model.variantClassNames}" data-model="${model.jsonString}">
+            <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+        </form>
+    </div>
+    <sly data-sly-test="${!resource.hasChildren}">
+        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+            data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+        </sly>
+    </sly>
+</template>

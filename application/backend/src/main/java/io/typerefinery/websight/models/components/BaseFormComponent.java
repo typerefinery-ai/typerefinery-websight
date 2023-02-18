@@ -5,7 +5,6 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;

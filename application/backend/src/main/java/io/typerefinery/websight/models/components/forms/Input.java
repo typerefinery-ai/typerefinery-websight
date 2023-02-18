@@ -40,8 +40,8 @@ import org.apache.sling.models.annotations.Default;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Input extends BaseFormComponent {
 
-    protected static final String DEFAULT_LABEL = "Input Text";
-    protected static final String DEFAULT_PLACEHOLDER = "Enter Text";
+    protected static final String DEFAULT_LABEL = "Input";
+    protected static final String DEFAULT_PLACEHOLDER = "Enter here.";
 
     @Inject
     @Getter
@@ -84,6 +84,8 @@ public class Input extends BaseFormComponent {
         
         if (grid != null && style != null) {
             style.addClasses(inputSize);
+            // Bootstrap common class name.
+            style.addClasses("form-control");
             
             componentClasses = Stream.concat(
                 Arrays.stream(style.getClasses()),

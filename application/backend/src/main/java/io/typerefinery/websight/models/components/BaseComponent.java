@@ -3,9 +3,10 @@ package io.typerefinery.websight.models.components;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -23,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
-import io.typerefinery.websight.utils.GridDisplayType;
-import io.typerefinery.websight.utils.GridStyle;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 import lombok.experimental.Delegate;
@@ -85,6 +84,15 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         return "";
     }
 
+    private Map<String, String> gridConfig = new HashMap<String, String>() {
+        {
+            put("lgColSize", "col-lg-");
+            put("mdColSize", "col-md-");
+            put("smColSize", "col-sm-");
+        }
+    };
+
+
     @Override
     @PostConstruct
     protected void init() {
@@ -92,6 +100,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
 
         style = resource.adaptTo(DefaultStyledComponent.class);
         grid = resource.adaptTo(DefaultStyledGridComponent.class);
+
+        if (grid != null) {
+            grid.addClasses(gridConfig.get("lgColSize") + getLgColSize());
+            grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
+            grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
+        }
 
         // get common properties
         if (resource != null) {
@@ -101,9 +115,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         }
 
         // add default class name as first class
-        String resourceSuperType = resource.getResourceType();
-        String componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
-        // componentClasses.add(componentName); 
-        style.addClasses(componentName);
+        // String resourceSuperType = resource.getResourceType();
+        // String componentName =
+        // resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+        // componentClasses.add(componentName);
+        // style.addClasses(componentName);
     }
 }
