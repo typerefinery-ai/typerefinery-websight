@@ -35,4 +35,11 @@ public interface Grid {
   Integer getMdRowSize();
   
   Integer getLgRowSize();
+
+
+  String getSmSpacing();
+  
+  String getMdSpacing();
+  
+  String getLgSpacing();
 }

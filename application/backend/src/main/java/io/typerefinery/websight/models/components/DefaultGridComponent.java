@@ -60,4 +60,16 @@ public class DefaultGridComponent implements Grid {
   @Inject
   private Integer lgOffset;
 
+
+  @Inject
+  @Default(values = "auto")
+  private String smSpacing;
+
+  @Inject
+  @Default(values = "auto")
+  private String mdSpacing;
+
+  @Inject
+  @Default(values = "auto")
+  private String lgSpacing;
 }

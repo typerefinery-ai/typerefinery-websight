@@ -92,6 +92,14 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         }
     };
 
+    private Map<String, String> spacingConfig = new HashMap<String, String>() {
+        {
+            put("lgSpacing", "m-lg-");
+            put("mdSpacing", "m-md-");
+            put("smSpacing", "m-sm-");
+        }
+    };
+
 
     @Override
     @PostConstruct
@@ -102,9 +110,15 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         grid = resource.adaptTo(DefaultStyledGridComponent.class);
 
         if (grid != null) {
+            // Width
             grid.addClasses(gridConfig.get("lgColSize") + getLgColSize());
             grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
             grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
+        
+            // Spacing
+            grid.addClasses(spacingConfig.get("lgSpacing") + getLgSpacing());
+            grid.addClasses(spacingConfig.get("mdSpacing") + getMdSpacing());
+            grid.addClasses(spacingConfig.get("smSpacing") + getSmSpacing());
         }
 
         // get common properties

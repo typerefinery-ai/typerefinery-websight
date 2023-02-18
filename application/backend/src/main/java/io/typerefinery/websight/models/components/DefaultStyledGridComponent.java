@@ -21,17 +21,13 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
-import io.typerefinery.websight.utils.GridStyle;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import io.typerefinery.websight.models.components.DefaultGridComponent;
-import io.typerefinery.websight.models.components.DefaultStyledComponent;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
 
@@ -104,6 +100,23 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgOffset() {
     return grid.getLgOffset();
   }
+
+
+  @Override
+  public String getLgSpacing() {
+    return grid.getLgSpacing();
+  }
+  
+  @Override
+  public String getMdSpacing() {
+    return grid.getMdSpacing();
+  }
+
+  @Override
+  public String getSmSpacing() {
+    return grid.getSmSpacing();
+  }
+
 
   @PostConstruct
   private void init() {
