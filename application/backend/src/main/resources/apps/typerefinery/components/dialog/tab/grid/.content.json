@@ -1,8 +1,7 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
   "label": "Grid",
-  
-  "smColsize": {
+  "smColSize": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "smColSize",
     "label": "Width - S breakpoint",
@@ -68,7 +67,7 @@
       "value": 12
     }
   },
-  "mdColsize": {
+  "mdColSize": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "mdColSize",
     "label": "Width - M breakpoint",
@@ -134,7 +133,7 @@
       "value": 12
     }
   },
-  "lgColsize": {
+  "lgColSize": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "lgColSize",
     "label": "Width - L breakpoint",
@@ -198,6 +197,126 @@
       "label": "12 Col",
       "selected": true,
       "value": 12
+    }
+  },
+  "smSpacing": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "smSpacing",
+    "label": "Spacing - S breakpoint",
+    "auto": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "auto",
+      "value": "auto"
+    },
+    "0": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "0",
+      "value": "0"
+    },
+    "1": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "1",
+      "value": "1"
+    },
+    "2": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "2",
+      "value": "2"
+    },
+    "3": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "3",
+      "value": "3"
+    },
+    "4": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "4",
+      "value": "4"
+    },
+    "5": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "5",
+      "value": "5"
+    }
+  },
+  "mdSpacing": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "mdSpacing",
+    "label": "Spacing - M breakpoint",
+    "auto": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "auto",
+      "value": "auto"
+    },
+    "0": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "0",
+      "value": "0"
+    },
+    "1": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "1",
+      "value": "1"
+    },
+    "2": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "2",
+      "value": "2"
+    },
+    "3": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "3",
+      "value": "3"
+    },
+    "4": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "4",
+      "value": "4"
+    },
+    "5": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "5",
+      "value": "5"
+    }
+  },
+  "lgSpacing": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "lgSpacing",
+    "label": "Spacing - L breakpoint",
+    "auto": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "auto",
+      "value": "auto"
+    },
+    "0": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "0",
+      "value": "0"
+    },
+    "1": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "1",
+      "value": "1"
+    },
+    "2": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "2",
+      "value": "2"
+    },
+    "3": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "3",
+      "value": "3"
+    },
+    "4": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "4",
+      "value": "4"
+    },
+    "5": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "5",
+      "value": "5"
     }
   }
 }

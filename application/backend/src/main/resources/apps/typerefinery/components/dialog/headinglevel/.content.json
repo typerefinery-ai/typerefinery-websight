@@ -11,7 +11,6 @@
   "h2": {
     "sling:resourceType": "wcm/dialogs/components/radio/option",
     "label": "H2",
-    "selected": true,
     "value": "h2"
   },
   "h3": {

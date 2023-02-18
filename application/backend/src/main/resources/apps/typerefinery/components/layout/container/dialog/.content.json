@@ -8,7 +8,7 @@
     },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Alignment & Spacing",
+      "label": "Alignment and Spacing",
       "flexEnabled": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "flexEnabled",
@@ -80,6 +80,11 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "rowGap",
         "label": "Row Spacing",
+        "0": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "0",
+          "value": "0"
+        },
         "1": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "1",
@@ -110,6 +115,11 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "columnGap",
         "label": "Column Spacing",
+        "0": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "0",
+          "value": "0"
+        },
         "1": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "1",

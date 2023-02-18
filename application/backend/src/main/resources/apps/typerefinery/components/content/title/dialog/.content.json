@@ -1,0 +1,48 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "headingLevel": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/headinglevel"
+      },
+      "headingSize": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/headingsize"
+      },
+      "textAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "textAlignment",
+        "label": "Text Alignment",
+        "center": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Center",
+          "value": "center"
+        },
+        "left": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Left",
+          "value": "left"
+        },
+        "right": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Right",
+          "value": "right"
+        }
+      },
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "default": "Add your heading here",
+        "label": "Heading text"
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
+    }
+  }
+}

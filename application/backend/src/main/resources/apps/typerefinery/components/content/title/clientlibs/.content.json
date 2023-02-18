@@ -1,5 +1,0 @@
-{
-  "title": "Client Libs",
-  "jcr:primaryType": "sling:Folder",
-  "sling:resourceType": "io/typerefinery/websight/clientlibs"
-}
