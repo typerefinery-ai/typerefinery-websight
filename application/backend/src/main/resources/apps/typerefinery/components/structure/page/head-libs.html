@@ -34,6 +34,18 @@
 <!-- Breadcrumb Component-->
 <sly data-sly-include="/apps/typerefinery/components/layout/breadcrumbs/head-libs.html"></sly>
 
-<!-- Header Component-->
-<sly data-sly-include="/apps/typerefinery/components/layout/header/head-libs.html"></sly>
+<!-- include all common libraries -->
+<sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='io.typerefinery.websight.common',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsAndCssIncludes @ context="unsafe"}
+</sly>
 
+<!-- include all components styles -->
+<sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='io.typerefinery.websight.components',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.cssIncludes @ context="unsafe"}
+</sly>

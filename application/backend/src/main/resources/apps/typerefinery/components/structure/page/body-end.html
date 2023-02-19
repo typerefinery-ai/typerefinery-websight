@@ -11,3 +11,11 @@
 <sly data-sly-include="/apps/typerefinery/components/widgets/map/head-libs.html"></sly>
 <!-- Ticker -->
 <sly data-sly-include="/apps/typerefinery/components/widgets/ticker/head-libs.html"></sly>
+
+<!-- include all components javascript -->
+<sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='io.typerefinery.websight.components',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
