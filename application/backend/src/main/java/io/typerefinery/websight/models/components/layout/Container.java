@@ -63,18 +63,16 @@ public class Container extends BaseComponent {
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
-    @RequestAttribute(name = "decorationTagName")
-    @Default(values = "")
-    private String decorationTagName;
-
     @SlingObject
     private ResourceResolver resourceResolver;
 
+    // authored decoration tag name
     @Inject
     @Getter
     @Default(values = "")
     private String type;
 
+    // authored flex toggle
     @Inject
     @Getter
     @Default(values = "")
@@ -114,10 +112,6 @@ public class Container extends BaseComponent {
         return componentClasses;
     }
 
-    public String getDecorationTagName() {
-        return decorationTagName;
-    }
-
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
             put("enabled", "flex");
@@ -145,12 +139,8 @@ public class Container extends BaseComponent {
             .toArray(new String[]{});
         }
 
-        if (StringUtils.isBlank(decorationTagName)) {
-            decorationTagName = "div";
-        }
-
         if (StringUtils.isNotBlank(type)) {
-            decorationTagName = type;
+            this.decorationTagName = type;
         }
     }
 

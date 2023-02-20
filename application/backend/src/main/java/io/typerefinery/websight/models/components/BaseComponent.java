@@ -46,7 +46,16 @@ import lombok.experimental.Delegate;
 public class BaseComponent extends BaseModel {
 
     public static final String PROPERTY_MODULE = "module";
+    public static final String PROPERTY_DECORATION_TAG_NAME = "decorationTagName";
+
+    public static final String DEFAULT_DECORATION_TAG_NAME = "div";
     
+    @Inject
+    @Getter
+    @Named(PROPERTY_DECORATION_TAG_NAME)
+    @Nullable
+    public String decorationTagName;
+
     @Inject
     @Getter
     @Named(PROPERTY_MODULE)
@@ -65,6 +74,10 @@ public class BaseComponent extends BaseModel {
     protected DefaultStyledGridComponent grid;
 
     protected String[] componentClasses;
+
+    public String getDecorationTagName() {
+        return decorationTagName;
+    }
 
     public DefaultStyledComponent getStyle() {
         return style;
@@ -100,6 +113,10 @@ public class BaseComponent extends BaseModel {
     @PostConstruct
     protected void init() {
         super.init();
+
+        if (StringUtils.isBlank(decorationTagName)) {
+            decorationTagName = DEFAULT_DECORATION_TAG_NAME;
+        }
 
         style = resource.adaptTo(DefaultStyledComponent.class);
         grid = resource.adaptTo(DefaultStyledGridComponent.class);
