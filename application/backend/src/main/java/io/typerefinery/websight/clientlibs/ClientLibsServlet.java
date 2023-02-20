@@ -388,9 +388,11 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         try {
             if (!ResourceUtil.isNonExistingResource(resource)) {
                 InputStream inputStream = resource.adaptTo(InputStream.class);
+                out.write("/* " + resourcePath + " */");
+                out.write(System.lineSeparator());
                 out.write(IOUtils.toString(inputStream, "UTF-8"));
                 //add new line after each file
-                out.append(System.lineSeparator());
+                out.write(System.lineSeparator());
             }
             return true;
         } catch (IOException e) {
