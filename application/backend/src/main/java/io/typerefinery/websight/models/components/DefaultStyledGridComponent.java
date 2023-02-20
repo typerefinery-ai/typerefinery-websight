@@ -107,8 +107,10 @@ public class DefaultStyledGridComponent implements Styled, Grid {
 
   @PostConstruct
   private void init() {
-    componentClasses = Arrays.stream(style.getClasses())
-        .collect(Collectors.toCollection(LinkedHashSet::new))
-        .toArray(new String[] {});
+    if (style != null) {
+        componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[] {});
+    }
   }
 }
