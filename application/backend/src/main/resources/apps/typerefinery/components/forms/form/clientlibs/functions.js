@@ -7,15 +7,20 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 (function (ns, componentNs, document, window) {
     "use strict";
 
-    ns.getFormData = (form) => {
-        const formData = new FormData(form);
-        // ...or output as an object
-        return Object.fromEntries(formData);
+    ns.getFormData = (form, id) => {
+        const result = {};
+        const inputs = Array.from(form.querySelectorAll("input"));
+        inputs.forEach(input => {
+            if(input?.name) {
+                result[input.name] = input?.value || "";
+            }
+        });
+        return result;
     };
 
     ns.submit = async (url, method, payloadType, body, successCallback = () => {}, errorCallback = () => {}) => {
         try{
-            const response = await fetch(
+            await fetch(
                 url, 
                 {
                     method: method,
@@ -24,11 +29,11 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
                     },
                     body
                 }
-            ).then(response => response.json());
-            console.log("RESPONSE", response);
+            );
             successCallback();
         }catch(error) {
-            console.log("ERROR", error);
+            console.log("Error in submitting the request");
+            console.error(error);
             errorCallback();
         }
     };
@@ -45,6 +50,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     ns.jsonRequest = (url, componentConfig, payload) => {
         const { writePayloadType, writeMethod } = componentConfig;
+        
         ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
@@ -58,8 +64,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     };
 
     ns.formSubmitHandler = ($component) => {
-        const payload = ns.getFormData($component);
         const componentConfig = componentNs.getComponentConfig($component);
+
+        const payload = ns.getFormData($component, componentConfig.resourcePath);
         const { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if(!writePayloadType || !writeMethod || !writeUrl) {
             alert("Fill all the parameters.");
@@ -78,7 +85,6 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         try{
             const componentConfig = componentNs.getComponentConfig($component);
             const { resourcePath, readUrl, readMethod = "GET", readPayloadType = "application/json" } = componentConfig;
-            const parent = document.getElementById(resourcePath);
             if(!readUrl) {
                 return;
             }
@@ -95,7 +101,6 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             Object.entries(response).forEach(item => {
                 const el = document.getElementById(resourcePath).querySelector(`[name="${item[0]}"]`);
                 el.setAttribute("value", item[1] || "");
-                console.log(el)
             })
         }catch(error) {
             console.log("ERROR IN LOADING", error);
@@ -105,7 +110,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     ns.addEventListener = () => {
         $(document).on("submit", "form", function (e) {
             e.preventDefault();
+            console.log("Button clicked");
             const { target } = e;
+            console.log("Target clicked", target);
             ns.formSubmitHandler(target);
         });
     };
