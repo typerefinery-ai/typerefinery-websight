@@ -34,10 +34,12 @@ public class Textarea extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Textarea";
     protected static final String DEFAULT_PLACEHOLDER = "Enter text here..";
+    private static final String DEFAULT_ID = "textarea";
+    private static final String DEFAULT_MODULE = "textarea";
 
     @Inject
     @Getter
-    @Default(values = "false")
+    @Default(values = "")
     private String value;
 
     @Inject
@@ -47,18 +49,21 @@ public class Textarea extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "1")
-    private String rows;
+    @Default(values = "4")
+    private String numOfRows;
   
-    @Inject
-    @Getter
-    @Default(values = "25")
-    private String cols;
 
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
+
+        if(style != null) {
+            // Default class 'form-control' for textarea.
+            style.addClasses("form-control");
+        }
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;

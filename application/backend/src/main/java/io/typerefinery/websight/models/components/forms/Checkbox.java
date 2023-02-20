@@ -30,7 +30,9 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
 public class Checkbox extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Checkbox";
-
+    private static final String DEFAULT_ID = "checkbox";
+    private static final String DEFAULT_MODULE = "checkbox";
+    
     @Inject
     @Getter
     @Default(values = "false")
@@ -39,10 +41,16 @@ public class Checkbox extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
+        }
+
+        if(style != null) {
+            style.addClasses("form-check-input");
         }
         
     }

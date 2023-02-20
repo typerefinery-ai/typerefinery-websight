@@ -40,6 +40,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
 
     public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
+    
+    @Getter
+    @Inject
+    @Default(values = "")
+    public String textAlignment; 
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -99,6 +104,13 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             put("smSpacing", "m-sm-");
         }
     };
+    private Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
+        {
+            put("left", "text-start");
+            put("center", "text-center");
+            put("right", "text-end");
+        }
+    };
 
 
     @Override
@@ -119,7 +131,14 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             grid.addClasses(spacingConfig.get("lgSpacing") + getLgSpacing());
             grid.addClasses(spacingConfig.get("mdSpacing") + getMdSpacing());
             grid.addClasses(spacingConfig.get("smSpacing") + getSmSpacing());
+            grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
         }
+
+        if(style != null && this.id != "checkbox" && this.id != "radiobutton") {
+            // variantClassNames will have 100% for parent (i.e componentClassNames)
+            style.addClasses("col-12");
+        }
+        
 
         // get common properties
         if (resource != null) {

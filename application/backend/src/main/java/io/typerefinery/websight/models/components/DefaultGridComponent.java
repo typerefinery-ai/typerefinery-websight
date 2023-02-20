@@ -62,14 +62,14 @@ public class DefaultGridComponent implements Grid {
 
 
   @Inject
-  @Default(values = "auto")
+  @Default(values = "")
   private String smSpacing;
 
   @Inject
-  @Default(values = "auto")
+  @Default(values = "")
   private String mdSpacing;
 
   @Inject
-  @Default(values = "auto")
+  @Default(values = "")
   private String lgSpacing;
 }

@@ -41,6 +41,9 @@ import io.typerefinery.websight.utils.GridStyle;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Button extends BaseFormComponent {
+    
+    private static final String DEFAULT_ID = "button";
+    private static final String DEFAULT_MODULE = "button";
 
     @Inject
     @Getter
@@ -92,13 +95,15 @@ public class Button extends BaseFormComponent {
 
 
     private Map<String, String> buttonVariantConfig = new HashMap<String, String>(){{
-        put("primary", "p-button");
-        put("success", "p-button-success");
-        put("warning", "p-button-warning");
-        put("danger", "p-button-danger");
-        put("text", "p-button-text");
-        put("help", "p-button-help");
-        put("link", "p-button-link");
+        put("primary", "-primary");
+        put("secondary", "-secondary");
+        put("success", "-success");
+        put("warning", "-warning");
+        put("danger", "-danger");
+        put("info", "-info");
+        put("help", "-help");
+        put("light", "-light");
+        put("dark", "-dark");
     }};
 
     private Map<String, String> buttonSizeConfig = new HashMap<String, String>(){{
@@ -109,11 +114,13 @@ public class Button extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
-        if (StringUtils.isNotBlank(buttonVariant)) {
-            buttonVariant = buttonVariantConfig.getOrDefault(buttonVariant, "");
-        }
+        // if (StringUtils.isNotBlank(buttonVariant)) {
+        //     buttonVariant = buttonVariantConfig.getOrDefault(buttonVariant, "");
+        // }
         if (StringUtils.isNotBlank(buttonSize)) {
             buttonSize = buttonSizeConfig.getOrDefault(buttonSize, "");
         } else {
@@ -122,21 +129,28 @@ public class Button extends BaseFormComponent {
 
         if (grid != null && style != null) {
 
-            if (BooleanUtils.isTrue(isRoundedButton)) {
-                style.addClasses("p-button-rounded");
+            // if (BooleanUtils.isTrue(isRoundedButton)) {
+            //     style.addClasses("p-button-rounded");
+            // }
+            // if (BooleanUtils.isTrue(isRaisedButton)) {
+            //     style.addClasses("p-button-raised");
+            // }
+            String buttonCls = "btn";
+            if (StringUtils.isNotBlank(buttonVariant)) {
+                buttonCls += " btn";
+                if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
+                    buttonCls += "-outline";
+                }
+                buttonCls += buttonVariantConfig.get(buttonVariant);
             }
-            if (BooleanUtils.isTrue(isRaisedButton)) {
-                style.addClasses("p-button-raised");
-            }
-            if (BooleanUtils.isTrue(isOutlinedButton)) {
-                style.addClasses("p-button-outlined");
-            }
+            
 
+            style.addClasses(buttonCls);
             style.addClasses(buttonSize);
             
-            if (StringUtils.isNotBlank(buttonVariant)) {
-                style.addClasses(buttonVariant);
-            }            
+            // if (StringUtils.isNotBlank(buttonVariant)) {
+            //     style.addClasses(buttonVariant);
+            // }            
             
             componentClasses = Arrays.stream(style.getClasses())
             .collect(Collectors.toCollection(LinkedHashSet::new))
