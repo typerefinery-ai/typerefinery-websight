@@ -38,7 +38,6 @@ public class LineChart extends BaseComponent {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/linechart/mock/datasource1.json")
     public String dataSource;
     
     @Getter
