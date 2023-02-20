@@ -1,0 +1,14 @@
+{
+  "title": "Client Libs - Forms - Button",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.forms.button"],  
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/primevue/button/button.min.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}

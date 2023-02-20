@@ -1,0 +1,14 @@
+{
+  "title": "Client Libs - Forms - Checkbox",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.forms.checkbox"],  
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/primevue/checkbox/checkbox.min.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}

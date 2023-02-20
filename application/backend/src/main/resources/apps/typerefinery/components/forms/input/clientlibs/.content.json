@@ -1,0 +1,14 @@
+{
+  "title": "Client Libs - Forms - Input",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.forms.input"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/primevue/inputtext/inputtext.min.js"
+  ] 
+}
