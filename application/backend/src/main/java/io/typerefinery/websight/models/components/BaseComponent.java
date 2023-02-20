@@ -124,6 +124,12 @@ public class BaseComponent extends BaseModel {
         style = resource.adaptTo(DefaultStyledComponent.class);
         grid = resource.adaptTo(DefaultStyledGridComponent.class);
 
+        if (grid != null && style != null) {            
+            componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+
         // get common properties
         if (resource != null) {
             this.resourcePath = resource.getPath();
