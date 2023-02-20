@@ -1,0 +1,9 @@
+{
+  "title": "Client Libs - Content - Card",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.content.card"],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/primevue/card/card.min.js"
+  ] 
+}
