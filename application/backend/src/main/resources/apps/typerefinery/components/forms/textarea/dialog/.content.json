@@ -5,19 +5,23 @@
     "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
-      },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "placeholder",
+        "label": "Placeholder"
       },
       "fieldValue": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldValue"
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }
