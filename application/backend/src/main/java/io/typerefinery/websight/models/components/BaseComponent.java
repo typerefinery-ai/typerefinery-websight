@@ -33,7 +33,10 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 @Model(
-    adaptables = SlingHttpServletRequest.class, 
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
     defaultInjectionStrategy = OPTIONAL
 )
 @Exporter(
