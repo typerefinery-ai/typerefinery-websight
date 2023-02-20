@@ -227,15 +227,19 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             ValueMap properties = clientlibResource.getValueMap();            
             
             //add anything that need to be prepended with this client lib
-            String[] prepend = properties.get(PROPERTY_PREPEND, String[].class);
-            printCategoryResources(resourceResolver, prepend, out, extension, searchPaths);
+            if (properties.containsKey(PROPERTY_PREPEND)) {
+                String[] prepend = properties.get(PROPERTY_PREPEND, String[].class);
+                printCategoryResources(resourceResolver, prepend, out, extension, searchPaths);
+            }
 
             // print current resource
             printResource(clientlibResource, out, extension);
 
             //add anything that need to be appended with this client lib
-            String[] append = properties.get(PROPERTY_APPEND, String[].class);
-            printCategoryResources(resourceResolver, append, out, extension, searchPaths);
+            if (properties.containsKey(PROPERTY_APPEND)) {
+                String[] append = properties.get(PROPERTY_APPEND, String[].class);
+                printCategoryResources(resourceResolver, append, out, extension, searchPaths);
+            }
             
         }
     }
