@@ -1,0 +1,12 @@
+<template data-sly-template.variant="${ @ model }">
+    <div class="${model.componentClassNames}">
+        <button 
+            type="${model.type}" 
+            id="${model.id}" 
+            data-model="${model.jsonString}" 
+            class="${model.variantClassNames}"
+        >
+            ${model.label}
+        </button>
+    </div>
+</template>

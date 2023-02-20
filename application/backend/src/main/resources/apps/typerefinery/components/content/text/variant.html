@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2022 Dynamic Solutions
+    Copyright (C) 2023 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,7 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="io.typerefinery.websight.models.components.content.Text"
-     data-sly-use.template="./variant.html"
-     data-sly-call="${template.variant @ model=model}">
-</sly>
+<template data-sly-template.variant="${ @ model }">
+    <div class="${model.componentClassNames}">
+        <label id="${model.id}" class="${model.variantClassNames}">
+            ${model.text}
+        </label>
+    </div>
+</template>

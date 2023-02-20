@@ -202,16 +202,16 @@
   "smSpacing": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "smSpacing",
-    "label": "Spacing - S breakpoint",
+    "label": "Margin - S breakpoint",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "default",
+      "value": ""
+    },
     "auto": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
       "label": "auto",
       "value": "auto"
-    },
-    "0": {
-      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "0",
-      "value": "0"
     },
     "1": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -242,16 +242,16 @@
   "mdSpacing": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "mdSpacing",
-    "label": "Spacing - M breakpoint",
+    "label": "Margin - M breakpoint",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "default",
+      "value": ""
+    },
     "auto": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
       "label": "auto",
       "value": "auto"
-    },
-    "0": {
-      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "0",
-      "value": "0"
     },
     "1": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -282,16 +282,16 @@
   "lgSpacing": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "lgSpacing",
-    "label": "Spacing - L breakpoint",
+    "label": "Margin - L breakpoint",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "default",
+      "value": ""
+    },
     "auto": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
       "label": "auto",
       "value": "auto"
-    },
-    "0": {
-      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "0",
-      "value": "0"
     },
     "1": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -317,6 +317,31 @@
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
       "label": "5",
       "value": "5"
+    }
+  },
+  "textAlignment": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "textAlignment",
+    "label": "Text Alignment",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "default",
+      "value": ""
+    },
+    "left": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "left",
+      "value": "left"
+    },
+    "center": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "center",
+      "value": "center"
+    },
+    "right": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "right",
+      "value": "right"
     }
   }
 }
