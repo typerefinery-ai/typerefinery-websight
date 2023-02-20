@@ -14,9 +14,14 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model}">
-    <sly data-sly-test.image="${model.image}"></sly>
-    <sly data-sly-test.navigation="${model.navigation}"></sly>
-    <sly data-sly-test.socialLinks="${model.socialLinks}"></sly>
+
+  <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+    data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+  </sly>
+  
+  <sly data-sly-set.image="${model.image}"></sly>
+    <sly data-sly-set.navigation="${model.navigation}"></sly>
+    <sly data-sly-set.socialLinks="${model.socialLinks}"></sly>
 
     <footer class="hl-footer">
       <sly data-sly-test="${image || navigation || socialLinks || model.copyright}">
@@ -43,4 +48,5 @@
         </div>
       </sly>
     </footer>
+
 </template>
