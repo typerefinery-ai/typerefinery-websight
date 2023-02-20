@@ -1,0 +1,16 @@
+{
+  "title": "Client Libs - Widgets - Map",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.map"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "/apps/typerefinery/clientlibs/vendor/maplibre/maplibre-gl.css",
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/maplibre/maplibre-gl.js",
+    "script.js"
+  ] 
+}

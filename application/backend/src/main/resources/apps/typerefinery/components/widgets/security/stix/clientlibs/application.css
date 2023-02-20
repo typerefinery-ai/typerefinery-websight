@@ -1,0 +1,214 @@
+/*style*/
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica", sans-serif;
+  font-weight: 300;
+}
+
+ul li div {
+  height: 37px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 300;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 img {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 25px;
+  right: 25px;
+  border: 0;
+}
+
+#uploader, #canvas-container {
+  position: absolute;
+  top: 81px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 25px;
+  width: auto;
+  height: 460px !important;
+}
+
+svg {
+  border: solid 1px black;
+  width: auto;
+}
+
+#uploader {
+  text-align: center;
+  line-height: 1;
+  font-size: 36px;
+}
+
+#uploader a {
+  font-size: 20px;
+}
+
+#chosen-files {
+  margin-left: 15px;
+  font-size: 24px;
+  color: #333;
+}
+
+#canvas-wrapper {
+  margin: 25px;
+  float: left;
+  width: auto;
+}
+
+#canvas {
+  max-height: 460px !important;
+  height: 460px !important;
+}
+.sidebar {
+  right: 25px;
+  width: 350px;
+  float: right;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+#legend {
+  margin-top: 25px;
+  padding: 25px;
+  background-color: #fafafa;
+}
+
+#selected {
+  margin-top: 25px;
+  background-color: #fafafa;
+  cursor: pointer;
+  float: left;
+  width: 50%;
+}
+
+#linkedNodesGroup {
+  margin-top: 25px;
+  background-color: #fafafa;
+  cursor: pointer;
+  float: right;
+  width: 50%;
+}
+
+div.top-wrapper {
+  display: table-row;
+  width: 100%;
+}
+
+div.wrapper > div > .type {
+  width: 30%;
+  font-weight: bold;
+}
+
+div.wrapper {
+  margin-left: 2em;
+  width: 100%;
+  overflow-wrap: break-word;
+  display: inline-block;
+}
+
+span.title {
+  font-weight: normal;
+  color: purple;
+}
+
+span.num_value {
+  color: orange;
+  cursor: text;
+}
+
+span.text_value {
+  color: darkblue;
+  cursor: text;
+}
+
+span.ref_value_resolved {
+  color: lightblue;
+  text-decoration: underline;
+  cursor: context-menu;
+}
+
+span.ref_value_unresolved {
+  color: red;
+  text-decoration: underline;
+  cursor: not-allowed;
+}
+
+div.wrapper > div > .value {
+  word-wrap: break-word;
+}
+
+#paste-area-stix-json {
+  height: 25em;
+  width: 40em;
+}
+
+#paste-area-custom-config {
+  height: 25em;
+  width: 40em;
+}
+
+h2 {
+  font-weight: 200;
+}
+
+line, .link {
+  stroke-width: 5;
+  stroke: #aaa;
+}
+
+ul {
+  list-style-type: none;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 5px 0px;
+  margin: 0;
+}
+
+
+ul > li > p {
+  display: inline-block;
+  margin: 5px 10px;
+}
+
+.dimmed {
+  opacity: 0.9;
+}
+
+.pinned {
+  stroke: black;
+  stroke-width: 5;
+}
+
+.linkish:hover {
+  color: blue;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+/*.selected {
+  >>> This style is in the header of the index.html file for comptibility reasons! <<<
+  filter: url("#drop-shadow");
+}*/

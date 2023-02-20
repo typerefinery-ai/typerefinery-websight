@@ -1,0 +1,21 @@
+{
+  "title": "Client Libs - Widgets - Chart",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.chart"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/chartjs/chart.js",
+    "/apps/typerefinery/clientlibs/vendor/chartjs/chartjs-plugin-datalabels.min.js",
+    "variants/linechart/functions.js",
+    "variants/linechart/behaviour.js",
+    "variants/barchart/functions.js",
+    "variants/barchart/behaviour.js",
+    "variants/piechart/functions.js",
+    "variants/piechart/behaviour.js"
+  ] 
+}

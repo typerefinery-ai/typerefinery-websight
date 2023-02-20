@@ -1,0 +1,15 @@
+{
+  "title": "Client Libs - Widgets - Tabls",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.table"],
+  "css": [
+    "/apps/typerefinery/clientlibs/vendor/gridjs/grid.min.css",
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/gridjs/gridjs.development.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}

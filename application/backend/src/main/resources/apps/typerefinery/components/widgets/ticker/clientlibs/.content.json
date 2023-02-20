@@ -1,0 +1,19 @@
+{
+  "title": "Client Libs - Ticker",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.ticker"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "variants/primary/styles/style.css",
+    "variants/secondary/styles/style.css",
+    "variants/secondary/styles/color.css"
+  ],  
+  "js": [
+    "variants/primary/functions.js",
+    "variants/primary/behaviour.js",
+    "variants/secondary/functions.js",
+    "variants/secondary/behaviour.js"
+  ] 
+}

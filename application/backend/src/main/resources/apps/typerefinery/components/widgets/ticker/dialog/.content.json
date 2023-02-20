@@ -145,7 +145,7 @@
     },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog"
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
