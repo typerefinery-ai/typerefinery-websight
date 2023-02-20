@@ -1,38 +1,12 @@
-<!-- Accordion Component -->
-<sly data-sly-include="/apps/typerefinery/components/layout/accordion/head-libs.html"></sly>
 
-<!-- Card Component -->
-<sly data-sly-include="/apps/typerefinery/components/content/card/head-libs.html"></sly>
 
-<!-- Table Component -->
-<sly data-sly-include="/apps/typerefinery/components/widgets/table/head-libs.html"></sly>
-
-<!-- Form Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/form/head-libs.html"></sly>
-
-<!-- Button Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/button/head-libs.html"></sly>
-
-<!-- Checkbox Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/checkbox/head-libs.html"></sly>
-
-<!-- InputText Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/input/head-libs.html"></sly>
-
-<!-- Password Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/password/head-libs.html"></sly>
-
-<!-- RadioButton Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/radio/head-libs.html"></sly>
-
-<!-- Textarea Component -->
-<sly data-sly-include="/apps/typerefinery/components/forms/textarea/head-libs.html"></sly>
-
-<!-- SideBar Component-->
-<sly data-sly-include="/apps/typerefinery/components/layout/sidebar/head-libs.html"></sly>
-
-<!-- Breadcrumb Component-->
-<sly data-sly-include="/apps/typerefinery/components/layout/breadcrumbs/head-libs.html"></sly>
+<!-- include all javascript clientlibs that meant to be at the header of the page  -->
+<sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='io.typerefinery.websight.components-header',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
 
 <!-- include all common libraries -->
 <sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @

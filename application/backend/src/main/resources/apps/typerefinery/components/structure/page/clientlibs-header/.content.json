@@ -1,0 +1,13 @@
+{
+  "title": "Client Libs - Structure - Page - header",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components-header","io.typerefinery.websight.components.structure.page-header"],  
+  "js": [
+    "functions.js",
+    "theme/functions.js",
+    "tms/client.js",
+    "tms/jsonschema.js",
+    "tms/functions.js",\
+  ] 
+}

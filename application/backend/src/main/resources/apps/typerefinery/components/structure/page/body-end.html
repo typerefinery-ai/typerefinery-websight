@@ -1,16 +1,12 @@
 <!-- Vue instance -->
-<script src="/apps/typerefinery/components/structure/page/script.js"></script>
-
-<!-- Chart -->
-<sly data-sly-include="/apps/typerefinery/components/widgets/chart/head-libs.html"></sly>
-
-<!-- LeafletMap -->
-<sly data-sly-include="/apps/typerefinery/components/widgets/leafletmap/head-libs.html"></sly>
-
-<!-- Map -->
-<sly data-sly-include="/apps/typerefinery/components/widgets/map/head-libs.html"></sly>
-<!-- Ticker -->
-<sly data-sly-include="/apps/typerefinery/components/widgets/ticker/head-libs.html"></sly>
+<!-- <script src="/apps/typerefinery/components/structure/page/script.js"></script> -->
+<!-- include all javascript clientlibs that meant to be at the end of the page  -->
+<sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='io.typerefinery.websight.components-footer',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
 
 <!-- include all components javascript -->
 <sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
@@ -19,3 +15,4 @@
     crossorigin='anonymous'}">
 ${clientlibs.jsIncludes  @ context="unsafe"}
 </sly>
+

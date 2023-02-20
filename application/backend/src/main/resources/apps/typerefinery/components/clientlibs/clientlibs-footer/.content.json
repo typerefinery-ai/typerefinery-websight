@@ -2,8 +2,5 @@
   "title": "Client Libs",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components-footer"],  
-  "js": [
-    "components.js"
-  ] 
+  "categories": ["io.typerefinery.websight.components-footer"]
 }
