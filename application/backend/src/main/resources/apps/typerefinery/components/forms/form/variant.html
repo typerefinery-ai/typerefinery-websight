@@ -1,7 +1,7 @@
 <template data-sly-template.variant="${ @ model }">
 
     <sly data-sly-test.CSSclasses="hl-container"></sly>
-    <div class="${model.componentClassNames}">
+    <div data-sly-test="${resource.hasChildren}" class="${model.componentClassNames}">
         <form id="${model.id}" class="${model.variantClassNames}" data-model="${model.jsonString}">
             <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
         </form>
