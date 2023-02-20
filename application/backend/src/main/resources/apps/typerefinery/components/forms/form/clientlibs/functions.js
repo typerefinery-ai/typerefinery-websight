@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 (function (ns, componentNs, document, window) {
     "use strict";
 
-    ns.getFormData = (form, id) => {
+    ns.getFormData = (form) => {
         const result = {};
         const inputs = Array.from(form.querySelectorAll("input"));
         inputs.forEach(input => {
@@ -66,7 +66,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     ns.formSubmitHandler = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
 
-        const payload = ns.getFormData($component, componentConfig.resourcePath);
+        const payload = ns.getFormData($component);
         const { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if(!writePayloadType || !writeMethod || !writeUrl) {
             alert("Fill all the parameters.");
@@ -100,10 +100,18 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             
             Object.entries(response).forEach(item => {
                 const el = document.getElementById(resourcePath).querySelector(`[name="${item[0]}"]`);
-                el.setAttribute("value", item[1] || "");
+                if(el){
+                    el.setAttribute("value", item[1] || "");
+                    if(el.getAttribute("type") === "checkbox") {
+                        if(item[1]) {
+                            el.setAttribute("checked", true);
+                        }
+                    }
+                }
             })
         }catch(error) {
-            console.log("ERROR IN LOADING", error);
+            console.log("Error in fetching form initial data");
+            console.error(error);
         }
     }
 
