@@ -185,7 +185,8 @@ public class ClientLibsModel {
             if (includeJS) {
                 Element htmlTag = new Element(Tag.valueOf("script"), "");
 
-                htmlTag.attr("src", ClientLibsServlet.compileRenderPath(path, PROPERTY_JS_PATHS, searchPaths))
+                htmlTag.attr("type", "text/javascript")
+                    .attr("src", ClientLibsServlet.compileRenderPath(path, PROPERTY_JS_PATHS, searchPaths))                    
                     .attr(OPTION_CROSSORIGIN, crossorigin);
 
                 if (StringUtils.isNotBlank(onload)) {
