@@ -46,6 +46,11 @@ public class Button extends BaseFormComponent {
     @Getter
     @Default(values = "false")
     private String value;
+    
+    @Inject
+    @Getter
+    @Default(values = "Button")
+    private String label;
 
     @Inject
     @Getter
