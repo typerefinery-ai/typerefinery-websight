@@ -21,6 +21,10 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import javax.annotation.PostConstruct;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
@@ -28,6 +32,19 @@ public class Form extends BaseFormComponent {
   @Inject
   @Getter
   private String writeUrl;
+
+  
+  @Inject
+  @Getter
+  private String rowGap;
+
+  @Inject
+  @Getter
+  private String columnGap;
+
+  @Inject
+  @Getter
+  private Boolean flexEnabled;
 
   @Inject
   @Getter
@@ -51,6 +68,40 @@ public class Form extends BaseFormComponent {
   @Getter
   private String readMethod;
 
+  
+  @Inject
+  @Getter
+  private String verticalAlignment;
+
+  @Inject
+  @Getter
+  private String horizontalAlignment;
+  
+  private Map<String, String> flexConfig = new HashMap<String, String>() {
+    {
+        put("flexEnabled", "grid");
+    }
+};
+private Map<String, String> verticalAlignmentConfig = new HashMap<String, String>() {
+    {
+        put("start", "align-items-start");
+        put("center", "align-items-center");
+        put("end", "align-items-end");
+    }
+};
+
+private Map<String, String> horizontalAlignmentConfig = new HashMap<String, String>() {
+    {
+        put("start", "justify-content-start");
+        put("center", "justify-content-center");
+        put("end", "justify-content-end");
+        put("space-around", "justify-content-around");
+        put("evenly", "justify-content-evenly");
+        put("between", "justify-content-between");
+    }
+};
+
+
   private static final String DEFAULT_ID = "form";
   private static final String DEFAULT_MODULE = "formComponent";
     
@@ -60,5 +111,25 @@ public class Form extends BaseFormComponent {
       this.id = DEFAULT_ID;
       this.module = DEFAULT_MODULE;
       super.init();
+      if (StringUtils.isBlank(columnGap) && StringUtils.isBlank(rowGap)) {
+        grid.addClasses("gap-3");
+    } else {
+        if (StringUtils.isNotBlank(columnGap)) {
+            grid.addClasses("column-gap-" + columnGap);
+        }
+        if (StringUtils.isNotBlank(rowGap)) {
+            grid.addClasses("row-gap-" + rowGap);
+        }
+    }
+    if (BooleanUtils.isTrue(flexEnabled)) {
+        grid.addClasses(flexConfig.get("flexEnabled"));
+    }
+    if (StringUtils.isNotBlank(horizontalAlignment)) {
+        grid.addClasses(horizontalAlignmentConfig.getOrDefault(horizontalAlignment, ""));
+    }
+    if (StringUtils.isNotBlank(verticalAlignment)) {
+        grid.addClasses(verticalAlignmentConfig.getOrDefault(verticalAlignment, ""));
+    }
+    grid.addClasses(horizontalAlignmentConfig.get(""));
   }
 }
