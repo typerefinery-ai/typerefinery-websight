@@ -16,49 +16,102 @@
 
 package io.typerefinery.websight.models.components.content;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
+import org.jetbrains.annotations.Nullable;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.DefaultStyledGridComponent;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
 
+import org.apache.sling.api.SlingHttpServletRequest;
+
 import javax.inject.Inject;
 
-@Model(adaptables = Resource.class)
-public class Title extends BaseComponent implements Styled, Grid {
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL
+)
+public class Title extends BaseComponent {
+
+    private static final String OPTION_TITLE = "title";
+    private static final String OPTION_HEADING_LEVEL = "headingLevel";
+    private static final String OPTION_HEADING_SIZE = "headingSize";
+    private static final String OPTION_SHOW_SUBTITLE = "showSubtitle";
+    private static final String OPTION_SUBTITLE = "subtitle";
+
+    private static final String DEFAULT_TITLE = "Add your heading here";
+    private static final String DEFAULT_HEADING_LEVEL = "h2";
+    private static final String DEFAULT_HEADING_SIZE = "hl-title__heading--size-4";
+    private static final String DEFAULT_SUBTITLE = "Add your text here";
+    private static final Boolean DEFAULT_SHOW_SUBTITLE = false;
 
     @Inject
+    @Named(OPTION_TITLE)
     @Getter
-    @Default(values = "Add your heading here")
+    @Nullable
     private String title;
 
     @Inject
+    @Named(OPTION_HEADING_LEVEL)
     @Getter
-    @Default(values = "h2")
+    @Nullable
     private String headingLevel;
 
     @Inject
+    @Named(OPTION_HEADING_SIZE)
     @Getter
-    @Default(values = "hl-title__heading--size-4")
+    @Nullable
     private String headingSize;
 
     @Inject
+    @Named(OPTION_SHOW_SUBTITLE)
     @Getter
-    @Default(booleanValues = false)
+    @Nullable
     private Boolean showSubtitle;
 
     @Inject
+    @Named(OPTION_SUBTITLE)
     @Getter
-    @Default(values = "Add your text here")
+    @Nullable
     private String subtitle;
 
-    @Self
-    @Delegate
-    private DefaultStyledGridComponent style;
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+
+        if (title == null) {
+            title = DEFAULT_TITLE;
+        }
+
+        if (headingLevel == null) {
+            headingLevel = DEFAULT_HEADING_LEVEL;
+        }
+
+        if (headingSize == null) {
+            headingSize = DEFAULT_HEADING_SIZE;
+        }
+
+        if (showSubtitle == null) {
+            showSubtitle = DEFAULT_SHOW_SUBTITLE;
+        }
+
+        if (subtitle == null) {
+            subtitle = DEFAULT_SUBTITLE;
+        }
+        
+    }
 }
