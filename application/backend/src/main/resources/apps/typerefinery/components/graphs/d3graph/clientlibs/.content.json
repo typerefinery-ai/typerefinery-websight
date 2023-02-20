@@ -1,0 +1,14 @@
+{
+  "title": "Client Libs - Graphs - d3graph",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.graphs.d3graph"],  
+  "css": [
+    "style.css"
+  ],
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/d3/d3.v4.js",
+    "/apps/typerefinery/clientlibs/vendor/webcola/cola.js",
+    "script.js"
+  ]
+}
