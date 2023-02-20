@@ -9,14 +9,17 @@ import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,14 +32,25 @@ import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
-public class BaseComponent extends BaseModel implements Styled, Grid {
+@Model(
+    adaptables = SlingHttpServletRequest.class, 
+    defaultInjectionStrategy = OPTIONAL
+)
+@Exporter(
+    name = "jackson",
+    extensions = "json", 
+    options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") 
+    }
+)
+public class BaseComponent extends BaseModel {
 
-    @Getter
+    public static final String PROPERTY_MODULE = "module";
+    
     @Inject
-    @Default(values = "")
+    @Getter
+    @Named(PROPERTY_MODULE)
+    @Nullable
     public String module;
 
     public String resourcePath; // full path of the component
@@ -46,12 +60,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Resource currentPage; // resource of the page the component is on
 
-    @Self
     protected DefaultStyledComponent style;
 
-    @Self
-    @Delegate
     protected DefaultStyledGridComponent grid;
+
+    protected String[] componentClasses;
 
     public DefaultStyledComponent getStyle() {
         return style;
@@ -60,8 +73,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public DefaultStyledGridComponent getGrid() {
         return grid;
     }
-
-    protected String[] componentClasses;
 
     public String[] getClasses() {
         // collect all authorable classes
