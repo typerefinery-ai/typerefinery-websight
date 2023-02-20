@@ -113,6 +113,9 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 response.setHeader("error", String.format("Request output %s is not supported.", extension));
                 response.flushBuffer();
                 return;
+            } else {
+                String mimeType = extension.equals("js") ? "application/javascript" : ( extension.equals("css") ? "text/css" : "text" );
+                response.setContentType(mimeType);
             }
             // check if path is valid
             String relPath = getLibraryRelativePath(request);
