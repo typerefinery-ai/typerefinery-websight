@@ -110,9 +110,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     ns.addEventListener = () => {
         $(document).on("submit", "form", function (e) {
             e.preventDefault();
-            console.log("Button clicked");
             const { target } = e;
-            console.log("Target clicked", target);
             ns.formSubmitHandler(target);
         });
     };
