@@ -3,18 +3,12 @@ package io.typerefinery.websight.clientlibs;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +23,6 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.query.SlingQuery;
-import org.apache.sling.query.api.SearchStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +38,6 @@ import static io.typerefinery.websight.clientlibs.ClientLibsServlet.OPTION_CROSS
 import static io.typerefinery.websight.clientlibs.ClientLibsServlet.OPTION_ONLOAD;
 import static io.typerefinery.websight.clientlibs.ClientLibsServlet.OPTION_MEDIA;
 import static io.typerefinery.websight.clientlibs.ClientLibsServlet.OPTION_DEBUG;
-import static io.typerefinery.websight.clientlibs.ClientLibsServlet.RESOURCE_TYPE;
 
 @Model(
     adaptables = SlingHttpServletRequest.class,
@@ -103,7 +94,7 @@ public class ClientLibsModel {
     private Set<String> categoriesSet;
 
     @PostConstruct
-    protected void initModel() {
+    protected void init() {
 
         Set<String> categoriesSet = StringsUtils.getStrings(categories);
 
@@ -137,20 +128,18 @@ public class ClientLibsModel {
      */
     private String getLibIncludes(String type) {
         StringWriter stringWriter = new StringWriter();
-        try {
             if (categoriesArray == null || categoriesArray.length == 0)  {
                 LOGGER.error("No categories detected. Please either specify the categories as a CSV string or a set of resource types for looking them up.");
             } else {
-                PrintWriter out = new PrintWriter(stringWriter);
-                ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver();
-                String[] searchPaths = new String[]{"/apps"};
-                // for each category in categoriesArray, find all resources and print them
-                compileIncludes(ClientLibsServlet.findClientLibsCategoryResources(resourceResolver, categoriesArray, searchPaths ), type, stringWriter, searchPaths);
-
+                try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {                    
+                    String[] searchPaths = new String[]{"/apps"};
+                    // for each category in categoriesArray, find all resources and print them
+                    compileIncludes(ClientLibsServlet.findClientLibsCategoryResources(resourceResolver, categoriesArray, searchPaths ), type, stringWriter, searchPaths);
+                } catch (Exception e) {
+                    LOGGER.error("Failed to include client libraries {}", Arrays.toString(categoriesArray));
+                }
+    
             }
-        } catch (Exception e) {
-            LOGGER.error("Failed to include client libraries {}", Arrays.toString(categoriesArray));
-        }
         return stringWriter.toString();
         // inject attributes from HTL into the JS and CSS HTML tags
         //return getHtmlWithInjectedAttributes(html);
