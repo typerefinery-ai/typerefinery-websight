@@ -776,10 +776,6 @@ public class FlowService {
                         flowTitle = flowResource.getName();
                     }
 
-                    // this will add a new tile to the grid and return the tile
-                    // this will be used to update the x and y values of the new flow elements
-                    GridTile flowGridTile = flowGridTiles.nextTile(flowId, flowTitle);
-
                     // get template json
                     // JsonNode componentTemplate = getTemplateTree(designTemplate, resourceResolver);
                     String designTemplateString = getResourceInputStreamAsString(designTemplate, resourceResolver);
@@ -851,10 +847,15 @@ public class FlowService {
                         designTemplateString = designTemplateString.replaceAll(entry.getKey(), entry.getValue());
                     }
 
+
                     // add new design steps to flow design
                     try {
                         JsonNode newDesign = mapper.readTree(designTemplateStringBuilder.toString());
                         
+                        // this will add a new tile to the grid and return the tile
+                        // this will be used to update the x and y values of the new flow elements
+                        GridTile flowGridTile = flowGridTiles.nextTile(flowId, flowTitle);
+
                         //for each step in new design, update x and y positions and add to new design components
                         Iterator<Entry<String, JsonNode>> fieldsIterator = newDesign.fields();
                         while (fieldsIterator.hasNext()) {
