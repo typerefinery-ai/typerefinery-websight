@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.navigation="${ @ menuItems, classes}">
+<template data-sly-template.variant="${ @ menuItems, classes}">
     <ul class="hl-navigation ${model.classes @ join=' '}">
         <div data-sly-list.item="${menuItems}" data-sly-unwrap>
             <sly data-sly-test="${item.label}">
