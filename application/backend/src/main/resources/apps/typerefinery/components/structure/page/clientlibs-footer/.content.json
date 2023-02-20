@@ -2,6 +2,6 @@
   "title": "Client Libs - Structure - Page - Footer",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components-footer","io.typerefinery.websight.components.stucture.page-footer"],
+  "categories": ["io.typerefinery.websight.components-footer","io.typerefinery.websight.components.stucture.page-footer"]
 
 }

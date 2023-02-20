@@ -8,6 +8,6 @@
     "theme/functions.js",
     "tms/client.js",
     "tms/jsonschema.js",
-    "tms/functions.js",\
+    "tms/functions.js"
   ] 
 }
