@@ -342,9 +342,13 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             ValueMap properties = resource.getValueMap();
             String[] paths = null;
             if (extension.equals("js")) {
-                paths = properties.get(PROPERTY_JS_PATHS, String[].class);
+                if (properties.containsKey(PROPERTY_JS_PATHS)) {
+                    paths = properties.get(PROPERTY_JS_PATHS, String[].class);
+                }
             } else if (extension.equals("css")) {
-                paths = properties.get(PROPERTY_CSS_PATHS, String[].class);
+                if (properties.containsKey(PROPERTY_CSS_PATHS)) {
+                    paths = properties.get(PROPERTY_CSS_PATHS, String[].class);
+                }
             }
 
             if (paths != null) {
