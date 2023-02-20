@@ -14,5 +14,5 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model}">
-    <div class="hl-rich-text ${model.classNames @ join=' '}">${model.text @ context='html'}</div>
+    <div class="hl-rich-text ${model.variantClassNames}">${model.text @ context='html'}</div>
 </template>

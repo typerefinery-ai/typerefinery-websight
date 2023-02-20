@@ -16,7 +16,7 @@
 <sly data-sly-use.model="io.typerefinery.websight.models.components.forms.Form">
   <form 
     id="${model.id}"
-    class="hl-container ${model.classNames}"
+    class="hl-container ${model.variantClassNames}"
     data-model="${model.jsonString}"
   >
     <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
