@@ -36,13 +36,12 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
-import io.typerefinery.websight.utils.GridDisplayType;
-import io.typerefinery.websight.utils.GridStyle;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Button extends BaseFormComponent {
     
     private static final String DEFAULT_ID = "button";
+    private static final String DEFAULT_LABEL = "Click here";
     private static final String DEFAULT_MODULE = "button";
 
     @Inject
@@ -116,6 +115,7 @@ public class Button extends BaseFormComponent {
     protected void init() {
         this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
+        this.label = DEFAULT_LABEL;
         super.init();
 
         // if (StringUtils.isNotBlank(buttonVariant)) {
@@ -142,6 +142,8 @@ public class Button extends BaseFormComponent {
                     buttonCls += "-outline";
                 }
                 buttonCls += buttonVariantConfig.get(buttonVariant);
+            }else {
+                buttonCls += " btn-primary";
             }
             
 
