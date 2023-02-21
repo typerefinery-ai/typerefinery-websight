@@ -98,6 +98,10 @@ module.exports = {
                         {
                             source: path.join(__dirname, 'dist/main'),
                             destination: path.join(__dirname, 'src/main/resources/apps/typerefinery/webroot')
+                        },
+                        {
+                            source: path.join(__dirname, 'src/static'),
+                            destination: path.join(__dirname, 'src/main/resources/apps/typerefinery')
                         }
                     ]
                 }
