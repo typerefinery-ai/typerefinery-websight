@@ -232,7 +232,7 @@
             <configuration>
               <images>
                 <image>
-                  <name>ghcr.io/innovolve-ai/typerefinery-websight:typerefinery-${project.version}</name>
+                  <name>ghcr.io/typerefinery-ai/typerefinery-websight:typerefinery-${project.version}</name>
                   <build>
                     <buildx>
                       <platforms>
@@ -245,7 +245,7 @@
                   </build>
                 </image>
                 <image>
-                  <name>ghcr.io/innovolve-ai/typerefinery-websight-nginx:typerefinery-${project.version}</name>
+                  <name>ghcr.io/typerefinery-ai/typerefinery-websight-nginx:typerefinery-${project.version}</name>
                   <build>
                     <buildx>
                       <platforms>

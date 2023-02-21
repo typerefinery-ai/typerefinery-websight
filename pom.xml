@@ -68,9 +68,9 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <!-- base docker distributions -->
-    <docker.cms-project.name>innovolve-ai/typerefinery-websight</docker.cms-project.name>
+    <docker.cms-project.name>typerefinery-ai/typerefinery-websight</docker.cms-project.name>
     <docker.cms-project.tag>latest</docker.cms-project.tag>
-    <docker.nginx.name>innovolve-ai/typerefinery-websight-nginx</docker.nginx.name>
+    <docker.nginx.name>typerefinery-ai/typerefinery-websight-nginx</docker.nginx.name>
     <docker.nginx.tag>latest</docker.nginx.tag>
 
     <!-- admin user default credentials for tests -->
