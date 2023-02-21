@@ -1,0 +1,13 @@
+{
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/layout/container",
+    "decorationTagName": "field",
+    "text": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/content/text"
+    },
+    "input": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/input"
+    }
+}
