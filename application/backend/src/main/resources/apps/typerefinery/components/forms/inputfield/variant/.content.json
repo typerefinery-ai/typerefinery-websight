@@ -1,5 +1,5 @@
 {
-  "group": "Typerefinery - Forms",
+  "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "Input Component",
   "title": "Input"

@@ -1,0 +1,11 @@
+{
+    "jcr:primaryType": "nt:unstructured",
+    "radiobutton": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/radiobutton/variant"
+    },
+    "text": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/content/text"
+    }
+}

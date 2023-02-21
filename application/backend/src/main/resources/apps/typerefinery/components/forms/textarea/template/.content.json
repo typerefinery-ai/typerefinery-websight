@@ -1,0 +1,11 @@
+{
+    "jcr:primaryType": "nt:unstructured",
+    "text": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/content/text"
+    },
+    "textarea": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/textarea/variant"
+    }
+}

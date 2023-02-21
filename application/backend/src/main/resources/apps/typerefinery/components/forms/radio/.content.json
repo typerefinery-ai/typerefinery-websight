@@ -1,6 +1,0 @@
-{
-  "group": "Typerefinery - Forms",
-  "sling:resourceType": "ws:Component",
-  "description": "This is Radio component for Typerefinery",
-  "title": "Radio"
-}

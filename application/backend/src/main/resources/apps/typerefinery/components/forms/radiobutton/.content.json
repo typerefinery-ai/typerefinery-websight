@@ -11,6 +11,6 @@
     "Typerefinery - Flow"
   ],
   "sling:resourceType": "ws:Component",
-  "description": "Textarea",
-  "title": "Textarea"
+  "description": "Radio button",
+  "title": "Radio button"
 }
