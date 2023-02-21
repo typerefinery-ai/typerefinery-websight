@@ -66,7 +66,7 @@ public class DefaultStyledComponent implements Styled {
     // add default class name as first class
     String resourceSuperType = resource.getResourceType();
     componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
-    componentClasses.add(componentName);
+    // componentClasses.add(componentName);
 
 
     if (StringUtils.isNotEmpty(classes)) {
