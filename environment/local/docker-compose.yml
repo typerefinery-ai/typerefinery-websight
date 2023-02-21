@@ -20,6 +20,12 @@ services:
       context: ../../distribution/src/main/docker/typerefinery-websight
       dockerfile: Dockerfile
     image: ${DOCKER_CMS_PROJECT_NAME}:${DOCKER_CMS_PROJECT_TAG}
+    healthcheck:
+      test: curl -u admin:admin --header Referer:localhost --silent --connect-timeout 5 --max-time 5 localhost:8080/system/console/bundles.json | grep -q \"state\":\"Installed\" && exit 1 || exit 0
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
     ports:
       - "8080:8080"
       - "5005:5005"
