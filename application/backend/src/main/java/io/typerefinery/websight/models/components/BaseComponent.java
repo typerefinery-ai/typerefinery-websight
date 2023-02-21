@@ -127,10 +127,16 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
             grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
         
-            // Spacing
-            grid.addClasses(spacingConfig.get("lgSpacing") + getLgSpacing());
-            grid.addClasses(spacingConfig.get("mdSpacing") + getMdSpacing());
-            grid.addClasses(spacingConfig.get("smSpacing") + getSmSpacing());
+            // Margins
+            if(StringUtils.isNotBlank(getLgSpacing())) {
+                grid.addClasses(spacingConfig.get("lgSpacing") + getLgSpacing());
+            }
+            if(StringUtils.isNotBlank(getMdSpacing())) {
+                grid.addClasses(spacingConfig.get("mdSpacing") + getMdSpacing());
+            }
+            if(StringUtils.isNotBlank(getSmSpacing())) {
+                grid.addClasses(spacingConfig.get("smSpacing") + getSmSpacing());
+            }
             grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
         }
 
