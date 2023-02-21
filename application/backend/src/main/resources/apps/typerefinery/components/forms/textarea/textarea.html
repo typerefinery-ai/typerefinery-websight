@@ -13,7 +13,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="io.typerefinery.websight.models.components.layout.Container"
-    data-sly-use.template="./variant.html"
-    data-sly-call="${template.variant @ model=model}">
+<sly data-sly-use.model="io.typerefinery.websight.models.components.layout.Container">
+    <div class="${model.componentClassNames}">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+    </div>
 </sly>
