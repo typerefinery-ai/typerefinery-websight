@@ -32,15 +32,19 @@ public class Select extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Select";
     protected static final String DEFAULT_PLACEHOLDER = "Select an item";
+    private static final String DEFAULT_ID = "select";
+    private static final String DEFAULT_MODULE = "select";
 
     @Inject
     @Getter
-    @Default(values = "Select the data")
+    @Default(values = "Open this select menu")
     private String placeholder;
 
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
         if (StringUtils.isBlank(label)) {
@@ -49,6 +53,10 @@ public class Select extends BaseFormComponent {
 
         if (StringUtils.isBlank(placeholder)) {
             placeholder = DEFAULT_PLACEHOLDER;
+        }
+
+        if(style != null) {
+            style.addClasses("form-select");
         }
         
     }  

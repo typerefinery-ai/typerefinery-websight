@@ -1,6 +1,16 @@
 {
   "group": "Typerefinery - Forms",
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Flow"
+  ],
   "sling:resourceType": "ws:Component",
-  "description": "Prime vue card component.",
+  "description": "Select",
   "title": "Select"
 }
