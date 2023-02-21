@@ -1,11 +1,22 @@
 {
     "jcr:primaryType": "nt:unstructured",
+    "flexEnabled":  true,
+    "horizontalAlignment": "start",
+    "verticalAlignment": "center",
     "radiobutton": {
         "jcr:primaryType": "nt:unstructured",
-        "sling:resourceType": "typerefinery/components/forms/radiobutton/variant"
+        "sling:resourceType": "typerefinery/components/forms/radiobutton/variant",
+        "lgColSize": "1",
+        "mdColSize": "1",
+        "smColSize": "1",
+        "textAlignment": "right"
     },
     "text": {
         "jcr:primaryType": "nt:unstructured",
-        "sling:resourceType": "typerefinery/components/content/text"
+        "sling:resourceType": "typerefinery/components/content/text",
+        "lgColSize": "2",
+        "mdColSize": "2",
+        "smColSize": "2",
+        "text": "Radio Button"
     }
 }
