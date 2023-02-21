@@ -86,7 +86,7 @@ public class Ticker extends BaseComponent implements FlowComponent {
 
     @Inject
     @Getter
-    @Default(values = "col")
+    @Default(values = "")
     private String sizeType;
 
     @Inject
@@ -136,10 +136,6 @@ public class Ticker extends BaseComponent implements FlowComponent {
         this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
-        if (grid != null && style != null) {
-            grid.addClasses(sizeType);
-            grid.addClasses(sizeValue);
-        }
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
         }
