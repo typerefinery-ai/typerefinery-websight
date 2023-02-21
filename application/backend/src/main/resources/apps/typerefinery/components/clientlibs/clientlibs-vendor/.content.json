@@ -2,7 +2,7 @@
   "title": "Client Libs - Vendor",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components-vendor"],  
+  "categories": ["io.typerefinery.websight.components-vendor"],
   "css": [
     "/apps/typerefinery/clientlibs/vendor/primevue/styles/lara-light-indigo-theme.css",
     "/apps/typerefinery/clientlibs/vendor/primevue/styles/style.min.css",
