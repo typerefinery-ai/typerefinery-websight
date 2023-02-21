@@ -7,10 +7,31 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Inputtext Component"/>
-          <inputtext jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input"/>
-        </pagesection>
+        <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
+          <container1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
+            <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Typerefinery Input's" headingLevel="XL" />
+          </container1_1>
+          <inputfield1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield">
+            <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Enter Email Address" />
+            <input jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield/variant" inputType="email" placeholder="Eg. test@example.com" />
+          </inputfield1>
+          <inputfield2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield">
+            <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Enter Name" />
+            <input jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield/variant" inputType="text" placeholder="Eg. John Henry" />
+          </inputfield2>
+          <inputfield3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield">
+            <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Enter Phone Number" />
+            <input jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield/variant" inputType="tel" placeholder="Eg. 65412441245" />
+          </inputfield3>
+          <inputfield4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield">
+            <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Enter Date of Birth" />
+            <input jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield/variant" inputType="date" />
+          </inputfield4>
+          <inputfield5 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield">
+            <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Enter Password" />
+            <input jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/inputfield/variant" inputType="password" placeholder="Eg. 123456" />
+          </inputfield5>
+        </container1>
       </maincontainer>
     </rootcontainer>
   </jcr:content>
