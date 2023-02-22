@@ -5,6 +5,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
@@ -14,9 +15,28 @@ import org.apache.sling.models.annotations.Model;
 
 import lombok.Getter;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = { @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
+
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    defaultInjectionStrategy = OPTIONAL
+)
+@Exporter(
+    name = "jackson",
+    extensions = "json",
+    options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+    }
+)
 public class BaseFormComponent extends BaseComponent {
+
+    @Self
+    private SlingHttpServletRequest request;
 
     @Inject
     @Getter
@@ -32,7 +52,22 @@ public class BaseFormComponent extends BaseComponent {
     @Override
     @PostConstruct
     protected void init() {
+        // check if selectors are present
+        String selectors = request.getRequestPathInfo().getSelectorString();
+        if (StringUtils.isNotBlank(selectors)) {
+            String[] selectorArray = StringUtils.split(selectors, ".");
+            if (selectorArray.length >= 2) {
+                // check if id is present and update component id
+                if (ArrayUtils.contains(selectorArray, "id")) {
+                    String value = selectorArray[ArrayUtils.indexOf(selectorArray, "id")+1];
+                    if (StringUtils.isNotBlank(value)) {
+                        this.id = value;
+                    }
+                }
+            }
+        }
         super.init();
+
     }
 
     

@@ -42,6 +42,8 @@ import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 
 import org.jetbrains.annotations.Nullable;
 import javax.inject.Named;
@@ -60,15 +62,20 @@ import javax.inject.Named;
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") 
     }
 )
-public class Input extends BaseFormComponent {
+public class Label extends BaseFormComponent {
+
+    public static final String PROPERTY_FORID = "forid";
 
     protected static final String DEFAULT_LABEL = "Input Text";
     protected static final String DEFAULT_PLACEHOLDER = "Enter Text";
+
+
 
     @Inject
     @Getter
     @Default(values = "")
     private String placeholder;
+
 
     @Inject
     @Getter
