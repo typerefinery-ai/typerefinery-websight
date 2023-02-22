@@ -1,6 +1,6 @@
 {
   "isContainer": true,
-  "group": "Typerefinery - Layout",
+  "group": "Typerefinery - Forms",
   "isLayout": true,
   "allowedComponents": [
     "Typerefinery - Content",
