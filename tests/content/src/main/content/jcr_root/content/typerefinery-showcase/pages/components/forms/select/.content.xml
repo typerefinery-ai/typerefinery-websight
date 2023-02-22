@@ -9,7 +9,7 @@
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Select Component"/>
-          <select jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+          <select jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select">
           </select>
         </pagesection>
       </maincontainer>

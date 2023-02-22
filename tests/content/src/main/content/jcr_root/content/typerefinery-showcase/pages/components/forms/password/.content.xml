@@ -9,7 +9,7 @@
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Password Component"/>
-          <password jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/password"/>
+          <password jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/password"/>
         </pagesection>
       </maincontainer>
     </rootcontainer>

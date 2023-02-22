@@ -8,15 +8,15 @@
             <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
             <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
                 <container jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12">
-                    <form jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
+                    <form jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/form">
                         <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Personal Information" />
                         <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="6" mdColSize="12" smColSize="12">
-                            <inputtext1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" name="firstName" label="First Name" placeholder="First Name" inputType="text"/>
-                            <inputtext2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" name="lastName" label="Last Name" placeholder="Last Name" inputType="text"/>
-                            <inputtext3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" name="phoneNumber" label="Phone Number" placeholder="Phone Number" inputType="number"/>
-                            <inputtext4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" name="dob" label="Date of Birth" placeholder="Date of Birth" inputType="date"/>
-                            <checkbox jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/checkbox" name="subscribeNewsLetter" label="Subscribe to the daily news letter. "/>
-                            <button jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/button" label="Save" buttonType="submit" />
+                            <inputtext1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" name="firstName" label="First Name" placeholder="First Name" inputType="text"/>
+                            <inputtext2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" name="lastName" label="Last Name" placeholder="Last Name" inputType="text"/>
+                            <inputtext3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" name="phoneNumber" label="Phone Number" placeholder="Phone Number" inputType="number"/>
+                            <inputtext4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" name="dob" label="Date of Birth" placeholder="Date of Birth" inputType="date"/>
+                            <checkbox jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/checkbox" name="subscribeNewsLetter" label="Subscribe to the daily news letter. "/>
+                            <button jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Save" buttonType="submit" />
                         </container1>
                     </form>
                 </container>

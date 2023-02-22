@@ -9,7 +9,7 @@
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
         <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Button Component"/>
-          <button jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/button"/>
+          <button jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button"/>
         </pagesection>
       </maincontainer>
     </rootcontainer>
