@@ -124,8 +124,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 if (responseError(
                             response, 
                             404, 
-                            MessageFormat.format("Request to {} not supported.", request.getRequestURI()), 
-                            relPath == null || relPath.length() == 0 || relPath.charAt(0) == '/' 
+                            MessageFormat.format("Request to {0} not supported.", request.getRequestURI()), 
+                            (relPath == null || relPath.length() == 0 || relPath.charAt(0) == '/')
                         )
                     ) {
                     return;
@@ -135,8 +135,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 if (responseError(
                             response, 
                             404, 
-                            MessageFormat.format("Could not find resource for relative path {}.", relPath), 
-                            resource == null
+                            MessageFormat.format("Could not find resource for relative path {0}.", relPath), 
+                            (resource == null)
                         )
                     ) {
                     return;
@@ -150,8 +150,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 if (responseError(
                             response, 
                             404, 
-                            MessageFormat.format("Resource path not allowed to be proxied {}.", requestPath), 
-                            !staticResource.getPath().contains(ALLOWED_PROXY_PATH)
+                            MessageFormat.format("Resource path not allowed to be proxied {0}.", requestPath), 
+                            (!staticResource.getPath().contains(ALLOWED_PROXY_PATH))
                         )
                     ) {
                     return;
@@ -159,8 +159,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 if (responseError(
                             response, 
                             404, 
-                            MessageFormat.format("Resource does not exist {}.", requestPath), 
-                            staticResource == null
+                            MessageFormat.format("Resource does not exist {0}.", requestPath), 
+                            (staticResource == null)
                         )
                     ) {
                     return;
