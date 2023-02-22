@@ -102,10 +102,10 @@ jobs:
 
           echo "Bundles are installed"
 
-      - name: Install test content
-        run: |
-          cd tests/content
-          mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
+      # - name: Install test content
+      #   run: |
+      #     cd tests/content
+      #     mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
       - name: Run Automation tests
         run: |
