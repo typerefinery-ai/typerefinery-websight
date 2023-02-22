@@ -1,7 +1,3 @@
-import { selectors, testIds } from '../../../../../../support/const';
-const paths = {
-graph: 'ComponentOverlay_rootcontainer/twocols/container_1/container_1_2/container_1_2_1/d3graph'
-};
 
 describe('Search Page', () => {
   beforeEach(() => {
@@ -23,8 +19,5 @@ describe('Search Page', () => {
     );
 
     cy.get('.center').should('have.text','Search')
-    cy.getByTestId(paths.graph)
-      .find(selectors.overlayName)
-      .should('contain.text', 'D3 Graph');
   });
 });

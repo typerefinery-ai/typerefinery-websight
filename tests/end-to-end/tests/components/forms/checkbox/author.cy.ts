@@ -1,4 +1,4 @@
-import { selectors, testIds } from '../../../../../../../support/const';
+import { selectors, testIds } from '../../../../support/const';
 const paths = {
 checkbox: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/checkbox'
 };
