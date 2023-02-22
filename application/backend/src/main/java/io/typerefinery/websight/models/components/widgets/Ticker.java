@@ -30,7 +30,6 @@ import io.typerefinery.websight.services.flow.registry.FlowComponent;
 public class Ticker extends BaseComponent implements FlowComponent {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
     private static final String DEFAULT_ID = "ticker";
-    private static final String DEFAULT_CLASS_NAMES = "ticker";
     private static final String DEFAULT_MODULE = "tickerComponent";
 
     @Getter
@@ -137,10 +136,6 @@ public class Ticker extends BaseComponent implements FlowComponent {
         this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
-        if (grid != null && style != null) {
-            grid.addClasses(sizeType);
-            grid.addClasses(sizeValue);
-        }
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
         }
