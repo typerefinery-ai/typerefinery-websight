@@ -1,6 +1,6 @@
 {
   "isContainer": true,
-  "group": "Typerefinery - Forms",
+  "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "title": "Textarea"
 }

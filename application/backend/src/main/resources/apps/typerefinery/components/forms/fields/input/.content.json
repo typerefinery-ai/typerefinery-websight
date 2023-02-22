@@ -1,4 +1,5 @@
 {
+  "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "Basic form input field.",
   "title": "Input"

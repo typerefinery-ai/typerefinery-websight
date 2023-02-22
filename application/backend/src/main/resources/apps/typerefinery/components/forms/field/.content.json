@@ -1,6 +1,6 @@
 {
   "isContainer": true,
-  "group": "Typerefinery - Forms",
+  "group": ".hidden",
   "isLayout": false,
   "allowedComponents": [
     "Typerefinery - Forms"
