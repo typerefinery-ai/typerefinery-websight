@@ -6,7 +6,10 @@ import org.apache.sling.engine.impl.request.SlingRequestPathInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLConnection;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +27,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
@@ -76,6 +80,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientLibsServlet.class);
     public static final String RESOURCE_TYPE = "io/typerefinery/websight/clientlibs"; //this will make sure its not going to coinflict with any other resource type in apps
     public static final String SERVICE_PATH = "/etc.clientlibs/";
+    public static final String ALLOWED_PROXY_PATH = "/clientlibs/";
     public static final String PROPERTY_CSS_PATHS = "css";
     public static final String PROPERTY_JS_PATHS = "js";
     public static final String PROPERTY_CATEGORIES = "categories";
@@ -107,42 +112,173 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         try {
             // check if extension is supported
             String extension = request.getRequestURI().substring(request.getRequestURI().lastIndexOf('.') + 1);
-            if (!ArrayUtils.contains(SUPPORTED_EXTENSIONS, extension)) {
-                LOGGER.info("Request output {} is not supported.", extension);
-                response.setStatus(404); 
-                response.setHeader("error", String.format("Request output %s is not supported.", extension));
-                response.flushBuffer();
-                return;
+            String requestPath = request.getRequestPathInfo().getSuffix();
+            String mimeType = getServletContext().getMimeType(requestPath);
+            if (ArrayUtils.contains(SUPPORTED_EXTENSIONS, extension)) {
+                // set content type
+                if (mimeType != null) {
+                    response.setContentType(mimeType); 
+                }
+                // check if path is valid
+                String relPath = getLibraryRelativePath(request);
+                if (responseError(
+                            response, 
+                            404, 
+                            MessageFormat.format("Request to {} not supported.", request.getRequestURI()), 
+                            relPath == null || relPath.length() == 0 || relPath.charAt(0) == '/' 
+                        )
+                    ) {
+                    return;
+                }                            
+                // find the clientlib resource
+                Resource resource = resolveRelativePathInSearchPath(request.getResourceResolver(), contentAccess, null, relPath);
+                if (responseError(
+                            response, 
+                            404, 
+                            MessageFormat.format("Could not find resource for relative path {}.", relPath), 
+                            resource == null
+                        )
+                    ) {
+                    return;
+                }         
+                PrintWriter out = response.getWriter();
+                printClientlibContent(request.getResourceResolver(), relPath, out, extension, request.getResourceResolver().getSearchPath());
             } else {
-                String mimeType = extension.equals("js") ? "application/javascript" : ( extension.equals("css") ? "text/css" : "text" );
-                response.setContentType(mimeType);
+                //send static resource file
+                Resource staticResource = resolveRelativePathInSearchPath(request.getResourceResolver(), contentAccess, null, requestPath);
+                // only allow access to files in the /clientlibs/ folder
+                if (responseError(
+                            response, 
+                            404, 
+                            MessageFormat.format("Resource path not allowed to be proxied {}.", requestPath), 
+                            !staticResource.getPath().contains(ALLOWED_PROXY_PATH)
+                        )
+                    ) {
+                    return;
+                }
+                if (responseError(
+                            response, 
+                            404, 
+                            MessageFormat.format("Resource does not exist {}.", requestPath), 
+                            staticResource == null
+                        )
+                    ) {
+                    return;
+                }
+                
+                ResourceMetadata meta = staticResource.getResourceMetadata();
+                long modifTime = meta.getModificationTime();
+                if (unmodified(request, modifTime)) {
+                    response.setHeader("Cache-Control", "max-age=86400, public");
+                    response.setStatus(304);
+                    return;
+                }
+
+                sendStaticResource(request.getResourceResolver(), staticResource, mimeType, response);
             }
-            // check if path is valid
-            String relPath = getLibraryRelativePath(request);
-            if (relPath == null || relPath.length() == 0 || relPath.charAt(0) == '/' ) {
-                LOGGER.info("Request to {} not supported.", request.getRequestURI());
-                response.setStatus(404);
-                response.setHeader("error", String.format("Request to %s not supported.", request.getRequestURI()));
-                response.flushBuffer();
-                return;
-            }
-            // find the clientlib resource
-            Resource resource = resolveRelativePathInSearchPath(request.getResourceResolver(), contentAccess, null, relPath);
-            if (resource == null) {
-                LOGGER.info("Could not find resource for relative path {}.", relPath);
-                response.setStatus(404);
-                response.setHeader("error", String.format("Could not find resource for relative path %s.", relPath));
-                response.flushBuffer();
-                return;
-            }            
-            PrintWriter out = response.getWriter();
-            printClientlibContent(request.getResourceResolver(), relPath, out, extension, request.getResourceResolver().getSearchPath());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             e.printStackTrace();
         }
     }
 
+    /**
+     * output error message to response
+     * @param response
+     * @param status
+     * @param message
+     * @param test
+     * @return
+     * @throws IOException
+     */
+    public static boolean responseError(@NotNull SlingHttpServletResponse response, @NotNull int status, @NotNull String message, @NotNull Boolean test) throws IOException {
+        response.setStatus(status);
+        response.setHeader("error", message);
+        response.flushBuffer();
+        return test;
+    }
+
+    /**
+     * Send static resource.
+     * @param resolver
+     * @param resource
+     * @param response
+     * @throws IOException
+     */
+    public static boolean sendStaticResource(@NotNull ResourceResolver resourceResolver, @NotNull Resource staticResource, @NotNull String mimeType, @NotNull SlingHttpServletResponse response) {
+        ResourceMetadata meta = staticResource.getResourceMetadata();
+        long modifTime = meta.getModificationTime();
+
+        InputStream resourceInputStream = (InputStream)staticResource.adaptTo(InputStream.class);
+        try {
+            if (resourceInputStream == null) {
+                LOGGER.info("Resource at {} is no streamable", staticResource.getPath());
+                response.setStatus(404);
+                response.flushBuffer();
+                return false;
+            }
+    
+            long length = meta.getContentLength();
+            if (length >= 0L) {
+                response.setHeader("Content-Length", String.valueOf(length)); 
+            }
+            response.setHeader("Cache-Control", "max-age=86400, public");
+            if (modifTime > 0L) {
+                response.setDateHeader("Last-Modified", modifTime); 
+            }
+
+            // get content type from resource metadata
+            String metaType = meta.getContentType();
+            if (metaType != null || !"application/octet-stream".equals(metaType)) {
+                mimeType = metaType;
+            }
+            // set the content type 
+            if (mimeType != null) {
+                response.setContentType(mimeType); 
+            }
+            
+            // set the character encoding
+            String encoding = meta.getCharacterEncoding();
+            if (encoding != null) {
+                response.setCharacterEncoding(encoding); 
+            }
+            IOUtils.copy(resourceInputStream, (OutputStream)response.getOutputStream());
+
+            return true;
+
+        } catch (IOException e) {
+            LOGGER.error("Could not sendStaticResource for resource {}.", staticResource.getPath());
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(resourceInputStream);
+        } 
+        
+        return false;
+    }
+
+    /**
+     * Check if the resource has been modified since the last request.
+     * @param request
+     * @param modifTime
+     * @return
+     */
+    private boolean unmodified(@NotNull SlingHttpServletRequest request,@NotNull  long modifTime) {
+        if (modifTime > 0L) {
+          long modTime = modifTime / 1000L;
+          long ims = request.getDateHeader("If-Modified-Since") / 1000L;
+          return (modTime <= ims);
+        } 
+        return false;
+    }
+
+    /**
+     * get relative path of clientlib resource.
+     * @param resolver
+     * @param contentAccess
+     * @param searchPaths
+     * @param relPath
+     * @return
+     */
     public static Resource resolveRelativePathInSearchPath(@NotNull ResourceResolver resolver, @NotNull ContentAccess contentAccess, @NotNull String[] searchPaths, @NotNull String relPath) {
         if (searchPaths == null) {
             searchPaths = resolver.getSearchPath();
@@ -157,7 +293,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     }
 
     /**
-     * Resolve path from repository and retry if not found using ContentAccess
+     * Resolve path from repository and retry if not found using ContentAccess.
      * @param resolver
      * @param contentAccess
      * @param path
@@ -175,6 +311,11 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         return adminResolver.getResource(path);
     }
 
+    /**
+     * get the relative path of the clientlib resource.
+     * @param request
+     * @return
+     */
     private String getLibraryRelativePath(@NotNull SlingHttpServletRequest request) {
         Resource resource = request.getResource();
         if (ResourceUtil.isNonExistingResource(resource)) {
@@ -202,7 +343,11 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     }
 
     /**
-     * compile the path to the resource that will be rendered in a html tag
+     * compile the path to the resource that will be rendered in a html tag.
+     * @param resourcePath
+     * @param extension
+     * @param removePrefixPath
+     * @return path to the resource that will be rendered in a html tag
      */
     public static String compileRenderPath(@NotNull String resourcePath, @NotNull String extension, @NotNull String[] removePrefixPath) {
 
@@ -218,7 +363,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     }
 
     /**
-     * print contents of all files mentioned in embed and categories to the output stream
+     * print contents of all files mentioned in embed and categories to the output stream.
      * @param resourceResolver
      * @param clientlibPath
      * @param out
@@ -247,12 +392,27 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         }
     }
 
+    /**
+     * print content of all files in the category to the output stream.
+     * @param resourceResolver
+     * @param categories
+     * @param out
+     * @param extension
+     * @param searchPaths
+     */
     public static void printCategoryResources(@NotNull ResourceResolver resourceResolver, @NotNull String[] categories, @NotNull PrintWriter out, @NotNull String extension, @NotNull String[] searchPaths) {
         for (String category : categories) {
             printCategoryResources(resourceResolver, category, out, extension, searchPaths);
         }
     }
 
+    /**
+     * find all resources in the category.
+     * @param resourceResolver
+     * @param category
+     * @param searchPaths
+     * @return list of resource paths
+     */
     public static String[] findClientLibsCategoryResources(@NotNull ResourceResolver resourceResolver, @NotNull String[] categories, @NotNull String[] searchPaths) {
         List<Resource> resourceRoots = new ArrayList<>();
         for (String searchPath : searchPaths) {
@@ -281,6 +441,12 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         return resourcePaths.toArray(String[]::new);
     }
 
+    /**
+     * find all clientlibs in the repository in search paths.
+     * @param resourceResolver
+     * @param searchPaths
+     * @return iterator of resources
+     */
     public static Iterator<Resource> findClientLibsCategoryResources(@NotNull ResourceResolver resourceResolver, @NotNull String[] searchPaths) {
         List<Resource> resourceRoots = new ArrayList<>();
         for (String searchPath : searchPaths) {
@@ -301,6 +467,14 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             .iterator();
     }
     
+    /**
+     * find and print all clientlibs for given category in the repository in search paths.
+     * @param resourceResolver
+     * @param category
+     * @param out
+     * @param extension
+     * @param searchPaths
+     */
     public static void printCategoryResources(@NotNull ResourceResolver resourceResolver, @NotNull String category, @NotNull PrintWriter out, @NotNull String extension, @NotNull String[] searchPaths) {
         findClientLibsCategoryResources(resourceResolver, searchPaths)
             .forEachRemaining((Resource clientLib) -> {
@@ -310,6 +484,12 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             });
     }
 
+    /**
+     * is given resource part of a clientlibs categories.
+     * @param resource
+     * @param category
+     * @return
+     */
     public static boolean isResourceMatchesCategory(@NotNull Resource resource, @NotNull String[] categories) {
         ValueMap resourceProperties = resource.getValueMap();
         if (resourceProperties != null && resourceProperties.containsKey(PROPERTY_CATEGORIES)) {
@@ -320,6 +500,13 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         }
         return false;
     }
+
+    /**
+     * is given resource part of a clientlibs category.
+     * @param resource
+     * @param category
+     * @return
+     */
     public static boolean isResourceMatchesCategory(@NotNull Resource resource, @NotNull String category) {
         ValueMap resourceProperties = resource.getValueMap();
         if (resourceProperties != null && resourceProperties.containsKey(PROPERTY_CATEGORIES)) {
@@ -328,6 +515,12 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         return false;
     }
 
+    /**
+     * is given resource has a property.
+     * @param resource
+     * @param property
+     * @return
+     */
     public static boolean isResourceHasProperty(@NotNull Resource resource, @NotNull String property) {
         ValueMap resourceProperties = resource.getValueMap();
         if (resourceProperties != null && resourceProperties.containsKey(property)) {
@@ -369,13 +562,24 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             }
     }
 
+    /**
+     * print a file path relative to a resource to output stream.
+     * @param resource
+     * @param relativePath
+     * @param out
+     * @return true if was successful
+     */
     public static boolean printRelativeFileResource(Resource resource, String relativePath, PrintWriter out) {
         String resourcePath = resource.getPath() + "/" + relativePath;
         return printFileResource(resource.getResourceResolver(), resourcePath, out);
     }
 
     /**
-     * Prints the content of the file resource to the output stream.
+     * prints the content of the file resource to the output stream.
+     * @param resourceResolver
+     * @param resourcePath
+     * @param out
+     * @return true if was successful
      */
     public static boolean printFileResource(ResourceResolver resourceResolver, String resourcePath, PrintWriter out) {
         Resource resource = resourceResolver.getResource(resourcePath);
