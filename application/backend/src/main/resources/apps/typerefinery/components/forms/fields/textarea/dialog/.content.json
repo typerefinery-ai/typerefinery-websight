@@ -11,13 +11,21 @@
       },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
       },
-      "fieldValue": {
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
+      },
+      "numOfRows": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
+        "name": "numOfRows",
+        "label": "Number Of Rows"
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }

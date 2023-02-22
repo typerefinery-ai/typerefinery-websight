@@ -57,27 +57,6 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tab/style/classes"
       },
-      "buttonSize": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "buttonSize",
-        "label": "Size",
-        "default": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Default",
-          "selected": true,
-          "value": ""
-        },
-        "small": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Small",
-          "value": "small"
-        },
-        "large": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Large",
-          "value": "large"
-        }
-      },
       "buttonVariant": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonVariant",
@@ -92,6 +71,11 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Primary",
           "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
         },
         "success": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -108,15 +92,20 @@
           "label": "Danger Button",
           "value": "danger"
         },
-        "text": {
+        "info": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Text Button",
-          "value": "text"
+          "label": "Info Button",
+          "value": "info"
         },
-        "help": {
+        "dark": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Help Button",
-          "value": "help"
+          "label": "Dark Button",
+          "value": "dark"
+        },
+        "gray": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Gray Button",
+          "value": "light"
         },
         "link": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -124,21 +113,15 @@
           "value": "link"
         }
       },
-      "isRoundedButton": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "isRoundedButton",
-        "label": "Rounded Button"
-      },
-      "isRaisedButton": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "isRaisedButton",
-        "label": "Raised Button"
-      },
       "isOutlinedButton": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "isOutlinedButton",
         "label": "Outlined Button"
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }

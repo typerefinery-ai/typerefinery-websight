@@ -6,8 +6,7 @@
   "css": [
     "/apps/typerefinery/clientlibs/vendor/primevue/styles/lara-light-indigo-theme.css",
     "/apps/typerefinery/clientlibs/vendor/primevue/styles/style.min.css",
-    "/apps/typerefinery/clientlibs/vendor/primevue/styles/icons.css",
-    "/apps/typerefinery/clientlibs/vendor/primeflex/primeflex.css"
+    "/apps/typerefinery/clientlibs/vendor/primevue/styles/icons.css"
   ],
   "js": [
     "/apps/typerefinery/clientlibs/vendor/jquery/jquery-3.6.2.min.js",

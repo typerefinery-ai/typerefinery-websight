@@ -60,5 +60,8 @@ public class Form extends BaseFormComponent {
       this.id = DEFAULT_ID;
       this.module = DEFAULT_MODULE;
       super.init();
+      if(grid != null) {
+        grid.addClasses("card p-4");
+      }
   }
 }

@@ -18,136 +18,98 @@ package io.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Model;
+
+import io.typerefinery.websight.models.components.BaseFormComponent;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
-
+import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Model;
+import org.apache.sling.api.SlingHttpServletRequest;
 
-import io.typerefinery.websight.models.components.BaseFormComponent;
-import io.typerefinery.websight.utils.GridDisplayType;
-import io.typerefinery.websight.utils.GridStyle;
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = { Resource.class, SlingHttpServletRequest.class }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Button extends BaseFormComponent {
 
-    @Inject
-    @Getter
-    @Default(values = "false")
-    private String value;
-    
-    @Inject
-    @Getter
-    @Default(values = "Button")
-    private String label;
-
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String buttonSize;
+    protected static final String DEFAULT_ID = "button";
+    protected static final String DEFAULT_MODULE = "button";
+    protected static final String DEFAULT_LABEL = "Click here";
 
     @Inject
     @Getter
     @Default(values = "")
     private String buttonVariant;
 
-    
     @Inject
     @Getter
     @Default(values = "")
     private String buttonType;
 
-    
     @Inject
     @Getter
     private Boolean openInNewTab;
 
-    
     @Inject
     @Getter
     private Boolean isRoundedButton;
 
-    
     @Inject
     @Getter
     private Boolean isRaisedButton;
 
-    
     @Inject
     @Getter
     private Boolean isOutlinedButton;
 
-    
-    
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String url;
-
-
-    private Map<String, String> buttonVariantConfig = new HashMap<String, String>(){{
-        put("primary", "p-button");
-        put("success", "p-button-success");
-        put("warning", "p-button-warning");
-        put("danger", "p-button-danger");
-        put("text", "p-button-text");
-        put("help", "p-button-help");
-        put("link", "p-button-link");
-    }};
-
-    private Map<String, String> buttonSizeConfig = new HashMap<String, String>(){{
-        put("small", "p-button-sm");
-        put("large", "p-button-lg");
-    }};
+    private Map<String, String> buttonVariantConfig = new HashMap<String, String>() {
+        {
+            put("primary", "-primary");
+            put("secondary", "-secondary");
+            put("success", "-success");
+            put("warning", "-warning");
+            put("danger", "-danger");
+            put("info", "-info");
+            put("help", "-help");
+            put("light", "-light");
+            put("dark", "-dark");
+        }
+    };
 
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
+
+        if (StringUtils.isBlank(this.label)) {
+            this.label = DEFAULT_LABEL;
+        }
         super.init();
 
-        if (StringUtils.isNotBlank(buttonVariant)) {
-            buttonVariant = buttonVariantConfig.getOrDefault(buttonVariant, "");
-        }
-        if (StringUtils.isNotBlank(buttonSize)) {
-            buttonSize = buttonSizeConfig.getOrDefault(buttonSize, "");
-        } else {
-            buttonSize = "p-normal";
-        }
-
         if (grid != null && style != null) {
-
-            if (BooleanUtils.isTrue(isRoundedButton)) {
-                style.addClasses("p-button-rounded");
-            }
-            if (BooleanUtils.isTrue(isRaisedButton)) {
-                style.addClasses("p-button-raised");
-            }
-            if (BooleanUtils.isTrue(isOutlinedButton)) {
-                style.addClasses("p-button-outlined");
-            }
-
-            style.addClasses(buttonSize);
-            
+            String buttonCls = "btn";
             if (StringUtils.isNotBlank(buttonVariant)) {
-                style.addClasses(buttonVariant);
-            }            
-            
-            componentClasses = Arrays.stream(style.getClasses())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
-        }
+                buttonCls += " btn";
+                if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
+                    buttonCls += "-outline";
+                }
+                buttonCls += buttonVariantConfig.get(buttonVariant);
+            } else {
+                buttonCls += " btn-primary";
+            }
 
+            style.addClasses(buttonCls);
+        }
     }
 
 }

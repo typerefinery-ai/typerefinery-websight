@@ -2,14 +2,17 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
+    },
+    "alignmentTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/alignment"
+    },
     "variantTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Variant",
-      "title": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "title",
-        "label": "Title"
-      },
       "type": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "type",
@@ -32,30 +35,28 @@
       "label": "Background",
       "backgroundImageLg": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageLg",
         "label": "Background image - L breakpoint"
       },
       "backgroundImageMd": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageMd",
         "label": "Background image - M breakpoint"
       },
       "backgroundImageSm": {
         "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
+        "mimeTypes": [
+          "image/*"
+        ],
         "name": "backgroundImageSm",
         "label": "Background image - S breakpoint"
       }
-    },
-    "styleTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/style"
-    },
-    "gridTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }

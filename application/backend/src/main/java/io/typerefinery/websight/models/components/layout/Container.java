@@ -20,29 +20,21 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
-import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.models.components.DefaultGridComponent;
-import io.typerefinery.websight.utils.GridDisplayType;
-import io.typerefinery.websight.utils.GridStyle;
 import io.typerefinery.websight.utils.LinkUtil;
 import lombok.Getter;
-import lombok.experimental.Delegate;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.osgi.service.component.annotations.Component;
@@ -72,12 +64,37 @@ public class Container extends BaseComponent {
     @Default(values = "")
     private String type;
 
-    // authored flex toggle
+    // authored flexEnabled toggle
+    @Inject
+    @Getter
+    private Boolean flexEnabled;
+
+    // bootstrap styling rowGap between children components
     @Inject
     @Getter
     @Default(values = "")
-    private String flex;
+    private String rowGap;
 
+    // bootstrap styling columnGap between children components
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String columnGap;
+
+
+    // bootstrap styling vertical alignment between children components
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String verticalAlignment;
+
+    // bootstrap styling horizontal alignment between children components
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String horizontalAlignment;
+
+    // background Image for the containers.
     @Inject
     private String backgroundImageSm;
 
@@ -114,7 +131,27 @@ public class Container extends BaseComponent {
 
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
-            put("enabled", "flex");
+            put("enabled", "row");
+            put("default", "");
+        }
+    };
+
+    private Map<String, String> verticalAlignmentConfig = new HashMap<String, String>() {
+        {
+            put("start", "align-items-start");
+            put("center", "align-items-center");
+            put("end", "align-items-end");
+        }
+    };
+
+    private Map<String, String> horizontalAlignmentConfig = new HashMap<String, String>() {
+        {
+            put("start", "justify-content-start");
+            put("center", "justify-content-center");
+            put("end", "justify-content-end");
+            put("around", "justify-content-around");
+            put("evenly", "justify-content-evenly");
+            put("between", "justify-content-between");
         }
     };
 
@@ -125,15 +162,40 @@ public class Container extends BaseComponent {
         this.module = DEFAULT_MODULE;
         super.init();
 
-        if (StringUtils.isNotBlank(flex)) {
-            flex = flexConfig.getOrDefault(flex, "");
+        String flex = "";
+
+        if (BooleanUtils.isTrue(flexEnabled)) {
+            flex = flexConfig.getOrDefault("enabled", "");
+        }else {
+            flex = flexConfig.getOrDefault("default", "");
         }
 
         if (grid != null && style != null) {
             
-            if (StringUtils.isNotBlank(flex)) {
-                grid.addClasses(flex);
+            grid.addClasses(flex);
+            
+            if (StringUtils.isBlank(columnGap) && StringUtils.isBlank(rowGap)) {
+                grid.addClasses("gap-2");
+            } else {
+                if (StringUtils.isNotBlank(columnGap)) {
+                    grid.addClasses("column-gap-" + columnGap);
+                }
+                if (StringUtils.isNotBlank(rowGap)) {
+                    grid.addClasses("row-gap-" + rowGap);
+                }
             }
+
+            if (StringUtils.isNotBlank(horizontalAlignment)) {
+                grid.addClasses(horizontalAlignmentConfig.getOrDefault(horizontalAlignment, ""));
+            }else {
+                grid.addClasses("center");
+            }
+            if (StringUtils.isNotBlank(verticalAlignment)) {
+                grid.addClasses(verticalAlignmentConfig.getOrDefault(verticalAlignment, ""));
+            } else {
+                grid.addClasses("evenly");
+            }
+
             componentClasses = Arrays.stream(style.getClasses())
             .collect(Collectors.toCollection(LinkedHashSet::new))
             .toArray(new String[]{});

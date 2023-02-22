@@ -7,6 +7,5 @@
   ],
   "sling:resourceType": "ws:Component",
   "description": "Container for form elements",
-  "title": "Form Field",
-  "sling:resourceSuperType": "typerefinery/components/layout/container"
+  "title": "Form Field"
 }

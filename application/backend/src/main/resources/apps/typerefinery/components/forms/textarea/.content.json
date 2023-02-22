@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Form Textarea.",
+  "title": "Textarea",
+  "sling:resourceSuperType": "typerefinery/components/forms/field"
+}

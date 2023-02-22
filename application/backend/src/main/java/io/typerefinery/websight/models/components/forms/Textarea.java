@@ -13,60 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//namespace
 package io.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import lombok.Getter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import lombok.Getter;
+import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
+
+import org.apache.sling.api.SlingHttpServletRequest;
+
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Textarea extends BaseFormComponent {
 
-    protected static final String DEFAULT_LABEL = "Textarea";
-    protected static final String DEFAULT_PLACEHOLDER = "Enter text here..";
+    protected static final String DEFAULT_ID = "textare";
+    protected static final String DEFAULT_MODULE = "textare";
+    protected static final String DEFAULT_LABEL = "Full Name";
+    protected static final String DEFAULT_PLACEHOLDER = "Type here.";
 
     @Inject
     @Getter
-    @Default(values = "false")
-    private String value;
-
-    @Inject
-    @Getter
-    @Default(values = "Enter text here..")
+    @Default(values = "")
     private String placeholder;
 
-    @Inject
-    @Getter
-    @Default(values = "1")
-    private String rows;
-  
-    @Inject
-    @Getter
-    @Default(values = "25")
-    private String cols;
 
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
+
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
         }
+
         if (StringUtils.isBlank(placeholder)) {
             placeholder = DEFAULT_PLACEHOLDER;
         }
+
         
-    }  
+        if (grid != null && style != null) {
+            style.addClasses("form-control");
+        }
+    }
 
 }

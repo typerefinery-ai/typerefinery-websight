@@ -2,6 +2,5 @@
   "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "Label for fields.",
-  "title": "Label",
-  "sling:resourceSuperType": "typerefinery/components/forms/field"
+  "title": "Label"
 }

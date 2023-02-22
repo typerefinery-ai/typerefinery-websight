@@ -18,20 +18,12 @@ package io.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
-import io.typerefinery.websight.utils.GridDisplayType;
-import io.typerefinery.websight.utils.GridStyle;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -39,31 +31,17 @@ import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
-import org.apache.sling.models.annotations.Model;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
-import org.jetbrains.annotations.Nullable;
-import javax.inject.Named;
-
-@Model(
-    adaptables = {
-        Resource.class,
-        SlingHttpServletRequest.class
-    },
-    defaultInjectionStrategy = OPTIONAL
-)
-@Exporter(
-    name = "jackson",
-    extensions = "json", 
-    options = {
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") 
-    }
-)
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Input extends BaseFormComponent {
 
-    protected static final String DEFAULT_LABEL = "Input Text";
-    protected static final String DEFAULT_PLACEHOLDER = "Enter Text";
+    protected static final String DEFAULT_ID = "input";
+    protected static final String DEFAULT_MODULE = "input";
+    protected static final String DEFAULT_LABEL = "Full Name";
+    protected static final String DEFAULT_PLACEHOLDER = "Type here.";
 
     @Inject
     @Getter
@@ -75,25 +53,13 @@ public class Input extends BaseFormComponent {
     @Default(values = "text")
     private String inputType;
 
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String inputSize;
-    
-    private Map<String, String> inputSizeConfig = new HashMap<String, String>(){{
-        put("small", "p-inputtext-s");
-        put("normal", "");
-        put("large", "p-inputtext-m");
-    }};
-
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
-        if (StringUtils.isNotBlank(inputSize)) {
-            inputSize = inputSizeConfig.getOrDefault(inputSize, "");
-        }
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
@@ -105,16 +71,8 @@ public class Input extends BaseFormComponent {
 
         
         if (grid != null && style != null) {
-            style.addClasses(inputSize);
-            
-            componentClasses = Stream.concat(
-                Arrays.stream(style.getClasses()),
-                new GridStyle(grid, GridDisplayType.GRID).getClasses().stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
+            style.addClasses("form-control mt-1");
         }
-
-
     }
 
 }

@@ -1,12 +1,9 @@
 <template data-sly-template.variant="${ @ model }">
-    <div class="radiobutton">
-        <p-radiobutton 
-            name="${model.name}" 
-            class="${model.variantClassNames}"
-            value="${model.value}"
-            data-module="vue-radioButton"
-        >
-        </p-radiobutton>
-        <label class="radiobutton-width" for="${model.name}">${model.label}</label>
-    </div>
+    <input 
+        id="${model.id}" 
+        type="radio" 
+        value="${model.value}" 
+        name="${model.name}"
+        class="${model.variantClassNames}" 
+    />
 </template>
