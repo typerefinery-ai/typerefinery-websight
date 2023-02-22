@@ -192,9 +192,11 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
      * @throws IOException
      */
     public static boolean responseError(@NotNull SlingHttpServletResponse response, @NotNull int status, @NotNull String message, @NotNull Boolean test) throws IOException {
-        response.setStatus(status);
-        response.setHeader("error", message);
-        response.flushBuffer();
+        if (!test) {
+            response.setStatus(status);
+            response.setHeader("error", message);
+            response.flushBuffer();
+        }
         return test;
     }
 
