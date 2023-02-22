@@ -1,0 +1,86 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldLabel": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      },
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "placeholder",
+        "label": "Placeholder"
+      },
+      "inputType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputType",
+        "label": "Type",
+        "text": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Text",
+          "value": "text"
+        },
+        "date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Date",
+          "value": "date"
+        },
+        "tel": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Mobile Number",      
+          "value": "tel"      
+        },
+        "number": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Number",      
+          "value": "number"      
+        }
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tab/style/classes"
+      },
+      "inputSize": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputSize",
+        "label": "Size",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Small",
+          "value": "small"
+        },
+        "normal": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Normal",
+          "value": "normal"
+        },
+        "large": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Medium",
+          "value": "large"
+        }
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
+    }
+  }
+}

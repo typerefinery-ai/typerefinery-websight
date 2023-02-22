@@ -64,6 +64,10 @@
         "name": "readUrl",
         "label": "Endpoint URL"
       }
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
     }
   }
 }

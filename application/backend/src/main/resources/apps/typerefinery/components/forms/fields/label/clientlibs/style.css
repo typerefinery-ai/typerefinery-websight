@@ -1,0 +1,25 @@
+/* TODO: Need to be removed. */
+#input {
+    width: 100%;
+}
+
+.inputtext {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .inputtext-label {
+    margin-right: 23.5%;
+  }
+  
+  .p-inputtext-m {
+    width: 85% !important;
+  }
+  .p-inputtext-s {
+    width: 40% !important;
+  }

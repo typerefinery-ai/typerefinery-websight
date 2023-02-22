@@ -1,0 +1,12 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Forms",
+  "isLayout": false,
+  "allowedComponents": [
+    "Typerefinery - Forms"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Container for form elements",
+  "title": "Form Field",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
+}
