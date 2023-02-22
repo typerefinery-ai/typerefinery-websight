@@ -41,4 +41,4 @@ var maplibregl$1 = maplibregl;
 return maplibregl$1;
 
 }));
-//# sourceMappingURL=maplibre-gl.js.map
+//# sourceMappingURL=/etc.clientlibs/typerefinery/clientlibs/vendor/maplibre/maplibre-gl.js.map

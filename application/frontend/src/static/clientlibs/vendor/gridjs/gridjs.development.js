@@ -39,4 +39,4 @@
     };
 
 }(jQuery));
-  //# sourceMappingURL=gridjs.development.js.map
+  //# sourceMappingURL=/etc.clientlibs/typerefinery/clientlibs/vendor/gridjs/gridjs.development.js.map
