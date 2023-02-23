@@ -78,10 +78,6 @@ public class BaseComponent extends BaseModel {
 
     protected String[] componentClasses;
 
-    public String getDecorationTagName() {
-        return decorationTagName;
-    }
-
     public DefaultStyledComponent getStyle() {
         return style;
     }
