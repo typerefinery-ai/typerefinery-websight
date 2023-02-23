@@ -125,23 +125,9 @@
         }}
       }
     },
-    "dataTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "JSON Data Source",
-      "dataSource": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "dataSource",
-        "description": "Please provide JSON url",
-        "label": "Data Source"
-      }
-    },
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/websocket"
-    },
-    "styleTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/style"
     },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
@@ -149,7 +135,7 @@
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/primeflexgrid"
+      "path": "/apps/typerefinery/components/dialog/tab/grid"
     }
   }
 }

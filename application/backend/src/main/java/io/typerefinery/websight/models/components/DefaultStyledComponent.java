@@ -41,7 +41,7 @@ public class DefaultStyledComponent implements Styled {
   @SlingObject
   private Resource resource;
 
-  private String componentName;
+  // private String componentName;
 
   private String[] componentClasses;
 
@@ -64,9 +64,9 @@ public class DefaultStyledComponent implements Styled {
 
 
     // add default class name as first class
-    String resourceSuperType = resource.getResourceType();
-    componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
-    componentClasses.add(componentName);
+    // String resourceSuperType = resource.getResourceType();
+    // componentName = resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+    // componentClasses.add(componentName);
 
 
     if (StringUtils.isNotEmpty(classes)) {

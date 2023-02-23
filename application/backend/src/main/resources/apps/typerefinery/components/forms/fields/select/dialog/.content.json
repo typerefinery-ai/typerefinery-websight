@@ -5,10 +5,6 @@
       "generalTab": {
         "sling:resourceType": "wcm/dialogs/components/tab",
         "label": "General",
-        "fieldLabel": {
-          "sling:resourceType": "wcm/dialogs/components/include",
-          "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
-        },
         "fieldName": {
           "sling:resourceType": "wcm/dialogs/components/include",
           "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"

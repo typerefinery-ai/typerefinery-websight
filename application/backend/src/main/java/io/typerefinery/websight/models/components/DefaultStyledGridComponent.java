@@ -19,19 +19,16 @@ package io.typerefinery.websight.models.components;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
-
-import io.typerefinery.websight.utils.GridStyle;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import io.typerefinery.websight.models.components.DefaultGridComponent;
-import io.typerefinery.websight.models.components.DefaultStyledComponent;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
 
@@ -40,6 +37,23 @@ public class DefaultStyledGridComponent implements Styled, Grid {
 
   @Self
   private DefaultStyledComponent style;
+
+
+  public Map<String, String> gridConfig = new HashMap<String, String>() {
+    {
+      put("lgColSize", "col-lg-");
+      put("mdColSize", "col-md-");
+      put("smColSize", "col-sm-");
+    }
+  };
+
+  public Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
+    {
+      put("left", "text-start");
+      put("center", "text-center");
+      put("right", "text-end");
+    }
+  };
 
   @Self
   private DefaultGridComponent grid;
@@ -103,6 +117,20 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   @Override
   public Integer getLgOffset() {
     return grid.getLgOffset();
+  }
+
+  @Override
+  public String getTextAlignment() {
+    return grid.getTextAlignment();
+  }
+
+  public String getAllGridClasses() {
+    String result = "";
+    result += gridConfig.get("lgColSize") + getLgColSize();
+    result += " " + gridConfig.get("mdColSize") + getMdColSize();
+    result += " " + gridConfig.get("smColSize") + getSmColSize();
+    result += " " + textAlignmentConfig.getOrDefault(getTextAlignment(), "");
+    return result;
   }
 
   @PostConstruct

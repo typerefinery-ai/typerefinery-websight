@@ -60,4 +60,8 @@ public class DefaultGridComponent implements Grid {
   @Inject
   private Integer lgOffset;
 
+
+  @Inject
+  private String textAlignment;
+
 }

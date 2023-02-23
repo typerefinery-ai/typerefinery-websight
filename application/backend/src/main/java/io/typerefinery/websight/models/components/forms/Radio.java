@@ -15,41 +15,53 @@
  */
 //namespace
 package io.typerefinery.websight.models.components.forms;
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-import org.apache.sling.models.annotations.Model;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import org.apache.sling.models.annotations.Default;
-import org.apache.sling.api.resource.Resource;
-import lombok.Getter;
+import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+import javax.annotation.PostConstruct;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
+
+import org.apache.sling.api.SlingHttpServletRequest;
+
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Radio extends BaseFormComponent {
 
-    protected static final String DEFAULT_LABEL = "Radio";
-
-    @Inject
-    @Getter
-    private String value;
+    protected static final String DEFAULT_ID = "radio";
+    protected static final String DEFAULT_MODULE = "radio";
+    protected static final String DEFAULT_LABEL = "Full Name";
+    protected static final String DEFAULT_PLACEHOLDER = "Type here.";
 
 
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
+
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
         }
-        
-    }  
+
+
+        if (grid != null && style != null) {
+            style.addClasses("form-check-input");
+        }
+    }
 
 }

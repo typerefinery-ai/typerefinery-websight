@@ -35,4 +35,6 @@ public interface Grid {
   Integer getMdRowSize();
   
   Integer getLgRowSize();
+
+  String getTextAlignment();
 }

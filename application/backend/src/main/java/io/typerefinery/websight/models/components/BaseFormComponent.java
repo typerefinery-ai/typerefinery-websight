@@ -17,7 +17,6 @@ import lombok.Getter;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 
 @Model(
     adaptables = {

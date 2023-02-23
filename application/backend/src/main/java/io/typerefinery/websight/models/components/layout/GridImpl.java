@@ -43,4 +43,5 @@ public class GridImpl implements Grid {
 
   private final Integer lgOffset;
 
+  private final String textAlignment;
 }
