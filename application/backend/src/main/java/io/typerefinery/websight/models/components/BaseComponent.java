@@ -3,9 +3,7 @@ package io.typerefinery.websight.models.components;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +18,7 @@ import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.jetbrains.annotations.Nullable;
+import org.apache.sling.api.SlingHttpServletRequest;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,12 +27,23 @@ import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
+
 import lombok.experimental.Delegate;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {
-    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
-})
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    defaultInjectionStrategy = OPTIONAL
+)
+@Exporter(
+    name = "jackson",
+    extensions = "json", 
+    options = {
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") 
+    }
+)
 public class BaseComponent extends BaseModel implements Styled, Grid {
 
     public static final String PROPERTY_MODULE = "module";
@@ -132,21 +142,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         return "";
     }
 
-    private Map < String, String > gridConfig = new HashMap < String, String > () {
-        {
-            put("lgColSize", "col-lg-");
-            put("mdColSize", "col-md-");
-            put("smColSize", "col-sm-");
-        }
-    };
-
-    private Map < String, String > textAlignmentConfig = new HashMap < String, String > () {
-        {
-            put("left", "text-start");
-            put("center", "text-center");
-            put("right", "text-end");
-        }
-    };
 
 
     @Override
@@ -167,11 +162,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
                 .toArray(new String[] {});
 
             // Width
-            grid.addClasses(gridConfig.get("lgColSize") + getLgColSize());
-            grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
-            grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
+            grid.addClasses(getGridConfig().get("lgColSize") + getLgColSize());
+            grid.addClasses(getGridConfig() .get("mdColSize") + getMdColSize());
+            grid.addClasses(getGridConfig().get("smColSize") + getSmColSize());
 
-            grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
+            grid.addClasses(getTextAlignmentConfig().getOrDefault(textAlignment, ""));
 
             // Variant's width
             // style.addClasses("col-12");

@@ -19,7 +19,9 @@ package io.typerefinery.websight.models.components;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
@@ -29,6 +31,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
+import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledGridComponent implements Styled, Grid {
@@ -99,6 +102,25 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   public Integer getLgOffset() {
     return grid.getLgOffset();
   }
+
+  @Getter
+  public Map<String, String> gridConfig = new HashMap<String, String>() {
+    {
+      put("lgColSize", "col-lg-");
+      put("mdColSize", "col-md-");
+      put("smColSize", "col-sm-");
+    }
+  };
+
+  @Getter
+  public Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
+    {
+      put("left", "text-start");
+      put("center", "text-center");
+      put("right", "text-end");
+    }
+  };
+
 
   @PostConstruct
   private void init() {
