@@ -17,6 +17,7 @@ package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
@@ -34,6 +35,8 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 
 import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.DefaultGridComponent;
@@ -50,7 +53,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@Model(adaptables = Resource.class, resourceType = { Container.RESOURCE_TYPE }, defaultInjectionStrategy = OPTIONAL)
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    resourceType = { 
+        Container.RESOURCE_TYPE 
+    }, 
+    defaultInjectionStrategy = OPTIONAL
+)
 @Exporter(name = "jackson", extensions = "json", options = {
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
@@ -105,6 +117,27 @@ public class Container extends BaseComponent {
         }
 
         return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
+    }
+
+    public String getOpenTag() {
+        Element htmlTag = new Element(Tag.valueOf(decorationTagName), "");
+
+        htmlTag.attr("id", this.id);
+
+        if (StringUtils.isNotBlank(getComponentClassNames())) {
+            htmlTag.attr("class", getComponentClassNames());
+        }
+            
+        if (StringUtils.isNotBlank(backgroundImageSm) && StringUtils.isNotBlank(backgroundImageMd) &&  StringUtils.isNotBlank(backgroundImageLg)) {
+            htmlTag.attr("style", MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg));
+            
+        }
+                                                    
+        return htmlTag.toString().replace(getCloseTag(), "");        
+    }
+
+    public String getCloseTag() {
+        return "</" + decorationTagName + ">";
     }
 
     @Override
