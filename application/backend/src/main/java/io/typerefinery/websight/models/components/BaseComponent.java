@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
@@ -37,13 +36,42 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
 
     public static final String PROPERTY_MODULE = "module";
     public static final String PROPERTY_DECORATION_TAG_NAME = "decorationTagName";
+    public static final String PROPERTY_VARIANT = "variant";
+    public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_TITLE_TAG_NAME = "titleTagName";
+    public static final String PROPERTY_DESCRIPTION = "description";
 
     public static final String DEFAULT_DECORATION_TAG_NAME = "div";
+    public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "variant";
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE)
+    @Nullable
+    public String title;    
 
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE_TAG_NAME)
+    @Nullable
+    public String titleTagName;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_DESCRIPTION)
+    @Nullable
+    public String description;
+        
     @Inject
     @Named(PROPERTY_DECORATION_TAG_NAME)
     @Nullable
     public String decorationTagName;
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_VARIANT)
+    @Nullable
+    public String variant;
 
     @Inject
     @Getter
@@ -59,10 +87,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Default(values = "")
     public String textAlignment; 
 
-    @Getter
-    @Inject
-    public Boolean defaultPaddingEnabled; 
-
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Resource currentPage; // resource of the page the component is on
@@ -75,10 +99,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     protected DefaultStyledGridComponent grid;
     
     protected String[] componentClasses;
-
-    public String getDecorationTagName() {
-        return decorationTagName;
-    }
 
     public DefaultStyledComponent getStyle() {
         return style;
@@ -149,10 +169,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
             grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
         
-            // Text Alignment
-            if(StringUtils.isNotBlank(textAlignment)) {
-                grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
-            }            
+            grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
+        
+            // Variant's width
+            // style.addClasses("col-12");
         }    
 
         // get common properties
@@ -163,13 +183,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         }
 
         // add default class name as first class
-        String resourceSuperType = resource.getResourceType();
-        String componentName =
-        resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
-        
-        if(componentName == "container") {
-            grid.addClasses(componentName);
-        }
-        
+        // String resourceSuperType = resource.getResourceType();
+        // String componentName =
+        // resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+        // componentClasses.add(componentName);
+        // style.addClasses(componentName);
     }
 }

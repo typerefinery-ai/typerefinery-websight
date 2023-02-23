@@ -61,9 +61,9 @@
         <version>3.2.0</version>
         <configuration>
           <filesets>
-            <fileset>
+            <!-- <fileset>
               <directory>src/main/resources</directory>
-            </fileset>
+            </fileset> -->
             <fileset>
               <directory>dist</directory>
             </fileset>

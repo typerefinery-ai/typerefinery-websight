@@ -15,8 +15,8 @@
       "label": "Variant",
       "type": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "type",
-        "label": "Type",
+        "name": "decorationTagName",
+        "label": "Tag Name",
         "default": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Default",
@@ -27,6 +27,57 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Section",
           "value": "section"
+        }
+      },
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Section with Title",
+          "value": "sectionwithtitle"
+        }
+      },
+      "variantsectionwithtitle": {
+        "sling:resourceType": "wcm/dialogs/components/container",
+        "titleTag": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "titleTagName",
+          "label": "Title Tag Name",
+          "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Default",
+            "selected": true,
+            "value": ""
+          },
+          "h1": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H1",
+            "value": "h1"
+          },
+          "h2": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H2",
+            "value": "h2"
+          },
+          "h3": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H3",
+            "value": "h3"
+          }
+        },
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values":  "sectionwithtitle"
+          }
         }
       }
     },
