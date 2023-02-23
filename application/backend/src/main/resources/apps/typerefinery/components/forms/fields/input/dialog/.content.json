@@ -5,10 +5,6 @@
     "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
-      },
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldName"
@@ -26,10 +22,20 @@
           "label": "Text",
           "value": "text"
         },
-        "date": {
+        "password": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Date",
-          "value": "date"
+          "label": "Password",
+          "value": "password"
+        },
+        "email": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Email",
+          "value": "email"
+        },
+        "range": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Range",
+          "value": "range"
         },
         "tel": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -40,6 +46,16 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Number",
           "value": "number"
+        },
+        "date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Date",
+          "value": "date"
+        },
+        "time": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Time",
+          "value": "time"
         }
       }
     },
