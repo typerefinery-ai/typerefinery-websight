@@ -35,6 +35,9 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
 public class Form extends BaseFormComponent {
+
+    private String DEFAULT_FORM_CLASSES = "card p-4 mb-3";
+
     @Inject
     @Getter
     private String writeUrl;
@@ -71,7 +74,7 @@ public class Form extends BaseFormComponent {
         this.module = DEFAULT_MODULE;
         super.init();
         if (grid != null) {
-            grid.addClasses("card p-4 mb-3");
+            grid.addClasses(DEFAULT_FORM_CLASSES);
         }
     }
 }
