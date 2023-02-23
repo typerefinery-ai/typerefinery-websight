@@ -12,7 +12,6 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
@@ -94,10 +93,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
 
-    @Getter
-    @Inject
-    @Default(values = "")
-    public String textAlignment;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -160,16 +155,8 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             componentClasses = Arrays.stream(style.getClasses())
                 .collect(Collectors.toCollection(LinkedHashSet::new))
                 .toArray(new String[] {});
-
-            // Width
-            grid.addClasses(getGridConfig().get("lgColSize") + getLgColSize());
-            grid.addClasses(getGridConfig() .get("mdColSize") + getMdColSize());
-            grid.addClasses(getGridConfig().get("smColSize") + getSmColSize());
-
-            grid.addClasses(getTextAlignmentConfig().getOrDefault(textAlignment, ""));
-
-            // Variant's width
-            // style.addClasses("col-12");
+                
+            grid.addClasses(getAllGridClasses());
         }
 
         // get common properties

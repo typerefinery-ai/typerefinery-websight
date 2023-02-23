@@ -31,13 +31,29 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import io.typerefinery.websight.models.components.layout.Grid;
 import io.typerefinery.websight.models.components.layout.Styled;
-import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledGridComponent implements Styled, Grid {
 
   @Self
   private DefaultStyledComponent style;
+
+
+  public Map<String, String> gridConfig = new HashMap<String, String>() {
+    {
+      put("lgColSize", "col-lg-");
+      put("mdColSize", "col-md-");
+      put("smColSize", "col-sm-");
+    }
+  };
+
+  public Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
+    {
+      put("left", "text-start");
+      put("center", "text-center");
+      put("right", "text-end");
+    }
+  };
 
   @Self
   private DefaultGridComponent grid;
@@ -103,24 +119,19 @@ public class DefaultStyledGridComponent implements Styled, Grid {
     return grid.getLgOffset();
   }
 
-  @Getter
-  public Map<String, String> gridConfig = new HashMap<String, String>() {
-    {
-      put("lgColSize", "col-lg-");
-      put("mdColSize", "col-md-");
-      put("smColSize", "col-sm-");
-    }
-  };
+  @Override
+  public String getTextAlignment() {
+    return grid.getTextAlignment();
+  }
 
-  @Getter
-  public Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
-    {
-      put("left", "text-start");
-      put("center", "text-center");
-      put("right", "text-end");
-    }
-  };
-
+  public String getAllGridClasses() {
+    String result = "";
+    result += gridConfig.get("lgColSize") + getLgColSize();
+    result += " " + gridConfig.get("mdColSize") + getMdColSize();
+    result += " " + gridConfig.get("smColSize") + getSmColSize();
+    result += " " + textAlignmentConfig.getOrDefault(getTextAlignment(), "");
+    return result;
+  }
 
   @PostConstruct
   private void init() {
