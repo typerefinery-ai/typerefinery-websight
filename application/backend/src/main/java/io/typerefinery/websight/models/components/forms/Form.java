@@ -17,13 +17,18 @@ package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import javax.inject.Inject;
 import lombok.Getter;
+
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
 public class Form extends BaseFormComponent {
   @Inject
   @Getter
@@ -61,7 +66,7 @@ public class Form extends BaseFormComponent {
       this.module = DEFAULT_MODULE;
       super.init();
       if(grid != null) {
-        grid.addClasses("card p-4");
+        grid.addClasses("card p-4 mb-3");
       }
   }
 }

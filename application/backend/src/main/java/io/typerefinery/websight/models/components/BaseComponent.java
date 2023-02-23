@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
@@ -57,6 +58,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Inject
     @Default(values = "")
     public String textAlignment; 
+
+    @Getter
+    @Inject
+    public Boolean defaultPaddingEnabled; 
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -144,10 +149,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
             grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
         
-            grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
-        
-            // Variant's width
-            // style.addClasses("col-12");
+            // Text Alignment
+            if(StringUtils.isNotBlank(textAlignment)) {
+                grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
+            }            
         }    
 
         // get common properties
@@ -158,10 +163,13 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         }
 
         // add default class name as first class
-        // String resourceSuperType = resource.getResourceType();
-        // String componentName =
-        // resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
-        // componentClasses.add(componentName);
-        // style.addClasses(componentName);
+        String resourceSuperType = resource.getResourceType();
+        String componentName =
+        resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
+        
+        if(componentName == "container") {
+            grid.addClasses(componentName);
+        }
+        
     }
 }

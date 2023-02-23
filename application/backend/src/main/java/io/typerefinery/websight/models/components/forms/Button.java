@@ -97,7 +97,7 @@ public class Button extends BaseFormComponent {
         super.init();
 
         if (grid != null && style != null) {
-            String buttonCls = "btn";
+            String buttonCls = "mb-3 btn";
             if (StringUtils.isNotBlank(buttonVariant)) {
                 buttonCls += " btn";
                 if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {

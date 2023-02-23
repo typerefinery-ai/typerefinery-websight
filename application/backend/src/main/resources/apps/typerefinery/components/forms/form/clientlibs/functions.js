@@ -8,14 +8,19 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     "use strict";
 
     ns.getFormData = (form) => {
-        const formData = new FormData(form);
-        // ...or output as an object
-        return Object.fromEntries(formData);
+        const result = {};
+        const inputs = Array.from(form.querySelectorAll("input"));
+        inputs.forEach(input => {
+            if(input?.name) {
+                result[input.name] = input?.value || "";
+            }
+        });
+        return result;
     };
 
     ns.submit = async (url, method, payloadType, body, successCallback = () => {}, errorCallback = () => {}) => {
         try{
-            const response = await fetch(
+            await fetch(
                 url, 
                 {
                     method: method,
@@ -24,11 +29,11 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
                     },
                     body
                 }
-            ).then(response => response.json());
-            console.log("RESPONSE", response);
+            );
             successCallback();
         }catch(error) {
-            console.log("ERROR", error);
+            console.log("Error in submitting the request");
+            console.error(error);
             errorCallback();
         }
     };
@@ -45,6 +50,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     ns.jsonRequest = (url, componentConfig, payload) => {
         const { writePayloadType, writeMethod } = componentConfig;
+        
         ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
@@ -58,8 +64,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     };
 
     ns.formSubmitHandler = ($component) => {
-        const payload = ns.getFormData($component);
         const componentConfig = componentNs.getComponentConfig($component);
+
+        const payload = ns.getFormData($component);
         const { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if(!writePayloadType || !writeMethod || !writeUrl) {
             alert("Fill all the parameters.");
@@ -78,7 +85,6 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         try{
             const componentConfig = componentNs.getComponentConfig($component);
             const { resourcePath, readUrl, readMethod = "GET", readPayloadType = "application/json" } = componentConfig;
-            const parent = document.getElementById(resourcePath);
             if(!readUrl) {
                 return;
             }
@@ -94,11 +100,18 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             
             Object.entries(response).forEach(item => {
                 const el = document.getElementById(resourcePath).querySelector(`[name="${item[0]}"]`);
-                el.setAttribute("value", item[1] || "");
-                console.log(el)
+                if(el){
+                    el.setAttribute("value", item[1] || "");
+                    if(el.getAttribute("type") === "checkbox" || el.getAttribute("type") === "radio") {
+                        if(item[1]) {
+                            el.setAttribute("checked", true);
+                        }
+                    }
+                }
             })
         }catch(error) {
-            console.log("ERROR IN LOADING", error);
+            console.log("Error in fetching form initial data");
+            console.error(error);
         }
     }
 
