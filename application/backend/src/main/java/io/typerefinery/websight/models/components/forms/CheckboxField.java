@@ -26,9 +26,13 @@ import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = { Resource.class, SlingHttpServletRequest.class }, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = {
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class CheckboxField extends Field {
 
     protected static final String DEFAULT_ID = "field";

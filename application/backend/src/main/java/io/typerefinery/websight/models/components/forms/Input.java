@@ -34,8 +34,13 @@ import org.apache.sling.models.annotations.ExporterOption;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Input extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "input";
@@ -69,7 +74,7 @@ public class Input extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-        
+
         if (grid != null && style != null) {
             style.addClasses("form-control mt-1");
         }

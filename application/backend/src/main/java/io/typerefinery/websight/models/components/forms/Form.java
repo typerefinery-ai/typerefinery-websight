@@ -27,46 +27,51 @@ import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Form extends BaseFormComponent {
-  @Inject
-  @Getter
-  private String writeUrl;
+    @Inject
+    @Getter
+    private String writeUrl;
 
-  @Inject
-  @Getter
-  private String writePayloadType;
+    @Inject
+    @Getter
+    private String writePayloadType;
 
-  
-  @Inject
-  @Getter
-  private String writeMethod;
 
-  @Inject
-  @Getter
-  private String readUrl;
+    @Inject
+    @Getter
+    private String writeMethod;
 
-  @Inject
-  @Getter
-  private String readPayloadType;
+    @Inject
+    @Getter
+    private String readUrl;
 
-  
-  @Inject
-  @Getter
-  private String readMethod;
+    @Inject
+    @Getter
+    private String readPayloadType;
 
-  private static final String DEFAULT_ID = "form";
-  private static final String DEFAULT_MODULE = "formComponent";
-    
-  @Override
-  @PostConstruct
-  protected void init() {
-      this.id = DEFAULT_ID;
-      this.module = DEFAULT_MODULE;
-      super.init();
-      if(grid != null) {
-        grid.addClasses("card p-4 mb-3");
-      }
-  }
+
+    @Inject
+    @Getter
+    private String readMethod;
+
+    private static final String DEFAULT_ID = "form";
+    private static final String DEFAULT_MODULE = "formComponent";
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
+        super.init();
+        if (grid != null) {
+            grid.addClasses("card p-4 mb-3");
+        }
+    }
 }

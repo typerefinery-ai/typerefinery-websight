@@ -31,7 +31,9 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class BaseComponent extends BaseModel implements Styled, Grid {
 
     public static final String PROPERTY_MODULE = "module";
@@ -43,12 +45,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
 
     public static final String DEFAULT_DECORATION_TAG_NAME = "div";
     public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "variant";
-    
+
     @Inject
     @Getter
     @Named(PROPERTY_TITLE)
     @Nullable
-    public String title;    
+    public String title;
 
     @Inject
     @Getter
@@ -61,12 +63,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Named(PROPERTY_DESCRIPTION)
     @Nullable
     public String description;
-        
+
     @Inject
     @Named(PROPERTY_DECORATION_TAG_NAME)
     @Nullable
     public String decorationTagName;
-    
+
     @Inject
     @Getter
     @Named(PROPERTY_VARIANT)
@@ -85,7 +87,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Getter
     @Inject
     @Default(values = "")
-    public String textAlignment; 
+    public String textAlignment;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -97,7 +99,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Self
     @Delegate
     protected DefaultStyledGridComponent grid;
-    
+
     protected String[] componentClasses;
 
     public DefaultStyledComponent getStyle() {
@@ -112,8 +114,8 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         // collect all authorable classes
         if (style != null) {
             componentClasses = Arrays.stream(style.getClasses())
-                    .collect(Collectors.toCollection(LinkedHashSet::new))
-                    .toArray(new String[] {});
+                .collect(Collectors.toCollection(LinkedHashSet::new))
+                .toArray(new String[] {});
         }
         return componentClasses;
     }
@@ -130,7 +132,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         return "";
     }
 
-    private Map<String, String> gridConfig = new HashMap<String, String>() {
+    private Map < String, String > gridConfig = new HashMap < String, String > () {
         {
             put("lgColSize", "col-lg-");
             put("mdColSize", "col-md-");
@@ -138,7 +140,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         }
     };
 
-    private Map<String, String> textAlignmentConfig = new HashMap<String, String>() {
+    private Map < String, String > textAlignmentConfig = new HashMap < String, String > () {
         {
             put("left", "text-start");
             put("center", "text-center");
@@ -159,21 +161,21 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         style = resource.adaptTo(DefaultStyledComponent.class);
         grid = resource.adaptTo(DefaultStyledGridComponent.class);
 
-        if (grid != null && style != null) {            
+        if (grid != null && style != null) {
             componentClasses = Arrays.stream(style.getClasses())
-            .collect(Collectors.toCollection(LinkedHashSet::new))
-            .toArray(new String[]{});
+                .collect(Collectors.toCollection(LinkedHashSet::new))
+                .toArray(new String[] {});
 
             // Width
             grid.addClasses(gridConfig.get("lgColSize") + getLgColSize());
             grid.addClasses(gridConfig.get("mdColSize") + getMdColSize());
             grid.addClasses(gridConfig.get("smColSize") + getSmColSize());
-        
+
             grid.addClasses(textAlignmentConfig.getOrDefault(textAlignment, ""));
-        
+
             // Variant's width
             // style.addClasses("col-12");
-        }    
+        }
 
         // get common properties
         if (resource != null) {

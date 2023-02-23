@@ -31,8 +31,13 @@ import org.apache.sling.models.annotations.ExporterOption;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Radio extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "radio";
@@ -53,7 +58,7 @@ public class Radio extends BaseFormComponent {
             label = DEFAULT_LABEL;
         }
 
-        
+
         if (grid != null && style != null) {
             style.addClasses("form-check-input");
         }

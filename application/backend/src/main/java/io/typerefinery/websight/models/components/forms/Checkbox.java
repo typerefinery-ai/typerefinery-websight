@@ -30,8 +30,13 @@ import org.apache.sling.models.annotations.ExporterOption;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {@ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Checkbox extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "checkbox";
@@ -44,7 +49,7 @@ public class Checkbox extends BaseFormComponent {
         this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
-        
+
         if (grid != null && style != null) {
             style.addClasses("form-check-input");
         }

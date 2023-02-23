@@ -36,9 +36,13 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = { Resource.class, SlingHttpServletRequest.class }, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = {
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true") })
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "button";
@@ -71,7 +75,7 @@ public class Button extends BaseFormComponent {
     @Getter
     private Boolean isOutlinedButton;
 
-    private Map<String, String> buttonVariantConfig = new HashMap<String, String>() {
+    private Map < String, String > buttonVariantConfig = new HashMap < String, String > () {
         {
             put("primary", "-primary");
             put("secondary", "-secondary");
