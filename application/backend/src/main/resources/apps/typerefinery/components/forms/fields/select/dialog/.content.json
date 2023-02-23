@@ -1,15 +1,29 @@
 {
-    "sling:resourceType": "wcm/dialogs/dialog",
-    "tabs": {
-      "sling:resourceType": "wcm/dialogs/components/tabs",
-      "generalTab": {
-        "sling:resourceType": "wcm/dialogs/components/tab",
-        "label": "General",
-        "fieldName": {
-          "sling:resourceType": "wcm/dialogs/components/include",
-          "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
-        },  
-        "fieldValue": {
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "value",
+        "label": "Value"
+      },
+      "selectOptions": {
+        "name": "selectOptions",
+        "label": "Add Options",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "value": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "value",
           "label": "Value"
@@ -17,4 +31,4 @@
       }
     }
   }
-  
+}

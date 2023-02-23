@@ -1,9 +1,13 @@
 <template data-sly-template.variant="${ @ model }">
-    <div class="dropdown">
-        <div class="dropdown-label">
-            <label>${model.label}</label>
-        </div>
-        <p-dropdown class="dropdown-placeholder" placeholder="${model.placeholder}" list="${model.list}">
-        </p-dropdown>
+    <div 
+        class="${model.componentClassNames}" 
+        id="${model.id}" 
+        data-model="${model.jsonString}">
+        <select class="${model.variantClassNames}">
+            <option selected>${model.placeholder}</option>
+            <sly data-sly-list="${model.selectOptions @ begin = 0}">
+                <option value="${item.value}">${item.label}</option>
+            </sly>
+        </select>
     </div>
 </template>

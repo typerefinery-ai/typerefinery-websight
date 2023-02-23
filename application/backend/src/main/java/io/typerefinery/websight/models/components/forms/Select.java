@@ -16,6 +16,8 @@
 package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
@@ -31,6 +33,8 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
 public class Select extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Select";
+    protected static final String DEFAULT_ID = "select";
+    protected static final String DEFAULT_MODULE = "select";
     protected static final String DEFAULT_PLACEHOLDER = "Select an item";
 
     @Inject
@@ -38,9 +42,15 @@ public class Select extends BaseFormComponent {
     @Default(values = "Select the data")
     private String placeholder;
 
+    @Inject
+    @Getter
+    private List<SelectOptionItems> selectOptions;
+
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
 
         if (StringUtils.isBlank(label)) {
@@ -49,6 +59,10 @@ public class Select extends BaseFormComponent {
 
         if (StringUtils.isBlank(placeholder)) {
             placeholder = DEFAULT_PLACEHOLDER;
+        }
+
+        if (grid != null && style != null) {
+            style.addClasses("form-select mt-1");
         }
         
     }  

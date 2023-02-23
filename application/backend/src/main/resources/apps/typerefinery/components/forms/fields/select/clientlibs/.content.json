@@ -1,0 +1,14 @@
+{
+  "title": "Client Libs - Forms - Select",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.forms.select"],  
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/primevue/selectbutton/selectbutton.min.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}
