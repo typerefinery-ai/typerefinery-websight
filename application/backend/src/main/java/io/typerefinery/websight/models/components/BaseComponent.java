@@ -109,7 +109,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     }
 
     public String[] getClasses() {
-        // collect all authorize classes
+        // collect all authorable classes
         if (style != null) {
             componentClasses = Arrays.stream(style.getClasses())
                     .collect(Collectors.toCollection(LinkedHashSet::new))
