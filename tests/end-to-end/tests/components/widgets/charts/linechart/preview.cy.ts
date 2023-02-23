@@ -5,17 +5,17 @@ describe('lineChart Component', () => {
 
   it('renders correctly in preview mode', () => {
     cy.visit(
-      '/content/typerefinery-showcase/pages/components/content/linechart.html'
+      '/content/typerefinery-showcase/pages/components/widgets/chart/linechart.html'
     );
   });
   it('Has lineChart Component', () => {
     cy.visit(
-      '/content/typerefinery-showcase/pages/components/content/linechart.html'
+      '/content/typerefinery-showcase/pages/components/widgets/chart/linechart.html'
     );
 
-    cy.get('.hl-title__heading').contains('LineChart component');
+    cy.get('.hl-title__heading').contains('Linechart with default values');
     // eslint-disable-next-line no-useless-escape
-    cy.get('.lineChart');
+    cy.get('.chart');
     cy.screenshot()
   });
 });

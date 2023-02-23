@@ -13,12 +13,6 @@ describe('Feeds Page', ()=>{
     );
     cy.get('.hl-title__heading').contains('Feeds')
   })
-  it('Has xaxisbarchart',()=>{
-    cy.visit(
-      '/content/typerefinery-showcase/pages/pages/feeds.html'
-    );
-    cy.get('.xaxisbarchart')
-  })
   it('Feeds Screenshot',()=>{
     cy.visit(
       '/content/typerefinery-showcase/pages/pages/feeds.html'

@@ -1,4 +1,4 @@
-import { selectors, testIds } from '../../../../../../../support/const';
+import { selectors, testIds } from '../../../../support/const';
 const paths = {
 button: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/button'
 };

@@ -1,11 +1,11 @@
-import { selectors, testIds } from '../../../../../../../support/const';
+import { selectors, testIds } from '../../../../support/const';
 const paths = {
 textArea: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/textarea'
 };
 
 describe('inputText Component', () => {
   beforeEach(() => {
-    cy.login();
+    cy.login(); 
   });
   it('renders correctly in edit mode', () => {
     cy.intercept(
