@@ -14,6 +14,11 @@
     limitations under the License.
 */-->
 <sly data-sly-use.model="io.typerefinery.websight.models.components.layout.Container"
-    data-sly-use.template="./variant.html"
-    data-sly-call="${template.variant @ model=model}">
+  data-sly-set.templateVariant="${'./variant.{0}.html' @ format=model.variant}"
+  data-sly-set.templateDefault="${'./variant.html'}"
+  data-sly-set.template="${model.variant ? templateVariant : templateDefault}">
+  <sly
+      data-sly-use.template="${template}"
+      data-sly-call="${template.variant @ model=model}">
+  </sly>
 </sly>

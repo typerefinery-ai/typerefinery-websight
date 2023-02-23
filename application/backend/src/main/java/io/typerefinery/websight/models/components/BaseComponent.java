@@ -50,14 +50,43 @@ public class BaseComponent extends BaseModel {
 
     public static final String PROPERTY_MODULE = "module";
     public static final String PROPERTY_DECORATION_TAG_NAME = "decorationTagName";
+    public static final String PROPERTY_VARIANT = "variant";
+    public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_TITLE_TAG_NAME = "titleTagName";
+    public static final String PROPERTY_DESCRIPTION = "description";
 
     public static final String DEFAULT_DECORATION_TAG_NAME = "div";
+    public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "variant";
     
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE)
+    @Nullable
+    public String title;    
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE_TAG_NAME)
+    @Nullable
+    public String titleTagName;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_DESCRIPTION)
+    @Nullable
+    public String description;
+        
     @Inject
     @Getter
     @Named(PROPERTY_DECORATION_TAG_NAME)
     @Nullable
     public String decorationTagName;
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_VARIANT)
+    @Nullable
+    public String variant;
 
     @Inject
     @Getter

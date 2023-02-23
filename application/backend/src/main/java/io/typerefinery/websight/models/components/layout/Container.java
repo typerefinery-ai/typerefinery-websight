@@ -78,12 +78,6 @@ public class Container extends BaseComponent {
     @SlingObject
     private ResourceResolver resourceResolver;
 
-    // authored decoration tag name
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String type;
-
     // authored flex toggle
     @Inject
     @Getter
@@ -172,9 +166,6 @@ public class Container extends BaseComponent {
             .toArray(new String[]{});
         }
 
-        if (StringUtils.isNotBlank(type)) {
-            this.decorationTagName = type;
-        }
     }
 
 }
