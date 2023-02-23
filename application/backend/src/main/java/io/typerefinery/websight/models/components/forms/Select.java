@@ -35,6 +35,7 @@ public class Select extends BaseFormComponent {
     protected static final String DEFAULT_LABEL = "Select";
     protected static final String DEFAULT_ID = "select";
     protected static final String DEFAULT_MODULE = "select";
+    protected static final String DEFAULT_SELECT_CLASSES = "form-select mt-1";
     protected static final String DEFAULT_PLACEHOLDER = "Select an item";
 
     @Inject
@@ -61,8 +62,8 @@ public class Select extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-        if (grid != null && style != null) {
-            style.addClasses("form-select mt-1");
+        if (style != null) {
+            style.addClasses(DEFAULT_SELECT_CLASSES);
         }
         
     }  
