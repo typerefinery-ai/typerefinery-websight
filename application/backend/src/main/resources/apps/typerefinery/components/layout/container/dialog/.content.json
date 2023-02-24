@@ -29,6 +29,21 @@
           "value": "section"
         }
       },
+      "defaultPadding": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "defaultPadding",
+        "label": "Default Padding",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Enabled",
+          "value": "enabled"
+        },
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Disabled",
+          "value": "disabled"
+        }
+      },
       "variant": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "variant",
