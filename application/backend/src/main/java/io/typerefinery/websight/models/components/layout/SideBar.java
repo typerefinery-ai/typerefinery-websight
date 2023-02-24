@@ -27,12 +27,20 @@ import io.typerefinery.websight.utils.PageUtil;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class SideBar extends BaseComponent {
 
+    private String DEFAULT_APP_NAME = "Typerefinery";
+    private String DEFAULT_ID = "sidebar";
+    private String DEFAULT_MODULE = "sidebar";
+
     /**
      * page to use as the root of the tree
      */
     @Inject
     @Getter
     public String parentPagePath;
+
+    @Inject
+    @Getter
+    public String appName;
 
     
     @Inject
@@ -43,7 +51,13 @@ public class SideBar extends BaseComponent {
     @Override
     @PostConstruct
     protected void init() {
+        this.id = DEFAULT_ID;
+        this.module = DEFAULT_MODULE;
         super.init();
+
+        if(StringUtils.isBlank(appName)){
+            appName = DEFAULT_APP_NAME;
+        }
     }
     
 
