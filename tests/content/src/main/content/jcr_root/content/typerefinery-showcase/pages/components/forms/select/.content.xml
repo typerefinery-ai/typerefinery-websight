@@ -7,10 +7,8 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
-        <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
-          <container1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
-            <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Typerefinery Select's" headingLevel="XL" />
-          </container1_1>
+        <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Typerefinery Select's" headingLevel="XL" />
           <select_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
             <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select User Age" />
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Age" />
@@ -31,7 +29,7 @@
             <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select Roll Number" />
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Roll Number" />
           </select_5>
-        </container1>
+        </form1>
       </maincontainer>
     </rootcontainer>
   </jcr:content>
