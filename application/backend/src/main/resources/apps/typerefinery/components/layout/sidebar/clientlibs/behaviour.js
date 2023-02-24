@@ -6,6 +6,12 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
-        ns.init();
+        $("#sidebar").each(function () {
+            ns.init(this);
+        });
+        // If sidebar doesn't exist, them remove the sidebar open button from the header.
+        if(!document.getElementById("sidebar")) {
+            document.getElementById("sidebarCollapse").style = "display: none";
+        }
     });
 })(window.Typerefinery.Components.Layouts.Sidebar, document);
