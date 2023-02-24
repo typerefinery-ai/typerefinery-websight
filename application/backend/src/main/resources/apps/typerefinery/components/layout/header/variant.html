@@ -14,27 +14,25 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <sly data-sly-test.image="${model.image}"></sly>
-    <sly data-sly-test.navigation="${model.navigation}"></sly>
-
-    <nav class="hl-header header">
-      <div class="hl-header__wrapper">
-        <div class="hl-header__top-bar">
-          <sly data-sly-test="${image}"
-            data-sly-use.template="/apps/typerefinery/components/content/image/variant.html"
-            data-sly-call="${template.variant @ defaultImage=image.defaultImage, alt=image.alt, showLink=image.showLink, url=image.url, openInNewTab=image.openInNewTab, classes='hl-header__logo-image'}">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="${model.id}" data-model="${model.jsonString}">
+    <div class="container-fluid">
+      <!-- Sidebar toggle button -->
+      <button type="button" id="sidebarCollapse" class="btn btn-outline-dark">
+        <i class="pi pi-align-left"></i>
+        <!-- <span>Toggle Sidebar</span> -->
+      </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingNavbar3">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+        <ul class="nav navbar-nav ms-auto w-100 justify-content-end">
+          <sly data-sly-list="${model.navigation.menuItems @ begin = 0}">
+            <li class="nav-item">
+              <a class="nav-link" href="${item.link}">${item.label}</a>
+            </li>
           </sly>
-          <sly data-sly-use.template="/apps/typerefinery/components/layout/navigation/variant.html"
-            data-sly-call="${template.variant @ menuItems=navigation.menuItems}">
-          </sly>
-          <div class="hl-header__hamburger">
-            <i class="hl-icon icon-menu hl-header__hamburger-open-icon" tabindex="0"></i>
-            <i class="hl-icon icon-close hl-header__hamburger-close-icon" tabindex="0"></i>
-          </div>
-          <div>
-            <i class="pi pi-sun font-bold" id="themeHandler"></i>
-          </div>
-        </div>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 </template>
