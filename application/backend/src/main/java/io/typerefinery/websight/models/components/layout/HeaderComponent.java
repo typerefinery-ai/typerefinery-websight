@@ -36,7 +36,7 @@ import io.typerefinery.websight.models.components.content.Image;
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false") 
 })
 public class HeaderComponent extends BaseComponent {
-
+  
   @Getter
   @Inject
   private String mobileMenuTitle;
@@ -44,9 +44,4 @@ public class HeaderComponent extends BaseComponent {
   @Inject
   @Getter
   private NavigationComponent navigation;
-
-  @Inject
-  @Getter
-  private Image image;
-
 }

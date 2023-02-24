@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import pl.ds.howlite.components.utils.LinkUtil;
@@ -37,12 +36,6 @@ public class NavigationItemComponent {
   @Inject
   private String label;
 
-  
-  @Getter
-  @Inject
-  private String parentName;
-
-  
   @Getter
   @Inject
   private String icon;
@@ -57,8 +50,7 @@ public class NavigationItemComponent {
 
   @Getter
   @Inject
-  @Default(values = "false")
-  private String openInNewTab;
+  private Boolean openInNewTab;
 
   public String getLink() {
     return LinkUtil.handleLink(link, resourceResolver);

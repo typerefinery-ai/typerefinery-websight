@@ -18,9 +18,7 @@
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
@@ -32,5 +30,4 @@ public class NavigationComponent {
   @Inject
   @Getter
   private List<NavigationItemComponent> menuItems;
-
 }

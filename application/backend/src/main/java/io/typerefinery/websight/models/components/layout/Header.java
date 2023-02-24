@@ -17,9 +17,22 @@
 package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import javax.inject.Inject;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
+import lombok.Getter;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Header {
+    
+  @Getter
+  @Inject
+  private String mobileMenuTitle;
+
+  @Inject
+  @Getter
+  private NavigationComponent navigation;
 }
