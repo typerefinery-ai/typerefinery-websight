@@ -1,6 +1,9 @@
 <template data-sly-template.variant="${ @ model }">
-    <div class="${model.variantClassNames}" id="${model.id}" data-model="${model.jsonString}" data-tree="${model.treeJSON}">
-        <p-tree data-module="vue-sidebar" @click="onSidebarItemClicked">
-        </p-tree>
-    </div>
+    <nav id="${model.id}" data-model="${model.jsonString}" data-tree="${model.treeJSON}">
+        <div class="sidebar-header">
+            <h4>${model.appName}</h4>
+        </div>
+        <ul class="list-unstyled components" id="${model.id}-menuItems">
+        </ul>
+    </nav>
 </template>
