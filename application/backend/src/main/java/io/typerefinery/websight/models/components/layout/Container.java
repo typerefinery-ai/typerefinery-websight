@@ -83,6 +83,11 @@ public class Container extends BaseComponent {
     @Getter
     private Boolean flexEnabled;
 
+     // authored flexEnabled toggle
+    @Inject
+    @Getter
+    private String defaultPadding;
+
     // bootstrap styling rowGap between children components
     @Inject
     @Getter
@@ -198,6 +203,18 @@ public class Container extends BaseComponent {
         super.init();
 
         String flex = "";
+
+
+        
+
+        if(StringUtils.isBlank(defaultPadding)) {
+            defaultPadding = "enabled";
+        }
+
+        if(defaultPadding == "enabled") {
+            grid.addClasses(resource.getName());
+        }
+        
 
         if (BooleanUtils.isTrue(flexEnabled)) {
             flex = flexConfig.getOrDefault("enabled", "");
