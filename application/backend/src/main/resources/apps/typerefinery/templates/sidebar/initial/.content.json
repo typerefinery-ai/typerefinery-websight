@@ -8,7 +8,7 @@
       "sidebar": {
         "sling:resourceType": "typerefinery/components/layout/sidebar"
       },
-      "container": {
+      "sidebarcontainer": {
         "sling:resourceType": "typerefinery/components/layout/sidebarcontainer",
         "header": {
           "sling:resourceType": "typerefinery/components/layout/header"

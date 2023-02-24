@@ -1,0 +1,19 @@
+{
+    "isContainer": true,
+    "group": "Typerefinery - Layout",
+    "isLayout": true,
+    "allowedComponents": [
+      "Typerefinery - Content",
+      "Typerefinery - Details",
+      "Typerefinery - Forms",
+      "Typerefinery - Graphs",
+      "Typerefinery - Layout",
+      "Typerefinery - List",
+      "Typerefinery - Widgets",
+      "Typerefinery - Flow"
+    ],
+    "sling:resourceType": "ws:Component",
+    "description": "Editable components wrapper",
+    "title": "Sidebar container"
+  }
+  

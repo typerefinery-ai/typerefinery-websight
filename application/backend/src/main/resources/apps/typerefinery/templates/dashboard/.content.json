@@ -1,10 +1,11 @@
 {  
   "sling:resourceType": "ws:PageTemplate",
-  "description": "Create a dashboard page with a grid of tiles.",
+  "description": "Create a dashboard page with a sidebar",
   "title": "Dashboard",
   "allowedChildren": [
     "/apps/typerefinery/templates/blank",
     "/apps/typerefinery/templates/page",
-    "/apps/typerefinery/templates/dashboard"
+    "/apps/typerefinery/templates/dashboard",
+    "/apps/typerefinery/templates/sidebar"
   ]
 }
