@@ -14,6 +14,6 @@
 
 FROM nginx
 
-COPY src/main/docker/nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
-COPY src/main/docker/nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
-COPY src/main/docker/nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html
+COPY src/main/docker/typerefinery-websight-nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
+COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
+COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html

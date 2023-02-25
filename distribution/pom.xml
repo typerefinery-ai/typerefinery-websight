@@ -200,7 +200,7 @@
                 <image>
                   <name>${docker.nginx.name}:${docker.nginx.tag}</name>
                   <build>
-                    <dockerFile>src/main/docker/typerefinery-websight/Dockerfile</dockerFile>
+                    <dockerFile>src/main/docker/typerefinery-websight-nginx/Dockerfile</dockerFile>
                     <contextDir>${project.basedir}</contextDir>
                   </build>
                 </image>
@@ -253,7 +253,7 @@
                         <platform>linux/arm64</platform>
                       </platforms>
                     </buildx>
-                    <dockerFile>src/main/docker/typerefinery-websight/Dockerfile</dockerFile>
+                    <dockerFile>src/main/docker/typerefinery-websight-nginx/Dockerfile</dockerFile>
                     <contextDir>${project.basedir}</contextDir>
                   </build>
                 </image>
