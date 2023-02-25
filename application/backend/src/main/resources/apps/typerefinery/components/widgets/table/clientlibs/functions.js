@@ -18,10 +18,18 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
             ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
             ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
-            ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"]
+            ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"],
+            ["John", 25, "john@gmail.com", "91934399421", "India"],
+            ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
+            ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
+            ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
+            ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
+            ["Ben", 25, "ben10@gmail.com", "7434343447", "England"]
         ],
-        sort: false,
-        search: false
+        sort: true,
+        search: true,
+        pagination: true,
+        resizable: true,
     };
 
     ns.updateComponentHTML = (id, data, $component) => {
