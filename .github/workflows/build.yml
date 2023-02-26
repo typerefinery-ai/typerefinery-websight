@@ -107,15 +107,36 @@ jobs:
       #     cd tests/content
       #     mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
+      # - name: Run Automation tests
+      #   run: |
+      #     cd tests/end-to-end
+      #     npm install
+      #     npm run test:ci
+      #     npm run report:createHtml
+
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     config: pageLoadTimeout=250000,baseUrl=http://0.0.0.0:8080
+      #     wait-on: "http://0.0.0.0:8080"
+      #     project: tests/end-to-end
+      #     install: false
+      #     build: |
+      #       npm install
+      #     command: |
+      #       npm run test:ci
+      #       npm run report:createHtml
+
       - name: Run Automation tests
         run: |
           cd tests/end-to-end
-          npm install
-          npm run test:ci
-          npm run report:createHtml
+          docker-compose up test
+
 
       - name: Stop the stack
-        run: docker-compose down
+        run: |
+          cd environment/local
+          docker-compose down
 
       - name: Automation test if failure
         run: |
