@@ -21,7 +21,7 @@
     "cypress:install": "cypress install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:cireports": "npm run report:clean && nopm run cypress:install && npm run test:ci && npm run report:createHtml",
+    "test:cireports": "npm run report:clean && npm run cypress:install && npm run test:ci && npm run report:createHtml",
     "test:ci": "cypress run --headless 2>/dev/null || true"
   },
   "devDependencies": {
