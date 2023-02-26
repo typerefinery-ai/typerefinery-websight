@@ -4,10 +4,10 @@
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
     "rootcontainer": {
-      "sling:resourceType": "typerefinery/components/layout/fixedrootcontainer",
-      "container": {
-        "sling:resourceType": "typerefinery/components/layout/container"
-      }
+      "sling:resourceType": "typerefinery/components/layout/container",
+      "jcr:primaryType": "nt:unstructured",
+      "decorationTagName": "main",
+      "id": "app"
     }
   }
 }
