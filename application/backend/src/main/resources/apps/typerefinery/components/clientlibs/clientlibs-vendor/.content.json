@@ -4,16 +4,10 @@
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["io.typerefinery.websight.components-vendor"],
   "css": [
-    "/apps/typerefinery/clientlibs/vendor/primevue/styles/lara-light-indigo-theme.css",
-    "/apps/typerefinery/clientlibs/vendor/primevue/styles/style.min.css",
-    "/apps/typerefinery/clientlibs/vendor/primevue/styles/icons.css",
-    "/apps/typerefinery/clientlibs/vendor/bootstrap-5.3.0/bootstrap.min.css"
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.css"
   ],
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/jquery/jquery-3.6.2.min.js",
-    "/apps/typerefinery/clientlibs/vendor/vue/vue.global.js",
-    "/apps/typerefinery/clientlibs/vendor/primevue/core/core.js",
-    "/apps/typerefinery/clientlibs/vendor/vue/vue-route.global.js",
-    "/apps/typerefinery/clientlibs/vendor/bootstrap-5.3.0/bootstrap.min.js"
+    "/apps/typerefinery/clientlibs/vendor/jquery/jquery.min.js",
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.js"
   ] 
 }
