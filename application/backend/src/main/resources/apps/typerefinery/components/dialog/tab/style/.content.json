@@ -1,6 +1,12 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
   "label": "Style",
+  "id": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "id",
+    "label": "Id",
+    "description": "ID of component"
+  },
   "classes": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "classes",
