@@ -461,23 +461,23 @@ require(["domReady!", "resources/stix2viz/stix2viz"], function (document, stix2v
     return url
   }
 
-    function parseQuery(str) {
-      if(typeof str != "string" || str.length == 0) return {};
-      var s = str.split("&");
-      var s_length = s.length;
-      var bit, query = {}, first, second;
-      for(var i = 0; i < s_length; i++)
-          {
-            bit = s[i].split("=");
-            first = decodeURIComponent(bit[0]);
-            if(first.length == 0) continue;
-            second = decodeURIComponent(bit[1]);
-            if(typeof query[first] == "undefined") query[first] = second;
-            else if(query[first] instanceof Array) query[first].push(second);
-            else query[first] = [query[first], second];
-          }
-      return query;
-    }
+  function parseQuery(str) {
+    if(typeof str != "string" || str.length == 0) return {};
+    var s = str.split("&");
+    var s_length = s.length;
+    var bit, query = {}, first, second;
+    for(var i = 0; i < s_length; i++)
+        {
+          bit = s[i].split("=");
+          first = decodeURIComponent(bit[0]);
+          if(first.length == 0) continue;
+          second = decodeURIComponent(bit[1]);
+          if(typeof query[first] == "undefined") query[first] = second;
+          else if(query[first] instanceof Array) query[first].push(second);
+          else query[first] = [query[first], second];
+        }
+    return query;
+  }
 
   function selectedNodeClick() {
     selected = document.getElementById('selected');
