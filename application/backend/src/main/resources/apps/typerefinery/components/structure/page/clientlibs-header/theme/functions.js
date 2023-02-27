@@ -30,11 +30,13 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         if (!currentTheme) {
             localStorage.setItem('theme', 'dark');
         }
-        if (currentTheme === 'light') {
-            style.setAttribute('active', 'light');
-        } else {
-            style.setAttribute('active', 'dark');
-            style.setAttribute('href', `/apps/typerefinery/clientlibs/styles/dark.css`);
+        if (style) {
+          if (currentTheme === 'light') {
+              style.setAttribute('active', 'light');
+          } else {
+              style.setAttribute('active', 'dark');
+              style.setAttribute('href', `/apps/typerefinery/clientlibs/styles/dark.css`);
+          }
         }
     };
 
