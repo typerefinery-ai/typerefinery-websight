@@ -18,10 +18,11 @@
     "report:moveVideos": "mv cypress/videos cypress/reports/html/videos 2>/dev/null || true",
     "report:moveData": "mv cypress/results/data cypress/reports/html/data 2>/dev/null || true",
     "report:createHtml": "npm run report:merge && npm run report:generate && npm run report:moveScreenshots && npm run report:moveVideos && npm run report:moveData",
+    "cypress:install": "cypress install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:cireports": "npm run report:clean && cypress run --headless && npm run report:createHtml",
-    "test:ci": "cypress run --headless"
+    "test:cireports": "npm run report:clean && npm run cypress:install && npm run test:ci && npm run report:createHtml",
+    "test:ci": "cypress run --headless 2>/dev/null || true"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.1.0",

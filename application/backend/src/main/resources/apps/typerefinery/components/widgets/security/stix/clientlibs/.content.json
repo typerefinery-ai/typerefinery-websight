@@ -6,9 +6,12 @@
   "prepend": [],
   "append": [],
   "css": [
-    "application.css"
+    "style.css"
   ],  
   "js": [
-    "require.js"
+    "resources/d3/d3.min.js",
+    "resources/stix2viz/stix2viz.js",
+    "functions.js",
+    "behaviour.js"
   ] 
 }

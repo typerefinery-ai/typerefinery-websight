@@ -6,6 +6,10 @@
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tab/grid"
     },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tab/style"
+    },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tab/alignment"
@@ -23,10 +27,60 @@
           "selected": true,
           "value": ""
         },
-        "small": {
+        "section": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Section",
           "value": "section"
+        },
+        "article": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Article",
+          "value": "article"
+        },
+        "aside": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Aside",
+          "value": "aside"
+        },
+        "nav": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Nav",
+          "value": "nav"
+        },
+        "figure": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Figure",
+          "value": "figure"
+        },
+        "fieldset": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Fieldset",
+          "value": "fieldset"
+        },
+        "details": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Details",
+          "value": "details"
+        },
+        "template": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Template",
+          "value": "template"
+        },
+        "main": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Main",
+          "value": "main"
+        },
+        "header": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Header",
+          "value": "header"
+        },
+        "footer": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Footer",
+          "value": "footer"
         }
       },
       "defaultPadding": {

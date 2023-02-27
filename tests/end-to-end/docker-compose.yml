@@ -12,8 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nginx
+version: "3.9"
 
-COPY src/main/docker/typerefinery-websight-nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
-COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
-COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html
+services:
+  test:
+    image: cypress/included:12.7.0
+    command: bash -c  "npm install && cypress install && npm run test:cireports"
+    entrypoint: ""
+    volumes:
+      - .:/e2e
+    working_dir: /e2e
+    environment:
+      - CYPRESS_BASE_URL=http://cms:8080
+
+
+

@@ -1,0 +1,19 @@
+.vh-90 {
+  min-height: 90dvh;
+} 
+
+.vw-90 {
+  min-width: 90dvw;
+} 
+
+
+[component="stix"] #stix-canvas {
+  height: calc(100%);
+  width: calc(100%);
+}
+
+/* d3 canvas */
+[component="stix"] .selected {
+  /* Drop-shadow SVG styling has to go here for compatibility reasons */
+  filter: url("#drop-shadow");
+}

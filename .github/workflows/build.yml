@@ -107,15 +107,36 @@ jobs:
       #     cd tests/content
       #     mvn clean install -P autoInstallPackage -Dsling.install.package.host=0.0.0.0 -Dsling.install.package.username=wsadmin -Dsling.install.package.password=wsadmin
 
+      # - name: Run Automation tests
+      #   run: |
+      #     cd tests/end-to-end
+      #     npm install
+      #     npm run test:ci
+      #     npm run report:createHtml
+
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     config: pageLoadTimeout=250000,baseUrl=http://0.0.0.0:8080
+      #     wait-on: "http://0.0.0.0:8080"
+      #     project: tests/end-to-end
+      #     install: false
+      #     build: |
+      #       npm install
+      #     command: |
+      #       npm run test:ci
+      #       npm run report:createHtml
+
       - name: Run Automation tests
         run: |
-          cd tests/end-to-end
-          npm install
-          npm run test:ci
-          npm run report:createHtml
+          cd environment/local
+          docker-compose up --profile test cmstest
+
 
       - name: Stop the stack
-        run: docker-compose down
+        run: |
+          cd environment/local
+          docker-compose down
 
       - name: Automation test if failure
         run: |
@@ -127,13 +148,17 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
+        
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./tests/end-to-end/cypress/reports/html/
           destination: ./_site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+        with:
+          path: tests/end-to-end/cypress/reports/html
         
       - name: Deploy to GitHub Pages
         id: deployment

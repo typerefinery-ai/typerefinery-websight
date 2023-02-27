@@ -26,6 +26,7 @@ services:
       timeout: 10s
       retries: 20
       start_period: 30s
+    hostname: cms
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -57,6 +58,7 @@ services:
         limits:
           cpus: '1'
           memory: 4096M
+    hostname: mongo
     ports:
       - "27017:27017"
     environment:
@@ -75,6 +77,7 @@ services:
       context: ../../distribution/src/main/docker/typerefinery-websight
       dockerfile: Dockerfile
     image: ${DOCKER_CMS_NGINX_NAME}:${DOCKER_CMS_NGINX_TAG}
+    hostname: nginx
     ports:
       - "80:80"
     volumes:
@@ -94,6 +97,19 @@ services:
     volumes:
       - ./playbooks:/build/source
       - "~/.m2:/build/.m2"
+
+  cmstest:
+    image: cypress/included:12.7.0
+    command: bash -c  "npm install && cypress install && npm run test:cireports"
+    entrypoint: ""
+    profiles:
+      - test
+    volumes:
+      - ../../test/end-to-end/:/e2e
+    working_dir: /e2e
+    environment:
+      - CYPRESS_BASE_URL=http://cms:8080
+
 
 volumes:
   typerefinery-project_cms_logs:

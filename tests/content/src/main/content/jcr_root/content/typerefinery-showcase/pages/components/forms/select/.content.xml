@@ -7,11 +7,29 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Select Component"/>
-          <select jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select">
-          </select>
-        </pagesection>
+        <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Select" headingLevel="XL" />
+          <select_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select User Age" />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Age" />
+          </select_1>
+          <select_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select Country Code" />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Country Code" />
+          </select_2>
+          <select_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select User  City" />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Cities" />
+          </select_3>
+          <select_4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select User Database Number" />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Database Number" />
+          </select_4>
+          <select_5 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/select">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select Roll Number" />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/select" placeholder="Roll Number" />
+          </select_5>
+        </form1>
       </maincontainer>
     </rootcontainer>
   </jcr:content>
