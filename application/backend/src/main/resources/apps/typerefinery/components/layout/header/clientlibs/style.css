@@ -108,12 +108,12 @@ ul ul a {
     CONTENT STYLE
 ----------------------------------------------------- */
 
-#content {
+#app {
     width: calc(100% - 250px);
     padding: 0px;
     min-height: 100vh;
     transition: all 0.3s;
-    margin-left: auto;
+    margin-left: 250px;
 }
 
 #sidebarCollapse {
@@ -140,7 +140,7 @@ ul ul a {
     #sidebarCollapse span {
         display: none;
     }
-    #content {
+    #app {
         width: calc(100% - 0px);
     }
     .navbar {
