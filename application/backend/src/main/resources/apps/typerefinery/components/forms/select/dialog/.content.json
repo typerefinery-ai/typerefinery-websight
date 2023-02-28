@@ -4,11 +4,11 @@
     "sling:resourceType": "wcm/dialogs/components/tabs",
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
     },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/alignment"
+      "path": "/apps/typerefinery/components/dialog/tabs/alignment"
     }
   }
 }

@@ -4,15 +4,15 @@
     "sling:resourceType": "wcm/dialogs/components/tabs",
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
     },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/style"
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/alignment"
+      "path": "/apps/typerefinery/components/dialog/tabs/alignment"
     },
     "variantTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",

@@ -17,7 +17,7 @@
       "label": "Style",
       "classes": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/dialog/tab/style/classes"
+        "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
       },
       "theme": {
         "sling:resourceType": "wcm/dialogs/components/select",
@@ -38,7 +38,7 @@
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
     }
   }
 }

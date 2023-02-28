@@ -119,7 +119,7 @@
         "sling:resourceType": "wcm/dialogs/components/richtext",
         "name": "copyright",
         "label": "Copyrights",
-        "configuration": "typerefinery/components/dialog/rte/configuration/simple"
+        "configuration": "typerefinery/components/dialog/tabs/rte/configuration/simple"
       }
     }
   }
