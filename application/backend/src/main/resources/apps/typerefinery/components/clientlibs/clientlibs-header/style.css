@@ -1,0 +1,20 @@
+[component='container'] {
+    align-items: center;
+    background-image: var(--bg-image-sm);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+@media (min-width: 768px) {
+    [component='container'] {
+        background-image: var(--bg-image-md);
+    }
+};
+
+@media (min-width: 992px) {
+    [component='container'] {
+        background-image: var(--bg-image-lg);
+    }
+};
