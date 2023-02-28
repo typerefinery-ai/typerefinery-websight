@@ -3,11 +3,9 @@
   "jcr:content": {
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
-    "container": {
-      "sling:resourceType": "typerefinery/components/layout/container",
-      "jcr:primaryType": "nt:unstructured",
-      "decorationTagName": "main",
-      "id": "container"
+    "rootcontainer": {
+      "sling:resourceType": "typerefinery/components/layout/rootcontainer",
+      "jcr:primaryType": "nt:unstructured"
     }
   }
 }
