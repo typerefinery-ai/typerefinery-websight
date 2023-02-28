@@ -1,0 +1,9 @@
+{
+    "jcr:primaryType": "nt:unstructured",
+    "text": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/content/text",
+        "text": "Copyright (C) 2023 Typerefinery.ai",
+        "textAlignment": "center"
+    }
+}

@@ -14,39 +14,8 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model}">
-
-  <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-    data-sly-call="${lib.placeholder @ classes=CSSclasses}">
-  </sly>
-  
-  <sly data-sly-set.image="${model.image}"></sly>
-    <sly data-sly-set.navigation="${model.navigation}"></sly>
-    <sly data-sly-set.socialLinks="${model.socialLinks}"></sly>
-
-    <footer class="hl-footer">
-      <sly data-sly-test="${image || navigation || socialLinks || model.copyright}">
-        <div class="hl-footer__wrapper">
-          <div class="hl-footer__bar">
-            <div class="hl-footer__site-nav">
-              <sly data-sly-test="${image}"
-                data-sly-use.template="/libs/howlite/components/image/template.html"
-                data-sly-call="${template.simpleImage @ defaultImage=image.defaultImage, showLink=image.showLink,  alt=image.alt, url=image.url, openInNewTab=image.openInNewTab, classes='hl-footer__logo-image'}">
-              </sly>
-              <sly data-sly-test="${navigation}"
-                data-sly-use.template="/libs/howlite/components/navigation/template.html"
-                data-sly-call="${template.navigation @ menuItems=navigation.menuItems}">
-              </sly>
-            </div>
-            <sly data-sly-test="${socialLinks}"
-              data-sly-use.template="/libs/howlite/components/sociallinks/template.html"
-              data-sly-call="${template.sociallinks @ socialLinkItems=socialLinks.socialLinkItems}">
-            </sly>
-          </div>
-          <sly data-sly-test="${model.copyright}">
-            <div class="hl-footer__copyright">${model.copyright @ context='html'}</div>
-          </sly>
-        </div>
-      </sly>
-    </footer>
-
+  <footer class="${model.componentClassNames}" id="${model.id}">
+    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
+    </sly>
+  </footer>
 </template>

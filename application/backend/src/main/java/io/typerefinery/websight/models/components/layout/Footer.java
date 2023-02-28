@@ -18,25 +18,25 @@ package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
+import io.typerefinery.websight.models.components.BaseComponent;
+
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Footer {
+public class Footer extends BaseComponent{
 
-  // @Inject
-  // @Getter
-  // private ImageComponent image;
+  private static final String DEFAULT_FOOTER_CLASSES = "bg-light";
 
-  // @Inject
-  // @Getter
-  // private NavigationComponent navigation;
+  @Override
+  @PostConstruct
+  protected void init() {
+    super.init();
 
-  // @Inject
-  // @Getter
-  // private SocialLinksComponent socialLinks;
-
-  // @Inject
-  // @Getter
-  // private String copyright;
+    if(grid != null) {
+      grid.addClasses(DEFAULT_FOOTER_CLASSES);
+    }    
+  }
 }
