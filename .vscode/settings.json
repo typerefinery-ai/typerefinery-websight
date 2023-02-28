@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
         "typerefinery"
-    ]
+    ],
+    "html.validate.styles": false
 }
