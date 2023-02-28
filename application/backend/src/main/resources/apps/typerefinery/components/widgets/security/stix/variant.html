@@ -30,10 +30,14 @@
     crossorigin='anonymous'}">
     ${clientlibs.jsAndCssIncludes @ context="unsafe"}
   </sly>
+  <!-- maxCount: ${model.maxCount} -->
+  <!-- dataUrl: ${model.dataUrl} -->
   <div 
-    component="stix"
     class="${model.VariantClassNames}"
-    data-sly-element="${model.decorationTagName}">
+    data-sly-element="${model.decorationTagName}"
+    data-maxCount="${model.maxCount}"
+    data-dataUrl="${model.dataUrl}"
+    component="stix">
 
     <div class="container rounded m-3 vw-95">
       <div class="row">
@@ -45,7 +49,7 @@
           <nav>
             <div class="nav nav-tabs" id="srix-nav-tab" role="tablist">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-legend" type="button" role="tab" aria-controls="tab-legend" aria-selected="true">Legend</button>
-                <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#tab-list" type="button" role="tab" aria-controls="tab-list" aria-selected="false">List</button>
+                <!-- <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#tab-list" type="button" role="tab" aria-controls="tab-list" aria-selected="false">List</button> -->
                 <button class="nav-link" id="selected-tab" data-bs-toggle="tab" data-bs-target="#tab-selected" type="button" role="tab" aria-controls="tab-selected" aria-selected="false">Selected Node</button>
                 <button class="nav-link" id="linked-tab" data-bs-toggle="tab" data-bs-target="#tab-linked" type="button" role="tab" aria-controls="tab-linked" aria-selected="false">Linked Nodes</button>
             </div>
