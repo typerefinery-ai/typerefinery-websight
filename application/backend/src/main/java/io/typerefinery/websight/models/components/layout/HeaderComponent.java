@@ -27,7 +27,6 @@ import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.models.components.content.Image;
 
 
 @Model(adaptables = Resource.class, resourceType = { "typerefinery/components/layout/header" }, defaultInjectionStrategy = OPTIONAL)

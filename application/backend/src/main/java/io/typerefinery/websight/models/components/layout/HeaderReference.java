@@ -22,7 +22,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class HeaderReference extends HomepageReference<Header> {
+public class HeaderReference extends HomepageReference<HeaderComponent> {
 
   @Override
   public String getPath() {
@@ -30,7 +30,7 @@ public class HeaderReference extends HomepageReference<Header> {
   }
 
   @Override
-  public Class<Header> getType() {
-    return Header.class;
+  public Class<HeaderComponent> getType() {
+    return HeaderComponent.class;
   }
 }
