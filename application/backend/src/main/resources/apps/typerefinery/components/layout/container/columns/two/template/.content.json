@@ -4,15 +4,15 @@
   "container1": {
     "jcr:primaryType": "nt:unstructured",
     "sling:resourceType": "/apps/typerefinery/components/layout/container",
-    "smColSize": 2,
-    "mdColSize": 2,
-    "lgColSize": 2
+    "smColSize": 12,
+    "mdColSize": 12,
+    "lgColSize": 6
   },
   "container2": {
     "jcr:primaryType": "nt:unstructured",
     "sling:resourceType": "/apps/typerefinery/components/layout/container",
-    "smColSize": 22,
-    "mdColSize": 16,
-    "lgColSize": 10
+    "smColSize": 12,
+    "mdColSize": 12,
+    "lgColSize": 6
   }
 }
