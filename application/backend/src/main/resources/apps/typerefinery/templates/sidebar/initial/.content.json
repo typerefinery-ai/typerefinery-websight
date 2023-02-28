@@ -3,21 +3,33 @@
   "jcr:content": {
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
-    "rootcontainer": {
-      "sling:resourceType": "typerefinery/components/layout/fixedrootcontainer",
-      "sidebar": {
-        "sling:resourceType": "typerefinery/components/layout/sidebar"
+    "sidebar": {
+      "sling:resourceType": "typerefinery/components/layout/sidebar",
+      "jcr:primaryType": "nt:unstructured",
+      "id": "sidebar"
+    },
+    "main": {
+      "sling:resourceType": "typerefinery/components/layout/container",
+      "jcr:primaryType": "nt:unstructured",
+      "decorationTagName": "main",
+      "id": "app",
+      "defaultPadding": "disabled",
+      "header": {
+        "sling:resourceType": "typerefinery/components/layout/header",
+        "jcr:primaryType": "nt:unstructured",
+        "id": "header"
       },
-      "sidebarcontainer": {
-        "sling:resourceType": "typerefinery/components/layout/sidebarcontainer",
-        "header": {
-          "sling:resourceType": "typerefinery/components/layout/header"
-        },
-        "container": {
-          "sling:resourceType": "typerefinery/components/layout/container"
-        }
+      "section": {
+        "sling:resourceType": "typerefinery/components/layout/container",
+        "jcr:primaryType": "nt:unstructured",
+        "id": "section",
+        "decorationTagName": "section"
+      },
+      "footer": {
+        "sling:resourceType": "typerefinery/components/layout/footer",
+        "jcr:primaryType": "nt:unstructured",
+        "id": "footer"
       }
-      
     }
   }
 }

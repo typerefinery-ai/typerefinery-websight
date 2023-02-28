@@ -3,16 +3,28 @@
   "jcr:content": {
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
-    "rootcontainer": {
-      "sling:resourceType": "typerefinery/components/layout/fixedrootcontainer",
+    "main": {
+      "sling:resourceType": "typerefinery/components/layout/container",
+      "jcr:primaryType": "nt:unstructured",
+      "decorationTagName": "main",
+      "id": "main",
       "header": {
-        "sling:resourceType": "typerefinery/components/layout/header"
+        "sling:resourceType": "typerefinery/components/layout/header",
+        "jcr:primaryType": "nt:unstructured",
+        "decorationTagName": "header",
+        "id": "header"
       },
-      "container": {
-        "sling:resourceType": "typerefinery/components/layout/container"
+      "section": {
+        "sling:resourceType": "typerefinery/components/layout/container",
+        "jcr:primaryType": "nt:unstructured",
+        "decorationTagName": "section",
+        "id": "section"
       },
       "footer": {
-        "sling:resourceType": "typerefinery/components/layout/footer"
+        "sling:resourceType": "typerefinery/components/layout/footer",
+        "jcr:primaryType": "nt:unstructured",
+        "decorationTagName": "footer",
+        "id": "footer"
       }
     }
   }
