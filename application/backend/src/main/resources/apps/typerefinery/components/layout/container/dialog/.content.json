@@ -101,6 +101,11 @@
       },
       "variantsectionwithtitle": {
         "sling:resourceType": "wcm/dialogs/components/container",
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Title",
+          "name": "title"
+        },
         "titleTag": {
           "sling:resourceType": "wcm/dialogs/components/select",
           "name": "titleTagName",
