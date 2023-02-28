@@ -101,10 +101,14 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
   ns.populateLegend = function (visualizer, legend, typeGroups) {
     var ul = legend;
     var color = d3.scale.category20();
+
     typeGroups.forEach(function(typeName, index) {
       var li = document.createElement('li');
-      var val = document.createElement('p');
-      var key = document.createElement('div');
+      li.setAttribute("class", "list-group-item");
+
+      var val = document.createElement('span');
+      val.setAttribute("class", "p-3");
+      var key = document.createElement('span');
       var keyImg = document.createElement('img');
       keyImg.onerror = function() {
         // set the node's icon to the default if this image could not load
