@@ -1,0 +1,31 @@
+* text eol=crlf
+* text eol=lf
+
+*.zip -text
+*.jar -text
+*.tar.gz -text
+*.jpg -text
+*.jpeg -text
+*.tiff -text
+*.ico -text
+*.gif -text
+*.png -text
+original -text
+file -text
+folderThumbnail -text
+*.woff -text
+*.woff2 -text
+*.eot -text
+*.ttf -text
+*.mp4 -text
+*.flv -text
+*.m4v -text
+*.avi -text
+*.psd -text
+*.pdf -text
+*.3gp -text
+*.ogv -text
+*.webm -text
+*.wdmg -text
+*.svg -text
+*.sftmp -text

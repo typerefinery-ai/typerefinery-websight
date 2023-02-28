@@ -6,6 +6,10 @@
   min-width: 90dvw;
 } 
 
+.vw-95 {
+  min-width: 95dvw;
+} 
+
 
 [component="stix"] #stix-canvas {
   height: calc(100%);
@@ -16,4 +20,50 @@
 [component="stix"] .selected {
   /* Drop-shadow SVG styling has to go here for compatibility reasons */
   filter: url("#drop-shadow");
+}
+
+
+/* selected node */
+
+[component="stix"] div.wrapper > div > .type {
+  width: 30%;
+  font-weight: bold;
+}
+
+[component="stix"] div.wrapper {
+  margin-left: 2em;
+  width: 100%;
+  overflow-wrap: break-word;
+  display: inline-block;
+}
+
+[component="stix"] span.title {
+  font-weight: normal !important;
+  color: purple !important;
+}
+
+[component="stix"] span.num_value {
+  color: orange !important;
+  cursor: text !important;
+}
+
+[component="stix"] span.text_value {
+  color: darkblue !important;
+  cursor: text !important;
+}
+
+[component="stix"] span.ref_value_resolved {
+  color: lightblue !important;
+  text-decoration: underline !important;
+  cursor: context-menu !important;
+}
+
+[component="stix"] span.ref_value_unresolved {
+  color: red !important;
+  text-decoration: underline !important;
+  cursor: not-allowed !important;
+}
+
+[component="stix"] div.wrapper > div > .value {
+  word-wrap: break-word !important;
 }

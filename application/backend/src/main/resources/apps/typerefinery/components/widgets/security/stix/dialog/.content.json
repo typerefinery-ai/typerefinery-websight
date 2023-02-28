@@ -1,0 +1,30 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "general": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "maxCount": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "maxCount",
+        "label": "Max Count",
+        "description": "Max nodes to show"
+      },
+      "url": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataUrl",
+        "label": "Data Url",
+        "description": "URL to load data from."
+      }
+    },    
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    }
+  }
+}

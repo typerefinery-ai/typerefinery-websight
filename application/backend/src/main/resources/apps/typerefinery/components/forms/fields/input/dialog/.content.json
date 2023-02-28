@@ -61,7 +61,7 @@
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
     }
   }
 }

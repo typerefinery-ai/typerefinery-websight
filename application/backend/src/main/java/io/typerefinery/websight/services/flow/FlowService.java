@@ -80,7 +80,7 @@ public class FlowService {
     public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
     public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
 
-    public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/sample.json";
+    public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "io.typerefinery.flow.spi.extension";
 
     public FlowServiceConfiguration configuration;

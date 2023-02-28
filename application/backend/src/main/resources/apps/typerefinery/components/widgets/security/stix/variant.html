@@ -30,12 +30,16 @@
     crossorigin='anonymous'}">
     ${clientlibs.jsAndCssIncludes @ context="unsafe"}
   </sly>
+  <!-- maxCount: ${model.maxCount} -->
+  <!-- dataUrl: ${model.dataUrl} -->
   <div 
-    component="stix"
-    class="${model.VariantClassNames}"
-    data-sly-element="${model.decorationTagName}">
+    class="${model.variantClassNames}"
+    data-sly-element="${model.decorationTagName}"
+    data-maxCount="${model.maxCount}"
+    data-dataUrl="${model.dataUrl}"
+    component="stix">
 
-    <div class="container rounded m-3">
+    <div class="container rounded m-3 vw-95">
       <div class="row">
         <div class="col border ms-auto vh-90">
           <!-- canavs -->
@@ -45,7 +49,7 @@
           <nav>
             <div class="nav nav-tabs" id="srix-nav-tab" role="tablist">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-legend" type="button" role="tab" aria-controls="tab-legend" aria-selected="true">Legend</button>
-                <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#tab-list" type="button" role="tab" aria-controls="tab-list" aria-selected="false">List</button>
+                <!-- <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#tab-list" type="button" role="tab" aria-controls="tab-list" aria-selected="false">List</button> -->
                 <button class="nav-link" id="selected-tab" data-bs-toggle="tab" data-bs-target="#tab-selected" type="button" role="tab" aria-controls="tab-selected" aria-selected="false">Selected Node</button>
                 <button class="nav-link" id="linked-tab" data-bs-toggle="tab" data-bs-target="#tab-linked" type="button" role="tab" aria-controls="tab-linked" aria-selected="false">Linked Nodes</button>
             </div>
@@ -53,7 +57,7 @@
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active border-end border-bottom border-start" id="tab-legend" role="tabpanel" aria-labelledby="legend-tab" tabindex="0">
               <!-- legend -->
-              <ul id="stix-legend-content"></ul>
+              <ul id="stix-legend-content" class="list-group p-3"></ul>
             </div>
             <div class="tab-pane fade border-end border-bottom border-start" id="tab-list" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
               <!-- legend -->

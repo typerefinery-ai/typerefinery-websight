@@ -4,7 +4,7 @@
     "sling:resourceType": "wcm/dialogs/components/tabs",
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/websocket"
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
     }
   }
 }

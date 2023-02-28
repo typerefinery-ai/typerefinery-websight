@@ -8,7 +8,13 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
 
 (function ($, ns, d3, stix2viz, document, window) {
   "use strict";
-
+  class ComponentElements {
+    canvasElement = null;
+    legendElement = null;
+    selectedElement = null;
+    simpleListElement = null;
+    linkedNodesElement = null;
+  }
   ns.init = function (element) {
     var $element = $(element);
     var $selected = $element.find("#stix-selected-node-content");
@@ -21,36 +27,61 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     // styles = window.getComputedStyle(uploader);
     console.log("Initializing STIX visualizer");
     console.log([element, $element, $selected, $linkedNodes, $legend, canvas]);
-    ns.fetchJsonFromUrl(function(content) {
+
+    // create a class with all the elements we need to pass to the visualizer
+    var componentElements = new ComponentElements();
+    componentElements.canvasElement = canvas.get(0);
+    componentElements.legendElement = $legend.get(0);
+    componentElements.selectedElement = $selected.get(0);
+    componentElements.simpleListElement = $simpleList.get(0);
+    componentElements.linkedNodesElement = $linkedNodes.get(0);
+
+    var dataUrl = $element.data("dataUrl".toLowerCase());
+
+
+    var maxCount = ns.parseIntOrDefault($element.data("maxCount".toLowerCase()), 200);
+    console.log(["dataUrl",dataUrl, "maxCount", maxCount]);
+
+    ns.fetchJsonFromUrl(dataUrl, function(content) {
       var cfg = {
         iconDir: "/apps/typerefinery/components/widgets/security/stix/clientlibs/resources/stix2viz/icons"
       }
-      ns.vizStixWrapper(canvas.get(0), content, cfg, $legend.get(0), $selected.get(0), $simpleList.get(0), $linkedNodes.get(0));
+
+      ns.vizStixWrapper(content, cfg, componentElements, maxCount);
     });
    }    
 
+  ns.parseIntOrDefault = function (value, defaultValue) {
+    var parsed = parseInt(value);
+    return isNaN(parsed) ? defaultValue : parsed;
+  }
+  
   /* ******************************************************
    * Initializes the graph, then renders it.
    * ******************************************************/
-  ns.vizStixWrapper = function(canvasElement, content, customConfig, legendElement, selectedElement, simpleListElement, linkedNodes) {
-    
+  ns.vizStixWrapper = function(content, customConfig, componentElements, maxCount) {
+
+    // initialize the visualizer
     var visualizer = new stix2viz.Viz(
-      canvasElement, 
+      componentElements.canvasElement, 
       customConfig, 
-      function(data) { ns.populateLegend(visualizer, legendElement, data) }, 
-      function(data) { ns.populateSelected(visualizer, selectedElement, linkedNodes,data) }, 
-      function(data) { ns.populateList(simpleListElement, data) }
+      function(data) { console.log(["vizStixWrapper - populateLegend", data]); ns.populateLegend(visualizer, componentElements.legendElement, data); }, 
+      function(data) { console.log(["vizStixWrapper - populateSelected", data]); ns.populateSelected(visualizer, componentElements.selectedElement, componentElements.linkedNodesElement, data); }, 
+      function(data) { console.log(["vizStixWrapper - populateList", data]);  ns.populateList(visualizer, componentElements.selectedElement, componentElements.linkedNodesElement, componentElements.simpleListElement, data); },
+      componentElements
     );
+
+    // run the visualizer
     visualizer.vizStix(
       content, 
       customConfig, 
       function() { ns.vizCallback(this) }, 
       function() { ns.alert("vizStix error.") }, 
-      200, 
+      maxCount, 
       true
     );
 
-    canvasElement.visualizer = visualizer;
+    componentElements.canvasElement.visualizer = visualizer;
   }
 
 
@@ -70,10 +101,14 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
   ns.populateLegend = function (visualizer, legend, typeGroups) {
     var ul = legend;
     var color = d3.scale.category20();
+
     typeGroups.forEach(function(typeName, index) {
       var li = document.createElement('li');
-      var val = document.createElement('p');
-      var key = document.createElement('div');
+      li.setAttribute("class", "list-group-item");
+
+      var val = document.createElement('span');
+      val.setAttribute("class", "p-3");
+      var key = document.createElement('span');
       var keyImg = document.createElement('img');
       keyImg.onerror = function() {
         // set the node's icon to the default if this image could not load
@@ -97,31 +132,38 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
    * Takes datum as input
    * ******************************************************/
   ns.populateSelected = function(visualizer, selectedContainer, linkedNodes, selectedNodeData) {
+    console.log(["populateSelected", visualizer, selectedContainer, linkedNodes, selectedNodeData, visualizer.componentElements])
     // Remove old values from HTML
     selectedContainer.innerHTML = "";
     linkedNodes.innerHTML = "<ol></ol>";
-    ns.populateParent(visualizer, selectedContainer, selectedNodeData, 0);
+    // ns.populateParent(visualizer, selectedContainer, linkedNodes, selectedNodeData, 0);
+    ns.populateParent(visualizer, selectedContainer, linkedNodes, selectedContainer, selectedNodeData);
     const links = visualizer.linkMap[selectedNodeData.id];
 
+    console.log(["populateSelected links", links]);
     // build out the list of all linked objects to the current one
+    var text
     for(let i = 0; i < links.length; i++) {
       const cur = visualizer.objectMap[links[i].target];
       let name = links[i].type + ": " + cur.type;
 
       if(links[i].flip) {
-        var text = cur.type + " had " + links[i].type;
+        text += cur.type + " had " + links[i].type;
       }
-
-      ns.addListElement(linkedNodes.firstChild, cur, name, "mainList");
+      console.log(["populateSelected text", visualizer, selectedContainer, linkedNodes, linkedNodes.firstChild, cur, name, "mainList"]);
+      ns.addListElement(visualizer, selectedContainer, linkedNodes, linkedNodes.firstChild, cur, name, "mainList");
     }
+
+    console.log(["populateSelected text", text]);
+
   }
 
-  ns.populateParent = function(visualizer, parent, d) {
-    console.log(["populateParent", visualizer, parent, d])
-    if (!d) {
+  ns.populateParent = function(visualizer, selectedContainer, linkedNodes, parent, nodeData) {
+    console.log(["populateParent", visualizer, selectedContainer, linkedNodes, parent, nodeData])
+    if (!nodeData) {
       return;
     }
-    Object.keys(d).forEach(function(key) {
+    Object.keys(nodeData).forEach(function(key) {
       // skip embedded in a basic pass since they should be handled by a call directly to that array
       if(key == "__embeddedLinks" || key == "__isEmbedded") {
         return;
@@ -138,7 +180,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
       wrapper.appendChild(title);
 
       // Add the text to the new inner html elements
-      var value = d[key];
+      var value = nodeData[key];
       
       if(Array.isArray(value) && value.length > 0) {
         const open = document.createElement('span');
@@ -152,7 +194,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
             const openObj = document.createElement('span');
             openObj.innerText = "{";
             subWrapper.appendChild(openObj);
-            ns.populateParent(subWrapper, value[i]);
+            ns.populateParent(visualizer, selectedContainer, linkedNodes, subWrapper, value[i]);
 
             const closeObj = document.createElement('div');
             closeObj.innerText = "}";
@@ -173,7 +215,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
               if(element in visualizer.objectMap) {
                 val.classList.add("ref_value_resolved");
                 val.onclick = function() {
-                  ns.populateByUUID(element)
+                  ns.populateByUUID(visualizer, selectedContainer, linkedNodes, element)
                   selectedContainer.scrollIntoView();
                 }
               }
@@ -203,7 +245,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
         const openObj = document.createElement('span');
         openObj.innerText = "{";
         wrapper.appendChild(openObj);
-        ns.populateParent(wrapper, value);
+        ns.populateParent(visualizer, selectedContainer, linkedNodes, wrapper, value);
 
         const closeObj = document.createElement('span');
         closeObj.innerText = "}";
@@ -215,7 +257,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
           if(value in visualizer.objectMap) {
             val.classList.add("ref_value_resolved");
             val.onclick = function() {
-              ns.populateByUUID(value);
+              ns.populateByUUID(visualizer, selectedContainer, linkedNodes, value);
               selectedContainer.scrollIntoView();
             }
           }
@@ -241,9 +283,10 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     });
   }
 
-  ns.populateByUUID = function(visualizer, uuid) {
+  ns.populateByUUID = function(visualizer, selectedContainer, linkedNodes, uuid) {
+    console.log(["populateByUUID", visualizer, selectedContainer, linkedNodes, uuid, visualizer.objectMap])
     if(uuid in visualizer.objectMap) {
-      ns.populateSelected(visualizer.objectMap[uuid]);
+      ns.populateSelected(visualizer, selectedContainer, linkedNodes, visualizer.objectMap[uuid]);
     }
     else {
       ns.alert(uuid + " was not found in this STIX");
@@ -256,7 +299,9 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
    * 
    * @param object[] objects 
    */
-  ns.populateList = function (list, objects) {
+  ns.populateList = function (visualizer, selectedContainer, linkedNodes, list, objects) {
+    console.log(["populateList", list, objects])
+
     // make sure we hide the canvas and display the list
     // const simpleListWrapper = document.getElementById('simple-list-container');
     // simpleListWrapper.classList.remove("hidden");
@@ -266,35 +311,46 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     // canvasGroup.classList.remove("top-wrapper"); // we need to make sure we hide the canvas
     simpleList.innerHTML = "";
 
+
     for(let i = 0; i < objects.length; i++) {
       let name = objects[i]["type"];
       if("name" in objects[i]) {
         name = name + ": " + objects[i]["name"];
       }
 
-      ns.addListElement(simpleList, objects[i], name, "mainList");
+      ns.addListElement(visualizer, selectedContainer, linkedNodes, simpleList, objects[i], name, "mainList");
     }
   }
 
-  ns.addListElement = function (parent, cur, summaryText, listName) {
+  ns.addListElement = function (visualizer, selectedContainer, linkedNodes, parent, cur, summaryText, listName) {
+    console.log(["addListElement", visualizer, selectedContainer, linkedNodes, parent, cur, summaryText, listName])
     const entry = document.createElement("li");
     const details = document.createElement("details");
     const summary = document.createElement("summary");
     summary.innerText = summaryText;
 
-    const radio = document.createElement("input");
-    radio.setAttribute("type", "radio");
-    radio.setAttribute("name", listName);
-    radio.setAttribute("value", cur.id);
+    
+    const iconFont = '<i class="bi-search"></i>';
+    const iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>';
 
-    radio.onclick = function() {
-      ns.populateByUUID(cur.id);
+    // link to navigate to the object in the graph
+    const button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("name", listName);
+    button.setAttribute("value", cur.id);
+    button.setAttribute("class", "btn btn-primary btn-sm m-2");
+    button.innerHTML = iconFont;
+    console.log(button);
+
+
+    button.onclick = function() {
+      ns.populateByUUID(visualizer, selectedContainer, linkedNodes, cur.id);
       selectedContainer.scrollIntoView();
     }
 
-    summary.appendChild(radio);
+    summary.appendChild(button);
     details.appendChild(summary);
-    ns.populateParent(details, cur);
+    ns.populateParent(visualizer, selectedContainer, linkedNodes, details, cur);
     entry.appendChild(details);
     parent.appendChild(entry);
   }
@@ -343,21 +399,21 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
    * Will check the URL during `window.onload` to determine
    * if `?url=` parameter is provided
    * ******************************************************/
-  ns.fetchJsonFromUrl = function(callback) {
-    var url = window.location.href;
+  ns.fetchJsonFromUrl = function(url, callback) {
+    if (url == "") {
+      url = window.location.href;
 
-    // If `?` is not provided, load page normally
-    // Regex to see if `url` parameter has a valid url value
-    var queryStrings = ns.parseQuery(ns.getQueryStringAfter(url,"?"))
-    var hashbangStrings = ns.parseQuery(ns.getQueryStringAfter(url,"#"))
-    var urlString = queryStrings["url"] || hashbangStrings["url"]
+      var queryStrings = ns.parseQuery(ns.getQueryStringAfter(url,"?"))
+      var hashbangStrings = ns.parseQuery(ns.getQueryStringAfter(url,"#"))
+      url = queryStrings["url"] || hashbangStrings["url"]
+  
+      console.log([queryStrings, hashbangStrings, urlString]);
+    }
 
-    console.log([queryStrings, hashbangStrings, urlString]);
-
-    if (urlString && urlString !== "") {
+    if (url !== "") {
 
       // Fetch JSON from the url
-      ns.fetchJsonAjax(urlString, function(content) {
+      ns.fetchJsonAjax(url, function(content) {
         callback(content)
       });
 

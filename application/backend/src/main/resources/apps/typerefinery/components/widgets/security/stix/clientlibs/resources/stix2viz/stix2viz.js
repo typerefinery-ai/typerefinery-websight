@@ -24,9 +24,10 @@ window.Typerefinery.Vendor.Stix2Viz = Typerefinery.Vendor.Stix2Viz || {};
    *     - legendCallback: function that takes an array of type names and create a legend for the graph
    *     - selectedCallback: function that acts on the data of a node when it is selected
    * ******************************************************/
-  function Viz(canvas, config, legendCb, selectedCb, textWriterCb) {
+  function Viz(canvas, config, legendCb, selectedCb, textWriterCb, componentElements) {
       // Init some stuff
       this.d3Config;
+      this.componentElements = componentElements;
       this.customConfig;
       this.legendCallback;
       this.selectedCallback;

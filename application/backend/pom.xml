@@ -82,6 +82,12 @@
       <version>3.0.2</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <artifactId>websight-publishing-framework</artifactId>
+      <version>1.0.1</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
 
     <!-- Other -->
     <dependency>

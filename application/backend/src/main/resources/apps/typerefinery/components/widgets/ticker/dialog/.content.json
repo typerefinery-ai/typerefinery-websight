@@ -127,7 +127,7 @@
     },
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/websocket"
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
     },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
@@ -135,7 +135,7 @@
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tab/grid"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
     }
   }
 }
