@@ -66,6 +66,7 @@ public class Container extends BaseComponent {
     private static final String DEFAULT_ID = "container";
     private static final String DEFAULT_MODULE = "container";
     private static final String BACKGROUND_NONE = "none";
+    private static final String DEFAULT_CONTAINER_CLASSES = "container-fluid";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
     @SlingObject
@@ -122,6 +123,17 @@ public class Container extends BaseComponent {
 
     @Inject
     private String backgroundImageLg;
+
+    public String getInlineStyles() {
+        // --bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;
+        
+        if(StringUtils.isAllBlank(this.backgroundImageSm, this.backgroundImageMd, this.backgroundImageLg)) {
+            return "";
+        }
+        String inlineStyle = "--bg-image-sm:url({0});--height-sm:auto;--bg-image-md: url({1});--height-md:auto;--bg-image-lg:url({2});--height-lg:auto;";
+        
+        return MessageFormat.format(inlineStyle, this.backgroundImageSm, this.backgroundImageMd, this.backgroundImageLg);
+    }
 
     public String getBackgroundImageSm() {
         return getBackgroundImage(backgroundImageSm);
@@ -198,7 +210,6 @@ public class Container extends BaseComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 
@@ -213,6 +224,8 @@ public class Container extends BaseComponent {
 
         if(defaultPadding == "enabled") {
             grid.addClasses(resource.getName());
+        }else {
+            grid.addClasses(DEFAULT_CONTAINER_CLASSES);
         }
         
 
