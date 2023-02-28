@@ -36,9 +36,13 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     componentElements.simpleListElement = $simpleList.get(0);
     componentElements.linkedNodesElement = $linkedNodes.get(0);
 
-    var maxCount = ns.parseIntOrDefault($element.data("maxCount"), 200);
+    var dataUrl = $element.data("dataUrl".toLowerCase());
 
-    ns.fetchJsonFromUrl(function(content) {
+
+    var maxCount = ns.parseIntOrDefault($element.data("maxCount".toLowerCase()), 200);
+    console.log(["dataUrl",dataUrl, "maxCount", maxCount]);
+
+    ns.fetchJsonFromUrl(dataUrl, function(content) {
       var cfg = {
         iconDir: "/apps/typerefinery/components/widgets/security/stix/clientlibs/resources/stix2viz/icons"
       }
@@ -321,17 +325,26 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     const summary = document.createElement("summary");
     summary.innerText = summaryText;
 
-    const radio = document.createElement("input");
-    radio.setAttribute("type", "radio");
-    radio.setAttribute("name", listName);
-    radio.setAttribute("value", cur.id);
+    
+    const iconFont = '<i class="bi-search"></i>';
+    const iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>';
 
-    radio.onclick = function() {
+    // link to navigate to the object in the graph
+    const button = document.createElement("button");
+    button.setAttribute("type", "button");
+    button.setAttribute("name", listName);
+    button.setAttribute("value", cur.id);
+    button.setAttribute("class", "btn btn-primary btn-sm m-2");
+    button.innerHTML = iconFont;
+    console.log(button);
+
+
+    button.onclick = function() {
       ns.populateByUUID(visualizer, selectedContainer, linkedNodes, cur.id);
       selectedContainer.scrollIntoView();
     }
 
-    summary.appendChild(radio);
+    summary.appendChild(button);
     details.appendChild(summary);
     ns.populateParent(visualizer, selectedContainer, linkedNodes, details, cur);
     entry.appendChild(details);
@@ -382,21 +395,21 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
    * Will check the URL during `window.onload` to determine
    * if `?url=` parameter is provided
    * ******************************************************/
-  ns.fetchJsonFromUrl = function(callback) {
-    var url = window.location.href;
+  ns.fetchJsonFromUrl = function(url, callback) {
+    if (url == "") {
+      url = window.location.href;
 
-    // If `?` is not provided, load page normally
-    // Regex to see if `url` parameter has a valid url value
-    var queryStrings = ns.parseQuery(ns.getQueryStringAfter(url,"?"))
-    var hashbangStrings = ns.parseQuery(ns.getQueryStringAfter(url,"#"))
-    var urlString = queryStrings["url"] || hashbangStrings["url"]
+      var queryStrings = ns.parseQuery(ns.getQueryStringAfter(url,"?"))
+      var hashbangStrings = ns.parseQuery(ns.getQueryStringAfter(url,"#"))
+      url = queryStrings["url"] || hashbangStrings["url"]
+  
+      console.log([queryStrings, hashbangStrings, urlString]);
+    }
 
-    console.log([queryStrings, hashbangStrings, urlString]);
-
-    if (urlString && urlString !== "") {
+    if (url !== "") {
 
       // Fetch JSON from the url
-      ns.fetchJsonAjax(urlString, function(content) {
+      ns.fetchJsonAjax(url, function(content) {
         callback(content)
       });
 
