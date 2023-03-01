@@ -22,9 +22,9 @@
   </sly>
   <!--/* Print output of inherited resource. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
-    <!--inherited start-->
+    <!--inherited start ${model.inheritedResource.path}-->
     ${model.inheritedHtml @ context='unsafe'}
-    <!--inherited end-->
+    <!--inherited end ${model.inheritedResource.path}-->
   </sly>
 
   <!--/* Normal print of component */-->
