@@ -20,6 +20,8 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.typerefinery.websight.utils.ComponentUtil;
 import io.typerefinery.websight.utils.JsonUtil;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
@@ -71,7 +73,7 @@ public class BaseModel {
     protected void init() {
         if (StringUtils.isBlank(this.id)) {
             //TODO: generate a unique id
-            this.id = resource.getName();
+            this.id = ComponentUtil.getComponentId(resource);
         }
 
         if (resource != null) {
