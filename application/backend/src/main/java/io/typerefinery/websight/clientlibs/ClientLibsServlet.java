@@ -146,21 +146,21 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             } else {
                 //send static resource file
                 Resource staticResource = resolveRelativePathInSearchPath(request.getResourceResolver(), contentAccess, null, requestPath);
+                if (responseError(
+                            response, 
+                            404, 
+                            MessageFormat.format("Resource does not exist {0}.", requestPath), 
+                            (staticResource == null)
+                        )
+                    ) {
+                    return;
+                }
                 // only allow access to files in the /clientlibs/ folder
                 if (responseError(
                             response, 
                             404, 
                             MessageFormat.format("Resource path not allowed to be proxied {0}.", requestPath), 
                             (!staticResource.getPath().contains(ALLOWED_PROXY_PATH))
-                        )
-                    ) {
-                    return;
-                }
-                if (responseError(
-                            response, 
-                            404, 
-                            MessageFormat.format("Resource does not exist {0}.", requestPath), 
-                            (staticResource == null)
                         )
                     ) {
                     return;
