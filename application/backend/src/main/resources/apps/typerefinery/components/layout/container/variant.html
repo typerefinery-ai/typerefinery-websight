@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2023 Typerefinery.ai
+    Copyright (C) 2022 Typerefinery.ai
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,11 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-
 <template data-sly-template.variant="${ @ model }">
-  <sly data-sly-test="${!resource.hasChildren}">
-    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-      data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
 
   <!--/* Show error if this container is inheriting but can't find parent. */-->
   <sly data-sly-test="${model.inheriting && mode.cancelInheritParent && !model.inheritedResource}">
@@ -35,13 +31,12 @@
   <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
     <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
     <div 
-      component="container" 
+      component="container"
       data-sly-test="${resource.hasChildren}" 
       id="${model.id}" 
       class="${model.componentClassNames}" 
       data-sly-element="${model.decorationTagName}"
-      style="${model.inlineStyles @ context='unsafe'}"
-    >
+      style="${model.inlineStyles @ context='unsafe'}">
       <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </div>
 
