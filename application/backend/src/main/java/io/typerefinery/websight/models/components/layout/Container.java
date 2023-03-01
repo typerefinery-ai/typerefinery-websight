@@ -185,6 +185,10 @@ public class Container extends BaseComponent {
         return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
     }
 
+    public String getInlineStyleValue() {
+        return MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg);
+    }
+
     public String getOpenTag() {
         Element htmlTag = new Element(Tag.valueOf(decorationTagName), "");
 
@@ -195,7 +199,7 @@ public class Container extends BaseComponent {
         }
             
         if (StringUtils.isNotBlank(backgroundImageSm) && StringUtils.isNotBlank(backgroundImageMd) &&  StringUtils.isNotBlank(backgroundImageLg)) {
-            htmlTag.attr("style", MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg));
+            htmlTag.attr("style", getInlineStyleValue());
             
         }
                                                     
