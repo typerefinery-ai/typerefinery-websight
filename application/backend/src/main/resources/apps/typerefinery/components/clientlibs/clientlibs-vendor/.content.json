@@ -12,6 +12,7 @@
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.js",
     "/apps/typerefinery/clientlibs/vendor/vue/vue.global.js",
     "/apps/typerefinery/clientlibs/vendor/primevue/core/core.js",
-    "/apps/typerefinery/clientlibs/vendor/vue/vue-route.global.js"
+    "/apps/typerefinery/clientlibs/vendor/vue/vue-route.global.js",
+    "/apps/typerefinery/clientlibs/vendor/inputmask/inputmask.min.js"
   ] 
 }

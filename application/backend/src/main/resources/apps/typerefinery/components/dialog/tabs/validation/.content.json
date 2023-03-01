@@ -1,0 +1,14 @@
+{
+    "sling:resourceType": "wcm/dialogs/components/tab",
+    "label": "Validation",
+    "validationRequired": {
+        "name": "validationRequired",
+        "label": "Validation Required",
+        "sling:resourceType": "wcm/dialogs/components/toggle"
+    },
+    "validationInputMask": {
+        "name": "validationInputMask",
+        "label": "Validation Mask",
+        "sling:resourceType": "wcm/dialogs/components/textfield"
+    }
+}
