@@ -1,20 +1,53 @@
-.p-tree {
-  background-color: var(--sidebar-bg-color);
-  height: 125vh;
-  border-radius: 0px;
-  border-color: var(--primary-border-color);
-  width: 100%;
-}
-.p-treenode-label {
-  color: var(--primary-text-color);
-  cursor: pointer;
-}
-.sidebar {
-  width: 100%;
+li.list-group-item.node-sidebar {
+  background: #4456a5;
+  border-top: 1px solid #5d6cae;
+  border-bottom: 0px;
+
 }
 
-nav.p-breadcrumb.p-component{
-  border-radius: 0px;
-  background: var(--primary-text-color);
-  border-color: var(--primary-border-color);
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: #4456a5;
+  color: #fff;
+  transition: all 0.3s;
+  min-height: 100vh;
+  /* float: left; */
+  height: 100%;
+  position: fixed;
+}
+
+
+#sidebar-app {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
+#sidebar-header {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
+/* ---------------------------------------------------
+  MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+  #sidebar {
+      display: none;
+  }
+  #sidebar-header {
+    width: 100%;
+    margin-left: 0;
+  }
+  #sidebar-app {
+    width: 100%;
+    margin-left: 0;
+  }
 }

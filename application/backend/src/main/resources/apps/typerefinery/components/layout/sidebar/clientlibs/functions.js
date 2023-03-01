@@ -13,50 +13,50 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
         // sidebar 
         const dataTree = JSON.parse($component.getAttribute('data-tree') || '{}');
 
+        const componentConfig = componentNs.getComponentConfig($component);
+
+        let formattedMenuItems = [];
+
         // Recursive function to fetch menu items.
         function fetchMenuItemHelper(obj) {
-            let result = '';
+            const result = [];
             for (const keyItr in obj) {
                 if (keyItr === "jcr:content") {
                     continue;
                 }
                 const _obj = obj[keyItr];
-                const randId = `${_obj["jcr:content"].name}-menuItem`;
-                const child = `${fetchMenuItemHelper(_obj)}`;
-                if(child.trim().length !== 0) {
-                    result += `
-                        <li class="${_obj["jcr:content"].key === window.location.pathname ? 'active': ''}">
-                            <a href="${_obj["jcr:content"].key}" data-bs-toggle="collapse" data-bs-target="#${randId}"  aria-expanded="false" class="dropdown-toggle">
-                                <i class="${_obj["jcr:content"].icon}"></i>
-                                ${(_obj["jcr:content"].name).toUpperCase().substring(0,1)}${_obj["jcr:content"].name.substring(1)}
-                            </a>
-                            <ul class="collapse list-unstyled" id="${randId}">
-                                ${child}
-                            </ul>
-                        </li>
-                    `;
-                }else {
-                    result += `
-                        <li class="${_obj["jcr:content"].key === window.location.pathname ? 'active': ''}">
-                            <a href="${_obj["jcr:content"].key}">
-                                <i class="${_obj["jcr:content"].icon}"></i>
-                                ${(_obj["jcr:content"].name).toUpperCase().substring(0,1)}${_obj["jcr:content"].name.substring(1)}
-                            </a>
-                        </li>
-                    `;
-                }
+                result.push({
+                    href: _obj["jcr:content"].key,
+                    text: _obj["jcr:content"].title.substring(0, 1).toUpperCase() + _obj["jcr:content"].title.substring(1),
+                    icon: _obj["jcr:content"].icon,
+                    nodes: fetchMenuItemHelper(_obj)
+                })
             }
             return result;
         }
-        let sidebarMenuInnerHtml  = '';
-
-        // Only this loops runs for one time.
-        for (const key in dataTree) {
-            sidebarMenuInnerHtml += fetchMenuItemHelper(dataTree[key]);
+        for (const key1 in dataTree) {
+            formattedMenuItems = fetchMenuItemHelper(dataTree[key1]);
+            // Only this loops runs for one time.
             break;
         }
 
-        document.getElementById("sidebar-menuItems").innerHTML += sidebarMenuInnerHtml;
+        console.log(componentConfig.id, "ID IS HERE", formattedMenuItems);
+        const id = `#$componentConfig.id}`;
+        $(id).treeview({
+            data: formattedMenuItems, 
+            levels: 5, 
+            color: "#FFF",
+            backColor: "#7386D5",
+            onhoverColor: "#9aadff",
+            borderColor: "#9aadff",
+            showBorder: false,
+            showTags: true,
+            highlightSelected: true,
+            selectedColor: "#000",
+            selectedBackColor: "#7386D5"
+        });
+        $(id).treeview('enableAll', { silent: true });
+        $(id).treeview('collapseAll', { silent: true });
     }
 
 })(window.Typerefinery.Components.Layouts.Sidebar, window.Typerefinery.Components, window, document);

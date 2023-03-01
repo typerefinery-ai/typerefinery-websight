@@ -1,9 +1,4 @@
 <template data-sly-template.variant="${ @ model }">
-    <nav id="${model.id}" data-model="${model.jsonString}" data-tree="${model.treeJSON}">
-        <div class="${model.id}-header">
-            <h4>${model.appName}</h4>
-        </div>
-        <ul class="list-unstyled components" id="${model.id}-menuItems">
-        </ul>
+    <nav id="${model.id}" data-tree="${model.treeJSON}" data-model="${model.jsonString}" class="{$model.componentClassNames}">
     </nav>
 </template>
