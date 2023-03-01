@@ -40,11 +40,22 @@ public class FakeRequest implements HttpServletRequest {
 
     private final String path;
 
+    private String queryString = null;
+
     private final HttpSession session;
 
     public FakeRequest(String method, String path) {
         this.method = method;
         this.path = path;
+        attributes = new HashMap<>();
+        parameters = new HashMap<>();
+        session = new FakeHttpSession();
+    }    
+    
+    public FakeRequest(String method, String path, String queryString) {
+        this.method = method;
+        this.path = path;
+        this.queryString = queryString;
         attributes = new HashMap<>();
         parameters = new HashMap<>();
         session = new FakeHttpSession();
@@ -213,7 +224,7 @@ public class FakeRequest implements HttpServletRequest {
 
     @Override
     public String getQueryString() {
-        return "?wcmmode=disabled";
+        return queryString;
     }
 
     @Override
