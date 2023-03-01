@@ -44,7 +44,6 @@ import io.typerefinery.websight.utils.FakeRequest;
 import io.typerefinery.websight.utils.FakeResponse;
 import io.typerefinery.websight.utils.LinkUtil;
 import io.typerefinery.websight.utils.PageUtil;
-import io.typerefinery.websight.utils.SyntheticSlingHttpServletGetRequest;
 import lombok.Getter;
 import pl.ds.websight.pages.foundation.WcmMode;
 
@@ -116,8 +115,11 @@ public class Reference extends BaseComponent {
                 // this needs to be done to get the inherited resource
                 requestProcessor.processRequest(req, resp, resourceResolver);
 
-                // get the inherited resource as html
-                markup = SyntheticSlingHttpServletGetRequest.getIncludeAsString(referenceResource.getPath(), request, response);
+                // need to flush the response to get the contents
+                resp.getWriter().flush();
+
+                // trim to remove all the extra whitespace
+                markup = out.toString().trim();
 
             } catch (ServletException | IOException | NoSuchAlgorithmException e) {
                 LOGGER.warn("Exception retrieving contents for {}", url, e);
