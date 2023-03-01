@@ -70,6 +70,7 @@ public class BaseModel {
     @PostConstruct
     protected void init() {
         if (StringUtils.isBlank(this.id)) {
+            //TODO: generate a unique id
             this.id = resource.getName();
         }
 
