@@ -8,6 +8,11 @@
       "fieldLabel": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      },
+      "disableLabel": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "disableLabel",
+        "label": "Disable label"
       }
     },
     "gridTab": {
