@@ -40,8 +40,7 @@ window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts
             break;
         }
 
-        console.log(componentConfig.id, "ID IS HERE", formattedMenuItems);
-        const id = `#$componentConfig.id}`;
+        const id = `#${componentConfig.id}`;
         $(id).treeview({
             data: formattedMenuItems, 
             levels: 5, 
