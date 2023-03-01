@@ -3,7 +3,7 @@
   "group": "Typerefinery - Forms",
   "isLayout": false,
   "sling:resourceType": "ws:Component",
-  "description": "Form Slect button.",
-  "title": "Select button",
+  "description": "Form Select",
+  "title": "Field",
   "sling:resourceSuperType": "typerefinery/components/forms/field"
 }
