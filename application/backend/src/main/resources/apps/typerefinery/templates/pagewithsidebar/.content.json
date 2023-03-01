@@ -6,6 +6,6 @@
     "/apps/typerefinery/templates/blank",
     "/apps/typerefinery/templates/page",
     "/apps/typerefinery/templates/dashboard",
-    "/apps/typerefinery/templates/sidebar"
+    "/apps/typerefinery/templates/pagewithsidebar"
   ]
 }

@@ -3,27 +3,23 @@
   "jcr:content": {
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
-    "main": {
-      "sling:resourceType": "typerefinery/components/layout/container",
+    "rootcontainer": {
+      "sling:resourceType": "typerefinery/components/layout/rootcontainer",
       "jcr:primaryType": "nt:unstructured",
-      "decorationTagName": "main",
-      "id": "main",
       "header": {
         "sling:resourceType": "typerefinery/components/layout/header",
         "jcr:primaryType": "nt:unstructured",
-        "decorationTagName": "header",
         "id": "header"
       },
-      "section": {
+      "main": {
         "sling:resourceType": "typerefinery/components/layout/container",
         "jcr:primaryType": "nt:unstructured",
-        "decorationTagName": "section",
-        "id": "section"
+        "id": "app",
+        "decorationTagName": "main"
       },
       "footer": {
         "sling:resourceType": "typerefinery/components/layout/footer",
         "jcr:primaryType": "nt:unstructured",
-        "decorationTagName": "footer",
         "id": "footer"
       }
     }

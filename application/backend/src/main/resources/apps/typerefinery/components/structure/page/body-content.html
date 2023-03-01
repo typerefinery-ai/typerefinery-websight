@@ -15,7 +15,7 @@
 */-->
 
 <sly data-sly-test="${resource.hasChildren}">
-    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+    <sly data-sly-repeat.paragraph="${resource.children}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
 </sly>
 
 <sly data-sly-test="${!resource.hasChildren}">

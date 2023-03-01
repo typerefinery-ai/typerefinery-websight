@@ -3,27 +3,24 @@
   "jcr:content": {
     "jcr:primaryType": "ws:PageContent",
     "sling:resourceType": "typerefinery/components/structure/page",
-    "sidebar": {
-      "sling:resourceType": "typerefinery/components/layout/sidebar",
+    "rootcontainer": {
+      "sling:resourceType": "typerefinery/components/layout/rootcontainer",
       "jcr:primaryType": "nt:unstructured",
-      "id": "sidebar"
-    },
-    "main": {
-      "sling:resourceType": "typerefinery/components/layout/container",
-      "jcr:primaryType": "nt:unstructured",
-      "decorationTagName": "main",
-      "id": "app",
-      "defaultPadding": "disabled",
+      "sidebar": {
+        "sling:resourceType": "typerefinery/components/layout/sidebar",
+        "jcr:primaryType": "nt:unstructured",
+        "id": "sidebar"
+      },
       "header": {
         "sling:resourceType": "typerefinery/components/layout/header",
         "jcr:primaryType": "nt:unstructured",
-        "id": "header"
+        "id": "sidebar-header"
       },
-      "section": {
+      "main": {
         "sling:resourceType": "typerefinery/components/layout/container",
         "jcr:primaryType": "nt:unstructured",
-        "id": "section",
-        "decorationTagName": "section"
+        "id": "sidebar-app",
+        "decorationTagName": "main"
       },
       "footer": {
         "sling:resourceType": "typerefinery/components/layout/footer",
