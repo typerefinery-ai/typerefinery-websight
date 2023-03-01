@@ -20,7 +20,8 @@
         "sling:resourceType": "typerefinery/components/layout/container",
         "jcr:primaryType": "nt:unstructured",
         "id": "sidebar-app",
-        "decorationTagName": "main"
+        "decorationTagName": "main",
+        "defaultPadding": "false"
       },
       "footer": {
         "sling:resourceType": "typerefinery/components/layout/footer",
