@@ -1,6 +1,19 @@
 {
-    "group": "Typerefinery - Layout",
-    "sling:resourceType": "ws:Component",
-    "title": "Header",
-    "isLayout": true
+  "isContainer": true,
+  "group": "Typerefinery - Layout",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Flow"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Header container to group components under a header tag.",
+  "title": "Header",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
 }
