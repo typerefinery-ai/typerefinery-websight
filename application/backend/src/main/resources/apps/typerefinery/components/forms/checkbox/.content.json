@@ -4,6 +4,6 @@
   "isLayout": false,
   "sling:resourceType": "ws:Component",
   "description": "Form Checkbox.",
-  "title": "Field",
+  "title": "Checkbox Field",
   "sling:resourceSuperType": "typerefinery/components/forms/field"
 }

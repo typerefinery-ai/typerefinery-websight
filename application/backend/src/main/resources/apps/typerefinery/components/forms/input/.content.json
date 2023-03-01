@@ -4,6 +4,6 @@
   "isLayout": false,
   "sling:resourceType": "ws:Component",
   "description": "Form input field.",
-  "title": "Field",
+  "title": "Input Field",
   "sling:resourceSuperType": "typerefinery/components/forms/field"
 }
