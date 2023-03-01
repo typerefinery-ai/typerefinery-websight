@@ -29,6 +29,12 @@ li.list-group-item.node-sidebar {
   width: calc(100% - 250px);
 }
 
+
+#sidebar-footer {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
 #sidebar-header {
   margin-left: 250px;
   width: calc(100% - 250px);
@@ -42,11 +48,7 @@ li.list-group-item.node-sidebar {
   #sidebar {
       display: none;
   }
-  #sidebar-header {
-    width: 100%;
-    margin-left: 0;
-  }
-  #sidebar-app {
+  #sidebar-header, #sidebar-app, #sidebar-footer {
     width: 100%;
     margin-left: 0;
   }

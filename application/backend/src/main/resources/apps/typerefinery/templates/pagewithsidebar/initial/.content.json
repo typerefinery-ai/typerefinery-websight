@@ -25,7 +25,7 @@
       "footer": {
         "sling:resourceType": "typerefinery/components/layout/footer",
         "jcr:primaryType": "nt:unstructured",
-        "id": "footer"
+        "id": "sidebar-footer"
       }
     }
   }
