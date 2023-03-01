@@ -13,4 +13,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-test="${properties.path}" data-sly-resource="${properties.path}"></sly>
+<sly data-sly-use.model="io.typerefinery.websight.models.components.content.Reference">
+  <sly data-sly-test="${model.path}">
+    <!-- reference path start: ${model.path} -->
+    ${model.inheritedHtml @ context='unsafe'}
+    <!-- reference path end: ${model.path} -->
+  </sly>
+  
+</sly>
+

@@ -2,30 +2,9 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "menuTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Menu",
-      "items": {
-        "name": "navigation/menuItems",
-        "label": "Tabs",
-        "labelText": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "label",
-          "label": "Label"
-        },
-        "sling:resourceType": "wcm/dialogs/components/multifield",
-        "link": {
-          "sling:resourceType": "wcm/dialogs/components/pathpicker",
-          "rootPath": "/content",
-          "name": "link",
-          "label": "URL"
-        },
-        "newtab": {
-          "sling:resourceType": "wcm/dialogs/components/checkbox",
-          "name": "openInNewTab",
-          "label": "Open link in a new tab"
-        }
-      }
+    "inheritTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/inherit"
     }
   }
 }

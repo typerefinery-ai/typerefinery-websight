@@ -8,7 +8,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Exporter;
@@ -19,6 +21,7 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.typerefinery.websight.utils.JsonUtil;
+import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 
 @Model(
@@ -52,7 +55,17 @@ public class BaseModel {
     @Nullable
     public String id;
 
+    @Getter
     public String path;
+
+    @Getter
+    public String componentPath;
+
+    @Inject
+    public static SlingHttpServletRequest request;
+
+    @Inject
+    public SlingHttpServletResponse response;
 
     @PostConstruct
     protected void init() {
@@ -62,6 +75,8 @@ public class BaseModel {
 
         if (resource != null) {
             this.path = resource.getPath();
+            // set component path to the path of the resource after the jcr:content
+            this.componentPath = PageUtil.getResourcePagePath(resource);
         }
 
     }

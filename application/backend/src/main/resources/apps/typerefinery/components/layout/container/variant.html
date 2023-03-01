@@ -15,20 +15,40 @@
 */-->
 
 <template data-sly-template.variant="${ @ model }">
-  <div 
-    component="container" 
-    data-sly-test="${resource.hasChildren}" 
-    id="${model.id}" 
-    class="${model.componentClassNames}" 
-    data-sly-element="${model.decorationTagName}"
-    style="${model.inlineStyles @ context='unsafe'}"
-  >
-    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-  </div>
-
   <sly data-sly-test="${!resource.hasChildren}">
     <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
       data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+
+  <!--/* Show error if this container is inheriting but can't find parent. */-->
+  <sly data-sly-test="${model.inheriting && mode.cancelInheritParent && !model.inheritedResource}">
+    <!--not found-->
+    <div>Inherited but parent not found.</div>
+  </sly>
+  <!--/* Print output of inherited resource. */-->
+  <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
+    <!--inherited start ${model.inheritedResource.path}-->
+    ${model.inheritedHtml @ context='unsafe'}
+    <!--inherited end ${model.inheritedResource.path}-->
+  </sly>
+
+  <!--/* Normal print of component */-->
+  <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
+    <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
+    <div 
+      component="container" 
+      data-sly-test="${resource.hasChildren}" 
+      id="${model.id}" 
+      class="${model.componentClassNames}" 
+      data-sly-element="${model.decorationTagName}"
+      style="${model.inlineStyles @ context='unsafe'}"
+    >
+      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+    </div>
+
+    <sly data-sly-test="${!resource.hasChildren}">
+      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+        data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+      </sly>
     </sly>
   </sly>
 </template>

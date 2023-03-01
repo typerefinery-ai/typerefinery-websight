@@ -17,33 +17,50 @@ package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.engine.SlingRequestProcessor;
 import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
-
-import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.utils.LinkUtil;
-import lombok.Getter;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
+import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.jetbrains.annotations.Nullable;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.osgi.service.component.annotations.Component;
-import java.util.HashMap;
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.typerefinery.websight.models.components.BaseComponent;
+import io.typerefinery.websight.utils.FakeRequest;
+import io.typerefinery.websight.utils.FakeResponse;
+import io.typerefinery.websight.utils.LinkUtil;
+import io.typerefinery.websight.utils.PageUtil;
+import io.typerefinery.websight.utils.SyntheticSlingHttpServletGetRequest;
+import lombok.Getter;
+import pl.ds.websight.pages.foundation.WcmMode;
 
 @Component
 @Model(
@@ -62,6 +79,8 @@ import java.util.Map;
 })
 public class Container extends BaseComponent {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Container.class);
+
     public static final String RESOURCE_TYPE = "typerefinery/components/layout/container";
     private static final String DEFAULT_ID = "container";
     private static final String DEFAULT_MODULE = "container";
@@ -69,8 +88,34 @@ public class Container extends BaseComponent {
     private static final String DEFAULT_CONTAINER_CLASSES = "container-fluid";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
 
+    public static final String PROPERTY_CANCEL_INHERIT_FROM_PARENT = "cancelInheritParent";
+    public static final String PROPERTY_INHERITING = "inheriting";
+
+    @OSGiService
+    private SlingRequestProcessor requestProcessor;
+
     @SlingObject
     private ResourceResolver resourceResolver;
+
+    // does the container inherit from parent container
+    @Inject
+    @Getter
+    @Named(PROPERTY_INHERITING)
+    @Default(values = "false")
+    protected Boolean inheriting;
+
+    // does the container cancel inherit from parent container
+    @Inject
+    @Getter
+    @Named(PROPERTY_CANCEL_INHERIT_FROM_PARENT)
+    @Nullable
+    protected String cancelInheritParent;
+
+    @Getter
+    protected Resource inheritedResource;
+
+    @Getter
+    protected String wcmmodeName = WcmMode.class.getName();
 
     // authored flex toggle
     // authored decoration tag name
@@ -123,6 +168,7 @@ public class Container extends BaseComponent {
 
     @Inject
     private String backgroundImageLg;
+    
 
     public String getInlineStyles() {
         // --bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;
@@ -266,6 +312,47 @@ public class Container extends BaseComponent {
             .toArray(new String[]{});
         }
 
+        // if this component is set as inheriting and is not cancel inherit from parent, find inheritedResource
+        if (inheriting) {
+            if (!BooleanUtils.toBoolean(cancelInheritParent)) {
+                inheritedResource = PageUtil.findInheritedResource(resource);
+            }
+        }
+
+    
+    }
+
+    public String getInheritedHtml() {
+        if (inheritedResource == null) {
+            LOGGER.debug("No inherited resource found for {}", resource.getPath());
+            return "";
+        }
+        try {
+            String markup = "";
+            String url = inheritedResource.getPath() + ".html";
+            HttpServletRequest req = new FakeRequest("GET", url);
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            HttpServletResponse resp;
+            try {
+                resp = new FakeResponse(out);
+
+                // this needs to be done to get the inherited resource
+                requestProcessor.processRequest(req, resp, resourceResolver);
+
+                // get the inherited resource as html
+                markup = SyntheticSlingHttpServletGetRequest.getIncludeAsString(inheritedResource.getPath(), request, response);
+
+            } catch (ServletException | IOException | NoSuchAlgorithmException e) {
+                LOGGER.warn("Exception retrieving contents for {}", url, e);
+            }
+            
+            
+            return markup;
+        } catch (Exception e) {
+            LOGGER.error("Error getting inherited html", e);
+        }
+        return "";
     }
 
 }
