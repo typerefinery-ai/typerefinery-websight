@@ -3,7 +3,7 @@
         id="${model.id}" 
         class="${model.componentClassNames}"
     >
-        <select class="${model.variantClassNames}">
+        <select class="${model.variantClassNames}" required="${model.validationRequired}">
             <option selected>${model.placeholder}</option>
             <sly data-sly-list="${model.selectOptions @ begin = 0}">
                 <option value="${item.value}">${item.label}</option>
