@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../../../support/const';
 const paths = {
-  table: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/table'
+  table: 'ComponentOverlay_rootcontainer/container/pagesection/table'
 }
 
 describe('Table Component', () => {

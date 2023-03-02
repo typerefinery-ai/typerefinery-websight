@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../../../support/const';
 const paths = {
- ticker: 'ComponentOverlay_rootcontainer/maincontainer/pagesection1/ticker'
+ ticker: 'ComponentOverlay_rootcontainer/container/pagesection1/ticker'
 }
 
 describe('Ticker Component', () => {

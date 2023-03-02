@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-  d3Graph: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/d3graph'
+  d3Graph: 'ComponentOverlay_rootcontainer/container/pagesection/d3graph'
 };
 
 describe('D3Graph Component', () => {

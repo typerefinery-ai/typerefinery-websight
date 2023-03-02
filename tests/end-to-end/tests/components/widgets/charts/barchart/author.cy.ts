@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  barChart: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/chart'
+  barChart: 'ComponentOverlay_rootcontainer/container/pagesection/chart'
 };
 
 describe('barChart Component', () => {

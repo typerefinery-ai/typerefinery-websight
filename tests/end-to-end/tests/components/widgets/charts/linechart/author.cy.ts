@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  lineChart: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/chart'
+  lineChart: 'ComponentOverlay_rootcontainer/container/pagesection/chart'
 }
 
 describe('lineChart Component', () => {
