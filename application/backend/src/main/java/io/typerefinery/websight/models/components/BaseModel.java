@@ -63,6 +63,12 @@ public class BaseModel {
     @Getter
     public String componentPath;
 
+    @Getter
+    public String componentName;
+    
+    @Getter
+    public String componentTitle;
+
     @Inject
     public static SlingHttpServletRequest request;
 
@@ -71,6 +77,10 @@ public class BaseModel {
 
     @PostConstruct
     protected void init() {
+
+        this.componentName = PageUtil.getResourceTypeName(resource);
+        this.componentTitle = StringUtils.capitalize(this.componentName);
+
         if (StringUtils.isBlank(this.id)) {
             //TODO: generate a unique id
             this.id = ComponentUtil.getComponentId(resource);
