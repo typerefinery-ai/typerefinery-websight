@@ -7,7 +7,7 @@ describe('Dashboard Page', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/dashboard/websight-dialogs-service.save-properties.action'
+      '**/section/dashboard/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/pages/dashboard::editor'

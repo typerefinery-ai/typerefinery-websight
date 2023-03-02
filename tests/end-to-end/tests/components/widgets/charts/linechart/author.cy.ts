@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  lineChart: 'ComponentOverlay_rootcontainer/container/pagesection/chart'
+  lineChart: 'ComponentOverlay_rootcontainer/container/section/chart'
 }
 
 describe('lineChart Component', () => {
@@ -11,7 +11,7 @@ describe('lineChart Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/linechart/websight-dialogs-service.save-properties.action'
+      '**/section/linechart/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/chart/linechart::editor'

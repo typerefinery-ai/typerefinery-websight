@@ -7,7 +7,7 @@ describe('Search Page', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/search/websight-dialogs-service.save-properties.action'
+      '**/section/search/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/pages/search::editor'

@@ -7,10 +7,10 @@
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
+        <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="datatable component" />
           <table jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/table"/>
-        </pagesection>
+        </section>
       </container>
     </rootcontainer>
   </jcr:content>
