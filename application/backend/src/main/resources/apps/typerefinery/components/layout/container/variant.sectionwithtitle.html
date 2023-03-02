@@ -16,18 +16,21 @@
 <template data-sly-template.variant="${ @ model }">
   <div 
     component="container"
-    data-sly-test="${resource.hasChildren}" 
     id="${model.id}"
     class="${model.componentClassNames}" 
     data-sly-element="${model.decorationTagName}"
-    style="${mode.inlineStyleValue @ context='unsafe'}">
-    <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
-    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-  </div>
+    style="${model.inlineStyleValue @ context='unsafe'}">
 
-  <sly data-sly-test="${!resource.hasChildren}">
-    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-      data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+    <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
+
+    <sly data-sly-test="${resource.hasChildren}">
+      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </sly>
-  </sly>
+
+    <sly data-sly-test="${!resource.hasChildren}">
+      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+      </sly>
+    </sly>
+  </div>
 </template>

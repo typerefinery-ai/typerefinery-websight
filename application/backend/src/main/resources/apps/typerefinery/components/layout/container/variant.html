@@ -16,7 +16,7 @@
 <template data-sly-template.variant="${ @ model }">
 
   <!--/* Show error if this container is inheriting but can't find parent. */-->
-  <sly data-sly-test="${model.inheriting && mode.cancelInheritParent && !model.inheritedResource}">
+  <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && !model.inheritedResource}">
     <!--not found-->
     <div>Inherited but parent not found.</div>
   </sly>
@@ -30,19 +30,21 @@
   <!--/* Normal print of component */-->
   <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
     <div 
-      component="container"
-      data-sly-test="${resource.hasChildren}" 
-      id="${model.id}" 
+      component="${model.decorationTagName : model.decorationTagName ? 'container'}"
+      id="${model.id}"
       class="${model.componentClassNames}" 
       data-sly-element="${model.decorationTagName}"
-      style="${mode.inlineStyleValue @ context='unsafe'}">
-      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-    </div>
+      style="${model.inlineStyleValue @ context='unsafe'}">
 
-    <sly data-sly-test="${!resource.hasChildren}">
-      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+      <sly data-sly-test="${resource.hasChildren}">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
       </sly>
-    </sly>
+
+      <sly data-sly-test="${!resource.hasChildren}">
+        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+          data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+        </sly>
+      </sly>
+    </div>
   </sly>
 </template>
