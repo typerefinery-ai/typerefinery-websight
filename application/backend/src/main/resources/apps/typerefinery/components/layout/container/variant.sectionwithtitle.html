@@ -15,7 +15,7 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
   <div 
-    component="container"
+    component="${model.componentName}"
     id="${model.id}"
     class="${model.componentClassNames}" 
     data-sly-element="${model.decorationTagName}"

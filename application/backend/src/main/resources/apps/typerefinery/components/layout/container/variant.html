@@ -17,20 +17,20 @@
 
   <!--/* Show error if this container is inheriting but can't find parent. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && !model.inheritedResource}">
-    <!--inherited resource not found-->
-    <div data-sly-test="${wcmmode.isEdit}" class="bg-warning-subtle">Inherited but parent not found.</div>
+    <!--${model.componentName} inherited resource not found-->
+    <div data-sly-test="${wcmmode.isEdit}" class="bg-warning-subtle">${model.componentTitle}: Inherited but parent not found.</div>
   </sly>
   <!--/* Print output of inherited resource. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
-    <!--inherited start ${model.inheritedResource.path}-->
+    <!--${model.componentName} inherited start ${model.inheritedResource.path}-->
     ${model.inheritedHtml @ context='unsafe'}
-    <!--inherited end ${model.inheritedResource.path}-->
+    <!--${model.componentName} inherited end ${model.inheritedResource.path}-->
   </sly>
 
   <!--/* Normal print of component */-->
   <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
     <div 
-      component="container"
+      component="${model.componentName}"
       id="${model.id}"
       class="${model.componentClassNames}" 
       data-sly-element="${model.decorationTagName}"

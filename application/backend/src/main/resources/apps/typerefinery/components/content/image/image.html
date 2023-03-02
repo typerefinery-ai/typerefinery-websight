@@ -13,8 +13,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="io.typerefinery.websight.models.components.content.Image"
+<sly data-sly-use.model="io.typerefinery.websight.models.components.content.Image">
+  <div
+    component="${model.componentName}"
+    id="${model.id}"
+    class="${model.componentClassNames}">
+  <sly
      data-sly-test.isValid="${model.defaultImage}"
      data-sly-use.template="./variant.html"
      data-sly-call="${template.image @ imagesCount=model.imagesCount, defaultImage=model.defaultImage, imageSources=model.imageSources, alt=model.alt, showLink=model.showLink, url=model.url, openInNewTab=model.openInNewTab, classes=model.classes}">
+  </sly>
+  </div>
 </sly>
