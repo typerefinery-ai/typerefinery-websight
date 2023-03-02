@@ -33,12 +33,6 @@ public class SideBar extends BaseComponent {
     @Inject
     @Getter
     public String parentPagePath;
-
-    
-    @Inject
-    @Getter
-    private NavigationComponent navigation;
-
     
     @Override
     @PostConstruct

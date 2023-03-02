@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
         SlingHttpServletRequest.class
     },
     resourceType = { 
-        Header.RESOURCE_TYPE 
+        Nav.RESOURCE_TYPE 
     }, 
     defaultInjectionStrategy = OPTIONAL
 )
@@ -44,11 +44,11 @@ import org.slf4j.LoggerFactory;
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Header extends Container {
+public class Nav extends Container {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Header.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Nav.class);
     
-    public static final String RESOURCE_TYPE = "typerefinery/components/layout/header";
+    public static final String RESOURCE_TYPE = "typerefinery/components/layout/nav";
 
     @Override
     @PostConstruct

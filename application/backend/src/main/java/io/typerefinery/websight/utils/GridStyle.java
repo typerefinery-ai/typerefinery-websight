@@ -26,9 +26,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.typerefinery.websight.models.components.layout.Grid;
-
-
 public class GridStyle {
 
   private static final String GRID_CLASS_PREFIX = "hl-grid";
