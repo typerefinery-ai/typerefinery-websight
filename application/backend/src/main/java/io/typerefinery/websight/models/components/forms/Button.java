@@ -92,7 +92,6 @@ public class Button extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
 
         if (StringUtils.isBlank(this.label)) {
