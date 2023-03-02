@@ -186,7 +186,10 @@ public class Container extends BaseComponent {
     }
 
     public String getInlineStyleValue() {
-        return MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg);
+        if (StringUtils.isNotBlank(backgroundImageSm) && StringUtils.isNotBlank(backgroundImageMd) && StringUtils.isNotBlank(backgroundImageLg)) {
+            return MessageFormat.format("--bg-image-sm:{0};--height-sm:auto;--bg-image-md:{1};--height-md:auto;--bg-image-lg:{2};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg);
+        }
+        return "";
     }
 
     public String getOpenTag() {
