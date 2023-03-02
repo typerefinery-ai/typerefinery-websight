@@ -13,20 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.variant="${ @ menuItems, classes}">
-    <ul class="hl-navigation ${model.classes @ join=' '}">
-        <div data-sly-list.item="${menuItems}" data-sly-unwrap>
-            <sly data-sly-test="${item.label}">
-                <li>
-                    <a data-sly-attribute.href="${item.link}"
-                       data-sly-attribute.target="${item.openInNewTab ? '_blank' : ''}"
-                       class="hl-navigation__link ${currentPage.path == item.linkPath ? 'hl-navigation__link--active' : ''}">
-                        <span class="hl-navigation__text">
-                            ${item.label}
-                        </span>
-                    </a>
-                </li>
-            </sly>
-        </div>
+<template data-sly-template.variant="${ @ model}">
+    <ul class="${model.variantClassNames}" data-sly-list.item="${model.menuItems}">
+      <sly data-sly-test="${item.label}">
+        <li>
+          <a data-sly-attribute.href="${item.link}"
+            data-sly-attribute.target="${item.openInNewTab ? '_blank' : ''}"
+            class="hl-navigation__link ${currentPage.path == item.linkPath ? 'hl-navigation__link--active' : ''}">
+            <span class="hl-navigation__text">
+                ${item.label}
+            </span>
+          </a>
+        </li>
+      </sly>
     </ul>
 </template>
