@@ -6,7 +6,7 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Radio" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
-      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
+      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Radio" headingLevel="XL" />
           <label1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Select User Dress Color" />
@@ -41,7 +41,7 @@
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/radio"/>
           </radio_7>
         </form1>
-      </maincontainer>
+      </container>
     </rootcontainer>
   </jcr:content>
 </jcr:root>

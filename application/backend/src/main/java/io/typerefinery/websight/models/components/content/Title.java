@@ -21,21 +21,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import lombok.Getter;
-import lombok.experimental.Delegate;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
-import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import io.typerefinery.websight.models.components.BaseComponent;
-import io.typerefinery.websight.models.components.DefaultStyledGridComponent;
-import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.models.components.layout.Styled;
+import io.typerefinery.websight.utils.PageUtil;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.vault.util.JcrConstants;
 import org.apache.sling.api.SlingHttpServletRequest;
-
-import javax.inject.Inject;
 
 @Model(
     adaptables = {
@@ -46,47 +41,31 @@ import javax.inject.Inject;
 )
 public class Title extends BaseComponent {
 
-    private static final String OPTION_TITLE = "title";
-    private static final String OPTION_HEADING_LEVEL = "headingLevel";
-    private static final String OPTION_HEADING_SIZE = "headingSize";
-    private static final String OPTION_SHOW_SUBTITLE = "showSubtitle";
-    private static final String OPTION_SUBTITLE = "subtitle";
+    private static final String PROPERTY_TITLE = "title";
+    private static final String PROPERTY_HEADING_LEVEL = "headingLevel";
+    private static final String PROPERTY_HEADING_SIZE = "headingSize";
 
     private static final String DEFAULT_TITLE = "Add your heading here";
     private static final String DEFAULT_HEADING_LEVEL = "h2";
-    private static final String DEFAULT_HEADING_SIZE = "hl-title__heading--size-4";
-    private static final String DEFAULT_SUBTITLE = "Add your text here";
-    private static final Boolean DEFAULT_SHOW_SUBTITLE = false;
 
     @Inject
-    @Named(OPTION_TITLE)
+    @Named(PROPERTY_TITLE)
     @Getter
     @Nullable
     private String title;
 
     @Inject
-    @Named(OPTION_HEADING_LEVEL)
+    @Named(PROPERTY_HEADING_LEVEL)
     @Getter
     @Nullable
     private String headingLevel;
 
     @Inject
-    @Named(OPTION_HEADING_SIZE)
+    @Named(PROPERTY_HEADING_SIZE)
     @Getter
     @Nullable
     private String headingSize;
 
-    @Inject
-    @Named(OPTION_SHOW_SUBTITLE)
-    @Getter
-    @Nullable
-    private Boolean showSubtitle;
-
-    @Inject
-    @Named(OPTION_SUBTITLE)
-    @Getter
-    @Nullable
-    private String subtitle;
 
     @Override
     @PostConstruct
@@ -94,24 +73,21 @@ public class Title extends BaseComponent {
         super.init();
 
         if (title == null) {
-            title = DEFAULT_TITLE;
+            Resource page = PageUtil.getResourcePage(resource);
+            // get title from page
+            title = page.getValueMap().get(JcrConstants.JCR_TITLE, String.class);
+            if (StringUtils.isBlank(title)) {
+                title = DEFAULT_TITLE;
+            }            
         }
 
         if (headingLevel == null) {
-            headingLevel = DEFAULT_HEADING_LEVEL;
+            headingLevel = DEFAULT_HEADING_LEVEL;            
         }
 
-        if (headingSize == null) {
-            headingSize = DEFAULT_HEADING_SIZE;
+        if (StringUtils.isNotBlank(headingSize)) {
+            style.addClasses(headingSize);
         }
-
-        if (showSubtitle == null) {
-            showSubtitle = DEFAULT_SHOW_SUBTITLE;
-        }
-
-        if (subtitle == null) {
-            subtitle = DEFAULT_SUBTITLE;
-        }
-        
+   
     }
 }

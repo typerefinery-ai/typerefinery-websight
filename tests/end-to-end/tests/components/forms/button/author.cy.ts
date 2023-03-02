@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-button: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/button'
+button: 'ComponentOverlay_rootcontainer/container/pagesection/button'
 };
 
 describe('Button Component', () => {

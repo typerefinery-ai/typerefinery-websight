@@ -14,16 +14,23 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-  <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
-  <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}" data-sly-element="${model.decorationTagName}"
-    style="--bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;">
-    <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
-    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-  </div>
+  <div 
+    component="container"
+    id="${model.id}"
+    class="${model.componentClassNames}" 
+    data-sly-element="${model.decorationTagName}"
+    style="${model.inlineStyleValue @ context='unsafe'}">
 
-  <sly data-sly-test="${!resource.hasChildren}">
-    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-      data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+    <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
+
+    <sly data-sly-test="${resource.hasChildren}">
+      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </sly>
-  </sly>
+
+    <sly data-sly-test="${!resource.hasChildren}">
+      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+      </sly>
+    </sly>
+  </div>
 </template>

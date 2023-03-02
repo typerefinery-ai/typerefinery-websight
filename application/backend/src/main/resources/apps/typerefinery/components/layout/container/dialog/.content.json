@@ -141,32 +141,8 @@
       }
     },
     "backgroundTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Background",
-      "backgroundImageLg": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "backgroundImageLg",
-        "label": "Background image - L breakpoint"
-      },
-      "backgroundImageMd": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "backgroundImageMd",
-        "label": "Background image - M breakpoint"
-      },
-      "backgroundImageSm": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "backgroundImageSm",
-        "label": "Background image - S breakpoint"
-      }
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/background"
     }
   }
 }

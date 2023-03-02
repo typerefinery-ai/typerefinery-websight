@@ -55,7 +55,6 @@ public class Select extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 

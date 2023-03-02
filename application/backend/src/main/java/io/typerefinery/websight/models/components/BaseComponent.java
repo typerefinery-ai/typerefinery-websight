@@ -22,8 +22,8 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.models.components.layout.Styled;
+import io.typerefinery.websight.utils.Styled;
+import io.typerefinery.websight.utils.Grid;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  pieChart: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/chart'
+  pieChart: 'ComponentOverlay_rootcontainer/container/pagesection/chart'
 }
 
 describe('pieChart Component', () => {

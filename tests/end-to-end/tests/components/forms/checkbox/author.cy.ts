@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-checkbox: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/checkbox'
+checkbox: 'ComponentOverlay_rootcontainer/container/pagesection/checkbox'
 };
 
 describe('Button Component', () => {

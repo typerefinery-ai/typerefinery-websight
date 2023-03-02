@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-textArea: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/textarea'
+textArea: 'ComponentOverlay_rootcontainer/container/pagesection/textarea'
 };
 
 describe('inputText Component', () => {

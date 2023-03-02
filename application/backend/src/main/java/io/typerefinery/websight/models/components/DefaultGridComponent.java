@@ -24,7 +24,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
-import io.typerefinery.websight.models.components.layout.Grid;
+import io.typerefinery.websight.utils.Grid;
 
 @Getter
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)

@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
- package io.typerefinery.websight.models.components.layout;
+package io.typerefinery.websight.utils;
 
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+public interface Styled {
 
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import lombok.Getter;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class NavigationComponent {
-
-  @Inject
-  @Getter
-  private List<NavigationItemComponent> menuItems;
+  String[] getClasses();
 
 }

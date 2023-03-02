@@ -13,30 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//namespace
-package io.typerefinery.websight.models.components.layout;
 
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+ package io.typerefinery.websight.models.components.layout;
 
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
-
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Footer {
-
-  // @Inject
-  // @Getter
-  // private ImageComponent image;
-
-  // @Inject
-  // @Getter
-  // private NavigationComponent navigation;
-
-  // @Inject
-  // @Getter
-  // private SocialLinksComponent socialLinks;
-
-  // @Inject
-  // @Getter
-  // private String copyright;
-}
+ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+ 
+ import javax.annotation.PostConstruct;
+ 
+ import org.apache.sling.api.SlingHttpServletRequest;
+ import org.apache.sling.api.resource.Resource;
+ import org.apache.sling.models.annotations.Exporter;
+ import org.apache.sling.models.annotations.ExporterOption;
+ import org.apache.sling.models.annotations.Model;
+ import org.osgi.service.component.annotations.Component;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ 
+ @Component
+ @Model(
+     adaptables = {
+         Resource.class,
+         SlingHttpServletRequest.class
+     },
+     resourceType = { 
+         Header.RESOURCE_TYPE 
+     }, 
+     defaultInjectionStrategy = OPTIONAL
+ )
+ @Exporter(name = "jackson", extensions = "json", options = {
+         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+ })
+ public class Footer extends Container {
+ 
+     private static final Logger LOGGER = LoggerFactory.getLogger(Footer.class);
+     
+     public static final String RESOURCE_TYPE = "typerefinery/components/layout/footer";
+ 
+     @Override
+     @PostConstruct
+     protected void init() {
+         super.init();
+     }
+ }

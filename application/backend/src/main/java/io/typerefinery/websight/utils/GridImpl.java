@@ -14,10 +14,34 @@
  * limitations under the License.
  */
 
-package io.typerefinery.websight.models.components.layout;
+package io.typerefinery.websight.utils;
 
-public interface Styled {
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-  String[] getClasses();
+@Getter
+@Builder
+@RequiredArgsConstructor
+public class GridImpl implements Grid {
 
+  private final Integer smColSize;
+
+  private final Integer mdColSize;
+  
+  private final Integer lgColSize;
+  
+  private final Integer smRowSize;
+
+  private final Integer mdRowSize;
+
+  private final Integer lgRowSize;
+
+  private final Integer smOffset;
+
+  private final Integer mdOffset;
+
+  private final Integer lgOffset;
+
+  private final String textAlignment;
 }

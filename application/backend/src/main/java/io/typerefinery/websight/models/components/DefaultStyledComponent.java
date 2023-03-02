@@ -30,7 +30,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
-import io.typerefinery.websight.models.components.layout.Styled;
+import io.typerefinery.websight.utils.Styled;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledComponent implements Styled {

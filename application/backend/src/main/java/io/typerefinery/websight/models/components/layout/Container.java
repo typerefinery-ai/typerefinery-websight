@@ -19,6 +19,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.io.StringWriter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -58,7 +60,6 @@ import io.typerefinery.websight.utils.FakeRequest;
 import io.typerefinery.websight.utils.FakeResponse;
 import io.typerefinery.websight.utils.LinkUtil;
 import io.typerefinery.websight.utils.PageUtil;
-import io.typerefinery.websight.utils.SyntheticSlingHttpServletGetRequest;
 import lombok.Getter;
 import pl.ds.websight.pages.foundation.WcmMode;
 
@@ -184,6 +185,10 @@ public class Container extends BaseComponent {
         return String.format(BACKGROUND_URL_PATTERN, LinkUtil.handleLink(image, resourceResolver));
     }
 
+    public String getInlineStyleValue() {
+        return MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg);
+    }
+
     public String getOpenTag() {
         Element htmlTag = new Element(Tag.valueOf(decorationTagName), "");
 
@@ -194,7 +199,7 @@ public class Container extends BaseComponent {
         }
             
         if (StringUtils.isNotBlank(backgroundImageSm) && StringUtils.isNotBlank(backgroundImageMd) &&  StringUtils.isNotBlank(backgroundImageLg)) {
-            htmlTag.attr("style", MessageFormat.format("--bg-image-sm:{2};--height-sm:auto;--bg-image-md: {3};--height-md:auto;--bg-image-lg:{4};--height-lg:auto;", backgroundImageSm, backgroundImageMd, backgroundImageLg));
+            htmlTag.attr("style", getInlineStyleValue());
             
         }
                                                     
@@ -239,7 +244,6 @@ public class Container extends BaseComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 
@@ -300,6 +304,7 @@ public class Container extends BaseComponent {
         try {
             String markup = "";
             String url = inheritedResource.getPath() + ".html";
+
             HttpServletRequest req = new FakeRequest("GET", url);
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -310,13 +315,15 @@ public class Container extends BaseComponent {
                 // this needs to be done to get the inherited resource
                 requestProcessor.processRequest(req, resp, resourceResolver);
 
-                // get the inherited resource as html
-                markup = SyntheticSlingHttpServletGetRequest.getIncludeAsString(inheritedResource.getPath(), request, response);
+                // need to flush the response to get the contents
+                resp.getWriter().flush();
+
+                // trim to remove all the extra whitespace
+                markup = out.toString().trim();
 
             } catch (ServletException | IOException | NoSuchAlgorithmException e) {
                 LOGGER.warn("Exception retrieving contents for {}", url, e);
             }
-            
             
             return markup;
         } catch (Exception e) {
