@@ -53,7 +53,7 @@ import io.typerefinery.websight.services.flow.FlowService;
     ResourceChangeListener.CHANGES + "=ADDED",
     ResourceChangeListener.CHANGES + "=CHANGED",
     ResourceChangeListener.CHANGES + "=REMOVED"
-}
+    }
 )
 public class FlowResourceChangeListener implements ResourceChangeListener {
 
