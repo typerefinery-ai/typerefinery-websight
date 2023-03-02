@@ -1,4 +1,8 @@
 <template data-sly-template.variant="${ @ model }">
-  <label data-sly-test="${!model.disableLabel}" class="${model.componentClassNames}" for="${model.id}">${model.label}</label>
-  <div data-sly-test="${model.disableLabel}"></div>
+  <sly data-sly-test="${!model.hideLabel}">
+    <label class="${model.componentClassNames}" for="${model.id}">${model.label}</label>    
+  </sly>
+  <sly data-sly-test="${wcmmode.isEdit && model.hideLabel}">
+    <div class="bg-warning-subtle">Label is Hidden</div>
+  </sly>
 </template>

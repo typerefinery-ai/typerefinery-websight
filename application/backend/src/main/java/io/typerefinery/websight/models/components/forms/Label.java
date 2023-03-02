@@ -21,12 +21,14 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.jetbrains.annotations.Nullable;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 import lombok.Getter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
@@ -47,10 +49,14 @@ public class Label extends BaseFormComponent {
     protected static final String DEFAULT_MODULE = "label";
     protected static final String DEFAULT_LABEL = "Label";
 
+    protected static final String PROPERTY_HIDE_LABEL = "hideLabel";
+    
+
     @Inject
     @Getter
-    @Default(booleanValues = false)
-    private Boolean disableLabel;
+    @Nullable
+    @Named(PROPERTY_HIDE_LABEL)
+    private Boolean hideLabel;
 
     @Override
     @PostConstruct
