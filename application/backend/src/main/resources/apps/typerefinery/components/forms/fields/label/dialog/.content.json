@@ -12,7 +12,7 @@
       "disableLabel": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "disableLabel",
-        "label": "Disable label"
+        "label": "Hide label"
       }
     },
     "gridTab": {
