@@ -30,21 +30,18 @@
   <!--/* Normal print of component */-->
   <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
     <div 
-      component="${model.decorationTagName ? model.decorationTagName : 'container'}"
+      component="container"
       id="${model.id}"
       class="${model.componentClassNames}" 
       data-sly-element="${model.decorationTagName}"
-      style="${model.inlineStyleValue @ context='unsafe'}">
-
-      <sly data-sly-test="${resource.hasChildren}">
+      style="${model.inlineStyleValue @ context='unsafe'}"
+      data-sly-test="${resource.hasChildren}">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-      </sly>
-
-      <sly data-sly-test="${!resource.hasChildren}">
-        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-          data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
-        </sly>
-      </sly>
     </div>
+    <sly data-sly-test="${!resource.hasChildren}">
+      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+      </sly>
+    </sly>
   </sly>
 </template>

@@ -19,18 +19,16 @@
     id="${model.id}"
     class="${model.componentClassNames}" 
     data-sly-element="${model.decorationTagName}"
-    style="${model.inlineStyleValue @ context='unsafe'}">
+    style="${model.inlineStyleValue @ context='unsafe'}"
+    data-sly-test="${resource.hasChildren}">
 
     <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
+    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
 
-    <sly data-sly-test="${resource.hasChildren}">
-      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-    </sly>
-
-    <sly data-sly-test="${!resource.hasChildren}">
-      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
-      </sly>
-    </sly>
   </div>
+  <sly data-sly-test="${!resource.hasChildren}">
+    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+      data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+    </sly>
+  </sly>
 </template>
