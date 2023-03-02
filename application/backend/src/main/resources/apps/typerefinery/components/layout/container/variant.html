@@ -17,8 +17,8 @@
 
   <!--/* Show error if this container is inheriting but can't find parent. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && !model.inheritedResource}">
-    <!--not found-->
-    <div>Inherited but parent not found.</div>
+    <!--inherited resource not found-->
+    <div data-sly-test="${wcmmode.isEdit}">Inherited but parent not found.</div>
   </sly>
   <!--/* Print output of inherited resource. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
