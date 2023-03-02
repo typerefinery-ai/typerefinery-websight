@@ -23,11 +23,15 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import lombok.Getter;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.api.SlingHttpServletRequest;
 
 @Model(adaptables = {
@@ -42,6 +46,11 @@ public class Label extends BaseFormComponent {
     protected static final String DEFAULT_ID = "label";
     protected static final String DEFAULT_MODULE = "label";
     protected static final String DEFAULT_LABEL = "Label";
+
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    private Boolean disableLabel;
 
     @Override
     @PostConstruct

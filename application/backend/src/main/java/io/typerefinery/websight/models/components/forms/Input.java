@@ -58,6 +58,16 @@ public class Input extends BaseFormComponent {
     @Default(values = "text")
     private String inputType;
 
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
+
+    
+    @Inject
+    @Getter
+    private String validationInputMask;
+
     @Override
     @PostConstruct
     protected void init() {

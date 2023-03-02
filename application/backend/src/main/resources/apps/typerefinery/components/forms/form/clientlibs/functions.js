@@ -125,6 +125,11 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
+        if(Object.keys(componentConfig).length === 0) {
+            console.log(componentConfig, "componentConfig", $component)
+            console.log("Component config of form component is missing");
+            return;
+        }
         const { resourcePath } = componentConfig;
         $component.setAttribute("id", resourcePath);
         ns.loadInitialData($component);

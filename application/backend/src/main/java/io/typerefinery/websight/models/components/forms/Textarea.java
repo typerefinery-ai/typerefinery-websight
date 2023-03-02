@@ -53,6 +53,11 @@ public class Textarea extends BaseFormComponent {
     @Default(values = "")
     private String placeholder;
 
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
+
 
     @Override
     @PostConstruct

@@ -45,6 +45,11 @@ public class Select extends BaseFormComponent {
 
     @Inject
     @Getter
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
+
+    @Inject
+    @Getter
     private List<SelectOptionItems> selectOptions;
 
     @Override

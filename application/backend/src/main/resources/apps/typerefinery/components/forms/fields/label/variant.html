@@ -1,3 +1,4 @@
 <template data-sly-template.variant="${ @ model }">
-  <label class="${model.componentClassNames}" for="${model.id}">${model.label}</label>
+  <label data-sly-test="${!model.disableLabel}" class="${model.componentClassNames}" for="${model.id}">${model.label}</label>
+  <div data-sly-test="${model.disableLabel}"></div>
 </template>
