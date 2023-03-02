@@ -36,7 +36,7 @@
          SlingHttpServletRequest.class
      },
      resourceType = { 
-         Header.RESOURCE_TYPE 
+         Footer.RESOURCE_TYPE 
      }, 
      defaultInjectionStrategy = OPTIONAL
  )
