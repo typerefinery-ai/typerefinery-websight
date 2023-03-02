@@ -8,8 +8,8 @@
       "header": {
         "sling:resourceType": "typerefinery/components/layout/header"
       },
-      "container": {
-        "sling:resourceType": "typerefinery/components/layout/container"
+      "main": {
+        "sling:resourceType": "typerefinery/components/layout/main"
       },
       "footer": {
         "sling:resourceType": "typerefinery/components/layout/footer"
