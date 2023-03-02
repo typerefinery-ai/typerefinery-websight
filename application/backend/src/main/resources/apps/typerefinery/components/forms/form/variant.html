@@ -14,7 +14,8 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <form 
+    <form
+        component="${model.componentName}"
         id="${model.id}"
         data-sly-test="${resource.hasChildren}"
         data-model="${model.jsonString}"

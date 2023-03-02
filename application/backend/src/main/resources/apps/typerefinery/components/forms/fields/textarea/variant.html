@@ -14,16 +14,14 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <div class="${model.componentClassNames}">
-        <textarea 
-            id="${model.id}" 
-            name="${model.name}"
-            placeholder="${model.placeholder}" 
-            value="${model.value}"
-            rows="${model.numOfRows}"
-            class="${model.variantClassNames}" 
-            required="${model.validationRequired}"
-        >
-        </textarea>
-    </div>
+  <textarea 
+    id="${model.id}" 
+    name="${model.name}"
+    placeholder="${model.placeholder}" 
+    value="${model.value}"
+    rows="${model.numOfRows}"
+    class="${model.variantClassNames}" 
+    required="${model.validationRequired}"
+  >
+  </textarea>
 </template>
