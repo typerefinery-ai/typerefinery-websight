@@ -12,6 +12,6 @@
     "Typerefinery - Widgets"
   ],
   "sling:resourceType": "ws:Component",
-  "description": "Use for most outer, editable (homepage) root",
+  "description": "Use for most outer, editable root",
   "title": "Body"
 }
