@@ -7,7 +7,6 @@
     "style.css"
   ],  
   "js": [
-    "functions.js",
     "behaviour.js"
   ] 
 }
