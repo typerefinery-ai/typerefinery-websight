@@ -18,6 +18,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import javax.inject.Inject;
 import lombok.Getter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
@@ -28,6 +29,7 @@ import org.osgi.service.component.annotations.Component;
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.models.components.flow.FlowContainer;
 import io.typerefinery.websight.services.flow.FlowService;
 import io.typerefinery.websight.services.flow.registry.FlowComponent;
 
@@ -42,7 +44,7 @@ import io.typerefinery.websight.services.flow.registry.FlowComponent;
 @Exporter(name = "jackson", extensions = "json", options = {
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
-public class Form extends BaseFormComponent implements FlowComponent {
+public class Form extends FlowContainer implements FlowComponent {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/forms/form";
 
@@ -84,6 +86,15 @@ public class Form extends BaseFormComponent implements FlowComponent {
         super.init();
         if (grid != null) {
             grid.addClasses(DEFAULT_FORM_CLASSES);
+        }
+        if (StringUtils.isBlank(readUrl)) {
+            readUrl = this.flowapi_httproute;
+        }
+        if (StringUtils.isBlank(writeUrl)) {
+            writeUrl = this.flowapi_httproute;
+        }
+        if (StringUtils.isBlank(title)) {
+            title = this.flowapi_title;
         }
     }
 
