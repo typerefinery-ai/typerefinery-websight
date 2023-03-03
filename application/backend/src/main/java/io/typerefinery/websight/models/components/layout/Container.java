@@ -217,7 +217,7 @@ public class Container extends BaseComponent {
 
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
-            put("enabled", "row");
+            put("enabled", "row container-fluid");
             put("default", "");
         }
     };

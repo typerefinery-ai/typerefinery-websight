@@ -1,7 +1,8 @@
 {
+  "isContainer": true,
   "group": "Typerefinery - Content",
   "sling:resourceType": "ws:Component",
-  "description": "Prime vue card component.",
-  "title": "Card Item",
-  "isContainer": true
+  "description": "Card Component",
+  "title": "Card",
+  "sling:resourceSuperType": "typerefinery/components/content/card/carditem"
 }
