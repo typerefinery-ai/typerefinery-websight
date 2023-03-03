@@ -27,6 +27,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.resource.observation.ResourceChange;
+import org.jetbrains.annotations.NotNull;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,11 +78,23 @@ public class FlowService {
     public static final String PROPERTY_TEMPLATE = "template";
     public static final String PROPERTY_TEMPLATE_DESIGN = "designtemplate";
     public static final String PROPERTY_ISCONTAINER = "iscontainer";
+    public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
     public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
     public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "io.typerefinery.flow.spi.extension";
+
+    public static final String FLOW_TEMPLATE_FIELD_SAMPLE_DATA = "<sample-data>"; // used to add sample data into send component
+    public static final String FLOW_TEMPLATE_FIELD_CHILD_FLOWID = "<childflowid>"; // used to specify which child flow to be used
+    public static final String FLOW_TEMPLATE_FIELD_PARENT_FLOWID = "<parentflowid>"; // used to specify which parent flow to be used
+    public static final String FLOW_TEMPLATE_FIELD_SUBSCRIBE_ID = "<subscribe-id>"; // flow step subscribe id, updates subscribe step in a flow
+    public static final String FLOW_TEMPLATE_FIELD_PRINTJSON_ID = "<printjson-id>"; // flow step printjson id, updates printjson step in a flow
+    public static final String FLOW_TEMPLATE_FIELD_SENDDATA_ID = "<senddata-id>"; // flow step senddata id, updates senddata step in a flow, eg send to TMS
+    public static final String FLOW_TEMPLATE_FIELD_PUBLISH_ID = "<publish-id>"; // flow step publish id, updates publish step in a flow
+
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
+
 
     public FlowServiceConfiguration configuration;
 
@@ -159,6 +172,7 @@ public class FlowService {
             String flowapi_group = properties.get(prop(PROPERTY_GROUP), String.class);
             String flowapi_designtemplate = properties.get(prop(PROPERTY_TEMPLATE_DESIGN), String.class);
             String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
+            String flowapi_sampledata = properties.get(prop(PROPERTY_SAMPLEDATA), String.class);
     
             boolean isFlowExists = isFlowExists(flowapi_flowstreamid);
 
@@ -172,11 +186,15 @@ public class FlowService {
             // create new flow or update existing flow
             if (isFlowExists == false && isTemplateExists) {
                 // use topic from resource as priority
-                flowapi_flowstreamid = createFlowFromTemplate(flowapi_template, resource, flowapi_topic, flowapi_title, flowapi_designtemplate, flowapi_iscontainer);
-                if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
-                    updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid);
+                flowapi_flowstreamid = createFlowFromTemplate(flowapi_template, resource, flowapi_topic, flowapi_title, flowapi_designtemplate, flowapi_iscontainer, flowapi_sampledata);
+                if (StringUtils.isNotBlank(flowapi_flowstreamid)) {
+                    isFlowExists = isFlowExists(flowapi_flowstreamid);
+                    if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
+                        updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid, flowapi_sampledata);
+                    } 
+                } else {
+                    LOGGER.info("could not create flow from template: {}", flowapi_template);
                 }
-                isFlowExists = isFlowExists(flowapi_flowstreamid);
             } else if (isFlowExists && isTemplateExists) {
 
                 // if flowapi_title and title are different then update flowstream
@@ -184,9 +202,9 @@ public class FlowService {
                     LOGGER.info("nothing to update.");
                     return;
                 } else {
-                    updateFlowFromTemplate(flowapi_template, resource, authored_title, flowapi_flowstreamid);
+                    updateFlowFromTemplate(flowapi_template, resource, authored_title, flowapi_flowstreamid, flowapi_sampledata);
                     if (flowapi_iscontainer & StringUtils.isNotBlank(flowapi_designtemplate)) {
-                        updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid);
+                        updateFlowDesignFromTemplate(flowapi_designtemplate, resource, authored_title, flowapi_flowstreamid, flowapi_sampledata);
                     }
                 }
             } 
@@ -501,7 +519,7 @@ public class FlowService {
      * @param id id to use for the flow
      * @param isContainer if true then create a flow container
      */
-    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title, String designTemplatePath, boolean isContainer) {
+    public String createFlowFromTemplate(String templatePath, Resource componentResource, String topic, String title, String designTemplatePath, boolean isContainer, String sampleDataPath) {
 
         // generate a title if its not specified
         if (StringUtils.isBlank(title)) {
@@ -510,10 +528,25 @@ public class FlowService {
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
 
-        // get template json
-        JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
 
+        String componentSampleData = getComponentSampleJson(sampleDataPath, componentResource, resourceResolver);
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+        String designTemplateString = getResourceInputStreamAsString(templatePath, resourceResolver);
+
+        // setup a list of replace strings, as this is new flowId, flowStreamId and childPathId will be blank
+        HashMap<String, String> replaceMap = getReplaceMap("", "", "", currentPagePath, componentSampleData);
+
+        // replace template variables with values
+        String designTemplateStringUpdated = updateFlowTemplateVariables(designTemplateString, replaceMap);
+
+        // get template json
+        JsonNode componentTemplate = toJsonNode(designTemplateStringUpdated);
+
+        if (componentTemplate == null) {
+            LOGGER.error("could not parse flow template: {}", templatePath);
+            return "";
+        }
+
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
 
         String flowGroup = currentPagePath;
@@ -602,7 +635,7 @@ public class FlowService {
      * @param newTitle new title to use for the flow
      * @param flowstreamid flowstream id to update
      */
-    public void updateFlowFromTemplate(String templatePath, Resource componentResource, String newTitle, String flowstreamid) {
+    public void updateFlowFromTemplate(String templatePath, Resource componentResource, String newTitle, String flowstreamid, String sampleDataPath) {
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
 
@@ -647,6 +680,52 @@ public class FlowService {
         PageUtil.updatResourceProperties(componentResource, response);
     }
 
+    public HashMap<String, String> getReplaceMap(String flowId, String flowstreamid, String childPathId, String currentPagePath, String componentSampleData) {
+        String componentSampleDataValue = componentSampleData;
+
+        ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        // update sample data
+        if (StringUtils.isNotBlank(componentSampleData)) {
+            try {
+                JsonNode componentSampleDataJson = mapper.readTree(componentSampleData);
+                // update sample data
+                //<sample-data>
+                componentSampleDataValue = StringEscapeUtils.escapeJson(mapper.writeValueAsString(componentSampleDataJson));
+            } catch (Exception e) {
+                LOGGER.error("error parsing component sample data: {}, error: {}", componentSampleData, e.getMessage());
+            }
+        }
+        final String componentSampleDataValueFinal = componentSampleDataValue;
+        // setup a list of replace strings
+        return new HashMap<String, String>(){{
+            put(FLOW_TEMPLATE_FIELD_CHILD_FLOWID, flowId);
+            put(FLOW_TEMPLATE_FIELD_PARENT_FLOWID, flowstreamid);
+            put(FLOW_TEMPLATE_FIELD_SUBSCRIBE_ID, StringUtils.join(childPathId, "subscribe"));
+            put(FLOW_TEMPLATE_FIELD_PRINTJSON_ID, StringUtils.join(childPathId, "printjson"));
+            put(FLOW_TEMPLATE_FIELD_SENDDATA_ID, StringUtils.join(childPathId, "senddata"));
+            put(FLOW_TEMPLATE_FIELD_PUBLISH_ID, StringUtils.join(childPathId, "publish"));
+            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, currentPagePath + "/*"); // used for HTTP Route step, eg in forms            
+            put(FLOW_TEMPLATE_FIELD_SAMPLE_DATA, componentSampleDataValueFinal); // used for HTTP Route step, eg in forms            
+        }};
+    }
+
+    public String updateFlowTemplateVariables(String template, HashMap<String, String> replaceMap) {
+        String updatedTemplate = template;
+
+        // update template
+        StringBuilder designTemplateStringBuilder = new StringBuilder(updatedTemplate);
+        // replace values in template
+        for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
+            
+            // replace value in designTemplateStringBuilder while it exists
+            while (designTemplateStringBuilder.indexOf(entry.getKey()) != -1) {
+                designTemplateStringBuilder.replace(designTemplateStringBuilder.indexOf(entry.getKey()), designTemplateStringBuilder.indexOf(entry.getKey()) + entry.getKey().length(), entry.getValue());
+            }
+
+        }
+        
+        return designTemplateStringBuilder.toString();
+    }
 
     /**
      * update flow from template
@@ -656,7 +735,7 @@ public class FlowService {
      * @param flowstreamid flowstream id to update
      * @param isContainer if true then create a flow container
      */
-    public void updateFlowDesignFromTemplate(String designTemplate, Resource componentResource, String newTitle, String flowstreamid) {
+    public void updateFlowDesignFromTemplate(String designTemplate, Resource componentResource, String newTitle, String flowstreamid, String sampleDataPath) {
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
 
@@ -788,16 +867,11 @@ public class FlowService {
 
                     // get path to child flow relative to parent
                     String childPathId = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
+                    String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+                    String componentSampleData = getComponentSampleJson(sampleDataPath, flowResource, resourceResolver);
 
                     // setup a list of replace strings
-                    HashMap<String, String> replaceMap = new HashMap<String, String>(){{
-                        put("<childflowid>", flowId);
-                        put("<parentflowid>", flowstreamid);
-                        put("<subscribe-id>", StringUtils.join(childPathId, "subscribe"));
-                        put("<printjson-id>", StringUtils.join(childPathId, "printjson"));
-                        put("<senddata-id>", StringUtils.join(childPathId, "senddata"));
-                        put("<publish-id>", StringUtils.join(childPathId, "publish"));
-                    }};
+                    HashMap<String, String> replaceMap = getReplaceMap(flowId, flowstreamid, childPathId, currentPagePath, componentSampleData);
 
                     boolean flowIsUsed = false;
                     // check if any replacemap nodes existing in current design
@@ -817,41 +891,12 @@ public class FlowService {
                         continue;
                     }
 
-                    // get resource component sample data
-                    String componentSampleData = getComponentSampleJson(flowResource, resourceResolver);
-                    if (StringUtils.isBlank(componentSampleData)) {
-                        LOGGER.error("sample data not found for flow: {}", flowResource.getPath());
-                        replaceMap.put("<sample-data>", "");
-                    } else {
-                        
-                        try {
-                            JsonNode componentSampleDataJson = mapper.readTree(componentSampleData);
-                            // update sample data
-                            //<sample-data>
-                            String escapedJson = StringEscapeUtils.escapeJson(mapper.writeValueAsString(componentSampleDataJson));
-                            replaceMap.put("<sample-data>", escapedJson);
-                        } catch (Exception e) {
-                            LOGGER.error("error parsing design template: {}", e.getMessage());
-                            return;
-                        }
-                    }
-
-                    StringBuilder designTemplateStringBuilder = new StringBuilder(designTemplateString);
-                    //replace values in design
-                    for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
-                        
-                        // replace value in designTemplateStringBuilder while it exists
-                        while (designTemplateStringBuilder.indexOf(entry.getKey()) != -1) {
-                            designTemplateStringBuilder.replace(designTemplateStringBuilder.indexOf(entry.getKey()), designTemplateStringBuilder.indexOf(entry.getKey()) + entry.getKey().length(), entry.getValue());
-                        }
-
-                        designTemplateString = designTemplateString.replaceAll(entry.getKey(), entry.getValue());
-                    }
-
+                    // replace template variables with values
+                    String designTemplateStringUpdated = updateFlowTemplateVariables(designTemplateString, replaceMap);
 
                     // add new design steps to flow design
                     try {
-                        JsonNode newDesign = mapper.readTree(designTemplateStringBuilder.toString());
+                        JsonNode newDesign = mapper.readTree(designTemplateStringUpdated);
                         
                         // this will add a new tile to the grid and return the tile
                         // this will be used to update the x and y values of the new flow elements
@@ -955,9 +1000,10 @@ public class FlowService {
      * @param resource resource to get sample.json from
      * @param resourceResolver resource resolver
      */
-    public String getComponentSampleJson(Resource resource, ResourceResolver resourceResolver) {
-        
-        String samplePath = "/apps/" + resource.getResourceType() + "/" + FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH;
+    public String getComponentSampleJson(String samplePath, @NotNull Resource resource, @NotNull ResourceResolver resourceResolver) {
+        if (samplePath == null || samplePath.isEmpty()) {
+            return "";
+        }
         if (!resourceResolver.getResource(samplePath).isResourceType("nt:file")) {
             return "";
         }
@@ -1037,6 +1083,19 @@ public class FlowService {
         return null;
     }
     
+    //read the json file from a template and convert it to JSON Tree
+    @SuppressWarnings("unchecked")
+    public JsonNode toJsonNode(String jsonContent) {
+        try {
+            ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+            return mapper.readTree(jsonContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+        
 
     //read the json file from a template and convert it to JSON Tree
     @SuppressWarnings("unchecked")
