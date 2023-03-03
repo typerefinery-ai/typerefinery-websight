@@ -25,18 +25,14 @@ public class Card extends BaseComponent {
     @SlingObject
     private ResourceResolver resourceResolver;
 
+    private static final String DEFAULT_CLASS_NAME = "card";
 
-        
-    @Getter
-    @Inject
-    private Boolean hideCardImage;
-    
     @Override
     @PostConstruct
     protected void init() {
         super.init();
         if(style != null) {
-            style.addClasses("card");
+            style.addClasses(DEFAULT_CLASS_NAME);
         }
     }
 }

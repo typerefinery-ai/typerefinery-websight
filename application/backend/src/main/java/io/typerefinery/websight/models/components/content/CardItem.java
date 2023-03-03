@@ -27,11 +27,6 @@ public class CardItem extends BaseComponent {
 
     private static final String DEFAULT_CLASS_NAME = "card";
 
-
-        
-    @Getter
-    @Inject
-    private Boolean hideCardImage;
     
     @Override
     @PostConstruct
