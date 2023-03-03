@@ -1,4 +1,7 @@
 $(document).ready(function (e) {
+  //$("[component='leafletmap']").each(function() {
+  //  ns.init(this);
+  //});
   if (document.getElementById("map")) {
     const key = "WTh8FTa6cT027rlVBBbG";
     const dataId = "dcb0900e-992a-4ff5-9819-861b4df293e9";

@@ -11,7 +11,7 @@ window.Typerefinery.Components.Widgets.Chart.Variants.BarChart = Typerefinery.Co
   "use strict";
 
   $(document).ready(function () {
-    $('[data-module="chartComponent-barChart"]').each(function () {
+    $("[component='chart'][data-module='barChart']").each(function () {
       ns?.init(this);
     });
   });

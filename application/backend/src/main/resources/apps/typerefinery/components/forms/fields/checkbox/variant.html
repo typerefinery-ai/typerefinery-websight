@@ -1,9 +1,10 @@
 <template data-sly-template.variant="${ @ model }">
-    <input 
-        id="${model.id}" 
-        type="checkbox" 
-        value="${model.value}" 
-        name="${model.name}"
-        class="${model.variantClassNames}" 
-    />
+  <input 
+    component="${model.componentName}"
+    id="${model.id}" 
+    type="checkbox" 
+    value="${model.value}" 
+    name="${model.name}"
+    class="${model.variantClassNames}" 
+  />
 </template>

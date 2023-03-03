@@ -11,7 +11,7 @@ window.Typerefinery.Components.Widgets.Chart.Variants.PieChart = Typerefinery.Co
   "use strict";
 
   $(document).ready(function () {
-    $('[data-module="chartComponent-pieChart"]').each(function () {
+    $("[component='chart'][data-module='pieChart']").each(function () {
       ns?.init(this);
     });
   });

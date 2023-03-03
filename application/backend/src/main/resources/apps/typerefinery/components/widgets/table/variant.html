@@ -1,8 +1,8 @@
 <template data-sly-template.variant="${ @ model }">
   <div 
-    id="${model.id}" 
-    data-module="${model.module}"
-    class="${model.variantClassNames}"
+    component="${model.componentName}"
+    class="${model.variant} ${model.variantClassNames}"
     data-model="${model.jsonString}"
+    data-module="${model.module}"
   ></div>
 </template>

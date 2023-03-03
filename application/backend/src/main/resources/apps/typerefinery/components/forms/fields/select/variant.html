@@ -15,6 +15,7 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
   <select
+    component="${model.componentName}"
     id="${model.id}"
     class="${model.variantClassNames}">
     <option selected>${model.placeholder}</option>

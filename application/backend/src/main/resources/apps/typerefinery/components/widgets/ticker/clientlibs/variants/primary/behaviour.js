@@ -10,7 +10,7 @@ window.Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker = Typerefin
   "use strict";
  
   $(document).ready(function () {
-    $('[data-module="tickerComponent-primaryTicker"]').each(function () {
+    $("[component='ticker'][data-module='tickerComponent-primaryTicker']").each(function () {
       ns?.init(this);
     });
   });

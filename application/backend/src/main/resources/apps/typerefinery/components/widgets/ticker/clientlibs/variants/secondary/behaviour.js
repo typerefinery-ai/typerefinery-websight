@@ -10,7 +10,7 @@ window.Typerefinery.Components.Widgets.Ticker.Variants.SecondaryTicker = Typeref
   "use strict";
 
   $(document).ready(function () {
-    $('[data-module="tickerComponent-secondaryTicker"]').each(function () {
+    $("[component='ticker'][data-module='tickerComponent-secondaryTicker']").each(function () {
       ns?.init(this);
     });
   });

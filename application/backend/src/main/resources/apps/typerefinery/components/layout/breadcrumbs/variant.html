@@ -14,7 +14,10 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <div class="breadcrumb">
+    <div 
+      component="${model.componentName}"
+      id="${model.id}"
+      class="${model.componentClassNames}">
         <p-breadcrumb 
             :home="breadcrumb.home"  
             :model="breadcrumb.items" 

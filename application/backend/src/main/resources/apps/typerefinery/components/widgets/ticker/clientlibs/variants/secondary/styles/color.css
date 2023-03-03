@@ -1,36 +1,36 @@
-.primary{
+[component="ticker"] .primary{
     background-color: #442355;
     color:#D82D8B  !important;
 }
-.secondary{
+[component="ticker"] .secondary{
     background-color:#2B2861;
     color: #8B3FB3;
 }
-.indigo{
+[component="ticker"] .indigo{
     background-color:#0B3A2A;
     color: #217106;
 }
-.purple{
+[component="ticker"] .purple{
     background-color: #32426A;
     color: #9489C5;
 }
-.light-brown{
+[component="ticker"] .light-brown{
     background-color: #4B4A32;
     color: #D2991F;
 }
-.light-green{
+[component="ticker"] .light-green{
     background-color: #47624E;
     color: #CDE26E;
 }
-.green{
+[component="ticker"] .green{
     background-color:#2B564C;
     color: #8ED571;
 }
-.dark-blue{
+[component="ticker"] .dark-blue{
     background-color:#22255D;
     color: #6F36A8;
 }
-.brown{
+[component="ticker"] .brown{
     background-color: #4D3139;
     color: #F95B31;
 }
