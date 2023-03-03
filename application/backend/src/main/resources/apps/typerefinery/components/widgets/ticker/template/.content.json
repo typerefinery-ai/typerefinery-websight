@@ -1,3 +1,4 @@
 {
-  "flowapi_template": "/apps/typerefinery/components/widgets/ticker/templates/ticker.json"
+  "flowapi_template": "/apps/typerefinery/components/widgets/ticker/templates/ticker.json",
+  "flowapi_sampledata": "/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
 }
