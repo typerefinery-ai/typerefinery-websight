@@ -78,6 +78,7 @@ public class FlowService {
     public static final String PROPERTY_TEMPLATE = "template";
     public static final String PROPERTY_TEMPLATE_DESIGN = "designtemplate";
     public static final String PROPERTY_ISCONTAINER = "iscontainer";
+    public static final String PROPERTY_HTTPROUTE = "httproute";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
     public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
     public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
@@ -94,7 +95,7 @@ public class FlowService {
     public static final String FLOW_TEMPLATE_FIELD_PUBLISH_ID = "<publish-id>"; // flow step publish id, updates publish step in a flow
 
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
-
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/*";
 
     public FlowServiceConfiguration configuration;
 
@@ -617,6 +618,7 @@ public class FlowService {
         response.put(prop(PROPERTY_ISCONTAINER), isContainer);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
+        response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -673,6 +675,7 @@ public class FlowService {
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
+        response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -704,7 +707,7 @@ public class FlowService {
             put(FLOW_TEMPLATE_FIELD_PRINTJSON_ID, StringUtils.join(childPathId, "printjson"));
             put(FLOW_TEMPLATE_FIELD_SENDDATA_ID, StringUtils.join(childPathId, "senddata"));
             put(FLOW_TEMPLATE_FIELD_PUBLISH_ID, StringUtils.join(childPathId, "publish"));
-            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, currentPagePath + "/*"); // used for HTTP Route step, eg in forms            
+            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX); // used for HTTP Route step, eg in forms            
             put(FLOW_TEMPLATE_FIELD_SAMPLE_DATA, componentSampleDataValueFinal); // used for HTTP Route step, eg in forms            
         }};
     }
