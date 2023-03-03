@@ -44,16 +44,19 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/widgets/ticker"
                         flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/widget.json"
+                        flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
                         id="ticker_GKU7ITWUJ"/>
                     <ticker_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/widgets/ticker"
                         flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/widget.json"
+                        flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
                         id="ticker_1_0GHKAJZNF"/>
                     <ticker_2
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/widgets/ticker"
                         flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/widget.json"
+                        flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
                         id="ticker_2_0GWHOCC6B"/>
                 </flowcontainer>
             </main>
