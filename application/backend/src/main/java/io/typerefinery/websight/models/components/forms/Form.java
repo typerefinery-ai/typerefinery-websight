@@ -26,15 +26,22 @@ import org.apache.sling.models.annotations.Model;
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.services.flow.FlowService;
+import io.typerefinery.websight.services.flow.registry.FlowComponent;
 
 @Model(adaptables = {
     Resource.class,
     SlingHttpServletRequest.class
-}, defaultInjectionStrategy = OPTIONAL)
+    },
+    resourceType = { Form.RESOURCE_TYPE }, 
+    defaultInjectionStrategy = OPTIONAL
+)
 @Exporter(name = "jackson", extensions = "json", options = {
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
-public class Form extends BaseFormComponent {
+public class Form extends BaseFormComponent implements FlowComponent {
+
+    public static final String RESOURCE_TYPE = "typerefinery/components/forms/form";
 
     private String DEFAULT_FORM_CLASSES = "card p-4 mb-3";
 
@@ -76,4 +83,20 @@ public class Form extends BaseFormComponent {
             grid.addClasses(DEFAULT_FORM_CLASSES);
         }
     }
+
+    @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
+
+    @Override
+    public String getComponent() {        
+        return RESOURCE_TYPE;
+    }
+
+    @Override
+    public int getRanking() {
+        return 200;
+    }
+
 }
