@@ -3,7 +3,6 @@
     "bodyContainer": {
         "jcr:primaryType": "nt:unstructured",
         "sling:resourceType": "typerefinery/components/layout/container",
-        "classes": "container-fluid",
         "cardTitle": {
             "jcr:primaryType": "nt:unstructured",
             "sling:resourceType": "typerefinery/components/content/title",
