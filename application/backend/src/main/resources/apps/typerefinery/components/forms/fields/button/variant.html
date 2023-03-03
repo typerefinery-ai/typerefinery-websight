@@ -14,13 +14,13 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-        <button 
-            component="${model.componentName}"
-            id="${model.id}"
-            type="${model.type}"
-            data-model="${model.jsonString}" 
-            class="${model.variantClassNames}"
-        >
-            ${model.label}
-        </button>
+    <button 
+        component="${model.componentName}"
+        id="${model.id}"
+        type="${model.type}"
+        data-model="${model.jsonString}" 
+        class="${model.variantClassNames}"
+    >
+        ${model.label @ context='html'}
+    </button>
 </template>
