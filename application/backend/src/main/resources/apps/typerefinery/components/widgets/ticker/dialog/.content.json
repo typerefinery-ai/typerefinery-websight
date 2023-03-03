@@ -24,6 +24,7 @@
       "title": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "title",
+        "description": "Title of the ticker, this is used to sync into Flow when its enabled.",
         "label": "Title",
         "defaultValue": "Demo"
       },
