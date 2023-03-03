@@ -4,6 +4,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import lombok.Getter;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.injectorspecific.Self;
+import org.jetbrains.annotations.Nullable;
 
 @Model(
     adaptables = {
@@ -34,17 +36,22 @@ import org.apache.sling.models.annotations.injectorspecific.Self;
 )
 public class BaseFormComponent extends BaseComponent {
 
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_LABEL = "label";
+
     @Self
     private SlingHttpServletRequest request;
 
     @Inject
     @Getter
-    @Default(values = "")
+    @Named(PROPERTY_NAME)
+    @Nullable
     protected String name;
 
     @Inject
     @Getter
-    @Default(values = "")
+    @Named(PROPERTY_LABEL)
+    @Nullable
     protected String label;
     
 
