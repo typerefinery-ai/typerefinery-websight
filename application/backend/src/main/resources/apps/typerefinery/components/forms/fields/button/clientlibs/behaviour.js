@@ -8,7 +8,6 @@ window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Butt
     $(document).ready(function () {
         document.querySelectorAll('[component="button"]').forEach(function ($component) {
             ns.init($component);
-            console.log("$component",$component);
         });
     });
 })(window.Typerefinery.Components.Forms.Button, document);
