@@ -20,8 +20,13 @@
         },
         "normalButton": {
           "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Button",
-          "value": "button"
+          "label": "Navigate",
+          "value": "navigate"
+        },
+        "actionButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Action",
+          "value": "action"
         }
       },
       "url": {
@@ -33,7 +38,7 @@
         "ws:display": {
           "condition": {
             "sourceName": "buttonType",
-            "values": "button"
+            "values": "navigate"
           }
         }
       },
@@ -45,9 +50,46 @@
         "ws:display": {
           "condition": {
             "sourceName": "buttonType",
-            "values": "button"
+            "values": "navigate"
           }
         }
+      }
+    },
+    "actionMetaData": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Action MetaData",
+      "ws:display": {
+        "condition": {
+          "sourceName": "buttonType",
+          "values": "action"
+        }
+      },
+      "actionModalTitle": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "actionModalTitle",
+        "label": "Title"
+      },
+      "actionUrl": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "actionUrl",
+        "label": "URL"
+      },
+      "actionType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "actionType",
+        "label": "Action Type",
+        "openModal": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Open Modal",
+          "value": "openModal"
+        }
+      },
+      "displayModalFooter": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "displayModalFooter",
+        "label": "Hide Modal Footer",
+        "description": "Save changes of Form from the Model itself."
       }
     },
     "styleTab": {

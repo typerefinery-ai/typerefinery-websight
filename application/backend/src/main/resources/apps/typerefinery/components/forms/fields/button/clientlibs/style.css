@@ -4,3 +4,29 @@
   width: 100%;
   margin-bottom: 1%;
 }
+
+.iframeClassName {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-content {
+  height: 90%;
+}
+
+.modal-dialog {
+  height: 100%;
+}
+
+#closeButton {
+  margin-left: 10px !important;
+  border: white;
+}
+
+.maxbutton {
+  margin: calc(-0.5 * var(--bs-modal-header-padding-y))
+    calc(-0.5 * var(--bs-modal-header-padding-x))
+    calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
+
+  border: white;
+}

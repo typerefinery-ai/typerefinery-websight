@@ -25,6 +25,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.utils.LinkUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -37,11 +38,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 
 @Model(adaptables = {
-    Resource.class,
-    SlingHttpServletRequest.class
+        Resource.class,
+        SlingHttpServletRequest.class
 }, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = {
-    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
 public class Button extends BaseFormComponent {
 
@@ -75,7 +76,29 @@ public class Button extends BaseFormComponent {
     @Getter
     private Boolean isOutlinedButton;
 
-    private Map < String, String > buttonVariantConfig = new HashMap < String, String > () {
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String actionType;
+
+    @Inject
+    @Default(values = "")
+    private String actionUrl;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String actionModalTitle;
+
+    @Inject
+    @Getter
+    private Boolean displayModalFooter;
+
+    public String getActionUrl() {
+        return LinkUtil.handleLink(actionUrl, resourceResolver);
+    }
+
+    private Map<String, String> buttonVariantConfig = new HashMap<String, String>() {
         {
             put("primary", "-primary");
             put("secondary", "-secondary");
