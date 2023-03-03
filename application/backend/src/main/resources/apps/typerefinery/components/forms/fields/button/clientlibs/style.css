@@ -18,12 +18,12 @@
   height: 100%;
 }
 
-#closeButton {
+.closeButtonInModal {
   margin-left: 10px !important;
   border: white;
 }
 
-.maxbutton {
+.maximizeButtonInModal {
   margin: calc(-0.5 * var(--bs-modal-header-padding-y))
     calc(-0.5 * var(--bs-modal-header-padding-x))
     calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
