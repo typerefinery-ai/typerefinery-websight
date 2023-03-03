@@ -69,9 +69,13 @@ public class BaseModel {
     @Getter
     public String componentTitle;
 
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Inject
     public static SlingHttpServletRequest request;
 
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Inject
     public SlingHttpServletResponse response;
 
