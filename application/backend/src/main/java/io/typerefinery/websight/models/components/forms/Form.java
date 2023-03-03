@@ -15,6 +15,9 @@
  */
 package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import lombok.Getter;
 
@@ -32,6 +35,7 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
 import io.typerefinery.websight.models.components.flow.FlowContainer;
 import io.typerefinery.websight.services.flow.FlowService;
 import io.typerefinery.websight.services.flow.registry.FlowComponent;
+import io.typerefinery.websight.utils.PageUtil;
 
 @Component
 @Model(adaptables = {
@@ -87,15 +91,25 @@ public class Form extends FlowContainer implements FlowComponent {
         if (grid != null) {
             grid.addClasses(DEFAULT_FORM_CLASSES);
         }
+
+        HashMap<String, Object> props = new HashMap<String, Object>(){{
+            
+        }};
+
         if (StringUtils.isBlank(readUrl)) {
             readUrl = this.flowapi_httproute;
+            props.put("readUrl", readUrl);
         }
         if (StringUtils.isBlank(writeUrl)) {
             writeUrl = this.flowapi_httproute;
+            props.put("writeUrl", writeUrl);
         }
         if (StringUtils.isBlank(title)) {
             title = this.flowapi_title;
+            props.put("title", title);
         }
+
+        PageUtil.updatResourceProperties(resource, props);
     }
 
     @Override
