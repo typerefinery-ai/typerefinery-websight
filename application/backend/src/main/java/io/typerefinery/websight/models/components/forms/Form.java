@@ -23,12 +23,15 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
+import org.osgi.service.component.annotations.Component;
+
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 import io.typerefinery.websight.services.flow.FlowService;
 import io.typerefinery.websight.services.flow.registry.FlowComponent;
 
+@Component
 @Model(adaptables = {
     Resource.class,
     SlingHttpServletRequest.class
