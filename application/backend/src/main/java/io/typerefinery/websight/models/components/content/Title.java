@@ -75,7 +75,11 @@ public class Title extends BaseComponent {
         if (title == null) {
             Resource page = PageUtil.getResourcePage(resource);
             // get title from page
-            title = page.getValueMap().get(JcrConstants.JCR_TITLE, String.class);
+            if (page.getChild(JcrConstants.JCR_CONTENT) != null) {
+                Resource pageContent = page.getChild(JcrConstants.JCR_CONTENT);
+                title = pageContent.getValueMap().get(JcrConstants.JCR_TITLE, String.class);
+            }
+            
             if (StringUtils.isBlank(title)) {
                 title = DEFAULT_TITLE;
             }            
