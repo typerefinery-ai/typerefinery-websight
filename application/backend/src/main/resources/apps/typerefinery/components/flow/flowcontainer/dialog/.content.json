@@ -40,6 +40,12 @@
         "label": "Design Template",
         "disabled": true
       },
+      "sampledata": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "flowapi_sampledata",
+        "label": "Sample Data",
+        "disabled": true
+      },
       "iscontainer": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_iscontainer",
