@@ -48,7 +48,9 @@ public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "button";
     protected static final String DEFAULT_MODULE = "button";
-    protected static final String DEFAULT_LABEL = "Click here";
+    protected static final String DEFAULT_LABEL = "Click me";
+    protected static final String DEFAULT_BUTTON_CLASS = "col-12";
+    protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
 
     @Inject
     @Getter
@@ -92,7 +94,38 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
-    private Boolean displayModalFooter;
+    private Boolean hideFooter;
+
+    @Inject
+    @Getter
+    private String icon;
+
+    @Inject
+    @Getter
+    private String iconPosition;
+
+    public String getLabel() {
+        String result = "";
+        // Check if the icon is not blank.
+        if (StringUtils.isNotBlank(this.icon)) {
+            String iconTag = "<i class='" + this.icon + "'></i>";
+
+            // Check if the icon position is not blank
+            if (StringUtils.isNotBlank(this.iconPosition)) {
+                if (this.iconPosition.equalsIgnoreCase("right")) {
+                    result = this.label + " " + iconTag;
+
+                } else if (this.iconPosition.equalsIgnoreCase("right")) {
+                    result = iconTag + " " + this.label;
+                }
+            } else {
+                result = iconTag + " " + this.label;
+            }
+        } else {
+            return this.label;
+        }
+        return result;
+    }
 
     public String getActionUrl() {
         return LinkUtil.handleLink(actionUrl, resourceResolver);
@@ -123,7 +156,7 @@ public class Button extends BaseFormComponent {
         super.init();
 
         if (grid != null && style != null) {
-            String buttonCls = "mb-3 btn";
+            String buttonCls = "btn";
             if (StringUtils.isNotBlank(buttonVariant)) {
                 buttonCls += " btn";
                 if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
@@ -135,6 +168,8 @@ public class Button extends BaseFormComponent {
             }
 
             style.addClasses(buttonCls);
+            style.addClasses(DEFAULT_BUTTON_CLASS);
+            grid.addClasses(DEFAULT_BUTTON_GRID_CLASS);
         }
     }
 
