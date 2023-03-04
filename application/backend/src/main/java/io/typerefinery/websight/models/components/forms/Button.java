@@ -57,7 +57,7 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
-    private Boolean openInNewTab;
+    private Boolean navigateToInNewWindow;
 
     @Inject
     @Getter
@@ -92,6 +92,10 @@ public class Button extends BaseFormComponent {
     @Inject
     @Getter
     private String icon;
+
+    @Inject
+    @Getter
+    private String navigateTo;
 
     @Inject
     @Getter

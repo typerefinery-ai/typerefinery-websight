@@ -29,10 +29,10 @@
           "value": "action"
         }
       },
-      "url": {
+      "navigateTo": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
-        "name": "url",
+        "name": "navigateTo",
         "label": "Navigate to",
         "description": "When click on the button the page will be redirected to the the URL provided.",
         "ws:display": {
@@ -42,9 +42,9 @@
           }
         }
       },
-      "openInNewTab": {
+      "navigateToInNewWindow": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "openInNewTab",
+        "name": "navigateToInNewWindow",
         "label": "Open in new tab",
         "description": "Open the page in new tab.",
         "ws:display": {

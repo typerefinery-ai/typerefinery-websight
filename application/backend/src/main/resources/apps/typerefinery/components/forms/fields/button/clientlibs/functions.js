@@ -6,23 +6,23 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 
 (function (ns, componentNs, modalNs, dropdownNs, document, window) {
-    ns.addEventListener = (id) => {
-        $(document).on("click", `#${id}`, (e) => {
-            e.preventDefault();
+    ns.addEventListener = ($component, id) => {
+        $component.addEventListener("click", (e) => {
+            e?.preventDefault();
             const componentConfig = componentNs.getComponentConfig(e.currentTarget);
-            let { buttonType, url, openInNewTab } = componentConfig;
+            let { buttonType, navigateTo, navigateToInNewWindow } = componentConfig;
 
             if(buttonType === "navigate") {
-                if(url) {
-                    if(!url.endsWith(".html")) {
-                        url += ".html";
+                if(navigateTo) {
+                    if(!navigateTo.endsWith(".html")) {
+                        navigateTo += ".html";
                     }
                     
-                    if(openInNewTab) {
-                        window.open(url);
+                    if(navigateToInNewWindow) {
+                        window.open(navigateTo);
                         return;
                     }
-                    window.location.href = url;
+                    window.location.href = navigateTo;
                 }
             }
         });
@@ -43,6 +43,6 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
             }
             return;
         }
-        ns.addEventListener(id);
+        ns.addEventListener($component, id);
     }
 })(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, document, window);
