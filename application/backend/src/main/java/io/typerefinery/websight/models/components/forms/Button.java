@@ -19,7 +19,9 @@ package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import io.typerefinery.websight.models.components.layout.NavigationItemComponent;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
@@ -31,19 +33,10 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Exporter;
-import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = {
-        Resource.class,
-        SlingHttpServletRequest.class
-}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
-})
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "button";
@@ -103,6 +96,10 @@ public class Button extends BaseFormComponent {
     @Inject
     @Getter
     private String iconPosition;
+
+    @Inject
+    @Getter
+    private List<NavigationItemComponent> dropdownItems;
 
     public String getLabel() {
         String result = "";

@@ -5,6 +5,7 @@
   "categories": ["io.typerefinery.websight.components-header"],  
   "js": [
     "components.js",
-    "modal.js"
+    "modal.js",
+    "dropdown.js"
   ] 
 }
