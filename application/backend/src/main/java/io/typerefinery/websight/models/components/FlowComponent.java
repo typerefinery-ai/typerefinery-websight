@@ -136,6 +136,12 @@ public class FlowComponent extends BaseComponent {
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_HTTPROUTE)
     public String flowapi_httproute;
 
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_WEBSOCKETURL)
+    public String flowapi_websocketurl;
+
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OSGiService
