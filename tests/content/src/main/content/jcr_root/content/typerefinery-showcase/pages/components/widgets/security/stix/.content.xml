@@ -36,7 +36,7 @@
                 <stix
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/widgets/security/stix"
-                    flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/security/stix/flowsample.json"
+                    flowapi_sampledata="/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/widgets/security/stix/templates/stix.json"
                     id="stix_SVTBP4VXM"/>
             </main>

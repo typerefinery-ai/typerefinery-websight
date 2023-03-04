@@ -51,7 +51,7 @@ public class Stix extends FlowComponent implements FlowComponentRegister {
     public static final String PROPERTY_DATA_URL = "dataUrl";
 
     public static final String DEFAULT_FLOWAPI_TEMPLATE = "/apps/typerefinery/components/widgets/security/stix/templates/stix.json";
-    public static final String DEFAULT_FLOWAPI_SAMPLEDATA = "/apps/typerefinery/components/widgets/security/stix/templates/stix.json";
+    public static final String DEFAULT_FLOWAPI_SAMPLEDATA = "/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json";
 
     @Inject
     @Getter
