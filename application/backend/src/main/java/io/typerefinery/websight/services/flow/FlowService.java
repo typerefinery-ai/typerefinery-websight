@@ -79,6 +79,7 @@ public class FlowService {
     public static final String PROPERTY_TEMPLATE_DESIGN = "designtemplate";
     public static final String PROPERTY_ISCONTAINER = "iscontainer";
     public static final String PROPERTY_HTTPROUTE = "httproute";
+    public static final String PROPERTY_WEBSOCKETURL = "websocketurl";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
     public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
     public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
@@ -619,6 +620,7 @@ public class FlowService {
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
         response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
+        response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -676,6 +678,7 @@ public class FlowService {
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
         response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
+        response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
 
