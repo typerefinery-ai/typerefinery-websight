@@ -5,11 +5,18 @@
     "general": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "description": "Title of the ticker, this is used to sync into Flow when its enabled.",
+        "label": "Title",
+        "defaultValue": "Demo"
+      },
       "maxCount": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "maxCount",
         "label": "Max Count",
-        "description": "Max nodes to show"
+        "description": "Max nodes to show, default 200."
       },
       "url": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -18,13 +25,13 @@
         "description": "URL to load data from."
       }
     },    
-    "flowTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
-    },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
     }
   }
 }

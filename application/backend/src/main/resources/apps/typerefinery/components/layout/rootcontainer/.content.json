@@ -9,7 +9,8 @@
     "Typerefinery - Graphs",
     "Typerefinery - Layout",
     "Typerefinery - List",
-    "Typerefinery - Widgets"
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security"
   ],
   "sling:resourceType": "ws:Component",
   "description": "Use for most outer, editable root",

@@ -10,7 +10,8 @@
     "Typerefinery - Layout",
     "Typerefinery - List",
     "Typerefinery - Widgets",
-    "Typerefinery - Flow"
+    "Typerefinery - Flow",
+    "Typerefinery - Widgets - Security"
   ],
   "sling:resourceType": "ws:Component",
   "description": "Editable components wrapper",
