@@ -1007,7 +1007,9 @@ public class FlowService {
         if (samplePath == null || samplePath.isEmpty()) {
             return "";
         }
-        if (!resourceResolver.getResource(samplePath).isResourceType("nt:file")) {
+        Resource sampleResource = resourceResolver.getResource(samplePath);
+        if (ResourceUtil.isNonExistingResource(sampleResource) || !sampleResource.isResourceType("nt:file")) {
+            LOGGER.error("sample data not found: {}", samplePath );
             return "";
         }
         String sampleJson = getResourceInputStreamAsString(samplePath, resourceResolver);
