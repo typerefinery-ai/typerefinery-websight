@@ -41,7 +41,7 @@ import lombok.Getter;
     resourceType = { FlowComponent.RESOURCE_TYPE },
     defaultInjectionStrategy = OPTIONAL
 )
-public class FlowComponent extends BaseComponent implements FlowComponentRegister {
+public class FlowComponent extends BaseComponent {
     
     public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
 
@@ -146,21 +146,6 @@ public class FlowComponent extends BaseComponent implements FlowComponentRegiste
     protected void init() {
         this.module = DEFAULT_MODULE;
         super.init();
-    }
-
-    @Override
-    public String getKey() {
-        return FlowService.FLOW_SPI_KEY;
-    }
-
-    @Override
-    public String getComponent() {        
-        return RESOURCE_TYPE;
-    }
-
-    @Override
-    public int getRanking() {
-        return 200;
     }
 
 }

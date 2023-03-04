@@ -20,6 +20,7 @@ import org.osgi.service.component.annotations.Component;
 import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.models.components.FlowComponent;
 import io.typerefinery.websight.services.flow.FlowService;
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import io.typerefinery.websight.utils.PageUtil;
 /*
  * Stix component
@@ -40,7 +41,7 @@ import io.typerefinery.websight.utils.PageUtil;
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Stix extends FlowComponent {
+public class Stix extends FlowComponent implements FlowComponentRegister {
     
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/security/stix";
     private static final String DEFAULT_ID = "stix";
@@ -66,12 +67,6 @@ public class Stix extends FlowComponent {
 
 
     @Override
-    public String getComponent() {
-        return RESOURCE_TYPE;
-    }
-
-
-    @Override
     @PostConstruct
     protected void init() {
         this.module = DEFAULT_MODULE;
@@ -92,6 +87,22 @@ public class Stix extends FlowComponent {
 
         //update any defaults that should be set
         PageUtil.updatResourceProperties(resource, props);
+    }
+
+    
+    @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
+
+    @Override
+    public String getComponent() {        
+        return RESOURCE_TYPE;
+    }
+
+    @Override
+    public int getRanking() {
+        return 200;
     }
 
 }

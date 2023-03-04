@@ -34,7 +34,7 @@ import io.typerefinery.websight.utils.PageUtil;
  */
 @Component
 @Model(adaptables = Resource.class, resourceType = { FlowContainer.RESOURCE_TYPE }, defaultInjectionStrategy = OPTIONAL)
-public class FlowContainer extends FlowComponent {
+public class FlowContainer extends FlowComponent implements FlowComponentRegister {
     
     public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
 
@@ -77,8 +77,18 @@ public class FlowContainer extends FlowComponent {
     }
 
     @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
+
+    @Override
     public String getComponent() {        
         return RESOURCE_TYPE;
+    }
+
+    @Override
+    public int getRanking() {
+        return 200;
     }
 
 }

@@ -35,6 +35,7 @@ import io.typerefinery.websight.models.components.BaseFormComponent;
 import io.typerefinery.websight.models.components.FlowComponent;
 import io.typerefinery.websight.models.components.flow.FlowContainer;
 import io.typerefinery.websight.services.flow.FlowService;
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import io.typerefinery.websight.utils.PageUtil;
 
 @Component
@@ -48,7 +49,7 @@ import io.typerefinery.websight.utils.PageUtil;
 @Exporter(name = "jackson", extensions = "json", options = {
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
-public class Form extends FlowComponent {
+public class Form extends FlowComponent implements FlowComponentRegister {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/forms/form";
 
@@ -126,8 +127,18 @@ public class Form extends FlowComponent {
     }
 
     @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
+
+    @Override
     public String getComponent() {        
         return RESOURCE_TYPE;
+    }
+
+    @Override
+    public int getRanking() {
+        return 200;
     }
 
 }
