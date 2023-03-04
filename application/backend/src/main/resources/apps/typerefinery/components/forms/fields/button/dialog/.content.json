@@ -42,7 +42,6 @@
           }
         }
       },
-      
       "openInNewTab": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "openInNewTab",
@@ -102,7 +101,6 @@
           "values": "action"
         }
       },
-      
       "actionType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "actionType",
@@ -150,6 +148,28 @@
             "sourceName": "actionType",
             "values": "openModal"
           }
+        }
+      },
+      "dropdownItems": {
+        "name": "dropdownItems",
+        "label": "Dropdown menu options",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openDropdown"
+          }
+        },
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "rootPath": "/content",
+          "name": "link",
+          "label": "URL"
         }
       }
     },
