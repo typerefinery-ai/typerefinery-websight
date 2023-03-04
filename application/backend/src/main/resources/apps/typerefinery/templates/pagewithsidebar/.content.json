@@ -1,7 +1,7 @@
 {  
   "sling:resourceType": "ws:PageTemplate",
-  "description": "Empty page",
-  "title": "Blank",
+  "description": "Create a new page with sidebar.",
+  "title": "Page with Sidebar",
   "allowedChildren": [
     "/apps/typerefinery/templates/blank",
     "/apps/typerefinery/templates/page",
