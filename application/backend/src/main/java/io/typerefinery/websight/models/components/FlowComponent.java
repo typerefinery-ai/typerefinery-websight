@@ -92,7 +92,7 @@ public class FlowComponent extends BaseComponent {
     @Getter
     @Inject
     @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_TOPIC)
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_UPDATEDON)
     public String flowapi_updatedon;
     
     @Getter
