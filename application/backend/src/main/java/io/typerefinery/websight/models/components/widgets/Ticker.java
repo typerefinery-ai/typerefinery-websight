@@ -1,6 +1,9 @@
 package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,8 +18,9 @@ import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
 import io.typerefinery.websight.models.components.BaseComponent;
+import io.typerefinery.websight.models.components.FlowComponent;
 import io.typerefinery.websight.services.flow.FlowService;
-import io.typerefinery.websight.services.flow.registry.FlowComponent;
+import io.typerefinery.websight.utils.PageUtil;
 
 /*
  * Ticker component
@@ -30,7 +34,7 @@ import io.typerefinery.websight.services.flow.registry.FlowComponent;
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Ticker extends BaseComponent implements FlowComponent {
+public class Ticker extends FlowComponent {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
     private static final String DEFAULT_ID = "ticker";
     private static final String DEFAULT_MODULE = "tickerComponent";
@@ -73,6 +77,9 @@ public class Ticker extends BaseComponent implements FlowComponent {
 
     private static final String PROPERTY_BACKGROUND_CLASS = "backGroundClass";
     private static final String DEFAULT_BACKGROUND_CLASS = "";    
+
+    public static final String DEFAULT_FLOWAPI_TEMPLATE = "/apps/typerefinery/components/widgets/ticker/templates/ticker.json";
+    public static final String DEFAULT_FLOWAPI_SAMPLEDATA = "/apps/typerefinery/components/widgets/ticker/templates/flowsample.json";
 
 
     @Getter
@@ -154,18 +161,8 @@ public class Ticker extends BaseComponent implements FlowComponent {
     public String backGroundClass;
 
     @Override
-    public String getKey() {
-        return FlowService.FLOW_SPI_KEY;
-    }
-
-    @Override
     public String getComponent() {
         return RESOURCE_TYPE;
-    }
-
-    @Override
-    public int getRanking() {
-        return 200;
     }
 
     @Override
@@ -216,5 +213,22 @@ public class Ticker extends BaseComponent implements FlowComponent {
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
         }
+
+        
+        // default values to be saved to resource if any are missing
+        HashMap<String, Object> props = new HashMap<String, Object>(){{            
+        }};
+
+        if (StringUtils.isBlank(this.flowapi_template)) {
+            this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
+            props.put("flowapi_template", this.flowapi_template);
+        }
+        if (StringUtils.isBlank(this.flowapi_template)) {
+            this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
+            props.put("flowapi_sampledata", this.flowapi_sampledata);
+        }
+
+        //update any defaults that should be set
+        PageUtil.updatResourceProperties(resource, props);
     }
 }

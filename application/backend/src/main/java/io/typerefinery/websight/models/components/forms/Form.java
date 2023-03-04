@@ -32,9 +32,9 @@ import org.osgi.service.component.annotations.Component;
 import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.models.components.FlowComponent;
 import io.typerefinery.websight.models.components.flow.FlowContainer;
 import io.typerefinery.websight.services.flow.FlowService;
-import io.typerefinery.websight.services.flow.registry.FlowComponent;
 import io.typerefinery.websight.utils.PageUtil;
 
 @Component
@@ -48,10 +48,13 @@ import io.typerefinery.websight.utils.PageUtil;
 @Exporter(name = "jackson", extensions = "json", options = {
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
-public class Form extends FlowContainer implements FlowComponent {
+public class Form extends FlowComponent {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/forms/form";
 
+    public static final String DEFAULT_FLOWAPI_TEMPLATE = "/apps/typerefinery/components/forms/form/templates/flowform-service.json";
+    public static final String DEFAULT_FLOWAPI_SAMPLEDATA = "/apps/typerefinery/components/forms/form/templates/flowsample.json";
+    
     private String DEFAULT_FORM_CLASSES = "card p-4 mb-3";
 
     @Inject
@@ -92,39 +95,39 @@ public class Form extends FlowContainer implements FlowComponent {
             grid.addClasses(DEFAULT_FORM_CLASSES);
         }
 
-        HashMap<String, Object> props = new HashMap<String, Object>(){{
-            
+        // default values to be saved to resource if any are missing
+        HashMap<String, Object> props = new HashMap<String, Object>(){{            
         }};
 
         if (StringUtils.isBlank(readUrl)) {
             readUrl = this.flowapi_httproute;
-            props.put("readUrl", readUrl);
+            props.put("readUrl", this.readUrl);
         }
         if (StringUtils.isBlank(writeUrl)) {
             writeUrl = this.flowapi_httproute;
-            props.put("writeUrl", writeUrl);
+            props.put("writeUrl", this.writeUrl);
         }
         if (StringUtils.isBlank(title)) {
             title = this.flowapi_title;
-            props.put("title", title);
+            props.put("title", this.title);
         }
 
-        PageUtil.updatResourceProperties(resource, props);
-    }
+        if (StringUtils.isBlank(this.flowapi_template)) {
+            this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
+            props.put("flowapi_template", this.flowapi_template);
+        }
+        if (StringUtils.isBlank(this.flowapi_template)) {
+            this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
+            props.put("flowapi_sampledata", this.flowapi_sampledata);
+        }
 
-    @Override
-    public String getKey() {
-        return FlowService.FLOW_SPI_KEY;
+        //update any defaults that should be set
+        PageUtil.updatResourceProperties(resource, props);
     }
 
     @Override
     public String getComponent() {        
         return RESOURCE_TYPE;
-    }
-
-    @Override
-    public int getRanking() {
-        return 200;
     }
 
 }
