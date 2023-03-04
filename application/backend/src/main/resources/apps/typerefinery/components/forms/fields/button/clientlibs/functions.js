@@ -3,8 +3,9 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Button || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
+window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 
-(function (ns, componentNs, modalNs, document, window) {
+(function (ns, componentNs, modalNs, dropdownNs, document, window) {
     ns.addEventListener = (id) => {
         $(document).on("click", `#${id}`, (e) => {
             e.preventDefault();
@@ -38,11 +39,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             if(actionType === "openModal") {
                 modalNs.init($component, componentConfig);
             }else if(actionType === "openDropdown") {
-                // TODO: Create a ns for the dropdown.
-                // dropdownNs.init($component, componentConfig);
+                dropdownNs.init($component, componentConfig);
             }
-            
+            return;
         }
         ns.addEventListener(id);
     }
-})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, document, window);
+})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, document, window);
