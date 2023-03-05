@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
@@ -30,14 +31,20 @@ import io.typerefinery.websight.utils.PageUtil;
  * 
  */
 @Component
-@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    resourceType = { Ticker.RESOURCE_TYPE },
+    defaultInjectionStrategy = OPTIONAL
+)
 @Exporter(name = "jackson", extensions = "json", options = {
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
 public class Ticker extends FlowComponent implements FlowComponentRegister {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
-    private static final String DEFAULT_ID = "ticker";
     private static final String DEFAULT_MODULE = "tickerComponent";
 
     private static final String PROPERTY_TITLE = "title";
@@ -218,11 +225,11 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
-            props.put("flowapi_template", this.flowapi_template);
+            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
         }
-        if (StringUtils.isBlank(this.flowapi_template)) {
+        if (StringUtils.isBlank(this.flowapi_sampledata)) {
             this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
-            props.put("flowapi_sampledata", this.flowapi_sampledata);
+            props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
 
         //update any defaults that should be set

@@ -44,7 +44,6 @@ import io.typerefinery.websight.utils.PageUtil;
 public class Stix extends FlowComponent implements FlowComponentRegister {
     
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/security/stix";
-    private static final String DEFAULT_ID = "stix";
     private static final String DEFAULT_MODULE = "stixComponent";
 
     public static final String PROPERTY_MAX_COUNT = "maxCount";
@@ -78,11 +77,11 @@ public class Stix extends FlowComponent implements FlowComponentRegister {
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
-            props.put("flowapi_template", this.flowapi_template);
+            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
         }
-        if (StringUtils.isBlank(this.flowapi_template)) {
+        if (StringUtils.isBlank(this.flowapi_sampledata)) {
             this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
-            props.put("flowapi_sampledata", this.flowapi_sampledata);
+            props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
 
         //update any defaults that should be set

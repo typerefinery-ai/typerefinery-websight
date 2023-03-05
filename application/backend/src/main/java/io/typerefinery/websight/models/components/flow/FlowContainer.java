@@ -60,15 +60,15 @@ public class FlowContainer extends FlowComponent implements FlowComponentRegiste
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
-            props.put("flowapi_template", this.flowapi_template);
+            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
         }
-        if (StringUtils.isBlank(this.flowapi_template)) {
+        if (StringUtils.isBlank(this.flowapi_sampledata)) {
             this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
-            props.put("flowapi_sampledata", this.flowapi_sampledata);
+            props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
         if (this.flowapi_iscontainer == null) {
             this.flowapi_iscontainer = DEFAULT_FLOWAPI_ISCONTAINER;
-            props.put("flowapi_iscontainer", this.flowapi_iscontainer);
+            props.put(FlowService.prop(FlowService.PROPERTY_ISCONTAINER), this.flowapi_iscontainer);
         }
 
         //update any defaults that should be set
