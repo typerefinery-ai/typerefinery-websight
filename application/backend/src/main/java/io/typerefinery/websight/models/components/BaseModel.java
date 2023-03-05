@@ -44,12 +44,12 @@ public class BaseModel {
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @SlingObject
-    protected Resource resource;
+    public Resource resource;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @SlingObject
-    protected ResourceResolver resourceResolver;
+    public ResourceResolver resourceResolver;
 
     @Inject
     @Getter
