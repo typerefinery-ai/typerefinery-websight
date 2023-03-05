@@ -115,7 +115,7 @@ public class Form extends FlowComponent implements FlowComponentRegister {
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
-            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE)lowService.PROPERTY_TEMPLATE), this.flowapi_template);
+            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
         }
         if (StringUtils.isBlank(this.flowapi_sampledata)) {
             this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
