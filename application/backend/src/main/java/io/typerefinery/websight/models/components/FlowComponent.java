@@ -149,7 +149,6 @@ public class FlowComponent extends BaseComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.module = DEFAULT_MODULE;
         super.init();
     }
 
