@@ -1,6 +1,9 @@
 package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
@@ -29,42 +32,15 @@ import io.typerefinery.websight.services.flow.registry.FlowComponent;
 })
 public class Ticker extends BaseComponent implements FlowComponent {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
-    private static final String DEFAULT_ID = "ticker";
-    private static final String DEFAULT_MODULE = "tickerComponent";
+
 
     @Getter
     @Inject
-    @Default(values = "Sample Card")
-    public String title;
+    public List<WidgetOptionItem> keyValueList;
 
     @Getter
     @Inject
-    @Default(values = "12.5k")
-    public String value;
-
-    @Getter
-    @Inject
-    @Default(values = "pi pi-database")
-    public String icon;
-
-    @Getter
-    @Inject
-    public String badge;
-
-    @Getter
-    @Inject
-    @Default(values = "pi pi-arrow-up")
-    public String indicatorType;
-
-    @Getter
-    @Inject
-    @Default(values = "12.k")
-    public String indicatorValue;
-    
-    @Getter
-    @Inject
-    @Default(values = "")
-    public String indicatorValuePrecision;
+    public String template;
 
     @Getter
     @Inject
@@ -84,37 +60,6 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Default(values = "")
     public String flowapi_topic;
 
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String sizeType;
-
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String sizeValue;
-
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String alignmentHorizontal;
-
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String alignmentVirtical;
-
-    @Getter
-    @Inject
-    @Default(values = "primaryTicker")
-    public String variant;
-
-
-    @Inject
-    @Getter
-    // @Default (values = "")
-    public String backGroundClass;
-
     @Override
     public String getKey() {
         return FlowService.FLOW_SPI_KEY;
@@ -133,11 +78,25 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
-        this.module = DEFAULT_MODULE;
         super.init();
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
+        }
+
+        if(StringUtils.isBlank(this.template)) {
+            this.template = "<div class='card shadow'> <div class='card-body d-flex flex-row align-items-center flex-0 border-bottom'> <div class='d-block'> <div class='h6 fw-normal text-gray mb-2'>{{title}}</div> <div class='d-flex'> <h2 class='h3 me-3'>{{value}}</h2> <div class='mt-2'> <span class='{{indicatorIcon}} text-{{indicatorType}}'></span> <span class='text-{{indicatorType}} fw-bold'>{{indicatorValue}}</span> </div> </div> </div> <div class='d-block ms-auto'> <i class='{{tickerIcon}}'></i> </div> </div> </div>";
+        }
+
+        if(this.keyValueList == null || this.keyValueList.size() == 0) {
+            if(this.keyValueList == null) {
+                this.keyValueList = new java.util.ArrayList<>();
+            }
+            this.keyValueList.add(new WidgetOptionItem("title", "Number of active users"));
+            this.keyValueList.add(new WidgetOptionItem("value", "25.5k"));
+            this.keyValueList.add(new WidgetOptionItem("indicatorValue", "4.54K"));
+            this.keyValueList.add(new WidgetOptionItem("indicatorType", "success"));
+            this.keyValueList.add(new WidgetOptionItem("tickerIcon", "fa fa-inbox"));
+            this.keyValueList.add(new WidgetOptionItem("indicatorIcon", "fa fa-arrow-down"));
         }
     }
 }

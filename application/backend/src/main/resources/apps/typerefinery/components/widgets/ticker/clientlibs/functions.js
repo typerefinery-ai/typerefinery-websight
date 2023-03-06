@@ -3,8 +3,6 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Ticker = Typerefinery.Components.Widgets.Ticker || {};
-window.Typerefinery.Components.Widgets.Ticker.Variants = Typerefinery.Components.Widgets.Ticker.Variants || {};
-window.Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker = Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
@@ -16,26 +14,35 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             return;
         }
         const componentConfig = componentNs.getComponentConfig($component);
-        const innerHTML = `
-                <div class="body">
-                    <div class="title">${data.title || componentConfig.title}</div>
-                    <div class="content">
-                        <div class="value">
-                            ${data.value || componentConfig.value}
-                        </div>
-                        <div class="indicator">
-                            <div class="icon pi pi-arrow-${data.indicatorType || componentConfig.indicatorType} ${data.indicatorType || componentConfig.indicatorType}"></div>
-                            <div class="icon pi pi-minus ${data.indicatorType || componentConfig.indicatorType}"></div>
-                            <div class="indicator_value">
-                                <span>${data.indicatorValue || componentConfig.indicatorValue}</span>
-                                <span class="hours">${data.indicatorValuePrecision || componentConfig.indicatorValuePrecision}</span>
+
+        const defaultData = {};
+        
+        componentConfig?.keyValueList?.forEach(keyValue => {
+            defaultData[keyValue.itemKey] = keyValue.itemValue
+        });
+
+        const htmlTemplate = componentConfig.template || `
+            <div class="card shadow col-3">
+                <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom">
+                    <div class="d-block">
+                        <div class="h6 fw-normal text-gray mb-2">{{title}}</div>
+                        <div class="d-flex">
+                            <h2 class="h3 me-3">{{value}}</h2>
+                            <div class="mt-2">
+                                <span class="{{indicatorIcon}} text-{{indicatorType}}"></span>
+                                <span class="text-{{indicatorType}} fw-bold">{{indicatorValue}}</span>
                             </div>
                         </div>
                     </div>
+                    <div class="d-block ms-auto">
+                        <i class="{{tickerIcon}}"></i>
+                    </div>
                 </div>
-                <div class="icon ${data.icon || componentConfig.icon}"></div>
-            `;
-        $component.innerHTML = innerHTML;
+            </div>
+        `;
+
+        const handlebarTemplate = Handlebars.compile(htmlTemplate);
+        $component.innerHTML = handlebarTemplate({ ...data, ...defaultData });
     }
 
     ns.jsonConnected = async (dataSourceURL, $component) => {
@@ -90,7 +97,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentDataSource = componentConfig.dataSource;
         const componentPath = componentConfig.resourcePath;
         // TMS.
-        if (componentHost && componentTopic) {            
+        if (componentHost && componentTopic) { 
             $component.setAttribute("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
@@ -103,4 +110,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(Typerefinery.Components.Widgets.Ticker.Variants.PrimaryTicker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
+})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
