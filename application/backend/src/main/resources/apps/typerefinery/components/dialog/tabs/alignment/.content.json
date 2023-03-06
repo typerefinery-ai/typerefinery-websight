@@ -1,6 +1,11 @@
 {
     "sling:resourceType": "wcm/dialogs/components/tab",
     "label": "Alignment and Spacing",
+    "disableFullWidth": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "disableFullWidth",
+        "label": "Disable full width for the container."
+    },
     "flexEnabled": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "flexEnabled",
