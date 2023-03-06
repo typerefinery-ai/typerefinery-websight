@@ -1,8 +1,4 @@
 <sly data-sly-use.model="io.typerefinery.websight.models.components.forms.Label">
-  <div 
-    class="${model.componentClassNames}">
-    <sly data-sly-use.template="./variant.html"
-      data-sly-call="${template.variant @ model=model}">
-    </sly>
-  </div>
+  <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+  </sly>
 </sly>
