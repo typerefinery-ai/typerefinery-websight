@@ -31,6 +31,7 @@
   <properties>
     <gson.version>2.8.9</gson.version>
     <jackson.version>2.14.1</jackson.version>
+    <commonmark.version>0.20.0</commonmark.version>
   </properties>
   <build>
     <plugins>
@@ -276,6 +277,14 @@
       <scope>provided</scope>
     </dependency>
 
+    <!--markdown-->
+    <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
   </dependencies>
 
 </project>

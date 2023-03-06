@@ -13,6 +13,51 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.variant="${ @ model}">
+<template data-sly-template.variant="${ @ model }">
+  <!--paragraphMode: ${model.paragraphMode}-->
+  <!--isParagraphMode: ${isParagraphMode}-->
+  <sly data-sly-test="${!model.paragraphMode}">
+    <!--output only text-->
+    <sly data-sly-call="${component @ model=model }"></sly>
+  </sly>
+  <sly data-sly-test="${model.paragraphMode}">
+    <!--output only multi paragraph-->
+    <sly data-sly-call="${paragraphs @ model=model }"></sly>
+  </sly>
+</template>
+
+
+<template data-sly-template.paragraphs="${@ model }">
+  <sly data-sly-test="${wcmmode.isEdit}"></sly>
+  <!-- <div class="${model.variantClassNames}"> -->
+    <!-- ${model.componentPath}-->
+    <!--ws-component-start{"path":"rootcontainer/container/section1/text/par0","dropTarget": [{"type": "component", "allowedComponents": ["Typerefinery - Content", "Typerefinery - Details", "Typerefinery - Forms", "Typerefinery - Graphs", "Typerefinery - Layout", "Typerefinery - List", "Typerefinery - Widgets", "Typerefinery - Widgets - Security", "Typerefinery - Flow"]}],"componentDefinition": {"name":"Container","group": "Typerefinery - Layout","path": "/apps/typerefinery/components/layout/container","isContainer": true}}-->
+    <!--ws-placeholder-data {"class": ""} -->
+    <!-- <div class="ws-placeholder"></div> -->
+    <!--ws-component-end-->
+
+    <!-- <div data-sly-resource="${'par0' @ resourceType=model.paragraphResourceType}"></div> -->
+    <sly data-sly-list="${model.paragraphs}">
+      ${item @ context="html"}
+      <!-- <div data-sly-resource="${'par{0}' @ format=itemList.count, resourceType=model.paragraphResourceType}"></div> -->
+      <sly>
+        <!--ws-component-start{"path":"rootcontainer/container/section1/text/par${itemList.count}","dropTarget": [{"type": "component", "allowedComponents": ["Typerefinery - Content", "Typerefinery - Details", "Typerefinery - Forms", "Typerefinery - Graphs", "Typerefinery - Layout", "Typerefinery - List", "Typerefinery - Widgets", "Typerefinery - Widgets - Security", "Typerefinery - Flow"]}],"componentDefinition": {"name":"Container","group": "Typerefinery - Layout","path": "/apps/typerefinery/components/layout/container","isContainer": true}}-->
+        <!--ws-placeholder-data {"class": ""} -->
+        <!-- <sly data-sly-resource="${'par{0}' @ format=itemList.count}"></sly> -->
+        <!-- <div class="ws-placeholder"></div> -->
+        <!--ws-component-end-->
+      </sly>
+
+    </sly>
+  <!-- </div> -->
+</template>
+
+<template data-sly-template.component="${@ model }">
+  <div 
+    component="${model.componentName}"
+    class="${model.componentClassNames}"
+    id="${model.id}"
+  >
     <div class="${model.variantClassNames}">${model.text @ context='html'}</div>
+  </div>
 </template>
