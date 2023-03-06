@@ -20,33 +20,156 @@
         },
         "normalButton": {
           "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Button",
-          "value": "button"
+          "label": "Navigate",
+          "value": "navigate"
+        },
+        "actionButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Action",
+          "value": "action"
         }
       },
-      "url": {
+      "navigateTo": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
-        "name": "url",
+        "name": "navigateTo",
         "label": "Navigate to",
         "description": "When click on the button the page will be redirected to the the URL provided.",
         "ws:display": {
           "condition": {
             "sourceName": "buttonType",
-            "values": "button"
+            "values": "navigate"
           }
         }
       },
-      "openInNewTab": {
+      "navigateToInNewWindow": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "openInNewTab",
+        "name": "navigateToInNewWindow",
         "label": "Open in new tab",
         "description": "Open the page in new tab.",
         "ws:display": {
           "condition": {
             "sourceName": "buttonType",
-            "values": "button"
+            "values": "navigate"
           }
+        }
+      },
+      "showIcon": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showIcon",
+        "label": "Show Icon"
+      },
+      "icon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "icon",
+        "label": "Icon",
+        "ws:display": {
+          "condition": {
+            "sourceName": "showIcon",
+            "values": true
+          }
+        }
+      },
+      "iconPosition": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "iconPosition",
+        "label": "Icon Position",
+        "ws:display": {
+          "condition": {
+            "sourceName": "showIcon",
+            "values": true
+          }
+        },
+        "left": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "left",
+          "value": "left"
+        },
+        "right": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "right",
+          "value": "right"
+        }
+      }
+    },
+    "actionMetaData": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Action Meta data",
+      "ws:display": {
+        "condition": {
+          "sourceName": "buttonType",
+          "values": "action"
+        }
+      },
+      "actionType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "actionType",
+        "label": "Action Type",
+        "openModal": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Open Modal",
+          "value": "openModal"
+        },
+        "openDropdown": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Open Dropdown",
+          "value": "openDropdown"
+        }
+      },
+      "actionModalTitle": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "actionModalTitle",
+        "label": "Title",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "actionUrl": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "actionUrl",
+        "label": "URL",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "hideFooter": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "hideFooter",
+        "label": "Hide Modal Footer",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "dropdownItems": {
+        "name": "dropdownItems",
+        "label": "Dropdown menu options",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openDropdown"
+          }
+        },
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "rootPath": "/content",
+          "name": "link",
+          "label": "URL"
         }
       }
     },

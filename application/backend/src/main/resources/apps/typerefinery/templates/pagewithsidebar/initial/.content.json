@@ -1,0 +1,33 @@
+{
+    "jcr:primaryType": "ws:Page",
+    "jcr:content": {
+        "jcr:primaryType": "ws:PageContent",
+        "sling:resourceType": "typerefinery/components/structure/page",
+        "rootcontainer": {
+            "sling:resourceType": "typerefinery/components/layout/rootcontainer",
+            "jcr:primaryType": "nt:unstructured",
+            "sidebar": {
+                "sling:resourceType": "typerefinery/components/layout/sidebar",
+                "jcr:primaryType": "nt:unstructured",
+                "classes": "sidebar-rightContainer"
+            },
+            "header": {
+                "sling:resourceType": "typerefinery/components/layout/header",
+                "jcr:primaryType": "nt:unstructured",
+                "classes": "sidebar-rightContainer"
+            },
+            "main": {
+                "sling:resourceType": "typerefinery/components/layout/container",
+                "jcr:primaryType": "nt:unstructured",
+                "classes": "sidebar-rightContainer",
+                "decorationTagName": "main",
+                "fullWidth": "enabled"
+            },
+            "footer": {
+                "sling:resourceType": "typerefinery/components/layout/footer",
+                "jcr:primaryType": "nt:unstructured",
+                "classes": "sidebar-rightContainer"
+            }
+        }
+    }
+}

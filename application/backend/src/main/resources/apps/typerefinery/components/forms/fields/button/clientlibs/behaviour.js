@@ -6,8 +6,8 @@ window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Butt
 (function (ns, document) {
     "use strict";
     $(document).ready(function () {
-        $("#button").each(function () {
-            ns.init(this);
+        document.querySelectorAll('[component="button"]').forEach(function ($component) {
+            ns.init($component);
         });
     });
 })(window.Typerefinery.Components.Forms.Button, document);

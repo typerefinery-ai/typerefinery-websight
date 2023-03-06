@@ -4,6 +4,8 @@
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["io.typerefinery.websight.components-header"],  
   "js": [
-    "components.js"
+    "components.js",
+    "modal.js",
+    "dropdown.js"
   ] 
 }
