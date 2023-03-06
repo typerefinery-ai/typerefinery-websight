@@ -67,6 +67,9 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   }
 
   public void addClasses(String className) {
+    if (StringUtils.isEmpty(className)) {
+      return;
+    }
     if (componentClasses == null) {
       componentClasses = new String[] {};
     }

@@ -66,9 +66,7 @@ public class Select extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-        if (style != null) {
-            style.addClasses(DEFAULT_SELECT_CLASSES);
-        }
+        style.addClasses(DEFAULT_SELECT_CLASSES);
         
     }  
     

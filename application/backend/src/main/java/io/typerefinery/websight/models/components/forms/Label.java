@@ -68,9 +68,6 @@ public class Label extends BaseFormComponent {
             label = DEFAULT_LABEL;
         }
 
-        if (grid != null && style != null) {
-            // grid.addClasses("form-label");
-        }
     }
 
 }

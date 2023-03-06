@@ -74,7 +74,6 @@ public class Input extends BaseFormComponent {
         this.module = DEFAULT_MODULE;
         super.init();
 
-
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
         }
@@ -83,10 +82,7 @@ public class Input extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-
-        if (grid != null && style != null) {
-            style.addClasses("form-control mt-1");
-        }
+        style.addClasses("form-control mt-1");
     }
 
 }

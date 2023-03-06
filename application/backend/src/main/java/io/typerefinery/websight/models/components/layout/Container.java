@@ -265,12 +265,8 @@ public class Container extends BaseComponent {
             if (StringUtils.isBlank(columnGap) && StringUtils.isBlank(rowGap)) {
                 grid.addClasses("gap-1");
             } else {
-                if (StringUtils.isNotBlank(columnGap)) {
-                    grid.addClasses("column-gap-" + columnGap);
-                }
-                if (StringUtils.isNotBlank(rowGap)) {
-                    grid.addClasses("row-gap-" + rowGap);
-                }
+                grid.addClasses("column-gap-" + columnGap);
+                grid.addClasses("row-gap-" + rowGap);
             }
 
             if (StringUtils.isNotBlank(horizontalAlignment)) {

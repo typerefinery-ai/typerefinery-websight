@@ -92,9 +92,8 @@ public class Form extends FlowComponent implements FlowComponentRegister {
     protected void init() {
         this.module = DEFAULT_MODULE;
         super.init();
-        if (grid != null) {
-            grid.addClasses(DEFAULT_FORM_CLASSES);
-        }
+
+        grid.addClasses(DEFAULT_FORM_CLASSES);
 
         // default values to be saved to resource if any are missing
         HashMap<String, Object> props = new HashMap<String, Object>(){{            

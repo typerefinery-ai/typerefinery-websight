@@ -42,16 +42,13 @@ public class Checkbox extends BaseFormComponent {
     protected static final String DEFAULT_ID = "checkbox";
     protected static final String DEFAULT_MODULE = "checkbox";
 
-
     @Override
     @PostConstruct
     protected void init() {
         this.module = DEFAULT_MODULE;
         super.init();
 
-        if (grid != null && style != null) {
-            style.addClasses("form-check-input");
-        }
+        style.addClasses("form-check-input");
     }
 
 }
