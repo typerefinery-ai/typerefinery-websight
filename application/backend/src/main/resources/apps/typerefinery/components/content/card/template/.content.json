@@ -1,0 +1,29 @@
+{
+    "lgColSize": 3,
+    "bodyContainer": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/layout/container",
+        "cardTitle": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "typerefinery/components/content/title",
+            "title": "Card Title"
+        },
+        "cardText": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "typerefinery/components/content/text",
+            "text": "Some quick example text to build on the card title and make up the bulk of the card's content.        ",
+            "title": "Card Text",
+            "classes": "mb-3"
+        }
+    },
+    "buttonContainer": {
+        "jcr:primaryType": "nt:unstructured",
+        "classes": "container-fluid",
+        "sling:resourceType": "typerefinery/components/layout/container",
+        "button1": {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "typerefinery/components/forms/fields/button"
+        },
+        "title": "Card Footer"
+    }
+}

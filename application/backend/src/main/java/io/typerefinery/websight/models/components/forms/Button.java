@@ -121,6 +121,7 @@ public class Button extends BaseFormComponent {
             put("help", "-help");
             put("light", "-light");
             put("dark", "-dark");
+            put("text", "-link");
         }
     };
 

@@ -233,7 +233,7 @@
         "link": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Link Button",
-          "value": "link"
+          "value": "text"
         }
       },
       "isOutlinedButton": {
