@@ -5,13 +5,15 @@
   "categories": ["io.typerefinery.websight.components-vendor"],
   "css": [
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.css",
-    "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap-icons.css"
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap-icons.css",
+    "/apps/typerefinery/clientlibs/vendor/fontawesome/css/all.css"
   ],
   "js": [
     "/apps/typerefinery/clientlibs/vendor/jquery/jquery.min.js",
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.js",
     "/apps/typerefinery/clientlibs/vendor/vue/vue.global.js",
     "/apps/typerefinery/clientlibs/vendor/primevue/core/core.js",
-    "/apps/typerefinery/clientlibs/vendor/vue/vue-route.global.js"
+    "/apps/typerefinery/clientlibs/vendor/vue/vue-route.global.js",
+    "/apps/typerefinery/clientlibs/vendor/handlebars/handlebars.js"
   ] 
 }
