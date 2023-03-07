@@ -3,7 +3,7 @@
     <label 
       component="${model.componentName}"
       id="${model.id}"
-      class="${model.variantClassNames}"
+      class="${model.componentClassNames} ${model.variantClassNames}"
       for="${model.id}">${model.label}</label>    
   </sly>
   <sly data-sly-test="${wcmmode.isEdit && model.hideLabel}">
