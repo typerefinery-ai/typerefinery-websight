@@ -7,7 +7,7 @@
       "label": "Config",
       "keyValueList": {
         "name": "keyValueList",
-        "label": "Add Widget Key",
+        "label": "Template Key and default value",
         "sling:resourceType": "wcm/dialogs/components/multifield",
         "key": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -55,7 +55,7 @@
         "sling:resourceType": "wcm/dialogs/components/textarea",
         "name": "templateString",
         "label": "Template",
-        "desWcription": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
+        "description": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
         "ws:display": {
           "condition": {
             "sourceName": "templateSelected",

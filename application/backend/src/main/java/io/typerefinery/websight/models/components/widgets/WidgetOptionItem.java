@@ -25,6 +25,7 @@ import org.apache.sling.models.annotations.Model;
 import org.osgi.service.component.annotations.Component;
 
 import io.typerefinery.websight.models.components.KeyValuePair;
+
 @Component
 @Model(adaptables = Resource.class, resourceType = {
         "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
@@ -32,7 +33,7 @@ import io.typerefinery.websight.models.components.KeyValuePair;
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class WidgetOptionItem extends KeyValuePair{
+public class WidgetOptionItem extends KeyValuePair {
 
     public WidgetOptionItem(String key, String value) {
         this.key = key;
