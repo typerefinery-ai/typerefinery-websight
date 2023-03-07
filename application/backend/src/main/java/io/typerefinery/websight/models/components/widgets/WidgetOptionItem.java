@@ -18,26 +18,24 @@ package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import javax.inject.Inject;
-import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
+import org.osgi.service.component.annotations.Component;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class WidgetOptionItem {
+import io.typerefinery.websight.models.components.KeyValuePair;
+@Component
+@Model(adaptables = Resource.class, resourceType = {
+        "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+})
+public class WidgetOptionItem extends KeyValuePair{
 
-    @Getter
-    @Inject
-    private String itemKey;
-
-
-    @Getter
-    @Inject
-    private String itemValue;
-
-    
     public WidgetOptionItem(String key, String value) {
-        this.itemKey = key;
-        this.itemValue = value;
+        this.key = key;
+        this.value = value;
     }
 }

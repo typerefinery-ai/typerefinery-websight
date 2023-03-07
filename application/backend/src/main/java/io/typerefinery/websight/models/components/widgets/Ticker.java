@@ -45,9 +45,19 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Inject
     public List<KeyValuePair> keyValueList;
 
+    
+    @Getter
+    @Inject
+    public List<WidgetOptionItem> test;
+
     @Getter
     @Inject
     public String templateString;
+
+    
+    @Getter
+    @Inject
+    public String hello;
 
     @Getter
     @Inject
@@ -91,7 +101,6 @@ public class Ticker extends BaseComponent implements FlowComponent {
             put("1", DEFAULT_TEMPLATE_I);
             put("2", DEFAULT_TEMPLATE_II);
             put("3", DEFAULT_TEMPLATE_III);
-            put(CUSTOM_TEMPLATE, "");
         }
     };
 
@@ -104,23 +113,20 @@ public class Ticker extends BaseComponent implements FlowComponent {
         }
 
         if (StringUtils.isNotBlank(templateSelected)) {
-            this.templateString = this.templateList.get(templateSelected);
+            this.templateString = this.templateList.getOrDefault(templateSelected, this.templateString);
         }
 
-        if (StringUtils.isBlank(this.templateString) && templateSelected != CUSTOM_TEMPLATE) {
-            this.templateString = DEFAULT_TEMPLATE_I;
-        }
 
         if (this.keyValueList == null || this.keyValueList.size() == 0) {
             this.keyValueList = List.of(
-                    new KeyValuePair("title", "Number of active users"),
-                    new KeyValuePair("value", "25.5k"),
-                    new KeyValuePair("indicatorValue", "4.54K"),
-                    new KeyValuePair("indicatorType", "success"),
-                    new KeyValuePair("tickerIcon", "glyphicon glyphicon-signal "),
-                    new KeyValuePair("indicatorIcon", "glyphicon glyphicon-circle-arrow-up"),
-                    new KeyValuePair("widgetIcon", "glyphicon glyphicon-signal text-light"),
-                    new KeyValuePair("indicatorPrecisionValue", "Since last quarter"));
+                    new WidgetOptionItem("title", "Number of active users"),
+                    new WidgetOptionItem("value", "25.5k"),
+                    new WidgetOptionItem("indicatorValue", "4.54K"),
+                    new WidgetOptionItem("indicatorType", "success"),
+                    new WidgetOptionItem("tickerIcon", "glyphicon glyphicon-signal "),
+                    new WidgetOptionItem("indicatorIcon", "glyphicon glyphicon-circle-arrow-up"),
+                    new WidgetOptionItem("widgetIcon", "glyphicon glyphicon-signal text-light"),
+                    new WidgetOptionItem("indicatorPrecisionValue", "Since last quarter"));
         }
     }
 }
