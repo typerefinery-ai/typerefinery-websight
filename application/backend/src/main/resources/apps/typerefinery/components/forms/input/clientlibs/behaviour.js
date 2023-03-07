@@ -7,6 +7,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
     "use strict";
     $(document).ready(function () {
         // Input mask will be added for all input tag.
-        $(":input").inputmask();
+        $(":input")?.inputmask();
     });
 })(window.Typerefinery.Components.Forms.Input, document);
