@@ -2,128 +2,66 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "general": {
+    "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "General",
-      "variant": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "variant",
-        "label": "Variants",
-        "primaryTicker": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Primary Ticker",
-          "value": "primaryTicker",
-          "selected": true
+      "label": "Config",
+      "keyValueList": {
+        "name": "keyValueList",
+        "label": "Add Widget Key",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "key": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "key",
+          "label": "Key",
+          "description": "These will be added as configuration data and merged with template"
         },
-        "secondaryTicker": {
+        "value": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "value",
+          "label": "Default value",
+          "description": "These will be added as configuration data and merged with template"
+        }
+      }
+    },
+    "templateTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Template",
+      "templateSelected": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "templateSelected",
+        "label": "Choose Ticker Template",
+        "1": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Secondary Ticker",
-          "value": "secondaryTicker"
+          "label": "Ticker I",
+          "value": "1"
+        },
+        "2": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Ticker II",
+          "value": "2"
+        },
+        "3": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Ticker III",
+          "value": "3"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "custom",
+          "value": "custom"
         }
       },
-      "title": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "title",
-        "description": "Title of the ticker, this is used to sync into Flow when its enabled.",
-        "label": "Title",
-        "defaultValue": "Demo"
-      },
-      "value": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
-      },
-      "secondaryContainer": {
-        "sling:resourceType": "wcm/dialogs/components/container",
-        "backGroundVariant": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "name": "backGroundClass",
-          "label": "Background Color",
-          "primary": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Primary",
-            "value": "primary",
-            "selected": true
-          },
-          "secondary": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Secondary",
-            "value": "secondary"
-          },
-          "indigo": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Indigo",
-            "value": "indigo"
-          },
-          "purple": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Purple",
-            "value": "purple"
-          },
-          "light-brown": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Light Brown",
-            "value": "light-brown"
-          },
-          "light-green": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Light Green",
-            "value": "light-green"
-          },
-          "green": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Green",
-            "value": "green"
-          },
-          "dark-blue": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Dark Blue",
-            "value": "dark-blue"
-          },
-          "brown": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Brown",
-            "value": "brown"
-          }
-        },
+      "templateString": {
+        "sling:resourceType": "wcm/dialogs/components/textarea",
+        "name": "templateString",
+        "label": "Template",
+        "desWcription": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
         "ws:display": {
           "condition": {
-          "sourceName": "variant",
-          "values":  "secondaryTicker"
-        }}
-      },
-      "primaryContainer": {
-        "sling:resourceType": "wcm/dialogs/components/container",
-        "indicatorType": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "name": "indicatorType",
-          "label": "Indicator Type",
-          "up": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Up",
-            "value": "up"
-          },
-          "down": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Down",
-            "value": "down"
-          },
-          "same": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Same",
-            "value": "same"
+            "sourceName": "templateSelected",
+            "values":  "custom"
           }
-        },
-        "indicatorValue": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "indicatorValue",
-          "label": "Indicator Value"
-        },
-        "ws:display": {
-          "condition": {
-          "sourceName": "variant",
-          "values":  "primaryTicker"
-        }}
+        }
       }
     },
     "websocketTab": {
@@ -137,6 +75,10 @@
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

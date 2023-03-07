@@ -6,14 +6,9 @@
   "prepend": [],
   "append": [],
   "css": [
-    "variants/primary/styles/style.css",
-    "variants/secondary/styles/style.css",
-    "variants/secondary/styles/color.css"
   ],  
   "js": [
-    "variants/primary/functions.js",
-    "variants/primary/behaviour.js",
-    "variants/secondary/functions.js",
-    "variants/secondary/behaviour.js"
+    "functions.js",
+    "behaviour.js"
   ] 
 }
