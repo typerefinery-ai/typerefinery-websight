@@ -15,11 +15,23 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         }
         const componentConfig = componentNs.getComponentConfig($component);
 
-        const defaultData = {};
+        // From modal list
+        const defaultConfigData = {};
         
         componentConfig?.keyValueList?.forEach(keyValue => {
-            defaultData[keyValue.key] = keyValue.value
+            defaultConfigData[keyValue.key] = keyValue.value
         });
+
+        const defaultData = {
+            "title": "Number of active users",
+            "value": "25.5k",
+            "indicatorValue": "4.54K",
+            "indicatorType": "success",
+            "tickerIcon": "glyphicon glyphicon-signal ",
+            "indicatorIcon": "glyphicon glyphicon-circle-arrow-up",
+            "widgetIcon": "glyphicon glyphicon-signal text-light",
+            "indicatorPrecisionValue": "Since last quarter"
+        };
 
         const htmlTemplate = componentConfig.templateString || `
             <div class="card shadow-sm">
@@ -43,7 +55,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         const handlebarTemplate = Handlebars.compile(htmlTemplate);
         // merge all the objects.
-        $component.innerHTML = handlebarTemplate({ ...data, ...defaultData });
+        $component.innerHTML = handlebarTemplate({ ...defaultData, ...defaultConfigData, ...data });
     }
 
     ns.jsonConnected = async (dataSourceURL, $component) => {
