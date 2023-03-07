@@ -293,7 +293,12 @@ public class FlowService {
         return PROPERTY_PREFIX + key;
     }
     
-    // create a flow from content
+    /**
+     * create a flow from content
+     * @param content
+     * @param flowstreamid
+     * @return
+     */
     public HashMap<String, Object> doFlowStreamUpdateData(String content, String flowstreamid) {
 
         String url = getFlowStreamUpdateAPIURL();
@@ -355,7 +360,12 @@ public class FlowService {
     }
 
     
-    // create a flow from content
+    /**
+     * create a flow from content
+     * @param content - json content
+     * @param flowstreamid - flowstreamid
+     * @return - flowstream response
+     */
     public HashMap<String, Object> doFlowStreamDesignSaveData(String content, String flowstreamid) {
 
         String url = getFlowStreamDesignSaveAPIURL(flowstreamid);
@@ -412,6 +422,11 @@ public class FlowService {
         return String.format("%s_%s", name, UUID.randomUUID().toString().replace("-", ""));
     }
 
+    /**
+     * get the flow data
+     * @param flowstreamid - the flowstream id
+     * @return a hashmap with the flow data
+     */
     public boolean isFlowExists(String flowstreamid) {
         String responseAsString = getFlowStreamReadData(flowstreamid);
 
@@ -421,6 +436,11 @@ public class FlowService {
         return false;
     }
 
+    /**
+     * get the flow data
+     * @param flowstreamid - the flowstream id
+     * @return a hashmap with the flow data
+     */
     public HashMap<String, Object> getFlowStreamData(String flowstreamid) {
         String responseAsString = getFlowStreamReadData(flowstreamid);
 
@@ -438,7 +458,11 @@ public class FlowService {
         return flowResponse;
     }
 
-    // do a http client call to get the flow meta data
+    /**
+     * do a http client call to get the flow data
+     * @param flowstreamid - the flowstream id
+     * @return a sting promise
+     */
     public String getFlowStreamReadData(String flowstreamid) {
 
         String url = getFlowStreamReadAPIURL(flowstreamid);
@@ -466,7 +490,11 @@ public class FlowService {
         return "";
     }
 
-    // do a http client call to get the flow data
+    /**
+     * do a http client call to get the flow data
+     * @param flowstreamid - the flowstream id
+     * @return a sting promise
+     */
     public String getFlowStreamExportData(String flowstreamid) {
 
         String url = getFlowStreamExportAPIURL(flowstreamid);
@@ -491,7 +519,11 @@ public class FlowService {
     }
 
     
-    // do a http client call to get the flow data
+    /**
+     * do a http client call to get the flow data
+     * @param flowstreamid
+     * @return a sting promise
+     */
     public CompletableFuture<String> getFlowStreamDesignData(String flowstreamid) {
 
         String url = getFlowStreamDesignAPIURL(flowstreamid);
@@ -704,6 +736,17 @@ public class FlowService {
         PageUtil.updatResourceProperties(componentResource, response);
     }
 
+
+    /**
+     * get a map of replace values for a flow
+     * @param childFlowId flow id of child flow
+     * @param flowstreamid flowstream id of child flow
+     * @param childPathId path id of child flow
+     * @param topic topic of child flow
+     * @param currentPagePath path of current page
+     * @param componentSampleData sample data of component
+     * @return map of replace values
+     */
     public HashMap<String, String> getReplaceMap(String childFlowId, String flowstreamid, String childPathId, String topic, String currentPagePath, String componentSampleData) {
         String componentSampleDataValue = componentSampleData;
 
