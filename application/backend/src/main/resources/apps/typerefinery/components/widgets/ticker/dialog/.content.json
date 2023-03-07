@@ -64,6 +64,17 @@
         }
       }
     },
+    
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data Source",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source.",
+        "label": "Data Source"
+      }
+    },
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/websocket"
