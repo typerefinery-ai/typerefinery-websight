@@ -13,15 +13,13 @@
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "key",
           "label": "Key",
-          "description": "These will be added as configuration data and merged with template",
-      
+          "description": "These will be added as configuration data and merged with template"
         },
         "value": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "value",
           "label": "Default value",
-          "description": "These will be added as configuration data and merged with template",
-      
+          "description": "These will be added as configuration data and merged with template"
         }
       }
     },
@@ -54,9 +52,10 @@
         }
       },
       "templateString": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "sling:resourceType": "wcm/dialogs/components/textarea",
         "name": "templateString",
         "label": "Template",
+        "description": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
         "ws:display": {
           "condition": {
             "sourceName": "templateSelected",
