@@ -83,7 +83,6 @@ public class Container extends BaseComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(Container.class);
 
     public static final String RESOURCE_TYPE = "typerefinery/components/layout/container";
-    private static final String DEFAULT_ID = "container";
     private static final String DEFAULT_MODULE = "container";
     private static final String BACKGROUND_NONE = "none";
     private static final String BACKGROUND_URL_PATTERN = "url(\"%s\")";
@@ -125,6 +124,11 @@ public class Container extends BaseComponent {
     private String type;
 
     // authored flexEnabled toggle
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    private Boolean disableFullWidth;
+
     @Inject
     @Getter
     private Boolean flexEnabled;
@@ -251,6 +255,12 @@ public class Container extends BaseComponent {
         super.init();
 
         String flex = "";
+
+        if(BooleanUtils.isFalse(disableFullWidth)) {
+            grid.addClasses("container-fluid");
+        }else if(BooleanUtils.isFalse(flexEnabled)) {
+            grid.addClasses("container");   
+        }
 
         if (BooleanUtils.isTrue(flexEnabled)) {
             flex = flexConfig.getOrDefault("enabled", "");

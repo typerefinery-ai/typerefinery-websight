@@ -4,11 +4,9 @@
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.layout.sidebar"],  
   "css": [
-    "style.css",
-    "icons.css"
+    "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/primevue/tree/tree.min.js",
     "functions.js",
     "behaviour.js"
   ] 

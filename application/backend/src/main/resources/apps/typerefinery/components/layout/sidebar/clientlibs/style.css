@@ -1,13 +1,12 @@
 [component="sidebar"] {
   min-width: 250px;
   max-width: 250px;
-  background: #4456a5;
+  background-color: #4456a5 !important;
   color: #fff;
   transition: all 0.3s;
-  min-height: 100vh;
-
-  /* float: left; */
+  min-height: 100vh !important;
   height: 100%;
+  /* float: left; */
   position: fixed;
 }
 
