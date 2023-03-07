@@ -8,23 +8,31 @@
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Button" headingLevel="XL" />
-          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/radio">
-            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Start Button" textAlignment="center" />
-            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Start"/>
-          </button_1>
-          <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/radio">
-            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Stop Button" textAlignment="center"/>
-            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Stop"/>
-          </button_2>
-          <button_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/radio">
-            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Submit Button" textAlignment="center" />
-            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Submit"/>
-          </button_3>
-          <button_4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/radio">
-            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Reset Button" textAlignment="center"/>
-            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Reset"/>
-          </button_4>
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Available Button Types" headingSize="h4"/>
+          <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" >
+          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Start" lgColSize="3">
+            </button_1>
+            <button_1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Navigate" lgColSize="3">
+            </button_1_2>
+            <button_1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Action" lgColSize="3">
+            </button_1_3>
+            </container_1>
+            <title2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Available Button Variants" headingSize="h4" />
+            <container_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" >
+            <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Success" buttonVariant="success" lgColSize="3">
+            </button_2>
+            <button_2_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Secoundary" buttonVariant="secondary" lgColSize="3">
+            </button_2_1>
+            <button_2_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Click edit -> Style -> select variants" lgColSize="3">
+            </button_2_2>
+          </container_2>
+          <title3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Available Action Button Types" headingSize="h4" />
+          <container_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" >
+            <button_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Open Model" lgColSize="3">
+            </button_3>
+            <button_3_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Open DropDown" lgColSize="3">
+            </button_3_1>
+          </container_3>
         </form1>
       </container>
     </rootcontainer>
