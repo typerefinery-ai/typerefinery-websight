@@ -18,11 +18,11 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const defaultData = {};
         
         componentConfig?.keyValueList?.forEach(keyValue => {
-            defaultData[keyValue.itemKey] = keyValue.itemValue
+            defaultData[keyValue.key] = keyValue.value
         });
 
-        const htmlTemplate = componentConfig.template || `
-            <div class="card shadow col-3">
+        const htmlTemplate = componentConfig.templateString || `
+            <div class="card shadow-sm">
                 <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom">
                     <div class="d-block">
                         <div class="h6 fw-normal text-gray mb-2">{{title}}</div>
@@ -42,6 +42,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         `;
 
         const handlebarTemplate = Handlebars.compile(htmlTemplate);
+        // merge all the objects.
         $component.innerHTML = handlebarTemplate({ ...data, ...defaultData });
     }
 

@@ -9,27 +9,60 @@
         "name": "keyValueList",
         "label": "Add Widget Key",
         "sling:resourceType": "wcm/dialogs/components/multifield",
-        "itemKey": {
+        "key": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "itemKey",
+          "name": "key",
           "label": "Key",
-          "description": "These will be added as configuration data and merged with template"
+          "description": "These will be added as configuration data and merged with template",
+      
         },
-        "itemValue": {
+        "value": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "itemValue",
+          "name": "value",
           "label": "Default value",
-          "description": "These will be added as configuration data and merged with template"
+          "description": "These will be added as configuration data and merged with template",
+      
         }
       }
     },
-    "template": {
+    "templateTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Template",
-      "template": {
+      "templateSelected": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "templateSelected",
+        "label": "Choose Ticker Template",
+        "1": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Ticker I",
+          "value": "1"
+        },
+        "2": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Ticker II",
+          "value": "2"
+        },
+        "3": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Ticker III",
+          "value": "3"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "custom",
+          "value": "custom"
+        }
+      },
+      "templateString": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "template",
-        "label": "Template"
+        "name": "templateString",
+        "label": "Template",
+        "ws:display": {
+          "condition": {
+            "sourceName": "templateSelected",
+            "values":  "custom"
+          }
+        }
       }
     },
     "websocketTab": {
