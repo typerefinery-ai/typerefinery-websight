@@ -16,9 +16,9 @@
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",
-        "description": "Please provide url to data source for this LeafletMap.",
+        "description": "Please provide url to data source",
         "label": "Data Source"
+      }
     }
-  }
   }
 }
