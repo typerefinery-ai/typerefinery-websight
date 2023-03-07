@@ -8,7 +8,7 @@
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Input" headingLevel="XL" />
+          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Type of Input Field"  headingSize="h4" />
           <input_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input">
             <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Enter Email Address"/>
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" inputType="email" placeholder="Eg. test@example.com"/>
@@ -29,6 +29,11 @@
             <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Enter Password" />
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" inputType="password" placeholder="Eg. 123456" />
           </input_5>
+          <title1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Input Field With hidden Label"  headingSize="h4" />
+          <input_6 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input">
+            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Enter Name" hideLabel="true"  />
+            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" inputType="text" placeholder="Click on edit -> toggle hide Label to show/hide label"/>
+          </input_6>
         </form1>
       </container>
     </rootcontainer>

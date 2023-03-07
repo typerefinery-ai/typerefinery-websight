@@ -1,7 +1,6 @@
 {
     "columns": ["Name", "Age", "Email",  "Phone Number", "Location"],
     "data": [
-        ["John", 25, "john@gmail.com", "91934399421", "India"],
         ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
         ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
         ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],

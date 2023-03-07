@@ -12,8 +12,8 @@
       sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="typerefinery/components/layout/header" classes="p-3 bg-secondary"
-        flexEnabled="true" horizontalAlignment="between">
+        sling:resourceType="typerefinery/components/layout/header" classes="p-1 bg-secondary"
+        flexEnabled="true" horizontalAlignment="between" cancelInheritParent="true">
         <container1 jcr:primaryType="nt:unstructured"
           sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="5"
           mdColSize="10" smColSize="10" flexEnabled="true">
@@ -26,12 +26,8 @@
             url="https://typerefinery.ai/"
             openInNewTab="true"
             classes="mt-1" />
-          <text1 jcr:primaryType="nt:unstructured"
-            sling:resourceType="typerefinery/components/content/text" text="Menu" lgColSize="1"
-            mdColSize="1" smColSize="1" classes="mt-1 text-white fs-5" />
-          <text2 jcr:primaryType="nt:unstructured"
-            sling:resourceType="typerefinery/components/content/text" text="Marketplace"
-            lgColSize="1" mdColSize="1" smColSize="1" classes="mt-1 text-white fs-5" />
+            <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Dashboard" buttonType="navigate" buttonVariant="secondary"  lgColSize="2" navigateTo="/content/typerefinery-showcase/pages/pages/dashboard/jcr:content" classes="mt-2 fs-5"></button_1>
+            <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Reports" buttonType="navigate" buttonVariant="secondary"  lgColSize="1" navigateTo="/content/typerefinery-showcase/pages/pages/report/jcr:content" classes="mt-2 fs-5"></button_2>
 
         </container1>
         <container2 jcr:primaryType="nt:unstructured"
@@ -40,7 +36,7 @@
 
           <text2_1 jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/content/text" text="Github" lgColSize="2"
-            mdColSize="1" smColSize="1" classes="mt-1 text-white-50 fs-5" showLink="true"
+            mdColSize="1" smColSize="1" classes="mt-2 text-white-50 fs-5" showLink="true"
             url="https://typerefinery.ai/"
             openInNewTab="true" />
 

@@ -5,6 +5,20 @@
     "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/websocket"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source for this LeafletMap.",
+        "label": "Data Source"
     }
+  }
   }
 }
