@@ -95,8 +95,11 @@ public class Button extends BaseFormComponent {
     private String icon;
 
     @Inject
-    @Getter
     private String navigateTo;
+
+    public String getNavigateTo() {
+        return LinkUtil.handleLink(navigateTo, resourceResolver);
+    }
 
     @Inject
     @Getter
@@ -151,7 +154,6 @@ public class Button extends BaseFormComponent {
             }
 
             style.addClasses(buttonCls);
-            grid.addClasses(DEFAULT_BUTTON_GRID_CLASS);
         }
     }
 

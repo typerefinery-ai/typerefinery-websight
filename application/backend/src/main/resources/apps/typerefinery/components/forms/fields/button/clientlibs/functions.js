@@ -14,9 +14,6 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 
             if(buttonType === "navigate") {
                 if(navigateTo) {
-                    if(!navigateTo.endsWith(".html")) {
-                        navigateTo += ".html";
-                    }
                     
                     if(navigateToInNewWindow) {
                         window.open(navigateTo);
