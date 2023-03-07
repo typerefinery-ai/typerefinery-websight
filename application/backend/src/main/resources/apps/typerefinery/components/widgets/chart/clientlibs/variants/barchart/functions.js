@@ -37,9 +37,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             "Pteranodon",
             "PsExec",
             "Minikatz",
-        ],
-        dataSetBorderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
-        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color'),
+        ]
     };
 
     ns.updateComponentHTML = (data, $component) => {
@@ -78,11 +76,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                     {
                         axis: "y",
                         data: data.chartData || componentConfig.chartData,
-                        fill: false,
-                        backgroundColor:
-                            data.backgroundColor || componentConfig.backgroundColor,
-                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
-                        borderWidth: 1
+                        fill: false
                     }
                 ]
             },
@@ -97,29 +91,14 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                     x: {
                         grid: {
                             display: false,
-                        },
-                        ticks: {
-                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color')
-                        },
-                        ticks: {
-                            color:themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color')
                         }
                     }
-                },
-                customCanvasBackgroundColor: {
-                    color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color') || data.canvasBackgroundColor,
                 },
                 interaction: {
                     intersect: false
                 },
                 radius: 0
-            },
-            plugins: [plugin]
+            }
         }
 
         const chartInstance = new Chart(ctx, chartOptions);
@@ -181,17 +160,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 {
                     axis: "y",
                     data: data.chartData || componentConfig.chartData,
-                    fill: false,
-                    backgroundColor: data.dataSetBorderColor ||
-                        componentConfig.dataSetBorderColor ||
-                        themeNs?.rootElementStyle.getPropertyValue(
-                            "--primary-object-border-color"
-                        ),
-                    borderColor:
-                        data.dataSetBorderColor ||
-                        componentConfig.dataSetBorderColor ||
-                        themeNs?.rootElementStyle.getPropertyValue("--primary-object-border-color"),
-                    borderWidth: 1,
+                    fill: false
                 }
             ]
         };

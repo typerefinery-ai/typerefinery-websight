@@ -32,8 +32,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             "rgba(255, 168, 84, 1)",
             "rgba(255, 255, 84, 1)",
             "rgba(171, 0, 125, 1)",
-        ],
-        canvasBackgroundColor: themeNs?.rootElementStyle?.getPropertyValue("--card-bg-color"),
+        ]
     };
 
     ns.updateComponentHTML = (data, $component) => {
@@ -71,9 +70,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 datasets: [
                     {
                         label: data.labelName || componentConfig.labelName,
-                        data: data.chartData || componentConfig.chartData,
-                        backgroundColor: data.backgroundColorForData || componentConfig.backgroundColorForData,
-                        borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color'),
+                        data: data.chartData || componentConfig.chartData
                     },
                 ],
             },
@@ -84,21 +81,15 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         position: "right",
                         usePointStyle: true,
                         labels: {
-                            color: themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color"),
-                            usePointStyle: true
+                           usePointStyle: true
                         }
                     }
-                },
-                customCanvasBackgroundColor: {
-                    color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color'),
                 },
                 scales: {
                     r: {
                         grid: {
-                            color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
                         },
                         ticks: {
-                            color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color"),
                             z: 0,
                             showLabelBackdrop: false,
                             precision: 0
@@ -110,8 +101,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         z: 1
                     }
                 }
-            },
-            plugins: [plugin]
+            }
         };
 
         const chartInstance = new Chart(ctx, chartOptions);
@@ -175,9 +165,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             datasets: [
                 { 
                     label: data.labelName || componentConfig.labelName, 
-                    data: data.chartData || componentConfig.chartData,
-                    backgroundColor: data.backgroundColorForData || componentConfig.backgroundColorForData, 
-                    borderColor: themeNs?.rootElementStyle?.getPropertyValue('--border-color') || "#0099DE", 
+                    data: data.chartData || componentConfig.chartData
                 }
             ]
         };
