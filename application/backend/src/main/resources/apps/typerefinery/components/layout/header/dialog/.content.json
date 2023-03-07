@@ -20,21 +20,6 @@
       "classes": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
-      },
-      "backgroundColor": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "classes",
-        "label": "Header Background Color",
-        "light": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "light",
-            "value": "bg-secondary"
-        },
-        "dark": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "dark",
-            "value": "bg-dark"
-        }
       }
     },
     "alignmentTab": {
