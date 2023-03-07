@@ -6,7 +6,7 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Input" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
-      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
+      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <form1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Input" headingLevel="XL" />
           <input_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input">
@@ -30,7 +30,7 @@
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" inputType="password" placeholder="Eg. 123456" />
           </input_5>
         </form1>
-      </maincontainer>
+      </container>
     </rootcontainer>
   </jcr:content>
 </jcr:root>

@@ -45,12 +45,16 @@ public class Select extends BaseFormComponent {
 
     @Inject
     @Getter
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
+
+    @Inject
+    @Getter
     private List<SelectOptionItems> selectOptions;
 
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 
@@ -62,9 +66,7 @@ public class Select extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-        if (style != null) {
-            style.addClasses(DEFAULT_SELECT_CLASSES);
-        }
+        style.addClasses(DEFAULT_SELECT_CLASSES);
         
     }  
     

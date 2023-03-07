@@ -13,13 +13,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
+<template data-sly-template.icon="${ @ model }">
+    <i class="${model.icon}"></i>
+</template>
 <template data-sly-template.variant="${ @ model }">
-        <button 
-            id="${model.id}"
-            type="${model.type}"
-            data-model="${model.jsonString}" 
-            class="${model.componentClassNames} ${model.variantClassNames}"
-        >
-            ${model.label}
-        </button>
+    <button component="${model.componentName}" id="${model.id}" type="${model.type}" data-model="${model.jsonString}"
+        class="${model.componentClassNames} ${model.variantClassNames}">
+        <sly data-sly-call="${icon @ model=model}" data-sly-test="${ model.showIcon && model.iconPosition== 'left' }">
+        </sly>
+        ${model.label}
+        <sly data-sly-call="${icon @ model=model}" data-sly-test="${ model.showIcon && model.iconPosition== 'right' }">
+        </sly>
+    </button>
 </template>

@@ -23,7 +23,11 @@
     </ul>
 
     <!-- </sly> -->
-    <div data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
+    <div 
+      component="${model.componentName}"
+      id="${model.id}"
+      class="${model.componentClassNames} ${model.variantClassNames}">
+      data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
         <!-- multiple and active index not working else accordion component working -->
         <p-accordion :multiple="${multiple}" :active-index="[${activeIndex}]">
             <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">

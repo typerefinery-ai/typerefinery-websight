@@ -20,14 +20,23 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import javax.inject.Inject;
 import lombok.Getter;
+
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import pl.ds.howlite.components.utils.LinkUtil;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = {
+  Resource.class,
+  SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+  @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class NavigationItemComponent {
 
   @SlingObject
@@ -37,12 +46,6 @@ public class NavigationItemComponent {
   @Inject
   private String label;
 
-  
-  @Getter
-  @Inject
-  private String parentName;
-
-  
   @Getter
   @Inject
   private String icon;
@@ -57,8 +60,7 @@ public class NavigationItemComponent {
 
   @Getter
   @Inject
-  @Default(values = "false")
-  private String openInNewTab;
+  private Boolean openInNewTab;
 
   public String getLink() {
     return LinkUtil.handleLink(link, resourceResolver);
@@ -67,5 +69,4 @@ public class NavigationItemComponent {
   public String getLinkPath() {
     return link;
   }
-
 }

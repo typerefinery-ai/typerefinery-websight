@@ -1,117 +1,72 @@
 
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Layouts = Typerefinery.Components.Layouts || {};
-window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts.Sidebar || {};
+window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
+window.Typerefinery.Components.Layout.Sidebar = Typerefinery.Components.Layout.Sidebar || {};
 
-; (function (ns, componentNs, window, document) {
+; (function (ns, componentNs, document, window) {
     "use strict";
 
-    ns.init = () => {
-
-        const data = {};
-
-        const sidebarContainer = document.getElementById('sidebar');
-
-        let formattedMenuItems = [];
-        let breadcrumb = {
-            home: {},
-            items: []
-        };
+    ns.init = ($component) => {
 
         // sidebar 
-        if (sidebarContainer) {
-            const dataTree = JSON.parse(sidebarContainer.getAttribute('data-tree') || '{}');
+        const dataTree = JSON.parse($component.getAttribute('data-tree') || '{}');
 
-            function fetchMenuItemHelper(obj) {
-                const result = [];
-                for (const keyItr in obj) {
-                    if (keyItr === "jcr:content") {
-                        continue;
-                    }
-                    const _obj = obj[keyItr];
-                    result.push({
-                        key: _obj["jcr:content"].key,
-                        label: _obj["jcr:content"].name,
-                        data: _obj["jcr:content"].name,
-                        icon: _obj["jcr:content"].icon,
-                        children: fetchMenuItemHelper(_obj)
-                    })
+        if(Object.keys(dataTree).length === 0) {
+            return;
+        }
+
+        const componentConfig = componentNs.getComponentConfig($component);
+
+        let formattedMenuItems = [];
+
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Recursive function to fetch menu items.
+        function fetchMenuItemHelper(obj) {
+            const result = [];
+            for (const keyItr in obj) {
+                if (keyItr === "jcr:content") {
+                    continue;
                 }
-                return result;
+                const _obj = obj[keyItr];
+                result.push({
+                    href: _obj["jcr:content"].key,
+                    text: capitalizeFirstLetter(_obj["jcr:content"].title),
+                    icon: _obj["jcr:content"].icon,
+                    nodes: fetchMenuItemHelper(_obj)
+                });
             }
-            for (const key1 in dataTree) {
-                formattedMenuItems = fetchMenuItemHelper(dataTree[key1]);
-                // Only this loops runs for one time.
-                break;
-            }
-
-
-            // breadcrumb 
-            const dataModel = JSON.parse(document.querySelector('.sidebar')?.getAttribute('data-model'));
-            const currentPath = dataModel?.currentPagePath;
-            for (let i = 0; i < formattedMenuItems.length; i++) {
-                const menuItem = formattedMenuItems[i];
-                if (menuItem.key === currentPath) {
-                    breadcrumb.home = {
-                        label: menuItem.label,
-                        icon: menuItem.icon
-                    };
-                    breadcrumb.items = [];
-                    break;
-                }
-                function fetchBreadcrumbItemHelper(menuItems) {
-                    const result = [];
-                    for (let i = 0; i < menuItems.length; i++) {
-                        const menuItem = menuItems[i];
-                        if (menuItem.key === currentPath) {
-                            result.push({
-                                label: menuItem.label,
-                                icon: menuItem.icon
-                            });
-                            return result;
-                        }
-                        result.push({
-                            label: menuItem.label,
-                            icon: menuItem.icon
-                        });
-                        const recResult = fetchBreadcrumbItemHelper(menuItem.children);
-                        if (recResult.length === 0) {
-                            result.pop();
-                        } else {
-                            return [
-                                ...result,
-                                ...recResult
-                            ];
-                        }
-                    }
-                    return result;
-                }
-                let tempBreadCrumbItems = fetchBreadcrumbItemHelper(formattedMenuItems[i].children);
-                if (tempBreadCrumbItems.length > 0) {
-                    breadcrumb.home = {
-                        label: menuItem.label,
-                        icon: menuItem.icon
-                    };
-                    breadcrumb.items = tempBreadCrumbItems;
-                    break;
-                }
-            }
-
+            return result;
         }
 
 
+        // Only this loops runs for one time.
+        for (const key in dataTree) {
+            formattedMenuItems = fetchMenuItemHelper(dataTree[key]);
+            break;
+        }
 
-
-        document.querySelectorAll('[data-module="vue-sidebar"]').forEach($component => {
-            data["sidebarRoutes"] = formattedMenuItems;
-            $component.setAttribute(":value", "sidebarRoutes");
+        const sidebarComponentId = `#${componentConfig.id}`;
+        
+        $(sidebarComponentId).treeview({
+            data: formattedMenuItems, 
+            levels: 10, 
+            color: "#FFF",
+            backColor: "#7386D5",
+            onhoverColor: "#9aadff",
+            borderColor: "#9aadff",
+            showBorder: false,
+            showTags: true,
+            highlightSelected: true,
+            selectedColor: "#000",
+            selectedBackColor: "#7386D5"
         });
 
-        data["breadcrumb"] = breadcrumb;
-
-        // Register vue data.
-        componentNs.registerComponent(data);
+        $(id).treeview('enableAll', { silent: true });
+        $(id).treeview('collapseAll', { silent: true });
     }
 
-})(window.Typerefinery.Components.Layouts.Sidebar, window.Typerefinery.Components, window, document);
+})(Typerefinery.Components.Layout.Sidebar, Typerefinery.Components, document, window);

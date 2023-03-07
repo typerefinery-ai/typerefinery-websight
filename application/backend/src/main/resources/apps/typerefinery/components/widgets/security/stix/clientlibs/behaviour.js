@@ -11,7 +11,7 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
 
   $(document).ready(function () {
     $('[component="stix"]').each(function () {
-      ns.init(this);
+      ns.init($(this));
     });
   });
 

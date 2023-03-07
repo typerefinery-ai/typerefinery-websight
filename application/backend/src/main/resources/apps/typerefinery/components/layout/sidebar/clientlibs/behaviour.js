@@ -1,11 +1,15 @@
+
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Layouts = Typerefinery.Components.Layouts || {};
-window.Typerefinery.Components.Layouts.Sidebar = Typerefinery.Components.Layouts.Sidebar || {};
+window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
+window.Typerefinery.Components.Layout.Sidebar = Typerefinery.Components.Layout.Sidebar || {};
 
-;(function (ns, document) {
+
+;(function (ns, document, window) {
     "use strict";
     $(document).ready(function () {
-        ns.init();
+        $("[component='sidebar']").each(function () {
+            ns.init(this);
+        });
     });
-})(window.Typerefinery.Components.Layouts.Sidebar, document);
+})(Typerefinery.Components.Layout.Sidebar, document, window);

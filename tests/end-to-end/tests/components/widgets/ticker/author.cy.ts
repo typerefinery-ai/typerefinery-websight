@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../../../support/const';
 const paths = {
- ticker: 'ComponentOverlay_rootcontainer/maincontainer/pagesection1/ticker'
+ ticker: 'ComponentOverlay_rootcontainer/container/section1/ticker'
 }
 
 describe('Ticker Component', () => {
@@ -11,7 +11,7 @@ describe('Ticker Component', () => {
 
     cy.intercept(
       'POST',
-      '**/pagesection/ticker/websight-dialogs-service.save-properties.action'
+      '**/section/ticker/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
 
     cy.visit(

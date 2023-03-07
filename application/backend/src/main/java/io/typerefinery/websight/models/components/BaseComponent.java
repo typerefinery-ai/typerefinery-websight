@@ -22,8 +22,8 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.models.components.layout.Styled;
+import io.typerefinery.websight.utils.Styled;
+import io.typerefinery.websight.utils.Grid;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
 
@@ -99,10 +99,14 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public Resource currentPage; // resource of the page the component is on
 
     @Self
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected DefaultStyledComponent style;
 
     @Self
     @Delegate
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected DefaultStyledGridComponent grid;
 
     protected String[] componentClasses;

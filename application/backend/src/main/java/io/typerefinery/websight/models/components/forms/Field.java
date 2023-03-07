@@ -61,20 +61,17 @@ public class Field extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 
-        if (grid != null && style != null) {
-            grid.addClasses("form-group");
-            if (BooleanUtils.isTrue(flexEnabled)) {
-                grid.addClasses(flexConfig.getOrDefault("enabled", ""));
-            } else {
-                grid.addClasses(flexConfig.getOrDefault("default", ""));
-            }
-            // Default margin gap.
-            grid.addClasses("mb-3");
+        grid.addClasses("form-group");
+        if (BooleanUtils.isTrue(flexEnabled)) {
+            grid.addClasses(flexConfig.getOrDefault("enabled", ""));
+        } else {
+            grid.addClasses(flexConfig.getOrDefault("default", ""));
         }
+        // Default margin gap.
+        grid.addClasses("mb-3");
     }
 
 }

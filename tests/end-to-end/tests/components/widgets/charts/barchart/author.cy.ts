@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  barChart: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/chart'
+  barChart: 'ComponentOverlay_rootcontainer/container/section/chart'
 };
 
 describe('barChart Component', () => {
@@ -11,7 +11,7 @@ describe('barChart Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/barchart/websight-dialogs-service.save-properties.action'
+      '**/section/barchart/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/chart/barchart::editor'

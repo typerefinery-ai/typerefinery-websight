@@ -16,33 +16,31 @@
 <template data-sly-template.variant="${ @ model }">
 
   <!--/* Show error if this container is inheriting but can't find parent. */-->
-  <sly data-sly-test="${model.inheriting && mode.cancelInheritParent && !model.inheritedResource}">
-    <!--not found-->
-    <div>Inherited but parent not found.</div>
+  <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && !model.inheritedResource}">
+    <!--${model.componentName} inherited resource not found-->
+    <div data-sly-test="${wcmmode.isEdit}" class="bg-warning-subtle ${model.componentClassNames}">${model.componentTitle}: Inherited but parent not found.</div>
   </sly>
   <!--/* Print output of inherited resource. */-->
   <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
-    <!--inherited start ${model.inheritedResource.path}-->
+    <!--${model.componentName} inherited start ${model.inheritedResource.path}-->
     ${model.inheritedHtml @ context='unsafe'}
-    <!--inherited end ${model.inheritedResource.path}-->
+    <!--${model.componentName} inherited end ${model.inheritedResource.path}-->
   </sly>
 
   <!--/* Normal print of component */-->
   <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
-    <sly data-sly-test.CSSclasses="hl-container ${model.classes @ join=' '}"></sly>
     <div 
-      component="container"
-      data-sly-test="${resource.hasChildren}" 
-      id="${model.id}" 
+      component="${model.componentName}"
+      id="${model.id}"
       class="${model.componentClassNames}" 
       data-sly-element="${model.decorationTagName}"
-      style="--bg-image-sm:${model.backgroundImageSm @ context='text'};--height-sm:auto;--bg-image-md: ${model.backgroundImageMd @ context='text'};--height-md:auto;--bg-image-lg:${model.backgroundImageLg @ context='text'};--height-lg:auto;">
-      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+      style="${model.inlineStyleValue @ context='unsafe'}"
+      data-sly-test="${resource.hasChildren}">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </div>
-
     <sly data-sly-test="${!resource.hasChildren}">
       <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-        data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
       </sly>
     </sly>
   </sly>

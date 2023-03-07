@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../../../support/const';
 const paths = {
-  table: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/table'
+  table: 'ComponentOverlay_rootcontainer/container/section/table'
 }
 
 describe('Table Component', () => {
@@ -10,7 +10,7 @@ describe('Table Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/table/websight-dialogs-service.save-properties.action'
+      '**/section/table/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor'

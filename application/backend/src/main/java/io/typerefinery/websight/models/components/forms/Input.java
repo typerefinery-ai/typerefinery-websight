@@ -58,13 +58,21 @@ public class Input extends BaseFormComponent {
     @Default(values = "text")
     private String inputType;
 
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
+
+    
+    @Inject
+    @Getter
+    private String validationInputMask;
+
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
-
 
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
@@ -74,10 +82,7 @@ public class Input extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-
-        if (grid != null && style != null) {
-            style.addClasses("form-control mt-1");
-        }
+        style.addClasses("form-control mt-1");
     }
 
 }

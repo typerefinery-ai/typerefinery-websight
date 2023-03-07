@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-checkbox: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/checkbox'
+checkbox: 'ComponentOverlay_rootcontainer/container/section/checkbox'
 };
 
 describe('Button Component', () => {
@@ -10,7 +10,7 @@ describe('Button Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/checkbox/websight-dialogs-service.save-properties.action'
+      '**/section/checkbox/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/checkbox::editor'

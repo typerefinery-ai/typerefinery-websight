@@ -11,7 +11,7 @@ window.Typerefinery.Components.Widgets.Chart.Variants.LineChart = Typerefinery.C
   "use strict";
 
   $(document).ready(function () {
-    $('[data-module="chartComponent-lineChart"]').each(function () {
+    $("[component='chart'][data-module='lineChart']").each(function () {
       ns?.init(this);
     });
   });

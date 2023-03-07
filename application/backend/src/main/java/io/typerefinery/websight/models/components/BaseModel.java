@@ -20,6 +20,8 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.typerefinery.websight.utils.ComponentUtil;
 import io.typerefinery.websight.utils.JsonUtil;
 import io.typerefinery.websight.utils.PageUtil;
 import lombok.Getter;
@@ -42,12 +44,12 @@ public class BaseModel {
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @SlingObject
-    protected Resource resource;
+    public Resource resource;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @SlingObject
-    protected ResourceResolver resourceResolver;
+    public ResourceResolver resourceResolver;
 
     @Inject
     @Getter
@@ -61,17 +63,31 @@ public class BaseModel {
     @Getter
     public String componentPath;
 
+    @Getter
+    public String componentName;
+    
+    @Getter
+    public String componentTitle;
+
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Inject
     public static SlingHttpServletRequest request;
 
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Inject
     public SlingHttpServletResponse response;
 
     @PostConstruct
     protected void init() {
+
+        this.componentName = PageUtil.getResourceTypeName(resource);
+        this.componentTitle = StringUtils.capitalize(this.componentName);
+
         if (StringUtils.isBlank(this.id)) {
             //TODO: generate a unique id
-            this.id = resource.getName();
+            this.id = ComponentUtil.getComponentId(resource);
         }
 
         if (resource != null) {

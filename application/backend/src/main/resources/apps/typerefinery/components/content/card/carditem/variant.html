@@ -1,0 +1,8 @@
+<template data-sly-template.variant="${ @ model }">
+    <div class="${model.variantClassNames}">
+        <div class="card-body">
+            <sly data-sly-resource="${'bodyContainer' @ selectors=['id', resource.name]}"></sly>
+            <sly data-sly-resource="${'buttonContainer' @ selectors=['id', resource.name]}"></sly>
+        </div>
+    </div>
+</template>

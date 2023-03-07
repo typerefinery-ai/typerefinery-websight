@@ -6,7 +6,7 @@ window.Typerefinery.Components.Widgets.LeafletMap = Typerefinery.Components.Widg
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
-        $('#leafletMap').each(function() {
+        $("[component='leafletmap']").each(function() {
             ns.init(this);
         });
     });

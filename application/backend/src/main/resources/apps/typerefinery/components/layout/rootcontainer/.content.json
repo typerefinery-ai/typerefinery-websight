@@ -9,10 +9,10 @@
     "Typerefinery - Graphs",
     "Typerefinery - Layout",
     "Typerefinery - List",
-    "Typerefinery - Widgets"
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security"
   ],
   "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/rootcontainer",
-  "description": "Use for most outer, editable (homepage) root",
+  "description": "Use for most outer, editable root",
   "title": "Body"
 }

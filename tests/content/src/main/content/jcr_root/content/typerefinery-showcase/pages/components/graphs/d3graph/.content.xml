@@ -6,13 +6,13 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="D3Graph" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
-      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
+      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
+        <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="D3Graph component" />
           <d3graph jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/graphs/d3graph">
           </d3graph>
-        </pagesection>
-      </maincontainer>
+        </section>
+      </container>
     </rootcontainer>
   </jcr:content>
 </jcr:root>

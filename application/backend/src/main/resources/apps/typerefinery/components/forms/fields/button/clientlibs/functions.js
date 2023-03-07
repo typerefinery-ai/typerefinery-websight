@@ -2,57 +2,47 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Button || {};
+window.Typerefinery.Modal = Typerefinery.Modal || {};
+window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 
-(function (ns, componentNs, document, window) {
-    ns.addEventListener = (id) => {
-        $(document).on("click", `#${id}`, (e) => {
-            e.preventDefault();
+(function (ns, componentNs, modalNs, dropdownNs, document, window) {
+    ns.addEventListener = ($component, id) => {
+        $component.addEventListener("click", (e) => {
+            e?.preventDefault();
             const componentConfig = componentNs.getComponentConfig(e.currentTarget);
-            let { buttonType, url, openInNewTab } = componentConfig;
-            if(buttonType === "button") {
-                if(url) {
-                    if(!url.endsWith(".html")) {
-                        url += ".html";
+            let { buttonType, navigateTo, navigateToInNewWindow } = componentConfig;
+
+            if(buttonType === "navigate") {
+                if(navigateTo) {
+                    if(!navigateTo.endsWith(".html")) {
+                        navigateTo += ".html";
                     }
                     
-                    if(openInNewTab) {
-                        window.open(url);
+                    if(navigateToInNewWindow) {
+                        window.open(navigateTo);
                         return;
                     }
-                    window.location.href = url;
+                    window.location.href = navigateTo;
                 }
-            }else if(buttonType === "reset") {
-                const inputFields = e.target?.parentElement?.parentElement?.parentElement?.getElementsByTagName("input")
-                Array.from(inputFields)?.forEach(fieldInput => {
-                    fieldInput.value = "";
-                })
             }
         });
     }
     ns.init = ($component) => {
+
         const componentConfig = componentNs.getComponentConfig($component);
-        const { buttonType, id, url } = componentConfig;
-        console.log("componentConfig", componentConfig);
-        // $component.setAttribute("id", resourcePath);
+        const { buttonType, id, actionType } = componentConfig;
+
         if(buttonType === "submit") {
             return;
         }
-        ns.addEventListener(id);
-        // $component.addEventListener("click", function (e) {
-        //     e.preventDefault();
-        //     if(buttonType === "button") {
-        //         if(url) {
-        //             window.location.href = url;
-    
-        //             // To open in new tab.
-        //             // window.open(url)
-        //         }
-        //     }else if(buttonType === "reset") {
-        //         const inputFields = e.target?.parentElement?.parentElement?.parentElement?.getElementsByTagName("input")
-        //         Array.from(inputFields)?.forEach(fieldInput => {
-        //             fieldInput.value = "";
-        //         })
-        //     }
-        // })
+        else if(buttonType === "action") {
+            if(actionType === "openModal") {
+                modalNs.init($component, componentConfig);
+            }else if(actionType === "openDropdown") {
+                dropdownNs.init($component, componentConfig);
+            }
+            return;
+        }
+        ns.addEventListener($component, id);
     }
-})(Typerefinery.Components.Forms.Button, Typerefinery.Components, document, window);
+})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, document, window);

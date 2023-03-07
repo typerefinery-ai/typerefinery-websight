@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-textArea: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/textarea'
+textArea: 'ComponentOverlay_rootcontainer/container/section/textarea'
 };
 
 describe('inputText Component', () => {
@@ -10,7 +10,7 @@ describe('inputText Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/textarea/websight-dialogs-service.save-properties.action'
+      '**/section/textarea/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/textarea::editor'

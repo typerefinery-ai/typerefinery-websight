@@ -6,15 +6,15 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Text" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
-      <maincontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/maincontainer">
-        <pagesection jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
+      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
+        <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Text component" />
           <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text"/>
-        </pagesection>
-        <pagesection1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/pagesection">
+        </section>
+        <section1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="Rich Text"/>
-        </pagesection1>
-      </maincontainer>
+        </section1>
+      </container>
       <footer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/footer"/>
     </rootcontainer>
   </jcr:content>

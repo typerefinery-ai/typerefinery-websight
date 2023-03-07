@@ -1,6 +1,9 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
-        "typerefinery"
-    ]
+        "carditem",
+        "typerefinery",
+        "websight"
+    ],
+    "html.validate.styles": false
 }

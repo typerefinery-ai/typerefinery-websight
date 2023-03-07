@@ -19,35 +19,28 @@ package io.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import io.typerefinery.websight.models.components.layout.NavigationItemComponent;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.utils.LinkUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
-import org.apache.sling.models.annotations.Exporter;
-import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.api.SlingHttpServletRequest;
 
-@Model(adaptables = {
-    Resource.class,
-    SlingHttpServletRequest.class
-}, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {
-    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
-})
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Button extends BaseFormComponent {
 
-    protected static final String DEFAULT_ID = "button";
-    protected static final String DEFAULT_MODULE = "button";
-    protected static final String DEFAULT_LABEL = "Click here";
+    protected static final String DEFAULT_LABEL = "Click me";
+    protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
 
     @Inject
     @Getter
@@ -61,7 +54,7 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
-    private Boolean openInNewTab;
+    private Boolean navigateToInNewWindow;
 
     @Inject
     @Getter
@@ -75,7 +68,49 @@ public class Button extends BaseFormComponent {
     @Getter
     private Boolean isOutlinedButton;
 
-    private Map < String, String > buttonVariantConfig = new HashMap < String, String > () {
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String actionType;
+
+    @Inject
+    @Default(values = "")
+    private String actionUrl;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String actionModalTitle;
+
+    @Inject
+    @Getter
+    private Boolean hideFooter;
+
+    @Inject
+    @Getter
+    private Boolean showIcon;
+
+    @Inject
+    @Getter
+    private String icon;
+
+    @Inject
+    @Getter
+    private String navigateTo;
+
+    @Inject
+    @Getter
+    private String iconPosition;
+
+    @Inject
+    @Getter
+    private List<NavigationItemComponent> dropdownItems;
+
+    public String getActionUrl() {
+        return LinkUtil.handleLink(actionUrl, resourceResolver);
+    }
+
+    private Map<String, String> buttonVariantConfig = new HashMap<String, String>() {
         {
             put("primary", "-primary");
             put("secondary", "-secondary");
@@ -86,22 +121,25 @@ public class Button extends BaseFormComponent {
             put("help", "-help");
             put("light", "-light");
             put("dark", "-dark");
+            put("text", "-link");
         }
     };
 
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
-        this.module = DEFAULT_MODULE;
 
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
         }
         super.init();
 
+        if(StringUtils.isBlank(this.iconPosition)) {
+            this.iconPosition = "left";
+        }
+
         if (grid != null && style != null) {
-            String buttonCls = "mb-3 btn";
+            String buttonCls = "btn";
             if (StringUtils.isNotBlank(buttonVariant)) {
                 buttonCls += " btn";
                 if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
@@ -113,6 +151,7 @@ public class Button extends BaseFormComponent {
             }
 
             style.addClasses(buttonCls);
+            grid.addClasses(DEFAULT_BUTTON_GRID_CLASS);
         }
     }
 

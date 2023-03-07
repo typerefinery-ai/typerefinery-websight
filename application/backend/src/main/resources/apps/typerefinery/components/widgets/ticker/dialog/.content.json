@@ -55,7 +55,7 @@
         "sling:resourceType": "wcm/dialogs/components/textarea",
         "name": "templateString",
         "label": "Template",
-        "description": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
+        "desWcription": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
         "ws:display": {
           "condition": {
             "sourceName": "templateSelected",

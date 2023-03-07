@@ -48,6 +48,7 @@ public class PageUtil {
     public static final String PROPERTY_HIDEINNAV = "hideInNav";
     public static final String PROPERTY_ICON = "icon";
     public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_PAGE_TITLE = "jcr:title";
     public static final String PROPERTY_DESCRIPTION = "description";
     public static final String COMPONENT_CANCEL_INHERIT_PARENT = "cancelInheritParent";
 
@@ -77,6 +78,17 @@ public class PageUtil {
             return resource.getChild(JcrConstants.JCR_CONTENT).getValueMap();
         }
         return null;
+    }
+
+
+    /**
+     * get page path from resource path
+     * @param resource resource
+     * @return page path
+     */
+    public static Resource getResourcePage(@NotNull Resource resource) {
+        String pagePath = resource.getPath().substring(0, resource.getPath().indexOf(JcrConstants.JCR_CONTENT)-1);
+        return resource.getResourceResolver().getResource(pagePath);
     }
 
     /**
@@ -242,6 +254,9 @@ public class PageUtil {
      */
     public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
         ModifiableValueMap properties = null;
+        if (response.isEmpty()) {
+            return;
+        }
         try {
 
             LOGGER.info("updateFlowStreamResponse: {}", response);

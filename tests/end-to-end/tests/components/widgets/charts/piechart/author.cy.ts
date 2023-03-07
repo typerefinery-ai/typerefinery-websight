@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../../support/const';
 const paths = {
-  pieChart: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/chart'
+  pieChart: 'ComponentOverlay_rootcontainer/container/section/chart'
 }
 
 describe('pieChart Component', () => {
@@ -11,7 +11,7 @@ describe('pieChart Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/piechart/websight-dialogs-service.save-properties.action'
+      '**/section/piechart/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/chart/piechart::editor'

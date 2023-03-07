@@ -1,9 +1,9 @@
 <template data-sly-template.variant="${ @ model }">
     <div 
+        component="${model.componentName}"
         class="${model.variantClassNames}"
-        id="${model.id}"
         data-model="${model.jsonString}"
-        data-module="${model.module}-${model.variant}"
+        data-module="${model.variant}"
     >
         <canvas class="chartCanvas" width="100%" id="${resource.path}-${model.variant}">
         </canvas>

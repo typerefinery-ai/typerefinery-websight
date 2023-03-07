@@ -21,13 +21,19 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.jetbrains.annotations.Nullable;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
+import lombok.Getter;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.api.SlingHttpServletRequest;
 
 @Model(adaptables = {
@@ -43,10 +49,18 @@ public class Label extends BaseFormComponent {
     protected static final String DEFAULT_MODULE = "label";
     protected static final String DEFAULT_LABEL = "Label";
 
+    protected static final String PROPERTY_HIDE_LABEL = "hideLabel";
+    
+
+    @Inject
+    @Getter
+    @Nullable
+    @Named(PROPERTY_HIDE_LABEL)
+    private Boolean hideLabel;
+
     @Override
     @PostConstruct
     protected void init() {
-        this.id = DEFAULT_ID;
         this.module = DEFAULT_MODULE;
         super.init();
 
@@ -54,9 +68,6 @@ public class Label extends BaseFormComponent {
             label = DEFAULT_LABEL;
         }
 
-        if (grid != null && style != null) {
-            // grid.addClasses("form-label");
-        }
     }
 
 }

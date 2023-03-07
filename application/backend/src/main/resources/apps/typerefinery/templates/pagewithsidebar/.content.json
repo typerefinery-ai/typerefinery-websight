@@ -1,0 +1,11 @@
+{  
+  "sling:resourceType": "ws:PageTemplate",
+  "description": "Create a new page with sidebar.",
+  "title": "Page with Sidebar",
+  "allowedChildren": [
+    "/apps/typerefinery/templates/blank",
+    "/apps/typerefinery/templates/page",
+    "/apps/typerefinery/templates/dashboard",
+    "/apps/typerefinery/templates/pagewithsidebar"
+  ]
+}

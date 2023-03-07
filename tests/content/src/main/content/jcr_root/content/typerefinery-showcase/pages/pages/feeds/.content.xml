@@ -6,7 +6,7 @@
     <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Feeds" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
         <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="howlite/components/rootcontainer/fixedrootcontainer">
             <header jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/header"/>
-            <twocols jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/pagesection">
+            <twocols jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/section">
                 <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12">
                     <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar" parentPagePath="/content/typerefinery-showcase/pages/pages" />
                 </container1>

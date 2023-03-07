@@ -29,6 +29,14 @@
           "label": "Value"
         }
       }
+    },
+    "validationTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Validation",
+      "validationRequired": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/validation/validationRequired"
+      }
     }
   }
 }

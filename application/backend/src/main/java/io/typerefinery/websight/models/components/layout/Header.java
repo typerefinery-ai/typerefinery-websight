@@ -17,9 +17,42 @@
 package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Header {
+import javax.annotation.PostConstruct;
+
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
+import org.apache.sling.models.annotations.Model;
+import org.osgi.service.component.annotations.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Component
+@Model(
+    adaptables = {
+        Resource.class,
+        SlingHttpServletRequest.class
+    },
+    resourceType = { 
+        Header.RESOURCE_TYPE 
+    }, 
+    defaultInjectionStrategy = OPTIONAL
+)
+@Exporter(name = "jackson", extensions = "json", options = {
+        @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+})
+public class Header extends Container {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Header.class);
+    
+    public static final String RESOURCE_TYPE = "typerefinery/components/layout/header";
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+    }
 }

@@ -3,10 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Security = Typerefinery.Components.Widgets.Security || {};
 window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.Widgets.Chart.Stix || {};
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-
-(function ($, ns, d3, stix2viz, document, window) {
+(function ($, ns, tmsNs, componentNs, d3, stix2viz, document, window) {
   "use strict";
   class ComponentElements {
     canvasElement = null;
@@ -15,41 +15,136 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     simpleListElement = null;
     linkedNodesElement = null;
   }
-  ns.init = function (element) {
-    var $element = $(element);
-    var $selected = $element.find("#stix-selected-node-content");
-    var $linkedNodes = $element.find("#stix-linked-nodes-content");
-    var $legend = $element.find("#stix-legend-content");
-    var $simpleList = $element.find("#stix-simple-list");
-    // uploader = document.getElementById('uploader');
-    // canvasContainer = document.getElementById('canvas-container');
-    var canvas = $element.find("#stix-canvas");
-    // styles = window.getComputedStyle(uploader);
-    console.log("Initializing STIX visualizer");
-    console.log([element, $element, $selected, $linkedNodes, $legend, canvas]);
+
+  /* ******************************************************
+   * Comon functions
+   * ******************************************************/
+
+  ns.init = function ($component) {
+    // var $selected = $component.find("#stix-selected-node-content");
+    // var $linkedNodes = $component.find("#stix-linked-nodes-content");
+    // var $legend = $component.find("#stix-legend-content");
+    // var $simpleList = $component.find("#stix-simple-list");
+    // // uploader = document.getElementById('uploader');
+    // // canvasContainer = document.getElementById('canvas-container');
+    // var canvas = $component.find("#stix-canvas");
+    // // styles = window.getComputedStyle(uploader);
+    // console.log("Initializing STIX visualizer");
+    // console.log([$component, $selected, $linkedNodes, $legend, canvas]);
 
     // create a class with all the elements we need to pass to the visualizer
+    // var componentElements = new ComponentElements();
+    // componentElements.canvasElement = canvas.get(0);
+    // componentElements.legendElement = $legend.get(0);
+    // componentElements.selectedElement = $selected.get(0);
+    // componentElements.simpleListElement = $simpleList.get(0);
+    // componentElements.linkedNodesElement = $linkedNodes.get(0);
+
+    // var dataUrl = $component.data("dataUrl".toLowerCase());
+
+
+    // var maxCount = ns.parseIntOrDefault($component.data("maxCount".toLowerCase()), 200);
+    // console.log(["dataUrl",dataUrl, "maxCount", maxCount]);
+
+
+    // parse json value from data-model attribute as component config
+    const componentConfig = componentNs.getComponentConfig($component);
+
+    console.log(["componentConfig",componentConfig]);
+
+    const componentTopic = componentConfig?.flowapi_topic;
+    const componentHost = componentConfig.flowapi_websocketurl;
+    const componentPath = componentConfig.resourcePath;
+    // TMS.
+    if (componentHost && componentTopic) {            
+        ns.connectToTMS(componentHost, componentTopic, $component);
+    } else if (componentDataSource) {
+        ns.loadDataFromJson(componentDataSource, $component);
+    } else {
+       ns.alert("No data source found.");
+    }
+
+  }    
+
+  // update component with data and start vizualization
+  ns.updateComponentWithData = (data, $component) => {
+    if (!$component && !data) {
+        return;
+    }
+    // const componentConfig = componentNs.getComponentConfig($component);
+
+    console.log("Initializing STIX visualizer");
+
+    var $selected = $component.find("#stix-selected-node-content");
+    var $linkedNodes = $component.find("#stix-linked-nodes-content");
+    var $legend = $component.find("#stix-legend-content");
+    var $simpleList = $component.find("#stix-simple-list");
+    // uploader = document.getElementById('uploader');
+    // canvasContainer = document.getElementById('canvas-container');
+    var $canvas = $component.find("#stix-canvas");
+    // styles = window.getComputedStyle(uploader);
+
+    var maxCount = ns.parseIntOrDefault($component.data("maxCount".toLowerCase()), 200);
+
+    console.log([$component, $selected, $linkedNodes, $legend, $simpleList, $canvas]);
+
     var componentElements = new ComponentElements();
-    componentElements.canvasElement = canvas.get(0);
+    componentElements.canvasElement = $canvas.get(0);
     componentElements.legendElement = $legend.get(0);
     componentElements.selectedElement = $selected.get(0);
     componentElements.simpleListElement = $simpleList.get(0);
     componentElements.linkedNodesElement = $linkedNodes.get(0);
 
-    var dataUrl = $element.data("dataUrl".toLowerCase());
+    var cfg = {
+      iconDir: "/apps/typerefinery/components/widgets/security/stix/clientlibs/resources/stix2viz/icons"
+    }
 
+    ns.vizStixWrapper(data, cfg, componentElements, maxCount);
+    
+  }
 
-    var maxCount = ns.parseIntOrDefault($element.data("maxCount".toLowerCase()), 200);
-    console.log(["dataUrl",dataUrl, "maxCount", maxCount]);
+  // load data from json source
+  ns.loadDataFromJson = async (dataSourceURL, $component) => {
+    try {
+        const response = await fetch(dataSourceURL).then((res) => res.json());
+        if (response) {
+            ns.updateComponentWithData(response, $component);
+            return;
+        }
+    } catch (error) {
+        ns.alert(`Could load data from JsonL: ${dataSourceURL}`);
+        ns.alert(error);
+    }
+  }
 
-    ns.fetchJsonFromUrl(dataUrl, function(content) {
-      var cfg = {
-        iconDir: "/apps/typerefinery/components/widgets/security/stix/clientlibs/resources/stix2viz/icons"
-      }
+  // TMS callaback
+  ns.tmsCallback = (data, $component) => {
+    ns.alert("Recived data from TMS.");
+    ns.updateComponentWithData(data, $component);
+  }
 
-      ns.vizStixWrapper(content, cfg, componentElements, maxCount);
-    });
-   }    
+  // connect to TMS
+  ns.connectToTMS = async (host, topic, $component) => {
+    try {
+        if (!topic || !host) {
+            ns.alert("Topic or host is not specified can't connect.");
+            return;
+        }
+        
+        let componentConfig = componentNs.getComponentConfig($component);
+        tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.tmsCallback(data, $component));
+        const componentData = localStorage.getItem(`${topic}`);
+        if (componentData) {
+          ns.updateComponentWithData(JSON.parse(componentData), $component);
+        } else {
+          ns.alert("No data found in local storage.");
+        }
+    } catch (error) {
+      ns.alert(`Could not connect to TMS host: ${host}, topic: ${topic}.`);
+      ns.alert(error);
+    }
+  }
+
 
   ns.parseIntOrDefault = function (value, defaultValue) {
     var parsed = parseInt(value);
@@ -456,4 +551,12 @@ window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.W
     console.log(message);
   }
 
-})(jQuery, window.Typerefinery.Components.Widgets.Security.Stix, d3, window.Typerefinery.Vendor.Stix2Viz, document, window);
+})(jQuery, 
+    window.Typerefinery.Components.Widgets.Security.Stix, 
+    Typerefinery.Page.Tms, 
+    Typerefinery.Components,
+    d3, 
+    window.Typerefinery.Vendor.Stix2Viz, 
+    document, 
+    window
+  );

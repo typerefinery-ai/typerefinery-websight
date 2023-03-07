@@ -26,11 +26,13 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.Self;
-import io.typerefinery.websight.models.components.layout.Grid;
-import io.typerefinery.websight.models.components.layout.Styled;
+
+import io.typerefinery.websight.utils.Grid;
+import io.typerefinery.websight.utils.Styled;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class DefaultStyledGridComponent implements Styled, Grid {
@@ -66,6 +68,9 @@ public class DefaultStyledGridComponent implements Styled, Grid {
   }
 
   public void addClasses(String className) {
+    if (StringUtils.isEmpty(className)) {
+      return;
+    }
     if (componentClasses == null) {
       componentClasses = new String[] {};
     }

@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-  d3Graph: 'ComponentOverlay_rootcontainer/maincontainer/pagesection/d3graph'
+  d3Graph: 'ComponentOverlay_rootcontainer/container/section/d3graph'
 };
 
 describe('D3Graph Component', () => {
@@ -11,7 +11,7 @@ describe('D3Graph Component', () => {
   it('renders correctly in edit mode', () => {
     cy.intercept(
       'POST',
-      '**/pagesection/d3graph/websight-dialogs-service.save-properties.action'
+      '**/section/d3graph/websight-dialogs-service.save-properties.action'
     ).as('saveProperties');
     cy.visit(
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/graphs/d3graph::editor'
