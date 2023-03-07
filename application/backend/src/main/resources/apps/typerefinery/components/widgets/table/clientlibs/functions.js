@@ -100,7 +100,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
-        const componentPath = componentConfig.resourcePatj;
+        const componentPath = componentConfig.resourcePath;
 
         // TMS.
         if (componentHost && componentTopic) {
@@ -109,13 +109,11 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentPath);
-            ns.jsonConnected(componentDataSource, componentPath, $component);
+            ns.jsonConnected(componentDataSource, componentConfig.id, $component);
         }
         // MODEL 
         else {
-            $component.setAttribute("id", componentPath);
-            ns.modelDataConnected(componentPath, $component);
+            ns.modelDataConnected(componentConfig.id, $component);
         }
     }
 
