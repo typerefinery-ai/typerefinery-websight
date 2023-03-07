@@ -99,10 +99,14 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public Resource currentPage; // resource of the page the component is on
 
     @Self
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected DefaultStyledComponent style;
 
     @Self
     @Delegate
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected DefaultStyledGridComponent grid;
 
     protected String[] componentClasses;

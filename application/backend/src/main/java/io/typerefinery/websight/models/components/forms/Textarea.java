@@ -74,10 +74,7 @@ public class Textarea extends BaseFormComponent {
             placeholder = DEFAULT_PLACEHOLDER;
         }
 
-
-        if (grid != null && style != null) {
-            style.addClasses("form-control");
-        }
+        style.addClasses("form-control");
     }
 
 }

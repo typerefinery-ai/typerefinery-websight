@@ -2,6 +2,17 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
+    "general": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "description": "Title of the ticker, this is used to sync into Flow when its enabled.",
+        "label": "Title",
+        "defaultValue": "Demo"
+      }
+    },
     "writeTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Write",

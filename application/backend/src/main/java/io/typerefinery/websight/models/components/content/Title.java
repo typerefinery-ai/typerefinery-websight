@@ -89,9 +89,7 @@ public class Title extends BaseComponent {
             headingLevel = DEFAULT_HEADING_LEVEL;            
         }
 
-        if (StringUtils.isNotBlank(headingSize)) {
-            style.addClasses(headingSize);
-        }
+        style.addClasses(headingSize);
    
     }
 }

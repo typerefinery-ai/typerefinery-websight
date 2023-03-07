@@ -10,6 +10,7 @@
     "Typerefinery - Layout",
     "Typerefinery - List",
     "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
     "Typerefinery - Flow"
   ],
   "sling:resourceType": "ws:Component",

@@ -16,36 +16,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.services.flow.registry.ConditionalFlowComponent;
-import io.typerefinery.websight.services.flow.registry.FlowComponent;
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import io.typerefinery.websight.services.flow.registry.FlowComponentRegistry;
 
 @Component(immediate = true)
 public class FlowComponentRegistryImpl implements FlowComponentRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowComponentRegistryImpl.class);
 
-    private final Map<String, List<FlowComponent>> flowComponentsByKey = new ConcurrentHashMap<>();
+    private final Map<String, List<FlowComponentRegister>> flowComponentsByKey = new ConcurrentHashMap<>();
 
     public FlowComponentRegistryImpl() {
     }
 
     @SuppressWarnings("unchecked")
     @Reference(
-        service = FlowComponent.class,
+        service = FlowComponentRegister.class,
         cardinality = ReferenceCardinality.MULTIPLE,
         policy = ReferencePolicy.DYNAMIC
     )
-    private synchronized void bindFlowComponent(FlowComponent flowComponent) {
-        this.log("Binding Flow Component", flowComponent);
-        List<FlowComponent> flowComponents = (List)this.flowComponentsByKey.computeIfAbsent(flowComponent.getKey(), (k) -> {
+    private synchronized void bindFlowComponent(FlowComponentRegister flowComponentRegister) {
+        this.log("Binding Flow Component", flowComponentRegister);
+        List<FlowComponentRegister> flowComponents = (List)this.flowComponentsByKey.computeIfAbsent(flowComponentRegister.getKey(), (k) -> {
             return new CopyOnWriteArrayList();
         });
-        flowComponents.add(flowComponent);
-        flowComponents.sort(Comparator.comparingInt(FlowComponent::getRanking));
+        flowComponents.add(flowComponentRegister);
+        flowComponents.sort(Comparator.comparingInt(FlowComponentRegister::getRanking));
     }
 
-    private synchronized void unbindFlowComponent(FlowComponent flowComponent) {
-        this.log("Unbinding Flow Component", flowComponent);
-        ((List)this.flowComponentsByKey.get(flowComponent.getKey())).remove(flowComponent);
+    private synchronized void unbindFlowComponent(FlowComponentRegister flowComponentRegister) {
+        this.log("Unbinding Flow Component", flowComponentRegister);
+        ((List)this.flowComponentsByKey.get(flowComponentRegister.getKey())).remove(flowComponentRegister);
     }
 
     /**
@@ -54,10 +54,10 @@ public class FlowComponentRegistryImpl implements FlowComponentRegistry {
     @SuppressWarnings("unchecked")
     public List<String> getComponents(String key, SlingHttpServletRequest request) {
         return (List)((List)this.flowComponentsByKey.getOrDefault(key, Collections.emptyList())).stream()
-        .filter((flowComponent) -> {
-            return this.isApplicable(flowComponent, request);
+        .filter((flowComponentRegister) -> {
+            return this.isApplicable(flowComponentRegister, request);
         })
-        .map(flowComponent -> ((FlowComponent) flowComponent).getComponent())
+        .map(flowComponentRegister -> ((FlowComponentRegister) flowComponentRegister).getComponent())
         .collect(Collectors.toList());
     }
 
@@ -67,17 +67,17 @@ public class FlowComponentRegistryImpl implements FlowComponentRegistry {
     @SuppressWarnings("unchecked")
     public List<String> getComponents(String key) {
         return (List)((List)this.flowComponentsByKey.getOrDefault(key, Collections.emptyList())).stream()
-        .map(flowComponent -> ((FlowComponent) flowComponent).getComponent())
+        .map(flowComponentRegister -> ((FlowComponentRegister) flowComponentRegister).getComponent())
         .collect(Collectors.toList());
     }
 
-    private boolean isApplicable(Object flowComponent, SlingHttpServletRequest request) {
-        return flowComponent instanceof ConditionalFlowComponent ? ((ConditionalFlowComponent)flowComponent).isApplicable(request) : true;
+    private boolean isApplicable(Object flowComponentRegister, SlingHttpServletRequest request) {
+        return flowComponentRegister instanceof ConditionalFlowComponent ? ((ConditionalFlowComponent)flowComponentRegister).isApplicable(request) : true;
     }
 
-    private void log(String message, FlowComponent flowComponent) {
+    private void log(String message, FlowComponentRegister flowComponentRegister) {
         String logFormat = message + " type = {}, key = {}, fragment = {}, ranking = {}";
-        LOGGER.info(logFormat, new Object[]{flowComponent.getClass().getName(), flowComponent.getKey(), flowComponent.getComponent(), flowComponent.getRanking()});
+        LOGGER.info(logFormat, new Object[]{flowComponentRegister.getClass().getName(), flowComponentRegister.getKey(), flowComponentRegister.getComponent(), flowComponentRegister.getRanking()});
     }
 
 }

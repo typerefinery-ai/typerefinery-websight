@@ -21,7 +21,7 @@
     name="${model.name}"
     data-fieldId="${model.id}-${model.name}" 
     placeholder="${model.placeholder}" 
-    class="${model.variantClassNames}"
+    class="${model.componentClassNames} ${model.variantClassNames}"
     required="${model.validationRequired}"
     data-inputmask = " 'mask' : '${model.validationInputMask}'"
   />

@@ -13,10 +13,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
-    title, showSubtitle, subtitle, headingLevel, headingSize, classes
 */-->
 <template data-sly-template.variant="${ @ model }">
-  <h2 
-    data-sly-element="${model.headingLevel}"   
-    class="${model.variantClassNames}">${model.title}</h2>
+    <h2 
+        data-sly-element="${model.headingLevel}" 
+        class="${model.variantClassNames}"
+    >
+        ${model.title}
+    </h2>
 </template>

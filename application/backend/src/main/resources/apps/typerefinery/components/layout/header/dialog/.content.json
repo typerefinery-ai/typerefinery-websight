@@ -11,8 +11,31 @@
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
     },
     "styleTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/style"
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/id"
+      },
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
+      },
+      "backgroundColor": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "classes",
+        "label": "Header Background Color",
+        "light": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "light",
+            "value": "p-3 bg-secondary"
+        },
+        "dark": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "dark",
+            "value": "p-3 bg-dark"
+        }
+      }
     },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",

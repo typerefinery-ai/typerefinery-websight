@@ -1,5 +1,4 @@
 {
   "flowapi_template": "/apps/typerefinery/components/forms/form/templates/flowform-service.json",
-  "flowapi_sampledata": "/apps/typerefinery/components/forms/form/templates/flowsample.json",
-  "flowapi_iscontainer": true
+  "flowapi_sampledata": "/apps/typerefinery/components/forms/form/templates/flowsample.json"
 }

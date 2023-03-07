@@ -1,6 +1,6 @@
 package io.typerefinery.websight.services.flow.registry;
 
-public interface FlowComponent {
+public interface FlowComponentRegister {
     String getKey();
   
     String getComponent();

@@ -14,13 +14,7 @@
     limitations under the License.
 */-->
 <sly data-sly-use.model="io.typerefinery.websight.models.components.content.Text">
-  <div 
-    component="${model.componentName}"
-    class="${model.componentClassNames}"
-    id="${model.id}"
-  >
-    <sly data-sly-use.template="./variant.html"
-      data-sly-call="${template.variant @ model=model}">
-    </sly>
-  </div>
+  <sly data-sly-use.template="./variant.html"
+    data-sly-call="${template.component @ model=model}">
+  </sly>
 </sly>

@@ -1,6 +1,11 @@
 package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,8 +20,15 @@ import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
 import io.typerefinery.websight.models.components.BaseComponent;
+import io.typerefinery.websight.models.components.FlowComponent;
+import io.typerefinery.websight.models.components.KeyValuePair;
 import io.typerefinery.websight.services.flow.FlowService;
-import io.typerefinery.websight.services.flow.registry.FlowComponent;
+import io.typerefinery.websight.services.flow.registry.FlowComponentRegister;
+import io.typerefinery.websight.utils.PageUtil;
+
+import io.typerefinery.websight.models.components.KeyValuePair;
+
+/*
 
 /*
  * Ticker component
@@ -25,15 +37,18 @@ import io.typerefinery.websight.services.flow.registry.FlowComponent;
  * 
  */
 @Component
-@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = Resource.class, resourceType = {
+        "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = {
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Ticker extends BaseComponent implements FlowComponent {
+public class Ticker extends FlowComponent implements FlowComponentRegister {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
-    private static final String DEFAULT_ID = "ticker";
-    private static final String DEFAULT_MODULE = "tickerComponent";
+    public static final String DEFAULT_TEMPLATE_I = "<div class='card shadow-sm bg-white rounded'> <div class='card-body d-flex flex-row align-items-center flex-0 border-bottom'> <div class='d-block'> <div class='h6 fw-normal text-gray mb-2'>{{title}}</div> <div class='d-flex'> <h2 class='h3 me-3'>{{value}}</h2> <div class='mt-2'> <span class='{{indicatorIcon}} text-{{indicatorType}}'></span> <span class='text-{{indicatorType}} fw-bold'>{{indicatorValue}}</span> </div> </div> </div> <div class='d-block ms-auto'> <i class='{{tickerIcon}}'></i> </div> </div> </div>";
+    public static final String DEFAULT_TEMPLATE_II = "<div class='card shadow-sm bg-white rounded'>   <div class='card-body'>     <div class='lead'>{{title}}</div>     <h2 class='card-title'>{{value}}</h2>     <p class='small text-muted'>{{indicatorValue}}<i class='{{indicatorIcon}}'></i> {{indicatorType}}</p>   </div> </div>";
+    public static final String DEFAULT_TEMPLATE_III = "<div class='card shadow-sm bg-white rounded'>   <div class='card-body'>     <i class='{{widgetIcon}} fa-2x p-1 bg-{{indicatorType}}'></i>     <div class='mt-2 lead'>{{title}}</div>     <h2 class='card-title' style='font-size:1.8em;'>{{value}}</h2>     <p class='small text-muted'>{{indicatorValue}},  <i class='glyphicon glyphicon-globe'></i> Worldwide</p>     <p class='text-{{indicatorType}}'>       <i class='{{indicatorIcon}}'></i> {{value}}      <span style='font-size: 0.9em' class='ml-2 text-muted'>{{indicatorPrecisionValue}}</span>     </p>   </div> </div>";
+    public static final String CUSTOM_TEMPLATE = "custom";
 
     private static final String PROPERTY_TITLE = "title";
     private static final String DEFAULT_TITLE = "Sample Card";
@@ -72,8 +87,10 @@ public class Ticker extends BaseComponent implements FlowComponent {
     private static final String DEFAULT_VARIANT = "primaryTicker";
 
     private static final String PROPERTY_BACKGROUND_CLASS = "backGroundClass";
-    private static final String DEFAULT_BACKGROUND_CLASS = "";    
+    private static final String DEFAULT_BACKGROUND_CLASS = "";
 
+    public static final String DEFAULT_FLOWAPI_TEMPLATE = "/apps/typerefinery/components/widgets/ticker/templates/ticker.json";
+    public static final String DEFAULT_FLOWAPI_SAMPLEDATA = "/apps/typerefinery/components/widgets/ticker/templates/flowsample.json";
 
     @Getter
     @Inject
@@ -110,7 +127,7 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Named(PROPERTY_INDICATOR_VALUE)
     @Nullable
     public String indicatorValue;
-    
+
     @Getter
     @Inject
     @Named(PROPERTY_INDICATOR_VALUE_PRECISION)
@@ -153,25 +170,29 @@ public class Ticker extends BaseComponent implements FlowComponent {
     @Nullable
     public String backGroundClass;
 
-    @Override
-    public String getKey() {
-        return FlowService.FLOW_SPI_KEY;
-    }
+    @Getter
+    @Inject
+    public List<KeyValuePair> keyValueList;
 
-    @Override
-    public String getComponent() {
-        return RESOURCE_TYPE;
-    }
+    @Getter
+    @Inject
+    public String templateString;
 
-    @Override
-    public int getRanking() {
-        return 200;
-    }
+    @Getter
+    @Inject
+    public String templateSelected;
+
+    public Map<String, String> templateList = new HashMap<String, String>() {
+        {
+            put("1", DEFAULT_TEMPLATE_I);
+            put("2", DEFAULT_TEMPLATE_II);
+            put("3", DEFAULT_TEMPLATE_III);
+        }
+    };
 
     @Override
     @PostConstruct
     protected void init() {
-        this.module = DEFAULT_MODULE;
         super.init();
         if (StringUtils.isBlank(title)) {
             this.title = DEFAULT_TITLE;
@@ -216,5 +237,57 @@ public class Ticker extends BaseComponent implements FlowComponent {
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
         }
+
+        // default values to be saved to resource if any are missing
+        HashMap<String, Object> props = new HashMap<String, Object>() {
+            {
+            }
+        };
+
+        if (StringUtils.isBlank(this.flowapi_template)) {
+            this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
+            props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
+        }
+        if (StringUtils.isBlank(this.flowapi_sampledata)) {
+            this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
+            props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
+        }
+        if (StringUtils.isBlank(this.websocketTopic)) {
+            this.websocketTopic = this.flowapi_topic;
+        }
+
+        if (StringUtils.isNotBlank(templateSelected)) {
+            this.templateString = this.templateList.getOrDefault(templateSelected, this.templateString);
+        }
+
+        if (this.keyValueList == null || this.keyValueList.size() == 0) {
+            this.keyValueList = List.of(
+                    new WidgetOptionItem("title", "Number of active users"),
+                    new WidgetOptionItem("value", "25.5k"),
+                    new WidgetOptionItem("indicatorValue", "4.54K"),
+                    new WidgetOptionItem("indicatorType", "success"),
+                    new WidgetOptionItem("tickerIcon", "glyphicon glyphicon-signal "),
+                    new WidgetOptionItem("indicatorIcon", "glyphicon glyphicon-circle-arrow-up"),
+                    new WidgetOptionItem("widgetIcon", "glyphicon glyphicon-signal text-light"),
+                    new WidgetOptionItem("indicatorPrecisionValue", "Since last quarter"));
+        }
+        // update any defaults that should be set
+        PageUtil.updatResourceProperties(resource, props);
+
+    }
+
+    @Override
+    public String getKey() {
+        return FlowService.FLOW_SPI_KEY;
+    }
+
+    @Override
+    public String getComponent() {
+        return RESOURCE_TYPE;
+    }
+
+    @Override
+    public int getRanking() {
+        return 200;
     }
 }

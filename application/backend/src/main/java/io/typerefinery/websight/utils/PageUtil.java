@@ -254,6 +254,9 @@ public class PageUtil {
      */
     public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
         ModifiableValueMap properties = null;
+        if (response.isEmpty()) {
+            return;
+        }
         try {
 
             LOGGER.info("updateFlowStreamResponse: {}", response);

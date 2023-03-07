@@ -1,5 +1,19 @@
 {
+  "isContainer": false,
   "group": "Typerefinery - Content",
+  "isLayout": false,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
+    "Typerefinery - Flow"
+  ],
   "sling:resourceType": "ws:Component",
+  "description": "Text field.",
   "title": "Text"
 }

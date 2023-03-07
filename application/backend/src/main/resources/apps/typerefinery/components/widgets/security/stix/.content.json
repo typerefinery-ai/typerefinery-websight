@@ -1,5 +1,5 @@
 {
   "title": "Stix",
-  "group": "Typerefinery - Widgets",
+  "group": "Typerefinery - Widgets - Security",
   "sling:resourceType": "ws:Component"
 }

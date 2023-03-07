@@ -94,29 +94,14 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
           x: {
             grid: {
               display: false
-            },
-            ticks: {
-              color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color")
-            }
-          },
-          y: {
-            grid: {
-              color: themeNs?.rootElementStyle.getPropertyValue('--chart-grid-color'),
-            },
-            ticks: {
-              color:themeNs?.rootElementStyle.getPropertyValue("--chart-grid-color")
             }
           }
-        },
-        customCanvasBackgroundColor: {
-          color: themeNs?.rootElementStyle.getPropertyValue('--card-bg-color')
         },
         interaction: {
           intersect: false
         },
         radius: 0
-      },
-      plugins: [plugin]
+      }
     };
 
     const chartInstance = new Chart(ctx, chartOptions);
@@ -174,13 +159,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
       ...ns.defaultData,
     };
     const ctx = document.getElementById(`${componentConfig.resourcePath}-${componentConfig.variant}`).getContext("2d");
-    // Linear background for the chart.
-    const chartBackgroundGradientColor = ctx.createLinearGradient(0, 0, 0, 400);
-    chartBackgroundGradientColor.addColorStop(0.2, "#1c92d2");
-    chartBackgroundGradientColor.addColorStop(0.4, "rgba(27, 145, 209, 0.6)");
-    chartBackgroundGradientColor.addColorStop(0.6, "rgba(27, 145, 209, 0.4)");
-    chartBackgroundGradientColor.addColorStop(1, "rgba(27, 145, 209, 0)");
-    
+ 
     chartInstanceNs[componentConfig.resourcePath].data = {
       labels: data.labels || componentConfig.labels,
       datasets: [
@@ -188,9 +167,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
           label: data.labelName || componentConfig.labelName,
           data: data.chartData || componentConfig.chartData,
           fill: true,
-          borderColor: themeNs?.rootElementStyle?.getPropertyValue("--border-color").trim(),
           tension: 0.3,
-          backgroundColor: chartBackgroundGradientColor
         }
       ]
     };

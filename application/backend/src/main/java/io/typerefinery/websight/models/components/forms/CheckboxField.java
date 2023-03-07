@@ -44,9 +44,7 @@ public class CheckboxField extends Field {
         this.module = DEFAULT_MODULE;
         super.init();
 
-        if (grid != null && style != null) {
-            grid.addClasses("form-check");
-        }
+        grid.addClasses("form-check");
     }
 
 }
