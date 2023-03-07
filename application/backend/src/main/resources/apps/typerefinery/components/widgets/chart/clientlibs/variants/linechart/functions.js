@@ -85,6 +85,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         ]
       },
       options: {
+        
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false

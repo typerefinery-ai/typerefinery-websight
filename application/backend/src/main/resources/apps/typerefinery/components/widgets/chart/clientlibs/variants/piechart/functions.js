@@ -85,6 +85,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         }
                     }
                 },
+                maintainAspectRatio: false,
                 scales: {
                     r: {
                         grid: {
