@@ -1,6 +1,6 @@
 {
   "isLayout": true,
-  "group": "Typerefinery - Layout",
+  "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "This is sidebar component for Typerefinery",
   "title": "Sidebar"
