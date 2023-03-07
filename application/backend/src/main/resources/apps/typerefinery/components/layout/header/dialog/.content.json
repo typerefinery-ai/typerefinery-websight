@@ -28,12 +28,12 @@
         "light": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "light",
-            "value": "p-1 bg-secondary"
+            "value": "bg-secondary"
         },
         "dark": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "dark",
-            "value": "p-1 bg-dark"
+            "value": "bg-dark"
         }
       }
     },
