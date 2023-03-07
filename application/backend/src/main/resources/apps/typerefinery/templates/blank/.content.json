@@ -5,7 +5,6 @@
   "allowedChildren": [
     "/apps/typerefinery/templates/blank",
     "/apps/typerefinery/templates/page",
-    "/apps/typerefinery/templates/dashboard",
-    "/apps/typerefinery/templates/pagewithsidebar"
+    "/apps/typerefinery/templates/dashboard"
   ]
 }
