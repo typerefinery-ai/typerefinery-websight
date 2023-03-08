@@ -1,6 +1,6 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
-  "label": "WebSocket Data Source",
+  "label": "Stream",
   "websocketHost": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "websocketHost",

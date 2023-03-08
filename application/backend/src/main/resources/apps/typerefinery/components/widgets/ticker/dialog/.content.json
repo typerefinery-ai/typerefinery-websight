@@ -67,7 +67,7 @@
     
     "dataTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Data Source",
+      "label": "Data",
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",

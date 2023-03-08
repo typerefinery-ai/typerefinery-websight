@@ -4,7 +4,7 @@
     "sling:resourceType": "wcm/dialogs/components/tabs",
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Flow Config",
+      "label": "Flow",
       "enable": {
         "sling:resourceType": "wcm/dialogs/components/checkbox",
         "name": "flowapi_enable",
