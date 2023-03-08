@@ -37,6 +37,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -169,8 +170,9 @@ public class FlowService {
         }
 
         String flowapi_template = flowComponent.flowapi_template;
+        boolean flowapi_enable = flowComponent.flowapi_enable == null ? false : flowComponent.flowapi_enable;
         
-        if (flowComponent.flowapi_enable && StringUtils.isNotBlank(flowapi_template)) {
+        if (flowapi_enable && StringUtils.isNotBlank(flowapi_template)) {
 
             // String authored_title = flowComponent.title;
             // Boolean flowapi_iscontainer = flowComponent.flowapi_iscontainer;
@@ -562,7 +564,7 @@ public class FlowService {
     public String createFlowFromTemplate(@NotNull FlowComponent flowComponent) {
         String templatePath = flowComponent.flowapi_template;
         String title = flowComponent.flowapi_title;
-        String topic = flowComponent.flowapi_topic;
+        String flowTopic = flowComponent.flowapi_topic;
         String id = flowComponent.flowapi_flowstreamid;
         boolean isContainer = flowComponent.flowapi_iscontainer;
         String sampleDataPath = flowComponent.flowapi_sampledata;
@@ -572,15 +574,20 @@ public class FlowService {
 
         // generate a title if its not specified
         if (StringUtils.isBlank(title)) {
-            title = flowComponent.title + " flow";
+            title = flowComponent.componentTitle + " flow";
         }
         
+        // if topic is blank then generate a unique topic
+        if (StringUtils.isBlank(flowTopic)) {
+            flowTopic = generateTopic(flowComponent.componentName);
+        }
+
         String componentSampleData = getComponentSampleJson(sampleDataPath, flowComponent.resourceResolver);
         String currentPagePath = flowComponent.currentPagePath;
         String designTemplateString = getResourceInputStreamAsString(templatePath, flowComponent.resourceResolver);
 
         // setup a list of replace strings, as this is new flowId, flowStreamId and childPathId will be blank
-        HashMap<String, String> replaceMap = getReplaceMap("", "", "", topic, currentPagePath, componentSampleData);
+        HashMap<String, String> replaceMap = getReplaceMap("", "", "", flowTopic, currentPagePath, componentSampleData);
 
         // replace template variables with values
         String designTemplateStringUpdated = updateFlowTemplateVariables(designTemplateString, replaceMap);
@@ -603,12 +610,6 @@ public class FlowService {
                 HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
                 flowGroup = (String)parentMetadata.get("group");
             }
-        }
-
-        String flowTopic = topic;
-        // if topic is blank then generate a unique topic
-        if (StringUtils.isBlank(flowTopic)) {
-            flowTopic = generateTopic(flowComponent.componentName);
         }
 
         // update component meta
