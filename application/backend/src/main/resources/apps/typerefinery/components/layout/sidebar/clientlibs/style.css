@@ -1,22 +1,33 @@
 [component="sidebar"] {
   min-width: 250px;
-  max-width: 250px;
-  background-color: #4456a5 !important;
-  color: #fff;
   transition: all 0.3s;
   min-height: 100vh !important;
-  height: 100%;
+  height: 100vh;
   /* float: left; */
-  position: fixed;
+  /* position: fixed; */
+  display: table-cell;
+  width: 15%;
+  vertical-align: top;
+}
+
+[component="sidebar"] .sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[component="sidebar"] .hl-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
 }
 
 /* Style for treeview in the sidebar */
 
 li.list-group-item.node-sidebar {
-  background: #4456a5;
   border-top: 1px solid #5d6cae;
   border-bottom: 0px;
-
 }
 
 
@@ -28,9 +39,10 @@ li.list-group-item.node-sidebar {
 
 
 @media (max-width: 768px) {
-  [component="sidebar"]  {
-      display: none;
+  [component="sidebar"] {
+    display: none;
   }
+
   .sidebar-rightContainer {
     width: 100%;
     margin-left: 0;

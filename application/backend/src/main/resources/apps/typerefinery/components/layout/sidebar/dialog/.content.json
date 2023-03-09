@@ -2,16 +2,124 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "parentPagePath": {
+    "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Parent Page",
-      "fieldLabel": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
+      "label": "General",
+      "parentPagePath": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "name": "parentPagePath",
         "label": "Parent Pag Path",
+        "description": "Please provide the parent page of this sidebar component, default will be current page."
+      },
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Sidebar title"
+      },
+      "backgroundColor": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "backgroundColor",
+        "label": "Sidebar background",
         "description": "Please provide the parent page of this sidebar component, default will be current page.",
-        "defaultValue": "" 
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "light": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light",
+          "value": "light"
+        },
+        "dark": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark",
+          "value": "dark"
+        },
+        "info": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Info ",
+          "value": "info"
+        }
+      },
+      "isNodeExpandedByDefault": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isNodeExpandedByDefault",
+        "label": "Sidebar Node Expanded By Default",
+        "description": "If checked, the sidebar will be expandable."
+      },
+      "expandIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "expandIcon",
+        "label": "Expand Icon"
+      },
+      "collapseIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "collapseIcon",
+        "label": "Collapse Icon"
       }
+    },
+    "logoTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Logo",
+      "logoPosition": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "logoPosition",
+        "label": "Logo Position",
+        "top": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "top",
+          "value": "column-reverse"
+        },
+        "right": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "right",
+          "value": "row"
+        },
+        "bottom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "bottom",
+          "value": "column"
+        },
+        "left": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "left",
+          "value": "row-reverse"
+        }
+      },
+      "logoLg": {
+        "sling:resourceType": "wcm/dialogs/components/assetreference",
+        "mimeTypes": [
+          "image/*"
+        ],
+        "name": "logoTab",
+        "label": "Logo - L breakpoint"
+      },
+      "logoMd": {
+        "sling:resourceType": "wcm/dialogs/components/assetreference",
+        "mimeTypes": [
+          "image/*"
+        ],
+        "name": "logoMd",
+        "label": "Logo - M breakpoint"
+      },
+      "logoSm": {
+        "sling:resourceType": "wcm/dialogs/components/assetreference",
+        "mimeTypes": [
+          "image/*"
+        ],
+        "name": "logoSm",
+        "label": "Logo - S breakpoint"
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

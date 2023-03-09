@@ -4,10 +4,17 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,10 +29,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.typerefinery.websight.models.components.BaseComponent;
+import io.typerefinery.websight.utils.DefaultImageUtil;
+import io.typerefinery.websight.utils.LinkUtil;
 import io.typerefinery.websight.utils.PageUtil;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class SideBar extends BaseComponent {
+
+    public static final String DEFAULT_BACKGROUND_COLOR = "secondary";
+    public static final String DEFAULT_TITLE = "Typerefinery";
+    public static final String DEFAULT_EXPAND_ICON = "glyphicon glyphicon-arrow-down";
+    public static final String DEFAULT_COLLAPSE_ICON = "glyphicon glyphicon-arrow-up";
+    public static final String DEFAULT_LOGO_POSITION = "column";
+    public static final Integer LG_BREAKPOINT_MIN_WIDTH = 970;
+    public static final Integer MD_BREAKPOINT_MIN_WIDTH = 970;
+    
 
     /**
      * page to use as the root of the tree
@@ -33,11 +51,172 @@ public class SideBar extends BaseComponent {
     @Inject
     @Getter
     public String parentPagePath;
+
+    /**
+     * background color of the sidebar
+     */
+    @Inject
+    @Getter
+    public String backgroundColor;
+
+    /**
+     * text and the icon color of the sidebar
+     */
+    @Inject
+    @Getter
+    public String textColor;
+
+    /**
+     * title of the sidebar
+     */
+    @Inject
+    @Getter
+    public String title;
+
+    /**
+     * position of the logo
+     */
+    @Inject
+    @Getter
+    public String logoPosition;
+
+    /**
+     * is the sidebar expanded by default
+     */
+    @Inject
+    @Getter
+    public Boolean isNodeExpandedByDefault;
+
+    /**
+     * expand icon of the sidebar
+     */
+    @Inject
+    @Getter
+    public String expandIcon;
+
+    /**
+     * collapse icon of the sidebar
+     */
+    @Inject
+    @Getter
+    public String collapseIcon;
+
+
+
+    /**
+     * logo of the sidebar based on screen size (sm, md, lg) 
+     */
+    @Inject
+    private String logoSm;
+
+    @Inject
+    private String logoMd;
+
+    @Inject
+    private String logoLg;
+
+    
+    @Inject
+    @Getter
+    private String defaultLogo;
+    
+    @Getter
+    private Collection<ImageSource> imageSources;
+
+    private void initImageSources() {
+        imageSources = new LinkedList<>();
+        if (StringUtils.isNotEmpty(logoLg)) {
+            imageSources.add(new ImageSource(LinkUtil.handleLink(logoLg, resourceResolver),
+                    LG_BREAKPOINT_MIN_WIDTH));
+        }
+        if (StringUtils.isNotEmpty(logoSm) && StringUtils.isNotEmpty(logoMd)) {
+            imageSources.add(new ImageSource(LinkUtil.handleLink(logoMd, resourceResolver),
+                    MD_BREAKPOINT_MIN_WIDTH));
+        }
+    }
+
+    private void initDefaultLogo() {
+        defaultLogo = LinkUtil.handleLink(
+                DefaultImageUtil.chooseDefaultImage(logoLg, logoMd, logoSm),
+                resourceResolver);
+    }
+
+    public Map<String, String> backgroundColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "#0d6efd");
+            put("secondary", "#6c757d");
+            put("info", "#0dcaf0");
+            put("light", "#f8f9fa");
+            put("dark", "#212529");
+        }
+    };
+
+    public Map<String, String> textColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "#ffffff");
+            put("secondary", "#ffffff");
+            put("info", "#ffffff");
+            put("light", "#000000");
+            put("dark", "#ffffff");
+        }
+    };
     
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+        initImageSources();
+        initDefaultLogo();
+        // If no background color is set, use the default
+        if (StringUtils.isBlank(backgroundColor)) {
+            backgroundColor = DEFAULT_BACKGROUND_COLOR;
+        }
+        textColor = textColorConfig.get(backgroundColor);
+        backgroundColor = backgroundColorConfig.get(backgroundColor);
+
+        // if no logo position is set, use the default
+        if (StringUtils.isBlank(logoPosition)) {
+            logoPosition = DEFAULT_LOGO_POSITION;
+        }
+
+        // If no title is set, use the default
+        if (StringUtils.isBlank(title)) {
+            title = DEFAULT_TITLE;
+        }
+
+        //  If no expandIcon is set, use the default
+        if (StringUtils.isBlank(expandIcon)) {
+            expandIcon = DEFAULT_EXPAND_ICON;
+        }
+
+        //  If no collapseIcon is set, use the default
+        if (StringUtils.isBlank(collapseIcon)) {
+            collapseIcon = DEFAULT_COLLAPSE_ICON;
+        }
+
+        // If no logo is set, use the default
+        // if (StringUtils.isBlank(logoSm)) {
+        //     logoSm = "/content/dam/websight/images/logo-sm.png";
+        // }
+        // if (StringUtils.isBlank(logoMd)) {
+        //     logoMd = "/content/dam/websight/images/logo-md.png";
+        // }
+        // if (StringUtils.isBlank(logoLg)) {
+        //     logoLg = "/content/dam/websight/images/logo-lg.png";
+        // }
+
+        // If no parent page path is set, use the current page
+        if (StringUtils.isBlank(parentPagePath)) {
+            parentPagePath = currentPage.getPath();
+        }
+
+        // If the parent page path is set, but does not exist, use the current page
+        if (StringUtils.isNotBlank(parentPagePath) && !currentPage.getPath().equals(parentPagePath)) {
+            Resource parentPage = currentPage.getResourceResolver().getResource(parentPagePath);
+            if (parentPage == null) {
+                parentPagePath = currentPage.getPath();
+            }
+        }
     }
     
 
@@ -120,4 +299,12 @@ public class SideBar extends BaseComponent {
         return children;
     }
   
+    @Getter
+    @AllArgsConstructor
+    @EqualsAndHashCode
+    public static class ImageSource {
+
+        private String image;
+        private Integer minWidth;
+    }
 }

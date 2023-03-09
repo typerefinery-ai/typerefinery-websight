@@ -9,5 +9,8 @@
     "tms/client.js",
     "tms/jsonschema.js",
     "tms/functions.js"
-  ] 
+  ],
+  "css": [
+    "style.css"
+  ]
 }
