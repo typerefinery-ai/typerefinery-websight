@@ -47,7 +47,7 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/ticker";
     public static final String DEFAULT_TEMPLATE_I = "<div class='card shadow-sm bg-white rounded'> <div class='card-body d-flex flex-row align-items-center flex-0 border-bottom'> <div class='d-block'> <div class='h6 fw-normal text-gray mb-2'>{{title}}</div> <div class='d-flex'> <h2 class='h3 me-3'>{{value}}</h2> <div class='mt-2'> <span class='{{indicatorIcon}} text-{{indicatorType}}'></span> <span class='text-{{indicatorType}} fw-bold'>{{indicatorValue}}</span> </div> </div> </div> <div class='d-block ms-auto'> <i class='{{tickerIcon}}'></i> </div> </div> </div>";
     public static final String DEFAULT_TEMPLATE_II = "<div class='card shadow-sm bg-white rounded'>   <div class='card-body'>     <div class='lead'>{{title}}</div>     <h2 class='card-title'>{{value}}</h2>     <p class='small text-muted'>{{indicatorValue}}<i class='{{indicatorIcon}}'></i> {{indicatorType}}</p>   </div> </div>";
-    public static final String DEFAULT_TEMPLATE_III = "<div class='card shadow-sm bg-white rounded'>   <div class='card-body'>     <i class='{{widgetIcon}} fa-2x p-1 bg-{{indicatorType}}'></i>     <div class='mt-2 lead'>{{title}}</div>     <h2 class='card-title' style='font-size:1.8em;'>{{value}}</h2>     <p class='small text-muted'>{{indicatorValue}},  <i class='glyphicon glyphicon-globe'></i> Worldwide</p>     <p class='text-{{indicatorType}}'>       <i class='{{indicatorIcon}}'></i> {{value}}      <span style='font-size: 0.9em' class='ml-2 text-muted'>{{indicatorPrecisionValue}}</span>     </p>   </div> </div>";
+    public static final String DEFAULT_TEMPLATE_III = "<div class='card shadow-sm bg-white rounded'>   <div class='card-body'>     <i class='{{widgetIcon}} fa-2x p-3 bg-{{indicatorType}}'></i>     <div class='mt-2 lead'>{{title}}</div>     <h2 class='card-title' style='font-size:1.8em;'>{{value}}</h2>     <p class='small text-muted'>{{indicatorValue}},  <i class='pi pi-globe'></i> Worldwide</p>     <p class='text-{{indicatorType}}'>       <i class='{{indicatorIcon}}'></i> {{value}}      <span style='font-size: 0.9em' class='ml-2 text-muted'>{{indicatorPrecisionValue}}</span>     </p>   </div> </div>";
     public static final String CUSTOM_TEMPLATE = "custom";
 
     private static final String PROPERTY_TITLE = "title";
@@ -266,9 +266,9 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
                     new WidgetOptionItem("value", "25.5k"),
                     new WidgetOptionItem("indicatorValue", "4.54K"),
                     new WidgetOptionItem("indicatorType", "success"),
-                    new WidgetOptionItem("tickerIcon", "glyphicon glyphicon-signal "),
-                    new WidgetOptionItem("indicatorIcon", "glyphicon glyphicon-circle-arrow-up"),
-                    new WidgetOptionItem("widgetIcon", "glyphicon glyphicon-signal text-light"),
+                    new WidgetOptionItem("tickerIcon", "pi pi-database "),
+                    new WidgetOptionItem("indicatorIcon", "pi pi-arrow-down"),
+                    new WidgetOptionItem("widgetIcon", "pi pi-briefcase text-light"),
                     new WidgetOptionItem("indicatorPrecisionValue", "Since last quarter"));
         }
         // update any defaults that should be set
