@@ -1,0 +1,16 @@
+{
+    "title": "Client Libs - Forms - Input",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": [
+        "io.typerefinery.websight.components",
+        "io.typerefinery.websight.components.forms.monacoeditor"
+    ],
+    "css": [
+        "style.css"
+    ],
+    "js": [
+        "behaviour.js",
+        "functions.js"
+    ]
+}
