@@ -4,16 +4,10 @@
   xmlns:ws="http://ds.pl/websight"
   xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Header" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-    <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" classes="p-3 bg-secondary" flexEnabled="true" horizontalAlignment="between" cancelInheritParent="true">
-      <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="5" mdColSize="12" smColSize="12" flexEnabled="true">
-        <image jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/image" lgImageSrc="/content/typerefinery-showcase/assets/images/typerefinery.png" lgColSize="1" showLink="true" url="https://typerefinery.ai/" openInNewTab="true" classes="mr-4" />
-        <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Dashboard" buttonType="navigate" buttonVariant="secondary" lgColSize="2" mdColSize="5" navigateTo="/content/typerefinery-showcase/pages/pages/dashboard/jcr:content" classes="btn-sm"></button_1>
-        <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Forms" buttonType="navigate" buttonVariant="secondary" lgColSize="2" mdColSize="5" navigateTo="/content/typerefinery-showcase/pages/pages/form/jcr:content" classes="btn-sm"></button_2>
-        <button_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Reports" buttonType="navigate" buttonVariant="secondary" lgColSize="2" mdColSize="5" navigateTo="/content/typerefinery-showcase/pages/pages/report/jcr:content" classes="btn-sm"></button_3>
-      </container1>
-      <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="4" mdColSize="12" smColSize="12" columnGap="3" flexEnabled="true" horizontalAlignment="end">
-        <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Typerefinery.ai" buttonType="navigate" buttonVariant="warning" showIcon="true" icon="	glyphicon glyphicon-file " isOutlinedButton="true" lgColSize="4" mdColSize="6" navigateTo="https://typerefinery.ai/" openInNewTab="true" classes="btn-sm"></button_1>
-        <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Source Code" buttonType="navigate" buttonVariant="primary"  lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_2>
+    <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" classes="p-3 bg-secondary"  cancelInheritParent="true">
+      <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12" columnGap="3" flexEnabled="true" horizontalAlignment="end">
+        <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Typerefinery.ai" buttonType="navigate" buttonVariant="warning" showIcon="true" icon="	glyphicon glyphicon-file " isOutlinedButton="true" lgColSize="2" mdColSize="6" navigateTo="https://typerefinery.ai/" openInNewTab="true" classes="btn-sm"></button_1>
+        <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Source Code" buttonType="navigate" buttonVariant="primary"  lgColSize="2" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_2>
       </container2>
     </container>
   </jcr:content>
