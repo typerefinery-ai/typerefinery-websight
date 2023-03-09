@@ -8,25 +8,21 @@
             "jcr:primaryType": "nt:unstructured",
             "sidebar": {
                 "sling:resourceType": "typerefinery/components/layout/sidebar",
-                "jcr:primaryType": "nt:unstructured",
-                "classes": "sidebar-rightContainer"
+                "jcr:primaryType": "nt:unstructured"
             },
             "header": {
                 "sling:resourceType": "typerefinery/components/layout/header",
-                "jcr:primaryType": "nt:unstructured",
-                "classes": "sidebar-rightContainer"
+                "jcr:primaryType": "nt:unstructured"
             },
             "main": {
                 "sling:resourceType": "typerefinery/components/layout/container",
                 "jcr:primaryType": "nt:unstructured",
-                "classes": "sidebar-rightContainer",
                 "decorationTagName": "main",
                 "disableFullWidth": false
             },
             "footer": {
                 "sling:resourceType": "typerefinery/components/layout/footer",
-                "jcr:primaryType": "nt:unstructured",
-                "classes": "sidebar-rightContainer"
+                "jcr:primaryType": "nt:unstructured"
             }
         }
     }
