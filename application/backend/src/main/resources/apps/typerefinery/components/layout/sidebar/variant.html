@@ -15,9 +15,9 @@
 <template data-sly-template.variant="${ @ model }">
   <nav component="${model.componentName}" id="${model.id}" data-tree="${model.treeJSON}"
     data-model="${model.jsonString}" class="${model.variantClassNames}">
-    <div class="sidebar-header p-4 flex-${model.logoPosition}">
-      <h2 id="${model.id}-title" class="text-wrap text-center">
-      </h2>
+    <div class="sidebar-header p-2 mb-2 flex-${model.logoPosition}">
+      <h3 id="${model.id}-title" class="text-wrap text-center">
+      </h3>
       <div id="${model.id}-logo">
         <sly data-sly-call="${image @ imageSources=model.imageSources, defaultImage=model.defaultImage}"></sly>
       </div>
