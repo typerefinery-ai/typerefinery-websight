@@ -27,9 +27,9 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             "value": "25.5k",
             "indicatorValue": "4.54K",
             "indicatorType": "success",
-            "tickerIcon": "glyphicon glyphicon-signal ",
-            "indicatorIcon": "glyphicon glyphicon-circle-arrow-up",
-            "widgetIcon": "glyphicon glyphicon-signal text-light",
+            "tickerIcon": "pi pi-database ",
+            "indicatorIcon": "pi pi-arrow-up",
+            "widgetIcon": "pi pi-briefcase",
             "indicatorPrecisionValue": "Since last quarter"
         };
 

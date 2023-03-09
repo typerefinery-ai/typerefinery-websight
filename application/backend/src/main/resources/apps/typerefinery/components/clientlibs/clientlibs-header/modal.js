@@ -11,10 +11,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                     <div class="modal-header">
                         <h5 class="modal-title">${modalTitle}</h5>
                         <button type="button" class="maximizeButtonInModal" id="maximizeModal">
-                            <i class="icon glyphicon glyphicon-fullscreen"></i>
+                            <i class="icon pi pi-window-maximize"></i>
                         </button>
                         <button type="button" class="closeButtonInModal" data-bs-dismiss="modal">
-                            <i class="glyphicon glyphicon-remove"></i>
+                            <i class="pi pi-times"></i>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -61,7 +61,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             const modalViewEvent = document.getElementById("modalView")
             const modalWindowIcon = $('.icon');
             $(modalViewEvent).toggleClass("modal-fullscreen");
-            modalWindowIcon.toggleClass('glyphicon glyphicon-fullscreen glyphicon glyphicon-resize-small');
+            modalWindowIcon.toggleClass('pi pi-window-maximize pi pi-window-minimize');
         });
 
         $(newModalDivContainer).on("click", "#submitHandlerInModal", function () {
