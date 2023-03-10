@@ -19,19 +19,20 @@ package io.typerefinery.websight.models.components.content;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.typerefinery.websight.models.components.BaseComponent;
+import io.typerefinery.websight.utils.ComponentUtil;
+import io.typerefinery.websight.utils.ResourceUtils;
 import lombok.Getter;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +60,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 })
 public class Text extends BaseComponent {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Text.class);
     
     public static final String RESOURCE_TYPE = "typerefinery/components/content/text";
 
@@ -68,7 +70,7 @@ public class Text extends BaseComponent {
     public static final String PROPERTY_THEME = "theme";
     public static final String PROPERTY_MARKDOWN = "markdown";
     
-    public static final String DEFAULT_PARAGRAPH_RESOURCETYPE = "typerefinery/components/layout/container";
+    public static final String DEFAULT_PARAGRAPH_RESOURCETYPE = "/apps/typerefinery/components/layout/container";
     public static final String DEFAULT_PARAGRAPH_SPLIT = "(?=(<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>))";
     public static final String DEFAULT_TEXT = "Rich Text";
 
@@ -102,9 +104,9 @@ public class Text extends BaseComponent {
     @Nullable
     private String markdown;
     
-    private String[] paragraphs = new String[0];
+    private List<Map<String,Object>> paragraphs = new LinkedList<>();
 
-    public String[] getParagraphs() {
+    public List<Map<String,Object>> getParagraphs() {
         return paragraphs;
     }
 
@@ -123,10 +125,63 @@ public class Text extends BaseComponent {
 
         style.addClasses(themeConfig.getOrDefault(theme, ""));
 
-        //TODO: disabled to do https://github.com/websight-io/starter/issues/142
         //split text into paragraphs
         if (isParagraphMode() && StringUtils.isNotBlank(text)) {
-            paragraphs = text.split(DEFAULT_PARAGRAPH_SPLIT);
+            Resource containerResource = resource.getResourceResolver().getResource(DEFAULT_PARAGRAPH_RESOURCETYPE);
+            pl.ds.websight.components.core.api.Component containerResourceComponent = (pl.ds.websight.components.core.api.Component)containerResource.adaptTo(pl.ds.websight.components.core.api.Component.class);
+            String[] paragraphsList = text.split(DEFAULT_PARAGRAPH_SPLIT);
+
+            //add first placeholder
+            String paraName = "par0";
+            Resource child = resource.getChild(paraName);
+            String relativeResourcePath = resource.getPath().substring(resourcePath.indexOf("jcr:content")).replace("jcr:content/", "");
+            if (child == null) {                    
+                try {
+                    child = ComponentUtil.addComponent(request.getResourceResolver(), resource, containerResourceComponent, paraName);
+                    ResourceUtils.markPageAsEdited(child);
+                    request.getResourceResolver().commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LOGGER.error("Error creating paragraph", e);
+                    this.text = "Error creating paragraph containers.";
+                }
+            }
+
+            Map<String, Object> paragraphMap = new HashMap<>();
+            paragraphMap.put("placeholder", ComponentUtil.getComponentPlacehodler(relativeResourcePath + "/" +paraName, "", containerResource));
+            paragraphMap.put("resourceType", DEFAULT_PARAGRAPH_RESOURCETYPE);
+            paragraphMap.put("name", "par0");
+            paragraphMap.put("hasChildren", child.hasChildren());
+            paragraphs.add(paragraphMap);
+
+            // add all paragraphs
+            for (int i = 0; i < paragraphsList.length; i++) {
+                String paragraph = paragraphsList[i];
+                paraName = "par" + (i+1);
+                child = resource.getChild(paraName);
+                
+                if (child == null) {                    
+                    try {
+                        child = ComponentUtil.addComponent(request.getResourceResolver(), resource, containerResourceComponent, paraName);
+                        ResourceUtils.markPageAsEdited(child);
+                        request.getResourceResolver().commit();        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        LOGGER.error("Error creating paragraph", e);
+                        this.text = "Error creating paragraph containers.";
+                    }
+                }
+
+                paragraphMap = new HashMap<>();
+                paragraphMap.put("text", paragraph);
+                paragraphMap.put("placeholder", ComponentUtil.getComponentPlacehodler(relativeResourcePath + "/" +paraName, "", containerResource));
+                paragraphMap.put("resourceType", DEFAULT_PARAGRAPH_RESOURCETYPE);
+                paragraphMap.put("name", paraName);
+                paragraphMap.put("hasChildren", child.hasChildren());
+                paragraphs.add(paragraphMap);
+
+            }
+
         }
 
         if (StringUtils.isNotBlank(markdown)) {

@@ -9,12 +9,7 @@
         "name": "paragraphMode",
         "label": "Toggle paragraph mode",
         "description": "Print space for components between paragraphs.",
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "ws:display": {
-          "condition": {
-          "sourceName": "paragraphModeEnabled",
-          "values":  "true"
-        }}
+        "sling:resourceType": "wcm/dialogs/components/toggle"
       },
       "text": {
         "sling:resourceType": "wcm/dialogs/components/richtext",
