@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.jcr.LoginException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -307,11 +308,15 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         if (resource != null) {
           return resource;
         }
-        ResourceResolver adminResolver = contentAccess.getAdminResourceResolver();
-        if (adminResolver == null) {
-            return null;
+        try (ResourceResolver adminResolver = contentAccess.getAdminResourceResolver()) {
+            if (adminResolver == null) {
+                return null;
+            }
+            return adminResolver.getResource(path);    
+        } catch (Exception e) {
+            LOGGER.error("Could not get admin resource resolver.", e);
         }
-        return adminResolver.getResource(path);
+        return null;
     }
 
     /**
