@@ -95,6 +95,12 @@
       <groupId>pl.ds.websight</groupId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <artifactId>websight-pages-editor-service</artifactId>
+      <version>1.2.0</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
 
     <!-- Other -->
     <dependency>
