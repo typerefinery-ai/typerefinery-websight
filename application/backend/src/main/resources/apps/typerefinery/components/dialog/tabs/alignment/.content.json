@@ -1,10 +1,25 @@
 {
     "sling:resourceType": "wcm/dialogs/components/tab",
     "label": "Alignment and Spacing",
-    "disableFullWidth": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "disableFullWidth",
-        "label": "Disable full width for the container."
+    "containerType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "containerType",
+        "label": "Disable full width for the container.",
+        "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "default",
+            "value": "default"
+        },
+        "defaultPadding": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Default Padding",
+            "value": "defaultPadding"
+        },
+        "fullWidth": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Full Width",
+            "value": "fullWidth"
+        }
     },
     "flexEnabled": {
         "sling:resourceType": "wcm/dialogs/components/toggle",

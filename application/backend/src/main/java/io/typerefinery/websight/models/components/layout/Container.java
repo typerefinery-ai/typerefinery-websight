@@ -126,8 +126,7 @@ public class Container extends BaseComponent {
     // authored flexEnabled toggle
     @Inject
     @Getter
-    @Default(booleanValues = false)
-    private Boolean disableFullWidth;
+    private String containerType;
 
     @Inject
     @Getter
@@ -224,7 +223,7 @@ public class Container extends BaseComponent {
 
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
-            put("enabled", "row container-fluid");
+            put("enabled", "row");
             put("default", "");
         }
     };
@@ -256,11 +255,12 @@ public class Container extends BaseComponent {
 
         String flex = "";
 
-        if(BooleanUtils.isFalse(disableFullWidth)) {
+        if(containerType == "fullWidth") {
             grid.addClasses("container-fluid");
-        }else if(BooleanUtils.isFalse(flexEnabled)) {
+        }else if(containerType == "defaultPadding" && BooleanUtils.isFalse(flexEnabled)) {
             grid.addClasses("container");   
-        }
+        } 
+        // grid.addClasses("m-auto");
 
         if (BooleanUtils.isTrue(flexEnabled)) {
             flex = flexConfig.getOrDefault("enabled", "");
