@@ -19,7 +19,6 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.io.StringWriter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -223,7 +221,7 @@ public class Container extends BaseComponent {
 
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
-            put("enabled", "row");
+            put("enabled", "row container-fluid");
             put("default", "");
         }
     };
