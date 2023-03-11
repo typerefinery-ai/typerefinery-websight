@@ -1,6 +1,6 @@
 {
     "sling:resourceType": "wcm/dialogs/components/tab",
-    "label": "Alignment and Spacing",
+    "label": "Alignment",
     "containerType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "containerType",

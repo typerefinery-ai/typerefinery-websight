@@ -8,7 +8,7 @@
     },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Alignment and Spacing",
+      "label": "Alignment",
       "flexEnabled": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "flexEnabled",

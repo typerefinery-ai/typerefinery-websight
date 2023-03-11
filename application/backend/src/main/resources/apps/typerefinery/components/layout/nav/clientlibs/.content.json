@@ -1,0 +1,11 @@
+{
+    "title": "Client Libs - Nav",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.content.nav"],  
+    "prepend": [],
+    "append": [],
+    "css": [
+      "style.css"
+    ]
+  }

@@ -1,0 +1,9 @@
+[component="nav"] {
+    min-width: 250px;
+    transition: all 0.3s;
+    min-height: 100vh !important;
+    height: 100vh;
+    display: table-cell;
+    vertical-align: top;
+    width: 15%;
+}
