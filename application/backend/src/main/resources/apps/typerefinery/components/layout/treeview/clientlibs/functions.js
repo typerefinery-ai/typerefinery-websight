@@ -64,10 +64,10 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
 
         $(sidebarComponentId).treeview({
             data: formattedMenuItems,
-            levels: 10,
+            levels: Number(componentConfig.numOfNodeLevelsToExpand) || 10,
             expandIcon: componentConfig.expandIcon,
             collapseIcon: componentConfig.collapseIcon,
-            // color: componentConfig.textColor,
+            color: componentConfig.textColor,
             backColor: 'transparent',
             // onhoverColor: componentConfig.backgroundColor.insert(1, "40"),
             // borderColor: componentConfig.backgroundColor.insert(1, "40"),

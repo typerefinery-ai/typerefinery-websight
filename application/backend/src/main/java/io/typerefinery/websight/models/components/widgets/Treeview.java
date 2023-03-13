@@ -31,6 +31,8 @@ public class Treeview extends BaseComponent {
 
     public static final String DEFAULT_COLLAPSE_ICON = "glyphicon glyphicon-minus";
     public static final String DEFAULT_EXPAND_ICON = "glyphicon glyphicon-plus";
+    public static final String DEFAULT_TEXT_COLOR = "#000000";
+    public static final String DEFAULT_NO_LEVELS_TO_EXPAND = "10";
 
     /**
      * page to use as the root of the tree
@@ -82,6 +84,16 @@ public class Treeview extends BaseComponent {
     @Getter
     public String collapseIcon;
 
+    /**
+     * Number of node levels to expand.
+     *
+     */
+    @Inject
+    @Getter
+    public String numOfNodeLevelsToExpand;
+        
+    
+
 
     @Override
     @PostConstruct
@@ -94,6 +106,14 @@ public class Treeview extends BaseComponent {
 
         if(StringUtils.isBlank(expandIcon)) {
             expandIcon = DEFAULT_EXPAND_ICON;
+        }
+
+        if(StringUtils.isBlank(textColor)) {
+            textColor = DEFAULT_TEXT_COLOR;
+        }
+
+        if(StringUtils.isBlank(numOfNodeLevelsToExpand)) {
+            numOfNodeLevelsToExpand = DEFAULT_NO_LEVELS_TO_EXPAND;
         }
     }
     
