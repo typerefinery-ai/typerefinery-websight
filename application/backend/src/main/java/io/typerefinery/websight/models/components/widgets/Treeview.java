@@ -95,19 +95,6 @@ public class Treeview extends BaseComponent {
         if(StringUtils.isBlank(expandIcon)) {
             expandIcon = DEFAULT_EXPAND_ICON;
         }
-
-        // If no parent page path is set, use the current page
-        if (StringUtils.isBlank(parentPagePath)) {
-            parentPagePath = currentPage.getPath();
-        }
-
-        // If the parent page path is set, but does not exist, use the current page
-        if (StringUtils.isNotBlank(parentPagePath) && !currentPage.getPath().equals(parentPagePath)) {
-            Resource parentPage = currentPage.getResourceResolver().getResource(parentPagePath);
-            if (parentPage == null) {
-                parentPagePath = currentPage.getPath();
-            }
-        }
     }
     
 
