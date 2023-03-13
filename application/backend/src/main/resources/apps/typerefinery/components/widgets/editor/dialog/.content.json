@@ -1,0 +1,64 @@
+{
+    "sling:resourceType": "wcm/dialogs/dialog",
+    "tabs": {
+        "sling:resourceType": "wcm/dialogs/components/tabs",
+        "generalTab": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "General",
+            "name": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "Name",
+                "label": "name",
+                "description": "Name of the component"
+            },
+            "variant": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "name": "variant",
+                "label": "Variant",
+                "code": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Code",
+                    "value": "CODE_EDITOR"
+                },
+                "text": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Text",
+                    "value": "TEXT_EDITOR"
+                }
+            },
+            "codeEditor": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "name": "codeEditor",
+                "label": "Code Editor",
+                "MONACO": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Monaco",
+                    "value": "MONACO"
+                },
+                "CODEMIRROR": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Codemirror",
+                    "value": "CODEMIRROR"
+                },
+                "ws:display": {
+                    "condition": {
+                        "sourceName": "variant",
+                        "values": "CODE_EDITOR"
+                    }
+                }
+            }
+        },
+        "gridTab": {
+            "sling:resourceType": "wcm/dialogs/components/include",
+            "path": "/apps/typerefinery/components/dialog/tabs/grid"
+        },
+        "alignmentTab": {
+            "sling:resourceType": "wcm/dialogs/components/include",
+            "path": "/apps/typerefinery/components/dialog/tabs/alignment"
+        },
+        "styleTab": {
+            "sling:resourceType": "wcm/dialogs/components/include",
+            "path": "/apps/typerefinery/components/dialog/tabs/style"
+        }
+    }
+}

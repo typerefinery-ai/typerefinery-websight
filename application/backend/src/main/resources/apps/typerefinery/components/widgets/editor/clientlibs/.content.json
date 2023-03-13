@@ -1,0 +1,18 @@
+{
+    "title": "Client Libs - Editor",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": [
+        "io.typerefinery.websight.components",
+        "io.typerefinery.websight.components.widgets.editor"
+    ],
+    "prepend": [],
+    "append": [],
+    "css": [
+        "style.css"
+    ],
+    "js": [
+        "functions.js",
+        "behaviour.js"
+    ]
+}
