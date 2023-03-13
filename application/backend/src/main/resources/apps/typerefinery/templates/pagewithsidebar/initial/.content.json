@@ -6,8 +6,8 @@
         "rootcontainer": {
             "sling:resourceType": "typerefinery/components/layout/rootcontainer",
             "jcr:primaryType": "nt:unstructured",
-            "sidebar": {
-                "sling:resourceType": "typerefinery/components/layout/sidebar",
+            "nav": {
+                "sling:resourceType": "typerefinery/components/layout/nav",
                 "jcr:primaryType": "nt:unstructured"
             },
             "header": {
