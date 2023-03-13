@@ -16,35 +16,20 @@
         "name": "title",
         "label": "Sidebar title"
       },
-      "backgroundColor": {
+      "textColor": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "backgroundColor",
-        "label": "Sidebar background",
+        "name": "textColor",
+        "label": "Text Color",
         "description": "Please provide the parent page of this sidebar component, default will be current page.",
-        "primary": {
+        "white": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Primary",
-          "value": "primary"
+          "label": "white",
+          "value": "#FFFFFF"
         },
-        "secondary": {
+        "black": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Secondary",
-          "value": "secondary"
-        },
-        "light": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Light",
-          "value": "light"
-        },
-        "dark": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Dark",
-          "value": "dark"
-        },
-        "info": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Info ",
-          "value": "info"
+          "label": "black",
+          "value": "#000000"
         }
       },
       "isNodeExpandedByDefault": {
@@ -56,70 +41,29 @@
       "expandIcon": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "expandIcon",
-        "label": "Expand Icon"
+        "label": "Expand Icon",
+        "description": "Expand icon for the node."
       },
       "collapseIcon": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "collapseIcon",
-        "label": "Collapse Icon"
-      }
-    },
-    "logoTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Logo",
-      "logoPosition": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "logoPosition",
-        "label": "Logo Position",
-        "top": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "top",
-          "value": "column-reverse"
-        },
-        "right": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "right",
-          "value": "row"
-        },
-        "bottom": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "bottom",
-          "value": "column"
-        },
-        "left": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "left",
-          "value": "row-reverse"
-        }
-      },
-      "logoLg": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "logoTab",
-        "label": "Logo - L breakpoint"
-      },
-      "logoMd": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "logoMd",
-        "label": "Logo - M breakpoint"
-      },
-      "logoSm": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": [
-          "image/*"
-        ],
-        "name": "logoSm",
-        "label": "Logo - S breakpoint"
+        "label": "Collapse Icon",
+        "description": "Collapse icon for the node."
       }
     },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advance",
+      "numOfNodeLevelsToExpand": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "numOfNodeLevelsToExpand",
+        "label": "Number of node levels to expand",
+        "description": "Number of levels of child nodes can be expanded"
+      }
     }
   }
 }
