@@ -19,6 +19,14 @@
         "description": "Please provide url to data source",
         "label": "Data Source"
       }
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }
