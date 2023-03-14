@@ -46,6 +46,33 @@
                         "values": "CODE_EDITOR"
                     }
                 }
+            },
+            "editorLanguage": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "name": "editorLanguage",
+                "label": "Editor Language",
+                "description": "Select the code editor language",
+                "javascript": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "javascript",
+                    "value": "javascript"
+                },
+                "html": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "html",
+                    "value": "html"
+                },
+                "python": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "python",
+                    "value": "python"
+                },
+                "ws:display": {
+                    "condition": {
+                        "sourceName": "variant",
+                        "values": "CODE_EDITOR"
+                    }
+                }
             }
         },
         "gridTab": {

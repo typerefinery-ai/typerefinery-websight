@@ -85,8 +85,8 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
         // Monaco init and create editor
         require(["vs/editor/editor.main"], function () {
             editorInstanceNs[componentConfig.id] = monaco.editor.create($component, {
-                value: ns.getDefaultCode("javascript"),
-                mode: "javascript",
+                value: ns.getDefaultCode(componentConfig.editorLanguage),
+                mode: componentConfig.editorLanguage,
                 minimap: { enabled: false },
                 automaticLayout: true,
                 contextmenu: false,
@@ -99,7 +99,7 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
                     horizontalScrollbarSize: 12,
                     verticalScrollbarSize: 12
                 },
-                lineNumbers: 'on',
+                lineNumbers: 'on'
             });
         });
     };
@@ -116,10 +116,10 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
                 node.setAttribute('data-model', JSON.stringify(componentConfig));
                 node.style.overflow = 'hidden';
             }, {
-            value: ns.getDefaultCode("javascript"),
+            value: ns.getDefaultCode(componentConfig.editorLanguage),
             lineNumbers: true,
             tabSize: 4,
-            mode: 'javascript',
+            mode: componentConfig.editorLanguage,
             theme: ns.getCodeEditorTheme(componentConfig.codeEditor, componentConfig.editorTheme),
             styleActiveSelected: true,
             styleActiveLine: true,
