@@ -1,0 +1,5 @@
+[component='editor'] {
+    height: 325px;
+    width: 100%;
+    overflow-y: auto;
+}
