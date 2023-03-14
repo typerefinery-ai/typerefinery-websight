@@ -12,5 +12,20 @@
     "name": "classes",
     "label": "Class Names",
     "description": "Add custom style classes"
+  },
+  "borderEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderEnabled",
+    "label": "Show Border"
+  },
+  "marginEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "marginEnabled",
+    "label": "Apply Margin"
+  },
+  "paddingEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "paddingEnabled",
+    "label": "Apply Padding"
   }
 }
