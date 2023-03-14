@@ -46,6 +46,21 @@
             "label": "End",
             "value": "end"
         },
+        "baseline": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Baseline",
+            "value": "baseline"
+        },
+        "flexStart": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Flex Start",
+            "value": "flex-start"
+        },
+        "flexEnd": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Flex End",
+            "value": "flex-end"
+        },
         "ws:display": {
             "condition": {
                 "sourceName": "flexEnabled",

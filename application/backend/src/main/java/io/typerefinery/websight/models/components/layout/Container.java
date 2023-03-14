@@ -142,6 +142,46 @@ public class Container extends BaseComponent {
     @Default(values = "")
     private String columnGap;
 
+    // bootstrap styling for border to seperate from other container
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean borderEnabled;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String borderColor;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String borderWidth;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String borderRadius;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean borderPositionTop;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean borderPositionBottom;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean borderPositionRight;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean borderPositionLeft;
 
     // bootstrap styling vertical alignment between children components
     @Inject
@@ -155,6 +195,75 @@ public class Container extends BaseComponent {
     @Default(values = "")
     private String horizontalAlignment;
 
+    // bootstrap padding for the containers.
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean paddingEnabled;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String paddingGeneral;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String paddingTop;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String paddingBottom;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String paddingLeft;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String paddingRight;
+
+    // bootstrap margin for the containers.
+    @Inject
+    @Getter
+    @Default(values = "")
+    private Boolean marginEnabled;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginGeneral;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginTop;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginBottom;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginLeft;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String marginRight;
+
+
+    // background Color for the containers.
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String backgroundColor;
+
     // background Image for the containers.
     @Inject
     private String backgroundImageSm;
@@ -164,7 +273,6 @@ public class Container extends BaseComponent {
 
     @Inject
     private String backgroundImageLg;
-    
 
     public String getBackgroundImageSm() {
         return getBackgroundImage(backgroundImageSm);
@@ -231,9 +339,11 @@ public class Container extends BaseComponent {
             put("start", "align-items-start");
             put("center", "align-items-center");
             put("end", "align-items-end");
+            put("baseline", "align-items-baseline");
+            put("flex-start", "align-items-flex-start");
+            put("flex-end", "align-items-flex-end");
         }
     };
-
     private Map<String, String> horizontalAlignmentConfig = new HashMap<String, String>() {
         {
             put("start", "justify-content-start");
@@ -242,6 +352,158 @@ public class Container extends BaseComponent {
             put("around", "justify-content-around");
             put("evenly", "justify-content-evenly");
             put("between", "justify-content-between");
+        }
+    };
+    private Map<String, String> borderColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "border-primary");
+            put("secondary", "border-secondary");
+            put("success", "border-success");
+            put("light", "border-light");
+            put("dark", "border-dark");
+            put("danger", "border-danger");
+        }
+    };
+
+    private Map<String, String> borderWidthConfig = new HashMap<String, String>() {
+        {
+            put("one", "border-1");
+            put("two", "border-2");
+            put("three", "border-3");
+            put("four", "border-4");
+            put("five", "border-5");
+        }
+    };
+    private Map<String, String> paddingGeneralConfig = new HashMap<String, String>() {
+        {
+            put("zero", "p-0");
+            put("one", "p-1");
+            put("two", "p-2");
+            put("three", "p-3");
+            put("four", "p-4");
+            put("five", "p-5");
+        }
+    };
+
+    private Map<String, String> paddingTopConfig = new HashMap<String, String>() {
+        {
+            put("zero", "pt-0");
+            put("one", "pt-1");
+            put("two", "pt-2");
+            put("three", "pt-3");
+            put("four", "pt-4");
+            put("five", "pt-5");
+        }
+    };
+
+    private Map<String, String> paddingBottomConfig = new HashMap<String, String>() {
+        {
+            put("zero", "pb-0");
+            put("one", "pb-1");
+            put("two", "pb-2");
+            put("three", "pb-3");
+            put("four", "pb-4");
+            put("five", "pb-5");
+        }
+    };
+
+    private Map<String, String> paddingRightConfig = new HashMap<String, String>() {
+        {
+            put("zero", "pe-0");
+            put("one", "pe-1");
+            put("two", "pe-2");
+            put("three", "pe-3");
+            put("four", "pe-4");
+            put("five", "pe-5");
+        }
+    };
+
+    private Map<String, String> paddingLeftConfig = new HashMap<String, String>() {
+        {
+            put("zero", "ps-0");
+            put("one", "ps-1");
+            put("two", "ps-2");
+            put("three", "ps-3");
+            put("four", "ps-4");
+            put("five", "ps-5");
+        }
+    };
+
+
+    private Map<String, String> marginGeneralConfig = new HashMap<String, String>() {
+        {
+            put("zero", "m-0");
+            put("one", "m-1");
+            put("two", "m-2");
+            put("three", "m-3");
+            put("four", "m-4");
+            put("five", "m-5");
+        }
+    };
+
+    private Map<String, String> marginTopConfig = new HashMap<String, String>() {
+        {
+            put("zero", "mt-0");
+            put("one", "mt-1");
+            put("two", "mt-2");
+            put("three", "mt-3");
+            put("four", "mt-4");
+            put("five", "mt-5");
+        }
+    };
+
+    private Map<String, String> marginBottomConfig = new HashMap<String, String>() {
+        {
+            put("zero", "mb-0");
+            put("one", "mb-1");
+            put("two", "mb-2");
+            put("three", "mb-3");
+            put("four", "mb-4");
+            put("five", "mb-5");
+        }
+    };
+
+    private Map<String, String> marginLeftConfig = new HashMap<String, String>() {
+        {
+            put("zero", "ms-0");
+            put("one", "ms-1");
+            put("two", "ms-2");
+            put("three", "ms-3");
+            put("four", "ms-4");
+            put("five", "ms-5");
+        }
+    };
+
+    private Map<String, String> marginRightConfig = new HashMap<String, String>() {
+        {
+            put("zero", "me-0");
+            put("one", "me-1");
+            put("two", "me-2");
+            put("three", "me-3");
+            put("four", "me-4");
+            put("five", "me-5");
+        }
+    };
+
+    private Map<String, String> borderRadiusConfig = new HashMap<String, String>() {
+        {
+            put("rounded", "rounded");
+            put("roundedTop", "rounded-top");
+            put("roundedBottom", "rounded-bottom");
+            put("roundedLeft", "rounded-right");
+            put("roundedCircle", "rounded-left");
+            put("five", "rounded-circle");
+        }
+    };
+    
+    private Map<String, String> backgroundColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "p-3 bg-primary");
+            put("secondary", "p-3 bg-secondary");
+            put("success", "p-3 bg-success");
+            put("light", "p-3 bg-light");
+            put("dark", "p-3 bg-dark");
+            put("danger", "p-3 bg-danger");
         }
     };
 
@@ -260,6 +522,22 @@ public class Container extends BaseComponent {
         } 
         // grid.addClasses("m-auto");
 
+        if(BooleanUtils.isTrue(borderPositionTop)) {
+            grid.addClasses("border-top");
+        }
+
+        if(BooleanUtils.isTrue(borderPositionBottom)) {
+            grid.addClasses("border-bottom");
+        }
+
+        if(BooleanUtils.isTrue(borderPositionRight)) {
+            grid.addClasses("border-end");
+        }
+
+        if(BooleanUtils.isTrue(borderPositionLeft)) {
+            grid.addClasses("border-start");
+        }
+
         if (BooleanUtils.isTrue(flexEnabled)) {
             flex = flexConfig.getOrDefault("enabled", "");
         }else {
@@ -273,8 +551,8 @@ public class Container extends BaseComponent {
             if (StringUtils.isBlank(columnGap) && StringUtils.isBlank(rowGap)) {
                 grid.addClasses("gap-1");
             } else {
-                grid.addClasses("column-gap-" + columnGap);
-                grid.addClasses("row-gap-" + rowGap);
+                grid.addClasses("gap-" + columnGap);
+                grid.addClasses("gap-" + rowGap);
             }
 
             if (StringUtils.isNotBlank(horizontalAlignment)) {
@@ -288,9 +566,83 @@ public class Container extends BaseComponent {
                 grid.addClasses("evenly");
             }
 
+            if (StringUtils.isNotBlank(backgroundColor)) {
+                grid.addClasses(backgroundColorConfig.getOrDefault(backgroundColor, ""));
+            }
+
             componentClasses = Arrays.stream(style.getClasses())
             .collect(Collectors.toCollection(LinkedHashSet::new))
             .toArray(new String[]{});
+        }
+
+        // bootstrap border styling
+        if (BooleanUtils.isTrue(borderEnabled)) {   
+
+            if (StringUtils.isNotBlank(borderColor)) {
+                grid.addClasses(borderColorConfig.getOrDefault(borderColor, ""));
+            }
+            if (StringUtils.isNotBlank(borderWidth)) {
+                grid.addClasses(borderWidthConfig.getOrDefault(borderWidth, ""));
+            } 
+            if (StringUtils.isNotBlank(borderRadius)) {
+                grid.addClasses(borderRadiusConfig.getOrDefault(borderRadius, ""));
+            } 
+
+            componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+
+        //bootstrap margin styling
+        if (BooleanUtils.isTrue(marginEnabled)) {   
+
+            if (StringUtils.isNotBlank(marginGeneral)) {
+                grid.addClasses(marginGeneralConfig.getOrDefault(marginGeneral, ""));
+            }
+            if (StringUtils.isNotBlank(marginTop)) {
+                grid.addClasses(marginTopConfig.getOrDefault(marginTop, ""));
+            } 
+            if (StringUtils.isNotBlank(marginBottom)) {
+                grid.addClasses(marginBottomConfig.getOrDefault(marginBottom, ""));
+            } 
+            if (StringUtils.isNotBlank(marginLeft)) {
+                grid.addClasses(marginLeftConfig.getOrDefault(marginLeft, ""));
+            } 
+            if (StringUtils.isNotBlank(marginRight)) {
+                grid.addClasses(marginRightConfig.getOrDefault(marginRight, ""));
+            } 
+
+            componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+
+        //bootstrap margin styling
+        if (BooleanUtils.isTrue(paddingEnabled)) {   
+
+            if (StringUtils.isNotBlank(paddingGeneral)) {
+                grid.addClasses(paddingGeneralConfig.getOrDefault(paddingGeneral, ""));
+            }
+            if (StringUtils.isNotBlank(paddingTop)) {
+                grid.addClasses(paddingTopConfig.getOrDefault(paddingTop, ""));
+            } 
+            if (StringUtils.isNotBlank(paddingBottom)) {
+                grid.addClasses(paddingBottomConfig.getOrDefault(paddingBottom, ""));
+            } 
+            if (StringUtils.isNotBlank(paddingLeft)) {
+                grid.addClasses(paddingLeftConfig.getOrDefault(paddingLeft, ""));
+            } 
+            if (StringUtils.isNotBlank(paddingRight)) {
+                grid.addClasses(paddingRightConfig.getOrDefault(paddingRight, ""));
+            } 
+
+            componentClasses = Arrays.stream(style.getClasses())
+            .collect(Collectors.toCollection(LinkedHashSet::new))
+            .toArray(new String[]{});
+        }
+        //background color
+        if (StringUtils.isNotBlank(backgroundColor)) {
+            grid.addClasses(backgroundColorConfig.getOrDefault(backgroundColor, ""));
         }
 
         // if this component is set as inheriting and is not cancel inherit from parent, find inheritedResource
@@ -299,8 +651,6 @@ public class Container extends BaseComponent {
                 inheritedResource = PageUtil.findInheritedResource(resource);
             }
         }
-
-    
     }
 
     public String getInheritedHtml() {

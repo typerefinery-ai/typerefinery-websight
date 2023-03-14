@@ -1,0 +1,128 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Border",
+  "borderPositionTop": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderPositionTop",
+    "label": "Border Top",
+    "description": "Arrange the border at top of the Container"
+  },
+  "borderPositionBottom": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderPositionBottom",
+    "label": "Border Bottom",
+    "description": "Arrange the border at bottom of the Container"
+  },
+  "borderPositionRight": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderPositionRight",
+    "label": "Border Right",
+    "description": "Arrange the border at start of the Container"
+  },
+  "borderPositionLeft": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderPositionLeft",
+    "label": "Border Left",
+    "description": "Arrange the border at end of the Container"
+  },
+  "borderColor": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "borderColor",
+    "label": "Border Color",
+    "primary": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Primary",
+      "value": "primary"
+    },
+    "secondary": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Secondary",
+      "value": "secondary"
+    },
+    "success": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Success",
+      "value": "success"
+    },
+    "light": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Light",
+      "value": "light"
+    },
+    "dark": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Dark",
+      "value": "dark"
+    },
+    "danger": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Danger",
+      "value": "danger"
+    }
+  },
+  "borderWidth": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "borderWidth",
+    "label": "Border Width",
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one1"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "borderRadius": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "borderRadius",
+    "label": "Border Radius",
+    "rounded": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded",
+      "value": "rounded"
+    },
+    "roundedTop": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded Top",
+      "value": "roundedTop"
+    },
+    "roundedBottom": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded Bottom",
+      "value": "roundedBottom"
+    },
+    "roundedRight": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded Right",
+      "value": "roundedRight"
+    },
+    "roundedLeft": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded Left",
+      "value": "roundedLeft"
+    },
+    "roundedCircle": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Rounded Circle",
+      "value": "roundedCircle"
+    }
+  }
+}
