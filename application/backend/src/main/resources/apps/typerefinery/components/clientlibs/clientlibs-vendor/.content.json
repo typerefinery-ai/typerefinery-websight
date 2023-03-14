@@ -5,7 +5,8 @@
   "categories": ["io.typerefinery.websight.components-vendor"],
   "css": [
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.css",
-    "/apps/typerefinery/clientlibs/vendor/primevue/primeicons/primeicons.css"
+    "/apps/typerefinery/clientlibs/vendor/primevue/primeicons/primeicons.css",
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap-icons.css"
   ],
   "js": [
     "/apps/typerefinery/clientlibs/vendor/jquery/jquery.min.js",

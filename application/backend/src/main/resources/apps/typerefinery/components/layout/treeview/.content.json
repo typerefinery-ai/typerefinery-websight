@@ -1,0 +1,7 @@
+{
+  "isLayout": false,
+  "group": "Typerefinery - Widgets",
+  "sling:resourceType": "ws:Component",
+  "description": "Bootstrap Treeview component",
+  "title": "Treeview"
+}

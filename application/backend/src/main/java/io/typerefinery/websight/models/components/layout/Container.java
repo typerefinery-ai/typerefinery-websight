@@ -19,7 +19,6 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.io.StringWriter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -126,8 +124,7 @@ public class Container extends BaseComponent {
     // authored flexEnabled toggle
     @Inject
     @Getter
-    @Default(booleanValues = false)
-    private Boolean disableFullWidth;
+    private String containerType;
 
     @Inject
     @Getter
@@ -256,11 +253,12 @@ public class Container extends BaseComponent {
 
         String flex = "";
 
-        if(BooleanUtils.isFalse(disableFullWidth)) {
+        if(containerType == "fullWidth") {
             grid.addClasses("container-fluid");
-        }else if(BooleanUtils.isFalse(flexEnabled)) {
+        }else if(containerType == "defaultPadding" && BooleanUtils.isFalse(flexEnabled)) {
             grid.addClasses("container");   
-        }
+        } 
+        // grid.addClasses("m-auto");
 
         if (BooleanUtils.isTrue(flexEnabled)) {
             flex = flexConfig.getOrDefault("enabled", "");

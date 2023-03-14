@@ -20,7 +20,7 @@
     },
     "backgroundTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/background"
+      "path": "/apps/typerefinery/components/dialog/tabs/colors/background"
     }
   }
 }

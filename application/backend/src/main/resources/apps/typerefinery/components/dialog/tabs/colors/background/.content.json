@@ -1,0 +1,39 @@
+{
+    "sling:resourceType": "wcm/dialogs/components/tab",
+    "label": "Colors",
+    "backgroundColor": {
+      "sling:resourceType": "wcm/dialogs/components/select",
+      "name": "backgroundColor",
+      "label": "Background Color",
+      "default": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "default",
+        "value": "default"
+      },
+      "primary": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "primary",
+        "value": "primary"
+      },
+      "secondary": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "secondary",
+        "value": "secondary"
+      },
+      "light": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "light",
+        "value": "light"
+      },
+      "dark": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "dark",
+        "value": "dark"
+      },
+      "custom": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "custom",
+        "value": "custom"
+      }
+    }
+  }

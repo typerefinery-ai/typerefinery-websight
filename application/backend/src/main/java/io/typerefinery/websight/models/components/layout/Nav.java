@@ -18,7 +18,12 @@ package io.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -26,8 +31,8 @@ import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.osgi.service.component.annotations.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.Getter;
 
 @Component
 @Model(
@@ -46,13 +51,40 @@ import org.slf4j.LoggerFactory;
 })
 public class Nav extends Container {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Nav.class);
     
     public static final String RESOURCE_TYPE = "typerefinery/components/layout/nav";
+
+    
+    @Inject
+    @Getter
+    public String backgroundColor;
+
+    public Map<String, String> backgroundColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "bg-primary");
+            put("secondary", "bg-secondary");
+            put("light", "bg-light");
+            put("dark", "bg-dark");
+            put("default", "");
+        }
+    };
+
 
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+
+        String backgroundColorClass = "";
+
+        if(StringUtils.isNotBlank(backgroundColor)) {
+            backgroundColorClass = backgroundColorConfig.getOrDefault(backgroundColor, backgroundColor);
+        }
+
+        if(StringUtils.isNotBlank(backgroundColorClass)) {
+            grid.addClasses(backgroundColorClass);
+        }
+        // Default nav class
+        grid.addClasses("nav");
     }
 }

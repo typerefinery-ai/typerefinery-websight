@@ -1,0 +1,31 @@
+<template data-sly-template.image="${ @ imageSources, defaultImage }">
+
+  <div class="hl-image">
+    <a href="#" class="hl-image__link">
+      <picture class="hl-image__picture">
+        <sly data-sly-list="${imageSources}">
+          <source media="(min-width:${item.minWidth}px)" srcset="${item.image}" />
+        </sly>
+        <img class="hl-image__img" src="${defaultImage}" />
+      </picture>
+    </a>
+  </div>
+</template>
+
+<template data-sly-template.variant="${ @ model }">
+
+  <div 
+    component="treeview" 
+    data-tree="${model.treeJSON}" 
+    class="${model.variantClassNames}"
+    id="${model.id}"
+    data-model="${model.jsonString}"
+    data-sly-test="${model.parentPagePath}"
+  >
+  </div>
+  <sly data-sly-test="${!model.parentPagePath && wcmmode.isEdit}">
+    <div class="bg-warning-subtle text-center">
+      Tree view content
+    </div>
+  </sly>
+</template>

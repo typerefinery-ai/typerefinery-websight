@@ -1,4 +1,4 @@
-package io.typerefinery.websight.models.components.layout;
+package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
 import lombok.Getter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +26,13 @@ import io.typerefinery.websight.models.components.BaseComponent;
 import io.typerefinery.websight.utils.PageUtil;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class SideBar extends BaseComponent {
+public class Treeview extends BaseComponent {
+
+
+    public static final String DEFAULT_COLLAPSE_ICON = "glyphicon glyphicon-minus";
+    public static final String DEFAULT_EXPAND_ICON = "glyphicon glyphicon-plus";
+    public static final String DEFAULT_TEXT_COLOR = "#000000";
+    public static final String DEFAULT_NO_LEVELS_TO_EXPAND = "10";
 
     /**
      * page to use as the root of the tree
@@ -33,11 +40,81 @@ public class SideBar extends BaseComponent {
     @Inject
     @Getter
     public String parentPagePath;
+
+    /**
+     * background color of the sidebar
+     */
+    @Inject
+    @Getter
+    public String backgroundColor;
+
+    /**
+     * text and the icon color of the sidebar
+     */
+    @Inject
+    @Getter
+    public String textColor;
+
+    /**
+     * title of the sidebar
+     */
+    @Inject
+    @Getter
+    public String title;
+
+
+    /**
+     * is the sidebar expanded by default
+     */
+    @Inject
+    @Getter
+    public Boolean isNodeExpandedByDefault;
+
+    /**
+     * expand icon of the sidebar
+     */
+    @Inject
+    @Getter
+    public String expandIcon;
+
+    /**
+     * collapse icon of the sidebar
+     */
+    @Inject
+    @Getter
+    public String collapseIcon;
+
+    /**
+     * Number of node levels to expand.
+     *
+     */
+    @Inject
+    @Getter
+    public String numOfNodeLevelsToExpand;
+        
     
+
+
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+
+        if(StringUtils.isBlank(collapseIcon)) {
+            collapseIcon = DEFAULT_COLLAPSE_ICON;
+        }
+
+        if(StringUtils.isBlank(expandIcon)) {
+            expandIcon = DEFAULT_EXPAND_ICON;
+        }
+
+        if(StringUtils.isBlank(textColor)) {
+            textColor = DEFAULT_TEXT_COLOR;
+        }
+
+        if(StringUtils.isBlank(numOfNodeLevelsToExpand)) {
+            numOfNodeLevelsToExpand = DEFAULT_NO_LEVELS_TO_EXPAND;
+        }
     }
     
 

@@ -1,0 +1,69 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "parentPagePath": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "name": "parentPagePath",
+        "label": "Parent Pag Path",
+        "description": "Please provide the parent page of this sidebar component, default will be current page."
+      },
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "title",
+        "label": "Sidebar title"
+      },
+      "textColor": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "textColor",
+        "label": "Text Color",
+        "description": "Please provide the parent page of this sidebar component, default will be current page.",
+        "white": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "white",
+          "value": "#FFFFFF"
+        },
+        "black": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "black",
+          "value": "#000000"
+        }
+      },
+      "isNodeExpandedByDefault": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isNodeExpandedByDefault",
+        "label": "Sidebar Node Expanded By Default",
+        "description": "If checked, the sidebar will be expandable."
+      },
+      "expandIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "expandIcon",
+        "label": "Expand Icon",
+        "description": "Expand icon for the node."
+      },
+      "collapseIcon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "collapseIcon",
+        "label": "Collapse Icon",
+        "description": "Collapse icon for the node."
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advance",
+      "numOfNodeLevelsToExpand": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "numOfNodeLevelsToExpand",
+        "label": "Number of node levels to expand",
+        "description": "Number of levels of child nodes can be expanded"
+      }
+    }
+  }
+}
