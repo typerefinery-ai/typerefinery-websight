@@ -80,7 +80,7 @@
 
     <!-- WebSight CMS Version -->
     <websight.cms.version>1.10.0</websight.cms.version>
-    <websight.components.core.version>3.0.2</websight.components.core.version>
+    <websight.components.core.version>4.0.1</websight.components.core.version>
 
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
