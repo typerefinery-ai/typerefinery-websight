@@ -121,9 +121,9 @@ public class Container extends BaseComponent {
     @Default(values = "")
     private String type;
 
-    // authored flexEnabled toggle
     @Inject
     @Getter
+    @Default(values = "")
     private String containerType;
 
     @Inject
@@ -253,11 +253,11 @@ public class Container extends BaseComponent {
 
         String flex = "";
 
-        if(containerType == "fullWidth") {
+        if(containerType.equals("fullWidth")) {
             grid.addClasses("container-fluid");
-        }else if(containerType == "defaultPadding" && BooleanUtils.isFalse(flexEnabled)) {
-            grid.addClasses("container");   
-        } 
+        }else if(containerType.equals("defaultPadding") && BooleanUtils.isNotTrue(flexEnabled)) {
+            grid.addClasses("container"); 
+        }
         // grid.addClasses("m-auto");
 
         if (BooleanUtils.isTrue(flexEnabled)) {
