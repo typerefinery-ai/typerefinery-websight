@@ -16,12 +16,14 @@
 package io.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
+
+import java.util.List;
+
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Default;
-
 
 import javax.inject.Inject;
 import lombok.Getter;
@@ -29,37 +31,73 @@ import javax.annotation.PostConstruct;
 
 import io.typerefinery.websight.models.components.BaseComponent;
 
-
-
 @Model(adaptables = Resource.class, resourceType = {
-    "typerefinery/components/widgets/table" }, defaultInjectionStrategy = OPTIONAL)
+        "typerefinery/components/widgets/table" }, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = {
-    @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
-    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
+        @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
+        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
 public class Table extends BaseComponent {
 
-  private static final String DEFAULT_ID = "table";
-  private static final String DEFAULT_MODULE = "tableComponent";
-  
-  @Override
-  @PostConstruct
-  protected void init() {
-      this.module = DEFAULT_MODULE;
-      super.init();
-   }
 
-  @Getter
-  @Inject
-  public String dataSource;
+    @Getter
+    @Inject
+    public String dataSource;
 
-  @Getter
-  @Inject
-  @Default(values = "ws://localhost:8112/$tms")
-  public String websocketHost;
+    @Getter
+    @Inject
+    @Default(values = "ws://localhost:8112/$tms")
+    public String websocketHost;
 
-  @Getter
-  @Inject
-  // @Default (values = "")
-  public String websocketTopic;
+    @Getter
+    @Inject
+    public String websocketTopic;
+
+    // create variable for actionButtonNavigateToPath, actionButtonModalContentURL, actionButtonLabel, actionTypeWhenActionButtonIsClicked, rowNavigateToPath, rowModalContentURL, actionTypeWhenRowIsClicked, rowClickable, showActionButtons.
+
+
+    @Getter
+    @Inject
+    public Boolean searchEnabled;     
+    
+    
+    @Getter
+    @Inject
+    public Boolean paginationEnabled;
+    
+    @Getter
+    @Inject
+    public Boolean resizableEnabled;
+
+    
+    @Getter
+    @Inject
+    public Boolean multipleSelectRowEnabled;
+
+    
+    @Getter
+    @Inject
+    public Boolean singleSelectEnabled;
+
+
+
+    @Getter
+    @Inject
+    public Boolean showActionButtons;
+
+    
+    @Getter
+    @Inject
+    public List<ActionButton> actionButtons;
+
+    @Getter
+    @Inject
+    public List<ColumnRules> columnRules;
+
+
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+    }
 }
