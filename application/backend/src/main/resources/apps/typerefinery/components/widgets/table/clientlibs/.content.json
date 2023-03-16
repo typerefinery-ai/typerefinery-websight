@@ -4,11 +4,11 @@
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.table"],
   "css": [
-    "/apps/typerefinery/clientlibs/vendor/gridjs/grid.min.css",
-    "style.css"
+    "style.css",
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/table/bootstrap-table.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/gridjs/gridjs.development.js",
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/table/bootstrap-table.js",
     "functions.js",
     "behaviour.js"
   ] 
