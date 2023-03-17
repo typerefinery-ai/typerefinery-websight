@@ -59,6 +59,11 @@
         "name": "showIcon",
         "label": "Show Icon"
       },
+      "hideButtonLabel": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "hideButtonLabel",
+        "label": "Hide Label"
+      },
       "icon": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "icon",
@@ -94,7 +99,7 @@
     },
     "actionMetaData": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Action Meta data",
+      "label": "Meta data",
       "ws:display": {
         "condition": {
           "sourceName": "buttonType",
@@ -114,6 +119,11 @@
           "sling:resourceType": "wcm/dialogs/components/selectitem",
           "label": "Open Dropdown",
           "value": "openDropdown"
+        },
+        "initialTheme": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Initial Theme",
+          "value": "initialTheme"
         }
       },
       "actionModalTitle": {
@@ -137,6 +147,29 @@
             "sourceName": "actionType",
             "values": "openModal"
           }
+        }
+      },
+      "toggleTheme": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "toggleTheme",
+        "label": "Toggle Theme",
+        "description": "Select the app theme from here.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "initialTheme"
+          }
+        },
+        "light": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light",
+          "selected": true,
+          "value": "light"
+        },
+        "dark": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark",
+          "value": "dark"
         }
       },
       "hideFooter": {
@@ -183,7 +216,7 @@
       "buttonVariant": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonVariant",
-        "label": "Button Variant",
+        "label": "Button Style",
         "default": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Default",
@@ -240,6 +273,12 @@
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "isOutlinedButton",
         "label": "Outlined Button"
+      },
+      "showTextualElementOfButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showTextualElementOfButton",
+        "label": "Show Text Elements",
+        "description": "Display texts or content only, hide button border."
       }
     },
     "gridTab": {

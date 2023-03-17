@@ -25,12 +25,15 @@ import io.typerefinery.websight.models.components.layout.NavigationItemComponent
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.jetbrains.annotations.Nullable;
 
 import io.typerefinery.websight.models.components.BaseFormComponent;
 import io.typerefinery.websight.utils.LinkUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
+
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
 import org.apache.commons.lang3.BooleanUtils;
@@ -41,6 +44,8 @@ public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Click me";
     protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
+
+    protected static final String PROPERTY_HIDE_BUTTON_LABEL = "hideButtonLabel";
 
     @Inject
     @Getter
@@ -70,6 +75,10 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
+    private Boolean showTextualElementOfButton;
+
+    @Inject
+    @Getter
     @Default(values = "")
     private String actionType;
 
@@ -81,6 +90,17 @@ public class Button extends BaseFormComponent {
     @Getter
     @Default(values = "")
     private String actionModalTitle;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String toggleTheme;
+
+    @Inject
+    @Getter
+    @Nullable
+    @Named(PROPERTY_HIDE_BUTTON_LABEL)
+    private Boolean hideButtonLabel;
 
     @Inject
     @Getter
@@ -135,9 +155,14 @@ public class Button extends BaseFormComponent {
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
         }
+
+        if (BooleanUtils.isTrue(hideButtonLabel)) {
+            this.label = " ";
+        }
+        
         super.init();
 
-        if(StringUtils.isBlank(this.iconPosition)) {
+        if (StringUtils.isBlank(this.iconPosition)) {
             this.iconPosition = "left";
         }
 
@@ -147,6 +172,9 @@ public class Button extends BaseFormComponent {
                 buttonCls += " btn";
                 if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
                     buttonCls += "-outline";
+                }
+                if (BooleanUtils.isTrue(showTextualElementOfButton) && buttonVariant != "link") {
+                    buttonCls += "-text";
                 }
                 buttonCls += buttonVariantConfig.get(buttonVariant);
             } else {
