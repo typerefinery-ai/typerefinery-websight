@@ -1,0 +1,4 @@
+{
+    "flowapi_template": "/apps/typerefinery/components/widgets/leafletmap/templates/leafletmap.json",
+    "flowapi_sampledata": "/apps/typerefinery/components/widgets/leafletmap/templates/flowsample.json"
+  }

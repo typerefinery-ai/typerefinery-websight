@@ -6,11 +6,11 @@
   "prepend": [],
   "append": [],
   "css": [
-    "/apps/typerefinery/clientlibs/vendor/map/leaflet/leaflet.css",
+    "/apps/typerefinery/clientlibs/vendor/map/leafletmap/leaflet.css",
     "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/map/leaflet/leaflet.js",
+    "/apps/typerefinery/clientlibs/vendor/map/leafletmap/leaflet.js",
     "mock/coordinates.js",
     "functions.js",
     "behaviour.js"

@@ -1,35 +1,33 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.LeafletMap = Typerefinery.Components.Widgets.LeafletMap || {};
-
-const DEFAULT_MAP_DATA = polyJson;
-
-; (function (ns, typerefineryNs, componentNs, DEFAULT_MAP_DATA, L, window, document) {
+window.Typerefinery.Components.Widgets.Map = Typerefinery.Components.Widgets.Map || {};
+window.Typerefinery.Components.Widgets.Map.LeafletMap = Typerefinery.Components.Widgets.Map.LeafletMap || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
+; (function (ns, componentNs , tmsNs,window, document) {
     "use strict";
-
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
             console.log('[LeafletMap/clientlibs/functions.js] component does not exist')
             return;
         }
         const componentConfig = componentNs.getComponentConfig($component);
-        let leafletMapComponent =  L.map('leafletMap').setView([9.145, 40.4897], 2);
-        // Polygon Layer over map.
-        data.forEach(itr => {
-            L.geoJSON(itr.coordinates, {
-                style: itr.style,
-            }).addTo(leafletMapComponent);
-        });
-
-        L.tileLayer(
-            "https://api.maptiler.com/maps/bright-v2/256/{z}/{x}/{y}.png?key=WTh8FTa6cT027rlVBBbG",
-            {
-              maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(leafletMapComponent);
+        var map = L.map(`${componentConfig.id}`).setView([componentConfig.mapLat || data.mapLat, componentConfig.mapLong || data.maplong], componentConfig.zoomLevel || data.zoomLevel);
+        // Create a Tile Layer and add it to the map
+        var tiles = new L.tileLayer(`${componentConfig.tileTemplate}` || `${data.tileTemplate}`, {
+            attribution: `&copy; <a href=${componentConfig.copyRightUrl}` || `${data.copyRightUrl}>OpenStreetMap</a> contributors`,
+            minZoom: `${componentConfig.layerZoom}` || `${data.layerZoom}`
+        }).addTo(map);
+        const markerDetails = data.markers || componentConfig.markerList || []
+        ns.addMarker(markerDetails, map)
     }
-
+    ns.addMarker = (markerDetails, map) => {
+        markerDetails.forEach(marker => {
+            L.marker(
+                [marker.markerLat, marker.markerLng]).addTo(map).bindPopup(marker.popupText).openPopup();
+        })
+    }
     ns.jsonConnected = async (dataSourceURL, $component) => {
         try {
             const response = await fetch(dataSourceURL).then((res) => res.json());
@@ -43,15 +41,14 @@ const DEFAULT_MAP_DATA = polyJson;
             ns.modelDataConnected($component);
         }
     }
-
     ns.tmsConnected = async (host, topic, $component) => {
         try {
-            host = host || "ws://localhost:8112";
-            typerefineryNs.hostAdded(host);
-            if (!topic) {
+            if (!topic || !host) {
                 ns.modelDataConnected($component);
                 return;
             }
+            let componentConfig = componentNs.getComponentConfig($component);
+            tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
                 ns.modelDataConnected($component);
@@ -63,16 +60,13 @@ const DEFAULT_MAP_DATA = polyJson;
             ns.modelDataConnected($component);
         }
     }
-
     ns.modelDataConnected = ($component) => {
-        ns.updateComponentHTML(DEFAULT_MAP_DATA, $component);
+        ns.updateComponentHTML({}, $component);
     }
-
     ns.dataReceived = (data, $component) => {
         // Passing {} because, The values from the model obj are fetched in bellow function definition.
         ns.updateComponentHTML(data, $component);
     }
-
     ns.init = ($component) => {
         // TODO: Everything must be completed once polygson is completed.
         // parse json value from data-model attribute as component config
@@ -80,16 +74,12 @@ const DEFAULT_MAP_DATA = polyJson;
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
-        
-
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentDataSource);
             ns.jsonConnected(componentDataSource, $component);
         }
         // MODEL 
@@ -97,5 +87,4 @@ const DEFAULT_MAP_DATA = polyJson;
             ns.modelDataConnected($component);
         }
     }
-
-})(window.Typerefinery.Components.Widgets.LeafletMap, window.Typerefinery, window.Typerefinery.Components, DEFAULT_MAP_DATA,L, window, document);
+})(window.Typerefinery.Components.Widgets.Map.LeafletMap, window.Typerefinery.Components,window.Typerefinery.Page.Tms, window, document);

@@ -1,16 +1,103 @@
 {
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
-      "sling:resourceType": "wcm/dialogs/components/tabs",
-      "dataTab": {
-          "sling:resourceType": "wcm/dialogs/components/tab",
-          "label": "Data",
-          "dataSource": {
-            "sling:resourceType": "wcm/dialogs/components/textfield",
-            "name": "dataSource",
-            "description": "Please provide url to data source for this LeafletMap.",
-            "label": "Data Source"
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "configTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "lat": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "mapLat",
+        "label": "Latitude",
+        "description": "These will be added as map latitude"
+      },
+      "long": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "mapLong",
+        "label": "Longitude",
+        "description": "These will be added as map longitude"
+      },
+      "zoomLevel": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "zoomLevel",
+        "label": "Zoom Level",
+        "description": "These will be added as map level"
+      }
+    },
+    "tilesTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Tiles layer",
+      "tileTemplate": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "tileTemplate",
+        "label": "Tile Template",
+        "description": "Instantiates a tile layer object given a URL template "
+      },
+      "layerZoom": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "layerZoom",
+        "label": "Layer Zoom",
+        "description": "The minimum zoom level down to which this layer will be displayed (inclusive)."
+      },
+      "copyRightUrl": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "copyRightUrl",
+        "label": "Copyright Url",
+        "description": "CopyRight Url"
+      }
+    },
+    "markerTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Marker",
+      "markerList": {
+        "name": "markerList",
+        "label": "Marker Details",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "marker-lat": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "markerLat",
+          "label": "Marker Latitude",
+          "description": "These will be added as marker latitude"
+        },
+        "marker-long": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "markerLng",
+          "label": "Marker longitude",
+          "description": "These will be added as marker longitude"
+        },
+        "popup-text": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "popupText",
+          "label": "Popup Text",
+          "description": "These will be added as marker popup text"
         }
       }
+    },
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source.",
+        "label": "Data Source"
+      }
+    },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    }
   }
 }
