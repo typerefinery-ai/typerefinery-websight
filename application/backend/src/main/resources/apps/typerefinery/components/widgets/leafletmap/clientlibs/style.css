@@ -1,4 +1,4 @@
-.leafletMap {
-  min-height: 350px;
+[component="leafletmap"] {
+  height: 60vh;
   width: 100%;
 }
