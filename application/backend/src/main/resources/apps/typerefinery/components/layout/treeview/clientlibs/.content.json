@@ -2,7 +2,7 @@
   "title": "Client Libs - Layout - Sidebar",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.layout.sidebar"],  
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.layout.sidebar"],  
   "css": [
     "style.css"
   ],  

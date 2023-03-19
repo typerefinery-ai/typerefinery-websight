@@ -1,6 +1,6 @@
 {
   "content-packages:ARTIFACTS|true": [
-    "io.typerefinery.websight:typerefinery-tests-content:zip:1.0.0-SNAPSHOT"
+    "ai.typerefinery.websight:typerefinery-tests-content:zip:1.0.0-SNAPSHOT"
   ]
 }
   
