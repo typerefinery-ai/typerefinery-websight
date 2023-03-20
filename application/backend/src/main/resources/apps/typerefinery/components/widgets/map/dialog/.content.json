@@ -53,19 +53,19 @@
         "name": "markerList",
         "label": "Marker Details",
         "sling:resourceType": "wcm/dialogs/components/multifield",
-        "marker-lat": {
+        "markerLat": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "markerLat",
           "label": "Marker Latitude",
           "description": "These will be added as marker latitude"
         },
-        "marker-long": {
+        "markerLng": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "markerLng",
           "label": "Marker longitude",
           "description": "These will be added as marker longitude"
         },
-        "popup-text": {
+        "popupText": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "popupText",
           "label": "Popup Text",
