@@ -1,5 +1,5 @@
 {
-  "title": "Client Libs - Widgets - Tabls",
+  "title": "Client Libs - Widgets - Table",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.table"],
