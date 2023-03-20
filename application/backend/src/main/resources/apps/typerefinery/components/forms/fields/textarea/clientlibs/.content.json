@@ -2,7 +2,7 @@
   "title": "Client Libs - Forms - Textarea",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.forms.textarea"],  
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.forms.textarea"],  
   "prepend": [],
   "append": [],
   "css": [
