@@ -1,0 +1,4 @@
+{
+  "flowapi_template": "/apps/typerefinery/components/widgets/table/templates/table.json",
+  "flowapi_sampledata": "/apps/typerefinery/components/widgets/table/templates/flowsample.json"
+}

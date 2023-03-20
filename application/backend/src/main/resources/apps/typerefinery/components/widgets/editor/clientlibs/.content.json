@@ -3,8 +3,8 @@
     "jcr:primaryType": "sling:Folder",
     "sling:resourceType": "io/typerefinery/websight/clientlibs",
     "categories": [
-        "io.typerefinery.websight.components",
-        "io.typerefinery.websight.components.widgets.editor"
+        "ai.typerefinery.websight.components",
+        "ai.typerefinery.websight.components.widgets.editor"
     ],
     "prepend": [],
     "append": [],

@@ -105,7 +105,7 @@ services:
     profiles:
       - test
     volumes:
-      - ../../test/end-to-end/:/e2e
+      - ../../tests/end-to-end/:/e2e
     working_dir: /e2e
     environment:
       - CYPRESS_BASE_URL=http://cms:8080

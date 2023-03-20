@@ -10,6 +10,36 @@
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
+    "borderTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/border",
+      "ws:display": {
+        "condition": {
+          "sourceName": "borderEnabled",
+          "values": true
+        }
+      }
+    },
+    "marginTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/margin",
+      "ws:display": {
+        "condition": {
+          "sourceName": "marginEnabled",
+          "values": true
+        }
+      }
+    },
+    "paddingTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/padding",
+      "ws:display": {
+        "condition": {
+          "sourceName": "paddingEnabled",
+          "values": true
+        }
+      }
+    },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/alignment"
@@ -135,7 +165,7 @@
         "ws:display": {
           "condition": {
             "sourceName": "variant",
-            "values":  "sectionwithtitle"
+            "values": "sectionwithtitle"
           }
         }
       }

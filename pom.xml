@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.typerefinery.websight</groupId>
+  <groupId>ai.typerefinery.websight</groupId>
   <artifactId>typerefinery-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>Typerefinery :: Parent</name>
@@ -80,11 +80,12 @@
 
     <!-- WebSight CMS Version -->
     <websight.cms.version>1.10.0</websight.cms.version>
+    <websight.components.core.version>4.0.1</websight.components.core.version>
 
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <howlite.version>1.0.1</howlite.version>
-    <bulma.version>1.0.3</bulma.version>
+    <howlite.version>1.0.6</howlite.version>
+    <bulma.version>1.0.</bulma.version>
     <sling.feature.launcher.version>1.2.4</sling.feature.launcher.version>
 
     <classifier>typerefinery-websight</classifier>
@@ -111,6 +112,20 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <id>windows</id>
+      <properties>
+        <docker.host>tcp://localhost:2375</docker.host>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -151,19 +166,5 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <profiles>
-    <profile>
-      <activation>
-        <os>
-          <family>windows</family>
-        </os>
-      </activation>
-      <id>windows</id>
-      <properties>
-        <docker.host>tcp://localhost:2375</docker.host>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>

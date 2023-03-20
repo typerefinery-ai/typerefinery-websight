@@ -130,7 +130,7 @@ jobs:
       - name: Run Automation tests
         run: |
           cd environment/local
-          docker-compose up --profile test cmstest
+          docker-compose --profile test up cmstest
 
 
       - name: Stop the stack

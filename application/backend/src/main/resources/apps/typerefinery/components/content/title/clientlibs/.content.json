@@ -2,7 +2,7 @@
   "title": "Client Libs - Content - Title",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.content.title"],  
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.content.title"],  
   "prepend": [],
   "append": [],
   "css": [
