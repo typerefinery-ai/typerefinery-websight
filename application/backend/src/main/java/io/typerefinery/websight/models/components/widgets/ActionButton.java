@@ -4,28 +4,20 @@ import javax.inject.Inject;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Exporter;
-import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
-import org.osgi.service.component.annotations.Component;
 
+import io.typerefinery.websight.models.components.BaseFormComponent;
+import io.typerefinery.websight.utils.LinkUtil;
 import lombok.Getter;
 
-@Component
-@Model(adaptables = Resource.class, resourceType = {
-        "typerefinery/components/widgets/ticker" }, defaultInjectionStrategy = OPTIONAL)
-@Exporter(name = "jackson", extensions = "json", options = {
-        @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
-        @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
-})
-public class ActionButton {
-    @Getter
+@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+public class ActionButton extends BaseFormComponent{
     @Inject
     public String actionButtonNavigateToPath;
 
-    @Getter
     @Inject
     public String actionButtonModalContentURL;
+    
 
     @Getter
     @Inject
@@ -43,4 +35,13 @@ public class ActionButton {
     @Getter
     @Inject
     public String background;
+
+
+    public String getActionButtonNavigateToPath() {
+        return LinkUtil.handleLink(actionButtonNavigateToPath, resourceResolver);
+    }
+
+    public String getActionButtonModalContentURL() {
+        return LinkUtil.handleLink(actionButtonModalContentURL, resourceResolver);
+    }
 }
