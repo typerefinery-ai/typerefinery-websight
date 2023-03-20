@@ -11,7 +11,6 @@
   ],  
   "js": [
     "/apps/typerefinery/clientlibs/vendor/map/leafletmap/leaflet.js",
-    "mock/coordinates.js",
     "functions.js",
     "behaviour.js"
   ] 
