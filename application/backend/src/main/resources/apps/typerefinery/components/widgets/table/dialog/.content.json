@@ -23,6 +23,13 @@
     "advancedTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Advanced",
+      "uniqueIdColumn": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "uniqueIdColumn",
+        "label": "Unique Id Column",
+        "required": true,
+        "description": "Column name which will be used as unique id for the row"
+      },
       "showActionButtons": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "showActionButtons",
@@ -58,7 +65,7 @@
     },
     "actionButtonTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Action Button",
+      "label": "Action",
       "actionButtons": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
         "name": "actionButtons",
@@ -74,32 +81,16 @@
           "label": "Label",
           "description": "Will be displayed as a tooltip"
         },
-        "actionTypeWhenActionButtonIsClicked": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "name": "actionTypeWhenActionButtonIsClicked",
-          "label": "Action type when action button is clicked",
-          "description": "Will be executed on click of the action button",
-          "openModal": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "value": "openModal",
-            "label": "Open Modal"
-          },
-          "navigateTo": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "value": "navigateTo",
-            "label": "Navigate To"
-          }
-        },
         "actionButtonNavigateToPath": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "actionButtonNavigateToPath",
-          "label": "Navigate To Path",
+          "label": "(NAVIGATE TO) | Navigate To Path",
           "description": "Path to navigate to when action button is clicked"
         },
         "actionButtonModalContentURL": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "actionButtonModalContentURL",
-          "label": "Modal Content URL",
+          "label": "(OPEN MODAL) | Modal Content URL",
           "description": "URL of the modal content"
         }
       },
@@ -112,10 +103,10 @@
     },
     "columnRulesTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Column Rules",
-      "columRules": {
+      "label": "Column",
+      "columnRules": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
-        "name": "columRules",
+        "name": "columnRules",
         "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
         "field": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -123,15 +114,10 @@
           "label": "Field Name (column name)"
         },
         "rule": {
-          "sling:resourceType": "wcm/dialogs/components/select",
+          "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "rule",
-          "label": "Rule",
-          "description": "Rule to be applied on the column",
-          "hide": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "name": "hide",
-            "label": "HIDDEN"
-          }
+          "label": "Rule Name (Must be anything from the list below - HIDDEN, SORTABLE)",
+          "description": "Rule to be applied on the column"
         }
       }
     }
