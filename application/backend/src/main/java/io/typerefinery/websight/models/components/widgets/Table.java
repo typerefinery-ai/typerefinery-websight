@@ -53,8 +53,6 @@ public class Table extends BaseComponent {
     @Inject
     public String websocketTopic;
 
-    // create variable for actionButtonNavigateToPath, actionButtonModalContentURL, actionButtonLabel, actionTypeWhenActionButtonIsClicked, rowNavigateToPath, rowModalContentURL, actionTypeWhenRowIsClicked, rowClickable, showActionButtons.
-
 
     @Getter
     @Inject
@@ -74,7 +72,7 @@ public class Table extends BaseComponent {
     @Inject
     public Boolean multipleSelectRowEnabled;
 
-    
+
     @Getter
     @Inject
     public Boolean singleSelectEnabled;
@@ -94,6 +92,14 @@ public class Table extends BaseComponent {
     @Inject
     public List<ColumnRules> columnRules;
 
+    
+    /**
+     * The unique id column.
+     */
+    @Getter
+    @Inject
+    @Default(values = "name")
+    public String uniqueIdColumn;
 
     @Override
     @PostConstruct
