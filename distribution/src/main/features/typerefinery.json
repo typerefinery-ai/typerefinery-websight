@@ -1,11 +1,11 @@
 {
   "bundles": [
     {
-      "id": "io.typerefinery.websight:typerefinery-backend:1.0.0-SNAPSHOT",
+      "id": "ai.typerefinery.websight:typerefinery-backend:1.0.0-SNAPSHOT",
       "start-order": "25"
     },
     {
-      "id": "io.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
+      "id": "ai.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
       "start-order": "25"
     },
     {
@@ -38,7 +38,7 @@
     }
   ],
   "content-packages:ARTIFACTS|true": [
-    "io.typerefinery.websight:typerefinery-content:zip:1.0.0-SNAPSHOT"
+    "ai.typerefinery.websight:typerefinery-content:zip:1.0.0-SNAPSHOT"
   ],
   "configurations": {
     "org.apache.sling.commons.log.LogManager.factory.config~typerefinery.log": {
@@ -50,14 +50,14 @@
       "org.apache.sling.commons.log.file.size": "'.'yyyy-MM-dd",
       "org.apache.sling.commons.log.names": [
         "pl.ds.howlite",
-        "io.typerefinery.websight"
+        "ai.typerefinery.websight"
       ],
       "org.apache.sling.commons.log.additiv": true
     },
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
     },
-    "io.typerefinery.websight.services.flow.FlowService": {
+    "ai.typerefinery.websight.services.flow.FlowService": {
       "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
       "endpoint.export": "/flow/export/%s",
       "endpoint.import": "/flow/import",

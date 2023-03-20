@@ -17,15 +17,15 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
   <!-- include all common libraries -->
-  <!-- <sly data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
-    categories='io.typerefinery.websight.widgets.stix',
+  <!-- <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.widgets.stix',
     debug=true,
     crossorigin='anonymous'}">
     ${clientlibs.jsAndCssIncludes @ context="unsafe"}
   </sly> -->
   <sly data-sly-test="${wcmmode.isEdit}"
-    data-sly-use.clientlibs="${'io.typerefinery.websight.clientlibs.ClientLibsModel' @
-    categories='io.typerefinery.websight.components.widgets.security.stix-author',
+    data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components.widgets.security.stix-author',
     debug=true,
     crossorigin='anonymous'}">
     ${clientlibs.jsAndCssIncludes @ context="unsafe"}

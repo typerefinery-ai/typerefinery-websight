@@ -2,7 +2,7 @@
   "title": "Client Libs - Widgets - Chart",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components","io.typerefinery.websight.components.widgets.chart"],  
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.widgets.chart"],  
   "prepend": [],
   "append": [],
   "css": [

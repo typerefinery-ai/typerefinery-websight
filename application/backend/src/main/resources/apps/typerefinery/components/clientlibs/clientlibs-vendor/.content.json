@@ -2,7 +2,7 @@
   "title": "Client Libs - Vendor",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
-  "categories": ["io.typerefinery.websight.components-vendor"],
+  "categories": ["ai.typerefinery.websight.components-vendor"],
   "css": [
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.css",
     "/apps/typerefinery/clientlibs/vendor/primevue/primeicons/primeicons.css",
