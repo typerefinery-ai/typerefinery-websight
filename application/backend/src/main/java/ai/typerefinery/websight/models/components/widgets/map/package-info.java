@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Typerefinery
+ * Copyright (C) 2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ai.typerefinery.websight.models.components.widgets;
-import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
-import javax.inject.Inject;
-import lombok.Getter;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Model;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Map {
-}
+@Version("1.0.0")
+package ai.typerefinery.websight.models.components.widgets.map;
+
+import org.osgi.annotation.versioning.Version;
+

@@ -1,16 +1,18 @@
 {
-  "title": "Client Libs - Widgets - Map",
+  "title": "Client Libs - Widgets - Leafletmap",
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.widgets.map"],  
   "prepend": [],
   "append": [],
   "css": [
-    "/apps/typerefinery/clientlibs/vendor/maplibre/maplibre-gl.css",
+    "/apps/typerefinery/clientlibs/vendor/map/leafletmap/leaflet.css",
     "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/maplibre/maplibre-gl.js",
-    "script.js"
+    "/apps/typerefinery/clientlibs/vendor/map/leafletmap/leaflet.js",
+    "mock/coordinates.js",
+    "functions.js",
+    "behaviour.js"
   ] 
 }
