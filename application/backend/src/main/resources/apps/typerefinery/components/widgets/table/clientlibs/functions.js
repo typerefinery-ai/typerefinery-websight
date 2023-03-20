@@ -14,7 +14,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     ns.defaultData = {
         columns: [
             {
-            field: 'Name',
+            field: 'name',
             title: 'Name',
             sortable: true
         }, {
@@ -37,91 +37,91 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     ],
         data: [
             {
-                "Name": "Peter",
+                "name": "Peter",
                 "Age": 25,
                 "Email": "john@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Jane Doe",
+                "name": "Jane Doe",
                 "Age": 23,
                 "Email": "jane@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Smith",
+                "name": "Smith",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Henry",
+                "name": "Henry",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Nichols",
+                "name": "Nichols",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Max",
+                "name": "Max",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Murphy",
+                "name": "Murphy",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Stokes",
+                "name": "Stokes",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Hemsworth",
+                "name": "Hemsworth",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Joe",
+                "name": "Joe",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "William",
+                "name": "William",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Peter",
+                "name": "Peter",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
                 "Location": "New York"
             },
             {
-                "Name": "Sophia",
+                "name": "Sophia",
                 "Age": 26,
                 "Email": "smith@gmail.com",
                 "Phone Number": "1234567890",
@@ -134,28 +134,64 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
 
-    ns.getActionButtonHTML = (actionButtons, row) => {
+    ns.getActionButtonHTML = (actionButtons, row, componentConfig) => {
 
         if (!actionButtons || !actionButtons.length) {
             return '';
         }
-        
 
-        return actionButtons.map((actionButton) => {
+        let hasModalContent = false;
+
+
+        let result =  actionButtons.map((actionButton) => {
+            if(actionButton.actionButtonNavigateToPath !== null){
+                hasModalContent = true;
+            }
+
             return `
-                <button class="btn ${actionButton.background} btn-sm" data-model="${JSON.stringify(actionButton)}"  data-toggle="tooltip" data-placement="top" title="${actionButton.label}" row-id="${row.id}" type="button">
-                    <i class="${actionButton.icon}"></i>
+                <button class="btn ${actionButton.background} btn-sm" data-model='${JSON.stringify(actionButton)}' row-id="${row[componentConfig.uniqueIdColumn]}" type="button">
+                    <i data-bs-toggle="tooltip" data-bs-placement="top" title="${actionButton.label}" class="${actionButton.icon}"></i>
                 </button>
             `;
         }).join('');
+
+
+        if(hasModalContent){
+            const newModalDivContainer = document.createElement("div");
+            newModalDivContainer.setAttribute("class", "modal fade");
+            newModalDivContainer.setAttribute("id", "tableModalContent");
+            newModalDivContainer.innerHTML = modalNs.getModalInnerHTML("", "", false);
+            document.body.appendChild(newModalDivContainer);
+        }
+
+
+        return result;
     };
 
     ns.addEventListenerToTableActionButtons = (id) => {
         $(`#${id}`).on('click', 'button', (event) => {
             const $button = event.currentTarget;
-            console.log($button, "BUTTON IS CLICKED");
             const rowId = $button.getAttribute('row-id');
-            console.log( rowId, "ROW ID")
+            console.log( rowId, "ROW ID");
+            const rowConfig = JSON.parse($button.getAttribute('data-model'));
+            const row = tableInstanceNs[id].bootstrapTable('getRowByUniqueId', rowId);
+            console.log(row, "row");
+            
+            const ORIGIN = window.location.origin;
+        
+            if(rowConfig.actionButtonModalContentURL?.trim()?.length > 0){
+                document.querySelector("#tableModalContent iframe").setAttribute("src", `${ORIGIN}${rowConfig.actionButtonModalContentURL}`);
+                $("#tableModalContent").modal("show");
+            }
+
+            if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0){
+                if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0) {
+                    window.open(`${ORIGIN}${rowConfig.actionButtonNavigateToPath}`, "_blank");
+                }else{
+                    window.location.href = `${ORIGIN}${rowConfig.actionButtonNavigateToPath}`;
+                }
+               
+            }
         });
     };
 
@@ -164,7 +200,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         if (!tableInstanceNs[id] || !columns || !columns.length) {
             return;
         }
-        columns.forEach((column) => tableInstanceNs[id].bootstrapTable('hideColumn', column));
+        columns.forEach((column) => tableInstanceNs[id].bootstrapTable('hideColumn', column.field));
     };
     
     ns.getHiddenColumns = (columns) => {
@@ -174,11 +210,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }
 
         // if columns is available, then return the columns which have type "HIDDEN"
-        return columns.filter((column) => column.type === 'HIDDEN' || !column.type);
+        return columns.filter((column) => column.rule === 'HIDDEN' || !column.rule);
     };
 
     ns.updateComponentHTML = (id, data, $component) => {
-
 
         if (!$component) {
             return;
@@ -191,6 +226,16 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             data = ns.defaultData;
         }
 
+        // if componentConfig.columnRules is available then add sortable to data.columns.
+        if (componentConfig.columnRules) {
+            data.columns = data.columns.map((column) => {
+                const columnRule = componentConfig.columnRules.find((rule) => rule.field === column.field);
+                column.sortable = columnRule?.rule === "SORTABLE" ? true : false;
+                return column;
+            });
+        }
+
+
 
         // updating the html with empty string to avoid duplicate table.
         $(`#${id}`).empty();
@@ -201,7 +246,8 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             pagination: componentConfig.paginationEnabled || data.pagination,
             resizable: componentConfig.resizableEnabled || data.resizable,
             multipleSelectRow: componentConfig.multipleSelectRowEnabled || data.multipleSelectRow || false,
-            singleSelect : componentConfig.singleSelectEnabled  || data.singleSelect,
+            singleSelect : !(componentConfig.multipleSelectRowEnabled || data.multipleSelectRow || false) && (componentConfig.singleSelectEnabled  || data.singleSelect),
+            uniqueId: componentConfig.uniqueIdColumn || data.uniqueId
         };
         
 
@@ -210,26 +256,27 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             // insert checkbox column to data.columns.
             data.columns.unshift({
                 checkbox: true,
-                field: 'checkboxState',
+                field: 'isSelected',
                 align: 'center',
                 valign: 'middle'
             });
         }
 
+        console.log(componentConfig, "componentConfig.componentConfig")
         // if componentConfig.showActionButtons.
         if (componentConfig.showActionButtons) {
-
             data.columns.push({
                 field: 'action',
                 title: 'Action',
                 align: 'center',
                 valign: 'middle',
                 formatter: (value, row, index) => {
-                    return ns.getActionButtonHTML(componentConfig.actionButtons, row);
+                    return ns.getActionButtonHTML(componentConfig.actionButtons, row, componentConfig);
                 }
             });
         }
 
+        console.log(data.columns, "data.columns")
 
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
@@ -237,8 +284,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             data: data.data,
             ...tableOptions
         });
-
-    
 
         // hide columns.
         ns.hideColumns(id, ns.getHiddenColumns(componentConfig.columnRules));
@@ -250,18 +295,19 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
 
 
-    ns.jsonConnected = async (dataSourceURL, componentPath, $component) => {
+    ns.jsonConnected = async (dataSourceURL, id, $component) => {
         try {
 
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
-                ns.updateComponentHTML(componentPath, response, $component);
+                ns.updateComponentHTML(id, response, $component);
                 return;
             }
-            ns.modelDataConnected(componentPath, $component);
+            ns.modelDataConnected(id, $component);
         }
         catch (error) {
-            ns.modelDataConnected(componentPath, $component);
+            console.error(error)
+            // ns.modelDataConnected(id, $component);
         }
     }
 
@@ -313,6 +359,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }
         // MODEL 
         else {
+            console.log("MODEL INCOKED")
             ns.modelDataConnected(componentConfig.id, $component);
         }
     }
