@@ -265,7 +265,7 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
                     new WidgetOptionItem("title", "Number of active users"),
                     new WidgetOptionItem("value", "25.5k"),
                     new WidgetOptionItem("indicatorValue", "4.54K"),
-                    new WidgetOptionItem("indicatorType", "success"),
+                    new WidgetOptionItem("indicatorType", "info"),
                     new WidgetOptionItem("tickerIcon", "pi pi-database "),
                     new WidgetOptionItem("indicatorIcon", "pi pi-arrow-down"),
                     new WidgetOptionItem("widgetIcon", "pi pi-briefcase text-light"),
