@@ -2,27 +2,9 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "websocketTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
-    },
-    "gridTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/grid"
-    },
-    "dataTab": {
+    "general": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Data",
-      "dataSource": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "dataSource",
-        "description": "Please provide url to data source",
-        "label": "Data Source"
-      }
-    },
-    "advancedTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Advanced",
+      "label": "General",
       "uniqueIdColumn": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "uniqueIdColumn",
@@ -117,14 +99,12 @@
         "field": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "field",
-          "label": "Field Name (column name)",
-          "required": true
+          "label": "Field Name (column name)"
         },
         "title": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "title",
-          "label": "Title",
-          "required": true
+          "label": "Title"
         }
       },
       "columnRules": {
@@ -135,8 +115,7 @@
         "field": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "field",
-          "label": "Field Name (column name)",
-          "required": true
+          "label": "Field Name (column name)"
         },
         "rule": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -145,6 +124,32 @@
           "description": "Rule to be applied on the column"
         }
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "dataTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Data",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "description": "Please provide url to data source",
+        "label": "Data Source"
+      }
+    },
+    "flowTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
+    },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
     }
   }
 }
