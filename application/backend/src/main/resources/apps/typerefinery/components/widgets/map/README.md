@@ -42,7 +42,7 @@ These fields are available for input by the authors. These fields are used in te
     </thead>
     <tbody style="background-color: red;">
         <tr>
-            <td rowspan="2"> General</td>
+            <td rowspan="6"> General</td>
             <td>latitude</td>
             <td></td>
             <td>Consists of Map latitude </td>
@@ -53,16 +53,40 @@ These fields are available for input by the authors. These fields are used in te
             <td>Consists of Map Longitude</td>
         </tr>
         <tr>
-            <td>Tiles Layer</td>
-            <td>Template Url,Copyright Url,Layer zoom</td>
+            <td>Zoom</td>
             <td></td>
-            <td>Consists of tiles template,copyright Url, zoom level</td>
+            <td>Defines the zoom level of the Map</td>
         </tr>
         <tr>
-            <td>Marker</td>
-            <td>Latitude,Longitude,popup-text</td>
+            <td>Template Url</td>
             <td></td>
-            <td>Creates a marker on map</td>
+            <td>Instantiates a tile layer object given a URL template</td>
+        </tr>
+         <tr>
+            <td>Copyright Url</td>
+            <td></td>
+            <td>Url for copyright</td>
+        </tr>
+         <tr>
+            <td>Layer zoom</td>
+            <td></td>
+            <td>Zoom level  to which this layer will be displayed</td>
+        </tr>
+        <tr>
+            <td rowspan="3">Marker</td>
+            <td>Latitude</td>
+            <td></td>
+            <td>Instantiates a Marker object given a latitude geographical point</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td></td>
+            <td>Instantiates a Marker object given a Longitude geographical point</td>
+        </tr>v
+        <tr>
+            <td>Popup Text</td>
+            <td></td>
+            <td>Used to open popups in certain places of the map</td>
         </tr>
         <tr>
             <td>Data</td>
@@ -107,7 +131,8 @@ This component has the following variants
         <tr>
             <td>Marker</td>
             <td>Map that display clickable/draggable icons on the map</td>
-            <th><img  src="./templates/image/map.png" /></th>
+            <th><img width="200px" src="./templates/image/map.png" /></th>
         </tr>
     </tbody>
 </table>
+
