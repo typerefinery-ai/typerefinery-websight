@@ -27,7 +27,7 @@ Component for adding map to pages
 
 Following section covers authoring features
 
-## Design Dialog Tab
+## Dialog Tabs
 
 These fields are available for input by the authors. These fields are used in templates
 
@@ -95,7 +95,7 @@ These fields are available for input by the authors. These fields are used in te
             <td>Creates marker's data from datasource JSON</td>
         </tr>
         <tr>
-            <td rowspan="10">Flow</td>
+            <td rowspan="12">Flow</td>
             <td>Topics</td>
             <td></td>
             <td>The topic set for this flow, which is used to send and recive messages to and from the flow.</td>
@@ -106,22 +106,67 @@ These fields are available for input by the authors. These fields are used in te
             <td>The title to use for this flow. Update this component to change the title of the flow in Flow Designer.</td>
         </tr>
         <tr>
-            <td>Title</td>
+            <td>Group</td>
             <td></td>
-            <td>The title to use for this flow. Update this component to change the title of the flow in Flow Designer.</td>
+            <td>This is the group that the flow belongs to, its used to group relevant flows.</td>
         </tr>
-        <!-- <tr>
+        <tr>
+            <td>Template</td>
+            <td></td>
+            <td>This is the template that the flow is based on, its used to create new flows from a template.</td>
+        </tr>
+        <tr>
+            <td>Design Template</td>
+            <td></td>
+            <td>TThis is the design template that the flow is based on, its used to update the design of the flow.</td>
+        </tr>
+        <tr>
+            <td>Sample Data</td>
+            <td></td>
+            <td>This is the sample data that is added to the flow to help to get started.</td>
+        </tr>
+        <tr>
+            <td>HTTP Route</td>
+            <td></td>
+            <td>This is the HTTP route for REST API for this flow, where applicable, not used in all flow enabled components..</td>
+        </tr>
+        <tr>
+            <td>Is Container</td>
+            <td></td>
+            <td>This is a flag to indicate if the flow is a container flow, where applicable, not used in all flow enabled components.</td>
+        </tr>
+        <tr>
+            <td>Flow ID</td>
+            <td></td>
+            <td>This is the flow stream ID for this flow, this is used to identify the flow in the flow stream.</td>
+        </tr>
+        <tr>
+            <td>Created On</td>
+            <td></td>
+            <td>This is the date and time that the flow was created.</td>
+        </tr>
+        <tr>
+            <td>Updated On</td>
+            <td></td>
+            <td>This is the date and time that the flow was last updated.</td>
+        </tr>
+         <tr>
+            <td>Flow Designer</td>
+            <td></td>
+            <td>This is the URL to edit the flow in Flow Designer.</td>
+        </tr>
+        <tr>
             <td>Grid</td>
             <td>Grids</td>
             <td></td>
-            <td>COntrols grids system</td>
+            <td>Controls grids system</td>
         </tr>
         <tr>
             <td>Style</td>
-            <td>Id, Classnames</td>
+            <td>Id</td>
             <td></td>
             <td>Controls the css and styling</td>
-        </tr> -->
+        </tr>
     </tbody>
 </table>
 
