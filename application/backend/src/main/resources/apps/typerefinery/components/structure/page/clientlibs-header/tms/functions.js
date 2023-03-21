@@ -12,7 +12,7 @@ window.MessageService.Client = MessageService.Client || {};
   ns.registery = {};
 
   ns.persistData = (key, data) => {
-    localStorage.setItem(key, data);
+     localStorage.setItem(key, data);
   };
 
   ns.hostAdded = (newHost) => {
@@ -25,23 +25,12 @@ window.MessageService.Client = MessageService.Client || {};
     }
   };
 
-  ns.persistMessagePayloadData = (message) => {
-    let payload = message?.detail?.data?.payload || null;
-    if (payload) {
-      payload = JSON.parse(payload);
-      if (payload.data) {
-        ns.persistData(payload.topic, JSON.stringify(payload.data));
-        return payload;
-      }
-    }
-    return null;
-  };
 
   ns.registerToTms = (host, topic, key, callbackFn) => {
     ns.hostAdded(host);
     ns.registery[host] = ns.registery[host] || {};
     ns.registery[host][topic] = ns.registery[host][topic] || {};
-    ns.registery[host][topic][key] = callbackFn;
+    ns.registery[host][topic] = callbackFn;
   };
 
   ns.connect = () => {
