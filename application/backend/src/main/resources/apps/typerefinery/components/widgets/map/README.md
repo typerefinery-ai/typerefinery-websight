@@ -32,7 +32,7 @@ Following section covers authoring features
 These fields are available for input by the authors. These fields are used in templates
 
 <table style="border-spacing: 1px;border-collapse: separate;width: 100.0%;text-align: left;background-color: black; text-indent: 4px;">
-    <thead style="background-color: white;font-size: larger;">
+    <thead style="font-size: larger;">
         <tr>
             <th style="width: 8%;">Tab</th>
             <th style="width: 8%;">Field Name</th>
@@ -40,7 +40,7 @@ These fields are available for input by the authors. These fields are used in te
             <th>Description</th>
         </tr>
     </thead>
-    <tbody style="background-color: #b0e0e6;">
+    <tbody style="background-color: red;">
         <tr>
             <td rowspan="2"> General</td>
             <td>latitude</td>
@@ -96,26 +96,18 @@ These fields are available for input by the authors. These fields are used in te
 This component has the following variants
 
 <table style="border-spacing: 1px;border-collapse: separate;width: 100.0%;text-align: left;background-color: black; text-indent: 4px;">
-    <thead style="background-color: white;font-size: larger;">
+    <thead style="font-size: larger;">
         <tr>
             <th style="width: 8%;">Name</th>
             <th>Description</th>
             <th>Example</th>
         </tr>
     </thead>
-    <tbody style="background-color: #b0e0e6;">
+    <tbody style="background-color: Red;">
         <tr>
             <td>Marker</td>
             <td>Map that display clickable/draggable icons on the map</td>
-            <th>![Alt text]( ./templates/image/map.png "Title")</th>
-            <th><img width="800px" src="./templates/image/map" /></th>
+            <th><img  src="./templates/image/map.png" /></th>
         </tr>
     </tbody>
 </table>
-
-<!-- # Example
-<img width="800px" src="./templates/image/map.png" /> -->
-
-
-
-<p></p>
