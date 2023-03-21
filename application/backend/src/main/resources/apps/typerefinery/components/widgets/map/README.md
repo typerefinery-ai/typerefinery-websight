@@ -1,4 +1,4 @@
-Text
+Component
 ============
 
 Map component
@@ -39,13 +39,43 @@ These fields are available for input by the authors. These fields are used in te
             <td>General</td>
             <td>latitude,longitude</td>
             <td></td>
-            <td>Consists of Map latitude ,longitude and zoom level</td>
+            <td>Consists of Map latitude ,Longitude and Zoom level</td>
         </tr>
         <tr>
             <td>Tiles Layer</td>
-            <td>Tiles layes link</td>
+            <td>Template Url,Copyright Url,Layer zoom</td>
             <td></td>
             <td>Consists of tiles template,copyright Url, zoom level</td>
+        </tr>
+        <tr>
+            <td>Marker</td>
+            <td>Latitude,Longitude,popup-text</td>
+            <td></td>
+            <td>Creates a marker on map</td>
+        </tr>
+        <tr>
+            <td>Data</td>
+            <td>DataSource Url</td>
+            <td></td>
+            <td>Creates marker's data from datasource JSON</td>
+        </tr>
+        <tr>
+            <td>Flow</td>
+            <td>Topics,flowId etc</td>
+            <td></td>
+            <td>Creates marker's data from tms connected</td>
+        </tr>
+        <tr>
+            <td>Grid</td>
+            <td>Grids</td>
+            <td></td>
+            <td>COntrols grids system</td>
+        </tr>
+        <tr>
+            <td>Style</td>
+            <td>Id, Classnames</td>
+            <td></td>
+            <td>Controls the css and styling</td>
         </tr>
     </tbody>
 </table>
@@ -65,10 +95,6 @@ This component has the following variants
         <tr>
             <td>Marker</td>
             <td>Map that display clickable/draggable icons on the map</td>
-        </tr>
-         <tr>
-            <td>GeoJSON</td>
-            <td>Creates a GeoJSON layer</td>
         </tr>
     </tbody>
 </table>
