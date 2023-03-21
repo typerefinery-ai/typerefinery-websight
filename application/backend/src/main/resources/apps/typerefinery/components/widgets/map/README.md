@@ -99,6 +99,8 @@ This component has the following variants
     </tbody>
 </table>
 
+# Example
+![Example](/application/backend/src/main/resources/apps/typerefinery/components/widgets/map/image/map.png)  
 
 
 
