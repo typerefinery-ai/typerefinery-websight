@@ -27,7 +27,6 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "uniqueIdColumn",
         "label": "Unique Id Column",
-        "required": true,
         "description": "Column name which will be used as unique id for the row"
       },
       "showActionButtons": {
@@ -104,14 +103,40 @@
     "columnRulesTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Column",
-      "columnRules": {
+      "overRideColumns": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "overRideColumns",
+        "label": "Override Columns",
+        "description": "If enabled then the columns listed below will be overridden by the columns which come from TMS or Data Source"
+      },
+      "columns": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
-        "name": "columnRules",
+        "name": "columns",
+        "label": "Columns",
         "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
         "field": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "field",
-          "label": "Field Name (column name)"
+          "label": "Field Name (column name)",
+          "required": true
+        },
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "title",
+          "label": "Title",
+          "required": true
+        }
+      },
+      "columnRules": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "columnRules",
+        "label": "Column Rules",
+        "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
+        "field": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "field",
+          "label": "Field Name (column name)",
+          "required": true
         },
         "rule": {
           "sling:resourceType": "wcm/dialogs/components/textfield",

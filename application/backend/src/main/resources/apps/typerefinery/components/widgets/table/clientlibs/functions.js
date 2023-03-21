@@ -12,122 +12,8 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
 
     ns.defaultData = {
-        columns: [
-            {
-            field: 'name',
-            title: 'Name',
-            sortable: true
-        }, {
-            field: 'Age',
-            title: 'Age',
-            sortable: true
-        }, {
-            field: 'Email',
-            title: 'Email',
-            sortable: false
-        }, {
-            field: 'Phone Number',
-            title: 'Phone Number',
-            sortable: false
-        }, {
-            field: 'Location',
-            title: 'Location',
-            sortable: false
-        }
-    ],
-        data: [
-            {
-                "name": "Peter",
-                "Age": 25,
-                "Email": "john@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Jane Doe",
-                "Age": 23,
-                "Email": "jane@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Smith",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Henry",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Nichols",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Max",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Murphy",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Stokes",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Hemsworth",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Joe",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "William",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Peter",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            },
-            {
-                "name": "Sophia",
-                "Age": 26,
-                "Email": "smith@gmail.com",
-                "Phone Number": "1234567890",
-                "Location": "New York"
-            }
-        ],
+        columns: [],
+        data: [],
         search: false,
         pagination: false,
         resizable: true
@@ -225,6 +111,14 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         if (!data?.columns || !data?.data) {
             data = ns.defaultData;
         }
+
+        console.log(componentConfig, "componentConfig")
+
+        // if componentConfig.overRideColumns is not available then use the data.columns = componentConfig.columns.
+        if (!componentConfig.overRideColumns) {
+            data.columns = componentConfig.columns || [];
+        }
+
 
         // if componentConfig.columnRules is available then add sortable to data.columns.
         if (componentConfig.columnRules) {

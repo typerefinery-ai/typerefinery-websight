@@ -31,12 +31,11 @@ import ai.typerefinery.websight.utils.PageUtil;
 import org.osgi.service.component.annotations.Component;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.inject.Inject;
+import javax.inject.Named;
+
 import lombok.Getter;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import ai.typerefinery.websight.models.components.BaseComponent;
 
 @Component
 @Model(adaptables = Resource.class, resourceType = {
@@ -48,8 +47,6 @@ import ai.typerefinery.websight.models.components.BaseComponent;
 public class Table extends FlowComponent implements FlowComponentRegister {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/table";
-    private static final String DEFAULT_ID = "table";
-    private static final String DEFAULT_MODULE = "tableComponent";
 
     private static final String PROPERTY_DATASOURCE = "dataSource";
     private static final String DEFAULT_DATASOURCE = "";
@@ -130,6 +127,16 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     @Inject
     public List<ColumnRules> columnRules;
 
+    @Getter
+    @Inject
+    public List<Column> columns;
+
+
+    @Getter
+    @Inject
+    @Default(booleanValues = true)
+    public Boolean overRideColumns;
+
     
     /**
      * The unique id column.
@@ -175,6 +182,8 @@ public class Table extends FlowComponent implements FlowComponentRegister {
         if (StringUtils.isBlank(this.websocketTopic)) {
             this.websocketTopic = this.flowapi_topic;
         }
+        props.put("overRideColumns", this.overRideColumns);
+        
         // update any defaults that should be set
         PageUtil.updatResourceProperties(resource, props);
 
