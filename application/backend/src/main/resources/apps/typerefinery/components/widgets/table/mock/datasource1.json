@@ -2,28 +2,23 @@
     "columns": [
         {
             "field": "name",
-            "title": "Name",
-            "visible": true
+            "title": "Name"
         },
         {
             "field": "age",
-            "title": "Age",
-            "visible": true
+            "title": "Age"
         },
         {
             "field": "email",
-            "title": "Email",
-            "visible": true
+            "title": "Email"
         },
         {
             "field": "phoneNumber",
-            "title": "Phone Number",
-            "visible": true
+            "title": "Phone Number"
         },
         {
             "field": "location",
-            "title": "Location",
-            "visible": true
+            "title": "Location"
         }
     ],
     "data": [
