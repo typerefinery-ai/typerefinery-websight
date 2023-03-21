@@ -141,7 +141,7 @@ This component has the following variants
         <tr>
             <td>Leaflet</td>
             <td>Render map using leafletjs library</td>
-            <th><img width="200px" src="./templates/image/map.jpg" /></th>
+            <th><img width="200px" src="/assets/map.png" /></th>
         </tr>
     </tbody>
 </table>
