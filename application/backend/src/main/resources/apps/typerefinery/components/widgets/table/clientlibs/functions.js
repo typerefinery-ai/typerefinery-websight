@@ -35,7 +35,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             }
 
             return `
-                <button class="btn ${actionButton.background} btn-sm" data-model='${JSON.stringify(actionButton)}' row-id="${row[componentConfig.uniqueIdColumn]}" type="button">
+                <button class="btn ${actionButton.background} btn-sm" data-model='${JSON.stringify(actionButton)}' row-model='${JSON.stringify(row)}' row-id="${row[componentConfig.uniqueIdColumn]}" type="button">
                     <i data-bs-toggle="tooltip" data-bs-placement="top" title="${actionButton.label}" class="${actionButton.icon}"></i>
                 </button>
             `;
@@ -54,29 +54,39 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         return result;
     };
 
+    // create a function to replace the regex with the value of the object
+    ns.replaceRegex = (str, obj) => {
+        console.log(str, obj, "str, obj")
+        return str.replace(/{{(\w+)}}/gm, function(match, g1) {
+            console.log(g1, "reg")
+            return obj[g1];
+        });
+    };
+
+
     ns.addEventListenerToTableActionButtons = (id) => {
         $(`#${id}`).on('click', 'button', (event) => {
             const $button = event.currentTarget;
-            const rowId = $button.getAttribute('row-id');
-            console.log( rowId, "ROW ID");
             const rowConfig = JSON.parse($button.getAttribute('data-model'));
-            const row = tableInstanceNs[id].bootstrapTable('getRowByUniqueId', rowId);
-            console.log(row, "row");
-            
-            const ORIGIN = window.location.origin;
+            const row = JSON.parse($button.getAttribute('row-model'));
+            console.log("---------------------------------ACTION BUTTON IS CLICKED---------------------------------")
+            console.log(row);  
         
             if(rowConfig.actionButtonModalContentURL?.trim()?.length > 0){
-                document.querySelector("#tableModalContent iframe").setAttribute("src", `${ORIGIN}${rowConfig.actionButtonModalContentURL}`);
+                const path = ns.replaceRegex(rowConfig.actionButtonModalContentURL, row);
+                    
+                document.querySelector("#tableModalContent iframe").setAttribute("src", path);
                 $("#tableModalContent").modal("show");
             }
 
             if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0){
                 if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0) {
-                    window.open(`${ORIGIN}${rowConfig.actionButtonNavigateToPath}`, "_blank");
+                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    window.open(`${path}`, "_blank");
                 }else{
-                    window.location.href = `${ORIGIN}${rowConfig.actionButtonNavigateToPath}`;
+                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    window.location.href = path;
                 }
-               
             }
         });
     };
@@ -107,12 +117,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         const componentConfig = componentNs.getComponentConfig($component);
 
-        // if data is not available, then use default data.
-        if (!data?.columns || !data?.data) {
-            data = ns.defaultData;
-        }
-
-        console.log(componentConfig, "componentConfig")
 
         // if componentConfig.overRideColumns is not available then use the data.columns = componentConfig.columns.
         if (!componentConfig.overRideColumns) {
@@ -128,11 +132,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 return column;
             });
         }
-
-
-
-        // updating the html with empty string to avoid duplicate table.
-        $(`#${id}`).empty();
 
         // table options.
         const tableOptions = {
@@ -156,8 +155,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             });
         }
 
-        console.log(componentConfig, "componentConfig.componentConfig")
-        // if componentConfig.showActionButtons.
         if (componentConfig.showActionButtons) {
             data.columns.push({
                 field: 'action',
@@ -170,8 +167,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             });
         }
 
-        console.log(data.columns, "data.columns")
-
+        if(tableInstanceNs[id]) {
+            tableInstanceNs[id].bootstrapTable('destroy');
+        }
+        
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
             columns: data.columns,
@@ -201,7 +200,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }
         catch (error) {
             console.error(error)
-            // ns.modelDataConnected(id, $component);
         }
     }
 
@@ -216,10 +214,11 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
-                ns.modelDataConnected(topic, $component);
+                ns.modelDataConnected(componentConfig.id, $component);
                 return;
             }
-            ns.updateComponentHTML(topic, JSON.parse(componentData), $component);
+            const parsedComponentData =JSON.parse(componentData);
+            ns.updateComponentHTML(componentConfig.id, parsedComponentData, $component);
         }
         catch (error) {
             ns.modelDataConnected(topic, $component);
@@ -232,7 +231,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.callbackFn = (data, $component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
+        ns.updateComponentHTML(componentConfig.id, data, $component);
     }
 
     ns.init = ($component) => {
@@ -244,7 +243,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
@@ -253,7 +251,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }
         // MODEL 
         else {
-            console.log("MODEL INCOKED")
             ns.modelDataConnected(componentConfig.id, $component);
         }
     }
