@@ -1,0 +1,14 @@
+{
+    "mapLat":"46.76336",
+    "mapLng":"-71.32453",
+    "markers":[{
+        "markerLat":"46.76186",
+        "markerLng":"-71.32247",
+        "popupText":"Marker 1"
+    },{
+        "markerLat":"46.76672",
+        "markerLng":"-71.32919",
+        "popupText":"Marker 2"
+    }]
+    
+  }
