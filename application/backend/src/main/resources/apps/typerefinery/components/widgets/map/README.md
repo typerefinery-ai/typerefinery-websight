@@ -11,7 +11,7 @@ Component for adding map to pages
 * **group**:Typerefinery - Widgets
 * **sling:resourceType**: ws:Component
 * **description**: Map component"
-* **title**: "Map"
+* **title**: Map
 * **sling:resourceSuperType**: 
 * **Vendor**: Typerefinery
 * **Version**: 1.0
@@ -40,7 +40,7 @@ These fields are available for input by the authors. These fields are used in te
             <th>Description</th>
         </tr>
     </thead>
-    <tbody style="background-color: red;">
+    <tbody style="background-color: gray;">
         <tr>
             <td rowspan="6"> General</td>
             <td>latitude</td>
@@ -82,7 +82,7 @@ These fields are available for input by the authors. These fields are used in te
             <td>Longitude</td>
             <td></td>
             <td>Instantiates a Marker object given a Longitude geographical point</td>
-        </tr>v
+        </tr>
         <tr>
             <td>Popup Text</td>
             <td></td>
@@ -95,12 +95,22 @@ These fields are available for input by the authors. These fields are used in te
             <td>Creates marker's data from datasource JSON</td>
         </tr>
         <tr>
-            <td>Flow</td>
-            <td>Topics,flowId etc</td>
+            <td rowspan="10">Flow</td>
+            <td>Topics</td>
             <td></td>
-            <td>Creates marker's data from tms connected</td>
+            <td>The topic set for this flow, which is used to send and recive messages to and from the flow.</td>
+        </tr>
+         <tr>
+            <td>Title</td>
+            <td></td>
+            <td>The title to use for this flow. Update this component to change the title of the flow in Flow Designer.</td>
         </tr>
         <tr>
+            <td>Title</td>
+            <td></td>
+            <td>The title to use for this flow. Update this component to change the title of the flow in Flow Designer.</td>
+        </tr>
+        <!-- <tr>
             <td>Grid</td>
             <td>Grids</td>
             <td></td>
@@ -111,7 +121,7 @@ These fields are available for input by the authors. These fields are used in te
             <td>Id, Classnames</td>
             <td></td>
             <td>Controls the css and styling</td>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
 
@@ -127,10 +137,10 @@ This component has the following variants
             <th>Example</th>
         </tr>
     </thead>
-    <tbody style="background-color: Red;">
+    <tbody style="background-color: Gray;">
         <tr>
-            <td>Marker</td>
-            <td>Map that display clickable/draggable icons on the map</td>
+            <td>Leaflet</td>
+            <td>Render map using leafletjs library</td>
             <th><img width="200px" src="./templates/image/map.png" /></th>
         </tr>
     </tbody>
