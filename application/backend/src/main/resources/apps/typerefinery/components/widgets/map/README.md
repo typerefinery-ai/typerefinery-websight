@@ -108,6 +108,7 @@ This component has the following variants
             <td>Marker</td>
             <td>Map that display clickable/draggable icons on the map</td>
             <th>![Alt text]( ./templates/image/map.png "Title")</th>
+            <th><img width="800px" src="./templates/image/map" /></th>
         </tr>
     </tbody>
 </table>
