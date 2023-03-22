@@ -133,6 +133,110 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             });
         }
 
+        // if data.columns has type then add a formatter to data.columns.
+        if (data.columns?.length > 0 && data.columns.some((column) => column.type)) {
+            data.columns = data.columns.map((column) => {
+
+                // if column.type is DATE then add a formatter to column.
+                if (column.type === 'DATE') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('DD/MM/YYYY') : '';
+                    };
+                }
+
+                // if column.type is DATETIME then add a formatter to column.
+                if (column.type === 'DATETIME') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('DD/MM/YYYY HH:mm:ss') : '';
+                    };
+                }
+
+                // if column.type is TIME then add a formatter to column.
+                if (column.type === 'TIME') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('HH:mm:ss') : '';
+                    };
+                }
+
+                // if column.type is NUMBER then add a formatter to column.
+                if (column.type === 'NUMBER') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString() : '';
+                    };
+
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+                }
+
+                // if column.type is CURRENCY then add a formatter to column.
+                if (column.type === 'CURRENCY') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) : '';
+                    };
+                    
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+                }
+
+                // if column.type is PERCENTAGE then add a formatter to column.
+                if (column.type === 'PERCENTAGE') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString('en-IN', { style: 'percent', minimumFractionDigits: 2 }) : '';
+                    };
+
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+
+                }
+
+
+                // if column.type is IMAGE then add a formatter to column.
+                if (column.type === 'IMAGE') {
+                    column.formatter = (value) => {
+                        return value ? `<img src="${value}" style="width: 100px; height: 100px; object-fit: contain;" />` : '';
+                    };
+
+                    column.sortable = false;
+                }
+
+                // if column.type is ICON then add a formatter to column.
+                if (column.type === 'ICON') {
+                    column.formatter = (value) => {
+                        return value ? `<i class="${value}"></i>` : '';
+                    };
+
+                    column.sortable = false;
+                }
+
+                // if column.type is LINK then add a formatter to column.
+
+                if (column.type === 'LINK') {
+                    column.formatter = (value, row) => {
+                        return value ? `<a href="${value}" target="_blank">${value}</a>` : '';
+                    };
+                    
+                    column.sortable = false;
+                }
+
+                // if column.type is Badge then add a formatter to column.
+                if (column.type === 'BADGE') {
+                    column.formatter = (value, row) => {
+                        return value ? `<span class="badge bg-${row.badgeColor || column.badgeColor || 'primary'}">${value}</span>` : '';
+
+                    };
+                
+                    column.sortable = false;
+                }
+
+
+                return column;
+            });
+        }
+
+
         // table options.
         const tableOptions = {
             search: componentConfig.searchEnabled || data.search,

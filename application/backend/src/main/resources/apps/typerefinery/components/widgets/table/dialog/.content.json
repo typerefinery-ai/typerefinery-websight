@@ -105,6 +105,11 @@
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "title",
           "label": "Title"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "type",
+          "label": "Type (Must be anything from the list below - STRING (default), BADGE, IMAGE, LINK)"
         }
       },
       "columnRules": {

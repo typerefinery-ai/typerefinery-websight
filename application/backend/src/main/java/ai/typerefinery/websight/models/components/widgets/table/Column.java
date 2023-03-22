@@ -19,4 +19,27 @@ public class Column {
     @Getter
     @Inject
     private String title;
+
+    @Getter
+    @Inject
+    private String type;
+
+    // TODO: add support for formatter function in the future (see https://bootstrap-table.com/docs/api/table-options/#formatter)
+    @Getter
+    @Inject
+    private String format;
+
+    @Getter
+    @Inject
+    private String width;
+
+    @Getter
+    @Inject
+    private String align;
+
+    @Getter
+    @Inject
+    private String valign;
+
+
 }
