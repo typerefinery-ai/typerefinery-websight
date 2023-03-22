@@ -8,7 +8,5 @@
   "css": [
     "style.css"
   ],  
-  "js": [
-    "/apps/typerefinery/clientlibs/vendor/primevue/textarea/textarea.min.js"
-  ] 
+  "js": [] 
 }

@@ -28,7 +28,7 @@ public class Editor extends BaseComponent {
     
     private static final String DEFAULT_WEBSOCKET_HOST = "ws://localhost:8112/$tms";
     private static final String DEFAULT_VARIANT = "CODE_EDITOR";
-    private static final String DEFAULT_CODE_EDITOR = "MONACO";
+    private static final String DEFAULT_CODE_EDITOR = "CODEMIRROR";
     private static final String DEFAULT_EDITOR_THEME = "light";
     private static final String DEFAULT_EDITOR_LANGUAGE_STRING = "javascript";
     private static final String DEFAULT_MARGIN_CLASS = "mb-3";

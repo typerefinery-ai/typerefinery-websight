@@ -11,21 +11,6 @@
                 "label": "name",
                 "description": "Name of the component"
             },
-            "variant": {
-                "sling:resourceType": "wcm/dialogs/components/select",
-                "name": "variant",
-                "label": "Variant",
-                "code": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Code",
-                    "value": "CODE_EDITOR"
-                },
-                "text": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Text",
-                    "value": "TEXT_EDITOR"
-                }
-            },
             "codeEditor": {
                 "sling:resourceType": "wcm/dialogs/components/select",
                 "name": "codeEditor",
