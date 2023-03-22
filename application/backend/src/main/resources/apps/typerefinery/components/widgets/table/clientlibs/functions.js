@@ -10,7 +10,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 (function (ns, tmsNs, componentNs, modalNs, tableInstanceNs, document, window) {
     "use strict";
 
-
     ns.defaultData = {
         columns: [],
         data: [],
@@ -56,10 +55,8 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     // create a function to replace the regex with the value of the object
     ns.replaceRegex = (str, obj) => {
-        console.log(str, obj, "str, obj")
-        return str.replace(/{{(\w+)}}/gm, function(match, g1) {
-            console.log(g1, "reg")
-            return obj[g1];
+        return str.replace(/{{(\w+)}}/gm, function(match, key) {
+            return obj[key];
         });
     };
 
@@ -110,17 +107,20 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
     ns.updateComponentHTML = (id, data, $component) => {
-
         if (!$component) {
             return;
         }
 
         const componentConfig = componentNs.getComponentConfig($component);
 
-
         // if componentConfig.overRideColumns is not available then use the data.columns = componentConfig.columns.
         if (!componentConfig.overRideColumns) {
             data.columns = componentConfig.columns || [];
+        }
+
+        // If no columns are available, then set data.data = [].
+        if(data?.columns?.length === 0 || !data?.columns || !data?.data) {
+            data.data = [];
         }
 
 
@@ -167,9 +167,12 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             });
         }
 
+        // destroy table if already exists.
         if(tableInstanceNs[id]) {
             tableInstanceNs[id].bootstrapTable('destroy');
         }
+
+        
         
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
@@ -201,7 +204,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         catch (error) {
             console.error(error)
         }
-    }
+    };
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
@@ -223,16 +226,16 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         catch (error) {
             ns.modelDataConnected(topic, $component);
         }
-    }
+    };
 
     ns.modelDataConnected = (id, $component) => {
         ns.updateComponentHTML(id, {}, $component);
-    }
+    };
 
     ns.callbackFn = (data, $component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         ns.updateComponentHTML(componentConfig.id, data, $component);
-    }
+    };
 
     ns.init = ($component) => {
         // parse json value from data-model attribute as component config
@@ -253,6 +256,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         else {
             ns.modelDataConnected(componentConfig.id, $component);
         }
-    }
+    };
 
 })(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, document, window);
