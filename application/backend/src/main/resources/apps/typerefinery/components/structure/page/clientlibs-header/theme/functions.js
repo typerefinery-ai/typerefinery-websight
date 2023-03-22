@@ -19,16 +19,16 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       $body.classList.add(`bg-${newTheme}`);
     }
 
-   //to change the background of card class component
-    let $card = document.querySelectorAll('.card');
-    $card.forEach(function(el) {
+   //to change the background of component
+    let toggleTheme = document.querySelectorAll(`[toggleTheme=true]`);
+    toggleTheme.forEach(function(el) {
 
       if(newTheme === 'dark'){
         el.classList.remove("bg-white");  
-        el.classList.add("bg-dark","bg-gradient", "text-white");
+        el.classList.add("bg-dark","shadow-lg", "text-white");
       }
       else{
-        el.classList.remove("bg-dark","bg-gradient", "text-white");
+        el.classList.remove("bg-dark","shadow-lg", "text-white");
         el.classList.add("bg-white"); 
       }
     });
@@ -79,7 +79,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       : type === "background"
       ? theme === "light"
         ? "#f8f9fa"
-        : "#212529"
+        : "#4f4f4f"
       : type === "legend"
       ? theme === "light"
         ? "#343a40"
