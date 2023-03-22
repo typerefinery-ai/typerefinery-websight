@@ -2,13 +2,141 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "websocketTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
+    "general": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "uniqueIdColumn": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "uniqueIdColumn",
+        "label": "Unique Id Column",
+        "description": "Column name which will be used as unique id for the row"
+      },
+      "showActionButtons": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showActionButtons",
+        "label": "Show Action Buttons"
+      },
+      "searchEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "searchEnabled",
+        "label": "Simple Table search"
+      },
+      "paginationEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "paginationEnabled",
+        "label": "Show Pagination"
+      },
+      "resizableEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "resizableEnabled",
+        "label": "Resizable Table"
+      },
+      "singleSelectEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "singleSelectEnabled",
+        "label": "Select Single Row",
+        "description": "If enabled then user can select single row"
+      },
+      "multipleSelectRowEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "multipleSelectRowEnabled",
+        "label": "Multiple Select Row",
+        "description": "If enabled then user can select multiple rows"
+      }
+    },
+    "actionButtonTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Action",
+      "actionButtons": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "actionButtons",
+        "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "icon",
+          "label": "Icon"
+        },
+        "label": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label",
+          "description": "Will be displayed as a tooltip"
+        },
+        "actionButtonNavigateToPath": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "actionButtonNavigateToPath",
+          "label": "(NAVIGATE TO) | Navigate To Path",
+          "description": "Path to navigate to when action button is clicked"
+        },
+        "actionButtonModalContentURL": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "actionButtonModalContentURL",
+          "label": "(OPEN MODAL) | Modal Content URL",
+          "description": "URL of the modal content"
+        }
+      },
+      "ws:display": {
+        "condition": {
+          "sourceName": "showActionButtons",
+          "values": true
+        }
+      }
+    },
+    "columnRulesTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Column",
+      "overRideColumns": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "overRideColumns",
+        "label": "Override Columns",
+        "description": "If enabled then the columns listed below will be overridden by the columns which come from TMS or Data Source"
+      },
+      "columns": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "columns",
+        "label": "Columns",
+        "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
+        "field": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "field",
+          "label": "Field Name (column name)"
+        },
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "title",
+          "label": "Title"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "type",
+          "label": "Type (Must be anything from the list below - STRING (default), BADGE, IMAGE, LINK)"
+        }
+      },
+      "columnRules": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "columnRules",
+        "label": "Column Rules",
+        "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
+        "field": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "field",
+          "label": "Field Name (column name)"
+        },
+        "rule": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "rule",
+          "label": "Rule Name (Must be anything from the list below - HIDDEN, SORTABLE)",
+          "description": "Rule to be applied on the column"
+        }
+      }
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
     "dataTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
@@ -24,9 +152,9 @@
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
     },
-    "styleTab": {
+    "websocketTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/style"
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
     }
   }
 }

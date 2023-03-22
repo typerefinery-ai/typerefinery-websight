@@ -12,11 +12,10 @@ window.MessageService.Client = MessageService.Client || {};
   ns.registery = {};
 
   ns.persistData = (key, data) => {
-    localStorage.setItem(key, data);
+     localStorage.setItem(key, data);
   };
 
   ns.hostAdded = (newHost) => {
-    console.log("new host", newHost);
     const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || "[]");
     const filteredHost = listOfHost.filter((host) => host === newHost);
     if (filteredHost.length === 0) {
@@ -25,22 +24,12 @@ window.MessageService.Client = MessageService.Client || {};
     }
   };
 
-  ns.persistMessagePayloadData = (message) => {
-    let payload = message?.detail?.data?.payload || null;
-    if (payload) {
-      payload = JSON.parse(payload);
-      if (payload.data) {
-        ns.persistData(payload.topic, JSON.stringify(payload.data));
-        return payload;
-      }
-    }
-    return null;
-  };
 
   ns.registerToTms = (host, topic, key, callbackFn) => {
     ns.hostAdded(host);
     ns.registery[host] = ns.registery[host] || {};
     ns.registery[host][topic] = ns.registery[host][topic] || {};
+    ns.registery[host][topic] = callbackFn;
     ns.registery[host][topic][key] = callbackFn;
   };
 
@@ -84,9 +73,15 @@ window.MessageService.Client = MessageService.Client || {};
           if (hostCallbacks) {
             console.log(["tms message call topic callbacks", hostCallbacks]);
             // foreach with the topic to trigger the callback.
-            Object.values(hostCallbacks).forEach((callback) =>
-              callback(JSON.parse(messagePayload))
-            );
+            Object.values(hostCallbacks).forEach((callbackWithKeys) => {
+              console.log(["tms message call topic callback", callbackWithKeys]);
+              
+              Object.values(callbackWithKeys).forEach((callback) => {
+                console.log(["tms message call topic callback", callback]);
+                callback(JSON.parse(messagePayload));
+              });
+
+            });
           }
         }
       }

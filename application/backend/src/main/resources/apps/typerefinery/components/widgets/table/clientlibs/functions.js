@@ -2,67 +2,313 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
-window.Typerefinery.Page = Typerefinery.Page || {}; 
+window.Typerefinery.Components.Widgets.Table.Instances = Typerefinery.Components.Widgets.Table.Instances || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
+window.Typerefinery.Modal = Typerefinery.Modal || {};
 
-(function (ns, tmsNs, componentNs, document, window) {
+(function (ns, tmsNs, componentNs, modalNs, tableInstanceNs, document, window) {
     "use strict";
 
     ns.defaultData = {
-        columns: ["Name", "Age", "Email",  "Phone Number", "Location"],
-        data: [
-            ["John", 25, "john@gmail.com", "91934399421", "India"],
-            ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
-            ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
-            ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
-            ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
-            ["Ben", 25, "ben10@gmail.com", "7434343447", "England"],
-            ["Stokes", 23, "stokes41@gmail.com", "434234645", "England"],
-            ["Nabil", 26, "nabil12@gmail.com", "566677442", "Australia"],
-            ["John", 25, "john@gmail.com", "91934399421", "India"],
-            ["Mark", 34, "mark@gmail.com", "67734283123", "Australia"],
-            ["Peter", 29, "peter@gmail.com", "67734283123", "Australia"],
-            ["Murphy", 31, "murphy12@gmail.com", "5546546453", "Australia"],
-            ["Curran", 24, "curran15@gmail.com", "565465464", "Australia"],
-            ["Ben", 25, "ben10@gmail.com", "7434343447", "England"]
-        ],
-        sort: true,
-        search: true,
-        pagination: true,
-        resizable: true,
+        columns: [],
+        data: [],
+        search: false,
+        pagination: false,
+        resizable: true
+    };
+
+
+    ns.getActionButtonHTML = (actionButtons, row, componentConfig) => {
+
+        if (!actionButtons || !actionButtons.length) {
+            return '';
+        }
+
+        let hasModalContent = false;
+
+
+        let result =  actionButtons.map((actionButton) => {
+            if(actionButton.actionButtonNavigateToPath !== null){
+                hasModalContent = true;
+            }
+
+            return `
+                <button class="btn ${actionButton.background} btn-sm" data-model='${JSON.stringify(actionButton)}' row-model='${JSON.stringify(row)}' row-id="${row[componentConfig.uniqueIdColumn]}" type="button">
+                    <i data-bs-toggle="tooltip" data-bs-placement="top" title="${actionButton.label}" class="${actionButton.icon}"></i>
+                </button>
+            `;
+        }).join('');
+
+
+        if(hasModalContent){
+            const newModalDivContainer = document.createElement("div");
+            newModalDivContainer.setAttribute("class", "modal fade");
+            newModalDivContainer.setAttribute("id", "tableModalContent");
+            newModalDivContainer.innerHTML = modalNs.getModalInnerHTML("", "", false);
+            document.body.appendChild(newModalDivContainer);
+        }
+
+
+        return result;
+    };
+
+    // create a function to replace the regex with the value of the object
+    ns.replaceRegex = (str, obj) => {
+        return str.replace(/{{(\w+)}}/gm, function(match, key) {
+            return obj[key];
+        });
+    };
+
+
+    ns.addEventListenerToTableActionButtons = (id) => {
+        $(`#${id}`).on('click', 'button', (event) => {
+            const $button = event.currentTarget;
+            const rowConfig = JSON.parse($button.getAttribute('data-model'));
+            const row = JSON.parse($button.getAttribute('row-model'));
+            console.log("---------------------------------ACTION BUTTON IS CLICKED---------------------------------")
+            console.log(row);  
+        
+            if(rowConfig.actionButtonModalContentURL?.trim()?.length > 0){
+                const path = ns.replaceRegex(rowConfig.actionButtonModalContentURL, row);
+                    
+                document.querySelector("#tableModalContent iframe").setAttribute("src", path);
+                $("#tableModalContent").modal("show");
+            }
+
+            if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0){
+                if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0) {
+                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    window.open(`${path}`, "_blank");
+                }else{
+                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    window.location.href = path;
+                }
+            }
+        });
+    };
+
+    
+    ns.hideColumns = (id, columns) => {
+        if (!tableInstanceNs[id] || !columns || !columns.length) {
+            return;
+        }
+        columns.forEach((column) => tableInstanceNs[id].bootstrapTable('hideColumn', column.field));
+    };
+    
+    ns.getHiddenColumns = (columns) => {
+        // if columns is not available, then return empty array.
+        if (!columns || !columns.length) {
+            return [];
+        }
+
+        // if columns is available, then return the columns which have type "HIDDEN"
+        return columns.filter((column) => column.rule === 'HIDDEN' || !column.rule);
     };
 
     ns.updateComponentHTML = (id, data, $component) => {
         if (!$component) {
             return;
         }
-        if(!data?.columns || !data?.data) {
-            data = ns.defaultData;
-        }
-        $(`#${id}`).empty();
-        $(`#${id}`).Grid({
-            ...data,
-            className: {
-                td: 'table-td-class',
-                table: 'custom-table-class' 
-              }
-        });
-    }
 
-    ns.jsonConnected = async (dataSourceURL, componentPath, $component) => {
+        const componentConfig = componentNs.getComponentConfig($component);
+
+        // if componentConfig.overRideColumns is not available then use the data.columns = componentConfig.columns.
+        if (!componentConfig.overRideColumns) {
+            data.columns = componentConfig.columns || [];
+        }
+
+        // If no columns are available, then set data.data = [].
+        if(data?.columns?.length === 0 || !data?.columns || !data?.data) {
+            data.data = [];
+        }
+
+
+        // if componentConfig.columnRules is available then add sortable to data.columns.
+        if (componentConfig.columnRules) {
+            data.columns = data.columns.map((column) => {
+                const columnRule = componentConfig.columnRules.find((rule) => rule.field === column.field);
+                column.sortable = columnRule?.rule === "SORTABLE" ? true : false;
+                return column;
+            });
+        }
+
+        // if data.columns has type then add a formatter to data.columns.
+        if (data.columns?.length > 0 && data.columns.some((column) => column.type)) {
+            data.columns = data.columns.map((column) => {
+
+                // if column.type is DATE then add a formatter to column.
+                if (column.type === 'DATE') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('DD/MM/YYYY') : '';
+                    };
+                }
+
+                // if column.type is DATETIME then add a formatter to column.
+                if (column.type === 'DATETIME') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('DD/MM/YYYY HH:mm:ss') : '';
+                    };
+                }
+
+                // if column.type is TIME then add a formatter to column.
+                if (column.type === 'TIME') {
+                    column.formatter = (value) => {
+                        return value ? moment(value).format('HH:mm:ss') : '';
+                    };
+                }
+
+                // if column.type is NUMBER then add a formatter to column.
+                if (column.type === 'NUMBER') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString() : '';
+                    };
+
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+                }
+
+                // if column.type is CURRENCY then add a formatter to column.
+                if (column.type === 'CURRENCY') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }) : '';
+                    };
+                    
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+                }
+
+                // if column.type is PERCENTAGE then add a formatter to column.
+                if (column.type === 'PERCENTAGE') {
+                    column.formatter = (value) => {
+                        return value ? value.toLocaleString('en-IN', { style: 'percent', minimumFractionDigits: 2 }) : '';
+                    };
+
+                    column.sorter = (a, b) => {
+                        return a - b;
+                    };
+
+                }
+
+
+                // if column.type is IMAGE then add a formatter to column.
+                if (column.type === 'IMAGE') {
+                    column.formatter = (value) => {
+                        return value ? `<img src="${value}" style="width: 100px; height: 100px; object-fit: contain;" />` : '';
+                    };
+
+                    column.sortable = false;
+                }
+
+                // if column.type is ICON then add a formatter to column.
+                if (column.type === 'ICON') {
+                    column.formatter = (value) => {
+                        return value ? `<i class="${value}"></i>` : '';
+                    };
+
+                    column.sortable = false;
+                }
+
+                // if column.type is LINK then add a formatter to column.
+
+                if (column.type === 'LINK') {
+                    column.formatter = (value, row) => {
+                        return value ? `<a href="${value}" target="_blank">${value}</a>` : '';
+                    };
+                    
+                    column.sortable = false;
+                }
+
+                // if column.type is Badge then add a formatter to column.
+                if (column.type === 'BADGE') {
+                    column.formatter = (value, row) => {
+                        return value ? `<span class="badge bg-${row.badgeColor || column.badgeColor || 'primary'}">${value}</span>` : '';
+
+                    };
+                
+                    column.sortable = false;
+                }
+
+
+                return column;
+            });
+        }
+
+
+        // table options.
+        const tableOptions = {
+            search: componentConfig.searchEnabled || data.search,
+            pagination: componentConfig.paginationEnabled || data.pagination,
+            resizable: componentConfig.resizableEnabled || data.resizable,
+            multipleSelectRow: componentConfig.multipleSelectRowEnabled || data.multipleSelectRow || false,
+            singleSelect : !(componentConfig.multipleSelectRowEnabled || data.multipleSelectRow || false) && (componentConfig.singleSelectEnabled  || data.singleSelect),
+            uniqueId: componentConfig.uniqueIdColumn || data.uniqueId
+        };
+        
+
+        // if multipleSelectRow or singleSelect is enabled, then add checkbox column to table.
+        if(tableOptions.multipleSelectRow || tableOptions.singleSelect) {
+            // insert checkbox column to data.columns.
+            data.columns.unshift({
+                checkbox: true,
+                field: 'isSelected',
+                align: 'center',
+                valign: 'middle'
+            });
+        }
+
+        if (componentConfig.showActionButtons) {
+            data.columns.push({
+                field: 'action',
+                title: 'Action',
+                align: 'center',
+                valign: 'middle',
+                formatter: (value, row, index) => {
+                    return ns.getActionButtonHTML(componentConfig.actionButtons, row, componentConfig);
+                }
+            });
+        }
+
+        // destroy table if already exists.
+        if(tableInstanceNs[id]) {
+            tableInstanceNs[id].bootstrapTable('destroy');
+        }
+
+        
+        
+        // bootstrap table.
+        tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
+            columns: data.columns,
+            data: data.data,
+            ...tableOptions
+        });
+
+        // hide columns.
+        ns.hideColumns(id, ns.getHiddenColumns(componentConfig.columnRules));
+
+
+        // add event listener to table action buttons.
+        ns.addEventListenerToTableActionButtons(id);
+    };
+
+
+
+    ns.jsonConnected = async (dataSourceURL, id, $component) => {
         try {
-            
+
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
-                ns.updateComponentHTML(componentPath, response, $component);
+                ns.updateComponentHTML(id, response, $component);
                 return;
             }
-            ns.modelDataConnected(componentPath, $component);
+            ns.modelDataConnected(id, $component);
         }
         catch (error) {
-            ns.modelDataConnected(componentPath, $component);
+            console.error(error)
         }
-    }
+    };
 
     ns.tmsConnected = async (host, topic, $component) => {
         try {
@@ -70,29 +316,30 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 ns.modelDataConnected($component);
                 return;
             }
-            
+
             let componentConfig = componentNs.getComponentConfig($component);
             tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
             if (!componentData) {
-                ns.modelDataConnected(topic, $component);
+                ns.modelDataConnected(componentConfig.id, $component);
                 return;
             }
-            ns.updateComponentHTML(topic, JSON.parse(componentData), $component);
+            const parsedComponentData =JSON.parse(componentData);
+            ns.updateComponentHTML(componentConfig.id, parsedComponentData, $component);
         }
         catch (error) {
             ns.modelDataConnected(topic, $component);
         }
-    }
+    };
 
     ns.modelDataConnected = (id, $component) => {
         ns.updateComponentHTML(id, {}, $component);
-    }
+    };
 
     ns.callbackFn = (data, $component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        ns.updateComponentHTML(componentConfig.websocketTopic, data, $component);
-    }
+        ns.updateComponentHTML(componentConfig.id, data, $component);
+    };
 
     ns.init = ($component) => {
         // parse json value from data-model attribute as component config
@@ -100,11 +347,9 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentTopic = componentConfig?.websocketTopic;
         const componentHost = componentConfig.websocketHost;
         const componentDataSource = componentConfig.dataSource;
-        const componentPath = componentConfig.resourcePath;
 
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
@@ -115,6 +360,6 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         else {
             ns.modelDataConnected(componentConfig.id, $component);
         }
-    }
+    };
 
-})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, document, window);
+})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, document, window);
