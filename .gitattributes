@@ -1,1 +1,5 @@
 * text eol=lf
+*.woff -text
+*.woff2 -text
+*.eot -text
+*.ttf -text
