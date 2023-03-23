@@ -4,7 +4,7 @@
   "marginGeneral": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "marginGeneral",
-    "label": "General",
+    "label": "Margin All Sides",
     "description": "Margin on all sides",
     "zero": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",

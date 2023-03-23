@@ -23,9 +23,29 @@
     "name": "marginEnabled",
     "label": "Apply Margin"
   },
+  "marginTab": {
+    "sling:resourceType": "wcm/dialogs/components/include",
+    "path": "/apps/typerefinery/components/dialog/tabs/margin",
+    "ws:display": {
+      "condition": {
+        "sourceName": "marginEnabled",
+        "values": true
+      }
+    }
+  },
   "paddingEnabled": {
     "sling:resourceType": "wcm/dialogs/components/toggle",
     "name": "paddingEnabled",
     "label": "Apply Padding"
+  },
+  "paddingTab": {
+    "sling:resourceType": "wcm/dialogs/components/include",
+    "path": "/apps/typerefinery/components/dialog/tabs/padding",
+    "ws:display": {
+      "condition": {
+        "sourceName": "paddingEnabled",
+        "values": true
+      }
+    }
   }
 }

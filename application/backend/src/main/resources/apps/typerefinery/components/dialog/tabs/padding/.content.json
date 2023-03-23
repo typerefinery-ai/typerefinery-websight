@@ -4,7 +4,7 @@
   "paddingGeneral": {
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "paddingGeneral",
-    "label": "General",
+    "label": "Padding All Sides",
     "description": "Padding on all sides",
     "zero": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
