@@ -7,7 +7,6 @@
     "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/primevue/checkbox/checkbox.min.js",
     "functions.js",
     "behaviour.js"
   ] 
