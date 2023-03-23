@@ -9,8 +9,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
     "use strict";
     ns.init = () => {
-        themeNs.init();
         tmsNs.init();
+        themeNs.init();
     };
 
     $(document).ready(function () {

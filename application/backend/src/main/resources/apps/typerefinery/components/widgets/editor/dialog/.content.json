@@ -11,25 +11,19 @@
                 "label": "name",
                 "description": "Name of the component"
             },
-            "codeEditor": {
+            "variant": {
                 "sling:resourceType": "wcm/dialogs/components/select",
-                "name": "codeEditor",
-                "label": "Code Editor",
-                "MONACO": {
+                "name": "variant",
+                "label": "Variant",
+                "code": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Monaco",
-                    "value": "MONACO"
+                    "label": "Code",
+                    "value": "CODE_EDITOR"
                 },
-                "CODEMIRROR": {
+                "text": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Codemirror",
-                    "value": "CODEMIRROR"
-                },
-                "ws:display": {
-                    "condition": {
-                        "sourceName": "variant",
-                        "values": "CODE_EDITOR"
-                    }
+                    "label": "Text",
+                    "value": "TEXT_EDITOR"
                 }
             },
             "editorLanguage": {
