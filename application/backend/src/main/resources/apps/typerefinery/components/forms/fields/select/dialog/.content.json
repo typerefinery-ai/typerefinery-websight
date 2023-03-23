@@ -68,11 +68,6 @@
           }
         }
       },
-      "enableSearch": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "enableSearch",
-        "label": "Show Search Text Box"
-      },
       "defaultSelectedOptions": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "defaultSelectedOptions",
