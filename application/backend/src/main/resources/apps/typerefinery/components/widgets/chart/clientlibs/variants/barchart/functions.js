@@ -57,16 +57,16 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         // Plugin to update the canvas Background.
         const plugin = {
-            id: "customCanvasBackgroundColor",
+            id: 'customCanvasBackgroundColor',
             beforeDraw: (chart, args, options) => {
-                const { ctx } = chart;
-                ctx.save();
-                ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
-                ctx.fillRect(0, 0, chart.width, chart.height);
-                ctx.restore();
-            },
-        };
+              const {ctx} = chart;
+              ctx.save();
+              ctx.globalCompositeOperation = 'destination-over';
+              ctx.fillStyle = options.color || '';
+              ctx.fillRect(0, 0, chart.width, chart.height);
+              ctx.restore();
+            }
+          };
 
         const chartOptions = {
             type: "bar",
@@ -86,7 +86,10 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 plugins: {
                     legend: {
                         display: false,
-                    }
+                    },
+                    customCanvasBackgroundColor: {
+                        color: '#f8f9fa',
+                      }
                 },
                 scales: {
                     x: {
@@ -99,7 +102,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                     intersect: false
                 },
                 radius: 0
-            }
+            },
+            plugins: [plugin],
         }
 
         const chartInstance = new Chart(ctx, chartOptions);

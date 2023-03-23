@@ -34,8 +34,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         };
 
         const htmlTemplate = componentConfig.templateString || `
-            <div class="card shadow-sm">
-                <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom">
+            <div class="shadow-sm">
+                <div class="card-body d-flex flex-row align-items-center flex-0">
                     <div class="d-block">
                         <div class="h6 fw-normal text-gray mb-2">{{title}}</div>
                         <div class="d-flex">
