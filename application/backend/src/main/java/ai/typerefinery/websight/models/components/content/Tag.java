@@ -37,6 +37,8 @@ public class Tag extends BaseFormComponent {
     protected static final String DEFAULT_ID = "tag";
     protected static final String DEFAULT_MODULE = "tag";
     protected static final String DEFAULT_LABEL = "label";
+    protected static final String DEFAULT_TAG_TYPE_CLASS = " bg-primary";
+
 
     @Inject
     @Getter
@@ -77,7 +79,7 @@ public class Tag extends BaseFormComponent {
 
                 tagCls += tagTypeConfig.get(tagType);
             } else {
-                tagCls += " bg-primary";
+                tagCls += DEFAULT_TAG_TYPE_CLASS;
             }
 
             style.addClasses(tagCls);
