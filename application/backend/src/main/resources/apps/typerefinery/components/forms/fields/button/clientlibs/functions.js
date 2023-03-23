@@ -4,8 +4,9 @@ window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Button || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
 window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
+window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
-(function (ns, componentNs, modalNs, dropdownNs, document, window) {
+(function (ns, componentNs, modalNs, dropdownNs, themeNs, document, window) {
     ns.addEventListener = ($component, id) => {
         $component.addEventListener("click", (e) => {
             e?.preventDefault();
@@ -37,9 +38,11 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
                 modalNs.init($component, componentConfig);
             }else if(actionType === "openDropdown") {
                 dropdownNs.init($component, componentConfig);
+            }else if(actionType === "initialTheme") {                
+                themeNs.init($component, componentConfig);
             }
             return;
         }
         ns.addEventListener($component, id);
     }
-})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, document, window);
+})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, window.Typerefinery.Page.Theme, document, window);

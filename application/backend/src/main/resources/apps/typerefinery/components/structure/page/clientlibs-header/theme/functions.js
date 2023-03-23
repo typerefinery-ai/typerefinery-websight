@@ -4,54 +4,107 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets.Chart || {};
-window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.Chart.Instances || {};
+window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.
+  Chart.Instances || {};
 
-(function(ns, chartInstances, document, window) {
-    "use strict";
-    ns.toggleTheme = () => {
-        const themeStyles = document.getElementById("themeStyles");
-        if (themeStyles) {
-            const currentTheme = themeStyles.getAttribute('active') || 'dark';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            themeStyles.setAttribute("href", `/apps/typerefinery/clientlibs/styles/${newTheme}.css`)
-            themeStyles.setAttribute("active", newTheme)
-            localStorage.setItem("theme", newTheme);
-            setTimeout(() => {
-                Object.entries(chartInstances)?.forEach($chart => {
-                    $chart[1]?.update();
-                })
-            }, 250);
-        }
-    };
+(function (ns, chartInstances, document, window) {
+  "use strict";
+  ns.toggleTheme = () => {
+    const currentPageTheme = localStorage.getItem("pageTheme") || "light";
+    const newTheme = currentPageTheme == "light" ? "dark" : "light";
+    const $body = document.getElementsByTagName("body")[0];
 
-    ns.loadInitialTheme = () => {
-        const currentTheme = localStorage.getItem('theme');
-        const style = document.getElementById('themeStyles');
-        if (!currentTheme) {
-            localStorage.setItem('theme', 'dark');
-        }
-        if (style) {
-          if (currentTheme === 'light') {
-              style.setAttribute('active', 'light');
-          } else {
-              style.setAttribute('active', 'dark');
-              style.setAttribute('href', `/apps/typerefinery/clientlibs/styles/dark.css`);
+    if ($body) {
+      $body.classList.remove(`bg-${currentPageTheme}`);
+      $body.classList.add(`bg-${newTheme}`);
+    }
+
+   //to change the background of component
+    let toggleTheme = document.querySelectorAll(`[toggleTheme=true]`);
+    toggleTheme.forEach(function(el) {
+
+      if(newTheme === 'dark'){
+        el.classList.remove("bg-white");  
+        el.classList.add("bg-dark","shadow-lg", "text-white");
+      }
+      else{
+        el.classList.remove("bg-dark","shadow-lg", "text-white");
+        el.classList.add("bg-white"); 
+      }
+    });
+  
+    
+    localStorage.setItem("pageTheme", newTheme);
+
+    setTimeout(() => {
+      Object.entries(chartInstances)?.forEach(($chart) => {
+        const gridAxisToBeValidated = ["x", "y", "r"];
+
+        // TODO: Need to be as a seperate ns.
+        var chartObj = {};
+
+        // to update the grid lines
+        gridAxisToBeValidated.forEach((axis) => {
+          if ($chart[1].options.scales[axis]) {
+            chartObj = {
+              [axis]: {
+                grid: {
+                  color: ns.getColor(newTheme, "grid"),
+                },
+              },
+            };
           }
-        }
-    };
+        });
 
-    ns.attachEventListener = () => {
-        console.log("attachEventListener")
-        // Event Listener for toggle theme (dark | light);
-        $(document).on("click", "#themeHandler", ns.toggleTheme);
-    };
+        $chart[1].options.scales = chartObj;
 
-    ns.init = () => {
-        ns.loadInitialTheme();
-        const rootElement = document.querySelector(':root');
-        ns.rootElementStyle = getComputedStyle(rootElement);
-        ns.attachEventListener();
-    };
+        // to update background color of a chart legend.
+        $chart[1].options.plugins.legend.labels = {
+          color: ns.getColor(newTheme, "legend"),
+        };
+        // to update background color of a chart canvas.
+        $chart[1].options.plugins.customCanvasBackgroundColor = {
+          color: ns.getColor(newTheme, "background"),
+        };
+        $chart[1].update();
+      });
+    }, 5);
+  };
 
+  ns.getColor = (theme, type) => {
+    return type === "grid"
+      ? theme === "dark"
+        ? "#f8f9fa"
+        : "#dee2e6"
+      : type === "background"
+      ? theme === "light"
+        ? "#f8f9fa"
+        : "#4f4f4f"
+      : type === "legend"
+      ? theme === "light"
+        ? "#343a40"
+        : "#f8f9fa"
+      : null;
+  };
 
+  ns.setInitialTheme = ($component, componentConfig) => {
+    const initialTheme = componentConfig.toggleTheme;
+    const $body = document.getElementsByTagName("body")[0];
+
+    if (initialTheme === "light") {
+      $body.classList.add("bg-light");
+    } else if (initialTheme === "dark") {
+      $body.classList.add("bg-dark");
+    }
+  };
+
+  ns.attachEventListener = ($component, componentConfig) => {
+    // Event Listener for toggle theme (dark | light);
+    $($component).on("click", ns.toggleTheme);
+  };
+
+  ns.init = ($component, componentConfig) => {
+    ns.setInitialTheme($component, componentConfig);
+    ns.attachEventListener($component, componentConfig);
+  };
 })(Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
