@@ -7,16 +7,16 @@
       "label": "General",
       "fieldName": {
         "sling:resourceType": "wcm/dialogs/components/include",
-        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
       },
-      "fieldValue": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
       },
       "selectOptions": {
         "name": "selectOptions",
         "label": "Add Options",
+        "description": "If option endpoint is mentioned then options will be read from datasource",
         "sling:resourceType": "wcm/dialogs/components/multifield",
         "labelText": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -29,6 +29,7 @@
           "label": "Value"
         }
       }
+      
     },
     "validationTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
@@ -36,6 +37,53 @@
       "validationRequired": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tabs/validation/validationRequired"
+      }
+    },
+    "optionsTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Options",
+      "readOptionsFromDataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readOptionsFromDataSource",
+        "label": "Read options from data source",
+        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
+      }
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advanced",
+      "dataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dataSource",
+        "label": "Read options from data source", 
+        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
+      },
+      "multipleSelection": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "multipleSelection",
+        "label": "Multiple Select"
+      },
+      "maxSelection": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "maxSelection",
+        "label": "Max Selections",
+        "ws:display": {
+          "condition": {
+            "sourceName": "multipleSelection",
+            "values": true
+          }
+        }
+      },
+      "enableSearch": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "enableSearch",
+        "label": "Show Search Text Box"
+      },
+      "defaultSelectedOptions": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "defaultSelectedOptions",
+        "label": "Default Selected Options",
+        "description": "Comma separated list of values to be selected by default"
       }
     }
   }
