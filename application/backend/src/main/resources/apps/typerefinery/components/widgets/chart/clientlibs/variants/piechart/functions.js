@@ -51,17 +51,16 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         // Plugin to update the canvas Background.
         const plugin = {
-            id: "customCanvasBackgroundColor",
+            id: 'customCanvasBackgroundColor',
             beforeDraw: (chart, args, options) => {
-                const { ctx } = chart;
-                ctx.save();
-                ctx.globalCompositeOperation = "destination-over";
-                // data.canvasBackgroundColor
-                ctx.fillStyle = themeNs?.rootElementStyle?.getPropertyValue('--card-bg-color');
-                ctx.fillRect(0, 0, chart.width, chart.height);
-                ctx.restore();
-            },
-        };
+              const {ctx} = chart;
+              ctx.save();
+              ctx.globalCompositeOperation = 'destination-over';
+              ctx.fillStyle = options.color || '';
+              ctx.fillRect(0, 0, chart.width, chart.height);
+              ctx.restore();
+            }
+          };
 
         const chartOptions = {
             type: "polarArea",
@@ -83,7 +82,10 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         labels: {
                            usePointStyle: true
                         }
-                    }
+                    },
+                    customCanvasBackgroundColor: {
+                        color: '#f8f9fa',
+                      }
                 },
                 maintainAspectRatio: false,
                 scales: {
@@ -102,7 +104,8 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                         z: 1
                     }
                 }
-            }
+            },
+            plugins: [plugin],
         };
 
         const chartInstance = new Chart(ctx, chartOptions);

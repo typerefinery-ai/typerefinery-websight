@@ -9,6 +9,6 @@
     "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/primevue/inputtext/inputtext.min.js"
+    "/apps/typerefinery/clientlibs/vendor/inputmask/inputmask.min.js"
   ] 
 }

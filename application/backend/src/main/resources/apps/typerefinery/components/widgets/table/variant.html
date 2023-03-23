@@ -1,9 +1,11 @@
 <template data-sly-template.variant="${ @ model }">
-  <div 
+  <table 
     id="${model.id}"
     component="${model.componentName}"
-    class="${model.variant} ${model.variantClassNames}"
+    class="${model.variantClassNames} table table-striped table-bordered table-hover"
     data-model="${model.jsonString}"
     data-module="${model.module}"
-  ></div>
+    toggleTheme="true"
+  >
+  </table>
 </template>

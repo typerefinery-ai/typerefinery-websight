@@ -3,7 +3,5 @@
   "jcr:primaryType": "sling:Folder",
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["ai.typerefinery.websight.components-footer","ai.typerefinery.websight.components.stucture.page-footer"],
-  "js": [
-    "script.js"
-  ]
+  "js": []
 }

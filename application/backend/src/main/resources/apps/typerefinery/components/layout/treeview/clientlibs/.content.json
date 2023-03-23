@@ -7,6 +7,7 @@
     "style.css"
   ],  
   "js": [
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/treeview.js",
     "functions.js",
     "behaviour.js"
   ] 
