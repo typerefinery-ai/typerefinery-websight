@@ -10,7 +10,7 @@ Component for adding map to pages
 ## Information
 * **group**:Typerefinery - Widgets
 * **sling:resourceType**: ws:Component
-* **description**: Map component"
+* **description**: Map component
 * **title**: Map
 * **sling:resourceSuperType**: 
 * **Vendor**: Typerefinery
@@ -44,75 +44,75 @@ These fields are available for input by the authors. These fields are used in te
         <tr>
             <td rowspan="6"> General</td>
             <td>latitude</td>
-            <td></td>
-            <td>Consists of Map latitude </td>
+            <td>46.76336</td>
+            <td>Consists of map centre view latitude. </td>
         </tr>
         <tr>
             <td>longitude</td>
-            <td></td>
-            <td>Consists of Map Longitude</td>
+            <td>-71.32453</td>
+            <td>Consists of map centre view Longitude.</td>
         </tr>
         <tr>
             <td>Zoom</td>
-            <td></td>
-            <td>Defines the zoom level of the Map</td>
+            <td>16</td>
+            <td>Defines the zoom level of the Map.</td>
         </tr>
         <tr>
             <td>Template Url</td>
-            <td></td>
-            <td>Instantiates a tile layer object given a URL template</td>
+            <td>https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</td>
+            <td>Instantiates a tile layer object given a URL template.</td>
         </tr>
          <tr>
             <td>Copyright Url</td>
-            <td></td>
-            <td>Url for copyright</td>
+            <td>https://www.openstreetmap.org/copyright</td>
+            <td>Url for copyright.</td>
         </tr>
          <tr>
             <td>Layer zoom</td>
-            <td></td>
-            <td>Zoom level  to which this layer will be displayed</td>
+            <td>15</td>
+            <td>Zoom level  to which this layer will be displayed.</td>
         </tr>
         <tr>
             <td rowspan="3">Marker</td>
             <td>Latitude</td>
             <td></td>
-            <td>Instantiates a Marker object given a latitude geographical point</td>
+            <td>Instantiates a Marker object given a latitude geographical point.</td>
         </tr>
         <tr>
             <td>Longitude</td>
-            <td></td>
-            <td>Instantiates a Marker object given a Longitude geographical point</td>
+            <td>46.76672</td>
+            <td>Instantiates a Marker object given a Longitude geographical point.</td>
         </tr>
         <tr>
             <td>Popup Text</td>
-            <td></td>
-            <td>Used to open popups in certain places of the map</td>
+            <td>-71.32919</td>
+            <td>Used to open popups in certain places of the map.</td>
         </tr>
         <tr>
             <td>Data</td>
             <td>DataSource Url</td>
-            <td></td>
-            <td>Creates marker's data from datasource JSON</td>
+            <td>/apps/typerefinery/components/widgets/map/templates/flowsample.json</td>
+            <td>Creates marker's data from datasource JSON.</td>
         </tr>
         <tr>
             <td rowspan="12">Flow</td>
             <td>Topics</td>
-            <td></td>
+            <td><em>Dynamic topics</em></td>
             <td>The topic set for this flow, which is used to send and recive messages to and from the flow.</td>
         </tr>
          <tr>
             <td>Title</td>
-            <td></td>
+            <td>Map flow</td>
             <td>The title to use for this flow. Update this component to change the title of the flow in Flow Designer.</td>
         </tr>
         <tr>
             <td>Group</td>
-            <td></td>
+            <td>/content/typerefinery-showcase/pages/components/widgets/map</td>
             <td>This is the group that the flow belongs to, its used to group relevant flows.</td>
         </tr>
         <tr>
             <td>Template</td>
-            <td></td>
+            <td>/apps/typerefinery/components/widgets/map/templates/map.json</td>
             <td>This is the template that the flow is based on, its used to create new flows from a template.</td>
         </tr>
         <tr>
@@ -122,27 +122,27 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Sample Data</td>
-            <td></td>
+            <td>/apps/typerefinery/components/widgets/map/templates/flowsample.json</td>
             <td>This is the sample data that is added to the flow to help to get started.</td>
         </tr>
         <tr>
             <td>HTTP Route</td>
-            <td></td>
-            <td>This is the HTTP route for REST API for this flow, where applicable, not used in all flow enabled components..</td>
+            <td>/content/typerefinery-showcase/pages/components/widgets/map/*</td>
+            <td>This is the HTTP route for REST API for this flow, where applicable, not used in all flow enabled components.</td>
         </tr>
         <tr>
             <td>Is Container</td>
-            <td></td>
+            <td>false</td>
             <td>This is a flag to indicate if the flow is a container flow, where applicable, not used in all flow enabled components.</td>
         </tr>
         <tr>
             <td>Flow ID</td>
-            <td></td>
+            <td><em>Dynamic flow-id</em></td>
             <td>This is the flow stream ID for this flow, this is used to identify the flow in the flow stream.</td>
         </tr>
         <tr>
             <td>Created On</td>
-            <td></td>
+            <td><em>Dynamic time/date</em></td>
             <td>This is the date and time that the flow was created.</td>
         </tr>
         <tr>
@@ -152,20 +152,20 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
          <tr>
             <td>Flow Designer</td>
-            <td></td>
+            <td>Link</td>
             <td>This is the URL to edit the flow in Flow Designer.</td>
         </tr>
         <tr>
             <td>Grid</td>
-            <td>Grids</td>
+            <td>Grid</td>
             <td></td>
-            <td>Controls grids system</td>
+            <td>Controls grids system.</td>
         </tr>
         <tr>
             <td>Style</td>
             <td>Id</td>
             <td></td>
-            <td>Controls the css and styling</td>
+            <td>Controls the css and styling.</td>
         </tr>
     </tbody>
 </table>
