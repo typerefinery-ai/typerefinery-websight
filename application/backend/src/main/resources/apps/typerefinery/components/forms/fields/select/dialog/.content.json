@@ -52,12 +52,6 @@
     "advancedTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Advanced",
-      "dataSource": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "dataSource",
-        "label": "Read options from data source", 
-        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
-      },
       "multipleSelection": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "multipleSelection",

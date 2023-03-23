@@ -41,22 +41,21 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.getOptionsFromDataSource = async (componentConfig) => {
         try{
-            const {  readOptionsFromDataSource, readMethod = "GET", readPayloadType = "application/json" } = componentConfig;
-            
+            const {  readOptionsFromDataSource, readMethod , readPayloadType } = componentConfig;
             if(!readOptionsFromDataSource) {
-                return;
+                return [];
             }
             const response = await fetch(
                 readOptionsFromDataSource, 
                 {
-                    method: readMethod,
+                    method: readMethod || "GET",
                     headers: {
-                        "Content-Type": readPayloadType
+                        "Content-Type": readPayloadType || "application/json"
                     }
                 }
             ).then(response => response.json());
             
-            return response.data;
+            return response?.data || [];
         }catch(error) {
             console.error(error);
             return [];
