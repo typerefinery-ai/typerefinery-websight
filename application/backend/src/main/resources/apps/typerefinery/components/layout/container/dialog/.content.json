@@ -20,26 +20,6 @@
         }
       }
     },
-    "marginTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/margin",
-      "ws:display": {
-        "condition": {
-          "sourceName": "marginEnabled",
-          "values": true
-        }
-      }
-    },
-    "paddingTab": {
-      "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/tabs/padding",
-      "ws:display": {
-        "condition": {
-          "sourceName": "paddingEnabled",
-          "values": true
-        }
-      }
-    },
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/alignment"
