@@ -46,8 +46,8 @@
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Copyright © 2023 Typerefinery. /All Rights Reserved. /Privacy Terms of Use" headingLevel="h6"/>
         </container1>
         <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="4" mdColSize="12" smColSize="12" columnGap="3" flexEnabled="true" horizontalAlignment="end">
-          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonVariant="info" isOutlinedButton="true" label="Github" showIcon="true" icon="pi pi-github" lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_1>
-          <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonVariant="info" isOutlinedButton="true" label="About Us" showIcon="true" icon="pi pi-globe" lgColSize="4" mdColSize="6" navigateTo="https://typerefinery.ai/" openInNewTab="true" classes="btn-sm"></button_2>
+          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonStyle="info" isOutlinedButton="true" label="Github" showIcon="true" icon="pi pi-github" lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_1>
+          <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonStyle="info" isOutlinedButton="true" label="About Us" showIcon="true" icon="pi pi-globe" lgColSize="4" mdColSize="6" navigateTo="https://typerefinery.ai/" openInNewTab="true" classes="btn-sm"></button_2>
         </container2>
       </container5>
     </container>

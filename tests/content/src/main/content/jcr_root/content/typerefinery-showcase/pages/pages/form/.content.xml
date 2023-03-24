@@ -50,7 +50,7 @@
             <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/checkbox"/>
           </checkbox_1>
           <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" textAlignment="center">
-            <button_1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Register" buttonType="submit" lgColSize="4"></button_1_3>
+            <button_1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Register" buttonType="submit" buttonStyle="primary" lgColSize="4"></button_1_3>
           </container>
         </form1>
       </container>
