@@ -69,6 +69,10 @@ public class Editor extends BaseComponent {
     public String placeholder;
 
 
+    @Getter
+    @Inject
+    public String name;
+
 
     @Override
     @PostConstruct

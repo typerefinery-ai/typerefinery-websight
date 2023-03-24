@@ -101,7 +101,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         await ns.addOptionsToSelect($component, componentConfig, defaultSelectedOptions);
         
 
-        selectInstances[componentConfig.id] = new Choices(`#${componentConfig.id}`, {
+        selectInstances[componentConfig.id] = new Choices($component, {
             removeItemButton: true,
             maxItemCount: componentConfig.maxSelection || -1,
             labelId: componentConfig.id
