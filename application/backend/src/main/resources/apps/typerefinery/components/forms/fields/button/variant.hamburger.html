@@ -19,13 +19,12 @@
 </template>
 <template data-sly-template.variant="${ @ model }">
     <div class="navbar-expand-lg">
-    <button component="${model.componentName}" id="${model.id}" type="${model.type}" 
-        data-bs-toggle="collapse" data-bs-target="${model.target}" data-model="${model.jsonString}"
-        class="navbar-toggler ">
-        <sly data-sly-call="${icon @ icon='glyphicon glyphicon-align-justify'}">
-        </sly>
-    </button>
-</div>
+        <button component="${model.componentName}" id="${model.id}" type="${model.type}" data-bs-toggle="collapse"
+            data-bs-target="${model.target}" data-model="${model.jsonString}" class="navbar-toggler ">
+            <sly data-sly-call="${icon @ icon='glyphicon glyphicon-align-justify'}">
+            </sly>
+        </button>
+    </div>
 </template>
 
  

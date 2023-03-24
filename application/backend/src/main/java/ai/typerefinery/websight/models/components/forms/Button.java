@@ -44,6 +44,8 @@ public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Click me";
     protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
+    protected static final String DEFAULT_BUTTON_STYLE = "primary";
+    
 
     protected static final String PROPERTY_HIDE_BUTTON_LABEL = "hideButtonLabel";
     public static final String PROPERTY_VARIANT = "variant";
@@ -171,6 +173,9 @@ public class Button extends BaseFormComponent {
 
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
+        }
+        if(StringUtils.isBlank(buttonStyle)){
+            this.buttonStyle = DEFAULT_BUTTON_STYLE;
         }
 
         if (BooleanUtils.isTrue(hideButtonLabel)) {
