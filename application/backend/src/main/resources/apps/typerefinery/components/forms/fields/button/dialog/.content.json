@@ -29,6 +29,35 @@
           "value": "action"
         }
       },
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": ""
+        },
+        "hamburger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Hamburger",
+          "value": "hamburger"
+        }
+      },
+    "target": {
+      "sling:resourceType": "wcm/dialogs/components/textfield",
+      "name": "target",
+      "label": "Component Id to toggle",
+      "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": "hamburger"
+        }
+      }
+  },
+
+
       "navigateTo": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
@@ -213,14 +242,13 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
       },
-      "buttonVariant": {
+      "buttonStyle": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "buttonVariant",
+        "name": "buttonStyle",
         "label": "Button Style",
         "default": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Default",
-          "selected": true,
           "value": ""
         },
         "primary": {
