@@ -6,7 +6,7 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Dashboard" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/pagewithsidebar">
     <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
       <nav jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/nav" cancelInheritParent="true" classes="bg-secondary">
-        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" headingLevel="h3" title="Typerefinery.ai" classes="mb-5 mt-2" textAlignment="center"></title>
+        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" headingLevel="h3" title="Typerefinery.ai" classes="mb-5 mt-3" persistColorWhenThemeSwitches="true" textAlignment="center"></title>
         <treeview jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/treeview" parentPagePath="/content/typerefinery-showcase/pages/pages"></treeview>
       </nav>
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header" cancelInheritParent="true" classes="bg-secondary mb-3">
