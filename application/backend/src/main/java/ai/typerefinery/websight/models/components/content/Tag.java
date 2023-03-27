@@ -38,6 +38,7 @@ public class Tag extends BaseFormComponent {
     protected static final String DEFAULT_MODULE = "tag";
     protected static final String DEFAULT_LABEL = "label";
     protected static final String DEFAULT_TAG_TYPE_CLASS = " bg-primary";
+    protected static String DEFAULT_TAG_CLASS = "badge";
 
 
     @Inject
@@ -73,16 +74,15 @@ public class Tag extends BaseFormComponent {
         }
 
         if (grid != null && style != null) {
-            String tagCls = "badge";
             if (StringUtils.isNotBlank(tagType)) {
-                tagCls += " bg";
+                DEFAULT_TAG_CLASS += " bg";
 
-                tagCls += tagTypeConfig.get(tagType);
+                DEFAULT_TAG_CLASS += tagTypeConfig.get(tagType);
             } else {
-                tagCls += DEFAULT_TAG_TYPE_CLASS;
+                DEFAULT_TAG_CLASS += DEFAULT_TAG_TYPE_CLASS;
             }
 
-            style.addClasses(tagCls);
+            style.addClasses(DEFAULT_TAG_CLASS);
         }
     }
 
