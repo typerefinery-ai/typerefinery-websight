@@ -34,8 +34,6 @@
   <properties>
     <sling.install.package.username>${websight.admin.username}</sling.install.package.username>
     <sling.install.package.password>${websight.admin.password}</sling.install.package.password>
-    <sling.install.package.host>localhost</sling.install.package.host>
-    <sling.install.package.port>8080</sling.install.package.port>
     <sling.install.package.path>/apps/websight-package-manager-service/bin/install</sling.install.package.path>
   </properties>
 
@@ -63,7 +61,7 @@
         <version>1.0.4</version>
         <configuration>
           <targetURL>
-            http://${sling.install.package.host}:${sling.install.package.port}/apps/websight-package-manager-service/bin/install
+            http://${sling.host}:${sling.port}/apps/websight-package-manager-service/bin/install
           </targetURL>
           <verbose>true</verbose>
           <failOnError>true</failOnError>

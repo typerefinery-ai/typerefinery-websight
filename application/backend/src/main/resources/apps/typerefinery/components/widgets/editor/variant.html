@@ -15,10 +15,11 @@
  */ -->
  <template data-sly-template.variant="${ @ model }">
     <div 
-        component="${model.componentName}"
+        isInput="true"
         class="${model.variantClassNames}" 
         id="${model.id}"
         data-model="${model.jsonString}"
+        component="${model.componentName}"
     >
     </div>
 </template>

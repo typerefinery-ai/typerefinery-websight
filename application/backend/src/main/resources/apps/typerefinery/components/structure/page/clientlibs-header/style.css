@@ -4,6 +4,10 @@ body {
     height: 100%;
 }
 
-.bg-dark{
+.bg-dark {
     background-color: #4f4f4f !important;
+}
+
+.bg-secondary {
+    background-color: #C7DEFA !important;
 }
