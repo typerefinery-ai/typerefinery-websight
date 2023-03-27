@@ -23,6 +23,11 @@
     "name": "marginEnabled",
     "label": "Apply Margin"
   },
+  "persistColorWhenThemeSwitches": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "persistColorWhenThemeSwitches",
+    "label": "Persist Color When Theme Switches"
+  },
   "marginTab": {
     "sling:resourceType": "wcm/dialogs/components/include",
     "path": "/apps/typerefinery/components/dialog/tabs/margin",

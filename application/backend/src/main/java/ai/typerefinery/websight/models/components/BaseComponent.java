@@ -157,6 +157,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Default(values = "")
     private String marginRight;
 
+    
+    @Inject
+    @Getter
+    @Default(values = "false")
+    public Boolean persistColorWhenThemeSwitches;
+
     public String resourcePath; // full path of the component
     public String currentPagePath; // path of the page the component is on
 

@@ -9,6 +9,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
 
 (function (ns, chartInstances, document, window) {
   "use strict";
+
   ns.toggleTheme = () => {
     const currentPageTheme = localStorage.getItem("pageTheme") || "light";
     const newTheme = currentPageTheme == "light" ? "dark" : "light";
@@ -19,28 +20,51 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
       $body.classList.add(`bg-${newTheme}`);
     }
 
-   //to change the background of component
-    let toggleTheme = document.querySelectorAll(`[toggleTheme=true]`);
-    toggleTheme.forEach(function(el) {
+    //to change the background of component
+    const toggleTheme = document.querySelectorAll(`[toggleTheme]`);
+    toggleTheme.forEach(function ($component) {
 
-      if(newTheme === 'dark'){
-        el.classList.remove("bg-white");  
-        el.classList.add("bg-dark","shadow-lg", "text-white");
+      const toggle = $component.getAttribute("toggleTheme");
+
+
+      const $body = document.getElementsByTagName("body")[0];
+
+      if (newTheme === "light") {
+        $body.classList.add("bg-light");
+      } else if (newTheme === "dark") {
+        $body.classList.add("bg-dark");
       }
-      else{
-        el.classList.remove("bg-dark","shadow-lg", "text-white");
-        el.classList.add("bg-white"); 
+
+      if (newTheme === 'dark') {
+        if (toggle === "text") {
+          $component.classList.remove("text-dark");
+          $component.classList.add("text-white");
+        } else if (toggle === "true") {
+          $component.classList.remove("bg-light", "shadow-lg", "text-dark");
+          $component.classList.add("bg-dark", "shadow-lg", "text-white");
+        }
+
+      }
+      else {
+        if (toggle === "text") {
+          $component.classList.remove("text-white");
+          $component.classList.add("text-dark");
+        } else if (toggle === "true") {
+          $component.classList.remove("bg-dark", "shadow-lg", "text-white");
+          $component.classList.add("bg-light", "shadow-lg", "text-dark");
+        }
       }
     });
-  
+
     
-    localStorage.setItem("pageTheme", newTheme);
+    ns.updateATagColor(newTheme);
+    
 
     setTimeout(() => {
       Object.entries(chartInstances)?.forEach(($chart) => {
         const gridAxisToBeValidated = ["x", "y", "r"];
 
-        // TODO: Need to be as a seperate ns.
+        // TODO: Need to be as a separate ns.
         var chartObj = {};
 
         // to update the grid lines
@@ -68,8 +92,24 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         };
         $chart[1].update();
       });
-    }, 5);
+    }, 1);
+
+    localStorage.setItem("pageTheme", newTheme);
   };
+
+  ns.updateATagColor = (theme) => {
+    const $aTags = document.querySelectorAll("a");
+    $aTags.forEach(($aTag) => {
+      if (theme === "dark") {
+        $aTag.classList.remove("text-dark");
+        $aTag.classList.add("text-white");
+      } else {
+        $aTag.classList.remove("text-white");
+        $aTag.classList.add("text-dark");
+      }
+    });
+  };
+
 
   ns.getColor = (theme, type) => {
     return type === "grid"
@@ -77,25 +117,21 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         ? "#f8f9fa"
         : "#dee2e6"
       : type === "background"
-      ? theme === "light"
-        ? "#f8f9fa"
-        : "#4f4f4f"
-      : type === "legend"
-      ? theme === "light"
-        ? "#343a40"
-        : "#f8f9fa"
-      : null;
+        ? theme === "light"
+          ? "#f8f9fa"
+          : "#4f4f4f"
+        : type === "legend"
+          ? theme === "light"
+            ? "#343a40"
+            : "#f8f9fa"
+          : null;
   };
 
-  ns.setInitialTheme = ($component, componentConfig) => {
+  ns.setInitialTheme = (componentConfig) => {
+    if (!componentConfig || !componentConfig.toggleTheme) return;
     const initialTheme = componentConfig.toggleTheme;
-    const $body = document.getElementsByTagName("body")[0];
-
-    if (initialTheme === "light") {
-      $body.classList.add("bg-light");
-    } else if (initialTheme === "dark") {
-      $body.classList.add("bg-dark");
-    }
+    localStorage.setItem("pageTheme", initialTheme === "dark" ? "light" : "dark");
+    ns.toggleTheme();
   };
 
   ns.attachEventListener = ($component, componentConfig) => {
@@ -104,7 +140,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
   };
 
   ns.init = ($component, componentConfig) => {
-    ns.setInitialTheme($component, componentConfig);
+    ns.setInitialTheme(componentConfig);
     ns.attachEventListener($component, componentConfig);
   };
 })(Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
