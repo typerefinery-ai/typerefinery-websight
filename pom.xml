@@ -89,6 +89,14 @@
     <sling.feature.launcher.version>1.2.4</sling.feature.launcher.version>
 
     <classifier>typerefinery-websight</classifier>
+
+    <!-- admin user default credentials for autoInstallBundle profile -->
+    <sling.port>8113</sling.port>
+    <sling.host>localhost</sling.host>
+    <sling.user>${websight.admin.username}</sling.user>
+    <sling.password>${websight.admin.password}</sling.password>
+    <sling.url>http://${sling.host}:${sling.port}/system/console</sling.url>
+
   </properties>
 
   <dependencyManagement>
