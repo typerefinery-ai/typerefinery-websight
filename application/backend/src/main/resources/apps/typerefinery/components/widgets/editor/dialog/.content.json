@@ -7,9 +7,9 @@
             "label": "General",
             "name": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "Name",
-                "label": "name",
-                "description": "Name of the component"
+                "name": "name",
+                "label": "Name",
+                "description": "Please enter a name for the component, which can be used for loading data from the endpoint"
             },
             "variant": {
                 "sling:resourceType": "wcm/dialogs/components/select",
@@ -18,7 +18,8 @@
                 "code": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
                     "label": "Code",
-                    "value": "CODE_EDITOR"
+                    "value": "CODE_EDITOR",
+                    "selected": true
                 },
                 "text": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -34,7 +35,8 @@
                 "javascript": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
                     "label": "javascript",
-                    "value": "javascript"
+                    "value": "javascript",
+                    "selected": true
                 },
                 "html": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
