@@ -4,7 +4,7 @@
   xmlns:ws="http://ds.pl/websight"
   xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Footer" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-    <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" cancelInheritParent="true">
+    <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" classes="p-5 mt-4 " flexEnabled="true" horizontalAlignment="between" cancelInheritParent="true">
       <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12" flexEnabled="true">
         <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Pages" headingLevel="h5"/>
         <text1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text=
@@ -29,25 +29,12 @@
           &lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/content/card.html'  &gt; Cards  &lt;/a&gt; &lt;/p&gt;
           &lt;p&gt; &lt;a class='text-decoration-none' href='https://github.com/typerefinery-ai/typerefinery-websight'  &gt; FAQ  &lt;/a&gt; &lt;/p&gt; "/>
       </container3>
-      <container4 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="6" mdColSize="12" smColSize="12">
-        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Submit Email here to get connected." headingLevel="h5"/>
-        <container4_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12" flexEnabled="true" horizontalAlignment="between" verticalAlignment="baseline" rowGap="0" columnGap="0">
-          <input_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" lgColSize="9">
-            <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" label="Enter Email Address" hideLabel="true">
-            </label>
-            <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" inputType="email" placeholder="Eg. test@example.com"/>
-          </input_1>
-          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" label="Submit" lgColSize="2">
-          </button_1>
-        </container4_1>
-      </container4>
-      <container5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12" flexEnabled="true" horizontalAlignment="between" classes="p-2" borderPositionTop="true">
+      <container5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12" flexEnabled="true" horizontalAlignment="between" classes="p-2 mt-4" borderPositionTop="true">
         <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="8" mdColSize="12" smColSize="12" flexEnabled="true">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Copyright © 2023 Typerefinery. /All Rights Reserved. /Privacy Terms of Use" headingLevel="h6"/>
         </container1>
         <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="4" mdColSize="12" smColSize="12" columnGap="3" flexEnabled="true" horizontalAlignment="end">
-          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonStyle="info" isOutlinedButton="true" label="Github" showIcon="true" icon="pi pi-github" lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_1>
-          <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonStyle="info" isOutlinedButton="true" label="About Us" showIcon="true" icon="pi pi-globe" lgColSize="4" mdColSize="6" navigateTo="https://typerefinery.ai/" openInNewTab="true" classes="btn-sm"></button_2>
+          <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonVariant="primary" isOutlinedButton="true" label="Github" showIcon="true" icon="pi pi-github" lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_1>
         </container2>
       </container5>
     </container>
