@@ -19,7 +19,7 @@
                 cancelInheritParent="true" classes="bg-secondary mb-3 ">
                 <reference jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/reference"
-                    path="/content/typerefinery-showcase/pages/content/simpleheader/jcr:content/container"></reference>
+                    path="/content/typerefinery-showcase/pages/content/header/jcr:content/container"></reference>
             </header>
         </rootcontainer>
     </jcr:content>
