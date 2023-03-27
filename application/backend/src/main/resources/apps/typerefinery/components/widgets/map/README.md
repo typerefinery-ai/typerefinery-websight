@@ -117,7 +117,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Design Template</td>
-            <td></td>
+            <td><em>Dynamic template</em></td>
             <td>TThis is the design template that the flow is based on, its used to update the design of the flow.</td>
         </tr>
         <tr>
@@ -147,7 +147,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Updated On</td>
-            <td></td>
+            <td><em>Dynamic time/date</em></td>
             <td>This is the date and time that the flow was last updated.</td>
         </tr>
          <tr>
