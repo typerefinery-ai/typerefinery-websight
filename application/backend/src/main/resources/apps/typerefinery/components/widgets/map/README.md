@@ -118,7 +118,7 @@ These fields are available for input by the authors. These fields are used in te
         <tr>
             <td>Design Template</td>
             <td><em>Dynamic template</em></td>
-            <td>TThis is the design template that the flow is based on, its used to update the design of the flow.</td>
+            <td>This is the design template that the flow is based on, its used to update the design of the flow.</td>
         </tr>
         <tr>
             <td>Sample Data</td>
