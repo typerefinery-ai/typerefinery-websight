@@ -18,13 +18,16 @@
     <i class="${icon}"></i>
 </template>
 <template data-sly-template.variant="${ @ model }">
-    <div class="navbar-expand-lg">
+    <div data-sly-test="${!wcmmode.isEdit}" class="navbar-expand-lg">
         <button component="${model.componentName}" id="${model.id}" type="${model.type}" data-bs-toggle="collapse"
             data-bs-target="${model.target}" data-model="${model.jsonString}" class="navbar-toggler ">
             <sly data-sly-call="${icon @ icon='glyphicon glyphicon-align-justify'}">
             </sly>
         </button>
     </div>
+    <sly data-sly-test="${wcmmode.isEdit}">
+        <div style="--bs-bg-opacity: .5;" class="bg-warning">Hamburger visible for limited screen size.</div>
+      </sly>
 </template>
 
  
