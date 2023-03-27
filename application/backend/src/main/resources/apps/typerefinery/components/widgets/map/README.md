@@ -75,17 +75,17 @@ These fields are available for input by the authors. These fields are used in te
         <tr>
             <td rowspan="3">Marker</td>
             <td>Latitude</td>
-            <td></td>
+            <td>46.76672</td>
             <td>Instantiates a Marker object given a latitude geographical point.</td>
         </tr>
         <tr>
             <td>Longitude</td>
-            <td>46.76672</td>
+            <td>-71.32919</td>
             <td>Instantiates a Marker object given a Longitude geographical point.</td>
         </tr>
         <tr>
             <td>Popup Text</td>
-            <td>-71.32919</td>
+            <td>Map</td>
             <td>Used to open popups in certain places of the map.</td>
         </tr>
         <tr>
@@ -190,4 +190,3 @@ This component has the following variants
         </tr>
     </tbody>
 </table>
-
