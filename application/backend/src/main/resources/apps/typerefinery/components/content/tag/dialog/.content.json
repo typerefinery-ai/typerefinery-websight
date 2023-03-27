@@ -1,0 +1,73 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldLabel": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
+      },
+      "tagType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "tagType",
+        "label": "Tag Type",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "success": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Success",
+          "value": "success"
+        },
+        "warning": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Warning",
+          "value": "warning"
+        },
+        "danger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger",
+          "value": "danger"
+        },
+        "info": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Info",
+          "value": "info"
+        },
+        "dark": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark",
+          "value": "dark"
+        },
+        "gray": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Gray",
+          "value": "light"
+        }
+      }
+    }
+  }
+}
