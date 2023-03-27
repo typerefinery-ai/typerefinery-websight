@@ -28,7 +28,7 @@ services:
       start_period: 30s
     hostname: cms
     ports:
-      - "8080:8080"
+      - "8113:8080"
       - "5005:5005"
     environment:
       WS_ADMIN_USERNAME: ${WS_ADMIN_USERNAME}
@@ -60,7 +60,7 @@ services:
           memory: 4096M
     hostname: mongo
     ports:
-      - "27017:27017"
+      - "8180:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo.password

@@ -51,6 +51,49 @@ public class Select extends BaseFormComponent {
     @Inject
     @Getter
     private List<SelectOptionItems> selectOptions;
+    
+    @Getter
+    @Inject
+    public Boolean multipleSelection;
+
+    @Getter
+    @Inject
+    public String maxSelection;
+
+
+    @Getter
+    @Inject
+    public Boolean enableSearch;
+
+    @Getter
+    @Inject
+    public String searchPlaceholder;
+    
+    @Getter
+    @Inject
+    public Boolean enableSelectAll;
+
+    @Getter
+    @Inject
+    public String defaultSelectedOptions;
+
+    @Getter
+    @Inject
+    public String readOptionsFromDataSource;
+    
+    @Getter
+    @Inject
+    public String readMethod;
+
+    
+    @Getter
+    @Inject
+    public String readPayloadType;
+
+
+    @Getter
+    @Inject
+    public List<SelectOptionItems> options;
 
     @Override
     @PostConstruct

@@ -14,7 +14,7 @@
  * limitations under the License.
  */ -->
  <sly data-sly-use.model="ai.typerefinery.websight.models.components.widgets.Editor">
-    <div class="${model.componentClassNames} card card-body shadow-sm">
+    <div isInput="child" name="${model.name}" class="${model.componentClassNames} card card-body shadow-sm">
         <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
         </sly>
     </div>

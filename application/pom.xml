@@ -37,9 +37,6 @@
   </modules>
 
   <properties>
-    <!-- admin user default credentials for autoInstallBundle profile -->
-    <sling.user>${websight.admin.username}</sling.user>
-    <sling.password>${websight.admin.password}</sling.password>
 
     <!-- plugins -->
     <bnd.version>6.2.0</bnd.version>

@@ -9,8 +9,9 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
     "use strict";
     ns.init = () => {
-        themeNs.init();
         tmsNs.init();
+        // Commenting this because themeNs init is invoked if the theme Button is linked to the page.
+        // themeNs.init();
     };
 
     $(document).ready(function () {

@@ -7,6 +7,6 @@
       for="${model.id}">${model.label}</label>    
   </sly>
   <sly data-sly-test="${wcmmode.isEdit && model.hideLabel}">
-    <div class="bg-warning-subtle">Label is Hidden</div>
+    <div style="--bs-bg-opacity: .5;" class="bg-warning">Label is Hidden</div>
   </sly>
 </template>
