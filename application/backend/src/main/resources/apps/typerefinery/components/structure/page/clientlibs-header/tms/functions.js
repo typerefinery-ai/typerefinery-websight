@@ -72,16 +72,9 @@ window.MessageService.Client = MessageService.Client || {};
           console.log(["tms message host topic", hostCallbacks, messageTopic, hostCallbacks[messageTopic]]);
           if (hostCallbacks) {
             console.log(["tms message call topic callbacks", hostCallbacks]);
-            // foreach with the topic to trigger the callback.
-            Object.values(hostCallbacks).forEach((callbackWithKeys) => {
-              console.log(["tms message call topic callback", callbackWithKeys]);
-              
-              Object.values(callbackWithKeys).forEach((callback) => {
-                console.log(["tms message call topic callback", callback]);
-                callback(JSON.parse(messagePayload));
-              });
-
-            });
+            if(hostCallbacks && hostCallbacks[messageTopic]) {
+              hostCallbacks[messageTopic](JSON.parse(messagePayload));
+            }
           }
         }
       }
