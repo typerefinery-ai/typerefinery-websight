@@ -16,6 +16,7 @@ Component for adding Table to page.
 - **Vendor**: Typerefinery
 - **Version**: 1.0
 - **Compatibility**: CMS
+- **Reference**: [Bootstrap table](https://getbootstrap.com/docs/5.0/content/tables/)
 - **Status**: Ready
 - **Showcase**: [/typerefinery/components/widgets/table](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/table]
@@ -26,13 +27,13 @@ Component for adding Table to page.
 
 - Responsive web design
 - Scrollable Table with fixed headers
-- Fully configurable Via data attributes
+- Fully configurable via data attributes
 - Show/Hide columns
 - Get data in JSON format
 - Simple column sorting with a click
 - Format column
 - Single or multiple row selection
-- Powerful pagination
+- Pagination
 
 # Table with all the features selected.
 
@@ -83,7 +84,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Multiple Select Row</td>
-            <td>disabled</td>
+            <td>Disabled</td>
             <td>Enable is to Select Multiple Row.</td>
         </tr>
         <tr>
