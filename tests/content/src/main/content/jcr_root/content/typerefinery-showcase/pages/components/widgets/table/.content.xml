@@ -8,11 +8,11 @@
       <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
-          <container1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="around" variant="sectionwithtitle" title="Tabel with Sigle/Multiple Row Select And pagination">
+          <container1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="around" variant="sectionwithtitle" title="Table with Sigle/Multiple Row Select And pagination">
             <table jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/table"
             dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json" multipleSelectRowEnabled="true" paginationEnabled="true"/>
             </container1_2>
-            <container1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="around" variant="sectionwithtitle" title="Tabel with Actions">
+            <container1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="around" variant="sectionwithtitle" title="Table with Actions">
               <table jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/table"
               dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json" showActionButtons="true"/>
               </container1_3>
