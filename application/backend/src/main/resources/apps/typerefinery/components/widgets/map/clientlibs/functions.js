@@ -81,7 +81,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         }
         const markerDetails=data.markers
         if(markerDetails.length>0){
-            ns.addMarker(data.markers, map)
+            ns.addMarker(markerDetails, map)
         }
     }
 
