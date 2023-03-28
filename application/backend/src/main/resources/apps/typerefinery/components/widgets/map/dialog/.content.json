@@ -5,13 +5,13 @@
     "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "lat": {
+      "mapLat": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "mapLat",
         "label": "Latitude",
         "description": "These will be added as map latitude"
       },
-      "long": {
+      "mapLng": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "mapLng",
         "label": "Longitude",
