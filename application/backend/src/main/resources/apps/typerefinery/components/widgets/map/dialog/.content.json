@@ -2,7 +2,7 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "configTab": {
+    "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
       "mapLat": {
