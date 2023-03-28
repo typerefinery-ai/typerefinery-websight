@@ -57,15 +57,6 @@
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
     },
-    "ai.typerefinery.websight.services.flow.FlowService": {
-      "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
-      "endpoint.export": "/flow/export/%s",
-      "endpoint.import": "/flow/import",
-      "endpoint.update": "/flow/update",
-      "endpoint.save": "/flow/%s/save",
-      "flow.page.change.listener.enabled": true,
-      "flow.meta.author": "TypeRefinery.io"
-    },
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
       "user.default": "sling-adminall",
       "user.mapping": [
