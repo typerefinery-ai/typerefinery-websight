@@ -130,17 +130,11 @@ public class Container extends BaseComponent {
     @Getter
     private Boolean flexEnabled;
 
-    // bootstrap styling rowGap between children components
+    // bootstrap styling gap between children components
     @Inject
     @Getter
     @Default(values = "")
-    private String rowGap;
-
-    // bootstrap styling columnGap between children components
-    @Inject
-    @Getter
-    @Default(values = "")
-    private String columnGap;
+    private String gap;
 
     // bootstrap styling for border to seperate from other container
     @Inject
@@ -377,8 +371,8 @@ public class Container extends BaseComponent {
             grid.addClasses(flex);
 
             
-            if (StringUtils.isNotBlank(columnGap)) {
-                grid.addClasses("gap-"+columnGap);
+            if (StringUtils.isNotBlank(gap)) {
+                grid.addClasses("gap-"+gap);
             } 
 
             if (StringUtils.isNotBlank(horizontalAlignment)) {
