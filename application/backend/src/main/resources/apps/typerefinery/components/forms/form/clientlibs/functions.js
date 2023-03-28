@@ -109,8 +109,11 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
             if (!readUrl) {
                 return;
             }
+
+            const url = componentNs.replaceRegex(readUrl, componentNs.getQueryParams());
+            
             const response = await fetch(
-                readUrl,
+                url,
                 {
                     method: readMethod || "GET",
                     headers: {
