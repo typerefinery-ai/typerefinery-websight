@@ -3,8 +3,9 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Components = Typerefinery.Components || {};
 Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treeview || {};
+Typerefinery.Components.Widgets.Treeview.Instance = Typerefinery.Components.Widgets.Treeview.Instance || {};
 
-(function (ns, componentNs, document, window) {
+(function (ns, componentNs, treeViewInstanceNs, document, window) {
     "use strict";
 
 
@@ -69,7 +70,7 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
 
         console.log(formattedMenuItems, componentConfig)
 
-        $(sidebarComponentId).treeview({
+        treeViewInstanceNs[componentConfig.id] = $(sidebarComponentId).treeview({
             data: formattedMenuItems,
             levels: Number(componentConfig.numOfNodeLevelsToExpand) || 10,
             expandIcon: componentConfig.expandIcon,
@@ -84,9 +85,9 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
             // selectedColor: (componentConfig.textColor),
             // selectedBackColor: componentConfig.backgroundColor.insert(1, "40")
         });
-        $(sidebarComponentId).treeview('enableAll', { silent: true });
+        treeViewInstanceNs[componentConfig.id].treeview('enableAll', { silent: true });
         if (componentConfig.isNodeExpandedByDefault === false) {
-            $(sidebarComponentId).treeview('collapseAll', { silent: true });
+            treeViewInstanceNs[componentConfig.id].treeview('collapseAll', { silent: true });
         }
     };
 
@@ -117,4 +118,4 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
         ns.addEventListeners($component, componentConfig);
     }
 
-})(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, document, window);
+})(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, Typerefinery.Components.Widgets.Treeview.Instance, document, window);

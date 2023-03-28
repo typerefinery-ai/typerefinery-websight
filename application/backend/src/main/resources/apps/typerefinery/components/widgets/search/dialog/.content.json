@@ -24,8 +24,12 @@
                 "TABLE": {
                     "sling:resourceType": "wcm/dialogs/components/select/selectitem",
                     "label": "Search in Table",
-                    "selected": true,
                     "value": "TABLE"
+                },
+                "TREEVIEW": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Search in Tree view",
+                    "value": "TREEVIEW"
                 }
             }
         },
