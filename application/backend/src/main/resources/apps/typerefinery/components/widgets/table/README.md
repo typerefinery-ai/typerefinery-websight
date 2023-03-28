@@ -1,5 +1,4 @@
-Component
-============
+# Component
 
 Table component
 
@@ -8,38 +7,34 @@ Table component
 Component for adding Table to page.
 
 ## Information
-* **group**:Typerefinery - Widgets
-* **sling:resourceType**: ws:Component
-* **description**: Table component
-* **title**: Table
-* **sling:resourceSuperType**: 
-* **Vendor**: Typerefinery
-* **Version**: 1.0
-* **Compatibility**: CMS
-* **Status**: Ready
-* **Showcase**: [/typerefinery/components/widgets/table](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor)
-* **Local Code**: [/apps/typerefinery/components/widgets/table]
-* **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table)
-* **Readme**: [/typerefinery/components/widgets/table/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table/README.md)
 
+- **group**:Typerefinery - Widgets
+- **sling:resourceType**: ws:Component
+- **description**: Table component
+- **title**: Table
+- **sling:resourceSuperType**:
+- **Vendor**: Typerefinery
+- **Version**: 1.0
+- **Compatibility**: CMS
+- **Status**: Ready
+- **Showcase**: [/typerefinery/components/widgets/table](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor)
+- **Local Code**: [/apps/typerefinery/components/widgets/table]
+- **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table)
+- **Readme**: [/typerefinery/components/widgets/table/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table/README.md)
 
 # Features
 
-* Responsive web design
-* Scrollable Table with fixed headers
-* Fully configurable Via data attributes
-* Show/Hide columns
-* Get data in JSON format
-* Simple column sorting with a click
-* Format column
-* Single or multiple row selection
-* Powerful pagination
+- Responsive web design
+- Scrollable Table with fixed headers
+- Fully configurable Via data attributes
+- Show/Hide columns
+- Get data in JSON format
+- Simple column sorting with a click
+- Format column
+- Single or multiple row selection
+- Powerful pagination
 
 # Table with all the features selected.
-
-
-
-
 
 # Authoring
 
@@ -136,7 +131,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Template</td>
-            <td>/apps/typerefinery/components/widgets/map/templates/table.json</td>
+            <td>/apps/typerefinery/components/widgets/table/templates/table.json</td>
             <td>This is the template that the flow is based on, its used to create new flows from a template.</td>
         </tr>
         <tr>
