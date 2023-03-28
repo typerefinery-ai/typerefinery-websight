@@ -5,10 +5,6 @@
   "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.content.tag"],  
   "prepend": [],
   "append": [],
-  "css": [
-    ""
-  ],  
-  "js": [
-    ""
-  ] 
+  "css": [],  
+  "js": [] 
 }

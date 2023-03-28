@@ -14,7 +14,7 @@
     limitations under the License.
 */-->
 <sly data-sly-use.model="ai.typerefinery.websight.models.components.content.Tag">
-  <span 
+  <div 
     component="${model.componentName}"
     class="${model.componentClassNames}"
     id="${model.id}"
@@ -22,6 +22,6 @@
     <sly data-sly-use.template="./variant.html"
       data-sly-call="${template.variant @ model=model}">
     </sly>
-  </span>
+  </div>
 </sly>
      
