@@ -47,17 +47,18 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             newModalDivContainer.setAttribute("id", "tableModalContent");
             newModalDivContainer.innerHTML = modalNs.getModalInnerHTML("", "", false);
             document.body.appendChild(newModalDivContainer);
+            modalNs.submitListenerForModal(newModalDivContainer);
+            modalNs.expandModalListener(newModalDivContainer);
+            $(newModalDivContainer).on('click', '.closeButtonInModal', function (e) {
+                document.querySelector("#tableModalContent iframe").setAttribute("src", "");
+                $("#loader").show();
+            });
+
+
         }
 
 
         return result;
-    };
-
-    // create a function to replace the regex with the value of the object
-    ns.replaceRegex = (str, obj) => {
-        return str.replace(/{{(\w+)}}/gm, function(match, key) {
-            return obj[key];
-        });
     };
 
 
@@ -70,18 +71,19 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             console.log(row);  
         
             if(rowConfig.actionButtonModalContentURL?.trim()?.length > 0){
-                const path = ns.replaceRegex(rowConfig.actionButtonModalContentURL, row);
+                const path = componentNs.replaceRegex(rowConfig.actionButtonModalContentURL, row);
                     
                 document.querySelector("#tableModalContent iframe").setAttribute("src", path);
                 $("#tableModalContent").modal("show");
+                modalNs.removeLoaderOnModalLoad();
             }
 
             if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0){
                 if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0) {
-                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    const path = componentNs.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
                     window.open(`${path}`, "_blank");
                 }else{
-                    const path = ns.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                    const path = componentNs.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
                     window.location.href = path;
                 }
             }
@@ -121,6 +123,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         // If no columns are available, then set data.data = [].
         if(data?.columns?.length === 0 || !data?.columns || !data?.data) {
             data.data = [];
+            data.columns = [];
         }
 
 
