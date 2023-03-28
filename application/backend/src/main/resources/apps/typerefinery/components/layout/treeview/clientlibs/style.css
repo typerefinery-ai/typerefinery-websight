@@ -1,3 +1,7 @@
 [component="treevuew"] {
   width: 100%;
 }
+
+.list-group {
+  border-radius: 0px !important;
+}

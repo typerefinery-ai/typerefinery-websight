@@ -266,7 +266,7 @@ public class Container extends BaseComponent {
 
     private Map<String, String> flexConfig = new HashMap<String, String>() {
         {
-            put("enabled", "row container-fluid");
+            put("enabled", "row");
             put("default", "");
         }
     };
@@ -375,13 +375,11 @@ public class Container extends BaseComponent {
         if (grid != null && style != null) {
             
             grid.addClasses(flex);
+
             
-            if (StringUtils.isBlank(columnGap) && StringUtils.isBlank(rowGap)) {
-                grid.addClasses("gap-1");
-            } else {
-                grid.addClasses("gap-" + columnGap);
-                grid.addClasses("gap-" + rowGap);
-            }
+            if (StringUtils.isNotBlank(columnGap)) {
+                grid.addClasses("gap-"+columnGap);
+            } 
 
             if (StringUtils.isNotBlank(horizontalAlignment)) {
                 grid.addClasses(horizontalAlignmentConfig.getOrDefault(horizontalAlignment, ""));
@@ -391,7 +389,7 @@ public class Container extends BaseComponent {
             if (StringUtils.isNotBlank(verticalAlignment)) {
                 grid.addClasses(verticalAlignmentConfig.getOrDefault(verticalAlignment, ""));
             } else {
-                grid.addClasses("evenly");
+                grid.addClasses("between");
             }
 
             if (StringUtils.isNotBlank(backgroundColor)) {

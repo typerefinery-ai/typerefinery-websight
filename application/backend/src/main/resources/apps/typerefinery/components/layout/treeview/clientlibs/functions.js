@@ -41,11 +41,18 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
                 }
                 const _obj = obj[keyItr];
                 const children = fetchMenuItemHelper(_obj);
+                let current = _obj["jcr:content"].key;
+                if (current && current.indexOf('.html') === -1) {
+                    current += '.html';
+                }
                 result.push({
                     href: _obj["jcr:content"].key,
                     text: capitalizeFirstLetter(_obj["jcr:content"].title),
                     icon: _obj["jcr:content"].icon,
-                    nodes: children.length === 0 ? null : children
+                    nodes: children.length === 0 ? null : children,
+                    state: {
+                        selected: window.location.pathname === current 
+                    }
                 });
             }
             return result;
@@ -84,12 +91,30 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
     };
 
 
+    ns.addEventListeners = ($component, componentConfig) => {
+        const sidebarComponentId = `#${componentConfig.id}`;
+        $(sidebarComponentId).on('nodeSelected', function (event, data) {
+            let href = data.href;
+            // append .html if it is not present
+            if (href && href.indexOf('.html') === -1) {
+                href += '.html';
+            }
+            if (href) {
+                // navigate to the page
+                window.location.href = href;
+            }
+        });
+    };
+
+
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         // ns.updateBackgroundColor($component, componentConfig);
         // ns.addTitleAndLogo($component, componentConfig);
         ns.addSidebarTreeNodes($component, componentConfig);
+
+        ns.addEventListeners($component, componentConfig);
     }
 
 })(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, document, window);
