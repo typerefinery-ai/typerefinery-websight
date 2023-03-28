@@ -4,7 +4,8 @@
     "containerType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "containerType",
-        "label": "Disable full width for the container.",
+        "label": "Container Width",
+        "description": "Bootstrap container width", 
         "default": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "default",
