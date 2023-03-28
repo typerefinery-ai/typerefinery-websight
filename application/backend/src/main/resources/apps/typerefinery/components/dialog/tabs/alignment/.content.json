@@ -104,44 +104,9 @@
             "value": "between"
         }
     },
-    "rowGap": {
+    "gap": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "rowGap",
-        "label": "Row Spacing",
-        "0": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "0",
-            "value": "0"
-        },
-        "1": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "1",
-            "value": "1"
-        },
-        "2": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "2",
-            "value": "2"
-        },
-        "3": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "3",
-            "value": "3"
-        },
-        "4": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "4",
-            "value": "4"
-        },
-        "5": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "5",
-            "value": "5"
-        }
-    },
-    "columnGap": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "columnGap",
+        "name": "gap",
         "label": "Column Spacing",
         "0": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
