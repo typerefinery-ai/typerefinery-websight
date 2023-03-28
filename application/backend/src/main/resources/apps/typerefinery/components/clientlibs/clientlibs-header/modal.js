@@ -18,6 +18,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="loader" id="loader">
+                            <div class="loader__figure"></div>
+                            <p class="text-center">Loading...</p>
+                        </div>
                         <iframe id="modalIframe" src="${iframeURL}" class="iframeClassName"></iframe>
                     </div>
                         ${hideFooter === true ? 
@@ -32,7 +36,55 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 </div>
             </div>
         `;
+    };
+
+    ns.submitListenerForModal = (newModalDivContainer) => {
+        $(newModalDivContainer).on("click", "#submitHandlerInModal", function () {
+            const $iframeDocument = document.getElementById('modalIframe').contentDocument;
+            const forms = $iframeDocument.getElementsByTagName('form');
+
+            if(forms.length > 0) {
+                // Trigger the modal iframe submit event of the form element.
+                forms[0].requestSubmit();
+            }
+        });
+    };
+
+    ns.expandModalListener = (newModalDivContainer) => {
+        
+        $(newModalDivContainer).on("click", "#maximizeModal", function () {
+            const modalViewEvent = document.getElementById("modalView")
+            const modalWindowIcon = $('.icon');
+            $(modalViewEvent).toggleClass("modal-fullscreen");
+            modalWindowIcon.toggleClass('pi pi-window-maximize pi pi-window-minimize');
+        });
+    };
+
+    ns.iframeLoaded = (iframe, callback) => {
+        let state = iframe.contentDocument.readyState;
+        let checkLoad = setInterval(() => {
+            if (state !== iframe.contentDocument.readyState) {
+                if (iframe.contentDocument.readyState === 'complete') {
+                    clearInterval(checkLoad);
+                    callback();
+                }
+                state = iframe.contentDocument.readyState;
+            }
+        }, 200)
     }
+
+    ns.removeLoaderOnModalLoad = () => {
+        const iframeList = document.querySelectorAll('#modalIframe');
+        iframeList.forEach(iframe => {
+            ns.iframeLoaded(iframe, () => {
+                $("#loader").hide();
+            });
+        })
+
+    };
+    
+
+
 
     ns.init = ($component, componentConfig) => {
 
@@ -48,6 +100,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         $component.setAttribute("type", "button");
         $component.setAttribute("data-bs-target", `#${randIdForModal}`);
 
+        // invoke remove  loader on modal load when a modal is opened.
+        $component.addEventListener("click", ns.removeLoaderOnModalLoad);
+        
+
         const ORIGIN = window.location.origin;
 
         const { actionModalTitle, hideFooter, actionUrl } = componentConfig;
@@ -56,22 +112,13 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         document.body.appendChild(newModalDivContainer);
 
-        
-        $(newModalDivContainer).on("click", "#maximizeModal", function () {
-            const modalViewEvent = document.getElementById("modalView")
-            const modalWindowIcon = $('.icon');
-            $(modalViewEvent).toggleClass("modal-fullscreen");
-            modalWindowIcon.toggleClass('pi pi-window-maximize pi pi-window-minimize');
-        });
+        ns.expandModalListener(newModalDivContainer);
 
-        $(newModalDivContainer).on("click", "#submitHandlerInModal", function () {
-            const $iframeDocument = document.getElementById('modalIframe').contentDocument;
-            const forms = $iframeDocument.getElementsByTagName('form');
+        ns.submitListenerForModal(newModalDivContainer);
 
-            if(forms.length > 0) {
-                // Trigger the modal iframe submit event of the form element.
-                forms[0].requestSubmit();
-            }
+        // on modal close show the loader.
+        $(newModalDivContainer).on("hidden.bs.modal", function () {
+            $("#loader").show();
         });
 
     };
