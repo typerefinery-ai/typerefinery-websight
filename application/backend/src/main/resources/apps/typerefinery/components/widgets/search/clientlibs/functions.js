@@ -14,7 +14,6 @@ window.Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.
         // the value of the input to be searched.
         const valueToBeSearched = document.getElementById(componentConfig.id).value;
 
-        console.log(data, valueToBeSearched)
 
         // the rows which are matching the value of the input.
         data.data = tableNs[componentIdToSearch].data.filter((row) => {
@@ -51,7 +50,6 @@ window.Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.
     }
 
     ns.init = ($component) => {
-        console.log($component);
         const componentConfig = componentNs.getComponentConfig($component);
         const componentIdToSearch = componentConfig.componentId;
 
