@@ -108,7 +108,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         return columns.filter((column) => column.rule === 'HIDDEN' || !column.rule);
     };
 
-    ns.updateComponentHTML = (id, data, $component) => {
+    ns.updateComponentHTML = (id, data, $component, isDataFiltered = false) => {
         if (!$component) {
             return;
         }
@@ -279,7 +279,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             tableInstanceNs[id].bootstrapTable('destroy');
         }
 
-        
+        // if data is not filtered then add data to ns.
+        if(!isDataFiltered) {
+            ns[id] = data;
+        }
         
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({

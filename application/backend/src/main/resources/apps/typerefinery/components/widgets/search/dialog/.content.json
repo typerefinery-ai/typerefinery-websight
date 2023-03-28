@@ -1,0 +1,41 @@
+{
+    "sling:resourceType": "wcm/dialogs/dialog",
+    "tabs": {
+        "sling:resourceType": "wcm/dialogs/components/tabs",
+        "general": {
+            "sling:resourceType": "wcm/dialogs/components/tab",
+            "label": "General",
+            "placeholder": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "placeholder",
+                "label": "Placeholder",
+                "description": "Please provide placeholder text"
+            },
+            "componentId": {
+                "sling:resourceType": "wcm/dialogs/components/textfield",
+                "name": "componentId",
+                "label": "Component Id",
+                "description": "Please provide component id to be searched"
+            },
+            "componentType": {
+                "sling:resourceType": "wcm/dialogs/components/select",
+                "name": "componentType",
+                "label": "Component Type",
+                "TABLE": {
+                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                    "label": "Search in Table",
+                    "selected": true,
+                    "value": "TABLE"
+                }
+            }
+        },
+        "gridTab": {
+            "sling:resourceType": "wcm/dialogs/components/include",
+            "path": "/apps/typerefinery/components/dialog/tabs/grid"
+        },
+        "styleTab": {
+            "sling:resourceType": "wcm/dialogs/components/include",
+            "path": "/apps/typerefinery/components/dialog/tabs/style"
+        }
+    }
+}
