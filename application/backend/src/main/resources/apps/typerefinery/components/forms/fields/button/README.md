@@ -41,7 +41,7 @@ These fields are available for input by the authors. These fields are used in te
     </thead>
     <tbody style="background-color: gray;">
         <tr>
-            <td rowspan="4"> General</td>
+            <td rowspan="5"> General</td>
             <td>Label</td>
             <td>Start</td>
             <td>Consists the label of the button.</td>
@@ -60,6 +60,11 @@ These fields are available for input by the authors. These fields are used in te
             <td>Hide label</td>
             <td>None</td>
             <td>Used to hide the label of Button.</td>
+        </tr>
+        <tr>
+            <td>Icon Position</td>
+            <td>None</td>
+            <td>Used to set the position of icon inside the Button.</td>
         </tr>
         <tr>
             <td rowspan="4"> Style</td>

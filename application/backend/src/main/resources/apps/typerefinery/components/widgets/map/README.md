@@ -7,6 +7,7 @@ Map component
 Component for adding map to pages
 
 ## Information
+
 - **group**:Typerefinery - Widgets
 - **sling:resourceType**: ws:Component
 - **description**: Map component
@@ -166,7 +167,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Width - L breakpoint</td>
-            <td>3 Col</td>
+            <td>12 Col</td>
             <td>Contains large grid width.</td>
         </tr>
         <tr>
@@ -175,25 +176,35 @@ These fields are available for input by the authors. These fields are used in te
             <td>Contains alignment of the text.</td>
         </tr>
         <tr>
-            <td rowspan="4"> Style</td>
+            <td rowspan="6"> Style</td>
+            <td>Id</td>
+            <td>Auto Generated</td>
+            <td>ID of Map component.</td>
+        </tr>
+        <tr>
             <td>Class name</td>
             <td>None</td>
             <td>Add custom style classes.</td>
         </tr>
         <tr>
-            <td>Button Type</td>
-            <td>Submit</td>
-            <td>Consists type of the Button.</td>
+            <td>Show Border</td>
+            <td>Disabled</td>
+            <td>Used to apply the border to thee Map.</td>
         </tr>
         <tr>
-            <td>OutLined Button</td>
-            <td>None</td>
-            <td>Used to make the button outlined only.</td>
+            <td>Apply Margin</td>
+            <td>Disabled</td>
+            <td>Contains margin styling to the Map component.</td>
         </tr>
         <tr>
-            <td>Show Text Elements</td>
-            <td>None</td>
-            <td>Display text or icon only, hide the border of Button.</td>
+            <td>Persist Color When Theme Switches</td>
+            <td>Disabled</td>
+            <td>Provide option to change the Map component theme with respected to main page theme.</td>
+        </tr>
+        <tr>
+            <td>Apply Padding</td>
+            <td>Disabled</td>
+            <td>Contains padding styling to the Map component.</td>
         </tr>
     </tbody>
 </table>
