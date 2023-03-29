@@ -124,22 +124,22 @@ This component has the following variants
             <td rowspan="5">Button Type</td>
             <td>Submit</td>
             <td>Used to submit the forms.</td>
-            <th><img width="800px" src="./templates/image/submitbutton.png" /></th>
+            <th><img width="800px" src="./templates/image/submit.png" /></th>
         </tr>
         <tr>
             <td>Navigate</td>
             <td>Navigate button to the different page.</td>
-            <th><img width="800px" src="./templates/image/navigatebutton.png" /></th>
+            <th><img width="800px" src="./templates/image/navigate.png" /></th>
         </tr>
         <tr>
             <td>Action</td>
             <td>Contains different actions of button like open modal and theme.</td>
-            <th><img width="800px" src="./templates/image/actionbutton.png" /></th>
+            <th><img width="800px" src="./templates/image/action.png" /></th>
         </tr>
         <tr>
             <td>Theme</td>
             <td>Used to toggle the theme of page.</td>
-            <th><img width="800px" src="./templates/image/darktheme.png" /></th>
+            <th><img width="800px" src="./templates/image/themedark.png" /></th>
         </tr>
         <tr>
             <td>Hamburger</td>
@@ -150,17 +150,17 @@ This component has the following variants
             <td rowspan="3">Action Button</td>
             <td>Open Modal</td>
             <td>Open a modal when select action type Open Modal.</td>
-            <th><img width="800px" src="./templates/image/openmodal.png" /></th>
+            <th><img width="800px" src="./templates/image/openmodalbutton.png" /></th>
         </tr>
         <tr>
             <td>Open Dropdown</td>
             <td>Contains dropdown of Button.</td>
-            <th><img width="800px" src="./templates/image/dropdown.png" /></th>
+            <th><img width="800px" src="./templates/image/dropdownbutton.png" /></th>
         </tr>
         <tr>
             <td>Initial Theme</td>
             <td>Used to change the theme of pages.</td>
-            <th><img width="800px" src="./templates/image/lighttheme.png" /></th>
+            <th><img width="800px" src="./templates/image/themelight.png" /></th>
         </tr>
     </tbody>
 </table>
