@@ -249,7 +249,7 @@
         "default": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Default",
-          "value": ""
+          "value": "default"
         },
         "primary": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
