@@ -3,19 +3,18 @@ package ai.typerefinery.websight.models.components.widgets;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.Getter;
-import lombok.Builder.Default;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
+import ai.typerefinery.websight.models.components.KeyValuePair;
 
 
 @Model(adaptables = Resource.class, resourceType = { "typerefinery/components/widgets/editor" }, defaultInjectionStrategy = OPTIONAL)
@@ -38,14 +37,14 @@ public class Search extends BaseComponent {
     @Inject
     public String name;
 
-    // create variable for icon, componentId and componentType 
+    // create variable for icon, topic and componentType 
     @Getter
     @Inject
     public String icon;
 
     @Getter
     @Inject
-    public String componentId;
+    public String topic;
 
     @Getter
     @Inject

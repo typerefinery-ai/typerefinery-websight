@@ -2,7 +2,7 @@
     "sling:resourceType": "wcm/dialogs/dialog",
     "tabs": {
         "sling:resourceType": "wcm/dialogs/components/tabs",
-        "general": {
+        "generalTab": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "General",
             "placeholder": {
@@ -11,26 +11,11 @@
                 "label": "Placeholder",
                 "description": "Please provide placeholder text"
             },
-            "componentId": {
+            "topic": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "componentId",
-                "label": "Component Id",
-                "description": "Please provide component id to be searched"
-            },
-            "componentType": {
-                "sling:resourceType": "wcm/dialogs/components/select",
-                "name": "componentType",
-                "label": "Component Type",
-                "TABLE": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Search in Table",
-                    "value": "TABLE"
-                },
-                "TREEVIEW": {
-                    "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-                    "label": "Search in Tree view",
-                    "value": "TREEVIEW"
-                }
+                "name": "topic",
+                "label": "Topic",
+                "description": "Topic that this component is emits/send to, If not provided, the search will take place on the current page body"
             }
         },
         "gridTab": {

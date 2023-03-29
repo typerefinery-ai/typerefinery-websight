@@ -51,6 +51,10 @@
         "description": "Collapse icon for the node."
       }
     },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/event"
+    },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/style"

@@ -1,31 +1,12 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
 window.Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.Search || {};
-window.Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treeview || {};
-window.Typerefinery.Components.Widgets.Treeview.Instances = Typerefinery.Components.Widgets.Treeview.Instances || {};
+window.Typerefinery.Page = Typerefinery.Page|| {};
+window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-; (function (ns, componentNs, tableNs, treeViewInstanceNs, document, window) {
+; (function (ns, componentNs, eventNs, document, window) {
     "use strict";
-
-    ns.onTableSearch = ($component, componentConfig, componentIdToSearch) => {
-        
-        let data = { ...tableNs[componentIdToSearch] };
-
-        // the value of the input to be searched.
-        const valueToBeSearched = document.getElementById(componentConfig.id).value;
-
-
-        // the rows which are matching the value of the input.
-        data.data = tableNs[componentIdToSearch].data.filter((row) => {
-            return Object.values(row).some((value) => {
-                return value.toString().toLowerCase().includes(valueToBeSearched.toLowerCase());
-            });
-        });
-
-        tableNs.updateComponentHTML(componentIdToSearch, data, document.getElementById(componentIdToSearch), true);
-    };
 
     ns.debounce = (fn, delay) => {
         let timerId;
@@ -40,39 +21,39 @@ window.Typerefinery.Components.Widgets.Treeview.Instances = Typerefinery.Compone
         };
     };
 
-    ns.onInputEventListener = ($component, callbackFn) => {
-       
-        // if the input is not found, we don't need to add the event listener.
-        if (!$component || callbackFn === undefined) {
-            return;
-        }
-        // add the event listener to the input with debounce.
-        $component.addEventListener("input", ns.debounce(callbackFn, 500));
+    ns.highlightWholePage = (componentConfig) => {
 
+        // the value of the input to be searched.
+        const valueToBeSearched = document.getElementById(componentConfig.id).value;
+
+        // remove the highlight from the whole page.
+        $('body').removeHighlight();
+
+        // highlight the whole page.
+        $('body').highlight(valueToBeSearched);
     };
 
-    ns.onTreeViewSearch = ($component, componentConfig, componentIdToSearch) => {
-        const valueToBeSearched = document.getElementById(componentConfig.id).value;
-        treeViewInstanceNs[componentIdToSearch].treeview('clearSearch');
-        treeViewInstanceNs[componentIdToSearch].treeview('search', [valueToBeSearched, {
-            ignoreCase: true,     // case insensitive
-            exactMatch: false,    // like or equals
-            revealResults: true,  // reveal matching nodes
-        }]);
+    ns.highlightComponent = ($component, data) => {
+        if (!$component) {
+            return;
+        };
+
+        $($component).removeHighlight();
+
+        $($component).highlight(data.value);
     };
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        const componentIdToSearch = componentConfig.componentId;
 
+        const topic = componentConfig.topic;
 
-        if(componentConfig.componentType === "TABLE") {
-            ns.onInputEventListener($component, () => ns.onTableSearch($component, componentConfig, componentIdToSearch));
-        }else if(componentConfig.componentType === "TREEVIEW") {
-            console.log("TREEVIEW")
-            ns.onInputEventListener($component, () => ns.onTreeViewSearch($component, componentConfig, componentIdToSearch));
+        if(topic === "#PAGE" || !topic) {
+            $component.addEventListener("input", ns.debounce(() => ns.highlightWholePage(componentConfig), 500));
+            return;
         }
 
-        
+        $component.addEventListener("input", ns.debounce(() => eventNs.emitEvent(topic, { value: document.getElementById(componentConfig.id).value }), 500));
+       
     };
-})(Typerefinery.Components.Widgets.Search, Typerefinery.Components, Typerefinery.Components.Widgets.Table, Typerefinery.Components.Widgets.Treeview.Instance, document, window);
+})(Typerefinery.Components.Widgets.Search, Typerefinery.Components, Typerefinery.Page.Events, document, window);
