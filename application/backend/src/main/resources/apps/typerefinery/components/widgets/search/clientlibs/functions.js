@@ -33,7 +33,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         $('body').highlight(valueToBeSearched);
     };
 
-    ns.highlightComponent = ($component, data) => {
+    ns.eventOnHighlight = ($component, data) => {
         if (!$component) {
             return;
         };

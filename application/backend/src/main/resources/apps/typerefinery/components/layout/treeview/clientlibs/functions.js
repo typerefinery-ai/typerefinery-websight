@@ -109,8 +109,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         });
     };
 
-    ns.onFilterNode = ($component, data) => {
-        console.log("onFilterNode", data)
+    ns.eventOnFilter = ($component, data) => {
+        // TODO: Need to filter nodes.
         const componentConfig = componentNs.getComponentConfig($component);
         const treeViewInstance = treeViewInstanceNs[componentConfig.id];
         treeViewInstance.treeview('collapseAll', { silent: true });
@@ -123,8 +123,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
 
-    ns.highlightComponent =  ($component, data) => {
-        console.log("highlightComponent", data)
+    ns.eventOnHighlight =  ($component, data) => {
         const componentConfig = componentNs.getComponentConfig($component);
         const treeViewInstance = treeViewInstanceNs[componentConfig.id];
         treeViewInstance.treeview('collapseAll', { silent: true });
@@ -134,15 +133,18 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             exactMatch: false,    // like or equals
             revealResults: true,  // reveal matching nodes
         }]);
+    };
+
+    ns.eventHandlers = {
+        'FILTER': ns.eventOnFilter,
+        'HIGHLIGHT': ns.eventOnHighlight
     };
 
     ns.getEventHandlerCallBackFn = ($component, event) => {
-        if(event.topic && event.type === 'FILTER') {
-            return (data) => ns.onFilterNode($component, data);
-        }else if(event.topic && event.type === 'HIGHLIGHT') {
-            return (data) => searchNs.highlightComponent($component, data);
+        if(!event.topic) {
+            return () => {};
         }
-        return () => {};
+        return (data) => ns.eventHandlers[event.type]($component, data) || (() => {});
     };
 
     ns.registerEvents = ($component, componentId, events) => {

@@ -349,7 +349,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         ns.updateComponentHTML(componentConfig.id, data, $component);
     };
 
-    ns.onFilterTable = ($component, filter) => {
+    ns.eventOnFilter = ($component, filter) => {
 
         const componentConfig = componentNs.getComponentConfig($component);
 
@@ -363,15 +363,17 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         tableInstanceNs[id].bootstrapTable('load', filteredData);
     };
 
-    ns.getEventHandlerCallBackFn = ($component, event) => {
-        if(event.topic && event.type === 'FILTER') {
-            return (data) => ns.onFilterTable($component, data);
-        }else if(event.topic && event.type === 'HIGHLIGHT') {
-            return (data) => searchNs.highlightComponent($component, data);
-        }
-        return () => {};
+    ns.eventHandlers = {
+        'FILTER': ns.eventOnFilter,
+        'HIGHLIGHT': ns.eventOnHighlight
     };
 
+    ns.getEventHandlerCallBackFn = ($component, event) => {
+        if(!event.topic) {
+            return () => {};
+        }
+        return (data) => ns.eventHandlers[event.type]($component, data) || (() => {});
+    };
 
     ns.registerEvents = ($component, id, events) => {
         events.forEach((event) => {
