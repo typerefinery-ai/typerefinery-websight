@@ -79,7 +79,7 @@
     <websight.admin.omitAdminPw>true</websight.admin.omitAdminPw>
 
     <!-- WebSight CMS Version -->
-    <websight.cms.version>1.10.0</websight.cms.version>
+    <websight.cms.version>1.12.0</websight.cms.version>
     <websight.components.core.version>4.0.1</websight.components.core.version>
 
     <timestamp>${maven.build.timestamp}</timestamp>
