@@ -91,17 +91,17 @@ These fields are available for input by the authors. These fields are used in te
             <td rowspan="4"> Grid</td>
             <td>Width - S breakpoint</td>
             <td>12 Col</td>
-            <td>Contains small grid width.</td>
+            <td>S - Large Screen Break Points will be applicable to screens larger than 576px.</td>
         </tr>
         <tr>
             <td>Width - M breakpoint</td>
             <td>12 Col</td>
-            <td>Contains medium grid width.</td>
+            <td>M - Large Screen Break Points will be applicable to screens larger than 768px.</td>
         </tr>
         <tr>
             <td>Width - L breakpoint</td>
             <td>12 Col</td>
-            <td>Contains large grid width.</td>
+            <td>L - Large Screen Break Points will be applicable to screens larger than 992px.</td>
         </tr>
         <tr>
             <td>Text Alignment</td>
