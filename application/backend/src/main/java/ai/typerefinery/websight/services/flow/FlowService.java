@@ -1427,9 +1427,9 @@ public class FlowService {
         @AttributeDefinition(
                 name = "Endpoint Update",
                 description = "URL of the endpoint to update flow",
-                defaultValue = FLOW_ENDPOINT_IMPORT
+                defaultValue = FLOW_ENDPOINT_UPDATE
         )
-        String endpoint_update() default FLOW_ENDPOINT_IMPORT;
+        String endpoint_update() default FLOW_ENDPOINT_UPDATE;
 
         @AttributeDefinition(
                 name = "Endpoint Design Save",
