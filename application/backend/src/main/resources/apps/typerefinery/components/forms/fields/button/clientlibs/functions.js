@@ -25,6 +25,28 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             }
         });
     }
+ 
+    $(function () {
+      const button = document.querySelector("button");
+      const target = button.getAttribute("data-bs-target");
+      // remove the '#' from the value
+      const targetId = target.replace("#", "");
+      // select all elements with the same id as targetId
+      const elements = document.querySelectorAll(`#${targetId}`);
+
+      $(window)
+        .on("resize", function () {
+          if ($(this).width() > 1000) {
+            $(document).find(".collapse").removeClass("collapse");
+          } else {
+            elements.forEach((element) => {
+              element.classList.add("collapse");
+            });
+          }
+        })
+        .resize();
+    });
+
     ns.init = ($component) => {
 
         const componentConfig = componentNs.getComponentConfig($component);
