@@ -10,6 +10,14 @@
         "name": "flowapi_enable",
         "label": "Enable Flow API"
       },
+      "editflow": {
+        "sling:resourceType": "typerefinery/components/dialog/url",
+        "name": "flowapi_editurl",
+        "description": "This is the URL to edit the flow in Flow Designer.",
+        "label": "Flow Designer",
+        "title": "Edit this flow in Flow Designer",
+        "disabled": true
+      },
       "topic": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "flowapi_topic",
@@ -85,14 +93,6 @@
         "name": "flowapi_updatedon",
         "description": "This is the date and time that the flow was last updated.",
         "label": "Updated On",
-        "disabled": true
-      },
-      "editflow1": {
-        "sling:resourceType": "typerefinery/components/dialog/url",
-        "name": "flowapi_editurl",
-        "description": "This is the URL to edit the flow in Flow Designer.",
-        "label": "Flow Designer",
-        "title": "Edit this flow in Flow Designer",
         "disabled": true
       }
     }
