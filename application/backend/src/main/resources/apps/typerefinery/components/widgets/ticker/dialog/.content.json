@@ -5,6 +5,11 @@
     "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Config",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Title",
+        "name": "title"
+      },
       "keyValueList": {
         "name": "keyValueList",
         "label": "Template Key and default value",
