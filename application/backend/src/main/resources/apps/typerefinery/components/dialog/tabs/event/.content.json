@@ -12,9 +12,19 @@
             "label": "Topic"
         },
         "value": {
-            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "sling:resourceType": "wcm/dialogs/components/select",
             "name": "value",
-            "label": "Event | Can be any of the following: HIGHLIGHT or FILTER"
+            "label": "Event Action",
+            "HIGHLIGHT": {
+                "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                "label": "HIGHLIGHT",
+                "value": "HIGHLIGHT"
+            },
+            "FILTER": {
+                "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                "label": "FILTER",
+                "value": "FILTER"
+            }
         }
     }
 }
