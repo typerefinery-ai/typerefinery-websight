@@ -100,7 +100,7 @@ These fields are available for input by the authors. These fields are used in te
         </tr>
         <tr>
             <td>Width - L breakpoint</td>
-            <td>3 Col</td>
+            <td>12 Col</td>
             <td>Contains large grid width.</td>
         </tr>
         <tr>
