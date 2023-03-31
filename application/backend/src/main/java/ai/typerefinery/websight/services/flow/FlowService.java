@@ -170,6 +170,7 @@ public class FlowService {
             return;
         }
         ValueMap properties = resource.getValueMap();
+        String resourcePath = resource.getPath();
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
             LOGGER.error("Could not adapt resource to FlowComponent: {}", resource.getPath());
@@ -205,8 +206,10 @@ public class FlowService {
                 // use topic from resource as priority
                 String flowapi_flowstreamid = createFlowFromTemplate(flowComponent);
                 if (StringUtils.isNotBlank(flowapi_flowstreamid)) {
+                    //get flow component again
+                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
                     isFlowExists = isFlowExists(flowapi_flowstreamid);
-                    if (flowComponent.flowapi_iscontainer & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
+                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(flowComponent);
                     } 
                 } else {
@@ -220,7 +223,9 @@ public class FlowService {
                     return;
                 } else {
                     updateFlowFromTemplate(flowComponent);
-                    if (flowComponent.flowapi_iscontainer & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
+                    //get flow component again
+                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
+                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(flowComponent);
                     }
                 }
@@ -573,7 +578,7 @@ public class FlowService {
         String title = flowComponent.flowapi_title;
         String flowTopic = flowComponent.flowapi_topic;
         String id = flowComponent.flowapi_flowstreamid;
-        boolean isContainer = flowComponent.flowapi_iscontainer;
+        boolean isContainer = flowComponent.isContainer();
         String sampleDataPath = flowComponent.flowapi_sampledata;
         String designTemplatePath = flowComponent.flowapi_designtemplate;
         
