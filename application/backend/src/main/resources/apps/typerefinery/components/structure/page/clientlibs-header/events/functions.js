@@ -16,6 +16,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.createWebSocketConnection = () => {
         ns.socket = new EventTarget();
+    };
+
+    ns.socketListener = () => {
         ns.socket.addEventListener('customEvent', (e) => {
             const detail = e.detail;
             const { topic, payload } = detail;
@@ -30,21 +33,6 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         });
     };
 
-    ns.socketListener = () => {
-        ns.socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const { topic, payload } = data;
-
-            if (ns.registery[topic]) {
-                ns.registery[topic].forEach((callbackFn) => {
-                    if (typeof callbackFn === 'function') {
-                        callbackFn(payload);
-                    }
-                });
-            }
-        };
-    };
-
     ns.registerEvents = (topic, callbackFn) => {
         if (!ns.registery[topic]) {
             ns.registery[topic] = [callbackFn];
@@ -56,6 +44,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 
     ns.init = () => {
+        // NOTE: socket in this ns is a custom event. It is not a websocket.
         ns.createWebSocketConnection();
         ns.socketListener();
     };
