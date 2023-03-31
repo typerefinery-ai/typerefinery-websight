@@ -13,15 +13,12 @@ import javax.inject.Named;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
-import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.models.components.FlowComponent;
-import ai.typerefinery.websight.models.components.KeyValuePair;
 import ai.typerefinery.websight.services.flow.FlowService;
 import ai.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -271,6 +268,7 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
                     new WidgetOptionItem("widgetIcon", "pi pi-briefcase text-light"),
                     new WidgetOptionItem("indicatorPrecisionValue", "Since last quarter"));
         }
+        
         // update any defaults that should be set
         PageUtil.updatResourceProperties(resource, props);
 
