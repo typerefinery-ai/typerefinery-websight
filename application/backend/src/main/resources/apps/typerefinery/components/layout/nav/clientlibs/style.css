@@ -8,7 +8,7 @@
     width: 15%;
 }
 
-.nav {
+[component="nav"] .nav  {
     min-width: 250px;
     transition: all 0.3s;
     min-height: 100vh !important;
