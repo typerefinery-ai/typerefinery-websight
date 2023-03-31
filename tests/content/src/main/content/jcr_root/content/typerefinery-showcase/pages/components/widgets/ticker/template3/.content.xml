@@ -15,7 +15,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4>
@@ -26,7 +27,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_1>
@@ -37,7 +39,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_2>
@@ -48,7 +51,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_3>
@@ -59,7 +63,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_4>
@@ -70,7 +75,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_5>
@@ -81,7 +87,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_6>
@@ -92,7 +99,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_7>
@@ -103,7 +111,8 @@
                             <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
                             <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
                             <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle text-light"/>
-                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                            <_x0035_ jcr:primaryType="nt:unstructured" key="widgetIcon" value="pi pi-briefcase text-light"/>
                             <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
                         </keyValueList>
                     </ticker_4_8>
