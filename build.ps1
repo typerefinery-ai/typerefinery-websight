@@ -1,5 +1,5 @@
 $CURRENT_PATH = Get-Location
-Set-Location -Path ".\distribution\"
+Set-Location -Path ".\"
 try {
     mvn clean install
 } finally {
