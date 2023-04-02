@@ -23,10 +23,32 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
                     window.location.href = navigateTo;
                 }
             }
+
+
         });
     }
-    ns.init = ($component) => {
+     ns.windowResizeListner = ($component) => {
+       const target = $component.getAttribute("data-bs-target");
+       // remove the '#' from the value
+       const targetId = target?.replace("#", "");
+       // select all elements with the same id as targetId
+       const elements = document.querySelectorAll(`#${targetId}`);
 
+       $(window)
+         .on("resize", function () {
+           if ($(this).width() > 1000) {
+             $(document).find(".collapse").removeClass("collapse");
+           } else {
+             elements.forEach((element) => {
+               element.classList.add("collapse");
+             });
+           }
+         })
+         .resize();
+     };
+  
+    ns.init = ($component) => {
+        console.log($component,"$component2")
         const componentConfig = componentNs.getComponentConfig($component);
         const { buttonType, id, actionType } = componentConfig;
 
@@ -44,5 +66,6 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             return;
         }
         ns.addEventListener($component, id);
+        ns.windowResizeListner($component)
     }
 })(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, window.Typerefinery.Page.Theme, document, window);

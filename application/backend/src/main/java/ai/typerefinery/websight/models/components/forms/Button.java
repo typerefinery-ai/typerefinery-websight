@@ -44,18 +44,37 @@ public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Click me";
     protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
+    protected static final String DEFAULT_BUTTON_STYLE = "primary";
+    
 
     protected static final String PROPERTY_HIDE_BUTTON_LABEL = "hideButtonLabel";
+    public static final String PROPERTY_VARIANT = "variant";
+    public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "hamburger";
+
+
 
     @Inject
     @Getter
     @Default(values = "")
-    private String buttonVariant;
+    private String buttonStyle;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_VARIANT)
+    @Nullable
+    public String variant;
+
 
     @Inject
     @Getter
     @Default(values = "")
     private String buttonType;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    public String target;
 
     @Inject
     @Getter
@@ -155,6 +174,9 @@ public class Button extends BaseFormComponent {
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
         }
+        if(StringUtils.isBlank(buttonStyle)){
+            this.buttonStyle = DEFAULT_BUTTON_STYLE;
+        }
 
         if (BooleanUtils.isTrue(hideButtonLabel)) {
             this.label = " ";
@@ -168,17 +190,15 @@ public class Button extends BaseFormComponent {
 
         if (grid != null && style != null) {
             String buttonCls = "btn";
-            if (StringUtils.isNotBlank(buttonVariant)) {
+            if (StringUtils.isNotBlank(buttonStyle)) {
                 buttonCls += " btn";
-                if (BooleanUtils.isTrue(isOutlinedButton) && buttonVariant != "link") {
+                if (BooleanUtils.isTrue(isOutlinedButton) && buttonStyle != "link") {
                     buttonCls += "-outline";
                 }
-                if (BooleanUtils.isTrue(showTextualElementOfButton) && buttonVariant != "link") {
+                if (BooleanUtils.isTrue(showTextualElementOfButton) && buttonStyle != "link") {
                     buttonCls += "-text-nowrap";
                 }
-                buttonCls += buttonVariantConfig.get(buttonVariant);
-            } else {
-                buttonCls += " btn-primary";
+                buttonCls += buttonVariantConfig.get(buttonStyle);
             }
 
             style.addClasses(buttonCls);
