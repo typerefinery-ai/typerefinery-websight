@@ -1,5 +1,4 @@
-Component
-============
+# Component
 
 Map component
 
@@ -8,20 +7,20 @@ Map component
 Component for adding map to pages
 
 ## Information
-* **group**:Typerefinery - Widgets
-* **sling:resourceType**: ws:Component
-* **description**: Map component
-* **title**: Map
-* **sling:resourceSuperType**: 
-* **Vendor**: Typerefinery
-* **Version**: 1.0
-* **Compatibility**: CMS
-* **Status**: Ready
-* **Showcase**: [/typerefinery/components/widgets/map](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/map::editor)
-* **Local Code**: [/apps/typerefinery/components/widgets/map]
-* **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map)
-* **Readme**: [/typerefinery/components/widgets/map/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map/README.md)
 
+- **group**:Typerefinery - Widgets
+- **sling:resourceType**: ws:Component
+- **description**: Map component
+- **title**: Map
+- **sling:resourceSuperType**:
+- **Vendor**: Typerefinery
+- **Version**: 1.0
+- **Compatibility**: CMS
+- **Status**: Ready
+- **Showcase**: [/typerefinery/components/widgets/map](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/map::editor)
+- **Local Code**: [/apps/typerefinery/components/widgets/map]
+- **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map)
+- **Readme**: [/typerefinery/components/widgets/map/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map/README.md)
 
 # Authoring
 
@@ -156,16 +155,56 @@ These fields are available for input by the authors. These fields are used in te
             <td>This is the URL to edit the flow in Flow Designer.</td>
         </tr>
         <tr>
-            <td>Grid</td>
-            <td>Grid</td>
-            <td></td>
-            <td>Controls grids system.</td>
+            <td rowspan="4"> Grid</td>
+            <td>Width - S breakpoint</td>
+            <td>12 Col</td>
+            <td>S - Large Screen Break Points will be applicable to screens larger than 576px.</td>
         </tr>
         <tr>
-            <td>Style</td>
+            <td>Width - M breakpoint</td>
+            <td>12 Col</td>
+            <td>M - Large Screen Break Points will be applicable to screens larger than 768px.</td>
+        </tr>
+        <tr>
+            <td>Width - L breakpoint</td>
+            <td>12 Col</td>
+            <td>L - Large Screen Break Points will be applicable to screens larger than 992px.</td>
+        </tr>
+        <tr>
+            <td>Text Alignment</td>
+            <td>Default</td>
+            <td>Contains alignment of the text.</td>
+        </tr>
+        <tr>
+            <td rowspan="6"> Style</td>
             <td>Id</td>
-            <td></td>
-            <td>Controls the css and styling.</td>
+            <td>Auto Generated</td>
+            <td>ID of Map component.</td>
+        </tr>
+        <tr>
+            <td>Class name</td>
+            <td>None</td>
+            <td>Add custom style classes.</td>
+        </tr>
+        <tr>
+            <td>Show Border</td>
+            <td>Disabled</td>
+            <td>Used to apply the border to thee Map.</td>
+        </tr>
+        <tr>
+            <td>Apply Margin</td>
+            <td>Disabled</td>
+            <td>Contains margin styling to the Map component.</td>
+        </tr>
+        <tr>
+            <td>Persist Color When Theme Switches</td>
+            <td>Disabled</td>
+            <td>Provide option to change the Map component theme with respected to main page theme.</td>
+        </tr>
+        <tr>
+            <td>Apply Padding</td>
+            <td>Disabled</td>
+            <td>Contains padding styling to the Map component.</td>
         </tr>
     </tbody>
 </table>
