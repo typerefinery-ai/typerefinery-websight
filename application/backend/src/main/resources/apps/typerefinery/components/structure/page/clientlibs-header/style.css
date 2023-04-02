@@ -11,3 +11,8 @@ body {
 .bg-secondary {
     background-color: #C7DEFA !important;
 }
+
+/* removed global row gutter to ensure all children components do not have padding added, this is replaced by individual components specifying their own padding. */
+.row {
+    --bs-gutter-x: 0px !important;
+}

@@ -1,0 +1,30 @@
+{
+    "sling:resourceType": "wcm/dialogs/components/tab",
+    "label": "Events",
+    "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "events",
+        "description": "Event that this component is emits/send to",
+        "label": "Events",
+        "key": {
+            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "name": "key",
+            "label": "Topic"
+        },
+        "value": {
+            "sling:resourceType": "wcm/dialogs/components/select",
+            "name": "value",
+            "label": "Event Action",
+            "HIGHLIGHT": {
+                "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                "label": "HIGHLIGHT",
+                "value": "HIGHLIGHT"
+            },
+            "FILTER": {
+                "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+                "label": "FILTER",
+                "value": "FILTER"
+            }
+        }
+    }
+}

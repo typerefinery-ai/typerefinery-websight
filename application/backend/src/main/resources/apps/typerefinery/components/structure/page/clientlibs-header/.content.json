@@ -8,7 +8,8 @@
     "theme/functions.js",
     "tms/client.js",
     "tms/jsonschema.js",
-    "tms/functions.js"
+    "tms/functions.js",
+    "events/functions.js"
   ],
   "css": [
     "style.css"

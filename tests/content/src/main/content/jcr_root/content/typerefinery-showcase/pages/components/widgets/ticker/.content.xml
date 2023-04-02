@@ -1,23 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0"
-  xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-  xmlns:ws="http://ds.pl/websight"
-  xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
-  <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Ticker" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-    <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
-      <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header"/>
-      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
-        <section1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Primary Ticker with default values" />
-          <ticker jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" variant="primaryTicker" title="Number of Users" icon="pi pi-database" value="131.12K" indicatorType="up" indicatorValue="123">
-          </ticker>
-        </section1>
-        <section2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Secondary Ticker with default values" />
-          <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/ticker" variant="secondaryTicker" title="Reports" value="31.12K" backGroundClass="light-green"/>    
-        </section2>
+    xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    xmlns:ws="http://ds.pl/websight"
+    xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
+    <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Ticker" sling:resourceType="typerefinery/components/structure/page" ws:lastModified="{Date}2023-03-31T07:22:45.705Z" ws:lastModifiedBy="wsadmin" ws:template="/apps/typerefinery/templates/page">
+        <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
+            <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header" id="header_AZTFOAMY4"/>
+            <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" containerType="defaultPadding" decorationTagName="\0" id="container1_1FGDIU8XF" marginBottom="five" marginEnabled="true" marginTop="five" textAlignment="\0" title="Ticker Showcase " titleTagName="h3" variant="sectionwithtitle">
+                <container1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" decorationTagName="section" flexEnabled="true" horizontalAlignment="evenly" id="container1_1_G9PQ8B3AL" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                    <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" borderEnabled="false" classes="\0" headingLevel="h6" headingSize="h5" id="title_JYVLB6LCF" marginBottom="four" marginEnabled="true" marginTop="five" paddingEnabled="false" persistColorWhenThemeSwitches="false" textAlignment="center" title="Template 1"/>
+                    <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" gap="4" horizontalAlignment="between" id="container1_1_1_BIGU7KFZO" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                        <ticker1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker1_51GLSKN1U" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Total Users"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="240K"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="35.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-users"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last year"/>
+                            </keyValueList>
+                        </ticker1>
+                        <ticker2 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker2_ZOZEKJCBU" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of paid users"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="2K"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="23.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="danger"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-user-plus"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker2>
 
-      </container>
-    </rootcontainer>
-  </jcr:content>
+                        <!-- ticker3 -->
+                        <ticker3 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker3_1ZQZQZQZQ" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of free users"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="121.5K"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="51.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-user-minus"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker3>
+
+                        <!-- ticker4 -->
+                        <ticker4 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker4_U3ZYZBYXV" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of bugs reported"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="12k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-stopwatch"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-up"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker4>
+
+                        <!-- ticker5 -->
+                        <ticker5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker5_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of feedbacks recived"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="4k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="2.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="danger"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker5>
+
+                        <!-- ticker6 -->
+
+                        <ticker6 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker6_P4BGUKIKC" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0034_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+
+                        </ticker6>
+
+                    </container1_1_1>
+                </container1_1>
+                <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" decorationTagName="section" flexEnabled="true" horizontalAlignment="evenly" id="container1_1_G9PQ8B3AL" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                    <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" borderEnabled="false" classes="\0" headingLevel="h6" headingSize="h5" id="title_JYVLB6LCF" marginBottom="four" marginEnabled="true" marginTop="five" paddingEnabled="false" persistColorWhenThemeSwitches="false" textAlignment="center" title="Template 2"/>
+                    <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" gap="4" horizontalAlignment="between" id="container1_1_1_BIGU7KFZO" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                        <!--  create 6 tickers with variant 2 and random key value for the ticker -->
+                        <ticker1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker1_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of feedbacks recived"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="4k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="2.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker1>
+
+                        <ticker2 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker2_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker2>
+
+                        <ticker3 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker3_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker3>
+
+                        <ticker4 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker4_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="23K"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker4>
+
+                        <ticker5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker5_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker5>
+
+                        <ticker6 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker6_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
+                            <keyValueList jcr:primaryType="nt:unstructured">
+                                <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
+                                <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
+                                <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
+                                <_x0035_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-discord"/>
+                                <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                                <_x0037_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since last week"/>
+                            </keyValueList>
+                        </ticker6>
+                    </container1_1_1>
+                </container1_1_1>
+                <container1_1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" decorationTagName="section" flexEnabled="true" horizontalAlignment="evenly" id="container1_1_G9PQ8B3AL" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                    <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" borderEnabled="false" classes="\0" headingLevel="h6" headingSize="h5" id="title_JYVLB6LCF" marginBottom="four" marginEnabled="true" marginTop="five" paddingEnabled="false" persistColorWhenThemeSwitches="false" textAlignment="center" title="Template 3"/>
+                    <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" gap="4" horizontalAlignment="between" id="container1_1_1_BIGU7KFZO" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
+                        <ticker1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" borderEnabled="false" classes="\0" dataSource="\0" flowapi_createdon="\0" flowapi_designtemplate="\0" flowapi_editurl="\0" flowapi_enable="false" flowapi_flowstreamid="\0" flowapi_group="\0" flowapi_httproute="\0" flowapi_iscontainer="\0" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" flowapi_title="\0" flowapi_topic="\0" flowapi_updatedon="\0" id="ticker1_51GLSKN1U" lgColSize="3" marginEnabled="false" mdColSize="3" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" templateSelected="3" title="\0" websocketHost="\0" websocketTopic="\0"/>
+                        <ticker2 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" borderEnabled="false" classes="\0" dataSource="\0" flowapi_createdon="\0" flowapi_designtemplate="\0" flowapi_editurl="\0" flowapi_enable="false" flowapi_flowstreamid="\0" flowapi_group="\0" flowapi_httproute="\0" flowapi_iscontainer="\0" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" flowapi_title="\0" flowapi_topic="\0" flowapi_updatedon="\0" id="ticker2_ZOZEKJCBU" lgColSize="3" marginEnabled="false" mdColSize="3" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" templateSelected="3" title="\0" websocketHost="\0" websocketTopic="\0"/>
+                        <ticker3 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" borderEnabled="false" classes="\0" dataSource="\0" flowapi_createdon="\0" flowapi_designtemplate="\0" flowapi_editurl="\0" flowapi_enable="false" flowapi_flowstreamid="\0" flowapi_group="\0" flowapi_httproute="\0" flowapi_iscontainer="\0" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" flowapi_title="\0" flowapi_topic="\0" flowapi_updatedon="\0" id="ticker3_V1ZPPMBLE" lgColSize="3" marginEnabled="false" mdColSize="3" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" templateSelected="3" title="\0" websocketHost="\0" websocketTopic="\0"/>
+                        <ticker4 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker4_U3ZYZBYXV" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="3"/>
+                        <ticker5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker5_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="3"/>
+                        <ticker6 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" borderEnabled="false" classes="\0" dataSource="\0" flowapi_createdon="\0" flowapi_designtemplate="\0" flowapi_editurl="\0" flowapi_enable="false" flowapi_flowstreamid="\0" flowapi_group="\0" flowapi_httproute="\0" flowapi_iscontainer="\0" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" flowapi_title="\0" flowapi_topic="\0" flowapi_updatedon="\0" id="ticker6_P4BGUKIKC" lgColSize="3" marginEnabled="false" mdColSize="3" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" templateSelected="3" title="\0" websocketHost="\0" websocketTopic="\0"/>
+                    </container1_1_1>
+                </container1_1_1_1>
+            </container1>
+        </rootcontainer>
+    </jcr:content>
 </jcr:root>

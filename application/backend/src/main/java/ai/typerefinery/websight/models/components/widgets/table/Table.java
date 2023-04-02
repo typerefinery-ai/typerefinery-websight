@@ -24,6 +24,7 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import ai.typerefinery.websight.models.components.FlowComponent;
+import ai.typerefinery.websight.models.components.KeyValuePair;
 import ai.typerefinery.websight.services.flow.FlowService;
 import ai.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -106,6 +107,12 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     @Getter
     @Inject
     public Boolean multipleSelectRowEnabled;
+
+    
+    // key is topic and value is type = HIGHLIGHT || FILTER
+    @Getter
+    @Inject
+    public List<KeyValuePair> events;
 
 
     @Getter

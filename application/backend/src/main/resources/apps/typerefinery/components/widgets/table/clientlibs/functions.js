@@ -3,11 +3,13 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Table = Typerefinery.Components.Widgets.Table || {};
 window.Typerefinery.Components.Widgets.Table.Instances = Typerefinery.Components.Widgets.Table.Instances || {};
+window.Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.Search || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
+window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
 
-(function (ns, tmsNs, componentNs, modalNs, tableInstanceNs, document, window) {
+(function (ns, tmsNs, eventNs, componentNs, modalNs, tableInstanceNs, searchNs, document, window) {
     "use strict";
 
     ns.defaultData = {
@@ -108,7 +110,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         return columns.filter((column) => column.rule === 'HIDDEN' || !column.rule);
     };
 
-    ns.updateComponentHTML = (id, data, $component) => {
+    ns.updateComponentHTML = (id, data, $component, isDataFiltered = false) => {
         if (!$component) {
             return;
         }
@@ -279,7 +281,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             tableInstanceNs[id].bootstrapTable('destroy');
         }
 
-        
+        // if data is not filtered then add data to ns.
+        if(!isDataFiltered) {
+            ns[id] = data;
+        }
         
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
@@ -344,6 +349,38 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         ns.updateComponentHTML(componentConfig.id, data, $component);
     };
 
+    ns.eventOnFilter = ($component, filter) => {
+
+        const componentConfig = componentNs.getComponentConfig($component);
+
+        const id = componentConfig.id;
+
+        const filteredData = ns[id].data.filter((row) => {
+            return Object.keys(row).some((key) => {
+                return row[key].toString().toLowerCase().includes(filter.value.toLowerCase());
+            });
+        });
+        tableInstanceNs[id].bootstrapTable('load', filteredData);
+    };
+
+    ns.eventHandlers = {
+        'FILTER': ns.eventOnFilter,
+        'HIGHLIGHT': ns.eventOnHighlight
+    };
+
+    ns.getEventHandlerCallBackFn = ($component, event) => {
+        if(!event.topic) {
+            return () => {};
+        }
+        return (data) => ns.eventHandlers[event.type]($component, data) || (() => {});
+    };
+
+    ns.registerEvents = ($component, id, events) => {
+        events.forEach((event) => {
+            eventNs.registerEvents(event.topic, ns.getEventHandlerCallBackFn($component, event));
+        });
+    };
+
     ns.init = ($component) => {
         // parse json value from data-model attribute as component config
         const componentConfig = componentNs.getComponentConfig($component);
@@ -363,6 +400,19 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         else {
             ns.modelDataConnected(componentConfig.id, $component);
         }
+
+        const events = componentConfig?.events?.map(event => {
+            return {
+                topic: event.key,
+                type: event.value
+            }
+        }) || [];
+
+        // if componentConfig.events is defined then add event listeners to table.
+        if (events) {
+            ns.registerEvents($component, componentConfig.id, events);
+        }
+
     };
 
-})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, document, window);
+})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Page.Events, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, Typerefinery.Components.Widgets.Search, document, window);
