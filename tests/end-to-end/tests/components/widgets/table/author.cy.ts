@@ -1,6 +1,6 @@
-import { selectors, testIds } from '../../../../../../../support/const';
+import { selectors, testIds } from '../../../../support/const';
 const paths = {
-  table: 'ComponentOverlay_rootcontainer/container/section/table'
+  table: 'ComponentOverlay_/content/typerefinery-showcase/pages/components/widgets/table/jcr:content/rootcontainer/container/section/container1_2/table'
 }
 
 describe('Table Component', () => {
@@ -24,16 +24,19 @@ describe('Table Component', () => {
     cy.getByTestId(paths.table)
       .find(selectors.overlayName)
       .should('contain.text', 'Table');
-    cy.getByTestId(paths.table).click();
-    cy.getByTestId(testIds.editIcon).click();
-    cy.getByTestId('dialogTab_WebSocketDataSource').click()
-    cy.getByTestId('Action_Cancel').click();
-    cy.reload()
-    cy.getByTestId(paths.table)
-      .find(selectors.overlayName)
-      .should('contain.text', 'Table');
 
-    cy.screenshot()
+  });
+
+  
+  it('Has Dialog Box with Editable Tabs', () => {
+    cy.visit(
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor'
+    );
+    cy.getByTestId(paths.table).click();
+    cy.getByTestId(testIds.gearIcon).click({force: true});
+    cy.getByTestId('dialogTab_Style').click();
+    cy.getByTestId('dialogTab_Flow').click();
+    cy.getByTestId('Action_Cancel').click();
 
   });
 });
