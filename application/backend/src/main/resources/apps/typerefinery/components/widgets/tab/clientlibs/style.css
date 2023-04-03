@@ -2,10 +2,10 @@
   height: 100%;
 }
 
-.tab-content>.active{
+[component="tab"] .tab-content>.active{
   height: 100%;
 }
 
-.tab-content {
+[component="tab"] .tab-content {
   height: 100vh;
 }
