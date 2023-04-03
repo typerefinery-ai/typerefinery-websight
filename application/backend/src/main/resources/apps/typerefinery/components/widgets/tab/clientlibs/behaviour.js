@@ -1,12 +1,12 @@
 window.Typerefinery = window.Typerefinery || {};
-window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Tab = Typerefinery.Components.Tab || {};
+Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
+Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
-;(function (ns, document) {
+;(function (ns, document, window) {
     "use strict";
     $(document).ready(function () {
         $("[component='tab']").each(function() {
             ns.init(this);
         });
     });
-})(window.Typerefinery.Components.Tab, document);
+})(Typerefinery.Components.Widgets.Tab, document, window);

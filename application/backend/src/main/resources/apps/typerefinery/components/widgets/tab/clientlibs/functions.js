@@ -1,9 +1,9 @@
 window.Typerefinery = window.Typerefinery || {};
-window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
-window.Typerefinery.Components.Tab = Typerefinery.Components.Tab || {};
+Typerefinery.Components = Typerefinery.Components || {};
+Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
+Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
-(function (ns, componentNs, window, document) {
+(function (ns, componentNs, document, window) {
     "use strict";
     ns.compileHandlerBar = ($component, componentConfig) => {
 
@@ -50,5 +50,5 @@ window.Typerefinery.Components.Tab = Typerefinery.Components.Tab || {};
         ns.compileHandlerBar($component, componentConfig);
     };
 
-})(window.Typerefinery.Components.Tab, window.Typerefinery.Components,window, document);
+})(Typerefinery.Components.Widgets.Tab, Typerefinery.Components, document, window);
 
