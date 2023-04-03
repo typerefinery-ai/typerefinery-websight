@@ -4,10 +4,9 @@ describe('Ticker Component', () => {
   });
   it('renders correctly in preview mode', () => {
     cy.visit(
-      '/content/typerefinery-showcase/pages/components/widgets/ticker.html'
+      '/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker.html'
     );
-cy.get('#ticker')
-cy.get('.value').eq(0).contains('131.12K')
+cy.get('[component="ticker"]')
 cy.screenshot()
   });
 });

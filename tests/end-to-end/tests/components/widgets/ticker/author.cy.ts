@@ -1,6 +1,6 @@
-import { selectors, testIds } from '../../../../../../../support/const';
+import { selectors, testIds } from '../../../../support/const';
 const paths = {
- ticker: 'ComponentOverlay_rootcontainer/container/section1/ticker'
+ ticker: 'ComponentOverlay_/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker/jcr:content/rootcontainer/container/section/ticker'
 }
 
 describe('Ticker Component', () => {
@@ -15,25 +15,40 @@ describe('Ticker Component', () => {
     ).as('saveProperties');
 
     cy.visit(
-      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
     );
   });
-  it('Has Card Item', () => {
+  it('Has Ticker', () => {
     cy.visit(
-      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
     );
     cy.getByTestId(paths.ticker)
 
       .find(selectors.overlayName)
       .should('contain.text', 'Ticker');
-    cy.getByTestId(paths.ticker).click();
-    cy.getByTestId(testIds.editIcon).click();
-    cy.getByTestId('Input_Title').clear().type('Test 1');
-    cy.getByTestId('Input_IndicatorValue').clear().type('12234');
-    cy.getByTestId(testIds.dialogSubmitButton).click();
-    cy.reload()
-    cy.get('.css-7uss0q').click();
   });
+
+  it('Has Dialog Box with Editable Tabs', () => {
+    cy.visit(
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+    );
+    cy.getByTestId(paths.ticker).click();
+    cy.getByTestId(testIds.gearIcon).click({force: true})
+})
+
+it('Has Templates', () => {
+  cy.visit(
+    '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+  );
+  cy.getByTestId(paths.ticker).click();
+  cy.getByTestId(testIds.gearIcon).click({force: true})
+  cy.getByTestId('dialogTab_Template').click({force: true})
+  cy.get('.Input_ChooseTickerTemplate__value-container').click({force: true})
+  cy.get('#react-select-3-option-2').click()
+  cy.getByTestId(testIds.dialogSubmitButton).click();
+  cy.reload()
+
+})
 
 
 
