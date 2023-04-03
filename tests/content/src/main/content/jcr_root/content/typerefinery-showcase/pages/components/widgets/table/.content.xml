@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Table"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-03T11:03:28.393Z"
+        ws:lastModified="{Date}2023-04-03T14:43:25.262Z"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
@@ -27,32 +27,27 @@
                 marginTop="five"
                 paddingEnabled="false"
                 persistColorWhenThemeSwitches="false"
-                title="Table showcase"
+                title="Table"
                 titleTagName="h3"
                 variant="sectionwithtitle">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     id="container_XKNBMRIZB">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_VKQG9QLKG"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Table with single/multiple row select"/>
                     <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
-                        id="container_HVZOHV7TU">
+                        borderEnabled="false"
+                        classes="\0"
+                        flexEnabled="false"
+                        id="container_HVZOHV7TU"
+                        marginEnabled="false"
+                        paddingEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        textAlignment="center"
+                        title="Table with single/multiple row select"
+                        titleTagName="h3"
+                        variant="sectionwithtitle">
                         <table
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/widgets/table"
@@ -91,22 +86,17 @@
                 <container_1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
-                    id="container_XKNBMRIZB">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_VKQG9QLKG"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Table with pagination"/>
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_XKNBMRIZB"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    textAlignment="center"
+                    title="Table with pagination"
+                    titleTagName="h3"
+                    variant="sectionwithtitle">
                     <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
@@ -150,25 +140,20 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     id="container_XKNBMRIZB">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_VKQG9QLKG"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Table with search action"/>
                     <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
-                        id="container_HVZOHV7TU">
+                        borderEnabled="false"
+                        classes="\0"
+                        flexEnabled="false"
+                        id="container_HVZOHV7TU"
+                        marginEnabled="false"
+                        paddingEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        textAlignment="center"
+                        title="Table with search action"
+                        titleTagName="h3"
+                        variant="sectionwithtitle">
                         <table
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/widgets/table"
@@ -208,25 +193,20 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     id="container_XKNBMRIZB">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_VKQG9QLKG"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Table with action button"/>
                     <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
-                        id="container_HVZOHV7TU">
+                        borderEnabled="false"
+                        classes="\0"
+                        flexEnabled="false"
+                        id="container_HVZOHV7TU"
+                        marginEnabled="false"
+                        paddingEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        textAlignment="center"
+                        title="Table with action button"
+                        titleTagName="h3"
+                        variant="sectionwithtitle">
                         <table
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/widgets/table"

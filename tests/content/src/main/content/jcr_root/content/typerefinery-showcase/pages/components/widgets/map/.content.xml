@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Map"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-03T09:22:57.544Z"
+        ws:lastModified="{Date}2023-04-03T14:53:50.274Z"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
@@ -18,71 +18,47 @@
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                borderEnabled="false"
+                classes="\0"
                 containerType="defaultPadding"
                 decorationTagName="\0"
+                flexEnabled="false"
                 id="container1_1FGDIU8XF"
                 marginBottom="five"
-                marginEnabled="true"
+                marginEnabled="false"
                 marginTop="five"
+                paddingEnabled="false"
+                persistColorWhenThemeSwitches="false"
                 textAlignment="\0"
-                title="Map Showcase "
+                title="Map"
                 titleTagName="h3"
                 variant="sectionwithtitle">
-                <container1_1
+                <container1_1_1_2
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     borderEnabled="false"
                     classes="\0"
-                    decorationTagName="section"
                     flexEnabled="true"
-                    horizontalAlignment="evenly"
-                    id="container1_1_G9PQ8B3AL"
+                    gap="4"
+                    horizontalAlignment="between"
+                    id="container1_1_1_BIGU7KFZO"
                     lgColSize="12"
                     marginEnabled="false"
                     mdColSize="12"
                     paddingEnabled="false"
                     persistColorWhenThemeSwitches="false"
                     smColSize="12"
-                    title="\0">
-                    <title
+                    textAlignment="center"
+                    title="Simple map"
+                    titleTagName="h3"
+                    variant="sectionwithtitle">
+                    <map
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_JYVLB6LCF"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Simple Map"/>
-                    <container1_1_1
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/layout/container"
-                        borderEnabled="false"
-                        classes="\0"
-                        flexEnabled="true"
-                        gap="4"
-                        horizontalAlignment="between"
-                        id="container1_1_1_BIGU7KFZO"
-                        lgColSize="12"
-                        marginEnabled="false"
-                        mdColSize="12"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        smColSize="12"
-                        title="\0">
-                        <map
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/widgets/map"
-                            flowapi_sampledata="/apps/typerefinery/components/widgets/map/templates/flowsample.json"
-                            flowapi_template="/apps/typerefinery/components/widgets/map/templates/map.json"
-                            id="map_1LPUC7HJ7"/>
-                    </container1_1_1>
-                </container1_1>
+                        sling:resourceType="typerefinery/components/widgets/map"
+                        flowapi_sampledata="/apps/typerefinery/components/widgets/map/templates/flowsample.json"
+                        flowapi_template="/apps/typerefinery/components/widgets/map/templates/map.json"
+                        id="map_1LPUC7HJ7"/>
+                </container1_1_1_2>
                 <container1_1_1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
@@ -99,21 +75,6 @@
                     persistColorWhenThemeSwitches="false"
                     smColSize="12"
                     title="\0">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_JYVLB6LCF"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Map with Marker"/>
                     <container1_1_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
@@ -129,7 +90,10 @@
                         paddingEnabled="false"
                         persistColorWhenThemeSwitches="false"
                         smColSize="12"
-                        title="\0">
+                        textAlignment="center"
+                        title="Map with marker"
+                        titleTagName="h3"
+                        variant="sectionwithtitle">
                         <map
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/widgets/map"
@@ -187,21 +151,6 @@
                     persistColorWhenThemeSwitches="false"
                     smColSize="12"
                     title="\0">
-                    <title
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        borderEnabled="false"
-                        classes="\0"
-                        headingLevel="h6"
-                        headingSize="h5"
-                        id="title_JYVLB6LCF"
-                        marginBottom="four"
-                        marginEnabled="true"
-                        marginTop="five"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        textAlignment="center"
-                        title="Map using Data Source "/>
                     <container1_1_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
@@ -217,7 +166,10 @@
                         paddingEnabled="false"
                         persistColorWhenThemeSwitches="false"
                         smColSize="12"
-                        title="\0">
+                        textAlignment="center"
+                        title="Map using data source"
+                        titleTagName="h3"
+                        variant="sectionwithtitle">
                         <map
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/widgets/map"
