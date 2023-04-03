@@ -3,8 +3,12 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Components = Typerefinery.Components || {};
 Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treeview || {};
+Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.Search || {};
+Typerefinery.Components.Widgets.Treeview.Instance = Typerefinery.Components.Widgets.Treeview.Instance || {};
+Typerefinery.Page = Typerefinery.Page || {};
+Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function (ns, componentNs, document, window) {
+(function (ns, componentNs, treeViewInstanceNs, eventNs, searchNs, document, window) {
     "use strict";
 
 
@@ -67,9 +71,8 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
 
         const sidebarComponentId = `#${componentConfig.id}`;
 
-        console.log(formattedMenuItems, componentConfig)
 
-        $(sidebarComponentId).treeview({
+        treeViewInstanceNs[componentConfig.id] = $(sidebarComponentId).treeview({
             data: formattedMenuItems,
             levels: Number(componentConfig.numOfNodeLevelsToExpand) || 10,
             expandIcon: componentConfig.expandIcon,
@@ -84,9 +87,9 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
             // selectedColor: (componentConfig.textColor),
             // selectedBackColor: componentConfig.backgroundColor.insert(1, "40")
         });
-        $(sidebarComponentId).treeview('enableAll', { silent: true });
+        treeViewInstanceNs[componentConfig.id].treeview('enableAll', { silent: true });
         if (componentConfig.isNodeExpandedByDefault === false) {
-            $(sidebarComponentId).treeview('collapseAll', { silent: true });
+            treeViewInstanceNs[componentConfig.id].treeview('collapseAll', { silent: true });
         }
     };
 
@@ -106,7 +109,49 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
         });
     };
 
+    ns.eventOnFilter = ($component, data) => {
+        // TODO: Need to filter nodes.
+        const componentConfig = componentNs.getComponentConfig($component);
+        const treeViewInstance = treeViewInstanceNs[componentConfig.id];
+        treeViewInstance.treeview('collapseAll', { silent: true });
+        treeViewInstance.treeview('enableAll', { silent: true });
+        treeViewInstance.treeview('search', [data.value, {
+            ignoreCase: true,     // case insensitive
+            exactMatch: false,    // like or equals
+            revealResults: true,  // reveal matching nodes
+        }]);
+    };
 
+
+    ns.eventOnHighlight =  ($component, data) => {
+        const componentConfig = componentNs.getComponentConfig($component);
+        const treeViewInstance = treeViewInstanceNs[componentConfig.id];
+        treeViewInstance.treeview('collapseAll', { silent: true });
+        treeViewInstance.treeview('enableAll', { silent: true });
+        treeViewInstance.treeview('search', [data.value, {
+            ignoreCase: true,     // case insensitive
+            exactMatch: false,    // like or equals
+            revealResults: true,  // reveal matching nodes
+        }]);
+    };
+
+    ns.eventHandlers = {
+        'FILTER': ns.eventOnFilter,
+        'HIGHLIGHT': ns.eventOnHighlight
+    };
+
+    ns.getEventHandlerCallBackFn = ($component, event) => {
+        if(!event.topic) {
+            return () => {};
+        }
+        return (data) => ns.eventHandlers[event.type]($component, data) || (() => {});
+    };
+
+    ns.registerEvents = ($component, componentId, events) => {
+        events.forEach(event => {
+            eventNs.registerEvents(event.topic, ns.getEventHandlerCallBackFn($component, event));
+        });
+    };
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
@@ -115,6 +160,20 @@ Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treev
         ns.addSidebarTreeNodes($component, componentConfig);
 
         ns.addEventListeners($component, componentConfig);
+
+        const events = componentConfig?.events?.map(event => {
+            return {
+                topic: event.key,
+                type: event.value
+            }
+        }) || [];
+
+        console.log('events treeview', events)
+
+        // if componentConfig.events is defined then add event listeners to table.
+        if (events) {
+            ns.registerEvents($component, componentConfig.id, events);
+        }
     }
 
-})(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, document, window);
+})(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, Typerefinery.Components.Widgets.Treeview.Instance, Typerefinery.Page.Events, Typerefinery.Components.Widgets.Search, document, window);

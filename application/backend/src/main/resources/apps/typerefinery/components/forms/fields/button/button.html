@@ -13,7 +13,10 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.Button">
-  <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
-  </sly>
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.Button"
+    data-sly-set.templateVariant="${'./variant.{0}.html' @ format=model.variant}"
+    data-sly-set.templateDefault="${'./variant.html'}"
+    data-sly-set.template="${model.variant ? templateVariant : templateDefault}">
+    <sly data-sly-use.template="${template}" data-sly-call="${template.variant @ model=model}">
+    </sly>
 </sly>

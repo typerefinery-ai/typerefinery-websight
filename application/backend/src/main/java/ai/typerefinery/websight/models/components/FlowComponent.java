@@ -152,4 +152,11 @@ public class FlowComponent extends BaseComponent {
         super.init();
     }
 
+    public Boolean isContainer() {
+        boolean isContainer = flowapi_iscontainer != null ? flowapi_iscontainer : false;
+        if (this.resource != null) {
+            isContainer = this.resource.isResourceType(FlowComponent.RESOURCE_TYPE);
+        }
+        return isContainer;
+    }
 }

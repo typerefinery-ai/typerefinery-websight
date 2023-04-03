@@ -66,11 +66,18 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;;
 @Designate(ocd = FlowService.FlowServiceConfiguration.class)
 public class FlowService {
 
+    public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
     private static final String TAG = FlowService.class.getSimpleName();
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowService.class);
     public static final String PROPERTY_PREFIX = "flowapi_";
     public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
+    public static final String PROPERTY_ID = "id";
     public static final String PROPERTY_TOPIC = "topic";
+    public static final String PROPERTY_AUTHOR = "author";
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_ERROR = "error";
+    public static final String PROPERTY_SUCCESS = "success";
+    public static final String PROPERTY_RESPONSE = "response";
     public static final String PROPERTY_GROUP = "group";
     public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_CREATEDON = "createdon";
@@ -163,6 +170,7 @@ public class FlowService {
             return;
         }
         ValueMap properties = resource.getValueMap();
+        String resourcePath = resource.getPath();
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
             LOGGER.error("Could not adapt resource to FlowComponent: {}", resource.getPath());
@@ -198,8 +206,10 @@ public class FlowService {
                 // use topic from resource as priority
                 String flowapi_flowstreamid = createFlowFromTemplate(flowComponent);
                 if (StringUtils.isNotBlank(flowapi_flowstreamid)) {
+                    //get flow component again
+                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
                     isFlowExists = isFlowExists(flowapi_flowstreamid);
-                    if (flowComponent.flowapi_iscontainer & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
+                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(flowComponent);
                     } 
                 } else {
@@ -213,7 +223,9 @@ public class FlowService {
                     return;
                 } else {
                     updateFlowFromTemplate(flowComponent);
-                    if (flowComponent.flowapi_iscontainer & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
+                    //get flow component again
+                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
+                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(flowComponent);
                     }
                 }
@@ -252,7 +264,7 @@ public class FlowService {
                 JsonNode json = mapper.readTree(responseAsString);
                 if (response.statusCode() != 200) {
                     LOGGER.error("flowstream could not create new flow: {}", responseAsString);
-                    flowResponse.put(prop("error"), responseAsString);
+                    flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
                     return flowResponse;
                 }
                 
@@ -262,19 +274,19 @@ public class FlowService {
 
                 flowResponse.put(prop(PROPERTY_FLOWSTREAMID), flowstreamid);
                 flowResponse.put(prop(PROPERTY_EDITURL), flowapi_editurl);
-                flowResponse.put(prop("success"), json.get("success").asText());
-                flowResponse.put(prop("error"), json.get("error").asText());
+                flowResponse.put(prop(PROPERTY_SUCCESS), json.get("success").asText());
+                flowResponse.put(prop(PROPERTY_ERROR), json.get("error").asText());
 
                 return flowResponse;
             } else {
                 LOGGER.error("flowstream return empty response: {}", url);
-                flowResponse.put(prop("error"), "no response");
+                flowResponse.put(prop(PROPERTY_ERROR), "no response");
             }
            
 
         } catch (Exception e) {
             LOGGER.error("flowstream could not create new flow: {}", url);
-            flowResponse.put(prop("error"), "error executing flowstream import");
+            flowResponse.put(prop(PROPERTY_ERROR), "error executing flowstream import");
             e.printStackTrace();
         }
 
@@ -322,7 +334,7 @@ public class FlowService {
 
             if (response.statusCode() != 200) {
                 LOGGER.error("flowstream could not update flow: {}", response.body());
-                flowResponse.put(prop("error"), "flow does not exist.");
+                flowResponse.put(prop(PROPERTY_ERROR), "flow does not exist.");
                 return flowResponse;
             }
 
@@ -336,25 +348,25 @@ public class FlowService {
                 JsonNode json = mapper.readTree(responseAsString);
                 if (response.statusCode() != 200) {
                     LOGGER.error("flowstream could not update flow: {}", responseAsString);
-                    flowResponse.put(prop("error"), responseAsString);
+                    flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
                     return flowResponse;
                 }
 
                 String flowapi_editurl = compileEditUrl(flowstreamid);
                 flowResponse.put(prop(PROPERTY_EDITURL), flowapi_editurl);
 
-                flowResponse.put(prop("success"), json.get("success").asText());
+                flowResponse.put(prop(PROPERTY_SUCCESS), json.get("success").asText());
 
                 return flowResponse;
             } else {
                 LOGGER.error("flowstream return empty response: {}", url);
-                flowResponse.put(prop("error"), "no response");
+                flowResponse.put(prop(PROPERTY_ERROR), "no response");
             }
            
 
         } catch (Exception e) {
             LOGGER.error("flowstream could not update flow: {}", url);
-            flowResponse.put(prop("error"), "error executing flowstream update");
+            flowResponse.put(prop(PROPERTY_ERROR), "error executing flowstream update");
             e.printStackTrace();
         }
 
@@ -390,7 +402,7 @@ public class FlowService {
             LOGGER.info("flowstream response: {}", response);
 
             String responseAsString = response.body();
-            flowResponse.put(prop("response"), responseAsString);
+            flowResponse.put(prop(PROPERTY_RESPONSE), responseAsString);
 
             if (StringUtils.isNotBlank(responseAsString)) {
                 // convert response to json
@@ -398,21 +410,21 @@ public class FlowService {
                 JsonNode json = mapper.readTree(responseAsString);
 
                 if (json != null) {
-                    flowResponse.put(prop("error"), json.get("wserror").asText());
+                    flowResponse.put(prop(PROPERTY_ERROR), json.get("wserror").asText());
                 } else {
-                    flowResponse.put(prop("error"), "could not parse response");
+                    flowResponse.put(prop(PROPERTY_ERROR), "could not parse response");
                 }
 
                 return flowResponse;
             } else {
                 LOGGER.error("flowstream return empty response: {}", url);
-                flowResponse.put(prop("error"), "no response");
+                flowResponse.put(prop(PROPERTY_ERROR), "no response");
             }
            
 
         } catch (Exception e) {
             LOGGER.error("flowstream could not update flow: {}", url);
-            flowResponse.put(prop("error"), "error executing flowstream update");
+            flowResponse.put(prop(PROPERTY_ERROR), "error executing flowstream update");
             e.printStackTrace();
         }
 
@@ -455,7 +467,7 @@ public class FlowService {
             return flowResponse;
         } else {
             LOGGER.error("flowstream return empty response for streamid {}", flowstreamid);
-            flowResponse.put(prop("error"), "no response");
+            flowResponse.put(prop(PROPERTY_ERROR), "no response");
         }
         return flowResponse;
     }
@@ -566,7 +578,7 @@ public class FlowService {
         String title = flowComponent.flowapi_title;
         String flowTopic = flowComponent.flowapi_topic;
         String id = flowComponent.flowapi_flowstreamid;
-        boolean isContainer = flowComponent.flowapi_iscontainer;
+        boolean isContainer = flowComponent.isContainer();
         String sampleDataPath = flowComponent.flowapi_sampledata;
         String designTemplatePath = flowComponent.flowapi_designtemplate;
         
@@ -600,7 +612,7 @@ public class FlowService {
             return "";
         }
 
-        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource,"typerefinery/components/workflow/flow");
+        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
 
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
@@ -615,13 +627,13 @@ public class FlowService {
         // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
         // componentTemplateObject.put("reference", "dashboard-reference");
-        componentTemplateObject.put("author", configuration.flow_meta_author());
-        componentTemplateObject.put("group", flowGroup);
-        componentTemplateObject.put("name", title);
+        componentTemplateObject.put(PROPERTY_AUTHOR, configuration.flow_meta_author());
+        componentTemplateObject.put(PROPERTY_GROUP, flowGroup);
+        componentTemplateObject.put(PROPERTY_NAME, title);
         
         // remove id
-        if (componentTemplateObject.has("id")) {
-            componentTemplateObject.remove("id");
+        if (componentTemplateObject.has(PROPERTY_ID)) {
+            componentTemplateObject.remove(PROPERTY_ID);
         }
 
         // update component design, this is done with MAP fields to allow more flexibility.
@@ -698,26 +710,26 @@ public class FlowService {
         JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
 
         String currentPagePath = PageUtil.getResourcePagePath(componentResource);
-        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource,"typerefinery/components/workflow/flow");
+        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource, RESOURCE_TYPE);
         
         String flowGroup = currentPagePath;
         if (currentFlowContainerResource != null) {
             if (currentFlowContainerResource != null) {
                 //get flow group from parent flow container
-                String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get("flowstreamid", "");
+                String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
                 if (StringUtils.isNotBlank(parentFlowstreamuid)) {
                     HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
-                    flowGroup = (String)parentMetadata.get("group");
+                    flowGroup = (String)parentMetadata.get(PROPERTY_GROUP);
                 }
             }
         }
 
         // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
-        componentTemplateObject.put("id", flowstreamid);
-        componentTemplateObject.put("author", configuration.flow_meta_author());
-        componentTemplateObject.put("group", flowGroup);
-        componentTemplateObject.put("name", newTitle);
+        componentTemplateObject.put(PROPERTY_ID, flowstreamid);
+        componentTemplateObject.put(PROPERTY_AUTHOR, configuration.flow_meta_author());
+        componentTemplateObject.put(PROPERTY_GROUP, flowGroup);
+        componentTemplateObject.put(PROPERTY_NAME, newTitle);
 
         // get json string
         String componentJson = JsonUtil.getJsonString(componentTemplate);
@@ -1420,9 +1432,9 @@ public class FlowService {
         @AttributeDefinition(
                 name = "Endpoint Update",
                 description = "URL of the endpoint to update flow",
-                defaultValue = FLOW_ENDPOINT_IMPORT
+                defaultValue = FLOW_ENDPOINT_UPDATE
         )
-        String endpoint_update() default FLOW_ENDPOINT_IMPORT;
+        String endpoint_update() default FLOW_ENDPOINT_UPDATE;
 
         @AttributeDefinition(
                 name = "Endpoint Design Save",

@@ -2,16 +2,16 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "configTab": {
+    "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
-      "lat": {
+      "mapLat": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "mapLat",
         "label": "Latitude",
         "description": "These will be added as map latitude"
       },
-      "long": {
+      "mapLng": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "mapLng",
         "label": "Longitude",
@@ -22,11 +22,7 @@
         "name": "zoomLevel",
         "label": "Zoom Level",
         "description": "These will be added as map level"
-      }
-    },
-    "tilesTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Tiles layer",
+      },
       "tileTemplate": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "tileTemplate",

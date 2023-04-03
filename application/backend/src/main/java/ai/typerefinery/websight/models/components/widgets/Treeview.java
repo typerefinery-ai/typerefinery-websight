@@ -21,9 +21,11 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import ai.typerefinery.websight.models.components.KeyValuePair;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.utils.PageUtil;
+import java.util.List;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Treeview extends BaseComponent {
@@ -91,9 +93,11 @@ public class Treeview extends BaseComponent {
     @Inject
     @Getter
     public String numOfNodeLevelsToExpand;
-        
-    
 
+    // key is topic and value is type = HIGHLIGHT || FILTER
+    @Getter
+    @Inject
+    public List<KeyValuePair> events;
 
     @Override
     @PostConstruct
