@@ -1,0 +1,57 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "configTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "listOfTab": {
+        "name": "listOfTab",
+        "label": "Tab Information",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "title",
+          "label": "Tab Title",
+          "description": "The title of the tab."
+        },
+        "content": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "content",
+          "label": "Content",
+          "description": "The content of the tab."
+        },
+        "useQueryParamsFromParent": {
+          "sling:resourceType": "wcm/dialogs/components/checkbox",
+          "name": "useQueryParamsFromParent",
+          "label": "Use Query Parameters from Parent",
+          "description": "If checked, the tab will use the query parameters from the parent page."
+        }
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advanced",
+      "openNodeInNewTab": {
+        "name": "openNodeInNewTab",
+        "label": "Open Node in New Tab",
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "description": "If checked, the node will open in a new tab."
+      },
+      "openNodeInTabContainer": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "openNodeInTabContainer",
+        "label": "Open Node in Tab Container",
+        "description": "If checked, the node will open in a tab container."
+      }
+    }
+  }
+}

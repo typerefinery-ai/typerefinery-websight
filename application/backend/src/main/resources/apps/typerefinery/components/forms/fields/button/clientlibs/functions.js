@@ -27,7 +27,7 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
         });
     }
-     ns.windowResizeListner = ($component) => {
+     ns.windowResizeListener = ($component) => {
        const target = $component.getAttribute("data-bs-target");
        // remove the '#' from the value
        const targetId = target?.replace("#", "");
@@ -48,7 +48,6 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
      };
   
     ns.init = ($component) => {
-        console.log($component,"$component2")
         const componentConfig = componentNs.getComponentConfig($component);
         const { buttonType, id, actionType } = componentConfig;
 
@@ -66,6 +65,6 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             return;
         }
         ns.addEventListener($component, id);
-        ns.windowResizeListner($component)
+        ns.windowResizeListener($component)
     }
 })(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, window.Typerefinery.Page.Theme, document, window);

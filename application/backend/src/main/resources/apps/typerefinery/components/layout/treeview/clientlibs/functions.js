@@ -155,8 +155,6 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        // ns.updateBackgroundColor($component, componentConfig);
-        // ns.addTitleAndLogo($component, componentConfig);
         ns.addSidebarTreeNodes($component, componentConfig);
 
         ns.addEventListeners($component, componentConfig);
@@ -167,8 +165,6 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 type: event.value
             }
         }) || [];
-
-        console.log('events treeview', events)
 
         // if componentConfig.events is defined then add event listeners to table.
         if (events) {

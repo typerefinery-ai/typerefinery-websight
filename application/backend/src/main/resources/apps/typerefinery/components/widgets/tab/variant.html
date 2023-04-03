@@ -1,0 +1,39 @@
+<template data-sly-template.variant="${ @ model }">
+  <div component="${model.componentName}" id="${model.id}" class="${model.variantClassNames}"
+    data-model="${model.jsonString}" data-is-edit-mode="${wcmmode.isEdit}">
+  </div>
+
+  <sly data-sly-test="${wcmmode.isEdit && !model.listOfTab}">
+    <div style="--bs-bg-opacity: .5;" class="bg-warning">Tab Component</div>
+  </sly>
+
+  <sly data-sly-call="${tabTemplate @ model=model}"></sly>
+</template>
+
+
+<template data-sly-template.tabTemplate="${ @ model }">
+  <div class="testing"></div>
+  <script id="${model.id}-template" type="text/x-handlebars-template">
+    <ul class="nav nav-tabs" role="tablist">
+      {{#each listOfTab}}
+      <li class="{{active}} nav-item" role="presentation">
+        <button class="nav-link {{active}}" id="{{id}}-tab" data-bs-toggle="tab" data-bs-target="#{{id}}" type="button" role="tab" aria-controls="{{id}}" aria-selected="true">{{tabTitle}}</button>
+      </li>
+      {{/each}}
+    </ul>
+    
+    <div class="tab-content">
+      {{#each listOfTab}}
+        <div
+          class="tab-pane fade show {{active}}"
+          id="{{id}}"
+          role="tabpanel" 
+          aria-labelledby="{{id}}-tab"
+        >
+          <iframe src="{{tabContent}}" width="100%" height="100%"></iframe>
+        </div>
+      {{/each}}
+     
+    </div>
+  </script>
+</template>
