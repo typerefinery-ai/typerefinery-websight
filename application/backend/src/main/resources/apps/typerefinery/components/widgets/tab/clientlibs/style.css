@@ -1,0 +1,11 @@
+[component="tab"] {
+  height: 100%;
+}
+
+.tab-content>.active{
+  height: 100%;
+}
+
+.tab-content {
+  height: 100vh;
+}
