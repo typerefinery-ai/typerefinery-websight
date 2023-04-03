@@ -31,7 +31,7 @@ import lombok.Getter;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Tab extends BaseComponent {
 
-    public static final String RESOURCE_TYPE = "typerefinery/components/layout/nav";
+    public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tab";
 
     @Inject
     @Getter
