@@ -26,6 +26,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
+import ai.typerefinery.websight.models.components.KeyValuePair;
 import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
@@ -36,6 +37,22 @@ public class Tab extends BaseComponent {
     @Inject
     @Getter
     public List<TabItem> listOfTab;
+
+
+
+    @Inject
+    @Getter
+    public List<KeyValuePair> events;
+
+    
+    @Inject
+    @Getter
+    public String placeholderContent;
+
+    @Inject
+    @Getter
+    public String contentHeight;
+
 
     @Override
     @PostConstruct

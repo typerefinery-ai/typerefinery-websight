@@ -39,7 +39,11 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
         if (toggle === "text") {
           $component.classList.remove("text-dark");
           $component.classList.add("text-white");
-        } else if (toggle === "true") {
+        } else if(toggle === "component") {
+          $component.classList.remove("bg-light", "shadow-lg");
+          $component.classList.add("bg-dark", "shadow-lg");
+        
+        }else if (toggle === "true") {
           $component.classList.remove("bg-light", "shadow-lg", "text-dark");
           $component.classList.add("bg-dark", "shadow-lg", "text-white");
         }

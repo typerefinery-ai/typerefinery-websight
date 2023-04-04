@@ -99,6 +99,22 @@ public class Treeview extends BaseComponent {
     @Inject
     public List<KeyValuePair> events;
 
+
+    @Inject
+    @Getter
+    public Boolean openNodeInNewTab;
+
+    @Inject
+    @Getter
+    public String onNodeSelected;
+
+    
+    @Inject
+    @Getter
+    public String topic;
+
+    
+
     @Override
     @PostConstruct
     protected void init() {

@@ -50,12 +50,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     current += '.html';
                 }
                 result.push({
-                    href: _obj["jcr:content"].key,
+                    link: _obj["jcr:content"].key + ".html" ,
+                    href: componentConfig.onNodeSelected === "TAB" ? "#;" : _obj["jcr:content"].key,
                     text: capitalizeFirstLetter(_obj["jcr:content"].title),
                     icon: _obj["jcr:content"].icon,
                     nodes: children.length === 0 ? null : children,
+                    tags: [_obj["jcr:content"].key + ".html"],
                     state: {
-                        selected: window.location.pathname === current 
+                        selected: window.location.pathname === current
                     }
                 });
             }
@@ -82,15 +84,75 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             // onhoverColor: componentConfig.backgroundColor.insert(1, "40"),
             // borderColor: componentConfig.backgroundColor.insert(1, "40"),
             showBorder: false,
-            showTags: true,
+            showTags: false,
             highlightSelected: true,
-            // selectedColor: (componentConfig.textColor),
-            // selectedBackColor: componentConfig.backgroundColor.insert(1, "40")
+            onNodeSelected: function (event, node) {
+                if (componentConfig.onNodeSelected === "TAB" && componentConfig.topic) {
+                    eventNs.emitEvent(componentConfig.topic, {
+                        tab: {
+                            tabTitle: node.text,
+                            tabContent: node.link || node.tags[0],
+                            icon: node.icon,
+                            id: node.nodeId,
+                            isCloseable: true,
+                            active: "active"
+                        },
+                        type: "ADD_TAB"
+                    });
+                }
+            }
         });
         treeViewInstanceNs[componentConfig.id].treeview('enableAll', { silent: true });
         if (componentConfig.isNodeExpandedByDefault === false) {
             treeViewInstanceNs[componentConfig.id].treeview('collapseAll', { silent: true });
         }
+
+        // register event if componentConfig.topic is present
+        if (componentConfig.topic) {
+            eventNs.registerEvents(`${componentConfig.topic}-TAB_CHANGE`, (data) => {
+                if (data.type === "SELECT_TAB") {
+                    const treeViewObject = $(`#${componentConfig.id}`).data('treeview');
+                    const allCollapsedNodes = treeViewObject.getCollapsed();
+                    const allExpandedNodes = treeViewObject.getExpanded();
+                    const allNodes = allCollapsedNodes.concat(allExpandedNodes);
+
+
+                    // filter data.tab.id from allNodes
+                    const filteredNodes = allNodes.filter((node) => {
+                        return node.nodeId == data.tab.id;
+                    });
+
+
+                    // if filteredNodes is not empty then select the node
+                    if (filteredNodes.length > 0) {
+                        treeViewObject.expandNode(filteredNodes[0].nodeId, { silent: true });
+                        treeViewObject.selectNode(filteredNodes[0].nodeId, { silent: true });
+                    }
+
+
+                }else if(data.type === "CLOSE_TAB"){
+
+                    const treeViewObject = $(`#${componentConfig.id}`).data('treeview');
+                    const allCollapsedNodes = treeViewObject.getCollapsed();
+                    const allExpandedNodes = treeViewObject.getExpanded();
+                    const allNodes = allCollapsedNodes.concat(allExpandedNodes);
+
+                    // filter data.tab.id from allNodes
+                    const filteredNodes = allNodes.filter((node) => {
+                        return node.nodeId == data.tab.id;
+                    });
+                    
+
+                    // if filteredNodes is not empty then select the node
+                    if (filteredNodes.length > 0) {
+                        treeViewObject.collapseNode(filteredNodes[0].nodeId, { silent: true });
+                        treeViewObject.unselectNode(filteredNodes[0].nodeId, { silent: true });
+                    }
+                }
+            });
+
+        }
+
     };
 
 

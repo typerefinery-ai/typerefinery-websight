@@ -1,0 +1,97 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "configTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "listOfTab": {
+        "name": "listOfTab",
+        "label": "Tab Information",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "title",
+          "label": "Tab Title",
+          "description": "The title of the tab."
+        },
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "icon",
+          "label": "Tab Icon",
+          "description": "The icon of the tab."
+        },
+        "isCloseable": {
+          "sling:resourceType": "wcm/dialogs/components/checkbox",
+          "name": "isCloseable",
+          "label": "Is Closeable",
+          "description": "If checked, the tab will be Closeable."
+        },
+        "content": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "content",
+          "label": "Content",
+          "description": "The content of the tab."
+        },
+        "useQueryParamsFromParent": {
+          "sling:resourceType": "wcm/dialogs/components/checkbox",
+          "name": "useQueryParamsFromParent",
+          "label": "Use Query Parameters from Parent",
+          "description": "If checked, the tab will use the query parameters from the parent page."
+        }
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "eventsTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "events",
+        "description": "Event that this component is emits/send to",
+        "label": "Events",
+        "key": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "key",
+          "label": "Topic",
+          "description": "The topic of the event."
+        },
+        "value": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "value",
+          "label": "Event Action",
+          "openLinkInTabContainer": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": " Open Link in Tab Container",
+            "value": "openLinkInTabContainer",
+            "selected": true
+          }
+        }
+      }
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advanced",
+      "placeholderContent": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "placeholderContent",
+        "label": "Placeholder Content",
+        "description": "The placeholder content of the tab."
+      },
+      "contentHeight": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "contentHeight",
+        "label": "Content Height",
+        "description": "The content height of the tab."
+     
+      }
+    }
+  }
+}

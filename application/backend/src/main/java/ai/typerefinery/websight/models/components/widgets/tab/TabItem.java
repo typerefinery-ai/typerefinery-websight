@@ -28,6 +28,12 @@ public class TabItem {
     @Inject
     private String content;
 
+    
+    
+    @Inject
+    @Getter
+    public Boolean isCloseable;
+
     @Getter
     @Inject
     private Boolean useQueryParamsFromParent;
