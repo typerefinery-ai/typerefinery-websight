@@ -23,7 +23,11 @@
     data-sly-test="${resource.hasChildren}">
 
     <header class="${model.classNamesForHeader}">
-      <h2 data-sly-test="${model.title}"  data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
+      <h2 
+        data-sly-test="${model.title}" 
+        data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">
+        ${model.title}
+      </h2>
     </header>
     <div class="${model.classNamesForChildren}">
       <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
