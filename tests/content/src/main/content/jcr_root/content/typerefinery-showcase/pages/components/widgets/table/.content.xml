@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Table"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-03T14:43:25.262Z"
+        ws:lastModified="{Date}2023-04-04T09:38:29.274Z"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
@@ -129,7 +129,7 @@
                             persistColorWhenThemeSwitches="false"
                             resizableEnabled="false"
                             searchEnabled="false"
-                            showActionButtons="true"
+                            showActionButtons="false"
                             singleSelectEnabled="false"
                             uniqueIdColumn="\0"
                             websocketHost="\0"
@@ -243,11 +243,11 @@
                             <actionButtons jcr:primaryType="nt:unstructured">
                                 <_x0030_
                                     jcr:primaryType="nt:unstructured"
-                                    actionButtonModalContentURL="\0"
+                                    actionButtonModalContentURL="/content/typerefinery-showcase/pages/components/forms"
                                     actionButtonNavigateToPath="\0"
-                                    icon="\0"
-                                    id="0_J7MSOP26Q"
-                                    label="\0"/>
+                                    icon="pi pi-pencil"
+                                    id="0_Z2RHNWOKN"
+                                    label="peter"/>
                             </actionButtons>
                         </table>
                     </container>
