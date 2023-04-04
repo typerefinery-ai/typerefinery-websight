@@ -247,7 +247,7 @@
                                     actionButtonNavigateToPath="\0"
                                     icon="pi pi-pencil"
                                     id="0_Z2RHNWOKN"
-                                    label="peter"/>
+                                    label="Edit"/>
                             </actionButtons>
                         </table>
                     </container>
