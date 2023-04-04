@@ -22,9 +22,13 @@
     style="${model.inlineStyleValue @ context='unsafe'}"
     data-sly-test="${resource.hasChildren}">
 
-    <h2 data-sly-test="${model.title}" data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
-    <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
-
+    <header class="${model.classNamesForHeader}">
+      <h2 data-sly-test="${model.title}"  data-sly-element="${model.titleTagName ? model.titleTagName : 'h2'}">${model.title}</h2>
+    </header>
+    <div class="${model.classNamesForChildren}">
+      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+    </div>
+    
   </div>
   <sly data-sly-test="${!resource.hasChildren}">
     <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"

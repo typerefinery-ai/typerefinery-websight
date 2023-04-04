@@ -195,6 +195,58 @@ public class Container extends BaseComponent {
     @Default(values = "")
     private String backgroundColor;
 
+    // style for container have title
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String classNamesForHeader;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String smColSizeForHeader;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String mdColSizeForHeader;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String lgColSizeForHeader;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String backgroundColorOfHeader;
+
+    // style for container have children and title
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String classNamesForChildren;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String smColSizeForChildren;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String mdColSizeForChildren;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String lgColSizeForChildren;
+
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String backgroundColorOfChildren;
+
     // background Image for the containers.
     @Inject
     private String backgroundImageSm;
@@ -343,6 +395,12 @@ public class Container extends BaseComponent {
             grid.addClasses("container"); 
         }
         // grid.addClasses("m-auto");
+
+        // Set width and background color for header which container have title
+        classNamesForHeader += smColSizeForHeader +" "+ mdColSizeForHeader  +" "+ lgColSizeForHeader +" "+ backgroundColorOfHeader ;
+
+        // Set width and background color for children component which  container have title
+        classNamesForChildren += smColSizeForChildren +" "+ mdColSizeForChildren  +" "+ lgColSizeForChildren +" "+ backgroundColorOfChildren;
 
         if(BooleanUtils.isTrue(borderPositionTop)) {
             grid.addClasses("border-top");
