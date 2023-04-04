@@ -4,7 +4,7 @@ describe('Ticker Component', () => {
   });
   it('renders correctly in preview mode', () => {
     cy.visit(
-      '/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker.html'
+      '/content/typerefinery-showcase/pages/components/widgets/ticker.html'
     );
 cy.get('[component="ticker"]')
 cy.screenshot()

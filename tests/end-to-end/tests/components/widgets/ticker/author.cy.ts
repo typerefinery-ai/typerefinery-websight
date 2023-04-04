@@ -1,6 +1,6 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
- ticker: 'ComponentOverlay_/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker/jcr:content/rootcontainer/container/section/ticker'
+ ticker: 'ComponentOverlay_/content/typerefinery-showcase/pages/components/widgets/ticker/jcr:content/rootcontainer/container1/container1_1/container1_1_1/ticker1'
 }
 
 describe('Ticker Component', () => {
@@ -15,12 +15,12 @@ describe('Ticker Component', () => {
     ).as('saveProperties');
 
     cy.visit(
-      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
     );
   });
   it('Has Ticker', () => {
     cy.visit(
-      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
     );
     cy.getByTestId(paths.ticker)
 
@@ -30,7 +30,7 @@ describe('Ticker Component', () => {
 
   it('Has Dialog Box with Editable Tabs', () => {
     cy.visit(
-      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
     );
     cy.getByTestId(paths.ticker).click();
     cy.getByTestId(testIds.gearIcon).click({force: true})
@@ -38,7 +38,7 @@ describe('Ticker Component', () => {
 
 it('Has Templates', () => {
   cy.visit(
-    '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker/primaryticker::editor'
+    '/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/ticker::editor'
   );
   cy.getByTestId(paths.ticker).click();
   cy.getByTestId(testIds.gearIcon).click({force: true})
