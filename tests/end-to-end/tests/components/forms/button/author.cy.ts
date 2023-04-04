@@ -1,6 +1,7 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-button: 'ComponentOverlay_rootcontainer/container/section/button'
+  button:
+    'ComponentOverlay_/content/typerefinery-showcase/pages/components/forms/button/jcr:content/rootcontainer/container/form1/container_1/button_1'
 };
 
 describe('Button Component', () => {
@@ -22,17 +23,16 @@ describe('Button Component', () => {
     );
     cy.getByTestId(paths.button)
       .find(selectors.overlayName)
-      .should('contain.text','Button');    
-    })
-    it('Has Editable General TAb In dialog', () => {
-      cy.visit(
-        '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/button::editor'
-      );
-      cy.getByTestId(paths.button).click();
-      cy.getByTestId(testIds.editIcon).click();
-      cy.getByTestId('Input_Label').type('LabelTest');
-      cy.getByTestId(testIds.dialogSubmitButton).click();
-      cy.reload()
-    })
-})
-  
+      .should('contain.text', 'Button');
+  });
+  it('Has Editable Tab In dialog', () => {
+    cy.visit(
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/button::editor'
+    );
+    cy.getByTestId(paths.button).click();
+    cy.getByTestId(testIds.gearIcon).click();
+    cy.getByTestId('Input_Label').type('LabelTest');
+    cy.getByTestId(testIds.dialogSubmitButton).click();
+    cy.reload();
+  });
+});

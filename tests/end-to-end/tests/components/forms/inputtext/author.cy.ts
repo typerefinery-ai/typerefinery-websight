@@ -1,11 +1,12 @@
 import { selectors, testIds } from '../../../../support/const';
 const paths = {
-textArea: 'ComponentOverlay_rootcontainer/container/section/textarea'
+  textArea:
+    'ComponentOverlay_/content/typerefinery-showcase/pages/components/forms/textarea/jcr:content/rootcontainer/container/form1/textarea_1/field'
 };
 
 describe('inputText Component', () => {
   beforeEach(() => {
-    cy.login(); 
+    cy.login();
   });
   it('renders correctly in edit mode', () => {
     cy.intercept(
@@ -21,15 +22,14 @@ describe('inputText Component', () => {
       '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/textarea::editor'
     );
     cy.getByTestId(paths.textArea)
-      .find(selectors.overlayName)  
-      .should('have.text','blockTextarea'); 
-    })
-    it('Has Editable General TAb In dialog', () => {
-      cy.visit(
-        '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/textarea::editor'
-      );
-      cy.getByTestId(paths.textArea).click();
-      cy.getByTestId(testIds.editIcon).click();
-      cy.reload()
-    })
-})
+      .find(selectors.overlayName)
+      .should('have.text', 'blockTextarea');
+  });
+  it('Has Editable General TAb In dialog', () => {
+    cy.visit(
+      '/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/textarea::editor'
+    );
+    cy.getByTestId(paths.textArea).click();
+    cy.getByTestId(testIds.gearIcon).click();
+  });
+});

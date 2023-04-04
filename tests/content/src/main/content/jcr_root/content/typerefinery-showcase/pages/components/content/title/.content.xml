@@ -10,9 +10,6 @@
                 <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
                     <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title"/>
                 </section>
-                <section1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
-                    <title jcr:primaryType="nt:unstructured" title="test1" sling:resourceType="typerefinery/components/content/title" id="title1"/>
-                </section1>
             </container>
         </rootcontainer>
     </jcr:content>

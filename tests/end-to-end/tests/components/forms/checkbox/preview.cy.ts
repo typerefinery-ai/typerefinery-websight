@@ -6,5 +6,6 @@ describe('Button Component', () => {
     cy.visit(
       '/content/typerefinery-showcase/pages/components/forms/checkbox.html'
     );
+    cy.get('[component="checkbox"]')
   });
 });

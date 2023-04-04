@@ -1,4 +1,4 @@
-describe('Ticker Component', () => {
+describe('Table Component', () => {
   beforeEach(() => {
     cy.login();
   });
