@@ -51,7 +51,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 }
                 result.push({
                     link: _obj["jcr:content"].key + ".html" ,
-                    href: componentConfig.onNodeSelected === "TAB" ? "#;" : _obj["jcr:content"].key,
+                    href: componentConfig.onNodeSelected === "TAB" ? "javascript:void(0)" : _obj["jcr:content"].key,
                     text: capitalizeFirstLetter(_obj["jcr:content"].title),
                     icon: _obj["jcr:content"].icon,
                     nodes: children.length === 0 ? null : children,
