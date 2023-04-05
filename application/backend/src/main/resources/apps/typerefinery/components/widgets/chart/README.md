@@ -178,11 +178,11 @@ This component has the following variants
           <td rowspan="3">Variant</td>
             <td>Line Chart</td>
             <td>Default</td>
-            <td>This is the URL to edit the flow in Flow Designer.</td>
+            <td>Show data in Line Chart.</td>
         </tr>
           <tr>
             <td>Bar Chart</td>
-            <td>Disable</td>
+            <td>Disabled</td>
             <td>Show data in Bar Chart.</td>
         </tr>
           <tr>
