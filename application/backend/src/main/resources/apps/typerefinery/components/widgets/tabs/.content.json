@@ -1,5 +1,5 @@
 {
   "group": "Typerefinery - Widgets",
   "sling:resourceType": "ws:Component",
-  "title": "Tab"
+  "title": "Tabs"
 }

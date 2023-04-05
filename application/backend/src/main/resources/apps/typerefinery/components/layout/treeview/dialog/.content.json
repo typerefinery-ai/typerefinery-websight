@@ -61,12 +61,41 @@
     },
     "advancedTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Advance",
+      "label": "Advanced",
       "numOfNodeLevelsToExpand": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "numOfNodeLevelsToExpand",
         "label": "Number of node levels to expand",
         "description": "Number of levels of child nodes can be expanded"
+      },
+      "onNodeSelected": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "onNodeSelected",
+        "label": "On Click",
+        "description": "On node selected event",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Navigate",
+          "value": "",
+          "selected": true
+        },
+        "openInTab": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Open as Tab",
+          "value": "TAB"
+        }
+      },
+      "topic": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "topic",
+        "label": "Topic",
+        "ws:display": {
+          "condition": {
+            "sourceName": "onNodeSelected",
+            "values": "TAB"
+          }
+        },
+        "description": "Topic to subscribe to for events to open the corresponding node in tab component"
       }
     }
   }
