@@ -67,7 +67,7 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "")
+    @Default(values = "submit")
     private String buttonType;
 
     

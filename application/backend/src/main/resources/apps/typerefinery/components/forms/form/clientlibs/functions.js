@@ -35,11 +35,14 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                     if($input.multiple) {
                         // if multiple files are selected then it will return array of files.
                         result[name] = $input.files.map(file => URL.createObjectURL(file));
-                    }else {
+                    }else if($input.files.length > 0){
                         // create blob url from file.
                         const blobUrl = URL.createObjectURL($input.files[0]);
                         // if single file is selected then it will return single file.
                         result[name] = blobUrl;
+                    } else {
+                        // if no file is selected then it will return empty string.
+                        result[name] = "";
                     }
 
 
@@ -66,10 +69,12 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                 }
             );
             successCallback();
+            return;
         } catch (error) {
             console.log("Error in submitting the request");
             console.error(error);
             errorCallback();
+            return;
         }
     };
 
@@ -83,22 +88,36 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         alert("ERROR");
     };
 
-    ns.jsonRequest = (url, componentConfig, payload) => {
+    ns.jsonRequest = async (url, componentConfig, payload) => {
         const { writePayloadType, writeMethod } = componentConfig;
 
-        ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
+        await ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
-    ns.formRequest = (url, componentConfig, payload) => {
+    ns.formRequest = async (url, componentConfig, payload) => {
         const { payloadType, writeMethod } = componentConfig;
         const formData = new URLSearchParams();
         Object.entries(payload).map(item => {
             formData.append(item[0], item[1])
         });
-        ns.submit(url, writeMethod, payloadType, formData.toString(), ns.successCallback, ns.errorCallback);
+        await ns.submit(url, writeMethod, payloadType, formData.toString(), ns.successCallback, ns.errorCallback);
     };
 
-    ns.formSubmitHandler = ($component) => {
+    ns.updateButtonState = ($component, state) => {
+        const $button = $component.querySelector("button[type='submit']");
+        if ($button) {
+            
+            // disable the button and loading text 
+            $button.disabled = state === "loading";
+            $button.innerHTML = state === "loading" ? `<i class="pi pi-spin pi-spinner"></i>` : $button.getAttribute("data-label");
+        }
+    };
+
+
+    ns.formSubmitHandler = async ($component) => {
+
+        ns.updateButtonState($component, "loading");
+
         const componentConfig = componentNs.getComponentConfig($component);
 
         const payload = ns.getFormData($component);
@@ -109,10 +128,12 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         }
 
         if (writePayloadType === "application/json") {
-            ns.jsonRequest(writeUrl, componentConfig, payload);
+            await ns.jsonRequest(writeUrl, componentConfig, payload);
         } else if (writePayloadType === "application/x-www-form-urlencoded") {
-            ns.formRequest(writeUrl, componentConfig, payload);
+            await ns.formRequest(writeUrl, componentConfig, payload);
         }
+
+        ns.updateButtonState($component, "completed");
 
     };
 
@@ -207,6 +228,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.addEventListener = ($component) => {
         $component.addEventListener("submit",  function (e) {
+            
             console.log("---------------SUBMITTING----------------")
             e.preventDefault();
             const { target } = e;
