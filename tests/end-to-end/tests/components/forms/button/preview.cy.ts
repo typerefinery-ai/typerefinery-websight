@@ -6,5 +6,6 @@ describe('Button Component', () => {
     cy.visit(
       '/content/typerefinery-showcase/pages/components/forms/button.html'
     );
+    cy.get('[component="button"]');
   });
 });

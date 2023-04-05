@@ -1,4 +1,4 @@
-describe('Ticker Component', () => {
+describe('Table Component', () => {
   beforeEach(() => {
     cy.login();
   });
@@ -11,7 +11,6 @@ describe('Ticker Component', () => {
     cy.visit(
       '/content/typerefinery-showcase/pages/components/widgets/table.html'
     );
-    cy.get('.table')
-    cy.screenshot()
+    cy.get('[component="table"]')
   });
 });

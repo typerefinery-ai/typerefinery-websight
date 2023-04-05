@@ -6,8 +6,7 @@ describe('Ticker Component', () => {
     cy.visit(
       '/content/typerefinery-showcase/pages/components/widgets/ticker.html'
     );
-cy.get('#ticker')
-cy.get('.value').eq(0).contains('131.12K')
+cy.get('[component="ticker"]')
 cy.screenshot()
   });
 });

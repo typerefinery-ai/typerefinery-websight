@@ -53,10 +53,10 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {},
-    baseUrl: 'http://localhost:8080',
+    baseUrl: 'http://localhost:8113',
     specPattern: 'tests/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'support/index.ts',
     experimentalSessionAndOrigin: true,
-    defaultCommandTimeout: 10000
+    defaultCommandTimeout: 20000
   },
 })

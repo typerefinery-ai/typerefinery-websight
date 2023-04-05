@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Typerefinery.io
+ * Copyright (C)  2023 Typerefinery.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,31 @@
  */
 
 import '@4tw/cypress-drag-drop';
+import { SelectionMode } from './types';
+
 
 /**
  * Adds support for '/' in testId
  */
 const prepareTestId = (testId: string) => testId.replaceAll('/', '\\/');
 
-Cypress.Commands.add('getByTestId', (testId) => {
-  return cy.get(`[data-testid=${prepareTestId(testId)}]`);
+Cypress.Commands.addQuery('getByTestId',
+    (testId: string, selectionMode = SelectionMode.FULL_MATCH) => {
+  const fixedTextId = prepareTestId(testId);
+  const getFn = cy.now('get', `[data-testid${selectionMode}="${fixedTextId}"]`);
+  return () => {
+    return getFn(cy);
+  };
 });
 
-Cypress.Commands.add(
-    'findByTestId',
-    {
-      prevSubject: true
-    },
-    (subject, testId) => {
-      return subject.find(`[data-testid=${prepareTestId(testId)}]`);
-    }
-);
+Cypress.Commands.addQuery('findByTestId',
+    (testId: string, selectionMode = SelectionMode.FULL_MATCH) => {
+  const fixedTextId = prepareTestId(testId);
+  const getFn = cy.now('find', `[data-testid${selectionMode}="${fixedTextId}"]`);
+  return (subject) => {
+    return getFn(subject);
+  };
+});
 
 Cypress.Commands.add('login', () => {
   const authUrl = `${
@@ -56,25 +62,6 @@ Cypress.Commands.add('login', () => {
   });
 });
 
-const hideHowliteHeaderFooterCSS = `
-  .hl-header {
-    visibility: hidden !important;
-  }
-  .hl-footer {
-    visibility: hidden !important;
-  }
-`;
-
-const hideWSNavbarAndSidepanelCSS = `
-  [data-ds--page-layout--slot="top-navigation"] {
-    visibility: hidden !important;
-  }
-
-  [data-ds--page-layout--slot="left-sidebar"] {
-    visibility: hidden !important;
-  }
-`;
-
 Cypress.Commands.add('percySnapshotWithAuth', (name: string, options) => {
   cy.getCookie('websight.auth').then((authCookie) => {
     cy.percySnapshot(name, {
@@ -90,14 +77,12 @@ Cypress.Commands.add('percySnapshotWithAuth', (name: string, options) => {
 
 Cypress.Commands.add('percySnapshotPreview', (name: string, options) => {
   cy.percySnapshotWithAuth(name, {
-    percyCSS: hideHowliteHeaderFooterCSS,
     ...options
   });
 });
 
 Cypress.Commands.add('percySnapshotPageEditor', (name: string, options) => {
   cy.percySnapshotWithAuth(name, {
-    percyCSS: hideWSNavbarAndSidepanelCSS,
     ...options
   });
 });
