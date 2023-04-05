@@ -1,0 +1,20 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "alignmentTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Alignment",
+      "flexEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "flexEnabled",
+        "label": "Arrange children in same line",
+        "description": "Components arranged in Horizontal Direction"
+      }
+    }
+  }
+}
