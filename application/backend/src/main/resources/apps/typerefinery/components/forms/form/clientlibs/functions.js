@@ -30,7 +30,21 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                 }else if($input.tagName === "SELECT") {
                     // get value from select tag
                     result[name] = selectInstanceNs[$input.getAttribute("id")].getValue(true);
-                }else {
+                }else if($input.type === "file") {
+                    // get value from file tag.
+                    if($input.multiple) {
+                        // if multiple files are selected then it will return array of files.
+                        result[name] = $input.files.map(file => URL.createObjectURL(file));
+                    }else {
+                        // create blob url from file.
+                        const blobUrl = URL.createObjectURL($input.files[0]);
+                        // if single file is selected then it will return single file.
+                        result[name] = blobUrl;
+                    }
+
+
+                    
+                } else {
                     // get value from $input tag
                     result[name] = $input?.value || "";
                 }
