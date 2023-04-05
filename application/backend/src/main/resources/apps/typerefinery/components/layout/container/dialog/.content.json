@@ -154,6 +154,26 @@
         }
       }
     },
+    "containerTitleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/containertitle",
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": "sectionwithtitle"
+        }
+      }
+    },
+    "containerChildTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/containerchild",
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": "sectionwithtitle"
+        }
+      }
+    },
     "backgroundTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/background"
