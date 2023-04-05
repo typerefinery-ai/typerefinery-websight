@@ -69,7 +69,7 @@
           "label": "Event Action",
           "openLinkInTabContainer": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": " Open Link in Tab Container",
+            "label": " Open as Tab",
             "value": "openLinkInTabContainer",
             "selected": true
           }

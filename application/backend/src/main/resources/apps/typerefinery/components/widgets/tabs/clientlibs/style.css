@@ -1,0 +1,21 @@
+[component="tabs"] {
+  height: 100%;
+}
+
+[component="tabs"] .tab-content>.active{
+  height: 100%;
+}
+
+[component="tabs"] .tab-content {
+  flex: 1;
+}
+
+[component="tabs"] .close-icon {
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+[component="tabs"] .icon {
+  font-size: 12px;
+  margin-right: 7px;
+}

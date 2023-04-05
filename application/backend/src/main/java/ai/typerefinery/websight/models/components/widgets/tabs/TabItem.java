@@ -1,4 +1,4 @@
-package ai.typerefinery.websight.models.components.widgets.tab;
+package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
@@ -29,6 +29,9 @@ public class TabItem {
     private String content;
 
     
+    @Getter
+    @Inject
+    private String icon;
     
     @Inject
     @Getter

@@ -81,7 +81,7 @@
         },
         "openInTab": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Open In Tab Container",
+          "label": "Open as Tab",
           "value": "TAB"
         }
       },

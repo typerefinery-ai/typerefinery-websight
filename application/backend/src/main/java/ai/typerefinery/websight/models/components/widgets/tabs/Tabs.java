@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ai.typerefinery.websight.models.components.widgets.tab;
+package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
@@ -30,7 +30,7 @@ import ai.typerefinery.websight.models.components.KeyValuePair;
 import lombok.Getter;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
-public class Tab extends BaseComponent {
+public class Tabs extends BaseComponent {
 
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tab";
 

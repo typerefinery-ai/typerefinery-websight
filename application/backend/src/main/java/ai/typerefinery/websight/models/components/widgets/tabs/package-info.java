@@ -15,7 +15,7 @@
  */
 
 @Version("1.0.0")
-package ai.typerefinery.websight.models.components.widgets.tab;
+package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import org.osgi.annotation.versioning.Version;
 

@@ -5,7 +5,7 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 ;(function (ns, document, window) {
     "use strict";
     $(document).ready(function () {
-        $("[component='tabcontainer']").each(function() {
+        $("[component='tabs']").each(function() {
             ns.init(this);
         });
     });

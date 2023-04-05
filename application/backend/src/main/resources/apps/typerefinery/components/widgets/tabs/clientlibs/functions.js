@@ -33,7 +33,9 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
                     tabTitle: tab.title,
                     tabContent: tab.content,
                     id: `${index}-${tab.title.replace(/[^a-zA-Z0-9 ]/g, '').trim()?.split(" ").join("-")}`,
-                    active: index === 0 ? "active" : ""
+                    active: index === 0 ? "active" : "",
+                    icon: tab.icon,
+                    isCloseable: tab.isCloseable,
                 };
             }) || []
         };
@@ -161,6 +163,7 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
 
+        // NOTE: this is a hack to get the topic from the first event.
         componentConfig['topic'] = componentConfig.events[0].key;
 
 
