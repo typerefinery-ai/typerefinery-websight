@@ -14,6 +14,8 @@
     limitations under the License.
 */-->
 <sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.FileUpload"></sly> 
-    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
-    </sly>
+    <div class="${model.componentClassNames}"> 
+        <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+        </sly>
+    </div>
 </sly>
