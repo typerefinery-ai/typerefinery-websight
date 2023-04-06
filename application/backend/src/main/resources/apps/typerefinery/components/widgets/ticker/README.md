@@ -39,7 +39,7 @@ These fields are available for input by the authors. These fields are used in te
     </thead>
     <tbody style="background-color: gray;">
     <tr>
-            <td rowspan="3">Config</td> 
+            <td rowspan="2">Config</td> 
             <td>Title</td>
             <td>Empty</td>
             <td>Please provide title used for flow.</td>
@@ -54,6 +54,22 @@ These fields are available for input by the authors. These fields are used in te
             <td>Choose Ticker Template</td>
             <td>Template1</td>
             <td>Select different template from Dropdown. After selecting you can modify these as per needed.</td>
+        </tr>
+        <tr>
+             <td rowspan="3">Template Sample</td>
+            <td>Template1</td>
+            <td>None</td>
+            <td><img width="800px" src="./templates/images/template_1.png" /></td>
+        </tr>
+         <tr>
+            <td>Template2</td>
+            <td>None</td>
+            <td><img width="800px" src="./templates/images/template_2.png" /></td>
+        </tr>
+         <tr>
+            <td>Template3</td>
+            <td>None</td>
+            <td><img width="800px" src="./templates/images/template_3.png" /></td>
         </tr>
          <tr>
             <td rowspan="12">Flow</td>
