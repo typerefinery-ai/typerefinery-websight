@@ -44,20 +44,18 @@
           "value": "hamburger"
         }
       },
-    "target": {
-      "sling:resourceType": "wcm/dialogs/components/textfield",
-      "name": "target",
-      "label": "Component Id to toggle",
-      "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
-      "ws:display": {
-        "condition": {
-          "sourceName": "variant",
-          "values": "hamburger"
+      "target": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "target",
+        "label": "Component Id to toggle",
+        "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values": "hamburger"
+          }
         }
-      }
-  },
-
-
+      },
       "navigateTo": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
@@ -238,6 +236,10 @@
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Style",
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/id"
+      },
       "classes": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
@@ -307,6 +309,13 @@
         "name": "showTextualElementOfButton",
         "label": "Show Text Elements",
         "description": "Display texts or content only, hide button border."
+      },
+      "persistColorWhenThemeSwitches": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "persistColorWhenThemeSwitches",
+        "label": "Persist Color When Theme Switches",
+        "description": "Persist the color of the button when the theme switches.",
+        "value": true
       }
     },
     "gridTab": {
