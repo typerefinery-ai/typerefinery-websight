@@ -5,7 +5,7 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "containerType",
         "label": "Container Width",
-        "description": "Bootstrap container width", 
+        "description": "Bootstrap container width",
         "default": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "default",
@@ -104,39 +104,29 @@
             "value": "between"
         }
     },
-    "gap": {
+    "textAlignment": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "gap",
-        "label": "Column Spacing",
-        "0": {
+        "name": "textAlignment",
+        "label": "Text Alignment",
+        "default": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "0",
-            "value": "0"
+            "label": "default",
+            "value": ""
         },
-        "1": {
+        "left": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "1",
-            "value": "1"
+            "label": "left",
+            "value": "left"
         },
-        "2": {
+        "center": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "2",
-            "value": "2"
+            "label": "center",
+            "value": "center"
         },
-        "3": {
+        "right": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "3",
-            "value": "3"
-        },
-        "4": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "4",
-            "value": "4"
-        },
-        "5": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "5",
-            "value": "5"
+            "label": "right",
+            "value": "right"
         }
     }
 }

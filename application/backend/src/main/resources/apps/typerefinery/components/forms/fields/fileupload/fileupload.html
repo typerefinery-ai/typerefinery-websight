@@ -1,5 +1,5 @@
 <!--/*
-    Copyright (C) 2022 Typerefinery.ai
+    Copyright (C) 2023 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,17 +13,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<template data-sly-template.variant="${ @ model }">
-  <input 
-    component="${model.componentName}"
-    isInput="true"
-    id="${model.id}" 
-    type="${model.inputType}"
-    name="${model.name}"
-    data-fieldId="${model.id}-${model.name}" 
-    placeholder="${model.placeholder}" 
-    class=" ${model.variantClassNames}"
-    required="${model.validationRequired}"
-    data-inputmask = " 'mask' : '${model.validationInputMask}'"
-  />
-</template>
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.FileUpload"></sly> 
+    <div class="${model.componentClassNames}"> 
+        <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+        </sly>
+    </div>
+</sly>

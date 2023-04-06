@@ -199,29 +199,40 @@
       "value": 12
     }
   },
-  "textAlignment": {
+  "gap": {
     "sling:resourceType": "wcm/dialogs/components/select",
-    "name": "textAlignment",
-    "label": "Text Alignment",
-    "default": {
+    "name": "gap",
+    "label": "Spacing",
+    "description": "The spacing between components when they are aligned in a same line",
+    "0": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "default",
-      "value": ""
+      "label": "0",
+      "value": "0"
     },
-    "left": {
+    "1": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "left",
-      "value": "left"
+      "label": "1",
+      "value": "1"
     },
-    "center": {
+    "2": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "center",
-      "value": "center"
+      "label": "2",
+      "value": "2"
     },
-    "right": {
+    "3": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-      "label": "right",
-      "value": "right"
+      "label": "3",
+      "value": "3"
+    },
+    "4": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "4",
+      "value": "4"
+    },
+    "5": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "5",
+      "value": "5"
     }
   }
 }

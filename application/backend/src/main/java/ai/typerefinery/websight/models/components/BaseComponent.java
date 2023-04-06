@@ -160,7 +160,6 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     
     @Inject
     @Getter
-    @Default(values = "false")
     public Boolean persistColorWhenThemeSwitches;
 
     public String resourcePath; // full path of the component

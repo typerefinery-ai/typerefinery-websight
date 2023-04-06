@@ -85,6 +85,6 @@ public class Nav extends Container {
             grid.addClasses(backgroundColorClass);
         }
         // Default nav class
-        grid.addClasses("nav");
+        grid.addClasses("_nav_container_");
     }
 }

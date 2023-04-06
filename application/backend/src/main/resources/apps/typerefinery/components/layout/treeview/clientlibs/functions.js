@@ -49,17 +49,20 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 if (current && current.indexOf('.html') === -1) {
                     current += '.html';
                 }
-                result.push({
-                    link: _obj["jcr:content"].key + ".html" ,
-                    href: componentConfig.onNodeSelected === "TAB" ? "javascript:void(0)" : _obj["jcr:content"].key,
-                    text: capitalizeFirstLetter(_obj["jcr:content"].title),
-                    icon: _obj["jcr:content"].icon,
-                    nodes: children.length === 0 ? null : children,
-                    tags: [_obj["jcr:content"].key + ".html"],
-                    state: {
-                        selected: window.location.pathname === current
-                    }
-                });
+                // NOTE: if title is empty then don't add it to the menu.
+                if( _obj["jcr:content"].title?.trim() !== "") {
+                    result.push({
+                        link: _obj["jcr:content"].key + ".html" ,
+                        href: componentConfig.onNodeSelected === "TAB" ? "javascript:void(0)" : _obj["jcr:content"].key,
+                        text: capitalizeFirstLetter(_obj["jcr:content"].title),
+                        icon: _obj["jcr:content"].icon,
+                        nodes: children.length === 0 ? null : children,
+                        tags: [_obj["jcr:content"].key + ".html"],
+                        state: {
+                            selected: window.location.pathname === current
+                        }
+                    });
+                }
             }
             return result;
         }
