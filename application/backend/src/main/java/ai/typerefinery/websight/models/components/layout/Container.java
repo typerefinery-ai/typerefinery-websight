@@ -372,12 +372,12 @@ public class Container extends BaseComponent {
     
     private Map<String, String> backgroundColorConfig = new HashMap<String, String>() {
         {
-            put("primary", "p-3 bg-primary");
-            put("secondary", "p-3 bg-secondary");
-            put("success", "p-3 bg-success");
-            put("light", "p-3 bg-light");
-            put("dark", "p-3 bg-dark");
-            put("danger", "p-3 bg-danger");
+            put("primary", "bg-primary");
+            put("secondary", "bg-secondary");
+            put("success", "bg-success");
+            put("light", "bg-light");
+            put("dark", "bg-dark");
+            put("danger", "bg-danger");
         }
     };
 
