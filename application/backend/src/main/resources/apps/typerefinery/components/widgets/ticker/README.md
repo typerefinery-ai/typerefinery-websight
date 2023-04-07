@@ -59,17 +59,17 @@ These fields are available for input by the authors. These fields are used in te
              <td rowspan="3">Template Sample</td>
             <td>Template1</td>
             <td>None</td>
-            <td><img width="800px" src="./templates/images/template_1.png" /></td>
+            <td><img width="800px" src="./templates/images/template1.png" /></td>
         </tr>
          <tr>
             <td>Template2</td>
             <td>None</td>
-            <td><img width="800px" src="./templates/images/template_2.png" /></td>
+            <td><img width="800px" src="./templates/images/template2.png" /></td>
         </tr>
          <tr>
             <td>Template3</td>
             <td>None</td>
-            <td><img width="800px" src="./templates/images/template_3.png" /></td>
+            <td><img width="800px" src="./templates/images/template3.png" /></td>
         </tr>
          <tr>
             <td rowspan="12">Flow</td>
