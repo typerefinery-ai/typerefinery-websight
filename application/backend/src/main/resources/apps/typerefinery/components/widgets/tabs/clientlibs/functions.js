@@ -163,8 +163,9 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
 
-        // NOTE: this is a hack to get the topic from the first event.
-        componentConfig['topic'] = componentConfig.events[0].key;
+        if(componentConfig.events && componentConfig.events.length > 0) { 
+            componentConfig['topic'] = componentConfig.events[0]?.key || '';
+        }
 
 
         ns.compileHandlerBar($component, componentConfig);

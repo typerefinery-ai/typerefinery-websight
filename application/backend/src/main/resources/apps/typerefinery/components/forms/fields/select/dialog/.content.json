@@ -74,6 +74,14 @@
         "label": "Default Selected Options",
         "description": "Comma separated list of values to be selected by default"
       }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

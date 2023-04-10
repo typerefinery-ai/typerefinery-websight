@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import ai.typerefinery.websight.models.components.BaseFormComponent;
 import ai.typerefinery.websight.utils.LinkUtil;
+import ai.typerefinery.websight.utils.PageUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -67,7 +68,7 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "")
+    @Default(values = "submit")
     private String buttonType;
 
     
@@ -170,6 +171,10 @@ public class Button extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
+        HashMap<String, Object> props = new HashMap<String, Object>() {
+            {
+            }
+        };
 
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
@@ -192,16 +197,22 @@ public class Button extends BaseFormComponent {
             String buttonCls = "btn";
             if (StringUtils.isNotBlank(buttonStyle)) {
                 buttonCls += " btn";
-                if (BooleanUtils.isTrue(isOutlinedButton) && buttonStyle != "link") {
+                if (BooleanUtils.isTrue(isOutlinedButton) && !buttonStyle.equals("link")) {
                     buttonCls += "-outline";
                 }
-                if (BooleanUtils.isTrue(showTextualElementOfButton) && buttonStyle != "link") {
+                if (BooleanUtils.isTrue(showTextualElementOfButton) && !buttonStyle.equals("link")) {
                     buttonCls += "-text-nowrap";
                 }
                 buttonCls += buttonVariantConfig.get(buttonStyle);
             }
 
             style.addClasses(buttonCls);
+        }
+        // if persistColorWhenThemeSwitches is null then set it to true
+        if (persistColorWhenThemeSwitches == null) {
+            persistColorWhenThemeSwitches = true;
+            props.put("persistColorWhenThemeSwitches", persistColorWhenThemeSwitches);
+            PageUtil.updatResourceProperties(resource, props);
         }
     }
 

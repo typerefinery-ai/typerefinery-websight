@@ -14,16 +14,14 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-  <div class="${model.componentClassNames}" id="${model.id}" component="${model.componentName}-input">
-    <select 
-      isInput="true"
-      name="${model.name}"
-      class="${model.variantClassNames} form-control" 
-      id="${model.id}" 
-      data-model="${model.jsonString}"
-      component="${model.componentName}"
-      placeholder="${model.placeholder}"
-    >
-    </select>
-  </div>
+  <select 
+    isInput="true"
+    name="${model.name}"
+    class="${model.variantClassNames} form-control" 
+    id="${model.id}" 
+    data-model="${model.jsonString}"
+    component="${model.componentName}"
+    placeholder="${model.placeholder}"
+  >
+  </select>
 </template>
