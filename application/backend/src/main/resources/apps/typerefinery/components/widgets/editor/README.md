@@ -120,17 +120,13 @@ This component has the following variants
           <tr>
           <td rowspan="3">Variant</td>
             <td>Code</td>
-            <td>Default</td>
-            <td>Enable Code as Variant.</td>
+            <td>Enabled</td>
+            <td>Enable Code as Variant.<img width="800px" src="./images/code.png"/></td>
         </tr>
           <tr>
             <td>Text</td>
             <td>Disable</td>
-            <td>Enable Text as Editor Variant.</td>
+            <td>Enable Text as Editor Variant.<img width="800px" src="./images/text.png"/></td>
         </tr>
       </tbody>
       </table>
-        
-        
-
-

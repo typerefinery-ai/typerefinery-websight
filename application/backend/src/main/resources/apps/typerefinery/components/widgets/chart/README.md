@@ -177,18 +177,18 @@ This component has the following variants
           <tr>
           <td rowspan="3">Variant</td>
             <td>Line Chart</td>
-            <td>Default</td>
-            <td>Show data in Line Chart.</td>
+            <td>Enabled</td>
+            <td>Show data in Line Chart.<img width="800px" src="./templates/images/linechart.png" /></td>
         </tr>
           <tr>
             <td>Bar Chart</td>
             <td>Disabled</td>
-            <td>Show data in Bar Chart.</td>
+            <td>Show data in Bar Chart.<img width="800px" src="./templates/images/barchart.png" /></td>
         </tr>
           <tr>
             <td>Pie Chart</td>
             <td>Disabled</td>
-            <td>Show data in Pie Chart.</td>
+            <td>Show data in Pie Chart.<img width="800px" src="./templates/images/piechart.png" /></td>
         </tr>
       </tbody>
     </table>
