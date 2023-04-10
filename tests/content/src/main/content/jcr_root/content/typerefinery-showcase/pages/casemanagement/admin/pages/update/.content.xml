@@ -123,22 +123,28 @@
                                     useQueryParamsFromParent="false"/>
                                 <_x0034_
                                     jcr:primaryType="nt:unstructured"
+                                    content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/observable1.html"
+                                    isCloseable="true"
+                                    title="Observable 1"
+                                    useQueryParamsFromParent="false"/>     
+                                <_x0035_
+                                    jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/artifacts.html"
                                     isCloseable="true"
                                     title="Artifacts"
                                     useQueryParamsFromParent="false"/>
-                                <_x0035_
+                                <_x0036_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/enrichments.html"
                                     isCloseable="true"
                                     title="Enrichments"
                                     useQueryParamsFromParent="false"/>
-                                <_x0036_
+                                <_x0037_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/notes.html"
                                     isCloseable="true"
                                     title="Notes"
-                                    useQueryParamsFromParent="false"/>
+                                    useQueryParamsFromParent="false"/>   
                             </listOfTab>
                         </tabs>
                     </container_2>
