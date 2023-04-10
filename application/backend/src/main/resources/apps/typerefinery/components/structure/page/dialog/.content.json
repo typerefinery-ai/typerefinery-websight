@@ -11,10 +11,10 @@
         "metadataTab": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "Metadata",
-            "title": {
+            "propertyTitle": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
                 "label": "Property title",
-                "name": "title"
+                "name": "propertyTitle"
             },
             "description": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
