@@ -5,6 +5,11 @@
     "sling:resourceType": "wcm/dialogs/components/select",
     "name": "backgroundColor",
     "label": "Background Color",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Default",
+      "value": " "
+    },
     "light": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
       "label": "Light",

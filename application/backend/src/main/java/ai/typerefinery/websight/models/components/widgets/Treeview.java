@@ -197,6 +197,7 @@ public class Treeview extends BaseComponent {
         String title = parentPageContentVM.get(PageUtil.PROPERTY_TITLE, resourceName);
         String icon = parentPageContentVM.get(PageUtil.PROPERTY_ICON, "");
         String description = parentPageContentVM.get(PageUtil.PROPERTY_DESCRIPTION, "");
+        String hideInNav = parentPageContentVM.get(PageUtil.PROPERTY_HIDEINNAV, "false");
         
         children.put(JcrConstants.JCR_CONTENT, new TreeMap<String, Object>() {{
             put("name", resourceName);
@@ -204,6 +205,7 @@ public class Treeview extends BaseComponent {
             put("title", title);
             put("icon", icon);
             put("description", description);
+            put("hideInNav", hideInNav);
         }});
         
         for (Resource child : parentPage.getChildren()) {
