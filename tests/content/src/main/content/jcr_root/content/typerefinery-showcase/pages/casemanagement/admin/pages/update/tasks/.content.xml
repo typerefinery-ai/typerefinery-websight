@@ -22,19 +22,21 @@
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
-                id="container1_LMV2LCUP9">
+                id="container1_KGV3BGNXQ"
+                paddingEnabled="true"
+                paddingGeneral="two">
                 <form1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
                     flexEnabled="true"
-                    id="form1_SVOCBJTYT"
+                    id="form1_TPNBB4Q4I"
                     marginEnabled="true"
                     marginTop="one">
                     <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
                         flexEnabled="true"
-                        id="container_HIKMI6W0E"
+                        id="container_FIFDP220S"
                         lgColSize="12"
                         textAlignment="center">
                         <container_1
@@ -42,25 +44,34 @@
                             sling:resourceType="typerefinery/components/layout/container"
                             flexEnabled="true"
                             horizontalAlignment="end"
-                            id="container_1_UA48ZVFRX"
+                            id="container_1_HF1QM0KU9"
                             marginBottom="two"
                             marginEnabled="true"
                             textAlignment="center">
                             <button_1
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/button"
+                                actionModalTitle="Create Tasks"
+                                actionType="openModal"
+                                actionUrl="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/addtask/"
                                 buttonStyle="warning"
-                                buttonType="submit"
-                                id="button_1_HFW8TTEDV"
+                                buttonType="action"
+                                classes="\0"
+                                hideButtonLabel="false"
+                                hideFooter="false"
+                                id="button_1_EOEL98NVK"
+                                isOutlinedButton="false"
                                 label="Add Task"
                                 lgColSize="3"
-                                persistColorWhenThemeSwitches="{Boolean}true"/>
+                                persistColorWhenThemeSwitches="true"
+                                showIcon="false"
+                                showTextualElementOfButton="false"/>
                         </container_1>
                         <container_2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
                             flexEnabled="true"
-                            id="container_2_UZ93EZABB"
+                            id="container_2_LBJFJGYAB"
                             textAlignment="center">
                             <table
                                 jcr:primaryType="nt:unstructured"
@@ -68,7 +79,7 @@
                                 dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json"
                                 flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json"
                                 flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
-                                id="table_8S4JVB41E"
+                                id="table_RWZKPV9SC"
                                 overRideColumns="{Boolean}true"
                                 showActionButtons="true"/>
                         </container_2>

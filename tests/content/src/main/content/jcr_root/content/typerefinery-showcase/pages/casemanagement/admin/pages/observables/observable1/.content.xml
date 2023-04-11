@@ -84,14 +84,12 @@
                                 jcr:primaryType="nt:unstructured"
                                 content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/domainname.html"
                                 icon="pi pi-globe"
-                                isCloseable="true"
                                 title="Domain"
                                 useQueryParamsFromParent="false"/>
                             <_x0031_
                                 jcr:primaryType="nt:unstructured"
                                 content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/totalvirus.html"
                                 icon="pi pi-exclamation-triangle"
-                                isCloseable="true"
                                 title="Virus total"
                                 useQueryParamsFromParent="false"/>
                         </listOfTab>

@@ -49,14 +49,23 @@
                             marginBottom="two"
                             marginEnabled="true"
                             textAlignment="center">
-                            <button_2
+                             <button_2
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/button"
+                                actionModalTitle="Add Tag"
+                                actionType="openModal"
+                                actionUrl="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/addtag/"
                                 buttonStyle="warning"
-                                buttonType="submit"
-                                id="button_2_XPH1V0SXY"
+                                buttonType="action"
+                                classes="\0"
+                                hideButtonLabel="false"
+                                hideFooter="false"
+                                id="button_2_KVZRAH8ZD"
+                                isOutlinedButton="false"
                                 label="Add Tag"
-                                persistColorWhenThemeSwitches="{Boolean}true"/>
+                                persistColorWhenThemeSwitches="true"
+                                showIcon="false"
+                                showTextualElementOfButton="false"/>
                         </container_1_1>
                         <container_1_2
                             jcr:primaryType="nt:unstructured"

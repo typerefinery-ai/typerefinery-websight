@@ -66,10 +66,6 @@
                         title="Field"/>
                 </fileupload>
             </main>
-            <footer
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/footer"
-                id="footer_8RD6IWCBZ"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>
