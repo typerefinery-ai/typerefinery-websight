@@ -25,6 +25,8 @@
                 flexEnabled="true"
                 id="container1_D68XLXJEA"
                 marginEnabled="true"
+                paddingEnabled="true"
+                paddingGeneral="two"
                 marginTop="one">
                 <container
                     jcr:primaryType="nt:unstructured"
