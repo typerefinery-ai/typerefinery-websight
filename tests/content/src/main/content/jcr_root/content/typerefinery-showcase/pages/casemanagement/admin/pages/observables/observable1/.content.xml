@@ -38,7 +38,9 @@
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
-                    id="container_IDW4SCBOO">
+                    id="container_IDW4SCBOO"
+                    paddingEnabled="true"
+                    paddingGeneral="two">
                     <form
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/form"
@@ -96,10 +98,6 @@
                     </tabs>
                 </container>
             </main>
-            <footer
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/footer"
-                id="footer_N0VRWZGJI"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>

@@ -32,10 +32,9 @@
                     classes="\0"
                     flexEnabled="false"
                     id="container_1ZTNH3UYK"
-                    marginEnabled="true"
                     marginGeneral="zero"
-                    marginLeft="two"
-                    paddingEnabled="false"
+                    paddingEnabled="true"
+                    paddingGeneral="two"
                     persistColorWhenThemeSwitches="false"
                     title="\0">
                     <form

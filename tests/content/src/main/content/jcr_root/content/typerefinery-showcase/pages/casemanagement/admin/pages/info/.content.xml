@@ -55,9 +55,9 @@
                 sling:resourceType="typerefinery/components/layout/container"
                 flexEnabled="true"
                 id="container1_MQ28VZFGF"
-                lgColSize="11"
-                marginEnabled="true"
-                marginLeft="two">
+                lgColSize="12"
+                paddingEnabled="true"
+                paddingGeneral="two">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"

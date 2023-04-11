@@ -49,7 +49,8 @@
                 flexEnabled="true"
                 lgColSize="12"
                 marginEnabled="true"
-                marginLeft="two"
+                paddingEnabled="true"
+                paddingGeneral="two"
                 marginTop="one">
                 <container
                     jcr:primaryType="nt:unstructured"

@@ -48,6 +48,8 @@
                 sling:resourceType="typerefinery/components/layout/container"
                 flexEnabled="true"
                 marginEnabled="true"
+                paddingEnabled="true"
+                paddingGeneral="two"
                 marginTop="one">
                 <container
                     jcr:primaryType="nt:unstructured"
