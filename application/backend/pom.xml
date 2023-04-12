@@ -83,7 +83,7 @@
     </dependency>
     <dependency>
       <artifactId>websight-publishing-framework</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
       <groupId>pl.ds.websight</groupId>
       <scope>provided</scope>
     </dependency>
@@ -97,6 +97,30 @@
       <artifactId>websight-pages-editor-service</artifactId>
       <version>1.2.0</version>
       <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>websight-publishing-connectors-api</artifactId>
+      <version>1.0.2</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.sling.servlet-helpers</artifactId>
+      <version>1.4.2</version>
+      <groupId>org.apache.sling</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>guava</artifactId>
+      <version>15.0</version>
+      <groupId>com.google.guava</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.sling.settings</artifactId>
+      <version>1.4.2</version>
+      <groupId>org.apache.sling</groupId>
       <scope>provided</scope>
     </dependency>
 
