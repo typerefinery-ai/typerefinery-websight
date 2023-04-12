@@ -1,5 +1,5 @@
 window.Typerefinery = window.Typerefinery || {};
-window.Typerefinery.HideButtonElement = Typerefinery.HideButtonElement || {};
+window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 
 (function (ns, document, window) {
   ns.init = ($component, componentConfig) => {
@@ -7,15 +7,15 @@ window.Typerefinery.HideButtonElement = Typerefinery.HideButtonElement || {};
     $component.setAttribute("data-bs-toggle", "collapse");
     $component.setAttribute(
       "data-bs-target",
-      `${componentConfig.hideButtonElementTarget}`
+      `${componentConfig.toggleTarget}`
     );
 
     //Set class "collapse" to hide the elements intially, which need to be toggle.
     const targetElement = document.querySelectorAll(
-      `${componentConfig.hideButtonElementTarget}`
+      `${componentConfig.toggleTarget}`
     );
     targetElement.forEach((element) => {
       element.classList.add("collapse");
     });
   };
-})(Typerefinery.HideButtonElement, document, window);
+})(Typerefinery.ToggleComponent, document, window);

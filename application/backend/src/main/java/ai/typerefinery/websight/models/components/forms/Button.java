@@ -46,13 +46,10 @@ public class Button extends BaseFormComponent {
     protected static final String DEFAULT_LABEL = "Click me";
     protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
     protected static final String DEFAULT_BUTTON_STYLE = "primary";
-    
 
     protected static final String PROPERTY_HIDE_BUTTON_LABEL = "hideButtonLabel";
     public static final String PROPERTY_VARIANT = "variant";
     public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "hamburger";
-
-
 
     @Inject
     @Getter
@@ -65,13 +62,11 @@ public class Button extends BaseFormComponent {
     @Nullable
     public String variant;
 
-
     @Inject
     @Getter
     @Default(values = "submit")
     private String buttonType;
 
-    
     @Inject
     @Getter
     @Default(values = "")
@@ -80,7 +75,7 @@ public class Button extends BaseFormComponent {
     @Inject
     @Getter
     @Default(values = "")
-    public String hideButtonElementTarget;
+    public String toggleTarget;
 
     @Inject
     @Getter
@@ -184,14 +179,14 @@ public class Button extends BaseFormComponent {
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
         }
-        if(StringUtils.isBlank(buttonStyle)){
+        if (StringUtils.isBlank(buttonStyle)) {
             this.buttonStyle = DEFAULT_BUTTON_STYLE;
         }
 
         if (BooleanUtils.isTrue(hideButtonLabel)) {
             this.label = " ";
         }
-        
+
         super.init();
 
         if (StringUtils.isBlank(this.iconPosition)) {

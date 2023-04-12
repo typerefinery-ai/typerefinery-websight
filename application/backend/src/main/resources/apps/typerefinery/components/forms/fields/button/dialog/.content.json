@@ -152,10 +152,10 @@
           "label": "Initial Theme",
           "value": "initialTheme"
         },
-        "hideButtonElements": {
+        "toggleComponent": {
           "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Toggle Elements",
-          "value": "hideButtonElements"
+          "label": "Toggle Component",
+          "value": "toggleComponent"
         }
       },
       "actionModalTitle": {
@@ -204,15 +204,15 @@
           "value": "dark"
         }
       },
-      "hideButtonElementTarget": {
+      "toggleTarget": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "hideButtonElementTarget",
+        "name": "toggleTarget",
         "label": "Component Id to toggle",
         "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
         "ws:display": {
           "condition": {
             "sourceName": "actionType",
-            "values": "hideButtonElements"
+            "values": "toggleComponent"
           }
         }
       },

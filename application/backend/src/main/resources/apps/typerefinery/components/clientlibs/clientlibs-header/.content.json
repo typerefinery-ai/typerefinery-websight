@@ -7,6 +7,6 @@
     "components.js",
     "modal.js",
     "dropdown.js",
-    "hidebuttonelement.js"
+    "togglecomponent.js"
   ] 
 }
