@@ -183,11 +183,16 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 String uri = request.getRequestURI();
                 String uriPath = composeResourceCachePath(uri, extension, configurationAdmin, slingSettings);
                 boolean isCacheRequest = request.getParameter("cache") == null ? false : true;
+                Resource clientlibResource = request.getResourceResolver().getResource(relPath);
                 
+                // if not cache request and resource is not outdated send it and return
                 if (!isCacheRequest) {
-                    //check if resurce has been published and is in cache send it and return
-                    if (sendResourceFromCache(request.getResourceResolver(), uriPath, extension, response, configurationAdmin, slingSettings)) {
-                        return;
+                    boolean isCachedOutdated = isCachedResourceOutdated(clientlibResource, uriPath);
+                    if (!isCachedOutdated) {
+                        //check if resurce has been published and is in cache send it and return
+                        if (sendResourceFromCache(request.getResourceResolver(), uriPath, extension, response, configurationAdmin, slingSettings)) {
+                            return;
+                        }
                     }
                 }
 
@@ -195,6 +200,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 PrintWriter out = response.getWriter();
                 printClientlibContent(request.getResourceResolver(), relPath, out, extension, request.getResourceResolver().getSearchPath());
                 
+                // do not cache if cache request to avoid infinite loop
                 if (!isCacheRequest) {
                     // publish client lib to cache
                     publishClientLib(publishService, request.getResourceResolver(), relPath, extension, uriPath, uri);
@@ -379,6 +385,33 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         return null;
     }
 
+    /**
+     * check if resource is already published
+     * @param publishService
+     * @param resource
+     * @param relPath
+     */
+    public static boolean isCachedResourceOutdated(@NotNull Resource resource, @NotNull String resourceUriPath) {
+        if (!ResourceUtil.isNonExistingResource(resource)) {
+            // check if resource is already published
+            long lastModified = resource.getResourceMetadata().getModificationTime();
+            long created = resource.getResourceMetadata().getCreationTime();
+            Calendar lastModifiedCal = Calendar.getInstance();
+            lastModifiedCal.setTimeInMillis(lastModified > -1 ? lastModified : created);
+
+            File file = new File(resourceUriPath);
+            if (file.exists()) {
+                long fileLastModified = file.lastModified();
+                // if resource is modified after file was created, means files is older and needs to be updated
+                if (lastModifiedCal.getTimeInMillis() > fileLastModified) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    
     /**
      * check if resource is already published
      * @param publishService
