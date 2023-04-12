@@ -154,7 +154,7 @@
         },
         "hideButtonElements": {
           "sling:resourceType": "wcm/dialogs/components/selectitem",
-          "label": "Hide Elements",
+          "label": "Toggle Elements",
           "value": "hideButtonElements"
         }
       },
