@@ -4,9 +4,10 @@ window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Button || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
 window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
+window.Typerefinery.HideButtonElement = Typerefinery.HideButtonElement || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
-(function (ns, componentNs, modalNs, dropdownNs, themeNs, document, window) {
+(function (ns, componentNs, modalNs, dropdownNs, hidebuttonelementNs, themeNs, document, window) {
     ns.addEventListener = ($component, id) => {
         $component.addEventListener("click", (e) => {
             e?.preventDefault();
@@ -23,8 +24,6 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
                     window.location.href = navigateTo;
                 }
             }
-
-
         });
     }
      ns.windowResizeListener = ($component) => {
@@ -61,10 +60,12 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
                 dropdownNs.init($component, componentConfig);
             }else if(actionType === "initialTheme") {                
                 themeNs.init($component, componentConfig);
+            }else if(actionType === "hideButtonElements") {               
+                hidebuttonelementNs.init($component, componentConfig);
             }
             return;
         }
         ns.addEventListener($component, id);
         ns.windowResizeListener($component)
     }
-})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, window.Typerefinery.Page.Theme, document, window);
+})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, Typerefinery.HideButtonElement, window.Typerefinery.Page.Theme, document, window);

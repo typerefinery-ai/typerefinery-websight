@@ -79,6 +79,11 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
+    @Default(values = "")
+    public String hideButtonElementTarget;
+
+    @Inject
+    @Getter
     private Boolean navigateToInNewWindow;
 
     @Inject
