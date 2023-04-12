@@ -90,6 +90,17 @@ public class Select extends BaseFormComponent {
     @Inject
     public String readPayloadType;
 
+    @Getter
+    @Inject 
+    public String keyNameInOptionList;
+
+    
+    @Getter
+    @Inject 
+    public String labelNameInOptionList;
+
+    
+
 
     @Getter
     @Inject
