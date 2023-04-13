@@ -48,6 +48,8 @@ import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.ServletResolverConstants;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -377,14 +379,18 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     public static org.osgi.service.cm.Configuration getServiceConfig(@NotNull ConfigurationAdmin configAdmin, @NotNull String serviceConfigName) {
         try {
             if (configAdmin != null) {
-                return configAdmin.getConfiguration(serviceConfigName);
+                // find serviceConfigName in configAdmin
+                String filter = "(" + Constants.SERVICE_PID + "=" + serviceConfigName + ")";
+                Configuration[] configs = configAdmin.listConfigurations(filter);
+                if (configs != null && configs.length > 0) {
+                    return configs[0];
+                }
             }
-        } catch (IOException e) {
+        } catch (IOException | InvalidSyntaxException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return null;
     }
-
     /**
      * check if resource is already published
      * @param publishService
