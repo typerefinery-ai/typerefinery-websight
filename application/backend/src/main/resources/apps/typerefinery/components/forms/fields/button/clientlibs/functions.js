@@ -7,7 +7,7 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
-(function (ns, componentNs, modalNs, dropdownNs, togglecomponentNs, themeNs, document, window) {
+(function (ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
     ns.addEventListener = ($component, id) => {
         $component.addEventListener("click", (e) => {
             e?.preventDefault();
@@ -61,7 +61,7 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             }else if(actionType === "initialTheme") {                
                 themeNs.init($component, componentConfig);
             }else if(actionType === "toggleComponent") {               
-                togglecomponentNs.init($component, componentConfig);
+                toggleComponentNs.init($component, componentConfig);
             }
             return;
         }
