@@ -9,7 +9,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileAttribute;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.engine.SlingRequestProcessor;
@@ -30,10 +33,13 @@ import pl.ds.websight.publishing.framework.PublishException;
 import pl.ds.websight.publishing.framework.PublishOptions;
 import pl.ds.websight.publishing.framework.spi.PublishProcessor;
 
-@Component(service = { PublishProcessor.class })
+@Component(service = { PublishProcessor.class }, reference = {
+        @Reference(name = "storageConnectors", field = "storageConnectors", service = StorageConnector.class, cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC) })
 public class ClientLibsPublishProcessor implements PublishProcessor {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    volatile List<StorageConnector> storageConnectors = new CopyOnWriteArrayList<>();
 
     @Reference
     private SlingRequestProcessor requestProcessor;
@@ -46,6 +52,7 @@ public class ClientLibsPublishProcessor implements PublishProcessor {
     /**
      * This method is called to check if the resource can be processed by this
      * processor. It is called only once for each publish process.
+     * 
      * @param resourceResolver
      * @param resourcePath
      * @return true if the resource can be processed by this processor
@@ -67,50 +74,113 @@ public class ClientLibsPublishProcessor implements PublishProcessor {
      * This method is called before the publish process starts. It is used to
      * prepare the publish process. It is called only once for each publish
      * process.
-     * As client libs dont exist as nodes, we need to render them as string and
-     * save them as file during prepare phase.
      * @param resourceResolver
      * @param resourcePath
      * @param options
      */
     public void prepare(ResourceResolver resourceResolver, String resourcePath, PublishOptions options) {
         LOGGER.info("prepare");
-        if (PublishAction.PUBLISH == options.getPublishAction()) {
-            try {
-                // processPublish(resourceResolver, resourcePath, options);
-                String extension = options.getProperties().get(ClientLibsServlet.PROPERTY_EXTENSION).toString();
-                String resourceUri = options.getProperties().get(ClientLibsServlet.PROPERTY_CACHE_URI).toString();
-                String cachePath = options.getProperties().get(ClientLibsServlet.PROPERTY_CACHE_PATH).toString();
-
-                store(getStorageData(resourceResolver, resourceUri, extension), cachePath);
-            } catch (StorageConnectorException | PublishException e) {
-                LOGGER.error("Failed to store resource into path {}", resourcePath);
-                e.printStackTrace();
-            }
-        } else if (PublishAction.UNPUBLISH == options.getPublishAction()) {
-            try {
-                // processUnpublish(resourceResolver, resourcePath, options);
-                delete(resourcePath);
-            } catch (StorageConnectorException e) {
-                LOGGER.error("Failed to delete resource in path {}", resourcePath);
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
-     * This method that is called to publish a resource. As client libs dont exsint in repository
-     * this will never be called.
+     * This method that is called to publish a resource with additional options.
+     * It is called for each resource that can be processed by this processor.
+     * @param resourceResolver
+     * @param resourcePath
+     * @param options
      */
     public void process(ResourceResolver resourceResolver, String resourcePath, PublishOptions options)
             throws PublishException {
-        // this wont happen as client libs are not nodes
         LOGGER.info("process");
+        if (PublishAction.PUBLISH == options.getPublishAction()) {
+            processPublish(resourceResolver, resourcePath, options);
+        } else if (PublishAction.UNPUBLISH == options.getPublishAction()) {
+            processUnpublish(resourceResolver, resourcePath, options);
+        }
     }
 
+    private void processPublish(ResourceResolver resourceResolver, String resourcePath, PublishOptions options)
+            throws PublishException {
+        Resource resource = resourceResolver.getResource(resourcePath);
+        if (resource == null) {
+            this.LOGGER.warn("Resource {} does not exists.", resourcePath);
+            return;
+        }
+        String extension = options.getProperties().get(ClientLibsServlet.PROPERTY_EXTENSION).toString();
+        String resourceUri = options.getProperties().get(ClientLibsServlet.PROPERTY_CACHE_URI).toString();
+
+        String storagePath = getStoragePath(resourcePath, options);
+        try (InputStream storageData = getStorageData(resourceResolver, resourceUri, extension)) {
+            if (storageData == null) {
+                return;
+            }
+            for (StorageConnector storageConnector : this.storageConnectors) {
+                storeResource(storageConnector, resource, storagePath, storageData);
+            }
+        } catch (IOException e) {
+            LOGGER.warn("IOException occurred when getting storage data for resourceUri {}", resourceUri);
+        }
+    }
+
+    private void processUnpublish(ResourceResolver resourceResolver, String resourcePath, PublishOptions options)
+            throws PublishException {
+        String storagePath = getStoragePath(resourcePath, options);
+        for (StorageConnector storageConnector : this.storageConnectors)
+            delete(storageConnector, storagePath);
+    }
+
+    private void storeResource(StorageConnector storageConnector, Resource resource, String storagePath,
+            InputStream storageData) throws PublishException {
+        try {
+            InputStream inputStream = storageData;
+            try {
+                storageConnector.store(storagePath, inputStream, Collections.emptyMap());
+                LOGGER.info("Successfully stored resource {} by {} at path {}",
+                        new Object[] { resource.getPath(), storageConnector
+                                .getClass().getName(), storagePath });
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (Throwable throwable) {
+                if (inputStream != null)
+                    try {
+                        inputStream.close();
+                    } catch (Throwable throwable1) {
+                        throwable.addSuppressed(throwable1);
+                    }
+                throw throwable;
+            }
+        } catch (StorageConnectorException e) {
+            String message = String.format("Failed to store resource of path %s by %s", new Object[] { resource
+                    .getPath(), storageConnector.getClass().getName() });
+            throw new PublishException(message, e);
+        } catch (IOException e) {
+            String message = String.format("IOException occurred when handling InputStream of resource %s",
+                    new Object[] { resource
+                            .getPath() });
+            throw new PublishException(message, e);
+        }
+    }
+
+    private void delete(StorageConnector storageConnector, String storagePath) throws PublishException {
+        try {
+            storageConnector.delete(storagePath);
+            LOGGER.info("Successfully deleted resource from path {} by {}", storagePath, storageConnector
+                    .getClass().getName());
+        } catch (StorageConnectorException e) {
+            String message = String.format("Failed to delete resource from path %s by %s",
+                    new Object[] { storagePath, storageConnector
+                            .getClass().getName() });
+            throw new PublishException(message, e);
+        }
+    }
+
+    String getStoragePath(String resourcePath, PublishOptions options) {
+        return options.getProperties().get(ClientLibsServlet.PROPERTY_CACHE_URI).toString();
+    }
 
     /**
      * store file in disk cache
+     * 
      * @param input
      * @param cachePath
      * @throws StorageConnectorException
@@ -128,6 +198,7 @@ public class ClientLibsPublishProcessor implements PublishProcessor {
 
     /**
      * delete file from disk cache
+     * 
      * @param path
      * @throws StorageConnectorException
      */
@@ -142,9 +213,10 @@ public class ClientLibsPublishProcessor implements PublishProcessor {
 
     /**
      * render resource as string
+     * 
      * @param resourceResolver
-     * @param path is the resourceUri to render
-     * @param extension is the extension of the resource is not part of path
+     * @param path             is the resourceUri to render
+     * @param extension        is the extension of the resource is not part of path
      */
     public InputStream getStorageData(ResourceResolver resourceResolver, String path, String extension)
             throws PublishException {
