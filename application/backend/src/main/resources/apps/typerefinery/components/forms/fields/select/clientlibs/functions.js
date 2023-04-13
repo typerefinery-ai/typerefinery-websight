@@ -54,8 +54,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                     }
                 }
             ).then(response => response.json());
-            
-            return response?.data || [];
+            return Array.isArray(response) ? response : (response?.data || []);
         }catch(error) {
             console.error(error);
             return [];
@@ -66,9 +65,10 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         
         if(componentConfig.readOptionsFromDataSource) {
             const options = await ns.getOptionsFromDataSource(componentConfig);
+            console.log(options, 'options')
             if(options.length !== 0) {
                 const selectOptions = options.map((option) => {
-                    return `<option ${ns.isValueSelectedAsDefault(defaultSelectedOptions, option.value)} value="${option.value}">${option.label}</option>`
+                    return `<option ${ns.isValueSelectedAsDefault(defaultSelectedOptions, option[componentConfig.keyNameInOptionList || 'key'])} value="${option[componentConfig.keyNameInOptionList || 'key']}">${option[componentConfig.labelNameInOptionList || 'label']}</option>`
                 });
                 $component.innerHTML = selectOptions.join('');
                 return;

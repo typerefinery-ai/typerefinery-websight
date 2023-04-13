@@ -47,6 +47,16 @@
         "name": "readOptionsFromDataSource",
         "label": "Read options from data source",
         "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
+      },
+      "keyNameInOptionList": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "keyNameInOptionList",
+        "label": "Key name in option list"
+      },
+      "labelNameInOptionList": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "labelNameInOptionList",
+        "label": "Label name in option list"
       }
     },
     "advancedTab": {
