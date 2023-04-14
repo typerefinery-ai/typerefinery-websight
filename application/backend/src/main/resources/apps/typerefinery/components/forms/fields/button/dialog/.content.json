@@ -151,6 +151,11 @@
           "sling:resourceType": "wcm/dialogs/components/selectitem",
           "label": "Initial Theme",
           "value": "initialTheme"
+        },
+        "toggleComponent": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Toggle Component",
+          "value": "toggleComponent"
         }
       },
       "actionModalTitle": {
@@ -197,6 +202,18 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Dark",
           "value": "dark"
+        }
+      },
+      "toggleTarget": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "toggleTarget",
+        "label": "Component Id to toggle",
+        "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "toggleComponent"
+          }
         }
       },
       "hideFooter": {

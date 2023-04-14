@@ -6,6 +6,7 @@
   "js": [
     "components.js",
     "modal.js",
-    "dropdown.js"
+    "dropdown.js",
+    "togglecomponent.js"
   ] 
 }
