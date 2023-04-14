@@ -1,32 +1,32 @@
 # Component
 
-Tab component
+Search component
 
 # Overview
 
-Component for adding tab to pages
+Component for adding search to pages
 
 ## Information
 
 - **group**:Typerefinery - Widgets
 - **sling:resourceType**: ws:Component
-- **description**: Tab component
-- **title**: Tab
+- **description**: Search component
+- **title**: Search
 - **sling:resourceSuperType**:
 - **Vendor**: Typerefinery
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/tab](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/tab::editor)
-- **Local Code**: [/apps/typerefinery/components/widgets/tab]
+- **Showcase**: [/typerefinery/components/widgets/search](http://localhost:8113/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/search::editor)
+- **Local Code**: [/apps/typerefinery/components/widgets/search]
 
 # Authoring
 
-Following section covers authoring features
+Following section covers authoring features.
 
 ## Dialog Tabs
 
-These fields are available for input by the authors. These fields are used in templates
+These fields are available for input by the authors. These fields are used in templates.
 
 <table style="border-spacing: 1px;border-collapse: separate;width: 100.0%;text-align: left;background-color: black; text-indent: 4px;">
     <thead style="font-size: larger;">
@@ -39,36 +39,38 @@ These fields are available for input by the authors. These fields are used in te
     </thead>
     <tbody style="background-color: gray;">
         <tr>
-            <td rowspan="1"> General</td>
-            <td>Tab Information</td>
+            <td rowspan="2"> General</td>
+            <td>Placeholder</td>
             <td>Empty</td>
-            <td>This Contains:<li>Title</li><li>Tab Icon</li><li>Content</li><li>Is Collasable- If checked, the tab will be Closeable.</li><li>Use Query Parameters from Parent- If checked, the tab will use the query parameters from the parent page.</li> </td>
+            <td>Please provide placeholder text.</td>
+        </tr>
+         <tr>
+            <td>Topic</td>
+            <td>Empty</td>
+            <td>Topic that this component is emits/send to, If not provided, the search will take place on the current page body.</td>
+        </tr>
+                 <tr>
+            <td rowspan="4"> Grid</td>
+            <td>Width - S breakpoint</td>
+            <td>12 Col</td>
+            <td>S - Large Screen Break Points will be applicable to screens larger than 576px.</td>
         </tr>
         <tr>
-            <td rowspan="1">Events</td>
-            <td>Events</td>
-            <td>Empty</td>
-            <td>This Contains: <li>Topic - The topic of the event.</li><li>Event Actions. This Contains <li>Open as Tab- Open link in the Tab container.</li> </li></td>
+            <td>Width - M breakpoint</td>
+            <td>12 Col</td>
+            <td>M - Large Screen Break Points will be applicable to screens larger than 768px.</td>
         </tr>
         <tr>
-            <td rowspan="2">Advanced</td>
-            <td>Placeholder Content</td>
-            <td>Empty</td>
-            <td>Placeholder content of the tab</td>
+            <td>Width - L breakpoint</td>
+            <td>12 Col</td>
+            <td>L - Large Screen Break Points will be applicable to screens larger than 992px.</td>
         </tr>
         <tr>
-            <td>Content Height</td>
-            <td>Empty</td>
-            <td>Content height for the tab</td>
-            <td></td>
+            <td>Text Alignment</td>
+            <td>Default</td>
+            <td>Contains alignment of the text.</td>
         </tr>
-        <tr>
-            <td>Grid</td>
-            <td>Grid</td>
-            <td></td>
-            <td>Controls grids system.</td>
-        </tr>
-              <tr>
+         <tr>
             <td rowspan="6"> Style</td>
             <td>Class name</td>
             <td>None</td>
@@ -99,5 +101,5 @@ These fields are available for input by the authors. These fields are used in te
             <td>Disabled</td>
             <td>Enable to use Padding properties.</td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>

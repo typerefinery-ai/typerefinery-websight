@@ -126,7 +126,7 @@ This component has the following variants
     </thead>
     <tbody style="background-color: Gray;">
         <tr>
-            <td rowspan="5">Button Type</td>
+            <td rowspan="6">Button Type</td>
             <td>Submit</td>
             <td>Used to submit the forms.</td>
             <th><img width="800px" src="./templates/image/submit.png" /></th>
@@ -148,8 +148,13 @@ This component has the following variants
         </tr>
         <tr>
             <td>Hamburger</td>
-            <td>Contains dropdown of Button.</td>
+            <td>Hamburger will be visible for certain screen Size.</td>
             <th><img width="800px" src="./templates/image/hamburger.png" /></th>
+        </tr>
+        <tr>
+            <td>toggle</td>
+            <td>Only appear when Hamburger is selected</td>
+            <th>Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH.</th>
         </tr>
          <tr>
             <td rowspan="3">Action Button</td>
