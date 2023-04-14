@@ -5,9 +5,9 @@
         jcr:lastModified="{Date}2023-04-13T13:18:57.738+05:30"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="Create Connection"
+        jcr:title="New"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-13T15:16:05.149+05:30"
+        ws:lastModified="{Date}2023-04-13T14:24:58.201+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -37,7 +37,7 @@
                     id="container_1_O7ZKHP1PR"
                     paddingEnabled="true"
                     paddingGeneral="four"
-                    title="Get Connection"
+                    title="Get Query"
                     titleTagName="h3"
                     variant="\0">
                     <form
@@ -54,7 +54,7 @@
                         title="default"
                         writeMethod="POST"
                         writePayloadType="application/json"
-                        writeUrl="http://localhost:8000/datastore/connection">
+                        writeUrl="http://localhost:8000/datastore/query">
                         <container
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
@@ -71,42 +71,43 @@
                             title="\0"
                             variant="\0">
                             <container_0
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/layout/container"
+                            borderEnabled="false"
+                            classes="\0"
+                            flexEnabled="false"
+                            id="container_GQ6TYA7QK"
+                            lgColSize="10"
+                            marginEnabled="false"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            title="\0">
+                            <select_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/select"
+                            id="select_1_XXXESKT7S">
+                            <label
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/layout/container"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Projects"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/select"
                                 borderEnabled="false"
                                 classes="\0"
-                                flexEnabled="false"
-                                id="container_GQ6TYA7QK"
-                                lgColSize="10"
+                                defaultSelectedOptions="\0"
+                                id="field_EKXHG5WB9"
                                 marginEnabled="false"
+                                multipleSelection="false"
+                                name="projectid"
                                 paddingEnabled="false"
                                 persistColorWhenThemeSwitches="false"
-                                title="\0">
-                                <select_1
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="typerefinery/components/forms/select"
-                                    id="select_1_XXXESKT7S">
-                                    <label
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="typerefinery/components/forms/fields/label"
-                                        label="Projects"/>
-                                    <field
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="typerefinery/components/forms/fields/select"
-                                        borderEnabled="false"
-                                        classes="\0"
-                                        defaultSelectedOptions="\0"
-                                        id="field_EKXHG5WB9"
-                                        marginEnabled="false"
-                                        multipleSelection="false"
-                                        name="projectid"
-                                        paddingEnabled="false"
-                                        persistColorWhenThemeSwitches="false"
-                                        placeholder="Select Project"
-                                        readOptionsFromDataSource="\0"
-                                        validationRequired="false"/>
-                                </select_1>
-                            </container_0>
+                                placeholder="Select Project"
+                                readOptionsFromDataSource="\0"
+                                validationRequired="false"/>
+                        </select_1>
+                        </container_0>
+
                             <container
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/layout/container"
@@ -127,14 +128,14 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_QBR3MWQKK"
-                                        label="Connection Id"
+                                        label="Query Id"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_TZZH2LTDC"
-                                        name="connectionid"
-                                        placeholder="Eg. Connection 1"/>
+                                        name="queryid"
+                                        title="Field"/>
                                 </input>
                             </container>
                             <container_1
@@ -157,14 +158,14 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_5AGQX8KGZ"
-                                        label="Project Id"
+                                        label="Connection Id"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_5HH8BTKXM"
-                                        name="projectid"
-                                        placeholder="Eg. Enter Project Id"
+                                        name="connectionid"
+                                        placeholder="\0"
                                         title="Field"/>
                                 </input>
                             </container_1>
@@ -188,15 +189,14 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_3B4DSDQD7"
-                                        label="Icon"
+                                        label="Project Id"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_H5HI5MANR"
-                                        inputType="text"
-                                        name="icon"
-                                        placeholder="Eg. pi pi-icon"/>
+                                        name="projectid"
+                                        title="Field"/>
                                 </input>
                             </container_2>
                             <container_3
@@ -212,14 +212,13 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_YN8EGHG8J"
-                                        label="Type"
+                                        label="Icon"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_YHB3HUOH1"
-                                        name="type"
-                                        placeholder="Eg. Connection"
+                                        name="icon"
                                         title="Field"/>
                                 </input>
                             </container_3>
@@ -227,24 +226,12 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/layout/container"
                                 id="container_4_TOWUSCUZB"
-                                lgColSize="5">
-                                <input
+                                lgColSize="10">
+                                <editor
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="typerefinery/components/forms/input"
-                                    id="input_YOLZTKXOY">
-                                    <label
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="typerefinery/components/forms/fields/label"
-                                        id="label_0OHGPR9T0"
-                                        label="Port"
-                                        title="Label"/>
-                                    <field
-                                        jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="typerefinery/components/forms/fields/input"
-                                        id="field_TO5U5EH5D"
-                                        name="port"
-                                        title="Field"/>
-                                </input>
+                                    sling:resourceType="typerefinery/components/widgets/editor"
+                                    id="editor_4A6VQMWER"
+                                    name="query"/>
                             </container_4>
                             <container_5
                                 jcr:primaryType="nt:unstructured"
@@ -312,7 +299,6 @@
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_2U3O1ZUFR"
                                         name="description"
-                                        placeholder="Enter Description"
                                         title="Field"/>
                                 </input>
                             </container_7>
@@ -329,14 +315,13 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_0GVR9NKKT"
-                                        label="Database"
+                                        label="Type"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_85KUDERPK"
-                                        name="database"
-                                        placeholder="Enter Database Name"
+                                        name="type"
                                         title="Field"/>
                                 </input>
                             </container_8>
@@ -344,7 +329,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/layout/container"
                                 id="container_8_4SM3SFAF8"
-                                lgColSize="5">
+                                lgColSize="10">
                                 <input
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/input"
@@ -353,14 +338,13 @@
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/label"
                                         id="label_LQTBNXM3M"
-                                        label="Host"
+                                        label="Data"
                                         title="Label"/>
                                     <field
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/forms/fields/input"
                                         id="field_85KUDERPK"
-                                        name="host"
-                                        placeholder="Enter Host"
+                                        name="data"
                                         title="Field"/>
                                 </input>
                             </container_8_1>
@@ -368,8 +352,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 gap="2"
-                                label="Create Connection"
                                 id="button_5QVNHQCN6"
+                                label="Create Query"
                                 lgColSize="4"
                                 persistColorWhenThemeSwitches="{Boolean}true"/>
                         </container>
