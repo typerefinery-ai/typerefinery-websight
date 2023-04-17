@@ -18,16 +18,28 @@ package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.engine.SlingRequestProcessor;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.models.components.KeyValuePair;
+import ai.typerefinery.websight.utils.FakeRequest;
+import ai.typerefinery.websight.utils.FakeResponse;
 import lombok.Getter;
+import org.apache.sling.models.annotations.Default;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Tabs extends BaseComponent {
@@ -35,7 +47,6 @@ public class Tabs extends BaseComponent {
     public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tab";
 
     @Inject
-    @Getter
     public List<TabItem> listOfTab;
 
 
@@ -51,7 +62,20 @@ public class Tabs extends BaseComponent {
 
     @Inject
     @Getter
+    @Default(values = "80vh")
     public String contentHeight;
+
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    public String variant;
+
+    @Getter
+    protected Resource inheritedResource;
+    
+    @OSGiService
+    private SlingRequestProcessor requestProcessor;
 
 
     @Override
@@ -59,4 +83,57 @@ public class Tabs extends BaseComponent {
     protected void init() {
         super.init();
     }
+
+    public List<TabItem> getListOfTabAsIFrame() {
+        return listOfTab;
+    }
+
+    public List<TabItem> getListOfTab() {
+        try {
+            List<TabItem> result = new ArrayList<TabItem>();
+
+            // iterate over the tabs and render them
+            for (TabItem tabItem : listOfTab) {
+                // render the tab content
+                String markup = tabItem.getContent();
+                String url = markup + ".html";
+                
+
+                HttpServletRequest req = new FakeRequest("GET", url);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                HttpServletResponse resp;
+                try {
+                    resp = new FakeResponse(out);
+
+                    // this needs to be done to get the inherited resource
+                    requestProcessor.processRequest(req, resp, resourceResolver);
+
+                    // need to flush the response to get the contents
+                    resp.getWriter().flush();
+
+                    // trim to remove all the extra whitespace
+                    markup = out.toString().trim();
+
+                    // push to result.
+                    TabItem tabItemWithContent = new TabItem();
+                    tabItemWithContent.setTitle(tabItem.getTitle());
+                    tabItemWithContent.setId(tabItem.getId());
+                    tabItemWithContent.setContent(markup);
+                    tabItemWithContent.setIcon(tabItem.getIcon());
+                    tabItemWithContent.setIsCloseable(tabItem.getIsCloseable());
+                    tabItemWithContent.setUseQueryParamsFromParent(tabItem.getUseQueryParamsFromParent());
+                    result.add(tabItemWithContent);
+
+                } catch (ServletException | IOException | NoSuchAlgorithmException e) {
+                    return null;
+                }
+                
+            }
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

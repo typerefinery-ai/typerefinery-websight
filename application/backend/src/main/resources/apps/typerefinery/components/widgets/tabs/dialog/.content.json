@@ -39,6 +39,23 @@
           "label": "Use Query Parameters from Parent",
           "description": "If checked, the tab will use the query parameters from the parent page."
         }
+      },
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "description": "The variant of the tab.",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": "",
+          "selected": true
+        },  
+        "reference": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Load Tab content as a reference component",
+          "value": "reference"
+        }
       }
     },
     "gridTab": {
@@ -50,6 +67,13 @@
       "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
     "eventsTab": {
+   
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": ""
+        }
+      },
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Events",
       "event": {
@@ -77,6 +101,13 @@
       }
     },
     "advancedTab": {
+      
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": ""
+        }
+      },
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Advanced",
       "placeholderContent": {
