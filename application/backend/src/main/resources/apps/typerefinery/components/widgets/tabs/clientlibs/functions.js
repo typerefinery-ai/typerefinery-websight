@@ -11,9 +11,8 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
 
     ns.compileHandlerBar = ($component, componentConfig) => {
-
         const items = {
-            listOfTab: componentConfig?.listOfTab?.map((tab, index) => {
+            listOfTab: componentConfig?.listOfTabAsIFrame?.map((tab, index) => {
 
                 const isContentUrl = tab.content.startsWith("http");
 
@@ -162,6 +161,23 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
+        if(componentConfig.variant === "reference") {
+            return;
+        }
+        // const $tabComponent = $component.querySelector(".tab-content");
+        // $tabComponent.innerHTML = componentConfig.listOfTab.map((tab, index) => {
+        //     return `
+
+        //     <div 
+        //         class="tab-pane fade show ${index == 0 ? 'active': ''}" 
+        //         id="${index}"
+        //         role="tabpanel" 
+        //         aria-labelledby="${index}-tab"
+        //     >
+        //         ${tab.content}
+        //     </div>
+        //     `
+        // }).join('');
 
         if(componentConfig.events && componentConfig.events.length > 0) { 
             componentConfig['topic'] = componentConfig.events[0]?.key || '';

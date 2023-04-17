@@ -3,9 +3,11 @@ package ai.typerefinery.websight.models.components.widgets.tabs;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import javax.inject.Inject;
+
 import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 
 // import ai.typerefinery.websight.utils.LinkUtil;
@@ -14,36 +16,39 @@ import org.apache.sling.models.annotations.Model;
 
 public class TabItem {
     
-    ResourceResolver resourceResolver;
 
     @Getter
+    @Setter
     @Inject
     private String title;
   
     @Getter
+    @Setter
     @Inject
     private String id;
   
     @Getter
     @Inject
+    @Setter
     private String content;
 
     
     @Getter
     @Inject
+    @Setter
     private String icon;
+
     
+
     @Inject
     @Getter
+    @Setter
     public Boolean isCloseable;
 
     @Getter
     @Inject
+    @Setter
     private Boolean useQueryParamsFromParent;
-
-    // public String getContent() {
-    //     return LinkUtil.handleLink(this.content, this.resourceResolver);
-    // }
 }
 
 
