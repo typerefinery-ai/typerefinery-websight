@@ -27,14 +27,19 @@
             </sly>
         </ul>
         <div class="tab-content" style="height: 90vh">
-            <sly data-sly-list="${model.listOfTab}">
+            <sly data-sly-list.tab="${model.listOfTab}">
                 <div 
-                    class="tab-pane fade show ${itemList.index == 0 ? 'active': ''}" 
-                    id="${itemList.index}"
+                    class="tab-pane fade show ${tabList.index == 0 ? 'active': ''}" 
+                    id="${tabList.index}"
                     role="tabpanel" 
-                    aria-labelledby="${itemList.index}-tab"
+                    aria-labelledby="${tabList.index}-tab"
                 >
-                    ${item.content @ context='unsafe'}
+                    <!-- Tab content:Start -->
+                    <!-- ${tab} -->
+                    <!-- ${tabList.index} -->
+                    <!--  ${model.listOfTab[tab]} -->
+                    ${tab.html @ context='unsafe'}
+                    <!-- Tab content:End -->
                 </div>
             </sly>
         </div>

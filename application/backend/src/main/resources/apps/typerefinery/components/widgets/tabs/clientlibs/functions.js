@@ -14,23 +14,23 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         const items = {
             listOfTab: componentConfig?.listOfTabAsIFrame?.map((tab, index) => {
 
-                const isContentUrl = tab.content.startsWith("http");
+                const isContentUrl = tab.contentUrl.startsWith("http");
 
                 if (tab.useQueryParamsFromParent === true && isContentUrl) {
                 
                     // append the query params from the parent page.
-                    const url = new URL(tab.content);
+                    const url = new URL(tab.contentUrl);
                     const searchParams = new URLSearchParams(window.location.search);
                     for (const [key, value] of searchParams) {
                         url.searchParams.append(key, value);
                     }
-                    tab.content = url.toString();
+                    tab.contentUrl = url.toString();
                 };
 
 
                 return {
                     tabTitle: tab.title,
-                    tabContent: tab.content,
+                    tabContent: tab.contentUrl,
                     id: `${index}-${tab.title.replace(/[^a-zA-Z0-9 ]/g, '').trim()?.split(" ").join("-")}`,
                     active: index === 0 ? "active" : "",
                     icon: tab.icon,

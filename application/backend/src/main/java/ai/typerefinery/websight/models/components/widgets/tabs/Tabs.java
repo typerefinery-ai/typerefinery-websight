@@ -95,8 +95,8 @@ public class Tabs extends BaseComponent {
             // iterate over the tabs and render them
             for (TabItem tabItem : listOfTab) {
                 // render the tab content
-                String markup = tabItem.getContent();
-                String url = markup + ".html";
+                String tabPath = tabItem.getPath();
+                String url = tabPath + ".html";
                 
 
                 HttpServletRequest req = new FakeRequest("GET", url);
@@ -113,14 +113,15 @@ public class Tabs extends BaseComponent {
                     resp.getWriter().flush();
 
                     // trim to remove all the extra whitespace
-                    markup = out.toString().trim();
+                    String html = out.toString().trim();
 
                     // push to result.
                     TabItem tabItemWithContent = new TabItem();
                     tabItemWithContent.setTitle(tabItem.getTitle());
                     tabItemWithContent.setId(tabItem.getId());
-                    tabItemWithContent.setContent(markup);
+                    tabItemWithContent.setHtml(html);
                     tabItemWithContent.setIcon(tabItem.getIcon());
+                    tabItemWithContent.setPath(tabItem.getPath());
                     tabItemWithContent.setIsCloseable(tabItem.getIsCloseable());
                     tabItemWithContent.setUseQueryParamsFromParent(tabItem.getUseQueryParamsFromParent());
                     result.add(tabItemWithContent);

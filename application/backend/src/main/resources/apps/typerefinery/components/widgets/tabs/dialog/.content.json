@@ -5,6 +5,24 @@
     "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
+      
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "description": "The variant of the tab.",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Loads tab content from an URL",
+          "value": "",
+          "selected": true
+        },  
+        "reference": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Load Tab content as a reference component",
+          "value": "reference"
+        }
+      },
       "listOfTab": {
         "name": "listOfTab",
         "label": "Tab Information",
@@ -27,10 +45,16 @@
           "label": "Is Closeable",
           "description": "If checked, the tab will be Closeable."
         },
-        "content": {
+        "contentUrl": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "content",
-          "label": "Content",
+          "name": "contentUrl",
+          "label": "Content URL | IFrame URL",
+          "description": "The content of the tab."
+        },
+        "path": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "name": "path",
+          "label": "Path | Reference",
           "description": "The content of the tab."
         },
         "useQueryParamsFromParent": {
@@ -38,23 +62,6 @@
           "name": "useQueryParamsFromParent",
           "label": "Use Query Parameters from Parent",
           "description": "If checked, the tab will use the query parameters from the parent page."
-        }
-      },
-      "variant": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "variant",
-        "label": "Variant",
-        "description": "The variant of the tab.",
-        "default": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Default",
-          "value": "",
-          "selected": true
-        },  
-        "reference": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Load Tab content as a reference component",
-          "value": "reference"
         }
       }
     },
