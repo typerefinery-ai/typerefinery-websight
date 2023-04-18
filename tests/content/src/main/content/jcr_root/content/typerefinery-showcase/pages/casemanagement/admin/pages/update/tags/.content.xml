@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Tags"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-06T17:14:59.327+05:30"
+        ws:lastModified="{Date}2023-04-18T15:51:33.667+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -22,11 +22,17 @@
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                borderEnabled="false"
+                classes="\0"
                 flexEnabled="true"
                 id="container1_ISWR6HFYT"
-                marginEnabled="true"
+                marginEnabled="false"
                 marginLeft="two"
-                marginTop="one">
+                marginTop="one"
+                paddingEnabled="true"
+                paddingGeneral="two"
+                persistColorWhenThemeSwitches="false"
+                title="\0">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
@@ -49,7 +55,7 @@
                             marginBottom="two"
                             marginEnabled="true"
                             textAlignment="center">
-                             <button_2
+                            <button_2
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 actionModalTitle="Add Tag"

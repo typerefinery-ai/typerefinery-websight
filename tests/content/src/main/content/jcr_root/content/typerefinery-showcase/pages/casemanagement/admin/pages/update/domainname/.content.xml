@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Domain Names"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-07T15:31:39.631+05:30"
+        ws:lastModified="{Date}2023-04-18T15:43:58.916+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -25,46 +25,59 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/main"
                 id="main_840JSVDLJ">
-                <input
+                <container
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/forms/input"
-                    id="input_RJFALW4AL">
-                    <label
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="true"
+                    id="container_IGWUIQ7ER"
+                    marginEnabled="false"
+                    paddingEnabled="true"
+                    paddingGeneral="two"
+                    persistColorWhenThemeSwitches="false"
+                    title="\0">
+                    <input
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/fields/label"
-                        hideLabel="true"
-                        label="\0"
-                        title="Label"/>
-                    <field
+                        sling:resourceType="typerefinery/components/forms/input"
+                        id="input_RJFALW4AL">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            hideLabel="true"
+                            label="\0"
+                            title="Label"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/input"
+                            borderEnabled="false"
+                            classes="\0"
+                            id="\0"
+                            marginEnabled="false"
+                            name="\0"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            placeholder="Domain"
+                            title="Field"
+                            validationInputMask="\0"
+                            validationRequired="false"/>
+                    </input>
+                    <fileupload
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/fields/input"
-                        borderEnabled="false"
-                        classes="\0"
-                        id="\0"
-                        marginEnabled="false"
-                        name="\0"
-                        paddingEnabled="false"
-                        persistColorWhenThemeSwitches="false"
-                        placeholder="Domain"
-                        title="Field"
-                        validationInputMask="\0"
-                        validationRequired="false"/>
-                </input>
-                <fileupload
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/forms/fileupload"
-                    id="fileupload_EM6RY7JDV">
-                    <label
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/fields/label"
-                        hideLabel="true"
-                        label="\0"
-                        title="Label"/>
-                    <field
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/fields/fileupload"
-                        title="Field"/>
-                </fileupload>
+                        sling:resourceType="typerefinery/components/forms/fileupload"
+                        id="fileupload_EM6RY7JDV">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            hideLabel="true"
+                            label="\0"
+                            title="Label"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                            title="Field"/>
+                    </fileupload>
+                </container>
             </main>
         </rootcontainer>
     </jcr:content>

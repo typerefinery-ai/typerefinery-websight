@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Note"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-06T17:14:45.990+05:30"
+        ws:lastModified="{Date}2023-04-18T15:49:46.801+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -30,7 +30,9 @@
                 flexEnabled="false"
                 id="container1_86PDVXWJX"
                 marginEnabled="false"
-                paddingEnabled="false"
+                paddingEnabled="true"
+                paddingGeneral="two"
+                persistColorWhenThemeSwitches="false"
                 title="\0">
                 <container_1
                     jcr:primaryType="nt:unstructured"

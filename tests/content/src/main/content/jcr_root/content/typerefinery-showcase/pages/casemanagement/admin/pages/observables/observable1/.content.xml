@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Observable 1"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-10T13:33:58.724+05:30"
+        ws:lastModified="{Date}2023-04-18T15:42:29.552+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -32,9 +32,17 @@
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                borderEnabled="false"
+                classes="\0"
                 containerType="fullWidth"
                 decorationTagName="main"
-                id="main_4PWLBVV4K">
+                flexEnabled="false"
+                id="main_4PWLBVV4K"
+                marginEnabled="false"
+                paddingEnabled="true"
+                paddingGeneral="two"
+                persistColorWhenThemeSwitches="false"
+                title="\0">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
