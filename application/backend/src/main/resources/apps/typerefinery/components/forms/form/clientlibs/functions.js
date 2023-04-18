@@ -58,7 +58,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.submit = async (url, method, payloadType, body, successCallback = () => { }, errorCallback = () => { }) => {
         try {
-            await fetch(
+            const response = await fetch(
                 url,
                 {
                     method: method,
@@ -68,7 +68,14 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                     body
                 }
             );
-            successCallback();
+            // if status is 200 to 299 then it will call success callback.
+            if (response.status >= 200 && response.status <= 299) {
+                successCallback();
+            } else {
+                console.log("Error in submitting the request");
+                console.error(response);
+                errorCallback();
+            }               
             return;
         } catch (error) {
             console.log("Error in submitting the request");
@@ -90,7 +97,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.jsonRequest = async (url, componentConfig, payload) => {
         const { writePayloadType, writeMethod } = componentConfig;
-
+        
         await ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
@@ -115,26 +122,23 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
 
     ns.formSubmitHandler = async ($component) => {
-
-        ns.updateButtonState($component, "loading");
-
         const componentConfig = componentNs.getComponentConfig($component);
-
-        const payload = ns.getFormData($component);
-        const { writePayloadType, writeMethod, writeUrl } = componentConfig;
+        let { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if (!writePayloadType || !writeMethod || !writeUrl) {
-            alert("Fill all the parameters.");
+            console.log("Author should fill all the parameters.");
             return;
         }
+        const payload = ns.getFormData($component);
+        ns.updateButtonState($component, "loading");
+
+        writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());
 
         if (writePayloadType === "application/json") {
             await ns.jsonRequest(writeUrl, componentConfig, payload);
         } else if (writePayloadType === "application/x-www-form-urlencoded") {
             await ns.formRequest(writeUrl, componentConfig, payload);
         }
-
         ns.updateButtonState($component, "completed");
-
     };
 
     ns.loadInitialData = async ($component) => {
@@ -233,9 +237,6 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
             e.preventDefault();
             const { target } = e;
             ns.formSubmitHandler(target);
-//     setTimeout(function() {
-//        $this.button('reset');
-//    }, 8000);
         });
     };
 
