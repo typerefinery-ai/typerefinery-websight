@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    xmlns:ws="http://ds.pl/websight"
+    xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
+    <jcr:content jcr:lastModified="{Date}2023-04-07T12:28:51.224+05:30" jcr:lastModifiedBy="sling-package-install" jcr:primaryType="ws:PageContent" jcr:title="Trends" sling:resourceType="typerefinery/components/structure/page" ws:lastModified="{Date}2023-04-12T10:51:57.909+05:30" ws:lastModifiedBy="wsadmin" ws:template="/apps/typerefinery/templates/pagewithsidebar">
+        <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
+            <nav jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/nav" backgroundColor="secondary" cancelInheritParent="true">
+                <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" headingLevel="h5" marginBottom="five" marginEnabled="true" marginTop="three" persistColorWhenThemeSwitches="true" textAlignment="center" title="OS-Intel Wireframe"/>
+                <treeview jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/treeview" parentPagePath="/content/typerefinery-showcase/pages/os-intel/admin/pages"/>
+            </nav>
+            <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header" backgroundColor="secondary" cancelInheritParent="true" marginBottom="three" marginEnabled="true">
+                <reference jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/reference" path="/content/typerefinery-showcase/pages/os-intel/admin/content/header/jcr:content/container"/>
+            </header>
+            <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container1_7IRJPIURQ" lgColSize="12" paddingEnabled="true" paddingGeneral="two">
+                <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" headingLevel="h5" marginEnabled="true" marginTop="three" marginBottom="two" persistColorWhenThemeSwitches="true" textAlignment="center" title="Trends" />
+                <container_2_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_2_2_8JXHJG1Y5" textAlignment="center">
+                    <table jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/table" dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json" flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json" id="table_QQUF9DRHT" overRideColumns="{Boolean}true" showActionButtons="true"/>
+                </container_2_2>
+            </container1>
+        </rootcontainer>
+    </jcr:content>
+</jcr:root>
