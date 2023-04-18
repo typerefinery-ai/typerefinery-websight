@@ -90,7 +90,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.jsonRequest = async (url, componentConfig, payload) => {
         const { writePayloadType, writeMethod } = componentConfig;
-
+        
         await ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
     };
 
@@ -115,26 +115,27 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
 
     ns.formSubmitHandler = async ($component) => {
+      ns.updateButtonState($component, "loading");
+      const componentConfig = componentNs.getComponentConfig($component);
+      const payload = ns.getFormData($component);
+      let { writePayloadType, writeMethod, writeUrl } = componentConfig;
+      if (!writePayloadType || !writeMethod || !writeUrl) {
+        alert("Fill all the parameters.");
+        return;
+      }
 
-        ns.updateButtonState($component, "loading");
+      writeUrl = componentNs.replaceRegex(
+        writeUrl,
+        componentNs.getQueryParams()
+      );
 
-        const componentConfig = componentNs.getComponentConfig($component);
+      if (writePayloadType === "application/json") {
+        await ns.jsonRequest(writeUrl, componentConfig, payload);
+      } else if (writePayloadType === "application/x-www-form-urlencoded") {
+        await ns.formRequest(writeUrl, componentConfig, payload);
+      }
 
-        const payload = ns.getFormData($component);
-        const { writePayloadType, writeMethod, writeUrl } = componentConfig;
-        if (!writePayloadType || !writeMethod || !writeUrl) {
-            alert("Fill all the parameters.");
-            return;
-        }
-
-        if (writePayloadType === "application/json") {
-            await ns.jsonRequest(writeUrl, componentConfig, payload);
-        } else if (writePayloadType === "application/x-www-form-urlencoded") {
-            await ns.formRequest(writeUrl, componentConfig, payload);
-        }
-
-        ns.updateButtonState($component, "completed");
-
+      ns.updateButtonState($component, "completed");
     };
 
     ns.loadInitialData = async ($component) => {
