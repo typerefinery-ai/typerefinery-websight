@@ -24,3 +24,31 @@ body {
 .row {
     --bs-gutter-x: 0px !important;
 }
+
+#flowEnabledFireBallButton {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 2px;
+
+    animation: MoveUpDown 1s linear infinite;
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@keyframes MoveUpDown {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+#flowEnabledFireBallSvg {
+    height: 25px !important;
+}
