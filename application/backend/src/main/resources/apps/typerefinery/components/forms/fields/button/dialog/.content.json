@@ -126,7 +126,7 @@
     },
     "actionMetaData": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Meta data",
+      "label": "Action",
       "ws:display": {
         "condition": {
           "sourceName": "buttonType",
