@@ -26,11 +26,20 @@ public class TabItem {
     @Setter
     @Inject
     private String id;
-  
+
+    
     @Getter
-    @Inject
     @Setter
-    private String content;
+    @Inject
+    private String path;
+    
+    @Getter
+    @Setter
+    @Inject
+    private String contentUrl;
+  
+    @Inject
+    private String html;
 
     
     @Getter
@@ -49,6 +58,14 @@ public class TabItem {
     @Inject
     @Setter
     private Boolean useQueryParamsFromParent;
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
 }
 
 
