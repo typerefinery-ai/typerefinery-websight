@@ -2,41 +2,22 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "configTab": {
+    "tabsTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "General",
-      
-      "variant": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "variant",
-        "label": "Variant",
-        "description": "The variant of the tab.",
-        "default": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Loads tab content from an URL",
-          "value": "",
-          "selected": true
-        },  
-        "reference": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Load Tab content as a reference component",
-          "value": "reference"
-        }
-      },
-      "listOfTab": {
-        "name": "listOfTab",
-        "label": "Tab Information",
+      "label": "Tabs",
+      "tabs": {
+        "name": "tabs",
         "sling:resourceType": "wcm/dialogs/components/multifield",
         "title": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "title",
-          "label": "Tab Title",
+          "label": "Title",
           "description": "The title of the tab."
         },
         "icon": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "icon",
-          "label": "Tab Icon",
+          "label": "Icon",
           "description": "The icon of the tab."
         },
         "isCloseable": {
@@ -45,23 +26,46 @@
           "label": "Is Closeable",
           "description": "If checked, the tab will be Closeable."
         },
-        "contentUrl": {
+        "url": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "contentUrl",
-          "label": "Content URL | IFrame URL",
-          "description": "The content of the tab."
+          "name": "url",
+          "label": "URL",
+          "description": "This url will be used as source for iFrame together with the query parameters if specified."
         },
-        "path": {
+        "resourcepath": {
           "sling:resourceType": "wcm/dialogs/components/pathpicker",
-          "name": "path",
-          "label": "Path | Reference",
-          "description": "The content of the tab."
+          "name": "resourcepath",
+          "label": "Path",
+          "description": "Resource path to render as html.",
+          "ws:display": {
+            "condition": {
+              "sourceName": "render",
+              "values": "renderhtml"
+            }
+          }
         },
-        "useQueryParamsFromParent": {
+        "passParentQueryString": {
           "sling:resourceType": "wcm/dialogs/components/checkbox",
-          "name": "useQueryParamsFromParent",
-          "label": "Use Query Parameters from Parent",
-          "description": "If checked, the tab will use the query parameters from the parent page."
+          "name": "passParentQueryString",
+          "label": "Pass parent querystring",
+          "description": "Pass query string from parent page to this iframe."
+        },
+        "render": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "render",
+          "label": "Render As",
+          "description": "How to render this tab.",
+          "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "iFrame",
+            "value": "",
+            "selected": true
+          },  
+          "reference": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "HTML",
+            "value": "html"
+          }
         }
       }
     },
@@ -74,13 +78,6 @@
       "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
     "eventsTab": {
-   
-      "ws:display": {
-        "condition": {
-          "sourceName": "variant",
-          "values": ""
-        }
-      },
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Events",
       "event": {
@@ -108,7 +105,6 @@
       }
     },
     "advancedTab": {
-      
       "ws:display": {
         "condition": {
           "sourceName": "variant",
@@ -128,7 +124,6 @@
         "name": "contentHeight",
         "label": "Content Height",
         "description": "The content height of the tab."
-     
       }
     }
   }

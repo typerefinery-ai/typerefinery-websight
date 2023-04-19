@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.engine.SlingRequestProcessor;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
@@ -44,12 +45,11 @@ import org.apache.sling.models.annotations.Default;
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Tabs extends BaseComponent {
 
-    public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tab";
+    public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tabs";
 
     @Inject
-    public List<TabItem> listOfTab;
-
-
+    @ChildResource(name = "tabs")
+    public List<TabItem> tabsList;
 
     @Inject
     @Getter
@@ -65,11 +65,8 @@ public class Tabs extends BaseComponent {
     @Default(values = "80vh")
     public String contentHeight;
 
-    
     @Inject
-    @Getter
-    @Default(values = "")
-    public String variant;
+    public String[] path;
 
     @Getter
     protected Resource inheritedResource;
@@ -84,57 +81,5 @@ public class Tabs extends BaseComponent {
         super.init();
     }
 
-    public List<TabItem> getListOfTabAsIFrame() {
-        return listOfTab;
-    }
-
-    public List<TabItem> getListOfTab() {
-        try {
-            List<TabItem> result = new ArrayList<TabItem>();
-
-            // iterate over the tabs and render them
-            for (TabItem tabItem : listOfTab) {
-                // render the tab content
-                String tabPath = tabItem.getPath();
-                String url = tabPath + ".html";
-                
-
-                HttpServletRequest req = new FakeRequest("GET", url);
-
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                HttpServletResponse resp;
-                try {
-                    resp = new FakeResponse(out);
-
-                    // this needs to be done to get the inherited resource
-                    requestProcessor.processRequest(req, resp, resourceResolver);
-
-                    // need to flush the response to get the contents
-                    resp.getWriter().flush();
-
-                    // trim to remove all the extra whitespace
-                    String html = out.toString().trim();
-
-                    // push to result.
-                    TabItem tabItemWithContent = new TabItem();
-                    tabItemWithContent.setTitle(tabItem.getTitle());
-                    tabItemWithContent.setId(tabItem.getId());
-                    tabItemWithContent.setHtml(html);
-                    tabItemWithContent.setIcon(tabItem.getIcon());
-                    tabItemWithContent.setPath(tabItem.getPath());
-                    tabItemWithContent.setIsCloseable(tabItem.getIsCloseable());
-                    tabItemWithContent.setUseQueryParamsFromParent(tabItem.getUseQueryParamsFromParent());
-                    result.add(tabItemWithContent);
-
-                } catch (ServletException | IOException | NoSuchAlgorithmException e) {
-                    return null;
-                }
-                
-            }
-            return result;
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
 }

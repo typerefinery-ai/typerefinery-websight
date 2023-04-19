@@ -1,12 +1,20 @@
 package ai.typerefinery.websight.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.Validate;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.engine.SlingRequestProcessor;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +24,7 @@ import pl.ds.websight.pages.core.api.PageException;
 import pl.ds.websight.pages.core.api.PageManager;
 
 public class ResourceUtils {
-    private static final Logger LOG = LoggerFactory.getLogger(ResourceUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ResourceUtils.class);
   
   public static final String PATH_DELIMITER = "/";
   
@@ -78,7 +86,39 @@ public class ResourceUtils {
       if (session != null)
         pageManager.setContentProperty(page.getPath(), "ws:lastModifiedBy", session.getUserID()); 
     } catch (PageException e) {
-      LOG.warn("Cannot update Page modification properties {}", e.getMessage());
+        LOGGER.warn("Cannot update Page modification properties {}", e.getMessage());
     } 
   }
+
+  public static String getResourceHtml(@NotNull ResourceResolver resourceResolver, @NotNull SlingRequestProcessor requestProcessor, @NotNull String path) {
+    try {
+        String html = "";
+        String url = path + ".html";
+        HttpServletRequest req = new FakeRequest("GET", url);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        HttpServletResponse resp;
+        try {
+            resp = new FakeResponse(out);
+
+            // this needs to be done to get the inherited resource
+            requestProcessor.processRequest(req, resp, resourceResolver);
+
+            // need to flush the response to get the contents
+            resp.getWriter().flush();
+
+            // trim to remove all the extra whitespace
+            html = out.toString().trim();
+
+        } catch (ServletException | IOException | NoSuchAlgorithmException e) {
+            LOGGER.warn("Exception retrieving contents for {}", url, e);
+        }
+        
+        
+        return html;
+    } catch (Exception e) {
+        LOGGER.error("Error getting inherited html", e);
+    }
+    return "";
+}
 }

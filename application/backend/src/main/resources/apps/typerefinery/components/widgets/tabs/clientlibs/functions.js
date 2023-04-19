@@ -160,39 +160,42 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
     };
 
     ns.init = ($component) => {
+        // initialize the component
         const componentConfig = componentNs.getComponentConfig($component);
-        if(componentConfig.variant === "reference") {
-            return;
-        }
-        // const $tabComponent = $component.querySelector(".tab-content");
-        // $tabComponent.innerHTML = componentConfig.listOfTab.map((tab, index) => {
-        //     return `
 
-        //     <div 
-        //         class="tab-pane fade show ${index == 0 ? 'active': ''}" 
-        //         id="${index}"
-        //         role="tabpanel" 
-        //         aria-labelledby="${index}-tab"
-        //     >
-        //         ${tab.content}
-        //     </div>
-        //     `
-        // }).join('');
-
+        // if componentConfig.events is defined then add event listeners to this component.
         if(componentConfig.events && componentConfig.events.length > 0) { 
             componentConfig['topic'] = componentConfig.events[0]?.key || '';
+
+            ns.registerEvents($component, componentConfig, componentConfig.id);
+            ns.closeIconListener($component, componentConfig);
+            ns.tabClickListener($component, componentConfig);
         }
 
+        // pass query params from parent page to iframe
+        // for all iframes that have addquerystring, get srchref append query params from the parent page and set as src.
+        const iframes = $component.querySelectorAll("iframe");
 
-        ns.compileHandlerBar($component, componentConfig);
+        if(iframes && iframes.length > 0) {
+            iframes.forEach((iframe) => {
+              console.log(["iframe", iframe.getAttribute("addquerystring")]);
+                if(iframe.getAttribute("addquerystring") === "true") {
 
+                    const srchref = iframe.getAttribute("srchref");
+                    const url = new URL(srchref);
+                    const params = new URLSearchParams(url.search);
+                    const parentUrl = new URL(window.location.href);
+                    const parentParams = new URLSearchParams(parentUrl.search);
+                    parentParams.forEach((value, key) => {
+                        params.set(key, value);
+                    });
+                    url.search = params.toString();
+                    console.log(["tab new url source", url.toString()]);
+                    iframe.setAttribute("src", url.toString());
+                }
+            });
+        }
 
-        // if componentConfig.events is defined then add event listeners to table.
-        ns.registerEvents($component, componentConfig, componentConfig.id);
-        
-        ns.closeIconListener($component, componentConfig);
-
-        ns.tabClickListener($component, componentConfig);
     };
 
 
