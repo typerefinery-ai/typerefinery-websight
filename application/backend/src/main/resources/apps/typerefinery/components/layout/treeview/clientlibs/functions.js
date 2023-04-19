@@ -93,12 +93,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 if (componentConfig.onNodeSelected === "TAB" && componentConfig.topic) {
                     eventNs.emitEvent(componentConfig.topic, {
                         tab: {
-                            tabTitle: node.text,
-                            tabContent: node.link || node.tags[0],
+                            title: node.text,
+                            url: node.link || node.tags[0],
                             icon: node.icon,
                             id: node.nodeId,
                             isCloseable: true,
-                            active: "active"
+                            active: "active",
+                            html: "",
+                            icon: ""
                         },
                         type: "ADD_TAB"
                     });
@@ -132,6 +134,16 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         treeViewObject.selectNode(filteredNodes[0].nodeId, { silent: true });
                     }
 
+                   
+                    // if the data.tab.id is null then get the selected node and un select that node and collapse them
+                    if (data.tab.id === null) {
+                        const selectedNodes = treeViewObject.getSelected();
+                        if(selectedNodes.length > 0){
+                            treeViewObject.collapseNode(selectedNodes[0].nodeId, { silent: true });
+                            treeViewObject.unselectNode(selectedNodes[0].nodeId, { silent: true });
+                        }
+                    }
+
 
                 }else if(data.type === "CLOSE_TAB"){
 
@@ -151,6 +163,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         treeViewObject.collapseNode(filteredNodes[0].nodeId, { silent: true });
                         treeViewObject.unselectNode(filteredNodes[0].nodeId, { silent: true });
                     }
+
+                    
+                    
+                    
                 }
             });
 

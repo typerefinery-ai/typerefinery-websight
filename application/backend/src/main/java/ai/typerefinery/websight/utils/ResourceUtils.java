@@ -120,5 +120,5 @@ public class ResourceUtils {
         LOGGER.error("Error getting inherited html", e);
     }
     return "";
-}
+  }
 }

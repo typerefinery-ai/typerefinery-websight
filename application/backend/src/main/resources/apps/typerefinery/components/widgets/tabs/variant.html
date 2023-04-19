@@ -1,21 +1,22 @@
 <template data-sly-template.variant="${ @ model }">
   <ul class="nav nav-tabs mb-1" role="tablist">
     <sly data-sly-list="${model.tabsList}">
-        <li class="${item.active} nav-item" role="presentation">
+        <li class="${item.active} nav-item" data-tab-id="${itemList.index}-tab" id="${item.id}">
             <button 
                 class="nav-link ${itemList.index == 0 ? 'active' : ''}"
                 id="${itemList.index}-tab" 
                 data-bs-toggle="tab"
-                data-bs-target="#${itemList.index}" 
+                data-bs-target="#${itemList.index}-sly" 
                 type="button" 
                 role="tab" 
-                aria-controls="${itemList.index}"
-                aria-selected="true"
             >
                 <sly data-sly-test="${item.icon}">
                     <i class="icon ${item.icon}"></i>
                 </sly>
                 ${item.title}
+                <sly data-sly-test="${item.isCloseable}">
+                    <i data-tab-id="${itemList.index}-tab" class="close-icon pi pi-times"></i>
+                </sly>
             </button>
         </li>
     </sly>
@@ -24,9 +25,8 @@
       <sly data-sly-list="${model.tabsList}">
           <div 
               class="tab-pane fade show ${itemList.index == 0 ? 'active': ''}" 
-              id="${itemList.index}"
+              id="${itemList.index}-sly"
               role="tabpanel" 
-              aria-labelledby="${itemList.index}-tab"
           >
             <sly data-sly-test="${item.render == 'html'}">
               ${item.html @ context='unsafe'}
