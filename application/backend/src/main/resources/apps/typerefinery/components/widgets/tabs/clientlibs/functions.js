@@ -29,8 +29,8 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
 
                 return {
-                    tabTitle: tab.title,
-                    tabContent: tab.contentUrl,
+                    title: tab.title,
+                    url: tab.contentUrl,
                     id: `${index}-${tab.title.replace(/[^a-zA-Z0-9 ]/g, '').trim()?.split(" ").join("-")}`,
                     active: index === 0 ? "active" : "",
                     icon: tab.icon,
@@ -46,18 +46,117 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
     ns.updateComponentHtml = ($component, componentConfig, listOfTab) => {
         
-        const source = $(`#${componentConfig.id}-template`).html();
-        Handlebars.registerHelper('length', function (obj) {
-            return  obj ? (obj.length || 0) : 0;
-        });   
-        Handlebars.registerHelper('eq', (a, b) => a == b)
-        const template = Handlebars.compile(source);
+        // filter listOfTab if that li has no id and already exists in the $component.
+        const $header = $component.querySelector("ul");
+        const $tabContent = $component.querySelector("div.tab-content");
+        const $headerTabs = $header.querySelectorAll("li");
+        const $headerTabIds = [...$headerTabs].map((tab) => tab.id);
+
+        // remove the active class from all the tabs.
+        $headerTabs.forEach((tab) => {
+            tab.classList.remove("active");
+            tab.querySelector("button").classList.remove("active");
+        });
+
+
         
+        // remove the active class from all the tab contents.
+        $tabContent.querySelectorAll("div.tab-pane").forEach((tab) => {
+            tab.classList.remove("active");
+        });
 
-        const newHTML = template({listOfTab, placeholder: componentConfig.placeholderContent || '', contentHeight: componentConfig.contentHeight || '75vh'});
+        
+        // if the tab already exists in the $component, then remove it from the listOfTab.
+        const filteredListOfTab = listOfTab.filter((tab) => {
+            if($headerTabIds.includes(`${tab.id}`)) {
+                return false;
+            }
+            return true;
+        });
+        
+        const newHeaderTabs = `
+            ${filteredListOfTab.map((tab, index) => {
+                if(!tab.id && tab.id != 0) return ``;
+                return `
+                    <li class="${tab.active} nav-item" id="${tab.id}">
+                        <button 
+                            class="nav-link ${tab.active}"
+                            data-tab-id="${tab.id}"
+                            id="${tab.id}-tab" 
+                            data-bs-toggle="tab"
+                            data-bs-target="#${tab.id}-sidebar" 
+                            type="button" 
+                            role="tab" 
+                        >
+                            <sly data-sly-test="${tab.icon}">
+                                <i class="icon ${tab.icon}"></i>
+                            </sly>
+                            ${tab.title}
+                            <i data-tab-id="${tab.id}" class="close-icon pi pi-times"></i>
+                        </button>
+                    </li>`
+            }).join("")}
+        `;
 
-        $component.innerHTML = newHTML;
+        const newTabContents = `
+            ${filteredListOfTab.map((tab, index) => {
+                if(!tab.id && tab.id != 0) return ``;
+                return `
+                    <div 
+                        class="tab-pane fade ${tab.active} show" 
+                        id="${tab.id}-sidebar" 
+                        role="tabpanel" 
+                        aria-labelledby="${tab.id}-sidebar-tab"
+                    >
+                        ${
+                            tab.url ?
+                            `
+                            <iframe 
+                                src="${tab.url}" 
+                                style="width: 100%; height: 100%; border: none;"
+                            >
+                            </iframe>`
+                            :
+                            tab.html
+                        }
+                    </div>
+                `
+            }).join("")}
+        `;
+
+        // get ul tag from $component and append the new tab to it.
+        $header.insertAdjacentHTML('beforeend', newHeaderTabs);
+        $tabContent.insertAdjacentHTML('beforeend',newTabContents);
     };
+
+    ns.setActiveTabInDOM = ($component, componentConfig, tabId) => {
+        const $header = $component.querySelector("ul");
+        const $tabContent = $component.querySelector("div.tab-content");
+        const $headerTabs = $header.querySelectorAll("li");
+        
+        let activeIndex = -1;
+        // remove the active class from all the tabs.
+        $headerTabs.forEach((tab, index) => {
+            tab.classList.remove("active");
+            tab.querySelector("button").classList.remove("active");
+            if(tab.id == tabId) {
+                activeIndex = index
+            }
+        });
+
+        // remove the active class from all the tab contents.
+        $tabContent.querySelectorAll("div.tab-pane").forEach((tab) => {
+            tab.classList.remove("active");
+            tab.classList.remove("show");
+        });
+        if(activeIndex == -1) return;
+        // add the active class to the tab and tab content.
+        $header.querySelectorAll("button")[activeIndex].classList.add("active");
+        $tabContent.querySelectorAll("div.tab-pane")[activeIndex].classList.add("active");
+        $tabContent.querySelectorAll("div.tab-pane")[activeIndex].classList.add("show");
+    };
+
+
 
     ns.addTab = ($component, componentConfig, tab) => { 
         // add tabs to the component
@@ -76,10 +175,10 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
                 }
                 return tabItr;
             });
+            ns.setActiveTabInDOM($component, componentConfig, tab.id);
             
             ns[componentConfig.id] = newListOfTab;
 
-            ns.updateComponentHtml($component, componentConfig, newListOfTab);
             return;
         }
         
@@ -105,22 +204,59 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
     ns.removeTab = ($component, componentConfig, tabId) => {
 
-        // remove tab from the component
-        const newListOfTab = ns[componentConfig.id].filter((tab) => tab.id != tabId);
-        
-        ns[componentConfig.id] = newListOfTab;
-
-        // set the last tab to active and the rest to false.
-        newListOfTab.forEach((tabItr, index) => {
-            if(index === newListOfTab.length - 1) {
-                tabItr.active = "active";
-                eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "SELECT_TAB", tab: tabItr});
-            } else {
-                tabItr.active = "";
+        let $header = $component.querySelector("ul");
+        let $tabContent = $component.querySelector("div.tab-content");
+        let $headerTabs = $header.querySelectorAll("li");
+        // remove tabId from the $component.
+        $headerTabs.forEach((tab, index) => {
+            const dataTabId = tab.getAttribute("data-tab-id");
+            if(tab.id === tabId || dataTabId === tabId) {
+                tab.remove();
+                // then remove the tab content from the $component as well.
+                const $tab = $tabContent.querySelectorAll(`.tab-pane`)[index];
+                if(!$tab) {
+                    return;
+                }
+                $tab.remove();
             }
         });
 
-        ns.updateComponentHtml($component, componentConfig, newListOfTab);
+        // make the last tab active from $component.
+
+        $header = $component.querySelector("ul");
+        $tabContent = $component.querySelector("div.tab-content");
+        $headerTabs = $header.querySelectorAll("li");
+
+        $headerTabs.forEach((tab, index) => {
+            if(index === $headerTabs.length - 1) {
+                ns.setActiveTabInDOM($component, componentConfig, tab.id);
+                const $tab = $tabContent.querySelectorAll(`.tab-pane`)[index];
+                if(!$tab) {
+                    return;
+                }
+                if(!$tab.getAttribute("data-tab-id")) {
+                    eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "SELECT_TAB", tab: {id: tab.id}});
+                }
+            }
+        });
+
+        // remove the tab from the listOfTab.
+        const listOfTab = ns[componentConfig.id] || [];
+        const filteredListOfTab = listOfTab.filter((tab) => {
+            if(tab.id == tabId) {
+                return false;
+            }
+            return true;
+        });
+
+        // set the last tab to active and the rest to false.
+        filteredListOfTab.forEach((tabItr, index) => {
+            if(index === filteredListOfTab.length - 1) {
+                tabItr.active = "active";
+            }
+        });
+
+        ns[componentConfig.id] = filteredListOfTab;
     };
 
     ns.registerEvents = ($component, componentConfig, componentId) => {
@@ -143,9 +279,8 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
             if(event && event.stopPropagation) event.stopPropagation(); 
             const tabId = event.target.getAttribute("data-tab-id");
             if(!tabId) return;
+            eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "CLOSE_TAB", tab: {id: tabId}});        
             ns.removeTab($component, componentConfig, tabId);
-            eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "CLOSE_TAB", tab: {id: tabId}});
-                
         });
     };
 
@@ -153,9 +288,7 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         // add delegate event listener to tab in jquery.
         $($component).on("click", ".nav-link", (event) => {
             const tabId = event.target.getAttribute("data-tab-id");
-            if(!tabId) return;
             eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "SELECT_TAB", tab: {id: tabId}});
-           
         });
     };
 
@@ -178,7 +311,6 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
         if(iframes && iframes.length > 0) {
             iframes.forEach((iframe) => {
-              console.log(["iframe", iframe.getAttribute("addquerystring")]);
                 if(iframe.getAttribute("addquerystring") === "true") {
 
                     const srchref = iframe.getAttribute("srchref");
@@ -190,11 +322,12 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
                         params.set(key, value);
                     });
                     url.search = params.toString();
-                    console.log(["tab new url source", url.toString()]);
                     iframe.setAttribute("src", url.toString());
                 }
             });
         }
+
+        ns[componentConfig.id] = componentConfig.tabsList;
 
     };
 
