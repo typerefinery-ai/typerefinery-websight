@@ -1,53 +1,45 @@
 <template data-sly-template.variant="${ @ model }">
-  <div component="${model.componentName}" id="${model.id}" class="${model.variantClassNames}"
-    data-model="${model.jsonString}" data-is-edit-mode="${wcmmode.isEdit}">
+  <ul class="nav nav-tabs mb-1" role="tablist">
+    <sly data-sly-list="${model.tabsList}">
+        <li class="${item.active} nav-item" role="presentation">
+            <button 
+                class="nav-link ${itemList.index == 0 ? 'active' : ''}"
+                id="${itemList.index}-tab" 
+                data-bs-toggle="tab"
+                data-bs-target="#${itemList.index}" 
+                type="button" 
+                role="tab" 
+                aria-controls="${itemList.index}"
+                aria-selected="true"
+            >
+                <sly data-sly-test="${item.icon}">
+                    <i class="icon ${item.icon}"></i>
+                </sly>
+                ${item.title}
+            </button>
+        </li>
+    </sly>
+  </ul>
+  <div class="tab-content" style="height: 90vh">
+      <sly data-sly-list="${model.tabsList}">
+          <div 
+              class="tab-pane fade show ${itemList.index == 0 ? 'active': ''}" 
+              id="${itemList.index}"
+              role="tabpanel" 
+              aria-labelledby="${itemList.index}-tab"
+          >
+            <sly data-sly-test="${item.render == 'html'}">
+              ${item.html @ context='unsafe'}
+            </sly>
+            <sly data-sly-test="${!item.render}">
+              <sly data-sly-test="${item.passParentQueryString}">
+                  <iframe srchref="${item.url}" addquerystring="true" width="100%" height="100%"></iframe>
+              </sly>
+              <sly data-sly-test="${!item.passParentQueryString}">
+                  <iframe src="${item.url}" width="100%" height="100%"></iframe>
+              </sly>
+            </sly>
+          </div>
+      </sly>
   </div>
-
-  <sly data-sly-test="${wcmmode.isEdit}">
-    <div style="--bs-bg-opacity: .5;" class="bg-warning">Tab Component</div>
-  </sly>
-
-  <sly data-sly-call="${tabTemplate @ model=model}"></sly>
-</template>
-
-
-<template data-sly-template.tabTemplate="${ @ model }">
-  <script id="${model.id}-template" type="text/x-handlebars-template">
-    <ul class="nav nav-tabs mb-1" role="tablist">
-      {{#each listOfTab}}
-      <li class="{{active}} nav-item" role="presentation">
-        <button  class="nav-link {{active}}" data-tab-id="{{id}}" id="{{id}}-tab" data-bs-toggle="tab" data-bs-target="#{{id}}" type="button" role="tab" aria-controls="{{id}}" aria-selected="true">
-          {{#if icon}}
-            <i class="icon {{icon}}"></i>
-          {{/if}}
-          {{tabTitle}}
-          {{#if isCloseable}}
-            <i id="closeTab" data-tab-id="{{id}}" data-model="${model.jsonString}" class="close-icon pi pi-times"></i>
-          {{/if}}
-        </button>
-      </li>
-      {{/each}}
-    </ul>
-    
-    <div class="tab-content" style="height: {{contentHeight}}">
-      {{#if (eq (length listOfTab) 0)}}
-        <div class="tab-pane fade show active" id="default" role="tabpanel" aria-labelledby="default-tab">
-          <iframe src="{{placeholder}}" width="100%" height="100%"></iframe>
-        </div>
-      {{/if}}
-      {{#each listOfTab}}
-        <div
-          class="tab-pane fade show {{active}}"
-          id="{{id}}"
-          role="tabpanel" 
-          aria-labelledby="{{id}}-tab"
-        >
-          <iframe src="{{tabContent}}" width="100%" height="100%"></iframe>
-        </div>
-      {{/each}}
-     
-    </div>
-<!-- If listOfTab is null or length is 0 then show default content -->
-    
-  </script>
 </template>
