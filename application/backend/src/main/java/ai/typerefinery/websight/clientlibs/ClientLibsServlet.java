@@ -4,15 +4,23 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.engine.impl.request.SlingRequestPathInfo;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.jcr.LoginException;
 import javax.servlet.Servlet;
@@ -22,9 +30,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.apache.sling.query.SlingQuery;
 import org.apache.sling.query.api.SearchStrategy;
+import org.apache.sling.settings.SlingSettingsService;
 import org.jetbrains.annotations.NotNull;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -32,9 +42,15 @@ import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.ServletResolverConstants;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -44,7 +60,17 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.io.Files;
+
+import pl.ds.websight.publishing.framework.PublishService;
+import pl.ds.websight.publishing.framework.PublishAction;
+import pl.ds.websight.publishing.framework.PublishOptions;
+import pl.ds.websight.publishing.framework.PublishStatus;
+import pl.ds.websight.publishing.framework.PublishStatusName;
+
+
 import ai.typerefinery.websight.services.ContentAccess;
+import ai.typerefinery.websight.utils.FileMimeTypeUtil;
 
 // @Service
 // @Component(metatype = false)
@@ -88,6 +114,9 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     public static final String PROPERTY_DEPENDENCIES = "dependencies";
     public static final String PROPERTY_PREPEND = "prepend";
     public static final String PROPERTY_APPEND= "append";
+    public static final String PROPERTY_EXTENSION = "extension";
+    public static final String PROPERTY_CACHE_PATH = "cachepath";
+    public static final String PROPERTY_CACHE_URI = "cacheuri";
 
     public static final String OPTION_ASYNC = "async";
     public static final String OPTION_DEFER= "defer";
@@ -102,6 +131,15 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
 
     @Reference
     ContentAccess contentAccess;
+
+    @Reference
+    PublishService publishService; // used to publish resources
+
+    @Reference
+    ConfigurationAdmin configurationAdmin; // used to get configurations
+
+    @Reference
+    SlingSettingsService slingSettings; // used to get setting properties
 
     @Activate
     protected void activate(ClientLibsServiceConfiguration configuration) {
@@ -141,9 +179,34 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                         )
                     ) {
                     return;
-                }         
+                }
+
+                // get the clientlib properties for caching
+                String uri = request.getRequestURI();
+                String uriPath = composeResourceCachePath(uri, extension, configurationAdmin, slingSettings);
+                boolean isCacheRequest = request.getParameter("cache") == null ? false : true;
+                Resource clientlibResource = request.getResourceResolver().getResource(relPath);
+                
+                // if not cache request and resource is not outdated send it and return
+                if (!isCacheRequest) {
+                    boolean isCachedOutdated = isCachedResourceOutdated(clientlibResource, uriPath);
+                    if (!isCachedOutdated) {
+                        //check if resurce has been published and is in cache send it and return
+                        if (sendResourceFromCache(request.getResourceResolver(), uriPath, extension, response, configurationAdmin, slingSettings)) {
+                            return;
+                        }
+                    }
+                }
+
+                // render all client lib content
                 PrintWriter out = response.getWriter();
                 printClientlibContent(request.getResourceResolver(), relPath, out, extension, request.getResourceResolver().getSearchPath());
+                
+                // do not cache if cache request to avoid infinite loop
+                if (!isCacheRequest) {
+                    // publish client lib to cache
+                    publishClientLib(publishService, request.getResourceResolver(), relPath, extension, uriPath, uri);
+                }
             } else {
                 //send static resource file
                 Resource staticResource = resolveRelativePathInSearchPath(request.getResourceResolver(), contentAccess, null, requestPath);
@@ -180,6 +243,229 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             e.printStackTrace();
+        }
+    }
+
+    public static String composeResourceCachePath(@NotNull String resoucePath, @NotNull String extension, @NotNull ConfigurationAdmin configAdmin, @NotNull SlingSettingsService slingSettings) {
+        String diskFilePath = "";
+        String cachePath = getCachePath(configAdmin);
+        String directoryPath = "";
+        if (!StringUtils.isEmpty(cachePath)) {
+            Path configuredPath = Paths.get(cachePath, new String[0]);
+            if (configuredPath.isAbsolute()) {
+                directoryPath = configuredPath.toString();
+            } else {
+                directoryPath = Paths.get(slingSettings.getSlingHomePath(), new String[] { cachePath }).toString();
+            }
+        } else {
+            directoryPath = Paths.get(slingSettings.getSlingHomePath(), new String[] { "docroot" }).toString();
+        }
+
+        resoucePath = resoucePath.replace("/", File.separator);
+
+        // compose possible disk file path
+        if (resoucePath.endsWith("." + extension)) {
+            diskFilePath = directoryPath + resoucePath;
+        } else {
+            diskFilePath = directoryPath + resoucePath + "." + extension;
+        }
+
+        return diskFilePath;
+    }
+
+    /**
+     * check and send a posisble file from disk as a response
+     * @param resourceResolver
+     * @param resourcePath
+     * @param extension
+     * @param response
+     * @param configAdmin
+     * @param slingSettings
+     * @return
+     */
+    public static boolean sendResourceFromCache(@NotNull ResourceResolver resourceResolver, @NotNull String resourcePath, @NotNull String extension, @NotNull SlingHttpServletResponse response, @NotNull ConfigurationAdmin configAdmin, @NotNull SlingSettingsService slingSettings) {
+
+        // check if file exists
+        File file = new File(resourcePath);
+        if (!file.exists()) {
+            LOGGER.info("File does not exist {}", resourcePath);
+            return false;
+        }
+
+        if (!file.canRead()) {
+            LOGGER.info("File is not readable {}", resourcePath);
+            return false;
+        }
+
+        return sendStaticFile(resourceResolver, file, response);
+
+    }
+
+    /**
+     * send file from disk as a response
+     * @param resourceResolver
+     * @param diskFilePath
+     * @param response
+     */
+    public static boolean sendStaticFile(@NotNull ResourceResolver resourceResolver, @NotNull File file, @NotNull SlingHttpServletResponse response) {
+        InputStream resourceInputStream = null;
+        try {
+
+            // get last modified time from file
+            long modifTime = file.lastModified();
+            
+            // open file as InputStream
+            resourceInputStream = new FileInputStream(file);
+
+            long length = file.length();
+            if (length >= 0L) {
+                response.setHeader("Content-Length", String.valueOf(length)); 
+            }
+            response.setHeader("Cache-Control", "max-age=86400, public");
+            if (modifTime > 0L) {
+                response.setDateHeader("Last-Modified", modifTime); 
+            }
+
+            String extension = Files.getFileExtension(file.getName());
+            // get content type from resource metadata
+            String metaType = FileMimeTypeUtil.getMimeTypeFromExtension(extension);
+            if (metaType == null) {
+                metaType = "application/octet-stream";
+            }
+            response.setContentType(metaType); 
+            
+            // set the character encoding
+            String encoding = "UTF-8";
+            if (encoding != null) {
+                response.setCharacterEncoding(encoding); 
+            }
+            IOUtils.copy(resourceInputStream, (OutputStream)response.getOutputStream());
+
+            return true;
+
+        } catch (IOException e) {
+            LOGGER.error("Could not sendStaticResource for resource {}.", file.getAbsoluteFile());
+            e.printStackTrace();
+        } finally {
+            if (resourceInputStream != null) {
+                IOUtils.closeQuietly(resourceInputStream);
+            }
+        } 
+        
+        return false;
+    }
+
+
+    /**
+     * get the path to the cache folder from service configuration
+     * @param sling
+     */
+    public static String getCachePath(@NotNull ConfigurationAdmin configAdmin) {
+        org.osgi.service.cm.Configuration config = getServiceConfig(configAdmin, "pl.ds.websight.publishing.connectors.filesystem.FileSystemStorageConnector");
+        String cachePath = null;
+        if (config != null) {
+            try {
+                cachePath = (String) config.getProperties().get("directory.path");
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        } 
+        return cachePath;
+    }
+
+    /**
+     * get the service configuration from configuration admin service
+     */
+    public static org.osgi.service.cm.Configuration getServiceConfig(@NotNull ConfigurationAdmin configAdmin, @NotNull String serviceConfigName) {
+        try {
+            if (configAdmin != null) {
+                // find serviceConfigName in configAdmin
+                String filter = "(" + Constants.SERVICE_PID + "=" + serviceConfigName + ")";
+                Configuration[] configs = configAdmin.listConfigurations(filter);
+                if (configs != null && configs.length > 0) {
+                    return configs[0];
+                }
+            }
+        } catch (IOException | InvalidSyntaxException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+    /**
+     * check if resource is already published
+     * @param publishService
+     * @param resource
+     * @param relPath
+     */
+    public static boolean isCachedResourceOutdated(@NotNull Resource resource, @NotNull String resourceUriPath) {
+        if (!ResourceUtil.isNonExistingResource(resource)) {
+            // check if resource is already published
+            long lastModified = resource.getResourceMetadata().getModificationTime();
+            long created = resource.getResourceMetadata().getCreationTime();
+            Calendar lastModifiedCal = Calendar.getInstance();
+            lastModifiedCal.setTimeInMillis(lastModified > -1 ? lastModified : created);
+
+            File file = new File(resourceUriPath);
+            if (file.exists()) {
+                long fileLastModified = file.lastModified();
+                // if resource is modified after file was created, means files is older and needs to be updated
+                if (lastModifiedCal.getTimeInMillis() > fileLastModified) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    
+    /**
+     * check if resource is already published
+     * @param publishService
+     * @param resource
+     * @param relPath
+     */
+    public static boolean isResourcePublished(@NotNull PublishService publishService, @NotNull Resource resource) {
+        if (!ResourceUtil.isNonExistingResource(resource)) {
+            // check if resource is already published
+            long lastModified = resource.getResourceMetadata().getModificationTime();
+            long created = resource.getResourceMetadata().getCreationTime();
+            Calendar lastModifiedCal = Calendar.getInstance();
+            lastModifiedCal.setTimeInMillis(lastModified > -1 ? lastModified : created);
+
+            PublishStatus publishStatus = publishService.getStatus(resource);
+            // check if resource is already published and if it is not modified since publish date
+            if (publishStatus != null && publishStatus.getStatusName(lastModifiedCal) == PublishStatusName.PUBLISHED) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * publish clientlib effectively cache it
+     * @param publishService
+     * @param resourceResolver
+     * @param relPath
+     */
+    public static void publishClientLib(@NotNull PublishService publishService, @NotNull ResourceResolver resourceResolver, @NotNull String relPath, @NotNull String extension, @NotNull String filePath, @NotNull String resoruceUri) {
+        Resource clientlibResource = resourceResolver.getResource(relPath);
+
+        if (!ResourceUtil.isNonExistingResource(clientlibResource)) {
+
+            if (isResourcePublished(publishService, clientlibResource)) {
+                return;
+            }
+            try {            
+                Map<String, Object> properties = new HashMap<>();
+                properties.put(PROPERTY_EXTENSION, extension);
+                properties.put(PROPERTY_CACHE_PATH, filePath);
+                properties.put(PROPERTY_CACHE_URI, resoruceUri);
+                PublishOptions publishOptions = new PublishOptions(PublishAction.PUBLISH, properties);
+                List<String> result = publishService.publish(clientlibResource, publishOptions);
+                LOGGER.error("Published: {}", result);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+            } 
         }
     }
 
@@ -380,8 +666,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     public static void printClientlibContent(@NotNull ResourceResolver resourceResolver, @NotNull String clientlibPath, @NotNull PrintWriter out, @NotNull String extension, @Nullable String[] searchPaths) {
         Resource clientlibResource = resourceResolver.getResource(clientlibPath);
         if (!ResourceUtil.isNonExistingResource(clientlibResource)) {
-            ValueMap properties = clientlibResource.getValueMap();            
-            
+            ValueMap properties = clientlibResource.getValueMap();
+
             //add anything that need to be prepended with this client lib
             if (properties.containsKey(PROPERTY_PREPEND)) {
                 String[] prepend = properties.get(PROPERTY_PREPEND, String[].class);

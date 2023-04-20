@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0"
+  xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+  xmlns:ws="http://ds.pl/websight"
+  xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
+  <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Header with hamburger" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
+  <container
+  jcr:primaryType="nt:unstructured"
+  sling:resourceType="typerefinery/components/layout/container"
+  backgroundColor="secondary"
+  id="container_WOK1PBQ5S">
+  <two
+      jcr:primaryType="nt:unstructured"
+      sling:resourceType="typerefinery/components/layout/container"
+      flexEnabled="true"
+      horizontalAlignment="between"
+      id="two_VRS4HRNAY">
+      <container1
+          jcr:primaryType="nt:unstructured"
+          sling:resourceType="/apps/typerefinery/components/layout/container"
+          borderEnabled="false"
+          gap="2"
+          id="container1_T2DHXFASX"
+          lgColSize="3"
+          mdColSize="6"
+          smColSize="2">
+          <button
+              jcr:primaryType="nt:unstructured"
+              sling:resourceType="typerefinery/components/forms/fields/button"
+              id="button_XIIWHQNME"
+              isOutlinedButton="true"
+              lgColSize="1"
+              mdColSize="2"
+              persistColorWhenThemeSwitches="true"
+              target="#container2_W4VJPPTFJ"
+              variant="hamburger"/>
+      </container1>
+      <container2
+          jcr:primaryType="nt:unstructured"
+          sling:resourceType="/apps/typerefinery/components/layout/container"
+          flexEnabled="true"
+          gap="2"
+          horizontalAlignment="end"
+          id="container2_W4VJPPTFJ"
+          lgColSize="6"
+          marginEnabled="false"
+          mdColSize="6"
+          paddingEnabled="false"
+          smColSize="22">
+          <button
+              jcr:primaryType="nt:unstructured"
+              sling:resourceType="typerefinery/components/forms/fields/button"
+              buttonStyle="warning"
+              buttonType="navigate"
+              classes="btn-sm"
+              hideButtonLabel="false"
+              id="button_FSICIBX7K"
+              label="Typerefinery.ai"
+              lgColSize="2"
+              mdColSize="6"
+              navigateTo="https://typerefinery.ai"
+              navigateToInNewWindow="true"
+              persistColorWhenThemeSwitches="true"/>
+          <button_1
+          jcr:primaryType="nt:unstructured"
+          sling:resourceType="typerefinery/components/forms/fields/button"
+          actionType="initialTheme"
+          buttonStyle="primary"
+          buttonType="action"
+          classes="btn-sm "
+          hideButtonLabel="true"
+          icon=" pi pi-sun "
+          id="button_1_THEUGUJ6F"
+          isOutlinedButton="false"
+          label="\0"
+          lgColSize="1"
+          mdColSize="6"
+          persistColorWhenThemeSwitches="true"
+          showIcon="true"
+          showTextualElementOfButton="false"/>
+      </container2>
+  </two>
+</container>
+  </jcr:content>
+</jcr:root>

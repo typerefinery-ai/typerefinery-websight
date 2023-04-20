@@ -29,7 +29,7 @@
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Case Management"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
@@ -68,4 +68,15 @@
             </container1>
         </rootcontainer>
     </jcr:content>
+    <artifacts/>
+    <cases/>
+    <createnew/>
+    <dashboard/>
+    <enrichments/>
+    <info/>
+    <notes/>
+    <observables/>
+    <tags/>
+    <tasks/>
+    <update/>
 </jcr:root>

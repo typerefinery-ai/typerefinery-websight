@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
+    <domainname/>
+    <observable1/>
+    <totalvirus/>
     <jcr:content
         jcr:lastModified="{Date}2023-04-07T12:28:53.868+05:30"
         jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
         jcr:title="Update"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2023-04-18T15:41:20.686+05:30"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
@@ -15,20 +20,23 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/nav"
                 backgroundColor="secondary"
-                cancelInheritParent="true">
+                cancelInheritParent="true"
+                id="nav_RDE9W8JYY">
                 <title
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/title"
                     headingLevel="h5"
+                    id="title_Y0WAC9IWS"
                     marginBottom="five"
                     marginEnabled="true"
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Case Management"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
+                    id="treeview_MVHZ87XP2"
                     parentPagePath="/content/typerefinery-showcase/pages/casemanagement/admin/pages"/>
             </nav>
             <header
@@ -36,23 +44,32 @@
                 sling:resourceType="typerefinery/components/layout/header"
                 backgroundColor="secondary"
                 cancelInheritParent="true"
+                id="header_2UPRC0LUZ"
                 marginBottom="three"
                 marginEnabled="true">
                 <reference
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/reference"
+                    id="reference_HP5W1LBN9"
                     path="/content/typerefinery-showcase/pages/casemanagement/admin/content/header/jcr:content/container"/>
             </header>
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                borderEnabled="false"
+                classes="\0"
                 flexEnabled="true"
-                marginEnabled="true"
-                marginTop="one">
+                id="container1_RHMPJRLHA"
+                marginEnabled="false"
+                paddingEnabled="true"
+                paddingGeneral="four"
+                persistColorWhenThemeSwitches="false"
+                title="\0">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     flexEnabled="true"
+                    id="container_SN0ZAZDTI"
                     lgColSize="12"
                     textAlignment="center">
                     <container_1
@@ -60,13 +77,14 @@
                         sling:resourceType="typerefinery/components/layout/container"
                         classes="card shadow-md"
                         flexEnabled="true"
+                        id="container_1_RJK58YFXJ"
                         marginEnabled="true"
-                        marginLeft="two"
                         textAlignment="center">
                         <title
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/content/title"
                             headingLevel="h5"
+                            id="title_HKLGDVMPR"
                             marginBottom="two"
                             marginEnabled="true"
                             marginTop="three"
@@ -78,9 +96,9 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
                         flexEnabled="true"
+                        id="container_2_ZFDSX21RH"
                         lgColSize="12"
                         marginEnabled="true"
-                        marginLeft="two"
                         marginTop="three"
                         textAlignment="center">
                         <tabs
@@ -100,51 +118,43 @@
                                 <_x0030_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/info.html"
-                                    isCloseable="true"
                                     title="Info"
                                     useQueryParamsFromParent="false"/>
                                 <_x0031_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/tags.html"
-                                    isCloseable="true"
                                     title="Tags"
                                     useQueryParamsFromParent="false"/>
                                 <_x0032_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/tasks.html"
-                                    isCloseable="true"
                                     title="Tasks"
                                     useQueryParamsFromParent="false"/>
                                 <_x0033_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/observables.html"
-                                    isCloseable="true"
                                     title="Observables"
                                     useQueryParamsFromParent="false"/>
                                 <_x0034_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/observable1.html"
-                                    isCloseable="true"
                                     title="Observable 1"
-                                    useQueryParamsFromParent="false"/>     
+                                    useQueryParamsFromParent="false"/>
                                 <_x0035_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/artifacts.html"
-                                    isCloseable="true"
                                     title="Artifacts"
                                     useQueryParamsFromParent="false"/>
                                 <_x0036_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/enrichments.html"
-                                    isCloseable="true"
                                     title="Enrichments"
                                     useQueryParamsFromParent="false"/>
                                 <_x0037_
                                     jcr:primaryType="nt:unstructured"
                                     content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/notes.html"
-                                    isCloseable="true"
                                     title="Notes"
-                                    useQueryParamsFromParent="false"/>   
+                                    useQueryParamsFromParent="false"/>
                             </listOfTab>
                         </tabs>
                     </container_2>

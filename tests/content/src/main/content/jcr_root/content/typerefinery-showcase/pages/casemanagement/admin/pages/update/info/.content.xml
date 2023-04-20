@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Info"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-06T17:14:39.163+05:30"
+        ws:lastModified="{Date}2023-04-18T16:13:32.090+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -25,14 +25,14 @@
                 flexEnabled="true"
                 id="container1_UT0PNE16E"
                 lgColSize="12"
-                marginEnabled="true"
-                marginLeft="two">
+                paddingEnabled="true"
+                paddingGeneral="two">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
                     flexEnabled="true"
                     id="container_1MQGTEPZT"
-                    lgColSize="11"
+                    lgColSize="12"
                     textAlignment="center">
                     <container_1
                         jcr:primaryType="nt:unstructured"
@@ -122,12 +122,17 @@
                     <container_2
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
+                        borderEnabled="false"
+                        classes="\0"
                         flexEnabled="true"
                         horizontalAlignment="between"
                         id="container_2_VMERVATUU"
-                        marginEnabled="true"
+                        marginEnabled="false"
                         marginLeft="two"
-                        textAlignment="center">
+                        paddingEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        textAlignment="center"
+                        title="\0">
                         <container_2_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"

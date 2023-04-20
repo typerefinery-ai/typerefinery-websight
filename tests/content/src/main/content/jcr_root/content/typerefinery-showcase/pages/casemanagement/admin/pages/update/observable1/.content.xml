@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Observable 1"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-07T15:26:00.318+05:30"
+        ws:lastModified="{Date}2023-04-18T15:44:40.118+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -32,10 +32,10 @@
                     classes="\0"
                     flexEnabled="false"
                     id="container_1ZTNH3UYK"
-                    marginEnabled="true"
+                    marginEnabled="false"
                     marginGeneral="zero"
-                    marginLeft="two"
-                    paddingEnabled="false"
+                    paddingEnabled="true"
+                    paddingGeneral="two"
                     persistColorWhenThemeSwitches="false"
                     title="\0">
                     <form
@@ -86,14 +86,12 @@
                                 jcr:primaryType="nt:unstructured"
                                 content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/domainname.html"
                                 icon="pi pi-globe"
-                                isCloseable="true"
                                 title="Domain"
                                 useQueryParamsFromParent="false"/>
                             <_x0031_
                                 jcr:primaryType="nt:unstructured"
                                 content="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/totalvirus.html"
                                 icon="pi pi-exclamation-triangle"
-                                isCloseable="true"
                                 title="Virus total"
                                 useQueryParamsFromParent="false"/>
                         </listOfTab>

@@ -7,6 +7,8 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Dashboard"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2023-04-17T11:33:53.926+05:30"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
@@ -15,20 +17,23 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/nav"
                 backgroundColor="secondary"
-                cancelInheritParent="true">
+                cancelInheritParent="true"
+                id="nav_5LXUWVYCB">
                 <title
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/title"
                     headingLevel="h5"
+                    id="title_L0R97J6PJ"
                     marginBottom="five"
                     marginEnabled="true"
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Case Management"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
+                    id="treeview_Z1NAENYNW"
                     parentPagePath="/content/typerefinery-showcase/pages/casemanagement/admin/pages"/>
             </nav>
             <header
@@ -36,30 +41,55 @@
                 sling:resourceType="typerefinery/components/layout/header"
                 backgroundColor="secondary"
                 cancelInheritParent="true"
+                id="header_HPRCWG1RB"
                 marginBottom="three"
                 marginEnabled="true">
                 <reference
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/reference"
+                    id="reference_AQ1MIL98N"
                     path="/content/typerefinery-showcase/pages/casemanagement/admin/content/header/jcr:content/container"/>
             </header>
             <container
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                id="container_CXULGGFOA"
                 paddingEnabled="true"
                 paddingGeneral="four">
-                <flowcontainer
+                <flowcontainer_1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/flow/flowcontainer"
-                    flexEnabled="true"
-                    id="flowcontainer_WWLM9I6LE"
-                    textAlignment="center">
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    flowapi_createdon="2023-04-18T09:54:33.349Z"
+                    flowapi_designtemplate="/apps/typerefinery/components/flow/flowcontainer/templates/dashboard_design.json"
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6008kk50d&amp;components="
+                    flowapi_enable="true"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f106q6008kk50d"
+                    flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                    flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                    flowapi_iscontainer="{Boolean}true"
+                    flowapi_sampledata="\0"
+                    flowapi_success="true"
+                    flowapi_template="/apps/typerefinery/components/flow/flowcontainer/templates/dashboard.json"
+                    flowapi_title="Flowcontainer flow"
+                    flowapi_topic="flowcontainer_b620055e5cb34672ad647dce2b33afaa"
+                    flowapi_updatedon="\0"
+                    flowapi_websocketurl="ws://localhost:8112/$tms"
+                    id="flowcontainer_1_WTRRHZBBQ"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    title="\0">
                     <container1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
                         flexEnabled="true"
                         gap="0"
                         horizontalAlignment="between"
+                        id="container1_XBYLS6NC7"
                         lgColSize="12"
                         marginBottom="five"
                         marginEnabled="true"
@@ -69,37 +99,134 @@
                         <container1_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
-                            lgColSize="4"
+                            borderEnabled="false"
+                            classes="\0"
+                            flexEnabled="false"
+                            id="container1_1_ZPJ3SEB52"
+                            lgColSize="3"
+                            marginEnabled="false"
                             mdColSize="6"
-                            smColSize="12">
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            smColSize="12"
+                            title="\0">
                             <ticker
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/widgets/ticker"
-                                id="ticker_4YSONFQT0"/>
+                                borderEnabled="false"
+                                classes="\0"
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-18T09:54:19.108Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6003kk51d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f106q6003kk51d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"
+                                flowapi_title="Ticker flow"
+                                flowapi_topic="ticker_47b01dbdaa9048f08d811861f1074dd1"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="ticker_X6LJXXAYB"
+                                marginEnabled="false"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                title="\0"
+                                websocketHost="\0"
+                                websocketTopic="\0"/>
                         </container1_1>
                         <container1_2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
-                            lgColSize="4"
+                            borderEnabled="false"
+                            classes="\0"
+                            flexEnabled="false"
+                            id="container1_2_GLKJ1BAES"
+                            lgColSize="3"
+                            marginEnabled="false"
                             mdColSize="6"
-                            smColSize="12">
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            smColSize="12"
+                            title="\0">
                             <ticker
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/widgets/ticker"
-                                id="ticker_ZWRXBSZNR"
-                                templateSelected="1"/>
+                                borderEnabled="false"
+                                classes="\0"
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-18T09:54:15.000Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6001kk51d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f106q6001kk51d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"
+                                flowapi_title="Ticker flow"
+                                flowapi_topic="ticker_fc307b80346c42fca01935851110cf55"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="ticker_YBPMYGTNS"
+                                marginEnabled="false"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                title="\0"
+                                websocketHost="\0"
+                                websocketTopic="\0"/>
                         </container1_2>
                         <container1_3
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
-                            lgColSize="4"
+                            borderEnabled="false"
+                            classes="\0"
+                            flexEnabled="false"
+                            id="container1_3_FFBFSBWDL"
+                            lgColSize="3"
+                            marginEnabled="false"
                             mdColSize="6"
-                            smColSize="12">
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            smColSize="12"
+                            title="\0">
                             <ticker
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/widgets/ticker"
-                                id="ticker_AXKJIQECH"
-                                templateSelected="1"/>
+                                borderEnabled="false"
+                                classes="\0"
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-18T09:54:16.912Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6002kk50d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f106q6002kk50d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"
+                                flowapi_title="Ticker flow"
+                                flowapi_topic="ticker_e4499220902a4af988ae0764e1607502"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="ticker_UCX4PAWWD"
+                                marginEnabled="false"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                title="\0"
+                                websocketHost="\0"
+                                websocketTopic="\0"/>
                         </container1_3>
                     </container1>
                     <container2
@@ -109,13 +236,38 @@
                         flexEnabled="true"
                         gap="0"
                         horizontalAlignment="between"
+                        id="container2_0XLASPK6U"
                         lgColSize="12"
                         mdColSize="12"
                         smColSize="12">
                         <chart
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="/apps/typerefinery/components/widgets/chart"
-                            variant="lineChart"/>
+                            sling:resourceType="typerefinery/components/widgets/chart"
+                            borderEnabled="false"
+                            classes="\0"
+                            dataSource="\0"
+                            flowapi_createdon="2023-04-18T09:54:49.091Z"
+                            flowapi_designtemplate="\0"
+                            flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6014kk50d&amp;components="
+                            flowapi_enable="true"
+                            flowapi_error="null"
+                            flowapi_flowstreamid="f106q6014kk50d"
+                            flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                            flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                            flowapi_iscontainer="{Boolean}false"
+                            flowapi_sampledata="/apps/typerefinery/components/widgets/chart/templates/flowsample.json"
+                            flowapi_success="true"
+                            flowapi_template="/apps/typerefinery/components/widgets/chart/templates/chart.json"
+                            flowapi_title="Chart flow"
+                            flowapi_topic="chart_1ffefaa53eaf414086ef5a643c3b599e"
+                            flowapi_updatedon="\0"
+                            flowapi_websocketurl="ws://localhost:8112/$tms"
+                            id="chart_XGDLYH1QM"
+                            marginEnabled="false"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            websocketHost="\0"
+                            websocketTopic="\0"/>
                     </container2>
                     <container3
                         jcr:primaryType="nt:unstructured"
@@ -123,6 +275,7 @@
                         flexEnabled="true"
                         gap="0"
                         horizontalAlignment="between"
+                        id="container3_KY3P7RMPK"
                         lgColSize="12"
                         marginEnabled="true"
                         marginTop="five"
@@ -131,24 +284,76 @@
                         <container3_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
+                            id="container3_1_4WMZO4CVI"
                             lgColSize="6"
                             mdColSize="12"
                             smColSize="12">
                             <chart
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="/apps/typerefinery/components/widgets/chart"
-                                variant="barChart"/>
+                                sling:resourceType="typerefinery/components/widgets/chart"
+                                borderEnabled="false"
+                                classes="\0"
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-18T09:54:45.141Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6012kk50d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f106q6012kk50d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/chart/templates/flowsample.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/chart/templates/chart.json"
+                                flowapi_title="Chart flow"
+                                flowapi_topic="chart_fcf17cd87e2747aa8065b19ebeca76bc"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="chart_WDTCAHTVM"
+                                marginEnabled="false"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                variant="barChart"
+                                websocketHost="\0"
+                                websocketTopic="\0"/>
                         </container3_1>
                         <container3_2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
+                            id="container3_2_HSFAJ0UFV"
                             lgColSize="6"
                             mdColSize="12"
                             smColSize="12">
                             <chart
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="/apps/typerefinery/components/widgets/chart"
-                                variant="pieChart"/>
+                                sling:resourceType="typerefinery/components/widgets/chart"
+                                borderEnabled="false"
+                                classes="\0"
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-18T09:54:53.009Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6016kk50d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f106q6016kk50d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/chart/templates/flowsample.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/chart/templates/chart.json"
+                                flowapi_title="Chart flow"
+                                flowapi_topic="chart_be5341c38629437dac1b4179f95e1106"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="chart_SXUTC05AZ"
+                                marginEnabled="false"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                variant="pieChart"
+                                websocketHost="\0"
+                                websocketTopic="\0"/>
                         </container3_2>
                     </container3>
                     <container4
@@ -157,30 +362,47 @@
                         flexEnabled="true"
                         gap="0"
                         horizontalAlignment="between"
+                        id="container4_KU5EXJWIH"
                         lgColSize="12"
                         mdColSize="12"
                         smColSize="12">
                         <map
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="/apps/typerefinery/components/widgets/map"
-                            marginBottom="three"
-                            marginEnabled="true"
-                            marginTop="three"/>
+                            sling:resourceType="typerefinery/components/widgets/map"
+                            borderEnabled="false"
+                            classes="\0"
+                            copyRightUrl="\0"
+                            dataSource="\0"
+                            flowapi_createdon="2023-04-18T09:54:39.444Z"
+                            flowapi_designtemplate="\0"
+                            flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff106q6009kk51d&amp;components="
+                            flowapi_enable="true"
+                            flowapi_error="null"
+                            flowapi_flowstreamid="f106q6009kk51d"
+                            flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard"
+                            flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/dashboard/*"
+                            flowapi_iscontainer="{Boolean}false"
+                            flowapi_sampledata="/apps/typerefinery/components/widgets/map/templates/flowsample.json"
+                            flowapi_success="true"
+                            flowapi_template="/apps/typerefinery/components/widgets/map/templates/map.json"
+                            flowapi_title="Map flow"
+                            flowapi_topic="map_9e576baf3d8a4f1788d4fab2c10b0041"
+                            flowapi_updatedon="\0"
+                            flowapi_websocketurl="ws://localhost:8112/$tms"
+                            id="map_WN51PHKLD"
+                            layerZoom="\0"
+                            mapLat="\0"
+                            mapLng="\0"
+                            marginEnabled="false"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            tileTemplate="\0"
+                            websocketHost="\0"
+                            websocketTopic="\0"
+                            zoomLevel="\0"/>
                     </container4>
-                </flowcontainer>
+                </flowcontainer_1>
             </container>
-            <footer
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/footer"
-                cancelInheritParent="true"
-                containerType="fullWidth"
-                marginEnabled="true"
-                marginTop="five">
-                <reference
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/content/reference"
-                    path="/content/typerefinery-showcase/pages/content/footer/jcr:content/container"/>
-            </footer>
         </rootcontainer>
     </jcr:content>
 </jcr:root>

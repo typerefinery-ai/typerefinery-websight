@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Notes"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-05T10:01:14.737Z"
+        ws:lastModified="{Date}2023-04-18T15:35:11.034+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -17,20 +17,23 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/nav"
                 backgroundColor="secondary"
-                cancelInheritParent="true">
+                cancelInheritParent="true"
+                id="nav_UJQBUOP42">
                 <title
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/title"
                     headingLevel="h5"
+                    id="title_PMDIXFEC0"
                     marginBottom="five"
                     marginEnabled="true"
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Case Management"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
+                    id="treeview_U1USOXEAC"
                     parentPagePath="/content/typerefinery-showcase/pages/casemanagement/admin/pages"/>
             </nav>
             <header
@@ -38,11 +41,13 @@
                 sling:resourceType="typerefinery/components/layout/header"
                 backgroundColor="secondary"
                 cancelInheritParent="true"
+                id="header_XVBPD2CEQ"
                 marginBottom="three"
                 marginEnabled="true">
                 <reference
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/reference"
+                    id="reference_XWWJPGGBW"
                     path="/content/typerefinery-showcase/pages/casemanagement/admin/content/header/jcr:content/container"/>
             </header>
             <container1
@@ -54,7 +59,9 @@
                 flexEnabled="false"
                 id="container1_86PDVXWJX"
                 marginEnabled="false"
-                paddingEnabled="false"
+                paddingEnabled="true"
+                paddingGeneral="two"
+                persistColorWhenThemeSwitches="false"
                 title="\0">
                 <container_1
                     jcr:primaryType="nt:unstructured"
@@ -82,6 +89,7 @@
                         isOutlinedButton="false"
                         label="Add Notes"
                         lgColSize="2"
+                        persistColorWhenThemeSwitches="{Boolean}true"
                         showIcon="false"
                         showTextualElementOfButton="false"/>
                 </container_1>
@@ -122,9 +130,12 @@
                                 marginEnabled="true"
                                 marginRight="two"
                                 marginTop="two"
+                                mdColSize="6"
                                 paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
                                 textAlignment="center"
-                                title="\0">
+                                title="\0"
+                                verticalAlignment="center">
                                 <button_2_1
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/button"
@@ -150,7 +161,9 @@
                                 lgColSize="2"
                                 marginEnabled="true"
                                 marginTop="two"
+                                mdColSize="6"
                                 paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
                                 textAlignment="center"
                                 title="\0">
                                 <button_2_1

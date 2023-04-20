@@ -48,15 +48,20 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "writeMethod",
         "label": "Method",
-        "form": {
+        "post": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "POST Request",
           "value": "POST"
         },
-        "json": {
+        "put": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "PUT Request",
           "value": "PUT"
+        },
+        "delete": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "DELETE Request",
+          "value": "DELETE"
         }
       },
       "writeUrl": {

@@ -67,6 +67,14 @@
       "scripts": [
         " create service user sling-adminall with path system/sling \n        set ACL for sling-adminall\n            allow   jcr:all    on /\n            allow   jcr:read,rep:write    on /content\n        end\n"
       ]
+    },
+    "org.apache.sling.engine.impl.SlingMainServlet":{
+      "sling.additional.response.headers":[
+        "X-Content-Type-Options=nosniff",
+        "X-Frame-Options=SAMEORIGIN",
+        "Cache-control=no-cache",
+        "Strict-Transport-Security=max-age=31536000"
+      ]
     }
   }
 }

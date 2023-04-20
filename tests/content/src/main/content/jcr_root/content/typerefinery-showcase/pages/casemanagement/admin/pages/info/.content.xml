@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Info"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-07T10:48:57.413+05:30"
+        ws:lastModified="{Date}2023-04-18T16:10:34.998+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -29,7 +29,7 @@
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Case Management"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
@@ -53,11 +53,16 @@
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
+                borderEnabled="false"
+                classes="\0"
                 flexEnabled="true"
                 id="container1_MQ28VZFGF"
-                lgColSize="11"
-                marginEnabled="true"
-                marginLeft="two">
+                lgColSize="12"
+                marginEnabled="false"
+                paddingEnabled="true"
+                paddingGeneral="four"
+                persistColorWhenThemeSwitches="false"
+                title="\0">
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
@@ -153,12 +158,17 @@
                     <container_2
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
+                        borderEnabled="false"
+                        classes="\0"
                         flexEnabled="true"
                         horizontalAlignment="between"
                         id="container_2_PJD1KOCBW"
-                        marginEnabled="true"
+                        marginEnabled="false"
                         marginLeft="two"
-                        textAlignment="center">
+                        paddingEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        textAlignment="center"
+                        title="\0">
                         <container_2_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"

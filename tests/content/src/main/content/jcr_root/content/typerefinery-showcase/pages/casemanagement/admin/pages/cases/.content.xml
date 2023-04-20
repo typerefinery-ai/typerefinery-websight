@@ -7,6 +7,8 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Cases"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2023-04-18T16:06:57.393+05:30"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
@@ -15,20 +17,23 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/nav"
                 backgroundColor="secondary"
-                cancelInheritParent="true">
+                cancelInheritParent="true"
+                id="nav_BPY0EME7G">
                 <title
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/title"
                     headingLevel="h5"
+                    id="title_I2FKYGWZB"
                     marginBottom="five"
                     marginEnabled="true"
                     marginTop="three"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Cases"/>
+                    title="OS-Triage Wireframe"/>
                 <treeview
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/treeview"
+                    id="treeview_BQVASWBHU"
                     parentPagePath="/content/typerefinery-showcase/pages/casemanagement/admin/pages"/>
             </nav>
             <header
@@ -36,85 +41,136 @@
                 sling:resourceType="typerefinery/components/layout/header"
                 backgroundColor="secondary"
                 cancelInheritParent="true"
+                id="header_DQJHGDFMA"
                 marginBottom="three"
                 marginEnabled="true">
                 <reference
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/reference"
+                    id="reference_FLBDQBJQS"
                     path="/content/typerefinery-showcase/pages/casemanagement/admin/content/header/jcr:content/container"/>
             </header>
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
                 flexEnabled="true"
+                id="container1_8DDBRAUE3"
                 lgColSize="12"
-                marginEnabled="true"
-                marginLeft="two"
-                marginTop="one">
-                <container
+                paddingEnabled="true"
+                paddingGeneral="two">
+                <form
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/layout/container"
-                    flexEnabled="true"
-                    lgColSize="12"
-                    textAlignment="center">
-                    <container_1
+                    sling:resourceType="typerefinery/components/forms/form"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    flowapi_createdon="\0"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="\0"
+                    flowapi_enable="false"
+                    flowapi_flowstreamid="\0"
+                    flowapi_group="\0"
+                    flowapi_httproute="\0"
+                    flowapi_iscontainer="\0"
+                    flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
+                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                    flowapi_title="\0"
+                    flowapi_topic="\0"
+                    flowapi_updatedon="\0"
+                    id="form_P0EIJOUBV"
+                    marginEnabled="false"
+                    mdColSize="12"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    readUrl="\0"
+                    title="\0"
+                    writeUrl="\0">
+                    <container
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
                         flexEnabled="true"
-                        lgColSize="3"
+                        id="container_ZBSSWZM4F"
+                        lgColSize="12"
                         textAlignment="center">
-                        <container_1_1
+                        <container_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
                             flexEnabled="true"
-                            marginBottom="three"
-                            marginEnabled="true"
+                            id="container_1_8J7GJCDND"
+                            lgColSize="3"
                             textAlignment="center">
-                            <button_1
+                            <container_1_1
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonType="submit"
-                                label="Search"/>
-                        </container_1_1>
-                    </container_1>
-                    <container_2
+                                sling:resourceType="typerefinery/components/layout/container"
+                                flexEnabled="true"
+                                id="container_1_1_M4MFOVLTY"
+                                marginBottom="three"
+                                marginEnabled="true"
+                                textAlignment="center">
+                                <button_1
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/button"
+                                    buttonType="submit"
+                                    id="button_1_ECWETHPFL"
+                                    label="Search"
+                                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                            </container_1_1>
+                        </container_1>
+                        <container_2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/layout/container"
+                            flexEnabled="true"
+                            horizontalAlignment="around"
+                            id="container_2_JXKVXNJHH"
+                            lgColSize="8"
+                            marginEnabled="true"
+                            marginLeft="four"
+                            textAlignment="center">
+                            <input_1
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="input_1_BMLZULCYH">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="true"
+                                    label="Case"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/input"
+                                    inputType="text"
+                                    placeholder="Case 1"/>
+                            </input_1>
+                        </container_2>
+                    </container>
+                    <container2
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
+                        containerType="fullWidth"
                         flexEnabled="true"
                         horizontalAlignment="around"
-                        lgColSize="8"
-                        marginEnabled="true"
-                        marginLeft="four"
-                        textAlignment="center">
-                        <input_1
+                        id="container2_KCY7RLENG">
+                        <table
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/input">
-                            <label
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/label"
-                                hideLabel="true"
-                                label="Case"/>
-                            <field
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/input"
-                                inputType="text"
-                                placeholder="Case 1"/>
-                        </input_1>
-                    </container_2>
-                </container>
-                <container2
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/layout/container"
-                    containerType="fullWidth"
-                    flexEnabled="true"
-                    horizontalAlignment="around">
-                    <table
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/widgets/table"
-                        dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json"
-                        id="table_LUOATU17P"
-                        showActionButtons="true"/>
-                </container2>
+                            sling:resourceType="typerefinery/components/widgets/table"
+                            dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json"
+                            flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json"
+                            flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
+                            id="table_LUOATU17P"
+                            overRideColumns="{Boolean}true"
+                            showActionButtons="true">
+                            <actionButtons jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/components/forms.html"
+                                    actionButtonNavigateToPath="\0"
+                                    icon="pi pi-pencil"
+                                    id="0_I6Y2SIAXU"
+                                    label="Edit"/>
+                            </actionButtons>
+                        </table>
+                    </container2>
+                </form>
             </container1>
         </rootcontainer>
     </jcr:content>
