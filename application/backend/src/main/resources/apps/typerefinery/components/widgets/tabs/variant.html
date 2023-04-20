@@ -21,8 +21,8 @@
         </li>
     </sly>
   </ul>
-  <div class="tab-content" style="height: 90vh">
-      <sly data-sly-list="${model.tabsList}">
+  <div class="tab-content" style="height: 75vh">
+    <sly data-sly-list="${model.tabsList}">
           <div 
               class="tab-pane fade show ${itemList.index == 0 ? 'active': ''}" 
               id="${itemList.index}-sly"
@@ -40,6 +40,6 @@
               </sly>
             </sly>
           </div>
-      </sly>
+    </sly>
   </div>
 </template>

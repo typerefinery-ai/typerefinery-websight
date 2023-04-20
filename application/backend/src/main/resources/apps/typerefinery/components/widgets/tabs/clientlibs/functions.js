@@ -129,20 +129,21 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         $tabContent.insertAdjacentHTML('beforeend',newTabContents);
     };
 
-    ns.setActiveTabInDOM = ($component, componentConfig, tabId) => {
+    ns.setActiveTabInDOM = ($component, componentConfig, tabId, activeIndex = -1) => {
         const $header = $component.querySelector("ul");
         const $tabContent = $component.querySelector("div.tab-content");
         const $headerTabs = $header.querySelectorAll("li");
         
-        let activeIndex = -1;
-        // remove the active class from all the tabs.
-        $headerTabs.forEach((tab, index) => {
-            tab.classList.remove("active");
-            tab.querySelector("button").classList.remove("active");
-            if(tab.id == tabId) {
-                activeIndex = index
-            }
-        });
+        if(activeIndex === -1) {
+            // remove the active class from all the tabs.
+            $headerTabs.forEach((tab, index) => {
+                tab.classList.remove("active");
+                tab.querySelector("button").classList.remove("active");
+                if(tab.id == tabId) {
+                    activeIndex = index
+                }
+            });
+        }
 
         // remove the active class from all the tab contents.
         $tabContent.querySelectorAll("div.tab-pane").forEach((tab) => {
@@ -152,6 +153,7 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         if(activeIndex == -1) return;
         // add the active class to the tab and tab content.
         $header.querySelectorAll("button")[activeIndex].classList.add("active");
+        // add show and active class to the tab content.
         $tabContent.querySelectorAll("div.tab-pane")[activeIndex].classList.add("active");
         $tabContent.querySelectorAll("div.tab-pane")[activeIndex].classList.add("show");
     };
@@ -224,19 +226,23 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         // make the last tab active from $component.
 
         $header = $component.querySelector("ul");
-        $tabContent = $component.querySelector("div.tab-content");
         $headerTabs = $header.querySelectorAll("li");
 
         $headerTabs.forEach((tab, index) => {
-            if(index === $headerTabs.length - 1) {
-                ns.setActiveTabInDOM($component, componentConfig, tab.id);
+            if(index === $headerTabs.length - 1 ) {
                 const $tab = $tabContent.querySelectorAll(`.tab-pane`)[index];
                 if(!$tab) {
                     return;
                 }
                 if(!$tab.getAttribute("data-tab-id")) {
-                    eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "SELECT_TAB", tab: {id: tab.id}});
+                    // eventNs.emitEvent(`${componentConfig.topic}-TAB_CHANGE`, {type: "SELECT_TAB", tab: {id: tab.id}});
                 }
+                // if tab class have active class then it is active tab so return.
+                if(tab.classList.contains("active")) {
+                    return;
+                }
+                ns.setActiveTabInDOM($component, componentConfig, tab.id);
+                
             }
         });
 
@@ -328,6 +334,12 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
         }
 
         ns[componentConfig.id] = componentConfig.tabsList;
+
+        // set the height of the tab content.
+        const $tabContent = $component.querySelector(".tab-content");
+        if($tabContent) {
+            $tabContent.style.height = componentConfig.contentHeight || `80vh`;
+        }
 
     };
 
