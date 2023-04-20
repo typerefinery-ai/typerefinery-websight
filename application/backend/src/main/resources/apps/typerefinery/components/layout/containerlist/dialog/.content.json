@@ -1,0 +1,20 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "pathTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Path",
+      "url": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "url",
+        "label": "URL"
+      }
+    },
+  "styleTab": {
+    "sling:resourceType": "wcm/dialogs/components/include",
+    "path": "/apps/typerefinery/components/dialog/tabs/style"
+  }
+  }
+}

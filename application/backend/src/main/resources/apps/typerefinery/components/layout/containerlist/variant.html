@@ -14,29 +14,20 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-
-  <!--/* Show error if this container is inheriting but can't find parent. */-->
-  <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && !model.inheritedResource}">
-    <!--${model.componentName} inherited resource not found-->
-    <div data-sly-test="${wcmmode.isEdit}" component="${model.componentName}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle}: Inherited but parent not found.</div>
-  </sly>
-  <!--/* Print output of inherited resource. */-->
-  <sly data-sly-test="${model.inheriting && !model.cancelInheritParent && model.inheritedResource}">
-    <!--${model.componentName} inherited start ${model.inheritedResource.path}-->
-    ${model.inheritedHtml @ context='unsafe'}
-    <!--${model.componentName} inherited end ${model.inheritedResource.path}-->
-  </sly>
-
+  <!-- if there is any child, then add to ul list -->
+  <!-- <nav>
+    <ul id="mainNav">
+      <li class="active"><a href="#${}">{{model.title}}</a></li>  
+    </ul>
+  </nav> -->
   <!--/* Normal print of component */-->
-  <sly data-sly-test="${!model.inheriting || model.cancelInheritParent}">
     <div 
       component="${model.componentName}"
       id="${model.id}"
       class="${model.componentClassNames}" 
       data-model="${model.jsonString}"
       data-sly-element="${model.decorationTagName}"
-      style="${model.inlineStyleValue @ context='unsafe'}"
-      data-sly-test="${resource.hasChildren}">
+      style="${model.inlineStyleValue @ context='unsafe'}">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </div>
     <sly data-sly-test="${!resource.hasChildren}">
@@ -44,5 +35,4 @@
         data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
       </sly>
     </sly>
-  </sly>
 </template>
