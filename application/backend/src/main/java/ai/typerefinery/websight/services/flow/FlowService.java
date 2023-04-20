@@ -164,17 +164,17 @@ public class FlowService {
         return url;
     }
 
-    public void doProcessFlowResource(Resource resource, ResourceChange.ChangeType changeType) {
+    public boolean doProcessFlowResource(@NotNull Resource resource, @NotNull ResourceChange.ChangeType changeType) {
         ResourceResolver resourceResolver = resource.getResourceResolver();
         if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
-            return;
+            return false;
         }
         ValueMap properties = resource.getValueMap();
         String resourcePath = resource.getPath();
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
             LOGGER.error("Could not adapt resource to FlowComponent: {}", resource.getPath());
-            return;
+            return false;
         }
 
         String flowapi_template = flowComponent.flowapi_template;
@@ -192,14 +192,14 @@ public class FlowService {
             // String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
             // String flowapi_sampledata = properties.get(prop(PROPERTY_SAMPLEDATA), String.class);
     
-            boolean isFlowExists = isFlowExists(flowComponent.flowapi_flowstreamid);
+            boolean isFlowExists = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid) ? isFlowExists(flowComponent.flowapi_flowstreamid) : false;
 
             //pick templates
 
             boolean isTemplateExists = PageUtil.isResourceExists(flowapi_template, resourceResolver);
             if (!isTemplateExists) {
                 LOGGER.info("nothing to do, template not found: {}", flowapi_template);
-                return;
+                return false;
             }
             // create new flow or update existing flow
             if (isFlowExists == false && isTemplateExists) {
@@ -220,7 +220,7 @@ public class FlowService {
                 // if flowapi_title and title are different then update flowstream
                 if (flowComponent.flowapi_title.equals(flowComponent.title) || StringUtils.isBlank(flowComponent.title)) {
                     LOGGER.info("nothing to update.");
-                    return;
+                    return true;
                 } else {
                     updateFlowFromTemplate(flowComponent);
                     //get flow component again
@@ -230,7 +230,8 @@ public class FlowService {
                     }
                 }
             } 
-        }        
+        }
+        return flowapi_enable;        
     }
 
 
@@ -255,6 +256,8 @@ public class FlowService {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             LOGGER.info("flowstream response: {}", response);
+
+
 
             String responseAsString = response.body();
 
@@ -316,6 +319,7 @@ public class FlowService {
     public HashMap<String, Object> doFlowStreamUpdateData(String content, String flowstreamid) {
 
         String url = getFlowStreamUpdateAPIURL();
+
         
         HashMap<String, Object> flowResponse = new HashMap<String, Object>();
 
@@ -745,6 +749,7 @@ public class FlowService {
 
         LOGGER.info("flowstreamdata: {}", response);
 
+        // go through response object and remove all null value
         // update component with response
         PageUtil.updatResourceProperties(componentResource, response);
     }
