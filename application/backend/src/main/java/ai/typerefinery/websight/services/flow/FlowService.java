@@ -1,5 +1,6 @@
 package ai.typerefinery.websight.services.flow;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -116,6 +117,8 @@ public class FlowService {
 
     // create http client
     protected static HttpClient client;
+    public static final int HTTP_CLIENT_RETRY_COUNT = 10; // how many times to retry sending payload
+    public static final int HTTP_CLIENT_RETRY_SLEEP = 1000; // how long to sleep between retries
 
 
     @Activate
@@ -235,6 +238,38 @@ public class FlowService {
         return flowapi_enable;        
     }
 
+    // function to send http request using client with retry
+    /**
+     * send http request using client with retry
+     * @param request request to send
+     * @param client http client to use
+     * @return HttpResponse<String> output of the request send
+     * @throws IOException error sending request
+     * @throws InterruptedException
+     */
+    public static HttpResponse<String> sendRequestWithRetry(HttpRequest request, HttpClient client, HttpResponse.BodyHandler<String> responseBodyHandler) throws IOException, InterruptedException {
+        HttpResponse<String> response = null;
+        int retry = 0;
+        while (retry < HTTP_CLIENT_RETRY_COUNT) {
+            try {
+                response = client.send(request, responseBodyHandler);
+                break;
+            } catch (IOException | InterruptedException e) {
+                LOGGER.error("error sending request, retrying: {}", e.getMessage());
+                retry++;
+                Thread.sleep(HTTP_CLIENT_RETRY_SLEEP);
+            }
+        }
+        // if we have exhausted all retries then throw exception
+        if (retry == HTTP_CLIENT_RETRY_COUNT) {
+            throw new IOException("error sending request, retry exhausted.");
+        }
+        // if response is null then throw exception
+        if (response == null) {
+            throw new IOException("error sending request, response is null.");
+        }
+        return response;
+    } 
 
     // create a flow from content
     public HashMap<String, Object> doFlowStreamImportData(String content) {
@@ -254,11 +289,9 @@ public class FlowService {
             LOGGER.info("flowstream request: {}", request.uri());
             
             // send request
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
 
             LOGGER.info("flowstream response: {}", response);
-
-
 
             String responseAsString = response.body();
 
