@@ -95,6 +95,7 @@ public class FlowService {
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
+    public static final String FLOW_SPI_KEY_IGNORE_PREFIX = "/apps/"; // remove this prefix from sling resource type so that it can be used to match againt flow spi key registered by a model
 
     public static final String FLOW_TEMPLATE_FIELD_SAMPLE_DATA = "<sample-data>"; // used to add sample data into send component
     public static final String FLOW_TEMPLATE_FIELD_CHILD_FLOWID = "<childflowid>"; // used to specify which child flow to be used
@@ -1225,6 +1226,10 @@ public class FlowService {
         boolean isComponentFlowEnabled = false;
         ValueMap properties = resource.getValueMap();
         String slingResourceType = properties.get(SLING_RESOURCE_TYPE_PROPERTY, "");
+        // check if slingResourceType is prepended with FLOW_SPI_KEY_IGNORE_PREFIX, if so remove it
+        if (slingResourceType.startsWith(FLOW_SPI_KEY_IGNORE_PREFIX)) {
+            slingResourceType = slingResourceType.substring(FLOW_SPI_KEY_IGNORE_PREFIX.length());
+        }
 
         if (flowComponentRegistry != null) {
             List<String> list = flowComponentRegistry.getComponents(FLOW_SPI_KEY);
