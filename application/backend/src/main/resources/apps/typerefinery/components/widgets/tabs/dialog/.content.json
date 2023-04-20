@@ -105,25 +105,13 @@
       }
     },
     "advancedTab": {
-      "ws:display": {
-        "condition": {
-          "sourceName": "variant",
-          "values": ""
-        }
-      },
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Advanced",
-      "placeholderContent": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "placeholderContent",
-        "label": "Placeholder Content",
-        "description": "The placeholder content of the tab."
-      },
       "contentHeight": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "contentHeight",
         "label": "Content Height",
-        "description": "The content height of the tab."
+        "description": "The content height of the tab, the default is 80vh"
       }
     }
   }
