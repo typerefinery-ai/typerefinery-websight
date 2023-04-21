@@ -288,7 +288,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         
         // bootstrap table.
         tableInstanceNs[id] = $(`#${id}`).bootstrapTable({
-            columns: data.columns,
+            columns: data.data.length > 0 ? data.columns : [],
             data: data.data,
             ...tableOptions
         });
