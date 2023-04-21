@@ -1,6 +1,21 @@
-<sly data-sly-use.model="ai.typerefinery.websight.models.components.widgets.tabs.Tabs">
-  <div class="${model.componentClassNames}">
-    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+
+
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.widgets.tabs.Tabs"
+    data-sly-set.template="${'./variant.html'}">
+
+    <sly data-sly-test="${wcmmode.isEdit}">
+      <div style="--bs-bg-opacity: .5;" class="bg-warning">${model.componentTitle} Component</div>
     </sly>
-  </div>
+
+    <div class="${model.componentClassNames}">
+      <div 
+        component="${model.componentName}" 
+        id="${model.id}" 
+        class="${model.variantClassNames}"
+        data-model="${model.jsonString}"
+      >
+        <sly data-sly-use.template="${template}" data-sly-call="${template.variant @ model=model}">
+        </sly>
+      </div>
+    </div>
 </sly>

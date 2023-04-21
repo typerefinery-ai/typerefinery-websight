@@ -2,12 +2,12 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
     <jcr:content
-        jcr:lastModified="{Date}2023-04-05T04:29:32.540Z"
+        jcr:lastModified="{Date}2023-04-20T04:23:04.904Z"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="sidebar with tabs"
+        jcr:title="Tabs"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-05T04:57:23.189Z"
+        ws:lastModified="{Date}2023-04-20T05:25:22.218Z"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -17,7 +17,7 @@
         ogDescription="\0"
         ogTitle="\0"
         ogUrl="\0"
-        title="\0">
+        propertyTitle="\0">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/rootcontainer">
@@ -29,7 +29,7 @@
                 cancelInheritParent="true"
                 classes="\0"
                 flexEnabled="false"
-                id="nav_GFA5HCNHF"
+                id="nav_6H5BL5R2X"
                 marginEnabled="false"
                 paddingEnabled="false"
                 persistColorWhenThemeSwitches="false"
@@ -41,56 +41,64 @@
                     classes="\0"
                     collapseIcon="\0"
                     expandIcon="\0"
-                    id="treeview_MRFJYBLE6"
+                    id="treeview_XY5DOROWQ"
                     isNodeExpandedByDefault="false"
                     marginEnabled="false"
                     numOfNodeLevelsToExpand="\0"
                     onNodeSelected="TAB"
                     paddingEnabled="false"
-                    parentPagePath="/content/typerefinery-showcase/pages/forms"
+                    parentPagePath="/content/typerefinery-showcase/pages/pages"
                     persistColorWhenThemeSwitches="false"
                     title="\0"
-                    topic="testTab"/>
+                    topic="OPEN_TAB_1"/>
             </nav>
             <header
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/header"
-                id="header_KHH7JZOVL"/>
+                id="header_BULFBVERH"/>
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
                 containerType="fullWidth"
                 decorationTagName="main"
-                id="main_IJ8BRI2WO">
+                id="main_NU1ICTZBQ">
                 <tabs
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/widgets/tabs"
                     contentHeight="90vh"
                     flowapi_sampledata="/apps/typerefinery/components/widgets/tab/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/widgets/tab/templates/tab.json"
-                    id="tabs_W2QB7NLOJ"
-                    placeholderContent="https://dummyimage.com/640x360/fff/aaa?rs:embed=true">
+                    id="tabs_7Z9VSW05J">
                     <events jcr:primaryType="nt:unstructured">
                         <_x0030_
                             jcr:primaryType="nt:unstructured"
-                            key="testTab"
+                            key="OPEN_TAB_1"
                             value="openLinkInTabContainer"/>
                     </events>
-                    <listOfTab jcr:primaryType="nt:unstructured">
+                    <tabs jcr:primaryType="nt:unstructured">
                         <_x0030_
                             jcr:primaryType="nt:unstructured"
-                            content="https://loremipsum.io/21-of-the-best-placeholder-image-generators/"
-                            icon="pi pi-search"
-                            isCloseable="true"
-                            title="sample"
-                            useQueryParamsFromParent="true"/>
-                    </listOfTab>
+                            icon="\0"
+                            isCloseable="false"
+                            passParentQueryString="false"
+                            render="html"
+                            resourcepath="/content/typerefinery-showcase/pages/components/forms/jcr:content/rootcontainer/container"
+                            title="First Tab As Rereference"
+                            url="\0"/>
+                        <_x0031_
+                            jcr:primaryType="nt:unstructured"
+                            icon="\0"
+                            isCloseable="false"
+                            passParentQueryString="false"
+                            title="IFRAME"
+                            url="https://www.google.com/"/>
+                    </tabs>
                 </tabs>
             </main>
             <footer
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/footer"
-                id="footer_RSJKHNFQY"/>
+                id="footer_S2KNCE2EO"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>
