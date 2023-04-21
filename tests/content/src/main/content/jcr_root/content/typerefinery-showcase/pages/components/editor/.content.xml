@@ -9,7 +9,7 @@
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <section jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Code Editor (HTML Language)" />
-            <editor jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/editor" />         
+            <editor jcr:primaryType= "nt:unstructured" sling:resourceType= "typerefinery/components/widgets/editor" />         
         </section>
       </container>
     </rootcontainer>

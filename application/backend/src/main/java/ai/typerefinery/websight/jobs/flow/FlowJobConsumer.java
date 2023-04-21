@@ -59,8 +59,11 @@ public class FlowJobConsumer implements JobConsumer {
         }
     }
 
+    boolean returnProcessFlowError = false;
+
     @Override
     public JobResult process(final Job job) {
+
         this.enabled = flowService.configuration.flow_page_change_listener_enabled();
         if (enabled) {
             HashMap<String, ResourceChange.ChangeType> changeMap = job.getProperty("changes", HashMap.class);
@@ -68,14 +71,21 @@ public class FlowJobConsumer implements JobConsumer {
             try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
 
                 changeMap.forEach((path, changeType) -> {
+                    
                     Resource resource = resourceResolver.getResource(path);
                     if (!ResourceUtil.isNonExistingResource(resource)) {
                         // run resource processing
-                        flowService.doProcessFlowResource(resource, changeType);
+                        if(flowService.doProcessFlowResource(resource, changeType) == false)
+                        {
+                            returnProcessFlowError = true;
+                        }
                     } else {
                         LOGGER.warn("Could not have access to resource {}.", path);
                     }
                 });
+                if(returnProcessFlowError == true){
+                    return JobResult.FAILED;
+                }
                 
             } catch (Exception e) {
                 LOGGER.error("Could not process paths.", e);

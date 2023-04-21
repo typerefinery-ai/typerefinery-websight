@@ -1,5 +1,6 @@
 package ai.typerefinery.websight.services.flow;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -95,6 +96,7 @@ public class FlowService {
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
+    public static final String FLOW_SPI_KEY_IGNORE_PREFIX = "/apps/"; // remove this prefix from sling resource type so that it can be used to match againt flow spi key registered by a model
 
     public static final String FLOW_TEMPLATE_FIELD_SAMPLE_DATA = "<sample-data>"; // used to add sample data into send component
     public static final String FLOW_TEMPLATE_FIELD_CHILD_FLOWID = "<childflowid>"; // used to specify which child flow to be used
@@ -115,6 +117,8 @@ public class FlowService {
 
     // create http client
     protected static HttpClient client;
+    public static final int HTTP_CLIENT_RETRY_COUNT = 10; // how many times to retry sending payload
+    public static final int HTTP_CLIENT_RETRY_SLEEP = 1000; // how long to sleep between retries
 
 
     @Activate
@@ -164,17 +168,17 @@ public class FlowService {
         return url;
     }
 
-    public void doProcessFlowResource(Resource resource, ResourceChange.ChangeType changeType) {
+    public boolean doProcessFlowResource(@NotNull Resource resource, @NotNull ResourceChange.ChangeType changeType) {
         ResourceResolver resourceResolver = resource.getResourceResolver();
         if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
-            return;
+            return false;
         }
         ValueMap properties = resource.getValueMap();
         String resourcePath = resource.getPath();
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
             LOGGER.error("Could not adapt resource to FlowComponent: {}", resource.getPath());
-            return;
+            return false;
         }
 
         String flowapi_template = flowComponent.flowapi_template;
@@ -192,14 +196,14 @@ public class FlowService {
             // String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
             // String flowapi_sampledata = properties.get(prop(PROPERTY_SAMPLEDATA), String.class);
     
-            boolean isFlowExists = isFlowExists(flowComponent.flowapi_flowstreamid);
+            boolean isFlowExists = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid) ? isFlowExists(flowComponent.flowapi_flowstreamid) : false;
 
             //pick templates
 
             boolean isTemplateExists = PageUtil.isResourceExists(flowapi_template, resourceResolver);
             if (!isTemplateExists) {
                 LOGGER.info("nothing to do, template not found: {}", flowapi_template);
-                return;
+                return false;
             }
             // create new flow or update existing flow
             if (isFlowExists == false && isTemplateExists) {
@@ -220,7 +224,7 @@ public class FlowService {
                 // if flowapi_title and title are different then update flowstream
                 if (flowComponent.flowapi_title.equals(flowComponent.title) || StringUtils.isBlank(flowComponent.title)) {
                     LOGGER.info("nothing to update.");
-                    return;
+                    return true;
                 } else {
                     updateFlowFromTemplate(flowComponent);
                     //get flow component again
@@ -230,9 +234,42 @@ public class FlowService {
                     }
                 }
             } 
-        }        
+        }
+        return flowapi_enable;        
     }
 
+    // function to send http request using client with retry
+    /**
+     * send http request using client with retry
+     * @param request request to send
+     * @param client http client to use
+     * @return HttpResponse<String> output of the request send
+     * @throws IOException error sending request
+     * @throws InterruptedException
+     */
+    public static HttpResponse<String> sendRequestWithRetry(HttpRequest request, HttpClient client, HttpResponse.BodyHandler<String> responseBodyHandler) throws IOException, InterruptedException {
+        HttpResponse<String> response = null;
+        int retry = 0;
+        while (retry < HTTP_CLIENT_RETRY_COUNT) {
+            try {
+                response = client.send(request, responseBodyHandler);
+                break;
+            } catch (IOException | InterruptedException e) {
+                LOGGER.error("error sending request, retrying: {}", e.getMessage());
+                retry++;
+                Thread.sleep(HTTP_CLIENT_RETRY_SLEEP);
+            }
+        }
+        // if we have exhausted all retries then throw exception
+        if (retry == HTTP_CLIENT_RETRY_COUNT) {
+            throw new IOException("error sending request, retry exhausted.");
+        }
+        // if response is null then throw exception
+        if (response == null) {
+            throw new IOException("error sending request, response is null.");
+        }
+        return response;
+    } 
 
     // create a flow from content
     public HashMap<String, Object> doFlowStreamImportData(String content) {
@@ -252,7 +289,7 @@ public class FlowService {
             LOGGER.info("flowstream request: {}", request.uri());
             
             // send request
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
 
             LOGGER.info("flowstream response: {}", response);
 
@@ -316,6 +353,7 @@ public class FlowService {
     public HashMap<String, Object> doFlowStreamUpdateData(String content, String flowstreamid) {
 
         String url = getFlowStreamUpdateAPIURL();
+
         
         HashMap<String, Object> flowResponse = new HashMap<String, Object>();
 
@@ -745,6 +783,7 @@ public class FlowService {
 
         LOGGER.info("flowstreamdata: {}", response);
 
+        // go through response object and remove all null value
         // update component with response
         PageUtil.updatResourceProperties(componentResource, response);
     }
@@ -1220,6 +1259,10 @@ public class FlowService {
         boolean isComponentFlowEnabled = false;
         ValueMap properties = resource.getValueMap();
         String slingResourceType = properties.get(SLING_RESOURCE_TYPE_PROPERTY, "");
+        // check if slingResourceType is prepended with FLOW_SPI_KEY_IGNORE_PREFIX, if so remove it
+        if (slingResourceType.startsWith(FLOW_SPI_KEY_IGNORE_PREFIX)) {
+            slingResourceType = slingResourceType.substring(FLOW_SPI_KEY_IGNORE_PREFIX.length());
+        }
 
         if (flowComponentRegistry != null) {
             List<String> list = flowComponentRegistry.getComponents(FLOW_SPI_KEY);
