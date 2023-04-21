@@ -53,6 +53,11 @@ public class BaseFormComponent extends BaseComponent {
     @Named(PROPERTY_LABEL)
     @Nullable
     protected String label;
+
+    @Inject
+    @Getter
+    @Default(booleanValues = false)
+    protected Boolean disabled;
     
 
     @Override
