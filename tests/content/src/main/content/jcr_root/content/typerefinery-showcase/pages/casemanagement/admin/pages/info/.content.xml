@@ -7,9 +7,17 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Info"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-25T15:17:50.154+05:30"
+        ws:lastModified="{Date}2023-04-21T15:03:41.127+05:30"
         ws:lastModifiedBy="wsadmin"
-        ws:template="/apps/typerefinery/templates/pagewithsidebar">
+        ws:template="/apps/typerefinery/templates/pagewithsidebar"
+        description="\0"
+        flowstreamid="\0"
+        hideInNav="true"
+        icon="\0"
+        ogDescription="\0"
+        ogTitle="\0"
+        ogUrl="\0"
+        propertyTitle="\0">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
