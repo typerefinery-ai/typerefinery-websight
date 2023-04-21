@@ -33,7 +33,7 @@ import ai.typerefinery.websight.models.components.BaseComponent;
  * 
  */
 @Component
-@Model(adaptables = Resource.class, resourceType = { "typerefinery/components/widgets/charts" }, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = Resource.class, resourceType = { Chart.RESOURCE_TYPE }, defaultInjectionStrategy = OPTIONAL)
 @Exporter(name = "jackson", extensions = "json", options = { 
     @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false") 
