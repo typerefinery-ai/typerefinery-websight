@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Artifacts"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-18T15:26:27.433+05:30"
+        ws:lastModified="{Date}2023-04-21T17:03:43.508+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -62,25 +62,72 @@
                 paddingGeneral="two"
                 persistColorWhenThemeSwitches="false"
                 title="\0">
+                <container
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    classes="card shadow-md"
+                    id="container_CRX3BEGOU"
+                    textAlignment="center">
+                    <title_1
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/title"
+                        headingLevel="h1"
+                        headingSize="h5"
+                        id="title_1_VTYNGZ6FQ"/>
+                </container>
                 <table
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/widgets/table"
-                    dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json"
-                    flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json"
+                    borderEnabled="false"
+                    classes="\0"
+                    dataSource="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
+                    flowapi_createdon="2023-04-21T11:24:41.604Z"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10a4o001kl51d&amp;components="
+                    flowapi_enable="true"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f10a4o001kl51d"
+                    flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts"
+                    flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*"
+                    flowapi_iscontainer="false"
+                    flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
+                    flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
+                    flowapi_title="Table flow"
+                    flowapi_topic="table_d84d1d1f122f4f14a338fd4e5421adf8"
+                    flowapi_updatedon="\0"
+                    flowapi_websocketurl="ws://localhost:8112/$tms"
                     id="table_DLOMPTANR"
+                    marginEnabled="true"
+                    marginTop="three"
+                    multipleSelectRowEnabled="false"
                     overRideColumns="{Boolean}true"
-                    showActionButtons="true">
+                    paddingEnabled="false"
+                    paginationEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    resizableEnabled="false"
+                    searchEnabled="false"
+                    showActionButtons="true"
+                    singleSelectEnabled="false"
+                    uniqueIdColumn="\0"
+                    websocketHost="\0"
+                    websocketTopic="\0">
                     <actionButtons jcr:primaryType="nt:unstructured">
                         <_x0030_
                             jcr:primaryType="nt:unstructured"
                             actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/components/forms.html"
                             actionButtonNavigateToPath="\0"
                             icon="pi pi-pencil"
-                            id="0_RMXFXINRM"
+                            id="0_KVQBLHTNL"
                             label="\0"/>
                     </actionButtons>
-                </table>    
+                    <columnRules jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            field="url"
+                            rule="HIDDEN"/>
+                    </columnRules>
+                </table>
             </container1>
         </rootcontainer>
     </jcr:content>

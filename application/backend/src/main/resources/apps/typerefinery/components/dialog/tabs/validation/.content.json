@@ -6,9 +6,9 @@
         "label": "Validation Required",
         "sling:resourceType": "wcm/dialogs/components/toggle"
     },
-    "validationInputMask": {
-        "name": "validationInputMask",
-        "label": "Validation Mask",
-        "sling:resourceType": "wcm/dialogs/components/textfield"
+    "disabled": {
+        "name": "disabled",
+        "label": "Disabled",
+        "sling:resourceType": "wcm/dialogs/components/toggle"
     }
 }

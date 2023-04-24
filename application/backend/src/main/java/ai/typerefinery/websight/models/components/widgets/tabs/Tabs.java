@@ -18,27 +18,38 @@ package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.engine.SlingRequestProcessor;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.models.components.KeyValuePair;
+import ai.typerefinery.websight.utils.FakeRequest;
+import ai.typerefinery.websight.utils.FakeResponse;
 import lombok.Getter;
+import org.apache.sling.models.annotations.Default;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class Tabs extends BaseComponent {
 
-    public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tab";
+    public static final String RESOURCE_TYPE = "typerefinery/components/widgets/tabs";
 
     @Inject
-    @Getter
-    public List<TabItem> listOfTab;
-
-
+    @ChildResource(name = "tabs")
+    public List<TabItem> tabsList;
 
     @Inject
     @Getter
@@ -51,7 +62,17 @@ public class Tabs extends BaseComponent {
 
     @Inject
     @Getter
+    @Default(values = "80vh")
     public String contentHeight;
+
+    @Inject
+    public String[] path;
+
+    @Getter
+    protected Resource inheritedResource;
+    
+    @OSGiService
+    private SlingRequestProcessor requestProcessor;
 
 
     @Override
@@ -59,4 +80,6 @@ public class Tabs extends BaseComponent {
     protected void init() {
         super.init();
     }
+
+
 }

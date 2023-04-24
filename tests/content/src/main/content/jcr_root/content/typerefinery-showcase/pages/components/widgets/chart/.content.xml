@@ -9,15 +9,15 @@
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container">
         <section1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Line chart with default values" />
-          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/chart" variant="lineChart" />     
+          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "typerefinery/components/widgets/chart" variant="lineChart" />     
         </section1>
         <section2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Pie chart with default values" />
-          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/chart" variant="pieChart" />     
+          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "typerefinery/components/widgets/chart" variant="pieChart" />     
         </section2>
         <section3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/section">
           <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Bar chart with default values" />
-          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/chart" variant="barChart" />     
+          <chart jcr:primaryType= "nt:unstructured" sling:resourceType= "typerefinery/components/widgets/chart" variant="barChart" />     
         </section3>
       </container>
     </rootcontainer>

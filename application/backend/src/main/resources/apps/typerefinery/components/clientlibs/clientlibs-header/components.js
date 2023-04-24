@@ -32,5 +32,32 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     ns.getQueryParams = () => {
         const query = window.location.search.substring(1);
         return ns.queryToObject(query);
-    }
+    };
+    ns.fireballSvg = `
+        <img id="flowEnabledFireBallSvg" style="width:25px" src="https://freesvg.org/img/fireball.png" />
+    `;
+    ns.init = () => {
+        setTimeout(() => {
+            $("[component]").each(function () { 
+                const componentConfig = ns.getComponentConfig(this);
+                if (componentConfig.flowapi_enable && componentConfig.flowapi_enable == true && componentConfig.flowapi_editurl) {
+                    const $component = this;
+                    const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
+                    $flowEnabledFireBallDiv.append(`
+                        <a 
+                            class="flow-enabled-fire-ball-button" 
+                            href="${componentConfig.flowapi_editurl}" 
+                            target="_blank" 
+                            id="flowEnabledFireBallButton"
+                        >
+                            ${ns.fireballSvg}
+                        </a>
+                    `);
+                  
+                    $component.append($flowEnabledFireBallDiv[0]);
+                }
+            });
+        }, 1000);
+    };
+    ns.init();
 })(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
