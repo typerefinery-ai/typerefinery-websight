@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Create Case"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-10T16:55:59.887+05:30"
+        ws:lastModified="{Date}2023-04-21T15:18:46.491+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
@@ -21,6 +21,43 @@
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/rootcontainer">
+            <nav
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/nav"
+                backgroundColor="secondary"
+                cancelInheritParent="true"
+                id="nav_07G8IUPLX">
+                <title
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/content/title"
+                    headingLevel="h5"
+                    id="title_BJURXUSY9"
+                    marginBottom="five"
+                    marginEnabled="true"
+                    marginTop="three"
+                    persistColorWhenThemeSwitches="true"
+                    textAlignment="center"
+                    title="OS-Triage Wireframe"/>
+                <treeview
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/treeview"
+                    id="treeview_L9LDGJJR3"
+                    parentPagePath="/content/typerefinery-showcase/pages/casemanagement/admin/pages"/>
+            </nav>
+            <header
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/header"
+                backgroundColor="secondary"
+                cancelInheritParent="true"
+                id="header_IUROKY6SB"
+                marginBottom="three"
+                marginEnabled="true">
+                <reference
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/content/reference"
+                    id="reference_15M8F4HJB"
+                    path="/content/typerefinery-showcase/pages/casemanagement/admin/content/header/jcr:content/container"/>
+            </header>
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
@@ -123,19 +160,22 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_VHPIPKINY"
-                                isOutlinedButton="true"
-                                label="Low"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Low"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    title="Field"/>
+                            </radio>
                         </container>
                         <container_1
                             jcr:primaryType="nt:unstructured"
@@ -151,19 +191,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="warning"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_1QGBP6ITB"
-                                isOutlinedButton="false"
-                                label="Medium"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Medium"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_PH8R0GJTH"
+                                    name="severity"
+                                    title="Field"
+                                    value="medium"/>
+                            </radio>
                         </container_1>
                         <container_2
                             jcr:primaryType="nt:unstructured"
@@ -178,19 +224,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_AOJLSQSYP"
-                                isOutlinedButton="true"
-                                label="High"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="High"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_0U9BH2SNK"
+                                    name="severity"
+                                    title="Field"
+                                    value="high"/>
+                            </radio>
                         </container_2>
                         <container_3
                             jcr:primaryType="nt:unstructured"
@@ -205,19 +257,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_IZQGFWPXZ"
-                                isOutlinedButton="true"
-                                label="Critical"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Critical"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_MSIMBHIOW"
+                                    name="severity"
+                                    title="Field"
+                                    value="critical"/>
+                            </radio>
                         </container_3>
                     </container>
                     <title_1
@@ -258,19 +316,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_VHPIPKINY"
-                                isOutlinedButton="true"
-                                label="WHITE"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="White"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_CSGDQB5XH"
+                                    name="tlp"
+                                    title="Field"
+                                    value="white"/>
+                            </radio>
                         </container>
                         <container_1
                             jcr:primaryType="nt:unstructured"
@@ -286,19 +350,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_1QGBP6ITB"
-                                isOutlinedButton="true"
-                                label="GREEN"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Green"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_FRUBRNUZI"
+                                    name="tlp"
+                                    title="Field"
+                                    value="green"/>
+                            </radio>
                         </container_1>
                         <container_2
                             jcr:primaryType="nt:unstructured"
@@ -313,19 +383,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="warning"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_AOJLSQSYP"
-                                isOutlinedButton="false"
-                                label="AMBER"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Amber"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_UKGNSCS0Q"
+                                    name="tlp"
+                                    title="Field"
+                                    value="amber"/>
+                            </radio>
                         </container_2>
                         <container_3
                             jcr:primaryType="nt:unstructured"
@@ -340,19 +416,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_IZQGFWPXZ"
-                                isOutlinedButton="true"
-                                label="RED"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Red"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_U4OGTWYWK"
+                                    name="tlp"
+                                    title="Field"
+                                    value="red"/>
+                            </radio>
                         </container_3>
                     </container_1>
                     <title_2
@@ -394,19 +476,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_VHPIPKINY"
-                                isOutlinedButton="true"
-                                label="WHITE"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="White"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_YNX5VHPYU"
+                                    name="pap"
+                                    title="Field"
+                                    value="white"/>
+                            </radio>
                         </container>
                         <container_1
                             jcr:primaryType="nt:unstructured"
@@ -422,19 +510,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_1QGBP6ITB"
-                                isOutlinedButton="true"
-                                label="GREEN"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Green"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_NSHK71B21"
+                                    name="pap"
+                                    title="Field"
+                                    value="green"/>
+                            </radio>
                         </container_1>
                         <container_2
                             jcr:primaryType="nt:unstructured"
@@ -449,19 +543,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="warning"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_AOJLSQSYP"
-                                isOutlinedButton="false"
-                                label="AMBER"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Amber"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_3CHUVYQRQ"
+                                    name="pap"
+                                    title="Field"
+                                    value="amber"/>
+                            </radio>
                         </container_2>
                         <container_3
                             jcr:primaryType="nt:unstructured"
@@ -476,19 +576,25 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             title="\0">
-                            <button
+                            <radio
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="dark"
-                                buttonType="submit"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                id="button_IZQGFWPXZ"
-                                isOutlinedButton="true"
-                                label="RED"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
+                                sling:resourceType="typerefinery/components/forms/radio"
+                                id="radio_XOAGUTHXK">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    hideLabel="false"
+                                    id="label_QQLHKJB0H"
+                                    label="Red"
+                                    title="Label"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_0QFXZEOUF"
+                                    name="pap"
+                                    title="Field"
+                                    value="red"/>
+                            </radio>
                         </container_3>
                     </container_1_1>
                     <input_2
@@ -508,6 +614,7 @@
                             borderEnabled="false"
                             classes="\0"
                             id="field_QOIK76UWL"
+                            inputType="text"
                             marginEnabled="false"
                             name="casetitle"
                             paddingEnabled="false"
