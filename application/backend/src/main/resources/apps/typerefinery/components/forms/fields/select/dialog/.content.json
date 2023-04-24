@@ -37,6 +37,10 @@
       "validationRequired": {
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/dialog/tabs/validation/validationRequired"
+      },
+      "disabled": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/validation/disabled"
       }
     },
     "optionsTab": {
