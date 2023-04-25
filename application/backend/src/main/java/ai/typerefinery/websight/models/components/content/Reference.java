@@ -2,51 +2,27 @@ package ai.typerefinery.websight.models.components.content;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.engine.SlingRequestProcessor;
-import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
-import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.jetbrains.annotations.Nullable;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
-import ai.typerefinery.websight.utils.FakeRequest;
-import ai.typerefinery.websight.utils.FakeResponse;
-import ai.typerefinery.websight.utils.LinkUtil;
-import ai.typerefinery.websight.utils.PageUtil;
 import ai.typerefinery.websight.utils.ResourceUtils;
 import lombok.Getter;
-import pl.ds.websight.pages.foundation.WcmMode;
 
 @Component
 @Model(
