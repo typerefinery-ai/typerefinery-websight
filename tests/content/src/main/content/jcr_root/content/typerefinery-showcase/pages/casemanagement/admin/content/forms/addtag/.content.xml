@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Add Tag"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-21T15:59:07.372+05:30"
+        ws:lastModified="{Date}2023-04-24T16:47:10.061+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
