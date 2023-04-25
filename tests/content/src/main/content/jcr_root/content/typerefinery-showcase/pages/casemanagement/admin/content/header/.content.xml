@@ -5,7 +5,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Header"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-21T15:25:13.081+05:30"
+        ws:lastModified="{Date}2023-04-25T15:41:39.933+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <container
@@ -54,11 +54,11 @@
                         <_x0031_
                             jcr:primaryType="nt:unstructured"
                             label="Note"
-                            link="/content/typerefinery-showcase/pages/casemanagement/admin/pages/notes"/>
+                            link="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/note"/>
                         <_x0032_
                             jcr:primaryType="nt:unstructured"
                             label="Artifact"
-                            link="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts"/>
+                            link="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/artifact/"/>
                         <_x0033_
                             jcr:primaryType="nt:unstructured"
                             label="Task"

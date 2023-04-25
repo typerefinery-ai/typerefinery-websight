@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Notes"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-18T15:35:11.034+05:30"
+        ws:lastModified="{Date}2023-04-24T17:18:22.449+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -195,14 +195,52 @@
                             paddingEnabled="false"
                             textAlignment="left"
                             title="\0">
-                            <text
+                            <table
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/content/text"
+                                sling:resourceType="typerefinery/components/widgets/table"
+                                borderEnabled="false"
                                 classes="\0"
-                                id="text_VIQAP6SHL"
-                                markdown="\0"
-                                paragraphMode="false"
-                                text="&lt;p> Table of Notes &lt;/p>&lt;p> Notes Summary&lt;/p>"/>
+                                dataSource="\0"
+                                flowapi_createdon="2023-04-25T08:52:57.988Z"
+                                flowapi_designtemplate="\0"
+                                flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10egh003xm51d&amp;components="
+                                flowapi_enable="true"
+                                flowapi_error="null"
+                                flowapi_flowstreamid="f10egh003xm51d"
+                                flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/notes"
+                                flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/notes/*"
+                                flowapi_iscontainer="{Boolean}false"
+                                flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-note.json"
+                                flowapi_success="true"
+                                flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
+                                flowapi_title="Table flow"
+                                flowapi_topic="table_5e6721c4ff21413e89b5c36ab1d12468"
+                                flowapi_updatedon="\0"
+                                flowapi_websocketurl="ws://localhost:8112/$tms"
+                                id="table_GNNTCW6LT"
+                                marginEnabled="false"
+                                multipleSelectRowEnabled="false"
+                                overRideColumns="{Boolean}true"
+                                paddingEnabled="false"
+                                paginationEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                resizableEnabled="false"
+                                searchEnabled="false"
+                                showActionButtons="true"
+                                singleSelectEnabled="false"
+                                uniqueIdColumn="\0"
+                                websocketHost="\0"
+                                websocketTopic="\0">
+                                <actionButtons jcr:primaryType="nt:unstructured">
+                                    <_x0030_
+                                        jcr:primaryType="nt:unstructured"
+                                        actionButtonModalContentURL="\0"
+                                        actionButtonNavigateToPath="\0"
+                                        icon="pi pi-pencil"
+                                        id="0_MQ4SDSRXM"
+                                        label="Edit"/>
+                                </actionButtons>
+                            </table>
                         </container_2>
                     </container>
                 </form1>

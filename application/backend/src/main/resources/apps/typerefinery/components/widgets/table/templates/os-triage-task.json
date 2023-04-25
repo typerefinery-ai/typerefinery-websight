@@ -1,0 +1,64 @@
+{
+  "columns": [
+    {
+      "field": "group",
+      "title": "Group"
+    },
+    {
+      "field": "title",
+      "title": "Title"
+    },
+    {
+      "field": "description",
+      "title": "Description"
+    },
+    {
+      "field": "assignee",
+      "title": "Assignee"
+    },
+    {
+      "field": "dueDate",
+      "title": "DueDate"
+    }
+  ],
+  "data": [
+    {
+      "group": "Group 1",
+      "title": "Task 1",
+      "description": "Task 1 Data",
+      "assignee": "Peter",
+      "dueDate": "25/04/23"
+    },
+    {
+      "group": "Group 2",
+      "title": "Task 2",
+      "description": "Task 2 Data",
+      "assignee": "Mark",
+      "dueDate": "24/04/23"
+    },
+    {
+      "group": "Group 3",
+      "title": "Task 3",
+      "description": "Task 3 Data",
+      "assignee": "Elon",
+      "dueDate": "23/04/23"
+    },
+    {
+      "group": "Group 4",
+      "title": "Task 4",
+      "description": "Task 4 Data",
+      "assignee": "Smith",
+      "dueDate": "22/04/23"
+    },
+    {
+      "group": "Group 5",
+      "title": "Task 5",
+      "description": "Task 5 Data",
+      "assignee": "Henry",
+      "dueDate": "21/04/23"
+    }
+  ],
+  "search": false,
+  "pagination": false,
+  "resizable": true
+}

@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Artifacts"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-21T17:03:43.508+05:30"
+        ws:lastModified="{Date}2023-04-24T16:13:34.269+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -80,24 +80,24 @@
                     sling:resourceType="typerefinery/components/widgets/table"
                     borderEnabled="false"
                     classes="\0"
-                    dataSource="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
-                    flowapi_createdon="2023-04-21T11:24:41.604Z"
+                    dataSource="\0"
+                    flowapi_createdon="2023-04-25T08:52:47.458Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10a4o001kl51d&amp;components="
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10egg017xm51d&amp;components="
                     flowapi_enable="true"
                     flowapi_error="null"
-                    flowapi_flowstreamid="f10a4o001kl51d"
+                    flowapi_flowstreamid="f10egg017xm51d"
                     flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts"
                     flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*"
-                    flowapi_iscontainer="false"
+                    flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
                     flowapi_title="Table flow"
-                    flowapi_topic="table_d84d1d1f122f4f14a338fd4e5421adf8"
+                    flowapi_topic="table_2683ef79240f4fa094bde127e488df48"
                     flowapi_updatedon="\0"
                     flowapi_websocketurl="ws://localhost:8112/$tms"
-                    id="table_DLOMPTANR"
+                    id="table_WOFHMJ2EL"
                     marginEnabled="true"
                     marginTop="three"
                     multipleSelectRowEnabled="false"
@@ -115,11 +115,11 @@
                     <actionButtons jcr:primaryType="nt:unstructured">
                         <_x0030_
                             jcr:primaryType="nt:unstructured"
-                            actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/components/forms.html"
-                            actionButtonNavigateToPath="\0"
+                            actionButtonModalContentURL="\0"
+                            actionButtonNavigateToPath="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/createcase.html"
                             icon="pi pi-pencil"
-                            id="0_KVQBLHTNL"
-                            label="\0"/>
+                            id="0_DLCK4YTOE"
+                            label="Edit"/>
                     </actionButtons>
                     <columnRules jcr:primaryType="nt:unstructured">
                         <_x0030_
