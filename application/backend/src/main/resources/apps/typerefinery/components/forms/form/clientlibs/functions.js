@@ -8,9 +8,10 @@ window.Typerefinery.Components.Widgets.Editor = Typerefinery.Components.Widgets.
 window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Components.Widgets.Editor.Instances || {};
 window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Select || {};
 window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.Forms.Select.Instances || {};
+Typerefinery.Page = Typerefinery.Page || {};
+Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-
-(function (ns, componentNs, editorInstanceNs, selectInstanceNs, document, window) {
+(function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
     "use strict";
 
     ns.getFormData = ($component) => {
@@ -224,6 +225,22 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                     }
                 }
             });
+            $component.querySelectorAll("[data-field-name]").forEach(
+                $item => {
+                    const fieldName = $item.getAttribute("data-field-name");
+                    const componentId = $item.getAttribute("data-field-componentId"); 
+                    if (response[fieldName]) {
+                        const key = `${componentId}-${fieldName}`;
+                        eventNs.emitEvent(key, {
+                            data: {
+                                value: response[fieldName]
+                            },
+                            type: "LOAD_DATA"
+                        });
+                        // eventNs.registerEvents(key, ns.getEventHandlerCallBackFn($component, event));
+                    }
+                }
+            )
         } catch (error) {
             console.log("Error in fetching form initial data");
             console.error(error);
@@ -251,4 +268,4 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         ns.addEventListener($component);
     }
 
-})(Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Components.Widgets.Editor.Instances, Typerefinery.Components.Forms.Select.Instances, document, window);
+})(Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Components.Widgets.Editor.Instances, Typerefinery.Components.Forms.Select.Instances, Typerefinery.Page.Events, document, window);

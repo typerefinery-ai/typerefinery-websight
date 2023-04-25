@@ -9,6 +9,7 @@
     "style.css"
   ],  
   "js": [
-    "script.js"
+    "functions.js",
+    "behaviour.js"
   ] 
 }

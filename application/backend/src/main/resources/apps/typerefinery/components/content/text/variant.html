@@ -63,7 +63,8 @@
     component="${model.componentName}"
     class="${model.componentClassNames}"
     id="${model.id}"
+    data-field-componentId="${model.id}" data-field-name="${model.name}"
   >
-    <div class="${model.variantClassNames}">${model.text @ context='html'}</div>
+    <div class="${model.variantClassNames}" text="123" >${model.text @ context='html'}</div>
   </div>
 </template>
