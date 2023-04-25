@@ -20,7 +20,7 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 
         // Dropdown Container with default Attributes
         const newDropdownContainer = document.createElement("div");
-        newDropdownContainer.setAttribute("class", "dropdown-menu");
+        newDropdownContainer.setAttribute("class", "dropdown-menu dropdownMenu");
         newDropdownContainer.setAttribute("aria-labelledby", buttonId);
 
 

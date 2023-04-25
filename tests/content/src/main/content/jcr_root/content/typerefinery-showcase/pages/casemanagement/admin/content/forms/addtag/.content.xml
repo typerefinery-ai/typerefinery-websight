@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Add Tag"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-11T10:34:31.376+05:30"
+        ws:lastModified="{Date}2023-04-24T16:47:10.061+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -28,65 +28,80 @@
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
-                    id="container_HE891A2UB">
-                    <select
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_HE891A2UB"
+                    marginEnabled="false"
+                    paddingEnabled="true"
+                    paddingGeneral="two"
+                    persistColorWhenThemeSwitches="false"
+                    title="\0">
+                    <form
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/select"
-                        id="select_MJVZAP3AA">
-                        <label
+                        sling:resourceType="typerefinery/components/forms/form"
+                        flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
+                        flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                        id="form_NB0G1VGHJ">
+                        <select
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            hideLabel="false"
-                            id="label_6USLHDYKU"
-                            label="Selected Tags"
-                            title="Label"/>
-                        <field
+                            sling:resourceType="typerefinery/components/forms/select"
+                            id="select_MJVZAP3AA">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                hideLabel="false"
+                                id="label_6USLHDYKU"
+                                label="Selected Tags"
+                                title="Label"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/select"
+                                borderEnabled="false"
+                                classes="\0"
+                                defaultSelectedOptions="\0"
+                                id="field_OR9WVJ9Z0"
+                                marginBottom="two"
+                                marginEnabled="true"
+                                multipleSelection="false"
+                                name="selecttags"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                placeholder="tags"
+                                readOptionsFromDataSource="\0"
+                                title="Field"
+                                validationRequired="false"/>
+                        </select>
+                        <select_1
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/select"
-                            borderEnabled="false"
-                            classes="\0"
-                            defaultSelectedOptions="\0"
-                            id="field_OR9WVJ9Z0"
-                            marginBottom="two"
-                            marginEnabled="true"
-                            multipleSelection="false"
-                            name="\0"
-                            paddingEnabled="false"
-                            persistColorWhenThemeSwitches="false"
-                            placeholder="\0"
-                            readOptionsFromDataSource="\0"
-                            title="Field"
-                            validationRequired="false"/>
-                    </select>
-                    <select_1
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/select"
-                        id="select_1_TFYX0V5XH">
-                        <label
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            hideLabel="false"
-                            id="label_6KX7LAPTE"
-                            label="Choose tags from taxonomy:circle"
-                            title="Label"/>
-                        <field
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/select"
-                            borderEnabled="false"
-                            classes="\0"
-                            defaultSelectedOptions="\0"
-                            id="field_GFJZG2ECN"
-                            marginBottom="two"
-                            marginEnabled="true"
-                            multipleSelection="false"
-                            name="\0"
-                            paddingEnabled="false"
-                            persistColorWhenThemeSwitches="false"
-                            placeholder="\0"
-                            readOptionsFromDataSource="\0"
-                            title="Field"
-                            validationRequired="false"/>
-                    </select_1>
+                            sling:resourceType="typerefinery/components/forms/select"
+                            id="select_1_TFYX0V5XH">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                hideLabel="false"
+                                id="label_6KX7LAPTE"
+                                label="Choose tags from taxonomy:circle"
+                                title="Label"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/select"
+                                borderEnabled="false"
+                                classes="\0"
+                                defaultSelectedOptions="\0"
+                                id="field_GFJZG2ECN"
+                                marginBottom="two"
+                                marginEnabled="true"
+                                multipleSelection="false"
+                                name="choosetags"
+                                paddingEnabled="false"
+                                persistColorWhenThemeSwitches="false"
+                                placeholder="tagCircle"
+                                readOptionsFromDataSource="\0"
+                                title="Field"
+                                validationRequired="false"/>
+                        </select_1>
+                    </form>
                 </container>
             </main>
             <footer
