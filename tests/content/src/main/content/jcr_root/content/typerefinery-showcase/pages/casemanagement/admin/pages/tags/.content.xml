@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Tags"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-24T16:30:46.855+05:30"
+        ws:lastModified="{Date}2023-04-25T15:42:56.391+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -136,12 +136,12 @@
                     borderEnabled="false"
                     classes="\0"
                     dataSource="\0"
-                    flowapi_createdon="2023-04-24T11:00:58.957Z"
+                    flowapi_createdon="2023-04-25T10:04:46.657Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10dg1006ln50d&amp;components="
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Fnull&amp;components="
                     flowapi_enable="true"
-                    flowapi_error="null"
-                    flowapi_flowstreamid="f10dg1006ln50d"
+                    flowapi_error="error executing flowstream import"
+                    flowapi_flowstreamid="f10egg015xm51d"
                     flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/tags"
                     flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/tags/*"
                     flowapi_iscontainer="{Boolean}false"
@@ -162,11 +162,21 @@
                     persistColorWhenThemeSwitches="false"
                     resizableEnabled="false"
                     searchEnabled="false"
-                    showActionButtons="false"
+                    showActionButtons="true"
                     singleSelectEnabled="false"
                     uniqueIdColumn="\0"
                     websocketHost="\0"
-                    websocketTopic="\0"/>
+                    websocketTopic="\0">
+                    <actionButtons jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/addtag.html"
+                            actionButtonNavigateToPath="\0"
+                            icon="pi pi-pencil"
+                            id="0_0JFR7N9TA"
+                            label="Edit"/>
+                    </actionButtons>
+                </table>
             </container1>
         </rootcontainer>
     </jcr:content>
