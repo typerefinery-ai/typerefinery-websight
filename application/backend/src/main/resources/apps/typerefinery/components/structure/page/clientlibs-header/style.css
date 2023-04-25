@@ -51,4 +51,9 @@ body {
 
 #flowEnabledFireBallSvg {
     height: 25px !important;
+    width: 35px !important;
+}
+
+.dropdownMenu {
+    width: 10px;
 }

@@ -1,0 +1,57 @@
+{
+  "columns": [
+    {
+      "field": "tag",
+      "title": "Tag"
+    },
+    {
+      "field": "taxonomyCircle",
+      "title": "TaxonomyCircle"
+    }
+  ],
+  "data": [
+    {
+      "tag": "Tag 1",
+      "taxonomyCircle": "Taxonomy:Circle 1"
+    },
+    {
+      "tag": "Tag 2",
+      "taxonomyCircle": "Taxonomy:Circle 1"
+    },
+    {
+      "tag": "Tag 3",
+      "taxonomyCircle": "Taxonomy:Circle 3"
+    },
+    {
+      "tag": "Tag 4",
+      "taxonomyCircle": "Taxonomy:Circle 4"
+    },
+    {
+      "tag": "Tag 5",
+      "taxonomyCircle": "Taxonomy:Circle 5"
+    },
+    {
+      "tag": "Tag 6",
+      "taxonomyCircle": "Taxonomy:Circle 6"
+    },
+    {
+      "tag": "Tag 7",
+      "taxonomyCircle": "Taxonomy:Circle 7"
+    },
+    {
+      "tag": "Tag 8",
+      "taxonomyCircle": "Taxonomy:Circle 8"
+    },
+    {
+      "tag": "Tag 9",
+      "taxonomyCircle": "Taxonomy:Circle 9"
+    },
+    {
+      "tag": "Tag 10",
+      "taxonomyCircle": "Taxonomy:Circle 10 "
+    }
+  ],
+  "search": false,
+  "pagination": false,
+  "resizable": true
+}

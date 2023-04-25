@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Tags"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-18T16:10:34.998+05:30"
+        ws:lastModified="{Date}2023-04-24T16:30:46.855+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -56,6 +56,7 @@
                 borderEnabled="false"
                 classes="\0"
                 flexEnabled="true"
+                horizontalAlignment="end"
                 id="container1_ISWR6HFYT"
                 marginEnabled="false"
                 marginLeft="two"
@@ -64,81 +65,108 @@
                 paddingGeneral="two"
                 persistColorWhenThemeSwitches="false"
                 title="\0">
-                <container
+                <container_1_1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
                     flexEnabled="true"
-                    id="container_FFJLC77RZ"
-                    lgColSize="12"
-                    textAlignment="center">
-                    <container_1
+                    id="container_1_1_UJ8TJIOWE"
+                    lgColSize="3"
+                    marginBottom="zero"
+                    marginEnabled="true"
+                    marginRight="two"
+                    mdColSize="3"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    textAlignment="center"
+                    title="\0">
+                    <button_2
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/layout/container"
-                        flexEnabled="true"
-                        id="container_1_VYTPOO0HC"
-                        lgColSize="3"
-                        textAlignment="center">
-                        <container_1_1
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/layout/container"
-                            flexEnabled="true"
-                            id="container_1_1_UJ8TJIOWE"
-                            marginBottom="two"
-                            marginEnabled="true"
-                            textAlignment="center">
-                            <button_2
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                actionModalTitle="Add Tag"
-                                actionType="openModal"
-                                actionUrl="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/addtag/"
-                                buttonStyle="warning"
-                                buttonType="action"
-                                classes="\0"
-                                hideButtonLabel="false"
-                                hideFooter="false"
-                                id="button_2_KVZRAH8ZD"
-                                isOutlinedButton="false"
-                                label="Add Tag"
-                                persistColorWhenThemeSwitches="true"
-                                showIcon="false"
-                                showTextualElementOfButton="false"/>
-                        </container_1_1>
-                        <container_1_2
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/layout/container"
-                            flexEnabled="true"
-                            id="container_1_2_Y6DTATAFC"
-                            marginEnabled="true"
-                            marginTop="two"
-                            textAlignment="center">
-                            <button_3
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/button"
-                                buttonStyle="warning"
-                                buttonType="submit"
-                                id="button_3_RT6TVSNO9"
-                                label="Remove Tag"
-                                persistColorWhenThemeSwitches="{Boolean}true"/>
-                        </container_1_2>
-                    </container_1>
-                    <container_2
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        actionModalTitle="Add Tag"
+                        actionType="openModal"
+                        actionUrl="/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/addtag/"
+                        buttonStyle="warning"
+                        buttonType="action"
+                        classes="\0"
+                        hideButtonLabel="false"
+                        hideFooter="false"
+                        id="button_2_KVZRAH8ZD"
+                        isOutlinedButton="false"
+                        label="Add Tag"
+                        persistColorWhenThemeSwitches="true"
+                        showIcon="false"
+                        showTextualElementOfButton="false"/>
+                </container_1_1>
+                <container_1_2
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="true"
+                    id="container_1_2_Y6DTATAFC"
+                    lgColSize="3"
+                    marginEnabled="true"
+                    marginTop="zero"
+                    mdColSize="3"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    textAlignment="center"
+                    title="\0">
+                    <button_3
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/layout/container"
-                        backgroundColor="light"
-                        flexEnabled="true"
-                        id="container_2_0FNDXB76R"
-                        lgColSize="8"
-                        marginEnabled="true"
-                        marginLeft="three"
-                        textAlignment="center">
-                        <text
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/content/text"
-                            id="text_UDFPLJFRH"
-                            text="&lt;p> Tag URL  &lt;/p>                 &lt;p> Eg: http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/tags.html  &lt;/p>"/>
-                    </container_2>
-                </container>
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        buttonStyle="warning"
+                        buttonType="submit"
+                        classes="\0"
+                        hideButtonLabel="false"
+                        id="button_3_RT6TVSNO9"
+                        isOutlinedButton="false"
+                        label="Remove Tag"
+                        lgColSize="12"
+                        mdColSize="12"
+                        persistColorWhenThemeSwitches="true"
+                        showIcon="false"
+                        showTextualElementOfButton="false"/>
+                </container_1_2>
+                <table
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/widgets/table"
+                    borderEnabled="false"
+                    classes="\0"
+                    dataSource="\0"
+                    flowapi_createdon="2023-04-24T11:00:58.957Z"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10dg1006ln50d&amp;components="
+                    flowapi_enable="true"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f10dg1006ln50d"
+                    flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/tags"
+                    flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/tags/*"
+                    flowapi_iscontainer="{Boolean}false"
+                    flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-tag.json"
+                    flowapi_success="true"
+                    flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
+                    flowapi_title="Table flow"
+                    flowapi_topic="table_d0f3cb787e8146039d4b06ae3dddf605"
+                    flowapi_updatedon="\0"
+                    flowapi_websocketurl="ws://localhost:8112/$tms"
+                    id="table_LZMYYZBV7"
+                    marginEnabled="true"
+                    marginTop="three"
+                    multipleSelectRowEnabled="false"
+                    overRideColumns="{Boolean}true"
+                    paddingEnabled="false"
+                    paginationEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    resizableEnabled="false"
+                    searchEnabled="false"
+                    showActionButtons="false"
+                    singleSelectEnabled="false"
+                    uniqueIdColumn="\0"
+                    websocketHost="\0"
+                    websocketTopic="\0"/>
             </container1>
         </rootcontainer>
     </jcr:content>
