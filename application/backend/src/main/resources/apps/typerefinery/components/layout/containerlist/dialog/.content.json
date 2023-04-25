@@ -8,13 +8,38 @@
       "url": {
         "sling:resourceType": "wcm/dialogs/components/pathpicker",
         "rootPath": "/content",
-        "name": "url",
-        "label": "URL"
+        "name": "path",
+        "label": "Path"
       }
     },
   "styleTab": {
     "sling:resourceType": "wcm/dialogs/components/include",
-    "path": "/apps/typerefinery/components/dialog/tabs/style"
-  }
+    "path": "/apps/typerefinery/components/dialog/tabs/style"    
+  },
+  "alignment": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Alignment",
+      "listAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "listAlignment",
+        "label": "List Alignment",
+        "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "default",
+            "value": ""
+        },
+        "left": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "left",
+            "value": "float-start"
+        },
+        "right": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "right",
+            "value": "float-end"
+        }
+    }
   }
 }
+}
+      
