@@ -19,6 +19,7 @@
     class="${model.componentClassNames}"
     id="${model.id}"
     toggleTheme="${model.persistColorWhenThemeSwitches ? 'false': 'text' }"
+    data-field-componentId="${model.id}" data-field-name="${model.name}"
   >
     <sly data-sly-use.template="./variant.html"
       data-sly-call="${template.variant @ model=model}">

@@ -157,6 +157,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Default(values = "")
     private String marginRight;
 
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String name;
+
     
     @Inject
     @Getter

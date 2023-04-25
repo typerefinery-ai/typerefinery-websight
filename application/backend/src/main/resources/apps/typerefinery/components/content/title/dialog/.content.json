@@ -18,7 +18,13 @@
         "name": "title",
         "default": "Add your heading here",
         "label": "Heading text"
+      },
+      "name": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Name",
+        "name": "name"
       }
+
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",

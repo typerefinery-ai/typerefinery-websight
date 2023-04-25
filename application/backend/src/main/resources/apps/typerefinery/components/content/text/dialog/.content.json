@@ -16,6 +16,11 @@
         "name": "text",
         "label": "Text",
         "required": true
+      },
+      "name": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Name",
+        "name": "name"
       }
     },
     "markdownTab": {
