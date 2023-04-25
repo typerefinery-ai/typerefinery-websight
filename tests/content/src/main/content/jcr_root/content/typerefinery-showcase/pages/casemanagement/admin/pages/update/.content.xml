@@ -137,7 +137,7 @@
                                     useQueryParamsFromParent="false"/>
                             </tabsList>
                             <tabs jcr:primaryType="nt:unstructured">
-                                <_x0030_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/casemanagement/admin/pages/info/jcr:content/rootcontainer" title="Information" url="\0"/>
+                                <_x0030_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/casemanagement/admin/pages/info/jcr:content/rootcontainer/container1/" title="Information" url="\0"/>
                                 <_x0031_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/tags/jcr:content/rootcontainer" title="Tags" url="\0"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/tasks/jcr:content/rootcontainer" title="Tasks" url="\0"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/casemanagement/admin/pages/update/notes/jcr:content/rootcontainer" title="Notes" url="\0"/>
