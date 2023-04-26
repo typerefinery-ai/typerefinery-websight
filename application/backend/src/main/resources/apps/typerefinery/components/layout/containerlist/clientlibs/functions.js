@@ -19,7 +19,6 @@ window.Typerefinery.Components.Layout.ContainerList =
     $component.innerHTML = newHTML;
 var conatinerDiv = document.getElementById("containerItems");
 var anchorTag = conatinerDiv.getElementsByTagName("a");
-console.log("anchorTag",anchorTag)
 for (var i = 0; i < anchorTag.length; i++) {
   anchorTag[i].addEventListener("click", function() {
   var current = document.getElementsByClassName("active");
