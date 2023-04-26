@@ -34,7 +34,7 @@
                     sling:resourceType="typerefinery/components/layout/containerlist"
                     id="containerlist_MITCMTYXY"
                     listAlignment="float-start"
-                    path=""/>
+                    path="/content/typerefinery-showcase/pages/components/layout/containerlist/conatinerListWithPath/jcr:content/rootcontainer/main/container/"/>
                 <container_1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
