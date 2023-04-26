@@ -19,7 +19,7 @@ import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ai.typerefinery.websight.utils.ResourceUtils;
+import ai.typerefinery.websight.utils.SlingUtil;
 
 // import ai.typerefinery.websight.utils.LinkUtil;
 
@@ -87,7 +87,7 @@ public class TabItem {
     protected void init() {
         //get html for tab
         if (StringUtils.isNotBlank(resourcepath)) {
-            html = ResourceUtils.getResourceHtml(resourceResolver, requestProcessor, resourcepath);
+            html = SlingUtil.getResourceHtml(resourcepath, resourceResolver, requestProcessor.trim();
         }
 
     }
