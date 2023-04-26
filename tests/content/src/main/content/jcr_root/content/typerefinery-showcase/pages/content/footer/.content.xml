@@ -6,7 +6,7 @@
   <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Footer" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
     <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" paddingEnabled="true" paddingGeneral="three" marginEnabled="true" marginTop="four" flexEnabled="true" horizontalAlignment="between" cancelInheritParent="true">
       <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12" flexEnabled="true">
-        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Pages" headingLevel="h5"/>
+        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Pages" headingLevel="h5"/>
         <text1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text=
           "&lt;p&gt; &lt;a class='text-decoration-none'href='/content/typerefinery-showcase/pages/pages/dashboard.html' &gt; Dashboard  &lt;/a&gt; &lt;/p&gt;
           &lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/pages/form.html'  &gt; Form  &lt;/a&gt; &lt;/p&gt;
@@ -14,7 +14,7 @@
           &lt;p&gt; &lt;a class='text-decoration-none' href='https://typerefinery.ai/'  &gt; Content  &lt;/a&gt; &lt;/p&gt; "/>
       </container1>
       <container2 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12" flexEnabled="true">
-        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Widgets" headingLevel="h5"/>
+        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Widgets" headingLevel="h5"/>
         <text2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text=
           "&lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/graphs/d3graph.html'  &gt; Graph  &lt;/a&gt; &lt;/p&gt;
           &lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/widgets/table.html'  &gt; Table  &lt;/a&gt; &lt;/p&gt;
@@ -22,7 +22,7 @@
           &lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/widgets/map.html'  &gt; Map  &lt;/a&gt; &lt;/p&gt; "/>
       </container2>
       <container3 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="12" smColSize="12" flexEnabled="true">
-        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Resources" headingLevel="h5"/>
+        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title="Resources" headingLevel="h5"/>
         <text3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text=
           "&lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/flow/flowform.html'  &gt; Flow Form &lt;/a&gt; &lt;/p&gt;
           &lt;p&gt; &lt;a class='text-decoration-none' href='/content/typerefinery-showcase/pages/components/content/image.html'  &gt; Images  &lt;/a&gt; &lt;/p&gt;
@@ -31,7 +31,7 @@
       </container3>
       <container5 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="12" mdColSize="12" smColSize="12" flexEnabled="true" horizontalAlignment="between" classes="p-2 mt-4" borderPositionTop="true">
         <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="8" mdColSize="12" smColSize="12" flexEnabled="true">
-          <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" title ="Copyright © 2023 Typerefinery. /All Rights Reserved. /Privacy Terms of Use" headingLevel="h6"/>
+          <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" text="&lt;p>Copyright © 2023 Typerefinery. All Rights Reserved.&lt;/p>" headingLevel="h6"/>
         </container1>
         <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="4" mdColSize="12" smColSize="12" gap="3" flexEnabled="true" horizontalAlignment="end">
           <button_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" buttonType="navigate" buttonStyle="primary" isOutlinedButton="true" label="Github" showIcon="true" icon="pi pi-github" lgColSize="4" mdColSize="6" navigateTo="https://github.com/typerefinery-ai/typerefinery-websight" openInNewTab="true" classes="btn-sm"></button_1>
