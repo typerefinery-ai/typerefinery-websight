@@ -19,6 +19,6 @@
         data-sly-element="${model.headingLevel}" 
         class="${model.variantClassNames}"
     >
-        ${model.title}
+        ${model.title @ context='text'}
     </h2>
 </template>
