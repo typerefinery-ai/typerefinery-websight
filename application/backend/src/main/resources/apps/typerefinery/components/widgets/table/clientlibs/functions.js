@@ -379,6 +379,20 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         events.forEach((event) => {
             eventNs.registerEvents(event.topic, ns.getEventHandlerCallBackFn($component, event));
         });
+
+        const componentId = $component.getAttribute("data-field-componentId");
+        const fieldName = $component.getAttribute("data-field-name");
+        if(!componentId || !fieldName) {
+            return;
+        }
+        // Listen to LOAD_DATA event. 
+        const key = `${componentId}-${fieldName}`;
+        
+        eventNs.registerEvents(key, (data) => {
+            if(data.type === "LOAD_DATA") {
+                ns.updateComponentHTML(id, data.data.value, $component);
+            }
+        }); 
     };
 
     ns.init = ($component) => {

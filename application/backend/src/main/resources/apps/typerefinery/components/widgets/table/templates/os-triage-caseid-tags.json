@@ -1,0 +1,37 @@
+{
+  "columns": [
+    {
+      "field": "tag",
+      "title": "Tag"
+    },
+    {
+      "field": "taxonomyCircle",
+      "title": "TaxonomyCircle"
+    }
+  ],
+  "data": [
+    {
+      "tag": "Tag 1",
+      "taxonomyCircle": "Taxonomy:Circle 1"
+    },
+    {
+      "tag": "Tag 2",
+      "taxonomyCircle": "Taxonomy:Circle 1"
+    },
+    {
+      "tag": "Tag 3",
+      "taxonomyCircle": "Taxonomy:Circle 3"
+    },
+    {
+      "tag": "Tag 4",
+      "taxonomyCircle": "Taxonomy:Circle 4"
+    },
+    {
+      "tag": "Tag 5",
+      "taxonomyCircle": "Taxonomy:Circle 5"
+    }
+  ],
+  "search": false,
+  "pagination": false,
+  "resizable": true
+}
