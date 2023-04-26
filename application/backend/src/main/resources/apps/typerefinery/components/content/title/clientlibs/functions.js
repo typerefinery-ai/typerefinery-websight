@@ -5,16 +5,23 @@ Typerefinery.Components.Content.Title = Typerefinery.Components.Content.Title ||
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function (ns, eventNs, document, window) {
+(function (ns, componentNs, eventNs, document, window) {
     "use strict";
 
     ns.registerEvent = ($component, componentId, fieldName) => {
         const key = `${componentId}-${fieldName}`;
         eventNs.registerEvents(key, (data) => {
             if(data.type === "LOAD_DATA") {
-                // get the first children and set the inner html.
                 const $firstChild = $component.children[0];
-                $firstChild.innerHTML = data.data.value;
+                
+                const innerHTML = $firstChild.innerHTML.replace(`{{${fieldName}}}`, data.data.value) || data.data.value;
+                // if innerHTML is empty or === "<p></p>" then set the innerHTML to the data.value
+                if (innerHTML === "<p></p>" || innerHTML === "") {
+                    $firstChild.innerHTML = data.data.value;
+                    return;
+                }
+
+                $firstChild.innerHTML = innerHTML;
             }
         });      
     }
@@ -29,4 +36,4 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         };
     }
 }
-)(Typerefinery.Components.Content.Title, Typerefinery.Page.Events, document, window);
+)(Typerefinery.Components.Content.Title, Typerefinery.Components, Typerefinery.Page.Events, document, window);
