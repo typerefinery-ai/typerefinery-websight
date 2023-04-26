@@ -1,6 +1,7 @@
 [component="containerlist"] .containerItems{
   display: flex;
   justify-content: center;
+  position: fixed;
 };
 [component="containerlist"] .containerItems ul{
   margin:0;

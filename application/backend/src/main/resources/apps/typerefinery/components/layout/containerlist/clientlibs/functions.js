@@ -17,10 +17,19 @@ window.Typerefinery.Components.Layout.ContainerList =
     const template = Handlebars.compile(source);
     const newHTML = template({ items ,alignment:componentConfig.listAlignment});
     $component.innerHTML = newHTML;
-    $('#containerItems > ul li .link').click(function(e) {
-        var $this = $(this);
-        $this.parent().siblings().removeClass('active').end().addClass('active');
-    });    
+var header = document.getElementById("containerItems");
+var lis = header.getElementsByTagName("a");
+console.log("lis",lis)
+for (var i = 0; i < lis.length; i++) {
+  lis[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  if (current.length > 0) {
+    current[0].className = current[0].className.replace(" active", "");
+  }
+
+  this.className += " active";
+  });
+}    
   };
   ns.init = ($component) => {
     // parse json value from data-model attribute as component config
