@@ -15,7 +15,7 @@
       <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" paddingEnabled="true" paddingGeneral="four">
         <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" gap="0" marginEnabled="true" marginTop="four" marginBottom="five" lgColSize="12" mdColSize="12" smColSize="12">
           <container1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
-            <ticker_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="3">
+            <ticker_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="12">
               <keyValueList jcr:primaryType="nt:unstructured">
                   <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
                   <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
@@ -28,7 +28,7 @@
           </ticker_1>
           </container1_1>
           <container1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
-            <ticker_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="3">
+            <ticker_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="12">
               <keyValueList jcr:primaryType="nt:unstructured">
                   <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
                   <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
@@ -41,7 +41,7 @@
           </ticker_2>
           </container1_2>
           <container1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
-            <ticker_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="3">
+            <ticker_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1" lgColSize="12">
               <keyValueList jcr:primaryType="nt:unstructured">
                   <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
                   <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
