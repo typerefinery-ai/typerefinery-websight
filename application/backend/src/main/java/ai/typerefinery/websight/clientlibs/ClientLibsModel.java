@@ -93,12 +93,19 @@ public class ClientLibsModel {
     private String[] categoriesArray;
     private Set<String> categoriesSet;
 
+    private boolean isDebugRequest = false;
+
     @PostConstruct
     protected void init() {
 
         Set<String> categoriesSet = StringsUtils.getStrings(categories);
 
         categoriesArray = categoriesSet.toArray(new String[0]);
+
+        // if request query string containes debug=true, then set debug to true
+        if (request.getQueryString() != null && request.getQueryString().contains("debug=true")) {
+            isDebugRequest = true;
+        }
     }
 
     @NotNull
@@ -171,6 +178,11 @@ public class ClientLibsModel {
      * Returns the content of the clientlib resource as a string.
      */
     private void compileIncludes(@NotNull String[] paths, String type, @NotNull StringWriter stringWriter, String[] searchPaths) {
+        String queryString = "";
+        if (isDebugRequest) {
+            queryString = "t=" + System.currentTimeMillis();
+        }
+
         for (String path : paths) {
             Resource resource = request.getResourceResolver().getResource(path);
             Boolean includeJS = (type == null || type.equals(PROPERTY_JS_PATHS)) 
@@ -186,7 +198,7 @@ public class ClientLibsModel {
                 Element htmlTag = new Element(Tag.valueOf("script"), "");
 
                 htmlTag.attr("type", "text/javascript")
-                    .attr("src", ClientLibsServlet.compileRenderPath(path, PROPERTY_JS_PATHS, searchPaths))                    
+                    .attr("src", ClientLibsServlet.compileRenderPath(path, PROPERTY_JS_PATHS, searchPaths, queryString))                    
                     .attr(OPTION_CROSSORIGIN, crossorigin);
 
                 if (StringUtils.isNotBlank(onload)) {
@@ -210,7 +222,7 @@ public class ClientLibsModel {
                 htmlTag
                     .attr("type", "text/css")
                     .attr("rel", "stylesheet")
-                    .attr("href", ClientLibsServlet.compileRenderPath(path, PROPERTY_CSS_PATHS, searchPaths))
+                    .attr("href", ClientLibsServlet.compileRenderPath(path, PROPERTY_CSS_PATHS, searchPaths, queryString))
                     .attr(OPTION_CROSSORIGIN, crossorigin);
 
                 if (StringUtils.isNotBlank(media)) {

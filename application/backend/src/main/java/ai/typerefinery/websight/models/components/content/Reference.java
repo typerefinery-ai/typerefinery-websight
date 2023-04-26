@@ -78,6 +78,8 @@ public class Reference extends BaseComponent {
         if (referenceResource == null) {
             LOGGER.debug("No reference resource to output.");
             return "";
+        } else {
+            return SlingUtil.resourceRenderAsHtml(referenceResource.getPath(), resourceResolver, requestProcessor).trim();
         }
         return ResourceUtils.getResourceHtml(resourceResolver, requestProcessor, referenceResource.getPath());
     }
