@@ -1,13 +1,29 @@
+[component="containerlist"] {
+  height: 3rem;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background-color: #c7defa;
+}
+/* future reference */
+/* [component="containerlist"] .sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+} */
+
 [component="containerlist"] .containerItems {
   display: flex;
   justify-content: center;
+
 }
 
 [component="containerlist"] .containerItems ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  position: relative;
+  width: 100%;
   display: table;
   margin: 0 auto;
 

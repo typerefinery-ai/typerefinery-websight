@@ -12,9 +12,9 @@
 <template data-sly-template.containerListTemplate="${ @ model }">
   <script id="${model.id}-template" type="text/x-handlebars-template">
       <ul id="containerItems" class="containerItems {{alignment}}">
-      {{#each items.listOfContainer}}
+      {{#each listOfContainer}}
         <li>
-            <a class="link" href="#{{key}}">
+            <a class="link {{active}}" href="#{{key}}">
               {{value}}
           </a>       
         </li>
