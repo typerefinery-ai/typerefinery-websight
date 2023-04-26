@@ -58,6 +58,7 @@ import ai.typerefinery.websight.utils.FakeRequest;
 import ai.typerefinery.websight.utils.FakeResponse;
 import ai.typerefinery.websight.utils.LinkUtil;
 import ai.typerefinery.websight.utils.PageUtil;
+import ai.typerefinery.websight.utils.SlingUtil;
 import lombok.Getter;
 import pl.ds.websight.pages.foundation.WcmMode;
 
@@ -489,36 +490,9 @@ public class Container extends BaseComponent {
         if (inheritedResource == null) {
             LOGGER.debug("No inherited resource found for {}", resource.getPath());
             return "";
+        } else {
+            return SlingUtil.resourceRenderAsHtml(inheritedResource.getPath(), resourceResolver, requestProcessor).trim();
         }
-        try {
-            String markup = "";
-            String url = inheritedResource.getPath() + ".html";
-
-            HttpServletRequest req = new FakeRequest("GET", url);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            HttpServletResponse resp;
-            try {
-                resp = new FakeResponse(out);
-
-                // this needs to be done to get the inherited resource
-                requestProcessor.processRequest(req, resp, resourceResolver);
-
-                // need to flush the response to get the contents
-                resp.getWriter().flush();
-
-                // trim to remove all the extra whitespace
-                markup = out.toString().trim();
-
-            } catch (ServletException | IOException | NoSuchAlgorithmException e) {
-                LOGGER.warn("Exception retrieving contents for {}", url, e);
-            }
-            
-            return markup;
-        } catch (Exception e) {
-            LOGGER.error("Error getting inherited html", e);
-        }
-        return "";
     }
 
 }

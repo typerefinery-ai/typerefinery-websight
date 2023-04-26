@@ -90,35 +90,4 @@ public class ResourceUtils {
     } 
   }
 
-  public static String getResourceHtml(@NotNull ResourceResolver resourceResolver, @NotNull SlingRequestProcessor requestProcessor, @NotNull String path) {
-    try {
-        String html = "";
-        String url = path + ".html";
-        HttpServletRequest req = new FakeRequest("GET", url);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        HttpServletResponse resp;
-        try {
-            resp = new FakeResponse(out);
-
-            // this needs to be done to get the inherited resource
-            requestProcessor.processRequest(req, resp, resourceResolver);
-
-            // need to flush the response to get the contents
-            resp.getWriter().flush();
-
-            // trim to remove all the extra whitespace
-            html = out.toString().trim();
-
-        } catch (ServletException | IOException | NoSuchAlgorithmException e) {
-            LOGGER.warn("Exception retrieving contents for {}", url, e);
-        }
-        
-        
-        return html;
-    } catch (Exception e) {
-        LOGGER.error("Error getting inherited html", e);
-    }
-    return "";
-  }
 }
