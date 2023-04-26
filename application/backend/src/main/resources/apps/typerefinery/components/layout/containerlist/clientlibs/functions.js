@@ -17,16 +17,15 @@ window.Typerefinery.Components.Layout.ContainerList =
     const template = Handlebars.compile(source);
     const newHTML = template({ items ,alignment:componentConfig.listAlignment});
     $component.innerHTML = newHTML;
-var header = document.getElementById("containerItems");
-var lis = header.getElementsByTagName("a");
-console.log("lis",lis)
-for (var i = 0; i < lis.length; i++) {
-  lis[i].addEventListener("click", function() {
+var conatinerDiv = document.getElementById("containerItems");
+var anchorTag = conatinerDiv.getElementsByTagName("a");
+console.log("anchorTag",anchorTag)
+for (var i = 0; i < anchorTag.length; i++) {
+  anchorTag[i].addEventListener("click", function() {
   var current = document.getElementsByClassName("active");
   if (current.length > 0) {
     current[0].className = current[0].className.replace(" active", "");
   }
-
   this.className += " active";
   });
 }    
