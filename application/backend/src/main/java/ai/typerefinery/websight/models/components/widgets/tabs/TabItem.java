@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ai.typerefinery.websight.utils.SlingUtil;
 
-// import ai.typerefinery.websight.utils.LinkUtil;
-
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 
 public class TabItem {
@@ -87,7 +85,7 @@ public class TabItem {
     protected void init() {
         //get html for tab
         if (StringUtils.isNotBlank(resourcepath)) {
-            html = SlingUtil.getResourceHtml(resourcepath, resourceResolver, requestProcessor.trim();
+            html = SlingUtil.resourceRenderAsHtml(resourcepath, resourceResolver, requestProcessor).trim();
         }
 
     }
