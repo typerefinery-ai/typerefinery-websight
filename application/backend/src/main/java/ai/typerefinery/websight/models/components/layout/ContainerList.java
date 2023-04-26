@@ -44,6 +44,8 @@ import lombok.Getter;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.jetbrains.annotations.NotNull;
+
 @Component
 @Model(adaptables = {
         Resource.class,
@@ -82,38 +84,34 @@ public class ContainerList extends BaseComponent {
         if (StringUtils.isBlank(this.path)) {
             Resource parent = resource.getParent();
             String parentPath = parent.getPath();
+            @NotNull
+            Iterable<Resource> childrens = resource.getParent().getChildren();
             if (parent != null) {
-                for (Resource child : resource.getParent().getChildren()) {
-                    if (ComponentUtil.getComponentTitle(child).equals("Container")) {
-                        ValueMap props = child.getValueMap();
-                        String siblingId = props.get("id", String.class);
-                        String title = props.get("title",  String.class);
-                        if (StringUtils.isEmpty(siblingId)) {
-                            continue;
-                        }
-                        listOfContainer.add(new ContainerItem(siblingId,title));
-                    }
-                }
+                this.containerContent(childrens, listOfContainer);
                 return listOfContainer;
-            }            
-        }
-        else{
-            String ChildrenOfSpecificPath= this.path;
-            Resource resource = resourceResolver.getResource(ChildrenOfSpecificPath);
-            // String data1=resource.getChildren();
-            for (Resource child : resource.getChildren()) {
-                if (ComponentUtil.getComponentTitle(child).equals("Container")) {
-                    ValueMap props = child.getValueMap();
-                    String siblingId = props.get("id", String.class);
-                    String title = props.get("title",  String.class);
-                    if (StringUtils.isEmpty(siblingId)) {
-                        continue;
-                    }
-                    listOfContainer.add(new ContainerItem(siblingId,title));
-                }
             }
+        } else {
+            String ChildrenOfSpecificPath = this.path;
+            Resource resource = resourceResolver.getResource(ChildrenOfSpecificPath);
+            @NotNull
+            Iterable<Resource> childrens = resource.getChildren();
+            this.containerContent(childrens, listOfContainer);
             return listOfContainer;
         }
         return listOfContainer;
     }
+
+    private void containerContent(@NotNull Iterable<Resource> childrens, List<ContainerItem> listOfContainer) {
+        for (Resource child : childrens)
+            if (ComponentUtil.getComponentTitle(child).equals("Container")) {
+                ValueMap props = child.getValueMap();
+                String siblingId = props.get("id", String.class);
+                String title = props.get("title", String.class);
+                if (StringUtils.isEmpty(siblingId)) {
+                    continue;
+                }
+                listOfContainer.add(new ContainerItem(siblingId,title));
+            }
+    }
+
 }

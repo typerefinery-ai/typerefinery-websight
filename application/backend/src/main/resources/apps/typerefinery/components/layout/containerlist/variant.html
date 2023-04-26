@@ -11,16 +11,14 @@
 </template>
 <template data-sly-template.containerListTemplate="${ @ model }">
   <script id="${model.id}-template" type="text/x-handlebars-template">
-    <div id="containerItems" class="containerItems {{alignment}}">
-      <ul>
+      <ul id="containerItems" class="containerItems {{alignment}}">
       {{#each items.listOfContainer}}
         <li>
-            <a class="link" href="#{{id}}">
-              {{title}}
+            <a class="link" href="#{{key}}">
+              {{value}}
           </a>       
         </li>
       {{/each}}
     </ul>
-  </div>
 </script>
 </template>

@@ -6,21 +6,14 @@ import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import ai.typerefinery.websight.models.components.KeyValuePair;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 
-public class ContainerItem {
-  public ContainerItem(String siblingId,String title) {
-    this.id=siblingId;
-    this.title=title;
-}
-  @Getter
-    @Inject
-    private String id;
+public class ContainerItem extends KeyValuePair{
+  public ContainerItem(String siblingId, String title) {
+    this.key = siblingId;
+    this.value = title;
+  }
 
-    @Getter
-    @Inject
-    private String title;
-    
-  
 }
