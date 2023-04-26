@@ -15,24 +15,33 @@ window.Typerefinery.Components.Layout.ContainerList =
     };
     const source = $(`#${componentConfig.id}-template`).html();
     const template = Handlebars.compile(source);
-    const newHTML = template({ items ,alignment:componentConfig.listAlignment});
+    const newHTML = template({
+      items,
+      alignment: componentConfig.listAlignment
+    });
     $component.innerHTML = newHTML;
-var conatinerDiv = document.getElementById("containerItems");
-var anchorTag = conatinerDiv.getElementsByTagName("a");
-for (var i = 0; i < anchorTag.length; i++) {
-  anchorTag[i].addEventListener("click", function() {
-  var current = document.getElementsByClassName("active");
-  if (current.length > 0) {
-    current[0].className = current[0].className.replace(" active", "");
-  }
-  this.className += " active";
-  });
-}    
+    var containerDiv = document.getElementById("containerItems");
+    var anchorTag = containerDiv.getElementsByTagName("a");
+    for (var i = 0; i < anchorTag.length; i++) {
+      anchorTag[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        if (current.length > 0) {
+          current[0].className = current[0].className.replace(" active", "");
+        }
+        this.className += " active";
+      });
+    }
   };
   ns.init = ($component) => {
     // parse json value from data-model attribute as component config
+    console.log("init")
     const componentConfig = componentNs.getComponentConfig($component);
     // MODEL
     ns.updateComponentHTML($component);
   };
-})(Typerefinery.Components.Layout.ContainerList,Typerefinery.Components,document,window);
+})(
+  Typerefinery.Components.Layout.ContainerList,
+  Typerefinery.Components,
+  document,
+  window
+);

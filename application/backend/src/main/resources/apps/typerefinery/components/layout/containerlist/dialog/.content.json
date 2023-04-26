@@ -12,11 +12,11 @@
         "label": "Path"
       }
     },
-  "styleTab": {
-    "sling:resourceType": "wcm/dialogs/components/include",
-    "path": "/apps/typerefinery/components/dialog/tabs/style"    
-  },
-  "alignment": {
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "alignment": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Alignment",
       "listAlignment": {
@@ -24,22 +24,21 @@
         "name": "listAlignment",
         "label": "List Alignment",
         "default": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "default",
-            "value": ""
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "default",
+          "value": ""
         },
         "left": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "left",
-            "value": "float-start"
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "left",
+          "value": "float-start"
         },
         "right": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "right",
-            "value": "float-end"
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "right",
+          "value": "float-end"
         }
+      }
     }
   }
 }
-}
-      

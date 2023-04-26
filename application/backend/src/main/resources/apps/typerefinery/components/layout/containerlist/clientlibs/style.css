@@ -1,29 +1,31 @@
-[component="containerlist"] .containerItems{
+[component="containerlist"] .containerItems {
   display: flex;
   justify-content: center;
-  position: fixed;
-};
-[component="containerlist"] .containerItems ul{
-  margin:0;
-  padding:0;
-  list-style:none;
-  position:relative;
-  display:table;
-  margin:0 auto;
+}
+
+[component="containerlist"] .containerItems ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: table;
+  margin: 0 auto;
 
 }
-[component="containerlist"] li{
-    display:table-cell;
+
+[component="containerlist"] li {
+  display: table-cell;
 }
-[component="containerlist"]   a{
-      padding:10px 20px;
-      display:block;
-      color:black;
-      text-decoration:none;
-      transition:all 0.3s ease-in-out; 
+
+[component="containerlist"] a {
+  padding: 10px 20px;
+  display: block;
+  color: black;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
 }
+
 [component="containerlist"] .active {
-      color:rgb(79, 143, 247) !important;
-      border-bottom:3px solid rgb(79, 143, 247);
-    }
-   
+  color: rgb(79, 143, 247) !important;
+  border-bottom: 3px solid rgb(79, 143, 247);
+}
