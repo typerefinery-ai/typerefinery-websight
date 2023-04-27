@@ -235,7 +235,7 @@ public class FlowService {
                 }
             } 
         }
-        return flowapi_enable;        
+        return true; // pass ok to running job     
     }
 
     // function to send http request using client with retry

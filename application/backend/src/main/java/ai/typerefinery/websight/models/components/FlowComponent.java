@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
@@ -52,7 +53,7 @@ public class FlowComponent extends BaseComponent {
     // if true will create/update flow
     @Getter
     @Inject
-    @Nullable
+    @Default(booleanValues = false)
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_ENABLE)
     public Boolean flowapi_enable;
 

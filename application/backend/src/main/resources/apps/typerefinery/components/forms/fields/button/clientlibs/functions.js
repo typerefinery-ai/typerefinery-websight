@@ -23,6 +23,11 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
                     }
                     window.location.href = navigateTo;
                 }
+            }else if(buttonType === "action") {
+                const { actionType } = componentConfig;
+                if(actionType === "openModal") {
+                    modalNs.createModalAndOpen(componentConfig.actionModalTitle, componentConfig.actionUrl, componentConfig.hideFooter); 
+                }
             }
         });
     }
@@ -54,16 +59,19 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             return;
         }
         else if(buttonType === "action") {
-            if(actionType === "openModal") {
-                modalNs.init($component, componentConfig);
-            }else if(actionType === "openDropdown") {
+            // if(actionType === "openModal") {
+                // modalNs.init($component, componentConfig);
+            // }else 
+            if(actionType === "openDropdown") {
                 dropdownNs.init($component, componentConfig);
+                return;
             }else if(actionType === "initialTheme") {                
                 themeNs.init($component, componentConfig);
+                return;
             }else if(actionType === "toggleComponent") {               
                 toggleComponentNs.init($component, componentConfig);
+                return;
             }
-            return;
         }
         ns.addEventListener($component, id);
         ns.windowResizeListener($component)

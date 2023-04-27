@@ -25,7 +25,7 @@ body {
     --bs-gutter-x: 0px !important;
 }
 
-#flowEnabledFireBallButton {
+#lightningIcon {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -33,10 +33,28 @@ body {
 
     animation: MoveUpDown 1s linear infinite;
     position: absolute;
-    cursor: pointer;
     text-decoration: none;
+    z-index: 1000;
+}
+/* .lightening-icon-disabled {
+    position: relative;
+    display: inline-block;
+}
+#lightningIconTooltipText {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    position: absolute;
+    z-index: 1;
 }
 
+.lightening-icon-disabled:hover #lightningIconTooltipText {
+    visibility: visible;
+} */
 @keyframes MoveUpDown {
 
     0%,
@@ -49,7 +67,7 @@ body {
     }
 }
 
-#flowEnabledFireBallSvg {
+#fireballButton {
     height: 25px !important;
     width: 25px !important;
 }
