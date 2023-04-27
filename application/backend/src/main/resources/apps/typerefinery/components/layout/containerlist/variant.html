@@ -1,13 +1,8 @@
 <template data-sly-template.variant="${ @ model }">
-    <div 
-      component="${model.componentName}"
-      id="${model.id}"
-      class="${model.componentClassNames}" 
-      data-model="${model.jsonString}"
-      data-sly-element="${model.decorationTagName}"
-      >
-    </div>
-    <sly data-sly-call="${containerListTemplate @ model=model}"></sly>
+  <div component="${model.componentName}" id="${model.id}" class="${model.componentClassNames}"
+    data-model="${model.jsonString}" data-sly-element="${model.decorationTagName}">
+  </div>
+  <sly data-sly-call="${containerListTemplate @ model=model}"></sly>
 </template>
 <template data-sly-template.containerListTemplate="${ @ model }">
   <script id="${model.id}-template" type="text/x-handlebars-template">
