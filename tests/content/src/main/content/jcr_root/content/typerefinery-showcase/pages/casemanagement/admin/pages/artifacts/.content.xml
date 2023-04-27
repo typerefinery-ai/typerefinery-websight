@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Artifacts"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-04-24T16:13:34.269+05:30"
+        ws:lastModified="{Date}2023-04-27T12:51:24.851+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -62,72 +62,120 @@
                 paddingGeneral="two"
                 persistColorWhenThemeSwitches="false"
                 title="\0">
-                <container
+                <form
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/layout/container"
-                    classes="card shadow-md"
-                    id="container_CRX3BEGOU"
-                    textAlignment="center">
-                    <title_1
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        headingLevel="h1"
-                        headingSize="h5"
-                        id="title_1_VTYNGZ6FQ"/>
-                </container>
-                <table
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/widgets/table"
+                    sling:resourceType="typerefinery/components/forms/form"
                     borderEnabled="false"
                     classes="\0"
-                    dataSource="\0"
-                    flowapi_createdon="2023-04-25T08:52:47.458Z"
+                    flexEnabled="false"
+                    flowapi_createdon="2023-04-27T05:25:14.839Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10egg017xm51d&amp;components="
+                    flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Fnull&amp;components="
                     flowapi_enable="true"
-                    flowapi_error="null"
-                    flowapi_flowstreamid="f10egg017xm51d"
+                    flowapi_error="error executing flowstream import"
+                    flowapi_flowstreamid="f10gio002cp50d"
                     flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts"
                     flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*"
                     flowapi_iscontainer="{Boolean}false"
-                    flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
+                    flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/os-triage-artifacts-list.json"
                     flowapi_success="true"
-                    flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
-                    flowapi_title="Table flow"
-                    flowapi_topic="table_2683ef79240f4fa094bde127e488df48"
+                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                    flowapi_title="Form flow"
+                    flowapi_topic="form_355e86ebec0449ff86037997242e8ea9"
                     flowapi_updatedon="\0"
                     flowapi_websocketurl="ws://localhost:8112/$tms"
-                    id="table_WOFHMJ2EL"
-                    marginEnabled="true"
-                    marginTop="three"
-                    multipleSelectRowEnabled="false"
-                    overRideColumns="{Boolean}true"
+                    id="form_F8XISIXAJ"
+                    marginEnabled="false"
                     paddingEnabled="false"
-                    paginationEnabled="false"
                     persistColorWhenThemeSwitches="false"
-                    resizableEnabled="false"
-                    searchEnabled="false"
-                    showActionButtons="true"
-                    singleSelectEnabled="false"
-                    uniqueIdColumn="\0"
-                    websocketHost="\0"
-                    websocketTopic="\0">
-                    <actionButtons jcr:primaryType="nt:unstructured">
-                        <_x0030_
+                    readMethod="GET"
+                    readUrl="http://localhost:8000/flowproxy/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*"
+                    title="Form flow"
+                    writeMethod="PUT"
+                    writePayloadType="application/json"
+                    writeUrl="http://localhost:8000/flowproxy/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*">
+                    <container
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        classes="card shadow-md"
+                        id="container_CRX3BEGOU"
+                        textAlignment="center">
+                        <title_1
                             jcr:primaryType="nt:unstructured"
-                            actionButtonModalContentURL="\0"
-                            actionButtonNavigateToPath="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/createcase.html"
-                            icon="pi pi-pencil"
-                            id="0_DLCK4YTOE"
-                            label="Edit"/>
-                    </actionButtons>
-                    <columnRules jcr:primaryType="nt:unstructured">
-                        <_x0030_
-                            jcr:primaryType="nt:unstructured"
-                            field="url"
-                            rule="HIDDEN"/>
-                    </columnRules>
-                </table>
+                            sling:resourceType="typerefinery/components/content/title"
+                            headingLevel="h3"
+                            headingSize="\0"
+                            id="title_1_VTYNGZ6FQ"/>
+                    </container>
+                    <table
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/widgets/table"
+                        borderEnabled="false"
+                        classes="\0"
+                        dataSource="\0"
+                        flowapi_createdon="2023-04-26T12:54:09.981Z"
+                        flowapi_designtemplate="\0"
+                        flowapi_editurl="http://localhost:8111/designer/?darkmode=0&amp;socket=ws%3A%2F%2Flocalhost%3A8111%2Fflows%2Ff10fr6002mt50d&amp;components="
+                        flowapi_enable="true"
+                        flowapi_error="null"
+                        flowapi_flowstreamid="f10fr6002mt50d"
+                        flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts"
+                        flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/artifacts/*"
+                        flowapi_iscontainer="false"
+                        flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-artifacts.json"
+                        flowapi_success="true"
+                        flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
+                        flowapi_title="Table flow"
+                        flowapi_topic="table_2683ef79240f4fa094bde127e488df48"
+                        flowapi_updatedon="\0"
+                        flowapi_websocketurl="ws://localhost:8112/$tms"
+                        id="table_WOFHMJ2EL"
+                        marginEnabled="true"
+                        marginTop="three"
+                        multipleSelectRowEnabled="false"
+                        name="artifactsList"
+                        overRideColumns="{Boolean}true"
+                        paddingEnabled="false"
+                        paginationEnabled="false"
+                        persistColorWhenThemeSwitches="false"
+                        resizableEnabled="false"
+                        searchEnabled="false"
+                        showActionButtons="true"
+                        singleSelectEnabled="false"
+                        uniqueIdColumn="\0"
+                        websocketHost="\0"
+                        websocketTopic="\0">
+                        <actionButtons jcr:primaryType="nt:unstructured">
+                            <_x0030_
+                                jcr:primaryType="nt:unstructured"
+                                actionButtonModalContentURL="\0"
+                                actionButtonNavigateToPath="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/content/forms/artifact.html"
+                                icon="pi pi-pencil"
+                                id="0_LTPLTXMFS"
+                                label="Edit"/>
+                            <_x0031_
+                                jcr:primaryType="nt:unstructured"
+                                actionButtonModalContentURL="\0"
+                                actionButtonNavigateToPath="http://localhost:8113/content/typerefinery-showcase/pages/casemanagement/admin/pages/cases.html"
+                                icon="pi pi-info-circle"
+                                id="1_Z7CLYMNHL"
+                                label="URL"/>
+                        </actionButtons>
+                        <columns jcr:primaryType="nt:unstructured">
+                            <_x0030_
+                                jcr:primaryType="nt:unstructured"
+                                field="url"
+                                title="URL"
+                                type="LINK"/>
+                        </columns>
+                        <columnRules jcr:primaryType="nt:unstructured">
+                            <_x0030_
+                                jcr:primaryType="nt:unstructured"
+                                field="\0"
+                                rule="\0"/>
+                        </columnRules>
+                    </table>
+                </form>
             </container1>
         </rootcontainer>
     </jcr:content>
