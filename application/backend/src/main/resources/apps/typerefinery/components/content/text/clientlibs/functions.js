@@ -5,7 +5,7 @@ Typerefinery.Components.Content.Text = Typerefinery.Components.Content.Text || {
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function (ns, eventNs, document, window) {
+(function (ns, componentNs, eventNs, document, window) {
     "use strict";
 
     ns.registerEvent = ($component, componentId, fieldName) => {
@@ -14,7 +14,16 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             if(data.type === "LOAD_DATA") {
                 // get the first children and set the inner html.
                 const $firstChild = $component.children[0];
-                $firstChild.innerHTML = data.data.value;
+                const componentConfig = componentNs.getComponentConfig($component);
+                // get the inner HTML and replace the {{value}} with the data.value
+                const innerHTML = $firstChild.innerHTML.replace(`{{${fieldName}}}`, data.data.value) || data.data.value;
+                // if innerHTML is empty or === "<p></p>" then set the innerHTML to the data.value
+                if (innerHTML === "<p></p>" || innerHTML === "") {
+                    $firstChild.innerHTML = data.data.value;
+                    return;
+                }
+
+                $firstChild.innerHTML = innerHTML;
             }
         });      
     }
@@ -29,4 +38,4 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         };
     }
 }
-)(Typerefinery.Components.Content.Text, Typerefinery.Page.Events, document, window);
+)(Typerefinery.Components.Content.Text, Typerefinery.Components, Typerefinery.Page.Events, document, window);

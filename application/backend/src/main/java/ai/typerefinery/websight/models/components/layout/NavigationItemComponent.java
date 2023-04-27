@@ -50,6 +50,9 @@ public class NavigationItemComponent {
   @Inject
   private String icon;
 
+  @Getter
+  @Inject
+  private String action;
   
   @Getter
   @Inject

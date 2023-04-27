@@ -11,6 +11,11 @@
         "label": "Unique Id Column",
         "description": "Column name which will be used as unique id for the row"
       },
+      "name": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "name",
+        "label": "Name"
+      },
       "showActionButtons": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "showActionButtons",
