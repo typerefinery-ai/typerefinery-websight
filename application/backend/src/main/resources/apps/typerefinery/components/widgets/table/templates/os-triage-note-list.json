@@ -1,0 +1,59 @@
+{
+  "formNote": {
+  "columns": [
+    {
+      "field": "category",
+      "title": "Category"
+    },
+    {
+      "field": "markdown",
+      "title": "Markdown"
+    }
+  ],
+  "data": [
+    {
+      "category": "Tag 1",
+      "markdown": "Markdown 1"
+    },
+    {
+      "category": "Tag 2",
+      "markdown": "Markdown 2"
+    },
+    {
+      "category": "Tag 3",
+      "markdown": "Markdown 3"
+    },
+    {
+      "category": "Tag 4",
+      "markdown": "Markdown 4"
+    },
+    {
+      "category": "Tag 5",
+      "markdown": "Markdown 5"
+    },
+    {
+      "category": "Tag 6",
+      "markdown": "Markdown 6"
+    },
+    {
+      "category": "Tag 7",
+      "markdown": "Markdown 7"
+    },
+    {
+      "category": "Tag 8",
+      "markdown": "Markdown 8"
+    },
+    {
+      "category": "Tag 9",
+      "markdown": "Markdown 9"
+    },
+    {
+      "category": "Tag 10",
+      "markdown": "Markdown 10"
+    }
+  ],
+  "search": false,
+  "pagination": false,
+  "resizable": true
+}
+}
