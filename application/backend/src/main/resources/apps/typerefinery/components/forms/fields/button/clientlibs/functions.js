@@ -26,8 +26,7 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             }else if(buttonType === "action") {
                 const { actionType } = componentConfig;
                 if(actionType === "openModal") {
-                    modalNs.updateCommonModalAndOpen(componentConfig.actionModalTitle, componentConfig.actionUrl, componentConfig.hideFooter); 
-                    console.log('openModal');
+                    modalNs.createModalAndOpen(componentConfig.actionModalTitle, componentConfig.actionUrl, componentConfig.hideFooter); 
                 }
             }
         });

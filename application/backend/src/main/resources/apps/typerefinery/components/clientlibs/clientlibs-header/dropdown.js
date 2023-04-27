@@ -36,17 +36,15 @@ Typerefinery.Modal = Typerefinery.Modal || {};
     ns.dropDownButtonEventListener = () => {
         console.log("drop down button event listener")
         $(document).on("click", "#__dropdown__", function (e) {
-            console.log("clicked on dropdown item", e.target );
-            // get the component config from the data-model attribute.
+            // console.log("again 1 clicked on dropdown item", e.target );
             const componentConfig = JSON.parse(e.target.getAttribute("data-model"));
-            console.log(componentConfig, "componentConfig")
             const { label, name, link, action, hideFooter = false } = componentConfig;
             // if this link as a form tag  then show the footer.
             if (link.includes("form.html")) {
                 showFooter = true;
             }
             if(action === "modal") {
-                modalNs.updateCommonModalAndOpen(label || name, link, hideFooter);
+                modalNs.createModalAndOpen(label || name, link, hideFooter);
             }
             else if(action === "navigate") {
                 // navigate to the link.
@@ -54,6 +52,6 @@ Typerefinery.Modal = Typerefinery.Modal || {};
             }
         });
     };
-
+    
     ns.dropDownButtonEventListener();
 })(Typerefinery.Dropdown, Typerefinery.Modal, document, window);
