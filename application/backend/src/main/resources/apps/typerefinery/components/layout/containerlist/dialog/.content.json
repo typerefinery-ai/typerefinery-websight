@@ -39,6 +39,45 @@
           "value": "float-end"
         }
       }
+    },
+    "backgroundColor": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Background Color",
+      "backgroundColor": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "backgroundColor",
+        "label": "Background Color",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": " "
+        },
+        "light": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light",
+          "value": "light"
+        },
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "danger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger",
+          "value": "danger"
+        },
+        "success": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Success",
+          "value": "success"
+        }
+      }
     }
   }
 }

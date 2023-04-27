@@ -20,8 +20,10 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -40,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import lombok.Getter;
+import org.apache.sling.models.annotations.Default;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -71,11 +74,25 @@ public class ContainerList extends BaseComponent {
     @Getter
     @Inject
     public String listAlignment;
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String backgroundColor;
 
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+        if (grid != null && style != null) {
+            if (StringUtils.isNotBlank(backgroundColor)) {
+                grid.addClasses(backgroundColorConfig.getOrDefault(backgroundColor, ""));
+            }
+        }
+         //background color
+         if (StringUtils.isNotBlank(backgroundColor)) {
+            grid.addClasses(backgroundColorConfig.getOrDefault(backgroundColor, ""));
+        }
     }
 
     public List<ContainerItem> getContainers() {
@@ -113,5 +130,14 @@ public class ContainerList extends BaseComponent {
                 listOfContainer.add(new ContainerItem(siblingId,title));
             }
     }
-
+    private Map<String, String> backgroundColorConfig = new HashMap<String, String>() {
+        {
+            put("primary", "bg-primary");
+            put("secondary", "bg-secondary");
+            put("success", "bg-success");
+            put("light", "bg-light");
+            put("dark", "bg-dark");
+            put("danger", "bg-danger");
+        }
+    };
 }
