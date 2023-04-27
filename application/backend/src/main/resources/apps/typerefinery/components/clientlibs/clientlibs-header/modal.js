@@ -61,16 +61,20 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
     ns.iframeLoaded = (iframe, callback) => {
-        let state = iframe.contentDocument.readyState;
+        let state = iframe?.contentDocument?.readyState || null;
+        if(!state || state === 'complete') {
+            callback();
+            return;
+        }
         let checkLoad = setInterval(() => {
-            if (state !== iframe.contentDocument.readyState) {
-                if (iframe.contentDocument.readyState === 'complete') {
+            if (state !== iframe.contentDocument?.readyState) {
+                if (iframe?.contentDocument?.readyState === 'complete') {
                     clearInterval(checkLoad);
                     callback();
                 }
-                state = iframe.contentDocument.readyState;
+                state = iframe.contentDocument?.readyState;
             }
-        }, 200)
+        }, 200);
     }
 
     ns.removeLoaderOnModalLoad = () => {
@@ -82,9 +86,29 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         })
 
     };
+
+    ns.isParentView = () => {
+        // check if this is from iframe or not.
+        return window.self === window.top;
+        
+    }
+
+    ns.initCommonModal = () => {
+        const isParentView = ns.isParentView(); 
+        if(!isParentView) {
+            console.log("This is not a parent view");
+            return;
+        }
+        const modalDivContainer = document.createElement("div");
+        const id = '__common_modal__';
+        modalDivContainer.setAttribute("class", "modal fade");
+        modalDivContainer.setAttribute("id", `${id}`);
+        modalDivContainer.innerHTML = ns.getModalInnerHTML("Modal", "", false);
+        document.body.appendChild(modalDivContainer);
+        ns.expandModalListener(modalDivContainer);
+        ns.submitListenerForModal(modalDivContainer);
+    };  
     
-
-
 
     ns.init = ($component, componentConfig) => {
 
@@ -121,5 +145,19 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             $("#loader").show();
         });
 
+        
     };
+
+    ns.updateCommonModalAndOpen = (modalTitle, iframeURL, hideFooter) => {
+        const modalDivContainer = document.getElementById('__common_modal__');
+        modalDivContainer.innerHTML = ns.getModalInnerHTML(modalTitle, iframeURL, hideFooter);
+        const modal = new bootstrap.Modal(modalDivContainer);
+        modal.show();
+
+        // invoke remove  loader on modal load when a modal is opened.
+        ns.removeLoaderOnModalLoad();
+    };
+
+    // A common modals for all the components.
+    ns.initCommonModal();
 })(Typerefinery.Modal, document, window);

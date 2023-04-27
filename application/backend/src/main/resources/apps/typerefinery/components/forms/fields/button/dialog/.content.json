@@ -247,6 +247,21 @@
           "rootPath": "/content",
           "name": "link",
           "label": "URL"
+        },
+        "action": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "action",
+          "label": "Action Of the Dropdown Item",
+          "navigate": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Open As Page",
+            "value": "navigate"
+          },
+          "modal": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Open As Modal",
+            "value": "modal"
+          }
         }
       }
     },
