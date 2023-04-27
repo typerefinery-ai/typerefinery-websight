@@ -2,10 +2,10 @@ package ai.typerefinery.websight.models.components.content;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
-import ai.typerefinery.websight.utils.ResourceUtils;
+import ai.typerefinery.websight.utils.SlingUtil;
 import lombok.Getter;
 
 @Component
@@ -78,7 +78,8 @@ public class Reference extends BaseComponent {
         if (referenceResource == null) {
             LOGGER.debug("No reference resource to output.");
             return "";
+        } else {
+            return SlingUtil.resourceRenderAsHtml(referenceResource.getPath(), resourceResolver, requestProcessor).trim();
         }
-        return ResourceUtils.getResourceHtml(resourceResolver, requestProcessor, referenceResource.getPath());
     }
 }

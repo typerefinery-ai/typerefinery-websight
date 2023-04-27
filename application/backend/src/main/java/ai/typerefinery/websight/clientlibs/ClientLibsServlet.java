@@ -125,6 +125,18 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     public static final String OPTION_ONLOAD = "onload";
     public static final String OPTION_DEBUG = "debug";
 
+    public static final String HEADER_CACHE_CONTROL = "Cache-Control";
+    public static final String HEADER_CACHE_CONTROL_VALUE = "max-age=300,stale-while-revalidate=3600,stale-if-error=43200,public"; // cache for 5min, revalidate for 1h, stale for 12h
+    public static final String HEADER_SURROGATE_CONTROL = "Surrogate-Control";
+    public static final String HEADER_SURROGATE_CONTROL_VALUE = "max-age=3600,stale-while-revalidate=3600,stale-if-error=43200"; // proxy cache for 1h, revalidate for 1h, stale for 12h
+    public static final String HEADER_CONTENT_LENGTH = "Content-Length";
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String HEADER_CONTENT_TYPE_VALUE = "text/css; charset=utf-8";
+    public static final String HEADER_CONTENT_TYPE_VALUE_UNKNOWN = "application/octet-stream";
+    public static final String HEADER_ETAG = "ETag";
+    public static final String HEADER_LAST_MODIFIED = "Last-Modified";
+
+
     public static final String[] SUPPORTED_EXTENSIONS = { "js", "css" };
 
     private ClientLibsServiceConfiguration configuration;
@@ -233,7 +245,8 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
                 ResourceMetadata meta = staticResource.getResourceMetadata();
                 long modifTime = meta.getModificationTime();
                 if (unmodified(request, modifTime)) {
-                    response.setHeader("Cache-Control", "max-age=86400, public");
+                    response.setHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_VALUE);
+                    response.setHeader(HEADER_SURROGATE_CONTROL, HEADER_SURROGATE_CONTROL_VALUE);
                     response.setStatus(304);
                     return;
                 }
@@ -319,18 +332,19 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
 
             long length = file.length();
             if (length >= 0L) {
-                response.setHeader("Content-Length", String.valueOf(length)); 
+                response.setHeader(HEADER_CONTENT_LENGTH, String.valueOf(length)); 
             }
-            response.setHeader("Cache-Control", "max-age=86400, public");
+            response.setHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_VALUE);
+            response.setHeader(HEADER_SURROGATE_CONTROL, HEADER_SURROGATE_CONTROL_VALUE);
             if (modifTime > 0L) {
-                response.setDateHeader("Last-Modified", modifTime); 
+                response.setDateHeader(HEADER_LAST_MODIFIED, modifTime); 
             }
 
             String extension = Files.getFileExtension(file.getName());
             // get content type from resource metadata
             String metaType = FileMimeTypeUtil.getMimeTypeFromExtension(extension);
             if (metaType == null) {
-                metaType = "application/octet-stream";
+                metaType = HEADER_CONTENT_TYPE_VALUE_UNKNOWN;
             }
             response.setContentType(metaType); 
             
@@ -510,16 +524,17 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
     
             long length = meta.getContentLength();
             if (length >= 0L) {
-                response.setHeader("Content-Length", String.valueOf(length)); 
+                response.setHeader(HEADER_CONTENT_LENGTH, String.valueOf(length)); 
             }
-            response.setHeader("Cache-Control", "max-age=86400, public");
+            response.setHeader(HEADER_CACHE_CONTROL, HEADER_CACHE_CONTROL_VALUE);
+            response.setHeader(HEADER_SURROGATE_CONTROL, HEADER_SURROGATE_CONTROL_VALUE);
             if (modifTime > 0L) {
-                response.setDateHeader("Last-Modified", modifTime); 
+                response.setDateHeader(HEADER_LAST_MODIFIED, modifTime); 
             }
 
             // get content type from resource metadata
             String metaType = meta.getContentType();
-            if (metaType != null || !"application/octet-stream".equals(metaType)) {
+            if (metaType != null || !HEADER_CONTENT_TYPE_VALUE_UNKNOWN.equals(metaType)) {
                 mimeType = metaType;
             }
             // set the content type 
@@ -643,7 +658,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
      * @param removePrefixPath
      * @return path to the resource that will be rendered in a html tag
      */
-    public static String compileRenderPath(@NotNull String resourcePath, @NotNull String extension, @NotNull String[] removePrefixPath) {
+    public static String compileRenderPath(@NotNull String resourcePath, @NotNull String extension, @NotNull String[] removePrefixPath, @NotNull String queryString) {
 
         for (String prefix : removePrefixPath) {
             String prefixPath = prefix.endsWith("/") ? prefix : prefix + "/";
@@ -653,7 +668,7 @@ public class ClientLibsServlet extends SlingSafeMethodsServlet  {
             }
         }
 
-        return SERVICE_PATH + resourcePath + "." + extension;
+        return SERVICE_PATH + resourcePath + "." + extension + (StringUtils.isNotBlank(queryString) ? "?" : "") + queryString;
     }
 
     /**
