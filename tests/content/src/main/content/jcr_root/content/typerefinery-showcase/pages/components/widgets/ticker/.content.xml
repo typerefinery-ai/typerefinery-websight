@@ -11,7 +11,7 @@
                     <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" borderEnabled="false" classes="\0" headingLevel="h6" headingSize="h5" id="title_JYVLB6LCF" marginBottom="four" marginEnabled="true" marginTop="five" paddingEnabled="false" persistColorWhenThemeSwitches="false" textAlignment="center" title="Template 1"/>
                     <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" gap="4" horizontalAlignment="between" id="container1_1_1_BIGU7KFZO" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
                         <ticker1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker1_51GLSKN1U" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Total Users"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="240K"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="35.5K"/>
@@ -22,7 +22,7 @@
                             </keyValueList>
                         </ticker1>
                         <ticker2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker2_ZOZEKJCBU" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of paid users"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="2K"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="23.5K"/>
@@ -35,7 +35,7 @@
 
                         <!-- ticker3 -->
                         <ticker3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker3_1ZQZQZQZQ" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of free users"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="121.5K"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="51.5K"/>
@@ -48,7 +48,7 @@
 
                         <!-- ticker4 -->
                         <ticker4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker4_U3ZYZBYXV" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of bugs reported"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="12k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -61,7 +61,7 @@
 
                         <!-- ticker5 -->
                         <ticker5 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker5_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of feedbacks recived"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="4k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="2.5K"/>
@@ -75,7 +75,7 @@
                         <!-- ticker6 -->
 
                         <ticker6 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json" id="ticker6_P4BGUKIKC" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="1">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -94,7 +94,7 @@
                     <container1_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" gap="4" horizontalAlignment="between" id="container1_1_1_BIGU7KFZO" lgColSize="12" marginEnabled="false" mdColSize="12" paddingEnabled="false" persistColorWhenThemeSwitches="false" smColSize="12" title="\0">
                         <!--  create 6 tickers with variant 2 and random key value for the ticker -->
                         <ticker1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker1_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of feedbacks recived"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="4k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="2.5K"/>
@@ -105,7 +105,7 @@
                         </ticker1>
 
                         <ticker2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker2_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -116,7 +116,7 @@
                         </ticker2>
 
                         <ticker3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker3_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -127,7 +127,7 @@
                         </ticker3>
 
                         <ticker4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker4_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="23K"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -138,7 +138,7 @@
                         </ticker4>
 
                         <ticker5 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker5_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>
@@ -149,7 +149,7 @@
                         </ticker5>
 
                         <ticker6 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker2.json" id="ticker6_BAGRCHW4G" lgColSize="3" mdColSize="3" smColSize="12" templateSelected="2">
-                            <keyValueList jcr:primaryType="nt:unstructured">
+                            <configDatajcr:primaryType="nt:unstructured">
                                 <_x0031_ jcr:primaryType="nt:unstructured" key="title" value="Number of Activites"/>
                                 <_x0032_ jcr:primaryType="nt:unstructured" key="value" value="441k"/>
                                 <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="5.5K"/>

@@ -10,7 +10,7 @@
         "label": "Title",
         "name": "title"
       },
-      "keyValueList": {
+      "config": {
         "name": "keyValueList",
         "label": "Template Key and default value",
         "sling:resourceType": "wcm/dialogs/components/multifield",

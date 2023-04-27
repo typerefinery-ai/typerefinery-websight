@@ -169,7 +169,7 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
 
     @Getter
     @Inject
-    public List<KeyValuePair> keyValueList;
+    public List<KeyValuePair> configData;
 
     @Getter
     @Inject
@@ -257,8 +257,8 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
             this.templateString = this.templateList.getOrDefault(templateSelected, this.templateString);
         }
 
-        if (this.keyValueList == null || this.keyValueList.size() == 0) {
-            this.keyValueList = List.of(
+        if (this.configData == null || this.configData.size() == 0) {
+            this.configData = List.of(
                     new WidgetOptionItem("title", "Number of active users"),
                     new WidgetOptionItem("value", "25.5k"),
                     new WidgetOptionItem("indicatorValue", "4.54K"),
