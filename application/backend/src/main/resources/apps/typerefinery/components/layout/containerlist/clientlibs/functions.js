@@ -28,7 +28,7 @@ window.Typerefinery.Components.Layout.ContainerList =
     $component.innerHTML = newHTML;
   };
   //function for active class of containerlist
-  ns.containerListContent = () => {
+  ns.eventListnerActiveClass = () => {
     let containerDiv = document.getElementById("containerItems");
     let anchorTag = containerDiv.getElementsByTagName("a");
     for (let i = 0; i < anchorTag.length; i++) {
@@ -53,6 +53,6 @@ window.Typerefinery.Components.Layout.ContainerList =
   ns.init = ($component) => {
     // MODEL
     ns.updateComponentHTML($component);
-    ns.containerListContent();
+    ns.eventListnerActiveClass();
   };
 })(Typerefinery.Components.Layout.ContainerList,Typerefinery.Components,document,window);
