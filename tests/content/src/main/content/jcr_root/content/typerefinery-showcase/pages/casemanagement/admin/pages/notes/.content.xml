@@ -78,7 +78,7 @@
                     flowapi_group="/content/typerefinery-showcase/pages/casemanagement/admin/pages/notes"
                     flowapi_httproute="/content/typerefinery-showcase/pages/casemanagement/admin/pages/notes/*"
                     flowapi_iscontainer="{Boolean}false"
-                    flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/os-triage-note-list.json"
+                    flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/os-triage-note-list.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     flowapi_title="Form flow"
