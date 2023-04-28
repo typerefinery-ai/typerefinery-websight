@@ -9,7 +9,7 @@
     </jcr:content>
     <addtag/>
     <addtask/>
-    <closemodal/>
+    <updateincident/>
     <createincident/>
     <artifact/>
 </jcr:root>
