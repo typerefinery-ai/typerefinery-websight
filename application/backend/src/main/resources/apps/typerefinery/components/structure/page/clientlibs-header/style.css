@@ -27,34 +27,21 @@ body {
 
 #lightningIcon {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0px !important;
+    right: 0px !important;
     padding: 2px;
 
+    /* animation: MoveUpDown 1s linear infinite; */
+    position: absolute !important;
+    text-decoration: none;
+    z-index: 1000;
+}
+.lightening-icon-enabled {
     animation: MoveUpDown 1s linear infinite;
     position: absolute;
     text-decoration: none;
     z-index: 1000;
 }
-/* .lightening-icon-disabled {
-    position: relative;
-    display: inline-block;
-}
-#lightningIconTooltipText {
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    position: absolute;
-    z-index: 1;
-}
-
-.lightening-icon-disabled:hover #lightningIconTooltipText {
-    visibility: visible;
-} */
 @keyframes MoveUpDown {
 
     0%,

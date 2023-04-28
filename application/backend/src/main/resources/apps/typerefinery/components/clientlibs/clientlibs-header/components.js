@@ -52,7 +52,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
                     const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
                     $flowEnabledFireBallDiv.append(`
                         <a 
-                            class="flow-enabled-fire-ball-button" 
+                            class="flow-enabled-fire-ball-button lightening-icon-enabled" 
                             id="lightningIcon"
                             style="cursor:pointer"
                             href="${componentConfig.flowapi_editurl}" 
