@@ -1,0 +1,83 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "pathTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Path",
+      "url": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "path",
+        "label": "Path"
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "alignment": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Alignment",
+      "listAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "listAlignment",
+        "label": "List Alignment",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "default",
+          "value": ""
+        },
+        "left": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "left",
+          "value": "float-start"
+        },
+        "right": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "right",
+          "value": "float-end"
+        }
+      }
+    },
+    "backgroundColor": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Background Color",
+      "backgroundColor": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "backgroundColor",
+        "label": "Background Color",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": " "
+        },
+        "light": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light",
+          "value": "light"
+        },
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "danger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger",
+          "value": "danger"
+        },
+        "success": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Success",
+          "value": "success"
+        }
+      }
+    }
+  }
+}
