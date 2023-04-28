@@ -11,7 +11,7 @@
       },
       {
         "field": "caseList",
-        "title": "Number of Case"
+        "title": "Number of Incident "
       },
       {
         "field": "taskList",
@@ -20,38 +20,38 @@
     ],
     "data": [
       {
-        "name": "Case 1",
-        "description": "New case management data",
+        "name": "Incident  1",
+        "description": "New incident management data",
         "caseList": " 1",
         "taskList": "1"
       },
       {
-        "name": "Case 2",
+        "name": "Incident  2",
         "description": "OS-Triage data",
         "caseList": "2 ",
         "taskList": "2"
       },
       {
-        "name": "Case 3",
-        "description": "Old case management data",
+        "name": "Incident  3",
+        "description": "Old incident management data",
         "caseList": " 3",
         "taskList": "3"
       },
       {
-        "name": "Case 4",
-        "description": "Case management data",
+        "name": "Incident  4",
+        "description": "Incident  management data",
         "caseList": " 4",
         "taskList": "4"
       },
       {
-        "name": "Case 5",
+        "name": "Incident  5",
         "description": "New OS-Traige data",
         "caseList": " 5",
         "taskList": "5"
       }
     ],
-  "search": false,
-  "pagination": false,
-  "resizable": true
-}
+    "search": false,
+    "pagination": false,
+    "resizable": true
+  }
 }
