@@ -53,9 +53,16 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     ns.expandModalListener = (newModalDivContainer) => {
         
         $(newModalDivContainer).on("click", "#maximizeModal", function () {
-            const modalViewEvent = document.getElementById("modalView")
+            const id = newModalDivContainer.getAttribute("id");
+            let modalViewEvent = document.getElementById(id);
+            modalViewEvent = modalViewEvent.getElementsByClassName('modal-dialog');
+            if(modalViewEvent.length === 0) {
+                return;
+            }
+            modalViewEvent = modalViewEvent[0];
+            
             const modalWindowIcon = $('.icon');
-            $(modalViewEvent).toggleClass("modal-fullscreen");
+            modalViewEvent.classList.toggle('modal-fullscreen');
             modalWindowIcon.toggleClass('pi pi-window-maximize pi pi-window-minimize');
         });
     };
@@ -198,7 +205,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }
         const modalDivContainer = document.createElement("div");
         const randIdForModal = Math.random().toString(16).slice(2);
-        modalDivContainer.setAttribute("class", "modal fade");
+        modalDivContainer.setAttribute("class", "modal fade modal-default");
         modalDivContainer.setAttribute("id", randIdForModal);
         modalDivContainer.innerHTML = ns.getModalInnerHTML(modalTitle, iframeURL, hideFooter);
         document.body.appendChild(modalDivContainer);

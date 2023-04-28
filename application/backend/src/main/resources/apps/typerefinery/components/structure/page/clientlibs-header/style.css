@@ -34,13 +34,13 @@ body {
     /* animation: MoveUpDown 1s linear infinite; */
     position: absolute !important;
     text-decoration: none;
-    z-index: 1000;
+    z-index: 999;
 }
 .lightening-icon-enabled {
     animation: MoveUpDown 1s linear infinite;
     position: absolute;
     text-decoration: none;
-    z-index: 1000;
+    z-index: 999;
 }
 @keyframes MoveUpDown {
 

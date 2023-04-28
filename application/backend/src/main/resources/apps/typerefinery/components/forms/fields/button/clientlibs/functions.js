@@ -26,7 +26,11 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
             }else if(buttonType === "action") {
                 const { actionType } = componentConfig;
                 if(actionType === "openModal") {
-                    modalNs.createModalAndOpen(componentConfig.actionModalTitle, componentConfig.actionUrl, componentConfig.hideFooter); 
+                    // add query params from the url and pass it to the modal.
+                    const url = new URL(window.location.href);
+                    const params = new URLSearchParams(url.search);
+                    const modalUrl = componentConfig.actionUrl + "?" + params.toString();
+                    modalNs.createModalAndOpen(componentConfig.actionModalTitle, modalUrl, componentConfig.hideFooter);
                 }
             }
         });
