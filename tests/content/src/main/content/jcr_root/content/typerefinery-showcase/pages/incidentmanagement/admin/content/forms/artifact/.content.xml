@@ -21,14 +21,6 @@
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/rootcontainer">
-            <nav
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/nav"
-                id="nav_SV6DP5WIN"/>
-            <header
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/header"
-                id="header_ETA2W3KGI"/>
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
