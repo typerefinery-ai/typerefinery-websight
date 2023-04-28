@@ -1,0 +1,82 @@
+{
+  "columns": [
+    {
+      "field": "name",
+      "title": "Name"
+    },
+    {
+      "field": "date",
+      "title": "Date"
+    },
+    {
+      "field": "severity",
+      "title": "Severity"
+    },
+    {
+      "field": "tlp",
+      "title": "TLP"
+    },
+    {
+      "field": "pap",
+      "title": "PAP"
+    },
+    {
+      "field": "tags",
+      "title": "Tag"
+    },
+    {
+      "field": "description",
+      "title": "Description"
+    }
+  ],
+  "data": [
+    {
+      "name": "Incident  1",
+      "date": "25/03/2023",
+      "severity": "High",
+      "tlp": "White",
+      "pap": "Green",
+      "tags": "Tag 1",
+      "description": "New OS-Triage Data"
+    },
+    {
+      "name": "Incident  2",
+      "date": "26/03/2023",
+      "severity": "Low",
+      "tlp": "White",
+      "pap": "Green",
+      "tags": "Tag 2",
+      "description": "New OS-Triage Data"
+    },
+    {
+      "name": "Incident  3",
+      "date": "25/03/2023",
+      "severity": "Medium",
+      "tlp": "White",
+      "pap": "Green",
+      "tags": "Tag 3",
+      "description": "Incident  Management Data"
+    },
+    {
+      "name": "Incident  4",
+      "date": "27/03/2023",
+      "severity": "Low",
+      "tlp": "Amber",
+      "pap": "Yellow",
+      "tags": "Tag 4",
+      "description": "New OS-Triage Data"
+    },
+    {
+      "name": "Incident  5",
+      "date": "25/03/2023",
+      "severity": "Low",
+      "tlp": "White",
+      "pap": "Red",
+      "tags": "Tag 5",
+      "description": "OS-Triage Data"
+    }
+  ],
+  "search": false,
+  "pagination": false,
+  "resizable": true
+}

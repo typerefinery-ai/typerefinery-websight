@@ -6,7 +6,21 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 
     // Inner HTML for the Dropdown window.
     ns.getDropdownInnerHTML = (menuItems) => {
-        return menuItems.map(menuItem => `<div class="dropdown-item" data-model=${JSON.stringify(menuItem)} id="__dropdown__" link="${menuItem.link}">${menuItem.name || menuItem.label}</div>`).join("");
+        return menuItems.map(menuItem => `
+            <div 
+                name="${menuItem.name}" 
+                label="${menuItem.label}" 
+                link="${menuItem.link}"
+                action="${menuItem.action}"
+                hideFooter="${menuItem.hideFooter}"
+                data-model='${JSON.stringify(menuItem)}'
+
+                id="__dropdown__" 
+                class="dropdown-item" 
+            >
+                ${menuItem.name || menuItem.label}
+            </div>
+        `).join("");
     }
 
     ns.init = ($component, componentConfig) => {

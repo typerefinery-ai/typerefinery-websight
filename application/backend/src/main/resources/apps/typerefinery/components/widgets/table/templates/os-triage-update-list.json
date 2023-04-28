@@ -1,8 +1,8 @@
 {
-  "infoStatus": "New Status",
+  "infostatus": "New Status",
   "name": "Description",
   "sharing": "TAP",
-  "sources": "Email",
+  "source": "Email",
   "noteList": {
     "columns": [
       {
@@ -175,6 +175,61 @@
         "description": "Task 5 Data",
         "assignee": "Henry",
         "dueDate": "21/04/23"
+      }
+    ],
+    "search": false,
+    "pagination": false,
+    "resizable": true
+  },
+  "artifactsList": {
+    "columns": [
+      {
+        "field": "name",
+        "title": "Name"
+      },
+      {
+        "field": "description",
+        "title": "Description"
+      },
+      {
+        "field": "caseList",
+        "title": "Number of Incident "
+      },
+      {
+        "field": "taskList",
+        "title": "Number of Task"
+      }
+    ],
+    "data": [
+      {
+        "name": "Incident  1",
+        "description": "New incident management data",
+        "caseList": " 1",
+        "taskList": "1"
+      },
+      {
+        "name": "Incident  2",
+        "description": "OS-Triage data",
+        "caseList": "2 ",
+        "taskList": "2"
+      },
+      {
+        "name": "Incident  3",
+        "description": "Old incident management data",
+        "caseList": " 3",
+        "taskList": "3"
+      },
+      {
+        "name": "Incident  4",
+        "description": "Incident  management data",
+        "caseList": " 4",
+        "taskList": "4"
+      },
+      {
+        "name": "Incident  5",
+        "description": "New OS-Traige data",
+        "caseList": " 5",
+        "taskList": "5"
       }
     ],
     "search": false,
