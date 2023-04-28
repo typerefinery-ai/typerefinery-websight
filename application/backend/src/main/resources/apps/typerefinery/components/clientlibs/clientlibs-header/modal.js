@@ -79,11 +79,20 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.removeLoaderOnModalLoad = () => {
         const iframeList = document.querySelectorAll('#modalIframe');
-        iframeList.forEach(iframe => {
-            ns.iframeLoaded(iframe, () => {
-                $("#loader").hide();
-            });
-        })
+        const lastIndex = iframeList.length - 1;
+        if(lastIndex < 0) {
+            return;
+        }
+        
+        ns.iframeLoaded(iframeList[lastIndex], () => {
+            // hide the loader.
+            setTimeout(() => {
+                const loaders = document.querySelectorAll('#loader');
+                loaders.forEach(loader => {
+                    loader.style.display = 'none';
+                });
+            }, 2500);
+        });
 
     };
 
@@ -195,7 +204,6 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         document.body.appendChild(modalDivContainer);
         ns.expandModalListener(modalDivContainer);
         ns.submitListenerForModal(modalDivContainer);
-        $("#loader").show();
         
 
         const modal = new bootstrap.Modal(modalDivContainer);
