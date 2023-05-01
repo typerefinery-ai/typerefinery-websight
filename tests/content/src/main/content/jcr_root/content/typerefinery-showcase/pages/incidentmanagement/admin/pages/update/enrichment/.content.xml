@@ -5,7 +5,7 @@
         jcr:lastModified="{Date}2023-04-07T05:07:50.280Z"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="Observable 1"
+        jcr:title=" Enrichment"
         sling:resourceType="typerefinery/components/structure/page"
         ws:lastModified="{Date}2023-04-28T11:07:23.605+05:30"
         ws:lastModifiedBy="wsadmin"

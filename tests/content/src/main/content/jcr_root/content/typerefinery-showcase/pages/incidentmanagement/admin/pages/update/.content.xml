@@ -4,7 +4,7 @@
     xmlns:ws="http://ds.pl/websight"
     xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
     <domainname/>
-    <observable1/>
+    <enrichment/>
     <totalvirus/>
     <jcr:content jcr:lastModified="{Date}2023-04-07T12:28:53.868+05:30" jcr:lastModifiedBy="sling-package-install" jcr:primaryType="ws:PageContent" jcr:title="Update" sling:resourceType="typerefinery/components/structure/page" ws:lastModified="{Date}2023-04-26T18:40:30.323+05:30" ws:lastModifiedBy="wsadmin" ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
@@ -29,7 +29,7 @@
                                     <_x0032_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/tasks" title="Tasks" useQueryParamsFromParent="false"/>
                                     <_x0037_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/notes" title="Notes" useQueryParamsFromParent="false"/>
                                     <_x0038_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/observables" title="Obsevables" useQueryParamsFromParent="false"/>
-                                    <_x0039_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/observable1" title="Enrichments" useQueryParamsFromParent="false"/>
+                                    <_x0039_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/enrichment" title="Enrichments" useQueryParamsFromParent="false"/>
                                     <_x0040_ jcr:primaryType="nt:unstructured" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/artifacts" title="Artifacts" useQueryParamsFromParent="false"/>
                                 </tabsList>
                                 <tabs jcr:primaryType="nt:unstructured">
@@ -38,7 +38,7 @@
                                     <_x0032_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/tasks/jcr:content/rootcontainer" title="Tasks" url="\0"/>
                                     <_x0037_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/notes/jcr:content/rootcontainer" title="Notes" url="\0"/>
                                     <_x0038 jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/observables/jcr:content/rootcontainer" title="Observables" url="\0"/>
-                                    <_x0039_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/observable1/jcr:content/rootcontainer" title="Enrichment" url="\0"/>
+                                    <_x0039_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/enrichment/jcr:content/rootcontainer" title="Enrichment" url="\0"/>
                                     <_x0040_ jcr:primaryType="nt:unstructured" icon="\0" isCloseable="false" passParentQueryString="false" render="html" resourcepath="/content/typerefinery-showcase/pages/incidentmanagement/admin/pages/update/artifacts/jcr:content/rootcontainer" title="Artifacts" url="\0"/>
                                 </tabs>
                             </tabs>
