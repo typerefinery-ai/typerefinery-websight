@@ -15,6 +15,7 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
     <input 
+        component="${model.componentName}"
         name="${model.name}" 
         class="${model.variantClassNames}" 
         type="file" 

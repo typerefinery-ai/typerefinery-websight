@@ -1,0 +1,16 @@
+{
+    "title": "Client Libs - Forms - Fileupload",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.forms.input"],  
+    "prepend": [],
+    "append": [],
+    "css": [
+        "/apps/typerefinery/clientlibs/vendor/fileupload/imageuploadify.min.css"
+    ],  
+    "js": [
+      "/apps/typerefinery/clientlibs/vendor/fileupload/imageuploadify.min.js",
+      "functions.js",
+      "behaviour.js"
+    ] 
+  }

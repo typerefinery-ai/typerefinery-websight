@@ -36,7 +36,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     if($input.multiple) {
                         // if multiple files are selected then it will return array of files.
                         result[name] = $input.files.map(file => URL.createObjectURL(file));
+                        // TODO: Upload them to the file server.
+                        
                     }else if($input.files.length > 0){
+                        // TODO: Upload them to the file server.
+                        
                         // create blob url from file.
                         const blobUrl = URL.createObjectURL($input.files[0]);
                         // if single file is selected then it will return single file.

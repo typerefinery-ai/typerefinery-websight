@@ -20,6 +20,22 @@
         "name": "multiple",
         "label": "Multiple",
         "description": "Allow multiple file upload"
+      },
+      
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "variant",
+        "DEFAULT": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": ""
+        },
+        "DRAG_AND_DROP": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Drag and Drop",
+          "value": "DRAG_AND_DROP"
+        }
       }
     },
     "styleTab": {

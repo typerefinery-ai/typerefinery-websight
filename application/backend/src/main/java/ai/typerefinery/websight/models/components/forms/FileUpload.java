@@ -60,6 +60,12 @@ public class FileUpload extends BaseFormComponent {
     @Default(values = "text")
     public String inputType;
 
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    public String variant;
+
     @Inject
     @Getter
     @Default(booleanValues = false)
