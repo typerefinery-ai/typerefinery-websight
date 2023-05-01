@@ -104,7 +104,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 loaders.forEach(loader => {
                     loader.style.display = 'none';
                 });
-            }, 2500);
+            }, 4500);
         });
 
     };
