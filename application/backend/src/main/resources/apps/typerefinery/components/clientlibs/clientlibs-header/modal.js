@@ -61,9 +61,15 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             }
             modalViewEvent = modalViewEvent[0];
             
-            const modalWindowIcon = $('.icon');
+            let modalWindowIcon = modalViewEvent.getElementsByClassName("icon");
+            if(modalWindowIcon.length === 0) {
+                modalViewEvent.classList.toggle('modal-fullscreen');
+                return;
+            }
+            modalWindowIcon = modalWindowIcon[0];
             modalViewEvent.classList.toggle('modal-fullscreen');
-            modalWindowIcon.toggleClass('pi pi-window-maximize pi pi-window-minimize');
+            modalWindowIcon.classList.toggle('pi-window-maximize');
+            modalWindowIcon.classList.toggle('pi-window-minimize');
         });
     };
 
