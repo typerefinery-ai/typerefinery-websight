@@ -6,10 +6,13 @@
     "prepend": [],
     "append": [],
     "css": [
-        "/apps/typerefinery/clientlibs/vendor/fileupload/imageuploadify.min.css"
+        "/apps/typerefinery/clientlibs/vendor/fileupload/imageuploadify.min.css",
+        "/apps/typerefinery/clientlibs/vendor/fileupload/dist/css/bs-dropzone.min.css",
+        "style.css"
     ],  
     "js": [
       "/apps/typerefinery/clientlibs/vendor/fileupload/imageuploadify.min.js",
+      "/apps/typerefinery/clientlibs/vendor/fileupload/dist/js/bs-dropzone.min.js",
       "functions.js",
       "behaviour.js"
     ] 

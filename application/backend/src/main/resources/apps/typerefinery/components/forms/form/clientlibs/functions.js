@@ -14,9 +14,42 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
     "use strict";
 
+    ns.uploadFile = async (file) => {
+        try{
+            // Random file name
+            const file_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            // TODO : Need to add path from the component or current file.
+            const path = "";
+            const URL = `http://localhost:8199/api/${file_name}?type=UPLOAD_FILE&overwrite=true`;
+            const formData = new FormData();
+            formData.append("upload", file);
+            const headers = new Headers();
+            headers.append("Content-Type", "multipart/form-data");
+            headers.append('Origin','*');
+
+            const response = await fetch(
+                URL,
+                {
+                    method: "POST",
+                    body: formData,
+                    headers: headers
+                },
+
+            );
+            console.log('response', response)
+            const data = await response.json();
+            console.log('data', data)
+            return data;
+        }catch(error) {
+            console.log('error while uploading file', error);
+            // TODO: Throw error and catch in error callback function.
+        }
+        
+    };
+
     ns.getFormData = ($component) => {
         const result = {};
-        $component.querySelectorAll("[isInput]").forEach($input => {
+        $component.querySelectorAll("[isInput]").forEach(async $input => {
             const name = $input.getAttribute("name");
             if (name) {
                 const isInput = $input.getAttribute('isInput');
@@ -34,15 +67,19 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 }else if($input.type === "file") {
                     // get value from file tag.
                     if($input.multiple) {
+                        console.log('multiple files', $input.files)
                         // if multiple files are selected then it will return array of files.
-                        result[name] = $input.files.map(file => URL.createObjectURL(file));
+                        result[name] = await ([...$input.files]).map(async file => await ns.uploadFile(file));
                         // TODO: Upload them to the file server.
                         
                     }else if($input.files.length > 0){
                         // TODO: Upload them to the file server.
                         
                         // create blob url from file.
-                        const blobUrl = URL.createObjectURL($input.files[0]);
+                        const blobUrl = await ns.uploadFile($input.files[0]);
+
+                        console.log('-----CONVERTED BLOB URL-------', blobUrl);
+                        //
                         // if single file is selected then it will return single file.
                         result[name] = blobUrl;
                     } else {

@@ -14,15 +14,21 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <input 
-        component="${model.componentName}"
-        name="${model.name}" 
-        class="${model.variantClassNames}" 
-        type="file" 
-        data-model="${model.jsonString}"
-        id="${model.id}-${model.name}"
-        accept="${model.accept}"
-        multiple="${model.multiple}"
-        isInput="true"
-    />
+    <div component="${model.componentName}" data-model="${model.jsonString}" id="${model.id}">
+        <input 
+            name="${model.name}" 
+            class="${model.variantClassNames} uploadButton" 
+            type="file" 
+            id="${model.id}-${model.name}"
+            accept="${model.accept}" 
+            multiple="${model.multiple}" 
+            isInput="true" 
+        />
+        <label for="${model.id}-${model.name}">
+            <i class="pi pi-upload"></i>&nbsp; 
+            Choose Or Drop File(s)
+          </label>
+        <div id="error"></div>
+        <div id="image-display"></div>
+    </div>
 </template>

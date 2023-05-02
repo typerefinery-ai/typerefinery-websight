@@ -1,0 +1,60 @@
+[component="fileupload"] #image-display {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1.25em;
+    flex-wrap: wrap;
+}
+
+[component="fileupload"] #image-display figure {
+    width: 150px;
+}
+
+[component="fileupload"] #image-display img {
+    width: 100%;
+}
+
+[component="fileupload"] .close-icon {
+    position: absolute;
+    background: #72727236;
+    padding: 1px;
+    cursor: pointer;
+    color: black;
+    font-size: 13px;
+}
+
+[component="fileupload"] #image-display figcaption {
+    font-size: 0.8em;
+    text-align: center;
+    color: #5a5861;
+}
+
+[component="fileupload"] .active {
+    border: 0.2em dashed #025bee;
+}
+
+[component="fileupload"] #error {
+    text-align: center;
+    color: #ff3030;
+}
+
+
+[component="fileupload"] input[type="file"] {
+    display: none;
+}
+
+[component="fileupload"] label {
+    display: block;
+    position: relative;
+    background-color: #025bee;
+    color: #ffffff;
+    font-size: 1.1em;
+    text-align: center;
+    width: 16em;
+    padding: 1em 0;
+    border-radius: 0.3em;
+    margin: 0 auto 1em auto;
+    cursor: pointer;
+}
