@@ -4,6 +4,7 @@
   </div>
   <sly data-sly-call="${containerListTemplate @ model=model}"></sly>
 </template>
+
 <template data-sly-template.containerListTemplate="${ @ model }">
   <script id="${model.id}-template" type="text/x-handlebars-template">
       <ul id="containerItems" class="containerItems {{alignment}}">

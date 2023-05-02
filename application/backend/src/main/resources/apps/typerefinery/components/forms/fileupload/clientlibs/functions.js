@@ -8,7 +8,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
 
     "use strict";
 
-    ns.componentConfig =  ($component, componentConfig) => {
+    ns.customDragAndDrop = ($component, componentConfig) => {
         // }
         let uploadButton = document.getElementById(`${componentConfig.id}-${componentConfig.name}`);
         let container = $component;
@@ -92,9 +92,9 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        // if(componentConfig.variant === 'DRAG_AND_DROP') {
         $component = document.getElementById(componentConfig.id);
-
-        ns.customDragAndDrop($component, componentConfig);
+        if(componentConfig.variant === "DRAG_AND_DROP") {
+            ns.customDragAndDrop($component, componentConfig);
+        }
     }
 })(Typerefinery.Components.Forms.Fileupload, Typerefinery.Components, document, window);
