@@ -20,9 +20,10 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
         });
 
         const fileHandler = (file, name, type) => {
+            type = type.split("/").legnth >= 2 ? type.split("/")[1] : type; 
             if (componentConfig.accept !== "*" && componentConfig.accept && !componentConfig.accept.includes(type)) {
                 //File Type Error
-                error.innerText = "Please upload an proper file type";
+                error.innerText = "Please upload " + componentConfig.accept + " file type only";
                 return false;
             }
             error.innerText = "";
