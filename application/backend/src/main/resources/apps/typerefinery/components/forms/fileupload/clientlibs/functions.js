@@ -38,8 +38,8 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
                 // append a close icon which has position absolute styling.
                 let closeIcon = document.createElement("span");
                 closeIcon.classList.add("close-icon");
-                loaderIcon.classList.add("pi");
-                loaderIcon.classList.add("pi-times");
+                closeIcon.classList.add("pi");
+                closeIcon.classList.add("pi-times");
                 closeIcon.id = `close-${name}`;
                 // closeIcon.innerHTML = "&#10006;";
                 imageContainer.appendChild(closeIcon);

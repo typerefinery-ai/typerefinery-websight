@@ -17,11 +17,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.uploadFile = async (file) => {
         const fileName = file?.name?.trim()?.replace(/\s/g, "-");
         const file_name = `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}-${fileName}`; 
-        
-        const PREVIEW = `http://localhost:8199/api/${file_name}`
+        const path = ""
+        const PREVIEW = `http://localhost:8199/api${path}/${file_name}`
         
         try{
-            const URL = `http://localhost:8199/api/${file_name}?type=UPLOAD_FILE&overwrite=true`;
+            const URL = `http://localhost:8199/api${path}/${file_name}?type=UPLOAD_FILE&overwrite=true`;
             const formData = new FormData();
             formData.append("upload", file);
             await fetch(
@@ -71,7 +71,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     // add loader.
                     files.forEach(file => {
                         const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-                        document.getElementById(`loader-${fileName}`).style.display = "none";
+                        document.getElementById(`close-${fileName}`).style.display = "none";
                         document.getElementById(`loader-${fileName}`).style.display = "block";
                     });
                     if($input.multiple) {
