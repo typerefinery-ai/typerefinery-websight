@@ -22,7 +22,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
         const fileHandler = (file, name, type) => {
             if (componentConfig.accept !== "*" && componentConfig.accept && !componentConfig.accept.includes(type)) {
                 //File Type Error
-                error.innerText = "Please upload an image file";
+                error.innerText = "Please upload an proper file type";
                 return false;
             }
             error.innerText = "";
@@ -31,15 +31,28 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
             reader.onloadend = () => {
                 //image and file name
                 let imageContainer = document.createElement("figure");
+                name = name?.trim()?.replace(/\s/g, "-");
                 imageContainer.setAttribute("id", `figure-${name}`);
                 let img = document.createElement("img");
                 img.src = reader.result;
                 // append a close icon which has position absolute styling.
                 let closeIcon = document.createElement("span");
                 closeIcon.classList.add("close-icon");
-                closeIcon.id = name;
-                closeIcon.innerHTML = "&#10006;";
+                loaderIcon.classList.add("pi");
+                loaderIcon.classList.add("pi-times");
+                closeIcon.id = `close-${name}`;
+                // closeIcon.innerHTML = "&#10006;";
                 imageContainer.appendChild(closeIcon);
+
+                // add loader icon which is display none.
+                let loaderIcon = document.createElement("span");
+                loaderIcon.classList.add("loader-icon");
+                loaderIcon.classList.add("pi");
+                loaderIcon.classList.add("pi-spin");
+                loaderIcon.classList.add("pi-spinner");
+                loaderIcon.id = `loader-${name}`;
+                // loaderIcon.innerHTML = "&#128339;";
+                imageContainer.appendChild(loaderIcon);
 
                 imageContainer.appendChild(img);
                 imageContainer.innerHTML += `<figcaption >${name}</figcaption>`;
@@ -93,8 +106,6 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         $component = document.getElementById(componentConfig.id);
-        if(componentConfig.variant === "DRAG_AND_DROP") {
-            ns.customDragAndDrop($component, componentConfig);
-        }
+        ns.customDragAndDrop($component, componentConfig);
     }
 })(Typerefinery.Components.Forms.Fileupload, Typerefinery.Components, document, window);

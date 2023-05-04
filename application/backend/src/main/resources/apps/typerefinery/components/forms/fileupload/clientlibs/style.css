@@ -1,25 +1,34 @@
 [component="fileupload"] {
     padding: 25px;
-    border: 3px solid black;
-    border-style: dashed;
-    border-radius: 10px;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='3' stroke-dasharray='6%2c 14' stroke-dashoffset='25' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 [component="fileupload"] #image-display {
-    position: relative;
-    width: 90%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-evenly;
-    gap: 1.25em;
+    position: relative;
+    justify-content: center;
+    /* justify-content: space-evenly; */
+    gap: 2.25em;
     flex-wrap: wrap;
 }
 
 [component="fileupload"] #image-display figure {
     width: 150px;
+    height: 175px;
+    position: relative;
+}
+
+[component="fileupload"] .loader-icon {
+    position: absolute;
+    left: 0px;
+    display: none;
 }
 
 [component="fileupload"] #image-display img {
     width: 100%;
+    height: 80%;
+    object-fit: contain;
 }
 
 [component="fileupload"] .close-icon {

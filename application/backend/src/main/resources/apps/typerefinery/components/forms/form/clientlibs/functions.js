@@ -15,41 +15,42 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     "use strict";
 
     ns.uploadFile = async (file) => {
+        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+        const file_name = `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}-${fileName}`; 
+        
+        const PREVIEW = `http://localhost:8199/api/${file_name}`
+        
         try{
-            // Random file name
-            const file_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            // TODO : Need to add path from the component or current file.
-            const path = "";
             const URL = `http://localhost:8199/api/${file_name}?type=UPLOAD_FILE&overwrite=true`;
             const formData = new FormData();
             formData.append("upload", file);
-            const headers = new Headers();
-            headers.append("Content-Type", "multipart/form-data");
-            headers.append('Origin','*');
-
-            const response = await fetch(
+            await fetch(
                 URL,
                 {
                     method: "POST",
                     body: formData,
-                    headers: headers
+                    mode: 'no-cors',
+                    headers: {
+                        'accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                    }
                 },
-
             );
-            console.log('response', response)
-            const data = await response.json();
-            console.log('data', data)
-            return data;
+            // REMOVE LOADER 
+
+            return PREVIEW;
         }catch(error) {
-            console.log('error while uploading file', error);
-            // TODO: Throw error and catch in error callback function.
+            return PREVIEW;
         }
         
     };
 
-    ns.getFormData = ($component) => {
+    ns.getFormData = async ($component) => {
         const result = {};
-        $component.querySelectorAll("[isInput]").forEach(async $input => {
+        const _inputs = $component.querySelectorAll("[isInput]");
+        for(let i = 0; i < _inputs.length; i++) {
+            const $input = _inputs[i];
             const name = $input.getAttribute("name");
             if (name) {
                 const isInput = $input.getAttribute('isInput');
@@ -65,22 +66,28 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     // get value from select tag
                     result[name] = selectInstanceNs[$input.getAttribute("id")].getValue(true);
                 }else if($input.type === "file") {
-                    // get value from file tag.
+                    
+                    const files = [...$input.files];
+                    // add loader.
+                    files.forEach(file => {
+                        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+                        document.getElementById(`loader-${fileName}`).style.display = "none";
+                        document.getElementById(`loader-${fileName}`).style.display = "block";
+                    });
                     if($input.multiple) {
-                        console.log('multiple files', $input.files)
-                        // if multiple files are selected then it will return array of files.
-                        result[name] = await ([...$input.files]).map(async file => await ns.uploadFile(file));
-                        // TODO: Upload them to the file server.
-                        
+                        result[name] = [];
+                        for(let i = 0; i < files.length; i++) {
+                            const fileName = files[i]?.name?.trim()?.replace(/\s/g, "-");
+                            const output = await ns.uploadFile(files[i]);
+                            document.getElementById(`loader-${fileName}`).style.display = "none";
+                            document.getElementById(`close-${fileName}`).style.display = "block";
+                            result[name].push(output);
+                        }
                     }else if($input.files.length > 0){
-                        // TODO: Upload them to the file server.
-                        
-                        // create blob url from file.
-                        const blobUrl = await ns.uploadFile($input.files[0]);
-
-                        console.log('-----CONVERTED BLOB URL-------', blobUrl);
-                        //
-                        // if single file is selected then it will return single file.
+                        const blobUrl = await ns.uploadFile(files[0]);
+                        const fileName = files[0]?.name?.trim()?.replace(/\s/g, "-");
+                        document.getElementById(`loader-${fileName}`).style.display = "none";
+                        document.getElementById(`close-${fileName}`).style.display = "block";
                         result[name] = blobUrl;
                     } else {
                         // if no file is selected then it will return empty string.
@@ -94,7 +101,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     result[name] = $input?.value || "";
                 }
             }
-        });
+        }
         return result;
     };
 
@@ -170,7 +177,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log("Author should fill all the parameters.");
             return;
         }
-        const payload = ns.getFormData($component);
+        const payload = await ns.getFormData($component);
         ns.updateButtonState($component, "loading");
 
         writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());
