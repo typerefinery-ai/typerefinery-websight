@@ -16,9 +16,12 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.uploadFile = async (file) => {
         const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-        const file_name = `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}-${fileName}`; 
-        const path = window.location.pathname === "/" ? "" : window.location.pathname;
-        const PREVIEW = `http://localhost:8199/api${path}/${file_name}`
+        const datePathWithTime =  new Date().toISOString().split("T")[0].replace(/-/g, "-") + "/" + new Date().toISOString().split("T")[1].split(".")[0].replace(/:/g, "-"); 
+        let path = window.location.pathname === "/" ? "" : window.location.pathname;
+        // remove .html from the path
+        path = path.replace(".html", "");
+        path += `/${datePathWithTime}`;
+        const PREVIEW = `http://localhost:8199/api${path}/${fileName}`
         try{
             await fetch(
                 `http://localhost:8199/api${path}?type=CREATE_FOLDER`,
@@ -37,7 +40,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             // ERROR IN CASE PATH EXIST.
         }     
         try{
-            const URL = `http://localhost:8199/api${path}/${file_name}?type=UPLOAD_FILE&overwrite=true`;
+            const URL = `http://localhost:8199/api${path}/${fileName}?type=UPLOAD_FILE&overwrite=true`;
             const formData = new FormData();
             formData.append("upload", file);
             await fetch(
