@@ -17,9 +17,25 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.uploadFile = async (file) => {
         const fileName = file?.name?.trim()?.replace(/\s/g, "-");
         const file_name = `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}-${fileName}`; 
-        const path = ""
+        const path = window.location.pathname === "/" ? "" : window.location.pathname;
         const PREVIEW = `http://localhost:8199/api${path}/${file_name}`
-        
+        try{
+            await fetch(
+                `http://localhost:8199/api${path}?type=CREATE_FOLDER`,
+                {
+                    method: "POST",
+                    mode: 'no-cors',
+                    headers: {
+                        'accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                    }
+                }
+            );
+        }   
+        catch(error) {
+            // ERROR IN CASE PATH EXIST.
+        }     
         try{
             const URL = `http://localhost:8199/api${path}/${file_name}?type=UPLOAD_FILE&overwrite=true`;
             const formData = new FormData();
