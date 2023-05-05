@@ -16,7 +16,9 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
         let imageDisplay = document.getElementById("image-display");
         // close-icon handle click.
         $(document).on("click", ".close-icon", function () {
-            document.getElementById(`figure-${this.id}`).remove();
+            if(this.id && this.id.split("-").length >= 2){
+                document.getElementById(`figure-${this.id.split("-")[1]}`).remove();
+            }
         });
 
         const fileHandler = (file, name, type) => {
