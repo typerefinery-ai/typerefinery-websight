@@ -1,0 +1,38 @@
+.table-td-class {
+    background-color: var(--card-bg-color) !important;
+    color: var(--primary-text-color) !important;
+}
+
+.custom-table-class {
+    background-color: var(--card-bg-color) !important;
+    color: var(--primary-text-color) !important;
+}
+td.gridjs-td {
+    border: 1px solid #ffffff !important;
+}
+.gridjs-wrapper{
+border-radius:0px;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1%;
+    min-height: 350px;
+  }
+
+.gridjs-search {
+    width: 30vw;
+}
+.gridjs-head {
+    background-color: #fff;
+    border-bottom-width: 1px;
+    border-color: #e5e7eb;
+    border-radius: 8px 8px 0px 0px;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 1px 1px 3px 0 rgb(0 0 0 / 20%), 1px 1px 2px 0 rgb(0 0 0 / 26%);
+    /* display: block; */
+    padding: 6px 10px;
+    position: relative;
+    width: 100%;
+    z-index: 5;
+    border: opx solid;
+}

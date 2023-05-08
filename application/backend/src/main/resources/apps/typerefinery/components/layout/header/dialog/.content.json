@@ -1,63 +1,34 @@
 {
-    "sling:resourceType": "wcm/dialogs/dialog",
-    "tabs": {
-        "sling:resourceType": "wcm/dialogs/components/tabs",
-        "imageTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "Logo",
-            "lgImageSrc": {
-                "sling:resourceType": "wcm/dialogs/components/assetreference",
-                "mimeTypes": [
-                    "image/*"
-                ],
-                "name": "image/lgImageSrc",
-                "label": "Choose image"
-            },
-            "alt": {
-                "sling:resourceType": "wcm/dialogs/components/textfield",
-                "name": "image/alt",
-                "label": "Alt text"
-            },
-            "showLink": {
-                "sling:resourceType": "wcm/dialogs/components/toggle",
-                "name": "image/showLink",
-                "label": "Link"
-            },
-            "container": {
-                "sling:resourceType": "wcm/dialogs/components/container",
-                "url": {
-                    "sling:resourceType": "wcm/dialogs/components/pathpicker",
-                    "rootPath": "/content",
-                    "name": "image/url",
-                    "label": "URL"
-                },
-                "ws:display": {
-                    "condition": {
-                        "sourceName": "image/showLink",
-                        "values": true
-                    }
-                }
-            }
-        },
-        "menuTab": {
-            "sling:resourceType": "wcm/dialogs/components/tab",
-            "label": "Menu",
-            "items": {
-                "name": "navigation/menuItems",
-                "label": "Tabs",
-                "labelText": {
-                    "sling:resourceType": "wcm/dialogs/components/textfield",
-                    "name": "label",
-                    "label": "Label"
-                },
-                "sling:resourceType": "wcm/dialogs/components/multifield",
-                "link": {
-                    "sling:resourceType": "wcm/dialogs/components/pathpicker",
-                    "rootPath": "/content",
-                    "name": "link",
-                    "label": "URL"
-                }
-            }
-        }
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "variantTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/inherit"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/id"
+      },
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
+      }
+    },
+    "alignmentTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/alignment"
+    },
+    "backgroundTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/background"
     }
+  }
 }

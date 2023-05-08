@@ -1,0 +1,7 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Content",
+  "sling:resourceType": "ws:Component",
+  "description": "Tag Component",
+  "title": "Tag"
+}

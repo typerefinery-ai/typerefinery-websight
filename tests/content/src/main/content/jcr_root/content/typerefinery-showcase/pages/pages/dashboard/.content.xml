@@ -3,77 +3,78 @@
   xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
   xmlns:ws="http://ds.pl/websight"
   xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
-  <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Dashboard" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/page">
-    <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="howlite/components/rootcontainer/fixedrootcontainer">
-      <header jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/header"/>
-      <twocols jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/pagesection" classes="\0">
-        <container1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="2" mdColSize="2" smColSize="12" smRowSize="1" mdRowSize="1" lgRowSize="12">
-          <sidebar jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/sidebar"/>
+  <jcr:content jcr:primaryType="ws:PageContent" jcr:title="Dashboard" sling:resourceType="typerefinery/components/structure/page" ws:template="/apps/typerefinery/templates/pagewithsidebar">
+    <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
+      <nav jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/nav" cancelInheritParent="true" backgroundColor="secondary">
+        <title jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/title" headingLevel="h3" title="Typerefinery.ai" marginEnabled="true" marginBottom="five" marginTop="three" persistColorWhenThemeSwitches="true" textAlignment="center"></title>
+        <treeview jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/treeview" parentPagePath="/content/typerefinery-showcase/pages/pages"></treeview>
+      </nav>
+      <header jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/header" cancelInheritParent="true" backgroundColor="secondary" marginEnabled="true" marginbottom="three">
+        <reference jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/reference" path="/content/typerefinery-showcase/pages/content/header/jcr:content/container"></reference>
+      </header>
+      <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" paddingEnabled="true" paddingGeneral="four">
+        <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" gap="0" marginEnabled="true" marginTop="four" marginBottom="five" lgColSize="12" mdColSize="12" smColSize="12">
+          <container1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
+
+            <ticker_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1">
+              <configData  jcr:primaryType="nt:unstructured">
+                  <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
+                  <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
+                  <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
+                  <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                  <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle"/>
+                  <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                  <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
+              </configData>
+          </ticker_1>
+          </container1_1>
+          <container1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
+
+            <ticker_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1">
+              <configData jcr:primaryType="nt:unstructured">
+                  <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
+                  <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
+                  <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
+                  <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                  <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle"/>
+                  <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                  <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
+              </configData>
+          </ticker_2>
+          </container1_2>
+          <container1_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="3" mdColSize="6" smColSize="12">
+
+            <ticker_3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/widgets/ticker" flowapi_sampledata="/apps/typerefinery/components/widgets/ticker/templates/flowsample.json" flowapi_template="/apps/typerefinery/components/widgets/ticker/templates/ticker.json"   templateSelected="1">
+              <configData jcr:primaryType="nt:unstructured">
+                  <_x0030_ jcr:primaryType="nt:unstructured" key="title" value="Template 1"/>
+                  <_x0031_ jcr:primaryType="nt:unstructured" key="value" value="140K"/>
+                  <_x0032_ jcr:primaryType="nt:unstructured" key="indicatorValue" value="45k"/>
+                  <_x0033_ jcr:primaryType="nt:unstructured" key="indicatorType" value="success"/>
+                  <_x0034_ jcr:primaryType="nt:unstructured" key="tickerIcon" value="pi pi-question-circle"/>
+                  <_x0035_ jcr:primaryType="nt:unstructured" key="indicatorIcon" value="pi pi-arrow-down"/>
+                  <_x0036_ jcr:primaryType="nt:unstructured" key="indicatorPrecisionValue" value="Since March 2023"/>
+              </configData>
+          </ticker_3>
+          </container1_3>
         </container1>
-        <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/container" lgColSize="10" mdColSize="10" smColSize="10">
-          <container_1_11 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
-            <breadcrumbs jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/layout/breadcrumbs"/>
-          </container_1_11>
-          <container_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "24" mdColSize= "16" lgColSize= "12">
-            <container_1_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/ticker" />
-            </container_1_1_1>
-            <container_1_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/ticker" />
-            </container_1_1_2>
-            <container_1_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/ticker" />
-            </container_1_1_3>
-            <container_1_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "8" mdColSize= "4" lgColSize= "3">
-              <ticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/ticker" />
-            </container_1_1_4>
-          </container_1_1>
-          <container_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_2_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-              <container_1_2_1_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_1>
-              <container_1_2_1_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_2>
-              <container_1_2_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "10" mdColSize= "6" lgColSize= "4">
-                <columnticker jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/columnticker">
-                  <smallTicker1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                  <smallTicker3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/smallticker" />
-                </columnticker>
-              </container_1_2_1_3>
-            </container_1_2_1>
-            <container_1_2_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "22" mdColSize= "10" lgColSize= "8">
-              <linechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/linechart" />
-            </container_1_2_2>
-          </container_1_2>
-          <container_1_3 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_3_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "6">
-              <barChart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/barchart" />
-            </container_1_3_1>
-            <container_1_3_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "6" lgColSize= "6">
-              <map jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/map" />
-            </container_1_3_2>
-          </container_1_3>
-          <container_1_4 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "12" lgColSize= "12">
-            <container_1_4_1 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "10" lgColSize= "9">
-              <table jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/widgets/table" />
-            </container_1_4_1>
-            <container_1_4_2 jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/layout/container" smColSize= "12" mdColSize= "4" lgColSize= "3">
-              <piechart jcr:primaryType= "nt:unstructured" sling:resourceType= "/apps/typerefinery/components/graphs/piechart" />
-            </container_1_4_2>
-          </container_1_4>
-        </container_1>
-      </twocols>
+        <container2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" gap="0" lgColSize="12" mdColSize="12" smColSize="12" containerType="fullWidth">
+          <chart jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/chart" variant="lineChart" />
+        </container2>
+        <container3 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" gap="0" marginEnabled="true" marginTop="five" lgColSize="12" mdColSize="12" smColSize="12">
+          <container3_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="6" mdColSize="12" smColSize="12">
+            <chart jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/chart" paddingEnabled="true" paddingRight="two" variant="barChart" />
+          </container3_1>
+          <container3_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" lgColSize="6" mdColSize="12" smColSize="12">
+            <chart jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/chart" paddingEnabled="true" paddngLeft="two"  variant="pieChart" />
+          </container3_2>
+        </container3>
+        <container4 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" gap="0" lgColSize="12" mdColSize="12" smColSize="12">
+          <map jcr:primaryType="nt:unstructured" sling:resourceType="/apps/typerefinery/components/widgets/map" marginEnabled="true" marginTop="five" marginBottom="five"/>
+        </container4>
+      </container>
+      <footer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/footer" cancelInheritParent="true" marginEnabled="true" marginTop="five" containerType="fullWidth">
+        <reference jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/reference" path="/content/typerefinery-showcase/pages/content/footer/jcr:content/container"></reference>
+      </footer>
     </rootcontainer>
   </jcr:content>
 </jcr:root>

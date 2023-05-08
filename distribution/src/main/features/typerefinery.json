@@ -1,11 +1,11 @@
 {
   "bundles": [
     {
-      "id": "io.typerefinery.websight:typerefinery-backend:1.0.0-SNAPSHOT",
+      "id": "ai.typerefinery.websight:typerefinery-backend:1.0.0-SNAPSHOT",
       "start-order": "25"
     },
     {
-      "id": "io.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
+      "id": "ai.typerefinery.websight:typerefinery-frontend:1.0.0-SNAPSHOT",
       "start-order": "25"
     },
     {
@@ -31,10 +31,14 @@
     {
       "id": "org.osgi:org.osgi.framework:1.10.0",
       "start-order": "25"
+    },
+    {
+      "id": "org.jsoup:jsoup:1.15.4",
+      "start-order": "25"
     }
   ],
   "content-packages:ARTIFACTS|true": [
-    "io.typerefinery.websight:typerefinery-content:zip:1.0.0-SNAPSHOT"
+    "ai.typerefinery.websight:typerefinery-content:zip:1.0.0-SNAPSHOT"
   ],
   "configurations": {
     "org.apache.sling.commons.log.LogManager.factory.config~typerefinery.log": {
@@ -46,13 +50,14 @@
       "org.apache.sling.commons.log.file.size": "'.'yyyy-MM-dd",
       "org.apache.sling.commons.log.names": [
         "pl.ds.howlite",
-        "io.typerefinery.websight"
+        "ai.typerefinery.websight"
       ],
       "org.apache.sling.commons.log.additiv": true
     },
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
     },
+<<<<<<< HEAD
     "io.typerefinery.websight.services.workflow.FlowService": {
       "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
       "endpoint.export": "/flow/export/%s",
@@ -64,6 +69,24 @@
       "user.default": "sling-readall",
       "user.mapping": [
         "typerefinery-backend:content-services=sling-readall"
+=======
+    "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
+      "user.default": "sling-adminall",
+      "user.mapping": [
+        "typerefinery-backend:content-services=sling-adminall"
+      ]
+    },
+    "org.apache.sling.jcr.repoinit.RepositoryInitializer~repoinit2": {
+      "scripts": [
+        " create service user sling-adminall with path system/sling \n        set ACL for sling-adminall\n            allow   jcr:all    on /\n            allow   jcr:read,rep:write    on /content\n        end\n"
+      ]
+    },
+    "org.apache.sling.engine.impl.SlingMainServlet~typerefinery":{
+      "sling.additional.response.headers":[
+        "X-Content-Type-Options=nosniff",
+        "Cache-control=no-cache",
+        "Strict-Transport-Security=max-age=31536000"
+>>>>>>> develop
       ]
     }
   }

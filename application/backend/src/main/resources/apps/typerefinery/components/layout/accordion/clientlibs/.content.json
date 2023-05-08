@@ -1,0 +1,7 @@
+{
+  "title": "Client Libs - Layout - Accordion",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.layout.accordion"],  
+  "js": [] 
+}

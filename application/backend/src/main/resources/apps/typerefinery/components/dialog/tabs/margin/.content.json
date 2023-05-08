@@ -1,0 +1,180 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Margin",
+  "marginGeneral": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "marginGeneral",
+    "label": "Margin All Sides",
+    "description": "Margin on all sides",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "marginTop": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "marginTop",
+    "label": "Margin top",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "marginBottom": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "marginBottom",
+    "label": "Margin bottom",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "marginLeft": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "marginLeft",
+    "label": "Margin Left",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "marginRight": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "marginRight",
+    "label": "Margin Right",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  }
+}

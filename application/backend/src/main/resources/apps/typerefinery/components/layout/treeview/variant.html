@@ -1,0 +1,16 @@
+<template data-sly-template.variant="${ @ model }">
+  <div 
+    component="treeview" 
+    data-tree="${model.treeJSON}" 
+    class="${model.variantClassNames}"
+    id="${model.id}"
+    data-model="${model.jsonString}"
+    data-sly-test="${model.parentPagePath}"
+  >
+  </div>
+  <sly data-sly-test="${!model.parentPagePath && wcmmode.isEdit}">
+    <div style="--bs-bg-opacity: .5;" class="bg-warning text-center">
+      Tree view content
+    </div>
+  </sly>
+</template>

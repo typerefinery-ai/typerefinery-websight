@@ -1,0 +1,358 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldLabel": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
+      },
+      "buttonType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonType",
+        "label": "Button Type",
+        "submitButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Submit",
+          "value": "submit"
+        },
+        "normalButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Navigate",
+          "value": "navigate"
+        },
+        "actionButton": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Action",
+          "value": "action"
+        }
+      },
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": ""
+        },
+        "hamburger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Hamburger",
+          "value": "hamburger"
+        }
+      },
+      "target": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "target",
+        "label": "Component Id to toggle",
+        "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values": "hamburger"
+          }
+        }
+      },
+      "navigateTo": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "navigateTo",
+        "label": "Navigate to",
+        "description": "When click on the button the page will be redirected to the the URL provided.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "buttonType",
+            "values": "navigate"
+          }
+        }
+      },
+      "navigateToInNewWindow": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "navigateToInNewWindow",
+        "label": "Open in new tab",
+        "description": "Open the page in new tab.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "buttonType",
+            "values": "navigate"
+          }
+        }
+      },
+      "showIcon": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showIcon",
+        "label": "Show Icon"
+      },
+      "hideButtonLabel": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "hideButtonLabel",
+        "label": "Hide Label"
+      },
+      "icon": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "icon",
+        "label": "Icon",
+        "ws:display": {
+          "condition": {
+            "sourceName": "showIcon",
+            "values": true
+          }
+        }
+      },
+      "iconPosition": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "iconPosition",
+        "label": "Icon Position",
+        "ws:display": {
+          "condition": {
+            "sourceName": "showIcon",
+            "values": true
+          }
+        },
+        "left": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "left",
+          "value": "left"
+        },
+        "right": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "right",
+          "value": "right"
+        }
+      }
+    },
+    "actionMetaData": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Action",
+      "ws:display": {
+        "condition": {
+          "sourceName": "buttonType",
+          "values": "action"
+        }
+      },
+      "actionType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "actionType",
+        "label": "Action Type",
+        "openModal": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Open Modal",
+          "value": "openModal"
+        },
+        "openDropdown": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Open Dropdown",
+          "value": "openDropdown"
+        },
+        "initialTheme": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Initial Theme",
+          "value": "initialTheme"
+        },
+        "toggleComponent": {
+          "sling:resourceType": "wcm/dialogs/components/selectitem",
+          "label": "Toggle Component",
+          "value": "toggleComponent"
+        }
+      },
+      "actionModalTitle": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "actionModalTitle",
+        "label": "Title",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "actionUrl": {
+        "sling:resourceType": "wcm/dialogs/components/pathpicker",
+        "rootPath": "/content",
+        "name": "actionUrl",
+        "label": "URL",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "toggleTheme": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "toggleTheme",
+        "label": "Toggle Theme",
+        "description": "Select the app theme from here.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "initialTheme"
+          }
+        },
+        "light": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Light",
+          "selected": true,
+          "value": "light"
+        },
+        "dark": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark",
+          "value": "dark"
+        }
+      },
+      "toggleTarget": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "toggleTarget",
+        "label": "Component Id to toggle",
+        "description": "Please provide the component Id that you want to toggle with prefix # e.g- #title_HJNJJH",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "toggleComponent"
+          }
+        }
+      },
+      "hideFooter": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "hideFooter",
+        "label": "Hide Modal Footer",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
+      "dropdownItems": {
+        "name": "dropdownItems",
+        "label": "Dropdown menu options",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openDropdown"
+          }
+        },
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "rootPath": "/content",
+          "name": "link",
+          "label": "URL"
+        },
+        "action": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "action",
+          "label": "Action Of the Dropdown Item",
+          "navigate": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Open As Page",
+            "value": "navigate"
+          },
+          "modal": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Open As Modal",
+            "value": "modal"
+          }
+        }
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Style",
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/id"
+      },
+      "classes": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/style/classes"
+      },
+      "buttonStyle": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "buttonStyle",
+        "label": "Button Style",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": "default"
+        },
+        "primary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Primary",
+          "value": "primary"
+        },
+        "secondary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        "success": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Success",
+          "value": "success"
+        },
+        "warning": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Warning Button",
+          "value": "warning"
+        },
+        "danger": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Danger Button",
+          "value": "danger"
+        },
+        "info": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Info Button",
+          "value": "info"
+        },
+        "dark": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dark Button",
+          "value": "dark"
+        },
+        "gray": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Gray Button",
+          "value": "light"
+        },
+        "link": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Link Button",
+          "value": "text"
+        }
+      },
+      "isOutlinedButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isOutlinedButton",
+        "label": "Outlined Button"
+      },
+      "showTextualElementOfButton": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showTextualElementOfButton",
+        "label": "Show Text Elements",
+        "description": "Display texts or content only, hide button border."
+      },
+      "persistColorWhenThemeSwitches": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "persistColorWhenThemeSwitches",
+        "label": "Persist Color When Theme Switches",
+        "description": "Persist the color of the button when the theme switches.",
+        "value": true
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    }
+  }
+}

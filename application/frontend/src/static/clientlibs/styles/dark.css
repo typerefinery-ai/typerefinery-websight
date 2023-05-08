@@ -1,0 +1,15 @@
+/* dark theme */
+:root {
+  --primary-bg-color:#0c1821;
+  --primary-text-color:#fff;
+  --subtitle-color: rgb(188, 188, 188);
+  --card-bg-color:#0d1321;
+  --chart-ticks-color: #fff;
+  --chart-grid-color: #fff;
+  --chart-label-color: #fff;
+  --border-color:#ebedeb;
+  --sidebar-bg-color: #0d1321;
+  --primary-border-color:#212529;
+  --header-bg-color:#0d1321;
+  --header-text-color:#fff;
+}

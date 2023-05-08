@@ -1,9 +1,19 @@
 {
   "isContainer": true,
   "group": "Typerefinery - Forms",
-  "allowedComponents": "Typerefinery",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
+    "Typerefinery - Flow"
+  ],
   "sling:resourceType": "ws:Component",
-  "description": "Editable components wrapper",
-  "title": "Form",
-  "isLayout": true
+  "description": "Container for form fields.",
+  "title": "Form"
 }

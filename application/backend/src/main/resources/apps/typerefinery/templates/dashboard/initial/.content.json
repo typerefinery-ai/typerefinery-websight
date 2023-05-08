@@ -1,0 +1,19 @@
+{
+  "jcr:primaryType": "ws:Page",
+  "jcr:content": {
+    "jcr:primaryType": "ws:PageContent",
+    "sling:resourceType": "typerefinery/components/structure/page",
+    "rootcontainer": {
+      "sling:resourceType": "typerefinery/components/layout/fixedrootcontainer",
+      "header": {
+        "sling:resourceType": "typerefinery/components/layout/header"
+      },
+      "container": {
+        "sling:resourceType": "typerefinery/components/layout/container"
+      },
+      "footer": {
+        "sling:resourceType": "typerefinery/components/layout/footer"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "description": "This is Checkbox component",
+  "title": "Checkbox"
+}

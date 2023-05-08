@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Typerefinery.io
+# Copyright (C) 2023 Typerefinery.io
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,15 @@ services:
       context: ../../distribution/src/main/docker/typerefinery-websight
       dockerfile: Dockerfile
     image: ${DOCKER_CMS_PROJECT_NAME}:${DOCKER_CMS_PROJECT_TAG}
+    healthcheck:
+      test: curl -u admin:admin --header Referer:localhost --silent --connect-timeout 5 --max-time 5 localhost:8080/system/console/bundles.json | grep -q \"state\":\"Installed\" && exit 1 || exit 0
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
+    hostname: cms
     ports:
-      - "8080:8080"
+      - "8113:8080"
       - "5005:5005"
     environment:
       WS_ADMIN_USERNAME: ${WS_ADMIN_USERNAME}
@@ -51,8 +58,9 @@ services:
         limits:
           cpus: '1'
           memory: 4096M
+    hostname: mongo
     ports:
-      - "27017:27017"
+      - "8180:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
       - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo.password
@@ -69,10 +77,39 @@ services:
       context: ../../distribution/src/main/docker/typerefinery-websight
       dockerfile: Dockerfile
     image: ${DOCKER_CMS_NGINX_NAME}:${DOCKER_CMS_NGINX_TAG}
+    hostname: nginx
     ports:
       - "80:80"
     volumes:
       - ${VOLUME_NAME_PREFIX}-project_site_repository:/usr/share/nginx/html:ro
+
+  cmswait:
+    image: aemdesign/java-buildpack:jdk11
+    hostname: cmswait
+    working_dir: "/build/source"
+    profiles:
+      - devops
+    command:
+      - bash
+      - -l
+      - -c
+      - "ls -latr /build/.m2/repository && pwd && ls -l && ansible-galaxy install -r requirements.yml && ansible-playbook testingprep.yml --extra-vars debug_hide=true"
+    volumes:
+      - ./playbooks:/build/source
+      - "~/.m2:/build/.m2"
+
+  cmstest:
+    image: cypress/included:12.7.0
+    command: bash -c  "npm install && cypress install && npm run test:cireports"
+    entrypoint: ""
+    profiles:
+      - test
+    volumes:
+      - ../../tests/end-to-end/:/e2e
+    working_dir: /e2e
+    environment:
+      - CYPRESS_BASE_URL=http://cms:8080
+
 
 volumes:
   typerefinery-project_cms_logs:

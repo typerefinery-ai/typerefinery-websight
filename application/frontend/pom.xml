@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.typerefinery.websight</groupId>
+    <groupId>ai.typerefinery.websight</groupId>
     <artifactId>typerefinery-application</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -61,9 +61,9 @@
         <version>3.2.0</version>
         <configuration>
           <filesets>
-            <fileset>
+            <!-- <fileset>
               <directory>src/main/resources</directory>
-            </fileset>
+            </fileset> -->
             <fileset>
               <directory>dist</directory>
             </fileset>

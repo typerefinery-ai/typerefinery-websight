@@ -1,0 +1,14 @@
+{
+    "sling:resourceType": "wcm/dialogs/components/tab",
+    "label": "Validation",
+    "validationRequired": {
+        "name": "validationRequired",
+        "label": "Validation Required",
+        "sling:resourceType": "wcm/dialogs/components/toggle"
+    },
+    "disabled": {
+        "name": "disabled",
+        "label": "Disabled",
+        "sling:resourceType": "wcm/dialogs/components/toggle"
+    }
+}

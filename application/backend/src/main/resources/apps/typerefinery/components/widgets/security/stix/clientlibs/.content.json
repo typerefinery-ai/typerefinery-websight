@@ -1,0 +1,17 @@
+{
+  "title": "Client Libs",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.widgets.security.stix"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "style.css"
+  ],  
+  "js": [
+    "resources/d3/d3.min.js",
+    "resources/stix2viz/stix2viz.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Typerefinery.io
+    Copyright (C) 2023 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.typerefinery.websight</groupId>
+  <groupId>ai.typerefinery.websight</groupId>
   <artifactId>typerefinery-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>Typerefinery :: Parent</name>
@@ -68,11 +68,10 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <!-- base docker distributions -->
-    <docker.cms-project.name>innovolve-ai/typerefinery-websight</docker.cms-project.name>
+    <docker.cms-project.name>typerefinery-ai/typerefinery-websight</docker.cms-project.name>
     <docker.cms-project.tag>latest</docker.cms-project.tag>
-    <docker.nginx.name>innovolve-ai/typerefinery-websight-nginx</docker.nginx.name>
+    <docker.nginx.name>typerefinery-ai/typerefinery-websight-nginx</docker.nginx.name>
     <docker.nginx.tag>latest</docker.nginx.tag>
-    <docker.host.url>tcp://localhost:2375</docker.host.url>
 
     <!-- admin user default credentials for tests -->
     <websight.admin.username>wsadmin</websight.admin.username>
@@ -80,15 +79,24 @@
     <websight.admin.omitAdminPw>true</websight.admin.omitAdminPw>
 
     <!-- WebSight CMS Version -->
-    <websight.cms.version>1.4.0</websight.cms.version>
+    <websight.cms.version>1.12.0</websight.cms.version>
+    <websight.components.core.version>4.0.1</websight.components.core.version>
 
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <howlite.version>1.0.1</howlite.version>
-    <bulma.version>1.0.3</bulma.version>
+    <howlite.version>1.0.6</howlite.version>
+    <bulma.version>1.0.</bulma.version>
     <sling.feature.launcher.version>1.2.4</sling.feature.launcher.version>
 
     <classifier>typerefinery-websight</classifier>
+
+    <!-- admin user default credentials for autoInstallBundle profile -->
+    <sling.port>8113</sling.port>
+    <sling.host>localhost</sling.host>
+    <sling.user>${websight.admin.username}</sling.user>
+    <sling.password>${websight.admin.password}</sling.password>
+    <sling.url>http://${sling.host}:${sling.port}/system/console</sling.url>
+
   </properties>
 
   <dependencyManagement>
@@ -112,6 +120,20 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <id>windows</id>
+      <properties>
+        <docker.host>tcp://localhost:2375</docker.host>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -148,10 +170,6 @@
           <artifactId>docker-maven-plugin</artifactId>
           <!-- Please do not upgrade to 0.40.2 as there is an issue with multi-platforms support -->
           <version>0.40.1</version>
-          <configuration>
-            <dockerHost>${docker.host.url}</dockerHost>
-            <verbose>true</verbose>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

@@ -1,0 +1,1 @@
+./mvnw -f application/frontend/pom.xml clean install -P autoInstallBundle

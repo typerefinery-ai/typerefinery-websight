@@ -1,0 +1,81 @@
+<!--/*
+    Copyright (C) 2023 Typerefinery.io
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    title, showSubtitle, subtitle, headingLevel, headingSize, classes
+*/-->
+<template data-sly-template.variant="${ @ model }">
+  <!-- include all common libraries -->
+  <!-- <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.widgets.stix',
+    debug=true,
+    crossorigin='anonymous'}">
+    ${clientlibs.jsAndCssIncludes @ context="unsafe"}
+  </sly> -->
+  <sly data-sly-test="${wcmmode.isEdit}"
+    data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components.widgets.security.stix-author',
+    debug=true,
+    crossorigin='anonymous'}">
+    ${clientlibs.jsAndCssIncludes @ context="unsafe"}
+  </sly>
+  <!-- maxCount: ${model.maxCount} -->
+  <!-- dataUrl: ${model.dataUrl} -->
+  <div 
+    class="${model.variantClassNames}"
+    data-sly-element="${model.decorationTagName}"
+    data-maxCount="${model.maxCount}"
+    data-dataUrl="${model.dataUrl}"
+    data-model="${model.jsonString}"
+    component="${model.componentName}">
+
+    <div class="container rounded m-3 vw-95">
+      <div class="row">
+        <div class="col border ms-auto vh-90">
+          <!-- canavs -->
+          <svg id="stix-canvas"></svg>
+        </div>
+        <div class="col col-md-4 ">
+          <nav>
+            <div class="nav nav-tabs" id="srix-nav-tab" role="tablist">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-legend" type="button" role="tab" aria-controls="tab-legend" aria-selected="true">Legend</button>
+                <!-- <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#tab-list" type="button" role="tab" aria-controls="tab-list" aria-selected="false">List</button> -->
+                <button class="nav-link" id="selected-tab" data-bs-toggle="tab" data-bs-target="#tab-selected" type="button" role="tab" aria-controls="tab-selected" aria-selected="false">Selected Node</button>
+                <button class="nav-link" id="linked-tab" data-bs-toggle="tab" data-bs-target="#tab-linked" type="button" role="tab" aria-controls="tab-linked" aria-selected="false">Linked Nodes</button>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active border-end border-bottom border-start" id="tab-legend" role="tabpanel" aria-labelledby="legend-tab" tabindex="0">
+              <!-- legend -->
+              <ul id="stix-legend-content" class="list-group p-3"></ul>
+            </div>
+            <div class="tab-pane fade border-end border-bottom border-start" id="tab-list" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
+              <!-- legend -->
+              <ol id="stix-simple-list"></ol>
+            </div>
+            <div class="tab-pane fade border-end border-bottom border-start" id="tab-selected" role="tabpanel" aria-labelledby="selected-tab" tabindex="0">
+              <!-- selected node -->
+              <div id="stix-selected-node-content"></div>
+            </div>
+            <div class="tab-pane fade border-end border-bottom border-start" id="tab-linked" role="tabpanel" aria-labelledby="linked-tab" tabindex="0">
+              <!-- linked nodes -->
+              <div id="stix-linked-nodes-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>

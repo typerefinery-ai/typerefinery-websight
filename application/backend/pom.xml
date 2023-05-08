@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2022 Typerefinery.io
+    Copyright (C) 2023 Typerefinery.io
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.typerefinery.websight</groupId>
+    <groupId>ai.typerefinery.websight</groupId>
     <artifactId>typerefinery-application</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -31,6 +31,7 @@
   <properties>
     <gson.version>2.8.9</gson.version>
     <jackson.version>2.14.1</jackson.version>
+    <commonmark.version>0.20.0</commonmark.version>
   </properties>
   <build>
     <plugins>
@@ -76,6 +77,52 @@
       <groupId>pl.ds.howlite</groupId>
       <artifactId>howlite-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>pl.ds.websight</groupId>
+      <artifactId>websight-components-core-api</artifactId>
+    </dependency>
+    <dependency>
+      <artifactId>websight-publishing-framework</artifactId>
+      <version>1.0.2</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>websight-pages-foundation-bundle</artifactId>
+      <version>1.2.0</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>websight-pages-editor-service</artifactId>
+      <version>1.2.0</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>websight-publishing-connectors-api</artifactId>
+      <version>1.0.2</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.sling.servlet-helpers</artifactId>
+      <version>1.4.2</version>
+      <groupId>org.apache.sling</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>guava</artifactId>
+      <version>15.0</version>
+      <groupId>com.google.guava</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.sling.settings</artifactId>
+      <version>1.4.2</version>
+      <groupId>org.apache.sling</groupId>
+      <scope>provided</scope>
+    </dependency>
 
     <!-- Other -->
     <dependency>
@@ -107,7 +154,6 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.annotation.versioning</artifactId>
     </dependency>
-
 
 
     <!-- TEST -->
@@ -174,12 +220,6 @@
         <artifactId>org.apache.sling.bundleresource.impl</artifactId>
         <version>2.3.4</version>
     </dependency>
-    <dependency>
-      <artifactId>jackrabbit-jcr-commons</artifactId>
-      <version>2.20.4</version>
-      <groupId>org.apache.jackrabbit</groupId>
-      <scope>provided</scope>
-    </dependency>
 
     <!-- OSGI -->
     <dependency>
@@ -219,7 +259,39 @@
       <groupId>org.apache.sling</groupId>
       <scope>provided</scope>
     </dependency>
+<<<<<<< HEAD
 
+
+    <!-- events -->
+    <dependency>
+      <artifactId>geronimo-annotation_1.3_spec</artifactId>
+      <version>1.3</version>
+      <groupId>org.apache.geronimo.specs</groupId>
+=======
+    <dependency>
+      <artifactId>org.apache.sling.query</artifactId>
+      <version>4.0.4</version>
+      <groupId>org.apache.sling</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.servlets.annotations</artifactId>
+      <version>1.2.4</version>
+    </dependency>
+    <dependency>
+      <artifactId>org.apache.felix.http.servlet-api</artifactId>
+      <version>1.1.4</version>
+      <groupId>org.apache.felix</groupId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.engine</artifactId>
+      <version>2.8.0</version>
+>>>>>>> develop
+      <scope>provided</scope>
+    </dependency>
 
     <!-- events -->
     <dependency>
@@ -229,6 +301,28 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+      <groupId>commons-io</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.15.4</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--markdown-->
+    <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
   </dependencies>
 
 </project>

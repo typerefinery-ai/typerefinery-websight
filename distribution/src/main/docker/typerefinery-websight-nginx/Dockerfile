@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Typerefinery.io
+# Copyright (C) 2023 Typerefinery.io
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,6 @@
 
 FROM nginx
 
-COPY src/main/docker/nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
-COPY src/main/docker/nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
-COPY src/main/docker/nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html
+COPY src/main/docker/typerefinery-websight-nginx/typerefinery.conf /etc/nginx/conf.d/typerefinery.conf
+COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery.html /usr/share/nginx/html/content/typerefinery/pages/index.html
+COPY src/main/docker/typerefinery-websight-nginx/html/typerefinery-showcase.html /usr/share/nginx/html/content/typerefinery-showcase/pages/index.html

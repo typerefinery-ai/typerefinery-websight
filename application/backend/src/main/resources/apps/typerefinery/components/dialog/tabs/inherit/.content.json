@@ -1,0 +1,26 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Inherit",
+  "type": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "cancelInheritParent",
+    "label": "Cancel Inherit from Parent",
+    "description": "Cancel inheriting from parent pages, by default this component finds and renders content from ancestor pages.",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Default",
+      "selected": true,
+      "value": ""
+    },
+    "true": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "True",
+      "value": "true"
+    },
+    "false": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "False",
+      "value": "false"
+    }
+  }
+}

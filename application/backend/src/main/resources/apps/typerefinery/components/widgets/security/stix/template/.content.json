@@ -1,0 +1,4 @@
+{
+  "flowapi_template": "/apps/typerefinery/components/widgets/security/stix/templates/stix.json",
+  "flowapi_sampledata": "/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
+}

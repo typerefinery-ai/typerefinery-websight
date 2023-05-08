@@ -1,0 +1,75 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
+      },
+      "inputType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputType",
+        "label": "Type",
+        "text": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Text",
+          "value": "text"
+        },
+        "password": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Password",
+          "value": "password"
+        },
+        "email": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Email",
+          "value": "email"
+        },
+        "range": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Range",
+          "value": "range"
+        },
+        "tel": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Mobile Number",
+          "value": "tel"
+        },
+        "number": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Number",
+          "value": "number"
+        },
+        "date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Date",
+          "value": "date"
+        },
+        "time": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Time",
+          "value": "time"
+        }
+      }
+    },
+    "validationTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/validation"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    }
+  }
+}

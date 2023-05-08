@@ -1,0 +1,11 @@
+<template data-sly-template.variant="${ @ model }">
+    <div 
+        component="${model.componentName}"
+        class="${model.variantClassNames} card-body ${wcmmode.isEdit ? 'chartEditMode' : 'chart'}"
+        data-model="${model.jsonString}"
+        data-module="${model.variant}"
+    >
+        <canvas class="chartCanvas" id="${resource.path}-${model.variant}">
+        </canvas>
+    </div>
+</template>

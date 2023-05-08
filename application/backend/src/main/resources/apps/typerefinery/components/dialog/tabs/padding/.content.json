@@ -1,0 +1,180 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Padding",
+  "paddingGeneral": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "paddingGeneral",
+    "label": "Padding All Sides",
+    "description": "Padding on all sides",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "paddingTop": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "paddingTop",
+    "label": "Padding top",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "paddingBottom": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "paddingBottom",
+    "label": "Padding bottom",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "paddingLeft": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "paddingLeft",
+    "label": "Padding Left",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  },
+  "paddingRight": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "paddingRight",
+    "label": "Padding Right",
+    "zero": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Zero",
+      "value": "zero"
+    },
+    "one": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "One",
+      "value": "one"
+    },
+    "two": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Two",
+      "value": "two"
+    },
+    "three": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Three",
+      "value": "three"
+    },
+    "four": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Four",
+      "value": "four"
+    },
+    "five": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Five",
+      "value": "five"
+    }
+  }
+}

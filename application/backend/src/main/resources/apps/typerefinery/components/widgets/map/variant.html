@@ -1,0 +1,10 @@
+<template data-sly-template.variant="${ @ model }">
+  <div
+    id="${model.id}"
+    component="${model.componentName}"
+    class="${model.variantClassNames} card shadow-sm"
+    data-model="${model.jsonString}"
+    toggleTheme="true"
+  >
+  </div>
+</template>

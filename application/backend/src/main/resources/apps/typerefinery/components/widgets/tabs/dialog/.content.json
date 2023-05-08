@@ -1,0 +1,118 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "tabsTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Tabs",
+      "tabs": {
+        "name": "tabs",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "title": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "title",
+          "label": "Title",
+          "description": "The title of the tab."
+        },
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "icon",
+          "label": "Icon",
+          "description": "The icon of the tab."
+        },
+        "isCloseable": {
+          "sling:resourceType": "wcm/dialogs/components/checkbox",
+          "name": "isCloseable",
+          "label": "Is Closeable",
+          "description": "If checked, the tab will be Closeable."
+        },
+        "url": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "url",
+          "label": "URL",
+          "description": "This url will be used as source for iFrame together with the query parameters if specified."
+        },
+        "resourcepath": {
+          "sling:resourceType": "wcm/dialogs/components/pathpicker",
+          "name": "resourcepath",
+          "label": "Path",
+          "description": "Resource path to render as html.",
+          "ws:display": {
+            "condition": {
+              "sourceName": "render",
+              "values": "renderhtml"
+            }
+          }
+        },
+        "passParentQueryString": {
+          "sling:resourceType": "wcm/dialogs/components/checkbox",
+          "name": "passParentQueryString",
+          "label": "Pass parent querystring",
+          "description": "Pass query string from parent page to this iframe."
+        },
+        "render": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "render",
+          "label": "Render As",
+          "description": "How to render this tab.",
+          "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "iFrame",
+            "value": "",
+            "selected": true
+          },  
+          "reference": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "HTML",
+            "value": "html"
+          }
+        }
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "eventsTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "events",
+        "description": "Event that this component is emits/send to",
+        "label": "Events",
+        "key": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "key",
+          "label": "Topic",
+          "description": "The topic of the event."
+        },
+        "value": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "value",
+          "label": "Event Action",
+          "openLinkInTabContainer": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": " Open as Tab",
+            "value": "openLinkInTabContainer",
+            "selected": true
+          }
+        }
+      }
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advanced",
+      "contentHeight": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "contentHeight",
+        "label": "Content Height",
+        "description": "The content height of the tab, the default is 80vh"
+      }
+    }
+  }
+}

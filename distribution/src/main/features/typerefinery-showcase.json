@@ -1,0 +1,6 @@
+{
+  "content-packages:ARTIFACTS|true": [
+    "ai.typerefinery.websight:typerefinery-tests-content:zip:1.0.0-SNAPSHOT"
+  ]
+}
+  

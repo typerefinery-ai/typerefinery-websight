@@ -1,7 +1,20 @@
 {
-  "isLayout": true,
+  "isContainer": true,
   "group": "Typerefinery - Layout",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
+    "Typerefinery - Flow"
+  ],
   "sling:resourceType": "ws:Component",
-  "sling:resourceSuperType": "howlite/components/footer",
-  "title": "Footer"
+  "description": "Footer container to group components under a footer tag.",
+  "title": "Footer",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
 }

@@ -2,80 +2,99 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "defaultDataTab": {
+    "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "Default Data",
+      "label": "Config",
       "title": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "title",
         "label": "Title",
-        "defaultValue": "Demo"
+        "name": "title"
       },
-      "icon": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "icon",
-        "label": "icon"
-      },
-      "value": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "value",
-        "label": "Value"
-      },
-      "indicatorType": {
+      "config": {
+        "name": "keyValueList",
+        "label": "Template Key and default value",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "key": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "key",
+          "label": "Key",
+          "description": "These will be added as configuration data and merged with template"
+        },
+        "value": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "value",
+          "label": "Default value",
+          "description": "These will be added as configuration data and merged with template"
+        }
+      }
+    },
+    "templateTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Template",
+      "templateSelected": {
         "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "indicatorType",
-        "label": "Indicator Type",
-        "up": {
+        "name": "templateSelected",
+        "label": "Choose Ticker Template",
+        "1": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Up",
-          "value": "up"
+          "label": "Ticker I",
+          "value": "1"
         },
-        "down": {
+        "2": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Down",
-          "value": "down"
+          "label": "Ticker II",
+          "value": "2"
         },
-        "same": {
+        "3": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Same",
-          "value": "same"
+          "label": "Ticker III",
+          "value": "3"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "custom",
+          "value": "custom"
         }
       },
-      "indicatorValue": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "indicatorValue",
-        "label": "Indicator Value"
+      "templateString": {
+        "sling:resourceType": "wcm/dialogs/components/textarea",
+        "name": "templateString",
+        "label": "Template",
+        "description": "Use handlebars templating with bootstrap classes (bootstrap 3 icons) to create your custom templates.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "templateSelected",
+            "values":  "custom"
+          }
+        }
       }
     },
-    "websocketTab": {
+    
+    "dataTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "WebSocket Data Source",
-      "websocketHost": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "websocketHost",
-        "label": "Websocket Host",
-        "placeholder": "ws://localhost:8112/$tms"
-      },
-      "websocketTopic": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "websocketTopic",
-        "description": "Please provide a topic for this widget to use, this can not be updated later, default value will be generated if not provided.",
-        "label": "Websocket Topic"
-      }
-    },
-    "jsonTab": {
-      "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "JSON Data Source",
+      "label": "Data",
       "dataSource": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "dataSource",
-        "description": "Please provide url to data source(JSON) for this ticker.",
+        "description": "Please provide url to data source.",
         "label": "Data Source"
       }
     },
+    "websocketTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/websocket"
+    },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/workflow/flow/dialog/tabs/flowTab"
+      "path": "/apps/typerefinery/components/flow/flowcontainer/dialog/tabs/flowTab"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

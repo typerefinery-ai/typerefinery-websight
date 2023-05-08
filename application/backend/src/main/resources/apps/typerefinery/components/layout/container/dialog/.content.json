@@ -2,31 +2,181 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
-    "generalTab": {
+    "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
-      "label": "General",
-      "backgroundImageLg": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
-        "name": "backgroundImageLg",
-        "label": "Background image - L breakpoint"
-      },
-      "backgroundImageMd": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
-        "name": "backgroundImageMd",
-        "label": "Background image - M breakpoint"
-      },
-      "backgroundImageSm": {
-        "sling:resourceType": "wcm/dialogs/components/assetreference",
-        "mimeTypes": ["image/*"],
-        "name": "backgroundImageSm",
-        "label": "Background image - S breakpoint"
+      "label": "Config",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Title",
+        "name": "title"
       }
     },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
-      "path": "/apps/typerefinery/components/dialog/gridTab"
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "borderTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/border",
+      "ws:display": {
+        "condition": {
+          "sourceName": "borderEnabled",
+          "values": true
+        }
+      }
+    },
+    "alignmentTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/alignment"
+    },
+    "variantTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Variant",
+      "type": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "decorationTagName",
+        "label": "Tag Name",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
+        "section": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Section",
+          "value": "section"
+        },
+        "article": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Article",
+          "value": "article"
+        },
+        "aside": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Aside",
+          "value": "aside"
+        },
+        "nav": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Nav",
+          "value": "nav"
+        },
+        "figure": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Figure",
+          "value": "figure"
+        },
+        "fieldset": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Fieldset",
+          "value": "fieldset"
+        },
+        "details": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Details",
+          "value": "details"
+        },
+        "template": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Template",
+          "value": "template"
+        },
+        "main": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Main",
+          "value": "main"
+        },
+        "header": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Header",
+          "value": "header"
+        },
+        "footer": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Footer",
+          "value": "footer"
+        }
+      },
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        },
+        "small": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Section with Title",
+          "value": "sectionwithtitle"
+        }
+      },
+      "variantsectionwithtitle": {
+        "sling:resourceType": "wcm/dialogs/components/container",
+        "titleTag": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "titleTagName",
+          "label": "Title Tag Name",
+          "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Default",
+            "selected": true,
+            "value": ""
+          },
+          "h1": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H1",
+            "value": "h1"
+          },
+          "h2": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H2",
+            "value": "h2"
+          },
+          "h3": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "H3",
+            "value": "h3"
+          }
+        },
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values": "sectionwithtitle"
+          }
+        }
+      }
+    },
+    "containerTitleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/containertitle",
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": "sectionwithtitle"
+        }
+      }
+    },
+    "containerChildTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/containerchild",
+      "ws:display": {
+        "condition": {
+          "sourceName": "variant",
+          "values": "sectionwithtitle"
+        }
+      }
+    },
+    "backgroundTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/background"
     }
   }
 }

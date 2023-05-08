@@ -1,0 +1,120 @@
+{
+    "columns": [
+        {
+            "field": "name",
+            "title": "Name"
+        },
+        {
+            "field": "age",
+            "title": "Age"
+        },
+        {
+            "field": "email",
+            "title": "Email"
+        },
+        {
+            "field": "phoneNumber",
+            "title": "Phone Number"
+        },
+        {
+            "field": "location",
+            "title": "Location"
+        }
+    ],
+    "data": [
+        {
+            "name": "Peter",
+            "age": 25,
+            "email": "john@gmail.com",
+            "phoneNumber": "6743474381",
+            "location": "New York"
+        },
+        {
+            "name": "Jane Doe",
+            "age": 23,
+            "email": "jane@gmail.com",
+            "phoneNumber": "985939323",
+            "location": "Chicago"
+        },
+        {
+            "name": "Smith",
+            "age": 16,
+            "email": "smith@gmail.com",
+            "phoneNumber": "6743474381",
+            "location": "New York"
+        },
+        {
+            "name": "Henry",
+            "age": 32,
+            "email": "smith@gmail.com",
+            "phoneNumber": "8784753921",
+            "location": "Chicago"
+        },
+        {
+            "name": "Nichols",
+            "age": 19,
+            "email": "smith@gmail.com",
+            "phoneNumber": "8784753921",
+            "location": "Chicago"
+        },
+        {
+            "name": "Max",
+            "age": 10,
+            "email": "smith@gmail.com",
+            "phoneNumber": "3475634753",
+            "location": "New York"
+        },
+        {
+            "name": "Murphy",
+            "age": 44,
+            "email": "smith@gmail.com",
+            "phoneNumber": "1234567890",
+            "location": "New York"
+        },
+        {
+            "name": "Stokes",
+            "age": 33,
+            "email": "smith@gmail.com",
+            "phoneNumber": "87544756332",
+            "location": "Texas"
+        },
+        {
+            "name": "Sarah",
+            "age": 66,
+            "email": "sarah@gmail.com",
+            "phoneNumber": "5787342355",
+            "location": "Texas"
+        },
+        {
+            "name": "Joe",
+            "age": 20,
+            "email": "smith@gmail.com",
+            "phoneNumber": "1234567890",
+            "location": "Chicago"
+        },
+        {
+            "name": "William",
+            "age": 16,
+            "email": "smith@gmail.com",
+            "phoneNumber": "1234567890",
+            "location": "Texas"
+        },
+        {
+            "name": "Peter",
+            "age": 22,
+            "email": "smith@gmail.com",
+            "phoneNumber": "1234567890",
+            "location": "Harvard"
+        },
+        {
+            "name": "Sophia",
+            "age": 24,
+            "email": "smith@gmail.com",
+            "phoneNumber": "6743474381",
+            "location": "Harvard"
+        }
+    ],
+    "search": false,
+    "pagination": false,
+    "resizable": true
+}

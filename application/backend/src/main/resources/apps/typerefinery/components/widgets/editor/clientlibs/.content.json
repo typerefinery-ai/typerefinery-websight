@@ -1,0 +1,46 @@
+{
+    "title": "Client Libs - Editor",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": [
+        "ai.typerefinery.websight.components",
+        "ai.typerefinery.websight.components.widgets.editor"
+    ],
+    "prepend": [],
+    "append": [],
+    "css": [
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/codemirror.css",
+        "style.css"
+    ],
+    "js": [
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/codemirror.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/formatting.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/show-hint.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/xml-hint.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/html-hint.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/xml.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/javascript.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/codemirror/htmlmixed.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/editor.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/attaches.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/checklist.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/code.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/delimiter.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/embed.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/header.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/image.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/link.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/marker.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/paragraph.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/list.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/raw.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/quote.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/raw.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/simple-image.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/table.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/underline.js",
+        "/apps/typerefinery/clientlibs/vendor/editor/editorjs/warning.js",
+        "functions.js",
+        "behaviour.js"
+    ]
+}

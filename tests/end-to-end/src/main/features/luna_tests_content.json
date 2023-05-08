@@ -1,5 +1,5 @@
 {
   "content-packages:ARTIFACTS|true": [
-    "io.typerefinery.websight:typerefinery-tests-content:zip:${project.version}"
+    "ai.typerefinery.websight:typerefinery-tests-content:zip:${project.version}"
   ]
 }

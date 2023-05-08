@@ -1,0 +1,10 @@
+{
+    "title": "Number of active users",
+    "value": "25.5k",
+    "indicatorValue": "4.54K",
+    "indicatorType": "success",
+    "tickerIcon": "pi pi-database ",
+    "indicatorIcon": "pi pi-arrow-up",
+    "widgetIcon": "pi pi-briefcase",
+    "indicatorPrecisionValue": "Since last quarter"
+}

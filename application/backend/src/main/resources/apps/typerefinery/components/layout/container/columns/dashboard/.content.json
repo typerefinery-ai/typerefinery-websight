@@ -1,7 +1,7 @@
 {
   "instanceResourceType": "/apps/typerefinery/components/layout/container",
   "isLayout": true,
-  "group": "Empty Sections",
+  "group": "Typerefinery - Layout",
   "sling:resourceType": "ws:Component",
   "title": "DashBoard:Typerefinery",
   "allowedComponents": [
@@ -10,7 +10,8 @@
     "Typerefinery - Forms",
     "Typerefinery - Layout",
     "Typerefinery - List",
-    "Typerefinery - Widgets"
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security"
   ]
 
 }

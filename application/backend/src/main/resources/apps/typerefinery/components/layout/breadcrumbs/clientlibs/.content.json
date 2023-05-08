@@ -1,0 +1,12 @@
+{
+  "title": "Client Libs - Breadcrumbs",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.content.breadcrumbs"],  
+  "prepend": [],
+  "append": [],
+  "css": [
+    "style.css"
+  ],  
+  "js": [] 
+}

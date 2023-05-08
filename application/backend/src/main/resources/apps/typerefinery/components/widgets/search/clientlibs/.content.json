@@ -1,0 +1,14 @@
+{
+    "title": "Client Libs - Widgets - Search",
+    "jcr:primaryType": "sling:Folder",
+    "sling:resourceType": "io/typerefinery/websight/clientlibs",
+    "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.widgets.search"],
+    "css": [
+      "style.css"
+    ],  
+    "js": [
+      "/apps/typerefinery/clientlibs/vendor/highlighter/script.js",
+      "functions.js",
+      "behaviour.js"
+    ] 
+  }

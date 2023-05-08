@@ -1,0 +1,56 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Style",
+  "id": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "id",
+    "label": "Id",
+    "description": "ID of component"
+  },
+  "classes": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "classes",
+    "label": "Class Names",
+    "description": "Add custom style classes"
+  },
+  "borderEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "borderEnabled",
+    "label": "Show Border"
+  },
+  "marginEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "marginEnabled",
+    "label": "Apply Margin"
+  },
+  "persistColorWhenThemeSwitches": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "persistColorWhenThemeSwitches",
+    "label": "Persist Color When Theme Switches"
+  },
+  "marginTab": {
+    "sling:resourceType": "wcm/dialogs/components/include",
+    "path": "/apps/typerefinery/components/dialog/tabs/margin",
+    "ws:display": {
+      "condition": {
+        "sourceName": "marginEnabled",
+        "values": true
+      }
+    }
+  },
+  "paddingEnabled": {
+    "sling:resourceType": "wcm/dialogs/components/toggle",
+    "name": "paddingEnabled",
+    "label": "Apply Padding"
+  },
+  "paddingTab": {
+    "sling:resourceType": "wcm/dialogs/components/include",
+    "path": "/apps/typerefinery/components/dialog/tabs/padding",
+    "ws:display": {
+      "condition": {
+        "sourceName": "paddingEnabled",
+        "values": true
+      }
+    }
+  }
+}

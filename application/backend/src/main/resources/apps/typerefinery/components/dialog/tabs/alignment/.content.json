@@ -1,0 +1,132 @@
+{
+    "sling:resourceType": "wcm/dialogs/components/tab",
+    "label": "Alignment",
+    "containerType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "containerType",
+        "label": "Container Width",
+        "description": "Bootstrap container width",
+        "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "default",
+            "value": "default"
+        },
+        "defaultPadding": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Default Padding",
+            "value": "defaultPadding"
+        },
+        "fullWidth": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Full Width",
+            "value": "fullWidth"
+        }
+    },
+    "flexEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "flexEnabled",
+        "label": "Arrange children in same line",
+        "description": "Components arranged in Horizontal Direction"
+    },
+    "verticalAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "verticalAlignment",
+        "label": "Vertical alignment",
+        "start": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Start",
+            "value": "start"
+        },
+        "center": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Center",
+            "value": "center"
+        },
+        "end": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "End",
+            "value": "end"
+        },
+        "baseline": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Baseline",
+            "value": "baseline"
+        },
+        "flexStart": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Flex Start",
+            "value": "flex-start"
+        },
+        "flexEnd": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Flex End",
+            "value": "flex-end"
+        },
+        "ws:display": {
+            "condition": {
+                "sourceName": "flexEnabled",
+                "values": true
+            }
+        }
+    },
+    "horizontalAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "horizontalAlignment",
+        "label": "Horizontal alignment",
+        "start": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Start",
+            "value": "start"
+        },
+        "center": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Center",
+            "value": "center"
+        },
+        "end": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "End",
+            "value": "end"
+        },
+        "around": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Space Around",
+            "value": "around"
+        },
+        "evenly": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Space Evenly",
+            "value": "evenly"
+        },
+        "between": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Space Between",
+            "value": "between"
+        }
+    },
+    "textAlignment": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "textAlignment",
+        "label": "Text Alignment",
+        "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "default",
+            "value": ""
+        },
+        "left": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "left",
+            "value": "left"
+        },
+        "center": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "center",
+            "value": "center"
+        },
+        "right": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "right",
+            "value": "right"
+        }
+    }
+}

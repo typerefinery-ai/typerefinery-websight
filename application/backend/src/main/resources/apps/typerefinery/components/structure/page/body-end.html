@@ -1,194 +1,37 @@
-<script>
-
-  const { createApp, ref } = Vue;
-  const vueData = window.Typerefinery.Components.getComponentData();
-
-  const vueApp = Vue.createApp({
-    data() {
-      return {
-        headerMenuItems: [
-        {
-          label: 'File',
-          icon: 'pi pi-fw pi-file',
-        },
-        {
-          label: 'Edit',
-          icon: 'pi pi-fw pi-pencil',
-        },
-        {
-          label: 'Users',
-          icon: 'pi pi-fw pi-user',
-        },
-        {
-          label: 'Events',
-          icon: 'pi pi-fw pi-calendar',
-        },
-        {
-          label: 'Quit',
-          icon: 'pi pi-fw pi-power-off'
-        }
-        ],
-        ...vueData
-      }
-    }, 
-    // created() {
-    //   // calculate based on the href.
-    //   const paths = window.location.pathname.split("/");
-    //   const path = paths[paths.length - 1];
-    //   const arr = Object.entries(JSON.parse(JSON.stringify(this.sideBarRoutes)));
-    //   const temp = arr.filter(_ => _[1] === path);
-    //   if (temp.length > 0 || path.length === 0) {
-    //     const key = temp[0][0];
-    //     const sideBarNodeArr =  Object.entries(JSON.parse(JSON.stringify(this.sideBarNodes)));
-    //     for(let i = 0; i < sideBarNodeArr.length; i++) {
-    //       const item = sideBarNodeArr[i][1];
-    //       if(item.data === key) {
-    //         this.breadCrumbsItems = {
-    //           home: {
-    //             icon: item.icon,
-    //             to: this.sideBarRoutes[item.data]
-    //           },
-    //           items: [
-    //             { label: item.data }
-    //           ]
-    //         }
-    //         return;
-    //       }
-    //       const childrenRecursionHelper = (pre, list) => {
-    //         for (let i = 0; i < list.length; i++) {
-    //           const item = list[i];
-    //           if (item.data === key) {
-    //             this.breadCrumbsItems = {
-    //               home: {
-    //                 icon: item.icon,
-    //                 to: this.sideBarRoutes[item.data]
-    //               },
-    //               items: [
-    //                 ...pre,
-    //                 { label: item.data }
-    //               ]
-    //             }
-    //             return;
-    //           }
-    //           if(item.children) {
-    //             childrenRecursionHelper([...pre, {label: item.data}], item.children);
-    //             return;
-    //           }
-              
-    //         }
-    //       }
-    //       if(item.children){
-    //         childrenRecursionHelper([{ label: item.data }], item.children);
-    //       }
-    //     }
-        
-    //   }
-    // },
-    methods: {
-      onNodeSelect(e) {
-        const selectedNodeName = e.target.innerText || "";
-        if (selectedNodeName.trim().length === 0 || !this.sideBarRoutes[selectedNodeName]) {
-          return;
-        }
-        window.location.href = this.sideBarRoutes[selectedNodeName];
-      },
-      onRowSelect(event) {
-        const dataTableRowType = {
-          "Report 1": "dashboard.html",
-          "Report 2": "feeds.html",
-          "Report 3": "dashboard.html",
-          "Report 4": "trends.html",
-          "Report 5": "bookmarks.html",
-          "Report 6": "search.html",
-          "Report 7": "search.html",
-          "Report 8": "search.html"
-        }
-        const selectedRowType = event.target.innerText || "";
-        console.log("hiii", selectedRowType);
-        if (selectedRowType.trim().length === 0 || !dataTableRowType[selectedRowType]) {
-          return;
-        }
-        window.location.href = dataTableRowType[selectedRowType];
-      },
-    }
-  });
+<!-- include all vendor javascript clientlibs that meant to be at the header of the page  -->
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components-vendor',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
 
 
-  const vueComponents = [
-    {
-      name: "p-button",
-      component: primevue.button
-    },
-    {
-      name: "p-accordion",
-      component: primevue.accordion
-    },
-    {
-      name: "p-accordiontab",
-      component: primevue.accordiontab
-    },
-    {
-      name: "p-inputtext",
-      component: primevue.inputtext
-    },
-    {
-      name: "p-checkbox",
-      component: primevue.checkbox
-    },
-    {
-      name: "p-radiobutton",
-      component: primevue.radiobutton
-    },
-    {
-      name: "p-card",
-      component: primevue.card
-    },
-    {
-      name: "p-textarea",
-      component: primevue.textarea
-    },
-    {
-      name: "p-password",
-      component: primevue.password
-    },
-    {
-      name: "p-divider",
-      component: primevue.divider
-    },
-    {
-      name: "p-datatable",
-      component: primevue.datatable
-    },
-    {
-      name: "p-column",
-      component: primevue.column
-    },
-    {
-      name: "p-menubar",
-      component: primevue.menubar
-    },
-    {
-      name: "p-tree",
-      component: primevue.tree
-    },
-    {
-      name: "p-breadcrumb",
-      component: primevue.breadcrumb
-    }
-  ]
+<!-- include all javascript clientlibs that meant to be at the header of the page  -->
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components-header',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
+
+<!-- include all javascript clientlibs that meant to be at the end of the page  -->
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components-footer',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
+
+<!-- include all components javascript -->
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components',
+    debug=true,
+    crossorigin='anonymous'}">
+${clientlibs.jsIncludes  @ context="unsafe"}
+</sly>
 
 
-  vueComponents.forEach(vueComponent => {
-    vueApp.component(vueComponent.name, vueComponent.component);
-  });
+<!-- TODO: NEED TO MOVE THIS TO LOCAL VENDORS -->
 
-
-  const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
-    routes: [{ path: "/" }]
-  });
-
-  vueApp.use(router).use(primevue.config.default).mount('#app');
-  
-
-</script>
+<!-- <script type="text/javascript" src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script> -->

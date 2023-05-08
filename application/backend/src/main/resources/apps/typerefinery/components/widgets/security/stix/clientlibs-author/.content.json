@@ -1,0 +1,9 @@
+{
+  "title": "Client Libs",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components-author","ai.typerefinery.websight.components.widgets.security.stix-author"],  
+  "css": [
+    "style.css"
+  ]
+}

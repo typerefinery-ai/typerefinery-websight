@@ -1,0 +1,29 @@
+{
+    "jcr:primaryType": "ws:Page",
+    "jcr:content": {
+        "jcr:primaryType": "ws:PageContent",
+        "sling:resourceType": "typerefinery/components/structure/page",
+        "rootcontainer": {
+            "sling:resourceType": "typerefinery/components/layout/rootcontainer",
+            "jcr:primaryType": "nt:unstructured",
+            "nav": {
+                "sling:resourceType": "typerefinery/components/layout/nav",
+                "jcr:primaryType": "nt:unstructured"
+            },
+            "header": {
+                "sling:resourceType": "typerefinery/components/layout/header",
+                "jcr:primaryType": "nt:unstructured"
+            },
+            "main": {
+                "sling:resourceType": "typerefinery/components/layout/container",
+                "jcr:primaryType": "nt:unstructured",
+                "decorationTagName": "main",
+                "containerType": "fullWidth"
+            },
+            "footer": {
+                "sling:resourceType": "typerefinery/components/layout/footer",
+                "jcr:primaryType": "nt:unstructured"
+            }
+        }
+    }
+}

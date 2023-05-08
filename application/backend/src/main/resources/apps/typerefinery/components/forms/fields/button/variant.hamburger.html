@@ -1,0 +1,30 @@
+<!--/*
+    Copyright (C) 2023 Typerefinery.ai
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/-->
+<template data-sly-template.icon="${ @ icon }">
+    <i class="${icon}"></i>
+</template>
+<template data-sly-template.variant="${ @ model }">
+    <div class="${wcmmode.isEdit ? '':'navbar-expand-lg mt-2'}" data-model="${model.jsonString}">
+        <button component="${model.componentName}" id="${model.id}" type="${model.type}" data-bs-toggle="collapse"
+            data-bs-target="${wcmmode.isEdit ?'': model.target}" class="navbar-toggler">
+            <sly data-sly-call="${icon @ icon='pi pi-align-justify'}">
+            </sly>
+        </button>
+    </div>
+    <sly data-sly-test="${wcmmode.isEdit}">
+        <div style="--bs-bg-opacity: .5;" class="bg-warning">Hamburger visible for limited screen size.</div>
+    </sly>
+</template>

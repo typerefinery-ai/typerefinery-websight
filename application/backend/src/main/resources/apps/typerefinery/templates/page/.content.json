@@ -2,5 +2,10 @@
   "sling:resourceType": "ws:PageTemplate",
   "description": "Create a new page.",
   "title": "Page",
-  "allowedChildren": ["/apps/typerefinery/templates/page"]
+  "allowedChildren": [
+    "/apps/typerefinery/templates/blank",
+    "/apps/typerefinery/templates/page",
+    "/apps/typerefinery/templates/dashboard",
+    "/apps/typerefinery/templates/pagewithsidebar"
+  ]
 }

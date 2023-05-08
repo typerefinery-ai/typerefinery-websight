@@ -1,3 +1,6 @@
-<sly data-sly-use.model="io.typerefinery.websight.models.components.widgets.Map">
-  <div id="map"></div>
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.widgets.map.Map">
+  <div class="${model.componentClassNames}">
+    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+    </sly>
+  </div>
 </sly>

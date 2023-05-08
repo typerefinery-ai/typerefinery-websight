@@ -1,0 +1,6 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "title": "Textarea"
+}

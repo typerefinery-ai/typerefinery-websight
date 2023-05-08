@@ -1,0 +1,15 @@
+{
+  "title": "Client Libs - Widgets - Table",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components","ai.typerefinery.websight.components.widgets.table"],
+  "css": [
+    "style.css",
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/table/bootstrap-table.css"
+  ],  
+  "js": [
+    "/apps/typerefinery/clientlibs/vendor/bootstrap/table/bootstrap-table.js",
+    "functions.js",
+    "behaviour.js"
+  ] 
+}

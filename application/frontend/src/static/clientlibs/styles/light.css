@@ -1,0 +1,14 @@
+:root {
+    --primary-bg-color: #adb5bd;
+    --primary-text-color: #1A2027;
+    --subtitle-color: #343a40;
+    --card-bg-color: #dee2e6;
+    --chart-ticks-color: #151e26;
+    --chart-grid-color: #5D7183;
+    --chart-label-color: #072b4a;  
+    --sidebar-bg-color:#ced4da;  
+    --border-color: #343a40;
+    --primary-border-color:#6c757d;
+    --header-bg-color:#ced4da;
+    --header-text-color:#1A2027;
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Client Libs",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components-header"],  
+  "js": [
+    "components.js",
+    "modal.js",
+    "dropdown.js",
+    "togglecomponent.js"
+  ] 
+}

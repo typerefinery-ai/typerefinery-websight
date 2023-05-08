@@ -1,0 +1,36 @@
+{
+    "chartData": [
+        5000,
+        75000,
+        15000,
+        45000,
+        26000,
+        45222,
+        5634,
+        81500,
+        71000
+    ],
+    "labelName": "Mock (Barchart) data source 1",
+    "backgroundColor": [
+        "#3d405b",
+        "#b9fbc0",
+        "#FFB94E",
+        "#228B22",
+        "#FFB94E",
+        "#ED7117",
+        "#3d405b",
+        "#005f73",
+        "#52796f"
+    ],
+    "labels": [
+        "Test Data 1",
+        "Test Data 2",
+        "Test Data 3",
+        "Test Data 4",
+        "Test Data 5",
+        "Test Data 6",
+        "Test Data 7",
+        "Test Data 7",
+        "Test Data 9"
+    ]
+}

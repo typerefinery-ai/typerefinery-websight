@@ -1,0 +1,34 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "accept": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "accept",
+        "label": "Accept file types",
+        "description": "Comma separated list of file types to accept (e.g. image/png, image/jpeg)"
+      },
+      "multiple": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "multiple",
+        "label": "Multiple",
+        "description": "Allow multiple file upload"
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    }
+  }
+}

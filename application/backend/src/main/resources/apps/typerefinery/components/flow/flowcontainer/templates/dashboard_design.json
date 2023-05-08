@@ -1,0 +1,113 @@
+{
+	"<subscribe-id>": {
+		"id": "<subscribe-id>",
+		"config": {
+			"name": "",
+			"id": "<childflowid>_flowoutput"
+		},
+		"x": 100,
+		"y": 100,
+		"component": "component_flow_subscribe",
+		"connections": {
+			"data": [
+				{
+					"id": "<printjson-id>",
+					"index": "input"
+				}
+			]
+		},
+		"template": {
+			"type": "input2",
+			"icon": "fa fa-broadcast-tower",
+			"group": "FlowStream",
+			"name": "Subscribe",
+			"outputs": [
+				{
+					"id": "data",
+					"name": "Data"
+				}
+			]
+		}
+	},
+	"<printjson-id>": {
+		"id": "<printjson-id>",
+		"config": {
+			"title": "Print JSON",
+			"version": "2",
+			"repo": false,
+			"data": true
+		},
+		"x": 478,
+		"y": 96,
+		"component": "typerefinery_printjson",
+		"connections": {},
+		"template": {
+			"icon": "fa fa-print",
+			"group": "@TypeRefinery",
+			"name": "Print JSON",
+			"inputs": [
+				{
+					"id": "input",
+					"name": "Input"
+				}
+			]
+		}
+	},
+	"<senddata-id>": {
+		"id": "<senddata-id>",
+		"config": {
+			"title": "Sample TMS Message",
+			"version": "2",
+			"random": false,
+			"type": "object",
+			"data": "<sample-data>",
+			"restart": false
+		},
+		"x": 90,
+		"y": 322,
+		"component": "typerefinery_senddata",
+		"connections": {
+			"output": [
+				{
+					"id": "<publish-id>",
+					"index": "data"
+				}
+			]
+		},
+		"template": {
+			"icon": "fa fa-bullhorn",
+			"group": "@TypeRefinery",
+			"name": "Send Data",
+			"outputs": [
+				{
+					"id": "output",
+					"name": "Output"
+				}
+			]
+		}
+	},
+	"<publish-id>": {
+		"id": "<publish-id>",
+		"config": {
+			"name": "",
+			"readme": "",
+			"id": "<childflowid>_flowinput"
+		},
+		"x": 485,
+		"y": 350,
+		"component": "component_flow_publish",
+		"connections": {},
+		"template": {
+			"type": "output2",
+			"icon": "fa fa-crosshairs",
+			"group": "FlowStream",
+			"name": "Publish",
+			"inputs": [
+				{
+					"id": "data",
+					"name": "Data"
+				}
+			]
+		}
+	}
+}
