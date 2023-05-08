@@ -14,9 +14,62 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
     "use strict";
 
-    ns.getFormData = ($component) => {
+    ns.uploadFile = async (file) => {
+        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+        const datePathWithTime =  new Date().toISOString().split("T")[0].replace(/-/g, "-") + "/" + new Date().toISOString().split("T")[1].split(".")[0].replace(/:/g, "-"); 
+        let path = window.location.pathname === "/" ? "" : window.location.pathname;
+        // remove .html from the path
+        path = path.replace(".html", "");
+        path += `/${datePathWithTime}`;
+        const PREVIEW = `http://localhost:8199/api${path}/${fileName}`
+        try{
+            await fetch(
+                `http://localhost:8199/api${path}?type=CREATE_FOLDER`,
+                {
+                    method: "POST",
+                    mode: 'no-cors',
+                    headers: {
+                        'accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                    }
+                }
+            );
+        }   
+        catch(error) {
+            // ERROR IN CASE PATH EXIST.
+        }     
+        try{
+            const URL = `http://localhost:8199/api${path}/${fileName}?type=UPLOAD_FILE&overwrite=true`;
+            const formData = new FormData();
+            formData.append("upload", file);
+            await fetch(
+                URL,
+                {
+                    method: "POST",
+                    body: formData,
+                    mode: 'no-cors',
+                    headers: {
+                        'accept': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                    }
+                },
+            );
+            // REMOVE LOADER 
+
+            return PREVIEW;
+        }catch(error) {
+            return PREVIEW;
+        }
+        
+    };
+
+    ns.getFormData = async ($component) => {
         const result = {};
-        $component.querySelectorAll("[isInput]").forEach($input => {
+        const _inputs = $component.querySelectorAll("[isInput]");
+        for(let i = 0; i < _inputs.length; i++) {
+            const $input = _inputs[i];
             const name = $input.getAttribute("name");
             if (name) {
                 const isInput = $input.getAttribute('isInput');
@@ -32,14 +85,28 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     // get value from select tag
                     result[name] = selectInstanceNs[$input.getAttribute("id")].getValue(true);
                 }else if($input.type === "file") {
-                    // get value from file tag.
+                    
+                    const files = [...$input.files];
+                    // add loader.
+                    files.forEach(file => {
+                        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+                        document.getElementById(`close-${fileName}`).style.display = "none";
+                        document.getElementById(`loader-${fileName}`).style.display = "block";
+                    });
                     if($input.multiple) {
-                        // if multiple files are selected then it will return array of files.
-                        result[name] = $input.files.map(file => URL.createObjectURL(file));
+                        result[name] = [];
+                        for(let i = 0; i < files.length; i++) {
+                            const fileName = files[i]?.name?.trim()?.replace(/\s/g, "-");
+                            const output = await ns.uploadFile(files[i]);
+                            document.getElementById(`loader-${fileName}`).style.display = "none";
+                            document.getElementById(`close-${fileName}`).style.display = "block";
+                            result[name].push(output);
+                        }
                     }else if($input.files.length > 0){
-                        // create blob url from file.
-                        const blobUrl = URL.createObjectURL($input.files[0]);
-                        // if single file is selected then it will return single file.
+                        const blobUrl = await ns.uploadFile(files[0]);
+                        const fileName = files[0]?.name?.trim()?.replace(/\s/g, "-");
+                        document.getElementById(`loader-${fileName}`).style.display = "none";
+                        document.getElementById(`close-${fileName}`).style.display = "block";
                         result[name] = blobUrl;
                     } else {
                         // if no file is selected then it will return empty string.
@@ -53,7 +120,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     result[name] = $input?.value || "";
                 }
             }
-        });
+        }
         return result;
     };
 
@@ -129,7 +196,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log("Author should fill all the parameters.");
             return;
         }
-        const payload = ns.getFormData($component);
+        const payload = await ns.getFormData($component);
         ns.updateButtonState($component, "loading");
 
         writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());

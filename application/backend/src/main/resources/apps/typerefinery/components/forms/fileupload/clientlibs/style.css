@@ -1,0 +1,75 @@
+[component="fileupload"] {
+    padding: 25px;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='3' stroke-dasharray='6%2c 14' stroke-dashoffset='25' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+[component="fileupload"] #image-display {
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    /* justify-content: space-evenly; */
+    gap: 2.25em;
+    flex-wrap: wrap;
+}
+
+[component="fileupload"] #image-display figure {
+    width: 150px;
+    height: 175px;
+    position: relative;
+}
+
+[component="fileupload"] .loader-icon {
+    position: absolute;
+    left: 0px;
+    display: none;
+}
+
+[component="fileupload"] #image-display img {
+    width: 100%;
+    height: 80%;
+    object-fit: contain;
+}
+
+[component="fileupload"] .close-icon {
+    position: absolute;
+    background: #72727236;
+    padding: 1px;
+    cursor: pointer;
+    color: black;
+    font-size: 13px;
+}
+
+[component="fileupload"] #image-display figcaption {
+    font-size: 0.8em;
+    text-align: center;
+    color: #5a5861;
+}
+
+[component="fileupload"] .active {
+    border: 0.2em dashed #025bee;
+}
+
+[component="fileupload"] #error {
+    text-align: center;
+    color: #ff3030;
+}
+
+
+[component="fileupload"] input[type="file"] {
+    display: none;
+}
+
+[component="fileupload"] label {
+    display: block;
+    position: relative;
+    background-color: #025bee;
+    color: #ffffff;
+    font-size: 1.1em;
+    text-align: center;
+    width: 16em;
+    padding: 1em 0;
+    border-radius: 0.3em;
+    margin: 0 auto 1em auto;
+    cursor: pointer;
+}
