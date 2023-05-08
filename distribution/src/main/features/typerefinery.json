@@ -74,8 +74,7 @@
       "sling.additional.response.headers":[
         "X-Content-Type-Options=nosniff",
         "Cache-control=no-cache",
-        "Strict-Transport-Security=max-age=31536000",
-        "SameSite=None"
+        "Strict-Transport-Security=max-age=31536000"
       ]
     },
     "pl.ds.websight.publishing.connectors.filesystem.FileSystemStorageConnector~typerefinery": {

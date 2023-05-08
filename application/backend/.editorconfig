@@ -1,9 +1,6 @@
 [*]
 indent_style = space
-<<<<<<< HEAD
-=======
 indent_size = 2
->>>>>>> develop
 
 [*.java]
 indent_size = 4
