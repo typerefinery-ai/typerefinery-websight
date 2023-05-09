@@ -15,7 +15,7 @@
   "fieldValue": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "value",
-    "label": "value",
+    "label": "Value",
     "description": "Component value"
   },
   "placeholder": {

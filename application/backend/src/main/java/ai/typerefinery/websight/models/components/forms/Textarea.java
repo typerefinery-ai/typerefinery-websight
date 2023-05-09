@@ -50,13 +50,16 @@ public class Textarea extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "")
-    private String placeholder;
+    @Default(booleanValues = false)
+    private Boolean validationRequired;
 
     @Inject
     @Getter
-    @Default(booleanValues = false)
-    private Boolean validationRequired;
+    private String numOfCols;
+
+    @Inject
+    @Getter
+    private String numOfRows;
 
 
     @Override
@@ -67,11 +70,11 @@ public class Textarea extends BaseFormComponent {
 
 
         if (StringUtils.isBlank(label)) {
-            label = DEFAULT_LABEL;
+            this.label = DEFAULT_LABEL;
         }
 
         if (StringUtils.isBlank(placeholder)) {
-            placeholder = DEFAULT_PLACEHOLDER;
+            this.placeholder = DEFAULT_PLACEHOLDER;
         }
 
         style.addClasses("form-control");
