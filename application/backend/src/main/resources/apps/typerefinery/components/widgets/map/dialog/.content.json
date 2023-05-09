@@ -5,6 +5,16 @@
     "generalTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "mapLat": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "mapLat",
@@ -45,10 +55,21 @@
     "markerTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Marker",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "markerList": {
         "name": "markerList",
         "label": "Marker Details",
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "markerLat": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "markerLat",
