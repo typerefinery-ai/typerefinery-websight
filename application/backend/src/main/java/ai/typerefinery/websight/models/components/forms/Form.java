@@ -96,18 +96,17 @@ public class Form extends FlowComponent implements FlowComponentRegister {
         grid.addClasses(DEFAULT_FORM_CLASSES);
 
         // default values to be saved to resource if any are missing
-        HashMap<String, Object> props = new HashMap<String, Object>(){{            
-        }};
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
 
-        if (StringUtils.isBlank(readUrl)) {
+        if (StringUtils.isBlank(readUrl) && StringUtils.isNotBlank(this.flowapi_httproute)) {
             readUrl = this.flowapi_httproute;
             props.put("readUrl", this.readUrl);
         }
-        if (StringUtils.isBlank(writeUrl)) {
+        if (StringUtils.isBlank(writeUrl) && StringUtils.isNotBlank(this.flowapi_httproute)) {
             writeUrl = this.flowapi_httproute;
             props.put("writeUrl", this.writeUrl);
         }
-        if (StringUtils.isBlank(title)) {
+        if (StringUtils.isBlank(title) && StringUtils.isNotBlank(this.flowapi_title)) {
             title = this.flowapi_title;
             props.put("title", this.title);
         }
@@ -121,8 +120,10 @@ public class Form extends FlowComponent implements FlowComponentRegister {
             props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
 
-        //update any defaults that should be set
-        PageUtil.updatResourceProperties(resource, props);
+        if (props.size() > 0) {
+            //update any defaults that should be set
+            PageUtil.updatResourceProperties(resource, props);
+        }
     }
 
     @Override

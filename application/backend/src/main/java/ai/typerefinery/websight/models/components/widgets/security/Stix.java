@@ -72,8 +72,7 @@ public class Stix extends FlowComponent implements FlowComponentRegister {
         super.init();
 
         // default values to be saved to resource if any are missing
-        HashMap<String, Object> props = new HashMap<String, Object>(){{            
-        }};
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
@@ -84,8 +83,10 @@ public class Stix extends FlowComponent implements FlowComponentRegister {
             props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
 
-        //update any defaults that should be set
-        PageUtil.updatResourceProperties(resource, props);
+        if (props.size() > 0) {
+            //update any defaults that should be set
+            PageUtil.updatResourceProperties(resource, props);
+        }
     }
 
     

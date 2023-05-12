@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Map.Entry;
 import java.util.function.Predicate;
 
 import org.apache.sling.api.resource.ModifiableValueMap;
@@ -178,91 +179,116 @@ public class PageUtil {
     }
 
 
-        /***
-         * find an ancestor resource matching current resource.
-         * @param resource resource to use path for look up
-         * @return found resource
-         */
-        @SuppressWarnings("squid:S3776")
-        public static Resource findInheritedResource(Resource thisResource) {
-            final String pageResourcePath = getResourcePagePath(thisResource); // assume that page have resource
-            final String nodeResourceType = thisResource.getResourceType();
-            final String relativePath = thisResource.getPath().replaceFirst(pageResourcePath.concat(PATH_SEPARATOR), StringUtils.EMPTY);
+    /***
+     * find an ancestor resource matching current resource.
+     * @param resource resource to use path for look up
+     * @return found resource
+     */
+    @SuppressWarnings("squid:S3776")
+    public static Resource findInheritedResource(Resource thisResource) {
+        final String pageResourcePath = getResourcePagePath(thisResource); // assume that page have resource
+        final String nodeResourceType = thisResource.getResourceType();
+        final String relativePath = thisResource.getPath().replaceFirst(pageResourcePath.concat(PATH_SEPARATOR), StringUtils.EMPTY);
 
-            // defn of a parent node
-            // 1. is from parent page
-            // 2. same sling resource type
-            // 3. same relative path
+        // defn of a parent node
+        // 1. is from parent page
+        // 2. same sling resource type
+        // 3. same relative path
 
-            Resource curPage = thisResource.getResourceResolver().getResource(pageResourcePath);
-            Resource curResource = null;
-            Boolean curResourceTypeMatch = false;
-            Boolean curCancelInheritParent = false;
-            ValueMap curProperties = null;
+        Resource curPage = thisResource.getResourceResolver().getResource(pageResourcePath);
+        Resource curResource = null;
+        Boolean curResourceTypeMatch = false;
+        Boolean curCancelInheritParent = false;
+        ValueMap curProperties = null;
 
-            try {
-                while (null != curPage) {
-                    // find by same relative path
+        try {
+            while (null != curPage) {
+                // find by same relative path
 
-                    String error = format(
-                            "findInheritedResource: looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\""
-                            , pageResourcePath, relativePath, curPage.getPath());
-                    LOGGER.info(error);
+                String error = format(
+                        "findInheritedResource: looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\""
+                        , pageResourcePath, relativePath, curPage.getPath());
+                LOGGER.info(error);
 
-                    try {
-                        curResource = curPage.getChild(relativePath);
-                    } catch (Exception e) {
-                        LOGGER.info("Failed to get {} from {}", relativePath, curPage.getPath());
-                    }
-
-                    if (null != curResource) {
-                        //check for inherit flag + sling resource type
-
-                        curProperties = curResource.adaptTo(ValueMap.class);
-                        if (curProperties != null) {
-                            curResourceTypeMatch = curResource.isResourceType(nodeResourceType);
-                            curCancelInheritParent = curProperties.get(COMPONENT_CANCEL_INHERIT_PARENT, StringUtils.EMPTY).contentEquals("true");
-
-                            if (curResourceTypeMatch && curCancelInheritParent) {
-                                String found = format("findInheritedResource: FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
-                                LOGGER.info(found);
-
-                                break;
-                            } else {
-                                String notfound = format("findInheritedResource: NOT FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
-                                LOGGER.info(notfound);
-
-                            }
-                        } else {
-                            LOGGER.error("findInheritedResource: could not convert resource to value map, curResource={}", curResource);
-                        }
-                    }
-
-                    curPage = curPage.getParent();
+                try {
+                    curResource = curPage.getChild(relativePath);
+                } catch (Exception e) {
+                    LOGGER.info("Failed to get {} from {}", relativePath, curPage.getPath());
                 }
-            } catch (Exception ex) {
-                LOGGER.warn("Failed to find inherited resource. {}", ex);
-            }
 
-            return curResource;
+                if (null != curResource) {
+                    //check for inherit flag + sling resource type
+
+                    curProperties = curResource.adaptTo(ValueMap.class);
+                    if (curProperties != null) {
+                        curResourceTypeMatch = curResource.isResourceType(nodeResourceType);
+                        curCancelInheritParent = curProperties.get(COMPONENT_CANCEL_INHERIT_PARENT, StringUtils.EMPTY).contentEquals("true");
+
+                        if (curResourceTypeMatch && curCancelInheritParent) {
+                            String found = format("findInheritedResource: FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
+                            LOGGER.info(found);
+
+                            break;
+                        } else {
+                            String notfound = format("findInheritedResource: NOT FOUND looking for inherited resource for path=\"{0}\" by relative path=\"{1}\" in parent=\"{2}\"", pageResourcePath, relativePath, curPage.getPath());
+                            LOGGER.info(notfound);
+
+                        }
+                    } else {
+                        LOGGER.error("findInheritedResource: could not convert resource to value map, curResource={}", curResource);
+                    }
+                }
+
+                curPage = curPage.getParent();
+            }
+        } catch (Exception ex) {
+            LOGGER.warn("Failed to find inherited resource. {}", ex);
         }
+
+        return curResource;
+    }
+
+    
+    public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> propertiesToSave) {
+        updatResourceProperties(resourceToUpdate, propertiesToSave, false);
+    }
 
     /**
      * update resource properties
      * @param resourceToUpdate
      * @param response
      */
-    public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> response) {
+    public static void updatResourceProperties(Resource resourceToUpdate, HashMap<String, Object> propertiesToSave, boolean ignoreBlankValues) {
         ModifiableValueMap properties = null;
-        if (response.isEmpty()) {
+
+        if (propertiesToSave == null || propertiesToSave.isEmpty()) {
             return;
         }
-        try {
 
-            LOGGER.info("updateFlowStreamResponse: {}", response);
+        try {
+            LOGGER.info("updateFlowStreamResponse: {}", propertiesToSave);
+
+            boolean hasNulls = false;
+            // for each entry in propertiesToSave, check if value is null
+            for (Entry<String, Object> entry : propertiesToSave.entrySet()) {
+                if (entry.getValue() == null) {
+                    if (ignoreBlankValues) {
+                        propertiesToSave.put(entry.getKey(), "");
+                    } else {
+                        hasNulls = true;
+                        break;
+                    }
+                }
+            }
+
+            if (hasNulls) {
+                LOGGER.warn("Refusing to update as data contains nulls.");
+                return;
+            }
+
             ResourceResolver resourceResolver = resourceToUpdate.getResourceResolver();
             properties = resourceToUpdate.adaptTo(ModifiableValueMap.class);
-            properties.putAll(response);
+            properties.putAll(propertiesToSave);
             resourceResolver.commit();
 
         } catch (Exception ex) {
