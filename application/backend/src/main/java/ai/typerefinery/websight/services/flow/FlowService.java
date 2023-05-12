@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
@@ -109,6 +110,8 @@ public class FlowService {
 
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/{{id}}"; // used to prefix http route url, eg form get url to be used /form/{{id}} will be updated to the {page URL}/{{id}}, this will allow client to substitiute the id in the url
+
+    public static final String FLOW_DEFAULT_TITLE_SUFFIX = " flow"; // used to generate flow title if not specified, flow title will be {page title} flow
 
     public FlowServiceConfiguration configuration;
 
@@ -340,7 +343,7 @@ public class FlowService {
      * @param routerPath path to endpoint
      */
     public static String compileClientHttpRouteUrl(FlowServiceConfiguration configuration, String routerPath) {
-        String flowapi_httproute =  String.format(configuration.host_url() + configuration.endpoint_client(), routerPath);;
+        String flowapi_httproute =  String.format(configuration.host_url() + configuration.endpoint_client(), routerPath.startsWith("/") ? routerPath.substring(1) : routerPath); //replease leading slash in routerPath
         return flowapi_httproute;
     }
 
@@ -622,6 +625,33 @@ public class FlowService {
         return null;
     }
 
+    /**
+     * fix invalid characters in resource path for http route
+     * @param resourcePath
+     * @return
+     */
+    public static String compileHttpRoutePath(String resourcePath) {
+        String httpRouterPath = resourcePath;
+        httpRouterPath = httpRouterPath.replaceAll(JcrConstants.JCR_CONTENT, "_" + JcrConstants.JCR_CONTENT.replace(":", "_"));
+        httpRouterPath = httpRouterPath.replaceAll("[^a-zA-Z0-9/]", "_");
+        return httpRouterPath;
+    }
+
+
+    /**
+     * compile a flow title, provide a default if not author specified
+     * @param auhoredTitle
+     * @param flowComponentTitle
+     * @return
+     */
+    public static String compileFlowTitle(String auhoredTitle, String flowComponentTitle) {
+        String flowTitle = auhoredTitle;
+        // generate a title if its not specified
+        if (StringUtils.isBlank(flowTitle)) {
+            flowTitle = flowComponentTitle + FLOW_DEFAULT_TITLE_SUFFIX;
+        }
+        return flowTitle;
+    }
 
     /**
      * Create a flow from a template
@@ -634,7 +664,7 @@ public class FlowService {
      */
     public String createFlowFromTemplate(@NotNull FlowComponent flowComponent) {
         String templatePath = flowComponent.flowapi_template;
-        String title = flowComponent.flowapi_title;
+        String title = compileFlowTitle(flowComponent.flowapi_title,flowComponent.componentTitle);
         String flowTopic = flowComponent.flowapi_topic;
         String id = flowComponent.flowapi_flowstreamid;
         boolean isContainer = flowComponent.isContainer();
@@ -642,11 +672,6 @@ public class FlowService {
         String designTemplatePath = flowComponent.flowapi_designtemplate;
         
         //  String designTemplatePath
-
-        // generate a title if its not specified
-        if (StringUtils.isBlank(title)) {
-            title = flowComponent.componentTitle + " flow";
-        }
         
         // if topic is blank then generate a unique topic
         if (StringUtils.isBlank(flowTopic)) {
@@ -654,11 +679,11 @@ public class FlowService {
         }
 
         String componentSampleData = getComponentSampleJson(sampleDataPath, flowComponent.resourceResolver);
-        String currentPagePath = flowComponent.currentPagePath;
+        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
         String designTemplateString = getResourceInputStreamAsString(templatePath, flowComponent.resourceResolver);
 
         // setup a list of replace strings, as this is new flowId, flowStreamId and childPathId will be blank
-        HashMap<String, String> replaceMap = getReplaceMap("", "", "", flowTopic, currentPagePath, componentSampleData);
+        HashMap<String, String> replaceMap = getReplaceMap("", "", "", flowTopic, httpRoutePath, componentSampleData);
 
         // replace template variables with values
         String designTemplateStringUpdated = updateFlowTemplateVariables(designTemplateString, replaceMap);
@@ -673,7 +698,7 @@ public class FlowService {
 
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
 
-        String flowGroup = currentPagePath;
+        String flowGroup = httpRoutePath;
         if (currentFlowContainerResource != null) {
             //get flow group from parent flow container
             String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
@@ -735,13 +760,13 @@ public class FlowService {
         response.put(prop(PROPERTY_ISCONTAINER), isContainer);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
-        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
+        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
 
         // update component with response
-        PageUtil.updatResourceProperties(flowComponent.resource, response);
+        PageUtil.updatResourceProperties(flowComponent.resource, response, true);
 
         //return flowstreamid
         return responseFlowId;
@@ -759,7 +784,7 @@ public class FlowService {
 
         String templatePath = flowComponent.flowapi_template;
         Resource componentResource = flowComponent.resource;
-        String newTitle = flowComponent.title;
+        String newTitle = compileFlowTitle(flowComponent.title, flowComponent.componentTitle);
         String flowstreamid = flowComponent.flowapi_flowstreamid;
         String sampleDataPath = flowComponent.flowapi_sampledata;
         
@@ -768,10 +793,10 @@ public class FlowService {
         // get template json
         JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
 
-        String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource, RESOURCE_TYPE);
         
-        String flowGroup = currentPagePath;
+        String flowGroup = httpRoutePath;
         if (currentFlowContainerResource != null) {
             if (currentFlowContainerResource != null) {
                 //get flow group from parent flow container
@@ -799,14 +824,14 @@ public class FlowService {
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
-        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
+        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
 
         // go through response object and remove all null value
         // update component with response
-        PageUtil.updatResourceProperties(componentResource, response);
+        PageUtil.updatResourceProperties(componentResource, response, true);
     }
 
 
@@ -816,11 +841,11 @@ public class FlowService {
      * @param flowstreamid flowstream id of child flow
      * @param childPathId path id of child flow
      * @param topic topic of child flow
-     * @param currentPagePath path of current page
+     * @param httpRoutePath path of current page
      * @param componentSampleData sample data of component
      * @return map of replace values
      */
-    public HashMap<String, String> getReplaceMap(String childFlowId, String flowstreamid, String childPathId, String topic, String currentPagePath, String componentSampleData) {
+    public HashMap<String, String> getReplaceMap(String childFlowId, String flowstreamid, String childPathId, String topic, String httpRoutePath, String componentSampleData) {
         String componentSampleDataValue = componentSampleData;
 
         ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -844,7 +869,7 @@ public class FlowService {
             put(FLOW_TEMPLATE_FIELD_PRINTJSON_ID, StringUtils.join(childPathId, "printjson"));
             put(FLOW_TEMPLATE_FIELD_SENDDATA_ID, StringUtils.join(childPathId, "senddata"));
             put(FLOW_TEMPLATE_FIELD_PUBLISH_ID, StringUtils.join(childPathId, "publish"));
-            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX); // used for HTTP Route step, eg in forms            
+            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX); // used for HTTP Route step, eg in forms            
             put(FLOW_TEMPLATE_FIELD_SAMPLE_DATA, componentSampleDataValueFinal); // used for HTTP Route step, eg in forms            
             put(FLOW_TEMPLATE_FIELD_TMS_TOPIC, topic); // used for filtering TMS messages            
         }};
@@ -1018,11 +1043,11 @@ public class FlowService {
 
                     // get path to child flow relative to parent
                     String childPathId = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
-                    String currentPagePath = PageUtil.getResourcePagePath(componentResource);
+                    String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
                     String componentSampleData = getComponentSampleJson(sampleDataPath, resourceResolver);
 
                     // setup a list of replace strings
-                    HashMap<String, String> replaceMap = getReplaceMap(flowId, flowstreamid, childPathId, flowComponent.flowapi_topic, currentPagePath, componentSampleData);
+                    HashMap<String, String> replaceMap = getReplaceMap(flowId, flowstreamid, childPathId, flowComponent.flowapi_topic, httpRoutePath, componentSampleData);
 
                     boolean flowIsUsed = false;
                     // check if any replacemap nodes existing in current design
