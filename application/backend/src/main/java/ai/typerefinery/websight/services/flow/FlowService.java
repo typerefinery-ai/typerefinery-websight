@@ -108,7 +108,7 @@ public class FlowService {
     public static final String FLOW_TEMPLATE_FIELD_TMS_TOPIC = "<tms-topic>"; // flow step tms topic, used for filtering and wrapping payloads for TMS Payload messages
 
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
-    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/*";
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/{{id}}"; // used to prefix http route url, eg form get url to be used /form/{{id}} will be updated to the {page URL}/{{id}}, this will allow client to substitiute the id in the url
 
     public FlowServiceConfiguration configuration;
 
@@ -330,10 +330,31 @@ public class FlowService {
         return flowResponse;
     }
 
+    public String compileClientHttpRouteUrl(String routerPath) {
+        return compileClientHttpRouteUrl(configuration, routerPath) ;
+    }
+
+    /**
+     * compile client http route url, full url to which client should send request
+     * @param configuration flow service configuration
+     * @param routerPath path to endpoint
+     */
+    public static String compileClientHttpRouteUrl(FlowServiceConfiguration configuration, String routerPath) {
+        String flowapi_httproute =  String.format(configuration.host_url() + configuration.endpoint_client(), routerPath);;
+        return flowapi_httproute;
+    }
+
+
     public String compileEditUrl(String flowstreamid) {
         return compileEditUrl(configuration, flowstreamid) ;
     }
 
+    /**
+     * compile edit url, url to which user should be redirected to edit flow
+     * @param configuration
+     * @param flowstreamid
+     * @return
+     */
     public static String compileEditUrl(FlowServiceConfiguration configuration, String flowstreamid) {
         String flowWsUString = String.format(configuration.flow_ws_url(),flowstreamid);
         String flowapi_editurl = String.format(configuration.flow_designer_url(),"0", URLEncoder.encode(flowWsUString, StandardCharsets.UTF_8),"");
@@ -714,7 +735,7 @@ public class FlowService {
         response.put(prop(PROPERTY_ISCONTAINER), isContainer);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
-        response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
+        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
@@ -778,7 +799,7 @@ public class FlowService {
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
-        response.put(prop(PROPERTY_HTTPROUTE), currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX);
+        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(currentPagePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
@@ -1431,13 +1452,14 @@ public class FlowService {
     )
     public @interface FlowServiceConfiguration {
 
-        public final static String FLOW_HOST = "http://localhost:8000";
+        public final static String FLOW_HOST = "http://localhost:8000"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
         public final static String FLOW_ENDPOINT_DESIGN_SAVE = "/flow/%s/design/save";
         public final static String FLOW_ENDPOINT_DESIGN = "/flow/%s/design";
         public final static String FLOW_ENDPOINT_READ = "/flow/read/%s";
+        public final static String FLOW_ENDPOINT_CLIENT = "/flowproxy/%s"; // this will allow posting data to the flow service via the proxy without CORS issues
         public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
         public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
         public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
@@ -1492,6 +1514,13 @@ public class FlowService {
                 defaultValue = FLOW_ENDPOINT_DESIGN
         )
         String endpoint_design() default FLOW_ENDPOINT_DESIGN;
+
+        @AttributeDefinition(
+                name = "Endpoint Client",
+                description = "Prefix for url that client should be posting to from external service, eg from a form.",
+                defaultValue = FLOW_ENDPOINT_CLIENT
+        )
+        String endpoint_client() default FLOW_ENDPOINT_CLIENT;
 
         @AttributeDefinition(
             name = "Flow WS URL",
