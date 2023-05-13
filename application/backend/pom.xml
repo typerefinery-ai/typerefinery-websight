@@ -52,6 +52,24 @@
         </executions>
       </plugin>
       <plugin>
+          <groupId>pl.ds.websight</groupId>
+          <artifactId>websight-rest-swagger-maven-plugin</artifactId>
+          <version>1.0.1</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+              </execution>
+          </executions>
+          <configuration>
+              <title>WebSight Pages Space API</title>
+              <actionPackages>
+                  <param>ai.typerefinery.websight.actions.rest</param>
+              </actionPackages>
+          </configuration>
+      </plugin>      
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
@@ -122,6 +140,50 @@
       <version>1.4.2</version>
       <groupId>org.apache.sling</groupId>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- rest actions -->
+    <dependency>
+      <artifactId>websight-pages-space-service</artifactId>
+      <version>2.4.0</version>
+      <groupId>pl.ds.websight</groupId>
+      <scope>provided</scope>
+    </dependency>   
+    <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-spaces-service</artifactId>
+        <version>1.0.0</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-rest-framework</artifactId>
+        <version>1.0.8</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-ui-framework-views</artifactId>
+        <version>2.0.0</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-ui-framework-actions</artifactId>
+        <version>2.0.0</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>2.0.1.Final</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>pl.ds.websight</groupId>
+        <artifactId>websight-request-parameters-support</artifactId>
+        <version>1.0.5</version>
+        <scope>provided</scope>
     </dependency>
 
     <!-- Other -->
