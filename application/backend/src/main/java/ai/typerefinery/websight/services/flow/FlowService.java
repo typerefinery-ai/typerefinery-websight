@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.net.UrlEscapers;
 
 import ai.typerefinery.websight.models.components.FlowComponent;
 import ai.typerefinery.websight.services.flow.registry.FlowComponentRegistry;
@@ -633,7 +634,8 @@ public class FlowService {
     public static String compileHttpRoutePath(String resourcePath) {
         String httpRouterPath = resourcePath;
         httpRouterPath = httpRouterPath.replaceAll(JcrConstants.JCR_CONTENT, "_" + JcrConstants.JCR_CONTENT.replace(":", "_"));
-        httpRouterPath = httpRouterPath.replaceAll("[^a-zA-Z0-9/]", "_");
+        // escape url characters
+        httpRouterPath = UrlEscapers.urlFragmentEscaper().escape(httpRouterPath);
         return httpRouterPath;
     }
 
