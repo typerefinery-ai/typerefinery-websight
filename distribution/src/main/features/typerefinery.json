@@ -74,6 +74,9 @@
         "Cache-control=no-cache",
         "Strict-Transport-Security=max-age=31536000"
       ]
+    },
+    "pl.ds.websight.publishing.connectors.filesystem.FileSystemStorageConnector~typerefinery": {
+      "directory.path": "$[env:PUBLISH_DOCROOT;default=docroot]"
     }
   }
 }
