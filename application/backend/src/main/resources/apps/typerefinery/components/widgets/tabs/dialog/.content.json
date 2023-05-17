@@ -40,18 +40,18 @@
         "url": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "url",
-          "label": "URL",
+          "label": "URL - iFrame",
           "description": "This url will be used as source for iFrame together with the query parameters if specified."
         },
         "resourcepath": {
           "sling:resourceType": "wcm/dialogs/components/pathpicker",
           "name": "resourcepath",
-          "label": "Path",
+          "label": "Path - HTML",
           "description": "Resource path to render as html.",
           "ws:display": {
             "condition": {
               "sourceName": "render",
-              "values": "renderhtml"
+              "values": "html"
             }
           }
         },
