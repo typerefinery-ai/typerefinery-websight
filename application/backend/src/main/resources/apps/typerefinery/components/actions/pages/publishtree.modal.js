@@ -120,7 +120,7 @@ class PublisTreeModal extends React.Component {
     return /*#__PURE__*/React.createElement(Modal, 
       {
         isOpen: isOpen,
-        title: "Publish Tree",
+        title: "Publish Pages Tree",
         onClose: this.close,
         primaryAction: {
           title: "Publish",
