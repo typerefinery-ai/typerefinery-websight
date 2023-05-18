@@ -106,6 +106,18 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>pl.ds.websight</groupId>
+      <artifactId>websight-assets-space-service</artifactId>
+      <version>1.6.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>pl.ds.websight</groupId>
+      <artifactId>websight-assets-core-api</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <artifactId>websight-pages-foundation-bundle</artifactId>
       <version>1.2.0</version>
       <groupId>pl.ds.websight</groupId>
