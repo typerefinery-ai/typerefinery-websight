@@ -32,22 +32,26 @@ public class PublishTreePagesRestAction extends AbstractPagesRestAction<PagesRes
   private PublishService publishService;
   
   protected RestActionResult<Void> execute(PagesRestModel model, List<Page> pages) throws PageException, PersistenceException {
-    return publishPages(model, pages);
+    boolean isAllPages = Boolean.valueOf(model.getOptions().equals("all"));
+    boolean isOnlyPublished = Boolean.valueOf(model.getOptions().equals("onlypublished"));
+    return publishPages(isAllPages, isOnlyPublished, pages, this.publishService);
   }
   
+  protected static String getFailureMessage(Integer numberOfSuccesses) {
+    return "Error while publishing " + ((numberOfSuccesses == 1) ? "page" : "pages");
+  }  
   protected String getFailureMessage(PagesRestModel model) {
     return "Error while publishing " + ((model.getItems().size() == 1) ? "page" : "pages");
   }
   
-  private RestActionResult<Void> publishPages(PagesRestModel model, List<Page> pages) {
+  public static RestActionResult<Void> publishPages(boolean isAllPages, boolean isOnlyPublished, List<Page> pages, PublishService publishService)  {
     Map<String, List<String>> resourceProcessors = new HashMap<>();
-    boolean isAllPages = Boolean.valueOf(model.getOptions().equals("all"));
-    boolean isOnlyPublished = Boolean.valueOf(model.getOptions().equals("onlypublished"));
+
     for (Page page : pages) {
       try {
 
         // publish current page
-        List<String> processors = this.publishService.publish(page.getResource(), new PublishOptions(PublishAction.PUBLISH));
+        List<String> processors = publishService.publish(page.getResource(), new PublishOptions(PublishAction.PUBLISH));
         resourceProcessors.put(page.getPath(), processors);
 
         // publish children recursively
@@ -61,7 +65,7 @@ public class PublishTreePagesRestAction extends AbstractPagesRestAction<PagesRes
                 }
                 boolean isPublished = properties.containsKey("ws:lastPublishAction") ? properties.get("ws:lastPublishAction").equals("Publish") : false;
                 if (isAllPages || (isOnlyPublished && isPublished )) {
-                    List<String> childProcessors = this.publishService.publish(p.getResource(), new PublishOptions(PublishAction.PUBLISH));
+                    List<String> childProcessors = publishService.publish(p.getResource(), new PublishOptions(PublishAction.PUBLISH));
                     resourceProcessors.put(p.getPath(), childProcessors);      
                 }
             } catch (PublishException e) {
@@ -70,7 +74,7 @@ public class PublishTreePagesRestAction extends AbstractPagesRestAction<PagesRes
           });
       } catch (PublishException e) {
         LOG.error("Error during publishing pages. ", (Throwable)e);
-        return RestActionResult.failure(getFailureMessage(model), "Please try again or contact administrator");
+        return RestActionResult.failure(getFailureMessage(pages.size()), "Please try again or contact administrator");
       } 
     } 
     Collection<String> notPublishedPages = notPublishedPages(resourceProcessors);
@@ -78,10 +82,10 @@ public class PublishTreePagesRestAction extends AbstractPagesRestAction<PagesRes
       return RestActionResult.success("Publishing requested", "Publishing requested successfully."); 
     LOG.debug("Could not found any publish processor for pages: {}", 
         String.join(", ", (Iterable)notPublishedPages));
-    return RestActionResult.failure(getFailureMessage(model), "Could not found any publish processor for requested resource.");
+    return RestActionResult.failure(getFailureMessage(pages.size()), "Could not found any publish processor for requested resource.");
   }
   
-  private Collection<String> notPublishedPages(Map<String, List<String>> resourceProcessors) {
+  private static Collection<String> notPublishedPages(Map<String, List<String>> resourceProcessors) {
     return (Collection<String>)resourceProcessors.keySet().stream()
       .filter(key -> ((List)resourceProcessors.get(key)).isEmpty())
       .collect(Collectors.toList());
