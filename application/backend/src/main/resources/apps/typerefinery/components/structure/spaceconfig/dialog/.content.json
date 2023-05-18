@@ -1,0 +1,84 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+      "generalTab": {
+        "sling:resourceType": "wcm/dialogs/components/tab",
+        "label": "General",
+        "pageTitle": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Title",
+          "name": "jcr:title",
+          "description": "Value for this field should be [Space Config]",
+          "required": true,
+          "placeholder": "Space Config"
+        },          
+        "pageName": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Name",
+          "description": "Value for this field should be [_admin]",
+          "name": "name",
+          "required": true,
+          "placeholder": "_admin",
+          "ws:disallowedContext": ["edit"]
+        },
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "icon",
+          "name": "icon",
+          "required": false
+        }
+      },
+      "deployTab": {
+        "sling:resourceType": "wcm/dialogs/components/tab",
+        "label": "Deploy",
+        "deployTarget": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "deployTarget",
+          "label": "Deploy Target",
+          "description": "Deploy space contents to Github repository.",
+          "default": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "- Select -",
+            "value": "",
+            "selected": true
+          },  
+          "reference": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "Github",
+            "value": "github"
+          }
+        }
+      },
+      "deployGithubTab": {
+        "sling:resourceType": "wcm/dialogs/components/tab",
+        "label": "Github",
+        "githubRepository": {
+            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "label": "Repository URL",
+            "name": "deployGithubRepositoryUrl",
+            "description": "Github Repository to publish to",
+            "placeholder": "https://github.com/user/repo"
+        },
+        "githubToken": {
+            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "label": "Personal Token",
+            "name": "deployGithubToken",
+            "description": "Github Personal Access Token",
+            "placeholder": "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "githubBranch": {
+            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "label": "Branch",
+            "name": "deployGithubBranch",
+            "placeholder": "gh-pages"
+        },
+        "ws:display": {
+          "condition": {
+            "sourceName": "deployTarget",
+            "values": "github"
+          }
+        }
+      }
+    }
+}
