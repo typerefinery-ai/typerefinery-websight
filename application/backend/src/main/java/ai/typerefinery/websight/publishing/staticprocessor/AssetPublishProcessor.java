@@ -10,6 +10,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+
+import ai.typerefinery.websight.utils.LinkUtil;
 import pl.ds.websight.assets.core.api.Asset;
 import pl.ds.websight.assets.core.api.Rendition;
 import pl.ds.websight.publishing.connectors.spi.StorageConnector;
@@ -34,15 +36,9 @@ public class AssetPublishProcessor extends AbstractPublishProcessor {
   }
   
   String getStoragePath(String resourcePath, PublishOptions options) {
-    return fixStoragePath(options.getProperties().get("rendition").toString());
+    return LinkUtil.fixStoragePath(options.getProperties().get("rendition").toString());
   }
   
-  String fixStoragePath(String storagePath) {
-    String fixedStoragePath = storagePath;
-    fixedStoragePath = fixedStoragePath.replaceFirst(JcrConstants.JCR_CONTENT, "_" + JcrConstants.JCR_CONTENT.replace(":", "_"));
-    return fixedStoragePath;
-  }
-
   InputStream getStorageData(Resource resource) {
     return Optional.<Asset>ofNullable((Asset)resource.adaptTo(Asset.class))
       .map(Asset::getOriginalRendition)
