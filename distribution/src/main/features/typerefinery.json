@@ -55,7 +55,7 @@
       "org.apache.sling.commons.log.additiv": true
     },
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
-      "shorten.paths": true
+      "shorten.paths": false
     },
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
       "user.default": "sling-adminall",
