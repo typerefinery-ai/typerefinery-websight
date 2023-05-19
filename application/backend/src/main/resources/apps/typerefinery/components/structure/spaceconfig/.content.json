@@ -1,4 +1,5 @@
 {
+  "sling:resourceSuperType": "wcm/core/components/page",
   "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "Configuration page for the Space.",
