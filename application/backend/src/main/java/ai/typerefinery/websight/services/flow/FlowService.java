@@ -49,6 +49,7 @@ import ai.typerefinery.websight.services.flow.registry.FlowComponentRegistry;
 import ai.typerefinery.websight.utils.DateUtil;
 import ai.typerefinery.websight.utils.JsonUtil;
 import ai.typerefinery.websight.utils.PageUtil;
+import ai.typerefinery.websight.utils.SlingConstants;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -93,8 +94,6 @@ public class FlowService {
     public static final String PROPERTY_HTTPROUTE = "httproute";
     public static final String PROPERTY_WEBSOCKETURL = "websocketurl";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
-    public static final String SLING_RESOURCE_SUPER_TYPE_PROPERTY = "sling:resourceSuperType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
-    public static final String SLING_RESOURCE_TYPE_PROPERTY = "sling:resourceType"; // org.apache.sling.jcr.resource.JcrResourceConstants , not osgi feature supported
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
@@ -1306,7 +1305,7 @@ public class FlowService {
 
         boolean isComponentFlowEnabled = false;
         ValueMap properties = resource.getValueMap();
-        String slingResourceType = properties.get(SLING_RESOURCE_TYPE_PROPERTY, "");
+        String slingResourceType = properties.get(SlingConstants.SLING_RESOURCE_TYPE_PROPERTY, "");
         // check if slingResourceType is prepended with FLOW_SPI_KEY_IGNORE_PREFIX, if so remove it
         if (slingResourceType.startsWith(FLOW_SPI_KEY_IGNORE_PREFIX)) {
             slingResourceType = slingResourceType.substring(FLOW_SPI_KEY_IGNORE_PREFIX.length());
