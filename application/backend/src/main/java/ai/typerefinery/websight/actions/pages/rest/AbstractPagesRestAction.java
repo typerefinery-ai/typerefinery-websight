@@ -18,23 +18,24 @@ public abstract class AbstractPagesRestAction<T extends PagesRestModel, R> imple
   
   protected abstract String getFailureMessage(T paramT);
   
-  protected abstract RestActionResult<R> execute(T paramT, List<Page> paramList) throws PageException, PersistenceException, PublishException;
+  protected abstract RestActionResult<R> execute(T paramT, List<Resource> paramList) throws PageException, PersistenceException, PublishException;
   
   public RestActionResult<R> perform(T model) {
     PageManager pageManager = model.getPageManager();
     List<String> items = model.getItems();
     String failureMessage = getFailureMessage(model);
-    List<Page> pages = new ArrayList<>(items.size());
+    List<Resource> pages = new ArrayList<>(items.size());
     for (String item : items) {
       Resource child = model.getRequestedResource().getChild(item);
-      if (child == null)
+      if (child == null) {
         return RestActionResult.failure(failureMessage, 
             String.format("The '%s' does not exist or you do not have access to this resource", new Object[] { item })); 
-      Page page = pageManager.getPage(child.getPath());
-      if (page == null)
-        return RestActionResult.failure(failureMessage, 
-            String.format("Resource '%s' must be a page.", new Object[] { item })); 
-      pages.add(page);
+      }
+    //   Page page = pageManager.getPage(child.getPath());
+    //   if (page == null)
+    //     return RestActionResult.failure(failureMessage, 
+    //         String.format("Resource '%s' must be a page.", new Object[] { item })); 
+      pages.add(child);
     } 
     try {
       return execute(model, pages);
