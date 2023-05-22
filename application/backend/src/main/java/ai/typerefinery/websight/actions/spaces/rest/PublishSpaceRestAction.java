@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -177,6 +178,22 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                                 String configEmail = adminChildProperties.containsKey("deployGithubEmail")
                                         ? adminChildProperties.get("deployGithubEmail").toString()
                                         : "";
+                                
+                                // get publishPaths resource with children that have attribute path from admin config page
+                                Resource publishPaths = adminChildPage.getContentResource().getChild("publishPaths");
+                                List<String> publishPathsList = new ArrayList<>();
+                                if (publishPaths != null) {                                    
+                                    Iterator<Resource> publishPathsChildren = publishPaths.listChildren();
+                                    while (publishPathsChildren.hasNext()) {
+                                        Resource publishPathsChild = publishPathsChildren.next();
+                                        ValueMap publishPathsChildValueMap = publishPathsChild.getValueMap();
+                                        String path = publishPathsChildValueMap.containsKey("path")
+                                                ? publishPathsChildValueMap.get("path").toString() : "";
+                                        if (StringUtils.isNotBlank(path)) {
+                                            publishPathsList.add(path);
+                                        }
+                                    }
+                                }
 
                                 if (StringUtils.isBlank(repositoryUrl) || StringUtils.isBlank(branch)
                                         || StringUtils.isBlank(token)) {
@@ -251,6 +268,16 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                                 // copy into it the contents of the /etc.clientlibs folder to deploy folder
                                 if (siteCachePath.toFile().exists()) {
                                     FileUtils.copyDirectory(etcPath.toFile(), publishEtcPath.toFile());
+                                }
+
+                                // copy additional paths from publishPathsList
+                                for (String path : publishPathsList) {
+                                    Path publishPath = Paths.get(docrootPath.toString(), path);
+                                    Path publishPathDestination = Paths.get(docrootPath,"deploy","github", resource.getName(), path);
+                                    publishPathDestination.toFile().mkdirs();
+                                    if (publishPath.toFile().exists()) {
+                                        FileUtils.copyDirectory(publishPath.toFile(), publishPathDestination.toFile());
+                                    }
                                 }
 
                                 // add all files to git

@@ -48,6 +48,18 @@
             "label": "Github",
             "value": "github"
           }
+        },
+        "publishPaths": {
+          "name": "publishPaths",
+          "label": "Additional Paths to Publish",
+          "sling:resourceType": "wcm/dialogs/components/multifield",
+          "ws:disallowedContext": ["edit:panel"],
+          "path": {
+            "sling:resourceType": "wcm/dialogs/components/pathpicker",
+            "rootPath": "/",
+            "name": "path",
+            "label": "Path"
+          }
         }
       },
       "deployGithubTab": {
