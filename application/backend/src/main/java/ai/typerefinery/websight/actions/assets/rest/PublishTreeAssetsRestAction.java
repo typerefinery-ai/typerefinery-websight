@@ -72,11 +72,13 @@ private static final Logger LOG = LoggerFactory.getLogger(PublishTreeAssetsRestA
 
     public static RestActionResult<Void> publishAssets(List<Resource> resources, PublishService publishService) {
         PublishAction publishAction = PublishAction.PUBLISH;
+        resources.stream().forEach(resource -> LOG.debug("Publishing asset: {}", resource.getPath()));
         Collection<Resource> assetsResources = streamAssetsResources(resources).limit(1000L).toList();
         List<ProcessedAsset> processedAssets = new ArrayList<>();
         try {
-            for (Resource resource : assetsResources)
+            for (Resource resource : assetsResources) {
                 processedAssets.add(requestProcess(resource, publishAction, publishService));
+            }
         } catch (PublishException e) {
             LOG.debug("Asset publishing corrupted by en error.", (Throwable) e);
             return RestActionResult.failure("Processed: " + processedAssets.size(), e.getMessage());
@@ -98,12 +100,14 @@ private static final Logger LOG = LoggerFactory.getLogger(PublishTreeAssetsRestA
     }
 
     private static Stream<Resource> streamAssetsResources(Resource resource) {
-        if (isAsset(resource))
+        if (isAsset(resource)) {
             return Stream.of(resource);
-        if (isAssetsFolder(resource))
+        }
+        if (isAssetsFolder(resource)) {
             return streamAssetsResources(
                     (List<Resource>) StreamSupport.stream(resource.getChildren().spliterator(), false)
                             .collect(Collectors.toList()));
+        }
         return Stream.empty();
     }
 
@@ -129,7 +133,7 @@ private static final Logger LOG = LoggerFactory.getLogger(PublishTreeAssetsRestA
     }
 
     private static boolean isAssetsFolder(Resource resource) {
-        return resource.isResourceType("sling:OrderedFolder");
+        return resource.isResourceType("sling:OrderedFolder") || resource.isResourceType("ws:Assets");
     }
 
     private static class ProcessedAsset {
