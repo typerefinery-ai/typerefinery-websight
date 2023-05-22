@@ -70,8 +70,23 @@
         "githubBranch": {
             "sling:resourceType": "wcm/dialogs/components/textfield",
             "label": "Branch",
+            "description": "branch to push file to.",
             "name": "deployGithubBranch",
             "placeholder": "gh-pages"
+        },
+        "githubUsername": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Username",
+          "description": "Username to use for commits (user.name).",
+          "name": "deployGithubUserName",
+          "placeholder": "typerefinery"
+        },
+        "githubEmail": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Email",
+          "description": "Email to use for commits (user.email).",
+          "name": "deployGithubUserEmail",
+          "placeholder": "deploy@typerefinery.ai"
         },
         "ws:display": {
           "condition": {
