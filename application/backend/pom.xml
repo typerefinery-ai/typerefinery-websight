@@ -398,6 +398,12 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.lfs</artifactId>
+      <version>${jgit.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
         <groupId>com.googlecode.javaewah</groupId>
         <artifactId>JavaEWAH</artifactId>
         <version>${JavaEWAH.version}</version>
@@ -408,6 +414,12 @@
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
         <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.jcr.base</artifactId>
+      <version>3.0.4</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
