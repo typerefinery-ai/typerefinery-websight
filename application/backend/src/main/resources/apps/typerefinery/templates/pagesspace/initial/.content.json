@@ -1,0 +1,22 @@
+{
+  "jcr:primaryType": "ws:Pages",
+  "jcr:content": {
+    "jcr:primaryType": "ws:PageContent",
+    "sling:resourceType": "typerefinery/components/structure/pagesspace"
+  },
+  "pages": {
+    "jcr:primaryType": "ws:Pages",
+    "ws:template": "/apps/typerefinery/templates/pagesspace",
+    "jcr:content": {
+      "jcr:primaryType": "ws:PageContent",
+      "sling:resourceType": "typerefinery/components/structure/pagesspace"
+    }  
+  },
+  "assets": {
+    "jcr:primaryType": "ws:Assets",
+    "jcr:content": {
+      "jcr:primaryType": "ws:PageContent",
+      "sling:resourceType": "typerefinery/components/structure/assetsspace"
+    }  
+  }
+}
