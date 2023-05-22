@@ -66,7 +66,7 @@ public class Tabs extends BaseComponent {
     public String contentHeight;
 
     @Inject
-    public String[] path;
+    public String[] path; //TODO: remove this
 
     @Getter
     protected Resource inheritedResource;
