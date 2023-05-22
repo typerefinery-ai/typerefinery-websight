@@ -71,6 +71,14 @@ class PublshSpaceModal extends React.Component {
             this.close();         
             onSuccess()
           },
+          onError: () => {
+            console.log("onError");
+            const {
+              onError
+            } = this.props;
+            this.close();
+            onError();
+          }
         });
       }
       // this.close();
