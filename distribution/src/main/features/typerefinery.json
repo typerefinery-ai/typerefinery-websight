@@ -55,7 +55,7 @@
       "org.apache.sling.commons.log.additiv": true
     },
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
-      "shorten.paths": false
+      "shorten.paths": true
     },
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
       "user.default": "sling-adminall",
@@ -65,7 +65,9 @@
     },
     "org.apache.sling.jcr.repoinit.RepositoryInitializer~repoinit2": {
       "scripts": [
-        " create service user sling-adminall with path system/sling \n        set ACL for sling-adminall\n            allow   jcr:all    on /\n            allow   jcr:read,rep:write    on /content\n        end\n"
+        "# create admin service for content access\n create service user sling-adminall with path system/sling \n        set ACL for sling-adminall\n            allow   jcr:all    on /\n            allow   jcr:read,rep:write    on /content\n        end\n",
+        "# create admin group\ncreate group admins\nset ACL for admins\n    allow jcr:all on /\nend\n\n# content-package installer\ncreate user admin with password admin\nadd admin to group admins\n",
+        "# create normal users group\ncreate group contributors\nset ACL for contributors\n    allow jcr:read on \/content\nend\n"
       ]
     },
     "org.apache.sling.engine.impl.SlingMainServlet~typerefinery":{
