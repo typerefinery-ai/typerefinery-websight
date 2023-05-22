@@ -21,6 +21,7 @@ import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.jcr2spi.JcrLockManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.ds.websight.assets.core.api.Asset;
 import pl.ds.websight.assets.core.api.AssetsConstants;
@@ -102,7 +103,10 @@ public class LinkUtil {
     return resource.getValueMap().get(JcrConstants.JCR_PRIMARYTYPE, String.class);
   }
 
-  public static String fixLink(String link) {
+  public static String fixLink(@NotNull String link) {
+    if (link == null) {
+        return null;
+    }
     return fixStoragePath(link);
   }
 
@@ -111,7 +115,7 @@ public class LinkUtil {
    * @param storagePath
    * @return
    */
-  public static String fixStoragePath(String storagePath) {
+  public static String fixStoragePath(@NotNull String storagePath) {
     String fixedStoragePath = storagePath;
     fixedStoragePath = fixedStoragePath.replaceFirst(JcrConstants.JCR_CONTENT, "_" + JcrConstants.JCR_CONTENT.replace(":", "_"));
     return fixedStoragePath;
