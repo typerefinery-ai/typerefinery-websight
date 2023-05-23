@@ -84,7 +84,7 @@
             "label": "Branch",
             "description": "branch to push file to.",
             "name": "deployGithubBranch",
-            "placeholder": "gh-pages"
+            "placeholder": "main"
         },
         "githubUsername": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
