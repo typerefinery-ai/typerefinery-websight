@@ -146,163 +146,165 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
             }
 
             // do deploy if both assets and pages are successful
-            if (isAssetsSuccess && isPagesSuccess) {
-                if (isDeploy) {
-                    // do jgit publish on docroot folder
-                    GitConfig gitConfig = null;
-                    try {
-                        Resource pagesRoot = resource.getChild("pages");
-                        if (pagesChild != null) {
-                            Resource adminChild = pagesRoot.getChild("_admin");
-                            if (adminChild != null) {
-                                Page adminChildPage = adminChild.adaptTo(Page.class);
-                                Map<String, Object> adminChildProperties = adminChildPage.getContentProperties();
-                                if (adminChildProperties == null) {
-                                    LOG.error("Admin config page does not have any properties.");
-                                    return RestActionResult.failure("Failed",
-                                            "Admin config page does not have any properties.");
-                                }
-                                // ValueMap adminChildValueMap = adminChild.getValueMap();
+            if (isAssetsSuccess && isPagesSuccess && isDeploy) {
+                // do jgit publish on docroot folder
+                GitConfig gitConfig = null;
+                try {
+                    Resource pagesRoot = resource.getChild("pages");
+                    // quick fail if pagesRoot is null  
+                    if (pagesRoot == null) {
+                        LOG.error("No pages to deploy.");
+                        return RestActionResult.failure("Failed", "No pages to deploy.");
+                    }
 
-                                String repositoryUrl = adminChildProperties.containsKey("deployGithubRepositoryUrl")
-                                        ? adminChildProperties.get("deployGithubRepositoryUrl").toString()
-                                        : "";
-                                String branch = adminChildProperties.containsKey("deployGithubBranch")
-                                        ? adminChildProperties.get("deployGithubBranch").toString()
-                                        : "";
-                                String token = adminChildProperties.containsKey("deployGithubToken")
-                                        ? adminChildProperties.get("deployGithubToken").toString()
-                                        : "";
-                                String configUsername = adminChildProperties.containsKey("deployGithubUserName")
-                                        ? adminChildProperties.get("deployGithubUserName").toString()
-                                        : "";
+                    Resource adminChild = pagesRoot.getChild("_admin");
+                    // quick fail if adminChild is null
+                    if (adminChild == null) {
+                        LOG.error("No admin page with config to deploy.");
+                        return RestActionResult.failure("Failed", "No admin page with config to deploy.");
+                    }
 
-                                String configEmail = adminChildProperties.containsKey("deployGithubUserEmail")
-                                        ? adminChildProperties.get("deployGithubUserEmail").toString()
-                                        : "";
-                                
-                                // get publishPaths resource with children that have attribute path from admin config page
-                                Resource publishPaths = adminChildPage.getContentResource().getChild("publishPaths");
-                                List<String> publishPathsList = new ArrayList<>();
-                                if (publishPaths != null) {                                    
-                                    Iterator<Resource> publishPathsChildren = publishPaths.listChildren();
-                                    while (publishPathsChildren.hasNext()) {
-                                        Resource publishPathsChild = publishPathsChildren.next();
-                                        ValueMap publishPathsChildValueMap = publishPathsChild.getValueMap();
-                                        String path = publishPathsChildValueMap.containsKey("path")
-                                                ? publishPathsChildValueMap.get("path").toString() : "";
-                                        if (StringUtils.isNotBlank(path)) {
-                                            publishPathsList.add(path);
-                                        }
-                                    }
-                                }
+                    Page adminChildPage = adminChild.adaptTo(Page.class);
+                    Map<String, Object> adminChildProperties = adminChildPage.getContentProperties();
+                    if (adminChildProperties == null) {
+                        LOG.error("Admin config page does not have any properties.");
+                        return RestActionResult.failure("Failed",
+                                "Admin config page does not have any properties.");
+                    }
+                    // ValueMap adminChildValueMap = adminChild.getValueMap();
 
-                                if (StringUtils.isBlank(repositoryUrl) || StringUtils.isBlank(branch)
-                                        || StringUtils.isBlank(token)) {
-                                    LOG.error("Space admin config properties are not complete.");
-                                    return RestActionResult.failure("Failed",
-                                            "Admin config properties are not complete.");
-                                }
+                    String repositoryUrl = adminChildProperties.containsKey("deployGithubRepositoryUrl")
+                            ? adminChildProperties.get("deployGithubRepositoryUrl").toString()
+                            : "";
+                    String branch = adminChildProperties.containsKey("deployGithubBranch")
+                            ? adminChildProperties.get("deployGithubBranch").toString()
+                            : "";
+                    String token = adminChildProperties.containsKey("deployGithubToken")
+                            ? adminChildProperties.get("deployGithubToken").toString()
+                            : "";
+                    String configUsername = adminChildProperties.containsKey("deployGithubUserName")
+                            ? adminChildProperties.get("deployGithubUserName").toString()
+                            : "";
 
-                                if (!repositoryUrl.endsWith(".git")) {
-                                    repositoryUrl = repositoryUrl + ".git";
-                                }
-                                                        
-                                // get current user
-                                Session session = resource.getResourceResolver().adaptTo(Session.class);
-                                UserManager userManager = AccessControlUtil.getUserManager(session);
-                                String userId = session.getUserID();
-                                Authorizable user = userManager.getAuthorizable(userId);
-
-                                // this will mean they have a profile and with email, otherwise they are admin
-                                Boolean userHasProfile = user.hasProperty("profile/email");
-
-                                // get user email and username
-                                String user_email = user.hasProperty("profile/email") ? user.getProperty("profile/email").toString() : (StringUtils.isNotBlank(configEmail) ? configEmail : DEFAULT_GIT_USER_EMAIL);
-                                String user_name = userHasProfile ? user.getID() : (StringUtils.isNotBlank(configUsername) ? configUsername : DEFAULT_GIT_USER_NAME);
-
-                                // get environment variable PUBLISH_DOCROOT
-                                String docrootPath = System.getenv("PUBLISH_DOCROOT");
-
-                                // create new folder docroot/deploy/githuib/<space-name>
-                                Path publishPagesPath = Paths.get(docrootPath,"deploy","github", resource.getName());                                
-                                publishPagesPath.toFile().mkdirs();
-                                
-                                // where is the current site cache located
-                                Path siteCachePath = Paths.get(docrootPath, resource.getPath(), "pages");
-
-                                // create git config object
-                                gitConfig = new GitConfig(
-                                    repositoryUrl, 
-                                    publishPagesPath, 
-                                    branch, 
-                                    token, 
-                                    user_email, 
-                                    user_name
-                                );
-                                
-                                // get git object
-                                GitUtil.initializeGit(gitConfig, true);
-
-                                // copy all from from sitePathFolder to publishPagesPath, all pages go into root
-                                if (siteCachePath.toFile().exists()) {
-                                    FileUtils.copyDirectory(siteCachePath.toFile(), publishPagesPath.toFile());
-                                }
-
-                                // where is the current site cache located
-                                Path assetsPath = Paths.get(docrootPath.toString(), resource.getPath(), "assets");
-
-                                // create new folder docroot/deploy/githuib/<space-name>/assets, all assets go into root/assets
-                                Path publishAssetsPath = Paths.get(docrootPath,"deploy","github", resource.getName(), "assets"); 
-                                publishAssetsPath.toFile().mkdirs();
-
-                                //copy assetsPathFolder folder to publishAssetsPathFolder
-                                if (assetsPath.toFile().exists()) {
-                                    FileUtils.copyDirectory(assetsPath.toFile(), publishAssetsPath.toFile());
-                                }
-                                // create new folder docroot/deploy/githuib/etc.clientlibs, all clientlibs go into root/etc.clientlibs
-                                Path publishEtcPath = Paths.get(docrootPath,"deploy","github", resource.getName(), "etc.clientlibs");
-                                publishEtcPath.toFile().mkdirs();
-
-                                // where is the current clientlibs cache located
-                                Path etcPath = Paths.get(docrootPath.toString(), "etc.clientlibs");
-
-                                // copy into it the contents of the /etc.clientlibs folder to deploy folder
-                                if (siteCachePath.toFile().exists()) {
-                                    FileUtils.copyDirectory(etcPath.toFile(), publishEtcPath.toFile());
-                                }
-
-                                // copy additional paths from publishPathsList
-                                for (String path : publishPathsList) {
-                                    Path publishPath = Paths.get(docrootPath.toString(), path);
-                                    Path publishPathDestination = Paths.get(docrootPath,"deploy","github", resource.getName(), path);
-                                    publishPathDestination.toFile().mkdirs();
-                                    if (publishPath.toFile().exists()) {
-                                        FileUtils.copyDirectory(publishPath.toFile(), publishPathDestination.toFile());
-                                    }
-                                }
-
-                                // add all files to git
-                                GitUtil.createCommit(gitConfig, ".", "Deployed from " + resource.getPath());
-
-                                // push to git remote
-                                GitUtil.push(gitConfig);
-
-                            } else {
-                                LOG.error("No admin page with config to deploy.");
-                                return RestActionResult.failure("Failed", "No pages to deploy.");
+                    String configEmail = adminChildProperties.containsKey("deployGithubUserEmail")
+                            ? adminChildProperties.get("deployGithubUserEmail").toString()
+                            : "";
+                    
+                    // get publishPaths resource with children that have attribute path from admin config page
+                    Resource publishPaths = adminChildPage.getContentResource().getChild("publishPaths");
+                    List<String> publishPathsList = new ArrayList<>();
+                    if (publishPaths != null) {                                    
+                        Iterator<Resource> publishPathsChildren = publishPaths.listChildren();
+                        while (publishPathsChildren.hasNext()) {
+                            Resource publishPathsChild = publishPathsChildren.next();
+                            ValueMap publishPathsChildValueMap = publishPathsChild.getValueMap();
+                            String path = publishPathsChildValueMap.containsKey("path")
+                                    ? publishPathsChildValueMap.get("path").toString() : "";
+                            if (StringUtils.isNotBlank(path)) {
+                                publishPathsList.add(path);
                             }
-                        } else {
-                            LOG.error("No pages to deploy.");
-                            return RestActionResult.failure("Failed", "No pages to deploy.");
                         }
-                    } catch (Exception ex) {
-                        LOG.error("Error while publishing to github: {}", ex);
-                        return RestActionResult.failure("Failed", MessageFormat.format("Error while publishing to github, {}", ex.getMessage()));
-                    } finally {
-                        if (gitConfig.git != null) {
-                            gitConfig.git.close();
+                    }
+
+                    if (StringUtils.isBlank(repositoryUrl) || StringUtils.isBlank(branch)
+                            || StringUtils.isBlank(token)) {
+                        LOG.error("Space admin config properties are not complete.");
+                        return RestActionResult.failure("Failed",
+                                "Admin config properties are not complete.");
+                    }
+
+                    if (!repositoryUrl.endsWith(".git")) {
+                        repositoryUrl = repositoryUrl + ".git";
+                    }
+                                            
+                    // get current user
+                    Session session = resource.getResourceResolver().adaptTo(Session.class);
+                    UserManager userManager = AccessControlUtil.getUserManager(session);
+                    String userId = session.getUserID();
+                    Authorizable user = userManager.getAuthorizable(userId);
+
+                    // this will mean they have a profile and with email, otherwise they are admin
+                    Boolean userHasProfile = user.hasProperty("profile/email");
+
+                    // get user email and username
+                    String user_email = user.hasProperty("profile/email") ? user.getProperty("profile/email").toString() : (StringUtils.isNotBlank(configEmail) ? configEmail : DEFAULT_GIT_USER_EMAIL);
+                    String user_name = userHasProfile ? user.getID() : (StringUtils.isNotBlank(configUsername) ? configUsername : DEFAULT_GIT_USER_NAME);
+
+                    // get environment variable PUBLISH_DOCROOT
+                    String docrootPath = System.getenv("PUBLISH_DOCROOT");
+
+                    // create new folder docroot/deploy/githuib/<space-name>
+                    Path publishPagesPath = Paths.get(docrootPath,"deploy","github", resource.getName());                                
+                    publishPagesPath.toFile().mkdirs();
+                    
+                    // where is the current site cache located
+                    Path siteCachePath = Paths.get(docrootPath, resource.getPath(), "pages");
+
+                    // create git config object
+                    gitConfig = new GitConfig(
+                        repositoryUrl, 
+                        publishPagesPath, 
+                        branch, 
+                        token, 
+                        DEFAULT_GIT_USER_EMAIL, 
+                        DEFAULT_GIT_USER_NAME
+                    );
+                    
+                    // get git object
+                    GitUtil.initializeGit(gitConfig, true);
+
+                    // copy all from from sitePathFolder to publishPagesPath, all pages go into root
+                    if (siteCachePath.toFile().exists()) {
+                        FileUtils.copyDirectory(siteCachePath.toFile(), publishPagesPath.toFile());
+                    }
+
+                    // where is the current site cache located
+                    Path assetsPath = Paths.get(docrootPath.toString(), resource.getPath(), "assets");
+
+                    // create new folder docroot/deploy/githuib/<space-name>/assets, all assets go into root/assets
+                    Path publishAssetsPath = Paths.get(docrootPath,"deploy","github", resource.getName(), "assets"); 
+                    publishAssetsPath.toFile().mkdirs();
+
+                    //copy assetsPathFolder folder to publishAssetsPathFolder
+                    if (assetsPath.toFile().exists()) {
+                        FileUtils.copyDirectory(assetsPath.toFile(), publishAssetsPath.toFile());
+                    }
+                    // create new folder docroot/deploy/githuib/etc.clientlibs, all clientlibs go into root/etc.clientlibs
+                    Path publishEtcPath = Paths.get(docrootPath,"deploy","github", resource.getName(), "etc.clientlibs");
+                    publishEtcPath.toFile().mkdirs();
+
+                    // where is the current clientlibs cache located
+                    Path etcPath = Paths.get(docrootPath.toString(), "etc.clientlibs");
+
+                    // copy into it the contents of the /etc.clientlibs folder to deploy folder
+                    if (siteCachePath.toFile().exists()) {
+                        FileUtils.copyDirectory(etcPath.toFile(), publishEtcPath.toFile());
+                    }
+
+                    // copy additional paths from publishPathsList
+                    for (String path : publishPathsList) {
+                        Path publishPath = Paths.get(docrootPath.toString(), path);
+                        Path publishPathDestination = Paths.get(docrootPath,"deploy","github", resource.getName(), path);
+                        publishPathDestination.toFile().mkdirs();
+                        if (publishPath.toFile().exists()) {
+                            FileUtils.copyDirectory(publishPath.toFile(), publishPathDestination.toFile());
                         }
+                    }
+
+                    // add all files to git
+                    GitUtil.createCommit(gitConfig, ".", "Deployed from " + resource.getPath());
+
+                    // push to git remote
+                    GitUtil.push(gitConfig);
+
+                    
+                
+                } catch (Exception ex) {
+                    LOG.error("Error while publishing to github: {}", ex);
+                    return RestActionResult.failure("Failed", MessageFormat.format("Error while publishing to github, {}", ex.getMessage()));
+                } finally {
+                    if (gitConfig.git != null) {
+                        gitConfig.git.close();
                     }
                 }
 
