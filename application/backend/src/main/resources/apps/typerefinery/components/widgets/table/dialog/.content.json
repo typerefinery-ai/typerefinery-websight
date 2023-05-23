@@ -5,6 +5,16 @@
     "general": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "General",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "uniqueIdColumn": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "uniqueIdColumn",
@@ -56,8 +66,19 @@
     "actionButtonTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Action",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "actionButtons": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "name": "actionButtons",
         "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
         "icon": {
@@ -100,8 +121,19 @@
         "label": "Override Columns",
         "description": "If enabled then the columns listed below will be overridden by the columns which come from TMS or Data Source"
       },
+      "warningColumns": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "columns": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "name": "columns",
         "label": "Columns",
         "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",
@@ -121,8 +153,19 @@
           "label": "Type (Must be anything from the list below - STRING (default), BADGE, IMAGE, LINK)"
         }
       },
+      "warningColumnRules": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "columnRules": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "name": "columnRules",
         "label": "Column Rules",
         "description": "In case if the there is more then 2 action buttons then except the first button the rest will be displayed in a dropdown",

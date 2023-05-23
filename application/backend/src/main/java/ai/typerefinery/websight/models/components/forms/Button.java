@@ -171,10 +171,7 @@ public class Button extends BaseFormComponent {
     @Override
     @PostConstruct
     protected void init() {
-        HashMap<String, Object> props = new HashMap<String, Object>() {
-            {
-            }
-        };
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
 
         if (StringUtils.isBlank(this.label)) {
             this.label = DEFAULT_LABEL;
@@ -212,6 +209,10 @@ public class Button extends BaseFormComponent {
         if (persistColorWhenThemeSwitches == null) {
             persistColorWhenThemeSwitches = true;
             props.put("persistColorWhenThemeSwitches", persistColorWhenThemeSwitches);
+        }
+
+        if (props.size() > 0) {
+            //update any defaults that should be set
             PageUtil.updatResourceProperties(resource, props);
         }
     }

@@ -1,6 +1,8 @@
-# Dialog
+# URL
 
-Components to be used in authoring dialogs.
+This component is used to output a link in a dialog with the ability to open that link in a new tab.
+
+Reference: https://atlassian.design/components/inline-message/examples
 
 Example
 

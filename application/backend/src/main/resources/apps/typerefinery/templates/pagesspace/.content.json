@@ -1,5 +1,6 @@
 {
   "allowedChildren": [
+    "/apps/typerefinery/templates/spaceconfig",
     "/apps/typerefinery/templates/blank",
     "/apps/typerefinery/templates/page",
     "/apps/typerefinery/templates/dashboard",

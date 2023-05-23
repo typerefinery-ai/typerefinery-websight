@@ -21,6 +21,11 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "numOfRows",
         "label": "Number Of Rows"
+      },
+      "numOfCols": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "numOfCols",
+        "label": "Number Of Cols"
       }
     },
     "validationTab": {

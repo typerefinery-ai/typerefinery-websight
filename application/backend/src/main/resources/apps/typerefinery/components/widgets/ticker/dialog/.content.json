@@ -5,6 +5,16 @@
     "configTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Config",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "title": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "label": "Title",
@@ -14,6 +24,7 @@
         "name": "keyValueList",
         "label": "Template Key and default value",
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "key": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "key",

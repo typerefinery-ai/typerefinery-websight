@@ -132,10 +132,7 @@ public class Chart extends FlowComponent implements FlowComponentRegister {
         }
 
         // default values to be saved to resource if any are missing
-        HashMap<String, Object> props = new HashMap<String, Object>() {
-            {
-            }
-        };
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
@@ -145,11 +142,14 @@ public class Chart extends FlowComponent implements FlowComponentRegister {
             this.flowapi_sampledata = DEFAULT_FLOWAPI_SAMPLEDATA;
             props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
-        if (StringUtils.isBlank(this.websocketTopic)) {
+        if (StringUtils.isBlank(this.websocketTopic) && StringUtils.isNotBlank(this.flowapi_topic)) {
             this.websocketTopic = this.flowapi_topic;
         }
 
-        PageUtil.updatResourceProperties(resource, props);
+        if (props.size() > 0) {
+            //update any defaults that should be set
+            PageUtil.updatResourceProperties(resource, props);
+        }
     }
     @Override
     public String getKey() {

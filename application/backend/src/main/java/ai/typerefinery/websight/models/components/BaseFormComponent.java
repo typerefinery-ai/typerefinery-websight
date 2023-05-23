@@ -38,6 +38,8 @@ public class BaseFormComponent extends BaseComponent {
 
     public static final String PROPERTY_NAME = "name";
     public static final String PROPERTY_LABEL = "label";
+    public static final String PROPERTY_VALUE = "value";
+    public static final String PROPERTY_PLACEHOLDER = "placeholder";
 
     @Self
     private SlingHttpServletRequest request;
@@ -53,6 +55,18 @@ public class BaseFormComponent extends BaseComponent {
     @Named(PROPERTY_LABEL)
     @Nullable
     protected String label;
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_VALUE)
+    @Nullable
+    protected String value;
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_PLACEHOLDER)
+    @Nullable
+    protected String placeholder;
 
     @Inject
     @Getter

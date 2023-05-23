@@ -40,11 +40,6 @@ public class Select extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "Select the data")
-    private String placeholder;
-
-    @Inject
-    @Getter
     @Default(booleanValues = false)
     private Boolean validationRequired;
 
@@ -113,11 +108,11 @@ public class Select extends BaseFormComponent {
         super.init();
 
         if (StringUtils.isBlank(label)) {
-            label = DEFAULT_LABEL;
+            this.label = DEFAULT_LABEL;
         }
 
         if (StringUtils.isBlank(placeholder)) {
-            placeholder = DEFAULT_PLACEHOLDER;
+            this.placeholder = DEFAULT_PLACEHOLDER;
         }
 
         style.addClasses(DEFAULT_SELECT_CLASSES);

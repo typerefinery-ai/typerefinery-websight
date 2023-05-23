@@ -5,6 +5,16 @@
         "menuTab": {
             "sling:resourceType": "wcm/dialogs/components/tab",
             "label": "Menu",
+            "warning": {
+              "sling:resourceType": "typerefinery/components/dialog/label",
+              "ws:disallowedContext": ["edit:dialog"],
+              "appearance": "error",
+              "iconLabel": "Open Dialog",
+              "title": "Some fields are not editable in side-panel.",
+              "message": "Please open this component in dialog to edit these fields.",
+              "secondaryText": "",
+              "placement": "bottom-start"
+            },
             "mobileTitle": {
                 "sling:resourceType": "wcm/dialogs/components/textfield",
                 "name": "mobileMenuTitle",
@@ -19,6 +29,7 @@
                     "label": "Label"
                 },
                 "sling:resourceType": "wcm/dialogs/components/multifield",
+                "ws:disallowedContext": ["edit:panel"],
                 "link": {
                     "sling:resourceType": "wcm/dialogs/components/pathpicker",
                     "rootPath": "/content",

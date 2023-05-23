@@ -5,9 +5,20 @@
     "tabsTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Tabs",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "tabs": {
         "name": "tabs",
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "title": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "title",
@@ -29,18 +40,18 @@
         "url": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
           "name": "url",
-          "label": "URL",
+          "label": "URL - iFrame",
           "description": "This url will be used as source for iFrame together with the query parameters if specified."
         },
         "resourcepath": {
           "sling:resourceType": "wcm/dialogs/components/pathpicker",
           "name": "resourcepath",
-          "label": "Path",
+          "label": "Path - HTML",
           "description": "Resource path to render as html.",
           "ws:display": {
             "condition": {
               "sourceName": "render",
-              "values": "renderhtml"
+              "values": "html"
             }
           }
         },
@@ -80,8 +91,19 @@
     "eventsTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Events",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
       "event": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "name": "events",
         "description": "Event that this component is emits/send to",
         "label": "Events",

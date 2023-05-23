@@ -1,8 +1,18 @@
 {
     "sling:resourceType": "wcm/dialogs/components/tab",
     "label": "Events",
+    "warning": {
+      "sling:resourceType": "typerefinery/components/dialog/label",
+      "ws:disallowedContext": ["edit:dialog"],
+      "appearance": "error",
+      "iconLabel": "Open Dialog",
+      "title": "Some fields are not editable in side-panel.",
+      "secondaryText": "",
+      "placement": "bottom-start"
+    },
     "event": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
         "name": "events",
         "description": "Event that this component is emits/send to",
         "label": "Events",

@@ -17,8 +17,11 @@
 package ai.typerefinery.websight.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.JcrConstants;
+import org.apache.jackrabbit.jcr2spi.JcrLockManager;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.ds.websight.assets.core.api.Asset;
 import pl.ds.websight.assets.core.api.AssetsConstants;
@@ -41,7 +44,7 @@ public class LinkUtil {
         return handleExternalLink(link);
       }
     }
-
+    link = fixLink(link);
     return link;
   }
 
@@ -49,7 +52,7 @@ public class LinkUtil {
     if (isAsset(link, resourceResolver)) {
       Asset asset = getAssetForProvidedLink(link, resourceResolver);
       if (asset != null && asset.getOriginalRendition() != null) {
-        return asset.getOriginalRendition().getPath();
+        return fixLink(asset.getOriginalRendition().getPath());
       }
 
       return null;
@@ -97,6 +100,24 @@ public class LinkUtil {
     if (resource == null) {
       return null;
     }
-    return resource.getValueMap().get("jcr:primaryType", String.class);
+    return resource.getValueMap().get(JcrConstants.JCR_PRIMARYTYPE, String.class);
+  }
+
+  public static String fixLink(@NotNull String link) {
+    if (link == null) {
+        return null;
+    }
+    return fixStoragePath(link);
+  }
+
+  /**
+   * Fix storage path for assets with jcr:content in the name
+   * @param storagePath
+   * @return
+   */
+  public static String fixStoragePath(@NotNull String storagePath) {
+    String fixedStoragePath = storagePath;
+    fixedStoragePath = fixedStoragePath.replaceFirst(JcrConstants.JCR_CONTENT, "_" + JcrConstants.JCR_CONTENT.replace(":", "_"));
+    return fixedStoragePath;
   }
 }

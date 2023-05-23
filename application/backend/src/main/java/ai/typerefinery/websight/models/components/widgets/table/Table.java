@@ -174,10 +174,8 @@ public class Table extends FlowComponent implements FlowComponentRegister {
             this.websocketTopic = this.flowapi_topic;
         }
         // default values to be saved to resource if any are missing
-        HashMap<String, Object> props = new HashMap<String, Object>() {
-            {
-            }
-        };
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
+        
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
             props.put(FlowService.prop(FlowService.PROPERTY_TEMPLATE), this.flowapi_template);
@@ -191,8 +189,10 @@ public class Table extends FlowComponent implements FlowComponentRegister {
         }
         props.put("overRideColumns", this.overRideColumns);
         
-        // update any defaults that should be set
-        PageUtil.updatResourceProperties(resource, props);
+        if (props.size() > 0) {
+            //update any defaults that should be set
+            PageUtil.updatResourceProperties(resource, props);
+        }
 
     }
 

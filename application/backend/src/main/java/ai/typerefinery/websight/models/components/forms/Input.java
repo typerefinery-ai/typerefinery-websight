@@ -50,11 +50,6 @@ public class Input extends BaseFormComponent {
 
     @Inject
     @Getter
-    @Default(values = "")
-    private String placeholder;
-
-    @Inject
-    @Getter
     @Default(values = "text")
     private String inputType;
 
@@ -75,11 +70,11 @@ public class Input extends BaseFormComponent {
         super.init();
 
         if (StringUtils.isBlank(label)) {
-            label = DEFAULT_LABEL;
+            this.label = DEFAULT_LABEL;
         }
 
         if (StringUtils.isBlank(placeholder)) {
-            placeholder = DEFAULT_PLACEHOLDER;
+            this.placeholder = DEFAULT_PLACEHOLDER;
         }
 
         style.addClasses("form-control mt-1");

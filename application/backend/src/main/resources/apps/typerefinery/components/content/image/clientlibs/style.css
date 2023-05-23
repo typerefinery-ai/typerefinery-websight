@@ -1,0 +1,20 @@
+
+[component='image'] img {
+  max-width: 100%;
+
+  &.lazyload:not([src]) {
+    visibility: hidden;
+  }
+}
+
+[component='image'] figure,
+[component='image'] picture {
+  img {
+    display: block;
+    min-width: 100%;
+  }
+}
+
+[component='image'] picture img {
+  width: auto;
+}

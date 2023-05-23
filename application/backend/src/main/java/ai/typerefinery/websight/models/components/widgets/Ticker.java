@@ -179,13 +179,11 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
     @Inject
     public String templateSelected;
 
-    public Map<String, String> templateList = new HashMap<String, String>() {
-        {
-            put("1", DEFAULT_TEMPLATE_I);
-            put("2", DEFAULT_TEMPLATE_II);
-            put("3", DEFAULT_TEMPLATE_III);
-        }
-    };
+    public Map<String, String> templateList = new HashMap<String, String>() {{
+        put("1", DEFAULT_TEMPLATE_I);
+        put("2", DEFAULT_TEMPLATE_II);
+        put("3", DEFAULT_TEMPLATE_III);
+    }};
 
     @Override
     @PostConstruct
@@ -236,10 +234,7 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
         }
 
         // default values to be saved to resource if any are missing
-        HashMap<String, Object> props = new HashMap<String, Object>() {
-            {
-            }
-        };
+        HashMap<String, Object> props = new HashMap<String, Object>(){{}};
 
         if (StringUtils.isBlank(this.flowapi_template)) {
             this.flowapi_template = DEFAULT_FLOWAPI_TEMPLATE;
@@ -269,9 +264,10 @@ public class Ticker extends FlowComponent implements FlowComponentRegister {
                     new WidgetOptionItem("indicatorPrecisionValue", "Since last quarter"));
         }
         
-        // update any defaults that should be set
-        PageUtil.updatResourceProperties(resource, props);
-
+        if (props.size() > 0) {
+            //update any defaults that should be set
+            PageUtil.updatResourceProperties(resource, props);
+        }
     }
 
     @Override
