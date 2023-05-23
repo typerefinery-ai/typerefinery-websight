@@ -872,6 +872,34 @@ public class GitUtil {
 
     private static void updateGitConfigs(GitConfig gitConfig) throws IOException {
         StoredConfig config = gitConfig.git.getRepository().getConfig();
+        
+        config.setString(ConfigConstants.CONFIG_CORE_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_EOL,
+            "lf");
+
+        config.setBoolean(ConfigConstants.CONFIG_USER_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_AUTOCRLF,
+            false);
+            
+        config.setBoolean(ConfigConstants.CONFIG_USER_SECTION,
+            null,
+            "longpaths",
+            true);
+
+        if (StringUtils.isNotBlank(gitConfig.email)) {
+            config.setString(ConfigConstants.CONFIG_USER_SECTION,
+                null,
+                ConfigConstants.CONFIG_KEY_EMAIL,
+                gitConfig.email);
+        }
+        if (StringUtils.isNotBlank(gitConfig.name)) {
+            config.setString(ConfigConstants.CONFIG_USER_SECTION,
+                null,
+                ConfigConstants.CONFIG_KEY_NAME,
+                gitConfig.name);
+        }
         if (gitConfig.noVerify) {
             config.setBoolean(ConfigConstants.CONFIG_COMMIT_SECTION,
                 null,

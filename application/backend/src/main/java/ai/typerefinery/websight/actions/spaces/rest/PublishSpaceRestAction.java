@@ -237,8 +237,8 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                                     publishPagesPath, 
                                     branch, 
                                     token, 
-                                    user_name, 
-                                    user_email
+                                    user_email, 
+                                    user_name
                                 );
                                 
                                 // get git object
@@ -286,12 +286,7 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                                 GitUtil.createCommit(gitConfig, ".", "Deployed from " + resource.getPath());
 
                                 // push to git remote
-                                try {
-                                    GitUtil.push(gitConfig);
-                                } catch (Exception ex) {
-                                    LOG.error("Error while pushing to git repo", ex);
-                                    return RestActionResult.failure("Failed", "Failed to deploy pages and assets");
-                                }
+                                GitUtil.push(gitConfig);
 
                             } else {
                                 LOG.error("No admin page with config to deploy.");
@@ -301,9 +296,6 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                             LOG.error("No pages to deploy.");
                             return RestActionResult.failure("Failed", "No pages to deploy.");
                         }
-                    } catch ( JGitInternalException | GitAPIException jex) {
-                        LOG.error("Git error while publishing to github: {}", jex);
-                        return RestActionResult.failure("Failed", MessageFormat.format("Git error while publishing to github, {}", jex.getMessage()));
                     } catch (Exception ex) {
                         LOG.error("Error while publishing to github: {}", ex);
                         return RestActionResult.failure("Failed", MessageFormat.format("Error while publishing to github, {}", ex.getMessage()));
@@ -321,13 +313,6 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
 
         return RestActionResult.success("Failed", "Failed to publish site and push to GitHub.");
 
-        // PublishAssetResult publishResult =
-        // this.publishAssetService.publish(resources);
-        // if (publishResult.isSuccess())
-        // return getSuccessResult(publishResult.getNumberOfSuccesses());
-        // int requestedAssetsCount = publishResult.getNumberOfSuccesses();
-        // return RestActionResult.failure(getFailureMessage(model), publishResult
-        // .getErrorMessage() + publishResult.getErrorMessage());
     }
 
     private RestActionResult<Void> getSuccessResult(int assetsCount) {
