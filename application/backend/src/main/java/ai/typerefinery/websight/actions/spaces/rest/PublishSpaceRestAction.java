@@ -3,6 +3,7 @@ package ai.typerefinery.websight.actions.spaces.rest;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.jackrabbit.core.TransactionException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 import org.eclipse.jgit.api.Git;
@@ -171,12 +173,12 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                                 String token = adminChildProperties.containsKey("deployGithubToken")
                                         ? adminChildProperties.get("deployGithubToken").toString()
                                         : "";
-                                String configUsername = adminChildProperties.containsKey("deployGithubUsername")
-                                        ? adminChildProperties.get("deployGithubUsername").toString()
+                                String configUsername = adminChildProperties.containsKey("deployGithubUserName")
+                                        ? adminChildProperties.get("deployGithubUserName").toString()
                                         : "";
 
-                                String configEmail = adminChildProperties.containsKey("deployGithubEmail")
-                                        ? adminChildProperties.get("deployGithubEmail").toString()
+                                String configEmail = adminChildProperties.containsKey("deployGithubUserEmail")
+                                        ? adminChildProperties.get("deployGithubUserEmail").toString()
                                         : "";
                                 
                                 // get publishPaths resource with children that have attribute path from admin config page
@@ -299,12 +301,12 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                             LOG.error("No pages to deploy.");
                             return RestActionResult.failure("Failed", "No pages to deploy.");
                         }
-                    } catch (JGitInternalException | GitAPIException jex) {
+                    } catch ( JGitInternalException | GitAPIException jex) {
                         LOG.error("Git error while publishing to github: {}", jex);
-                        return RestActionResult.failure("Failed", "Failed to deploy pages and assets");
+                        return RestActionResult.failure("Failed", MessageFormat.format("Git error while publishing to github, {}", jex.getMessage()));
                     } catch (Exception ex) {
                         LOG.error("Error while publishing to github: {}", ex);
-                        return RestActionResult.failure("Failed", "Failed to deploy pages and assets");
+                        return RestActionResult.failure("Failed", MessageFormat.format("Error while publishing to github, {}", ex.getMessage()));
                     } finally {
                         if (gitConfig.git != null) {
                             gitConfig.git.close();
@@ -312,12 +314,12 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
                     }
                 }
 
-                return RestActionResult.success("OK", "OK");
+                return RestActionResult.success("Success", "Site published and pushed to GitHub.");
             }
 
         }
 
-        return RestActionResult.success("Failed", "Failed to publish pages and assets");
+        return RestActionResult.success("Failed", "Failed to publish site and push to GitHub.");
 
         // PublishAssetResult publishResult =
         // this.publishAssetService.publish(resources);
