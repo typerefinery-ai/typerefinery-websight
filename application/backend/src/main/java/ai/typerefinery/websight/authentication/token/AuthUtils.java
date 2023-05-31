@@ -143,9 +143,9 @@ public class AuthUtils {
     }
     if (request.isSecure()) {
       header.append("; Secure"); 
-    }
-    if (StringUtils.isNotBlank(sameSite)) {
-      header.append("; SameSite=").append("none"); 
+      if (StringUtils.isNotBlank(sameSite)) {
+        header.append("; SameSite=").append("none"); 
+      }
     }
     LOGGER.debug("Cookie {} set", header);
     response.addHeader("Set-Cookie", header.toString());
