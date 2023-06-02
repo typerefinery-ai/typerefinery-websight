@@ -202,15 +202,10 @@ public class Treeview extends BaseComponent {
         children.put(JcrConstants.JCR_CONTENT, new TreeMap<String, Object>() {{
             put("name", resourceName);
             put("key", parentPage.getPath());
-<<<<<<< HEAD:application/backend/src/main/java/io/typerefinery/websight/models/components/layout/SideBar.java
-            put("title", parentPage.getValueMap().get(JcrConstants.JCR_TITLE, resourceName));
-            // put(PageUtil.PROPERTY_HIDEINNAV, parentPage.getValueMap().get(PageUtil.PROPERTY_HIDEINNAV, false));
-=======
             put("title", title);
             put("icon", icon);
             put("description", description);
             put("hideInNav", hideInNav);
->>>>>>> develop:application/backend/src/main/java/ai/typerefinery/websight/models/components/widgets/Treeview.java
         }});
         
         for (Resource child : parentPage.getChildren()) {

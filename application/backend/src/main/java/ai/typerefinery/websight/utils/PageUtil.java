@@ -47,13 +47,10 @@ public class PageUtil {
     public static final String PRIMARY_TYPE_PAGE = "ws:Page";
     public static final String PATH_SEPARATOR = "/";
     public static final String PROPERTY_HIDEINNAV = "hideInNav";
-<<<<<<< HEAD:application/backend/src/main/java/io/typerefinery/websight/utils/PageUtil.java
-=======
     public static final String PROPERTY_ICON = "icon";
     public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_PAGE_TITLE = "jcr:title";
     public static final String PROPERTY_DESCRIPTION = "description";
->>>>>>> develop:application/backend/src/main/java/ai/typerefinery/websight/utils/PageUtil.java
     public static final String COMPONENT_CANCEL_INHERIT_PARENT = "cancelInheritParent";
 
     /**
