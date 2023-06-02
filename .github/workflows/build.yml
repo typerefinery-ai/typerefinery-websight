@@ -169,7 +169,7 @@ jobs:
       - name: Zip Artifacts Folder
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          zip -qq -r artifacts.zip target/artifacts
+          zip -qq -r artifacts.zip distribution/target/artifacts
 
       - name: Release
         uses: softprops/action-gh-release@v1
