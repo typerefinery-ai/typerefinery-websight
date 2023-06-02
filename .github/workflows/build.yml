@@ -1,4 +1,4 @@
-name: E2E Tests
+name: pipeline
 
 env:
   MAVEN_ARGS: -B -C -V -ntp -Dhttp.keepAlive=false -e
@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - '*'
+    tags:
+      - "*"
   pull_request:
     types: [ opened, synchronize, reopened ]
   # Allows you to run this workflow manually from the Actions tab
@@ -14,13 +16,13 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 # Allow one concurrent deployment
 concurrency:
-  group:  ci-e2e-docker-maven-plugin-${{ github.ref }}
+  group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
