@@ -163,3 +163,18 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+      - name: Zip Artifacts Folder
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          zip -qq -r artifacts.zip target/artifacts
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: false
+          generate_release_notes: true
+          files: |
+            artifacts.zip
