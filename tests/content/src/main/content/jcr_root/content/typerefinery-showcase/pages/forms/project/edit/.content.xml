@@ -40,10 +40,10 @@
                         flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                         id="form_ZNQAPBZCP"
                         readMethod="GET"
-                        readUrl="http://localhost:8000/datastore/project/{{id}}"
+                        readUrl="http://localhost:8000/datastore/project/{id}"
                         writeMethod="PUT"
                         writePayloadType="application/json"
-                        writeUrl="http://localhost:8000/datastore/project/{{id}}">
+                        writeUrl="http://localhost:8000/datastore/project/{id}">
                         <container
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
