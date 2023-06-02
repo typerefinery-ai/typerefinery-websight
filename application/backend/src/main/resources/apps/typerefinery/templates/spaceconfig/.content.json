@@ -3,6 +3,9 @@
   "description": "Configuration page for the Space.",
   "title": "Space Config",
   "allowedChildren": [
-    "/apps/typerefinery/templates/blank"
+    "/apps/typerefinery/templates/blank",
+    "/apps/typerefinery/templates/page",
+    "/apps/typerefinery/templates/dashboard",
+    "/apps/typerefinery/templates/pagewithsidebar"
   ]
 }
