@@ -57,19 +57,6 @@
     "pl.ds.websight.publishing.staticprocessor.PagePublishProcessor": {
       "shorten.paths": true
     },
-<<<<<<< HEAD
-    "io.typerefinery.websight.services.workflow.FlowService": {
-      "host.url": "$[env:FLOW_HOST_URL;default=http://localhost:8000]",
-      "endpoint.export": "/flow/export/%s",
-      "endpoint.import": "/flow/import",
-      "endpoint.update": "/flow/update",
-      "flow.page.change.listener.enabled": true
-    },
-    "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
-      "user.default": "sling-readall",
-      "user.mapping": [
-        "typerefinery-backend:content-services=sling-readall"
-=======
     "org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl": {
       "user.default": "sling-adminall",
       "user.mapping": [
@@ -87,12 +74,17 @@
       "sling.additional.response.headers":[
         "X-Content-Type-Options=nosniff",
         "Cache-control=no-cache",
-        "Strict-Transport-Security=max-age=31536000"
->>>>>>> develop
+        "Strict-Transport-Security=max-age=31536000",
+        "SameSite=None"
       ]
     },
     "pl.ds.websight.publishing.connectors.filesystem.FileSystemStorageConnector~typerefinery": {
       "directory.path": "$[env:PUBLISH_DOCROOT;default=docroot]"
+    },
+    "ai.typerefinery.websight.authentication.token.TokenAuthenticationHandler": {
+      "login.page": "/apps/websight-authentication/login.html",
+      "cookie.name": "websight.auth",
+      "cookie.samesite": "none"
     }
   }
 }

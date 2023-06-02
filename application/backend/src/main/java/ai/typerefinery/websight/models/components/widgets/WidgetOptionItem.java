@@ -35,6 +35,9 @@ import ai.typerefinery.websight.models.components.KeyValuePair;
 })
 public class WidgetOptionItem extends KeyValuePair {
 
+    public WidgetOptionItem() {
+    }
+    
     public WidgetOptionItem(String key, String value) {
         this.key = key;
         this.value = value;
