@@ -1,0 +1,20 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Layout",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
+    "Typerefinery - Flow"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Aside container to group components under a aside tag.",
+  "title": "Aside",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
+}
