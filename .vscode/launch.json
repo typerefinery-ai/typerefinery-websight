@@ -8,8 +8,9 @@
             "type": "java",
             "name": "Debug (Attach)",
             "request": "attach",
+            "projectName": "CMS",
             "hostName": "localhost",
-            "port": "5005"
+            "port": "8115"
         }
     ]
 }
