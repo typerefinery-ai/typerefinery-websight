@@ -14,6 +14,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
@@ -60,6 +61,8 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public static final String DEFAULT_DECORATION_TAG_NAME = "div";
     public static final String DEFAULT_VARIANT_TEMPLATE_NAME = "variant";
 
+    public static final String PROPERTY_ADDCLASSES = "addClasses";
+
     @Inject
     @Getter
     @Named(PROPERTY_TITLE)
@@ -82,6 +85,11 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Named(PROPERTY_DECORATION_TAG_NAME)
     @Nullable
     public String decorationTagName;
+
+    @Inject
+    @Named(PROPERTY_ADDCLASSES)
+    @Nullable
+    public String addClasses;
 
     @Inject
     @Getter
@@ -412,5 +420,17 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
         // resourceSuperType.substring(resourceSuperType.lastIndexOf('/') + 1);
         // componentClasses.add(componentName);
         // style.addClasses(componentName);
+
+        // add additional classes, these are added after the default class name
+        if (StringUtils.isNotBlank(addClasses)) {
+
+            componentClasses = ArrayUtils.addAll(componentClasses, addClasses.split("\\s+"));
+
+            // String[] classes = addClasses.split("\\s+");
+            // for (String className : classes) {
+            //     componentClasses.push(className);
+            //     // style.addClasses(className);
+            // }
+        }
     }
 }
