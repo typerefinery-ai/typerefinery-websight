@@ -1,6 +1,0 @@
-{
-  "group": "Typerefinery - Layout",
-  "sling:resourceType": "ws:Component",
-  "title": "Navigation",
-  "isLayout": true
-}
