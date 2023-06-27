@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    xmlns:ws="http://ds.pl/websight"
+    xmlns:sling="http://sling.apache.org/jcr/sling/1.0" jcr:primaryType="ws:Page">
+    <jcr:content jcr:lastModified="{Date}2023-04-07T12:28:52.278+05:30" jcr:lastModifiedBy="sling-package-install" jcr:primaryType="ws:PageContent" jcr:title="Info" sling:resourceType="typerefinery/components/structure/page" ws:lastModified="{Date}2023-04-28T15:49:19.527+05:30" ws:lastModifiedBy="wsadmin" ws:template="/apps/typerefinery/templates/pagewithsidebar" description="\0" flowstreamid="\0" hideInNav="true" icon="\0" ogDescription="\0" ogTitle="\0" ogUrl="\0" propertyTitle="\0">
+        <rootcontainer jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
+            <container1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" id="container1_MQ28VZFGF" lgColSize="12" marginEnabled="false" paddingEnabled="true" paddingGeneral="four" persistColorWhenThemeSwitches="false" title="\0">
+                <form jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/form" borderEnabled="false" classes="\0" flexEnabled="false" flowapi_createdon="2023-04-26T06:51:09.121Z" flowapi_designtemplate="\0" flowapi_editurl="http://flow.typerefinery.localhost:8100/designer/?darkmode=0&amp;socket=ws%3A%2F%2Fflow.typerefinery.localhost%3A8100%2Fflows%2Ff10fh2019iw51d&amp;components=" flowapi_enable="true" flowapi_error="null" flowapi_flowstreamid="f10fh2019iw51d" flowapi_group="/content/typerefinery-showcase/pages/os-triage/pages/info" flowapi_httproute="/content/typerefinery-showcase/pages/os-triage/pages/info/*" flowapi_iscontainer="{Boolean}false" flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/incidentinfoflowsample.json" flowapi_success="true" flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json" flowapi_title="Form flow" flowapi_topic="form_5ca7bc19e55a44ca9c27cf2c7a53b2a1" flowapi_updatedon="\0" flowapi_websocketurl="ws://tms.typerefinery.localhost:8100/$tms" id="form_F9A4HOCWY" marginEnabled="false" paddingEnabled="false" persistColorWhenThemeSwitches="false" readMethod="GET" readUrl="http://flow.typerefinery.localhost:8100/content/typerefinery-showcase/pages/os-triage/pages/info/{{caseid}}" title="Form flow" writeMethod="POST" writePayloadType="application/json" writeUrl="http://flow.typerefinery.localhost:8100/content/typerefinery-showcase/pages/os-triage/pages/info/{{caseid}}">
+                    <container jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_3UKGOSRXF" lgColSize="12" textAlignment="center">
+                        <container_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" horizontalAlignment="between" id="container_1_EL7OP6SYA" marginBottom="three" marginEnabled="true" textAlignment="center">
+                            <container_1_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_1_1_TJVOSRWIW" lgColSize="4" marginEnabled="true" textAlignment="center">
+                                <input_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/input" id="input_1_72DPYRYGQ" textAlignment="left">
+                                    <label jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/label" hideLabel="false" id="label_6EJH9NVJN" label="Incident  Status "/>
+                                    <field jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/input" borderEnabled="false" classes="\0" disabled="true" id="field_B88JQFOUP" inputType="text" marginEnabled="false" name="status" paddingEnabled="false" persistColorWhenThemeSwitches="false" placeholder="Incident  Status" validationRequired="false"/>
+                                </input_1>
+                            </container_1_1>
+                            <container_1_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_1_2_VQQXSACRI" lgColSize="3" textAlignment="center">
+                                <container_1_2_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_1_2_1_6I1ACSFZH" marginBottom="two" marginEnabled="true" textAlignment="center">
+                                    <button_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/forms/fields/button" actionModalTitle="Update Case " actionType="openModal" actionUrl="/content/typerefinery-showcase/pages/os-triage/forms/updateincident/jcr:content" buttonStyle="success" buttonType="action" classes="\0" hideButtonLabel="false" hideFooter="false" id="button_2_MV5KTHEFD" isOutlinedButton="false" label="Update Case" persistColorWhenThemeSwitches="true" showIcon="false" showTextualElementOfButton="false"/>
+                                </container_1_2_1>
+                                <container_1_2_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" flexEnabled="true" id="container_1_2_2_D2M0B1UM8" marginEnabled="true" marginTop="two" textAlignment="center">
+                                    <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" classes="\0" id="text_NBTG0DPRG" markdown="\0" name="test" paragraphMode="false" text="&lt;p>.&lt;/p>"/>
+                                </container_1_2_2>
+                            </container_1_2>
+                        </container_1>
+                        <container_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="\0" flexEnabled="true" horizontalAlignment="between" id="container_2_PJD1KOCBW" marginEnabled="false" marginLeft="two" paddingEnabled="false" persistColorWhenThemeSwitches="false" textAlignment="center" title="\0">
+                            <container_2_1 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="card shadow-md" flexEnabled="true" id="container_2_1_ZOQ0LXPKJ" lgColSize="3" marginEnabled="false" paddingEnabled="true" paddingGeneral="three" persistColorWhenThemeSwitches="false" textAlignment="center" title="Name" titleTagName="h3" variant="sectionwithtitle">
+                                <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" id="text_SU9AUZL4F" name="name" text="&lt;p>&lt;/p>"/>
+                            </container_2_1>
+                            <container_2_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="card shadow-md" flexEnabled="true" id="container_2_2_LS6C8E62H" lgColSize="3" marginEnabled="false" paddingEnabled="true" paddingGeneral="three" persistColorWhenThemeSwitches="false" textAlignment="center" title="Sharing" titleTagName="h3" variant="sectionwithtitle">
+                                <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" id="text_BHPBYYQ3L" name="sharing" text="&lt;p>&lt;/p>"/>
+                            </container_2_2>
+                            <container_3_2 jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/layout/container" borderEnabled="false" classes="card shadow-md" flexEnabled="true" id="container_3_2_RDGLQYTCU" lgColSize="3" marginEnabled="false" paddingEnabled="true" paddingGeneral="three" persistColorWhenThemeSwitches="false" textAlignment="center" title="Sources" titleTagName="h3" variant="sectionwithtitle">
+                                <text jcr:primaryType="nt:unstructured" sling:resourceType="typerefinery/components/content/text" id="text_S0AMBDYPW" name="source" text="&lt;p>&lt;/p>"/>
+                            </container_3_2>
+                        </container_2>
+                    </container>
+                </form>
+            </container1>
+        </rootcontainer>
+    </jcr:content>
+</jcr:root>
