@@ -54,7 +54,7 @@
                         title="default"
                         writeMethod="POST"
                         writePayloadType="application/json"
-                        writeUrl="http://localhost:8000/datastore/theme">
+                        writeUrl="http://api.typerefinery.localhost:8100/datastore/theme">
                         <container
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"

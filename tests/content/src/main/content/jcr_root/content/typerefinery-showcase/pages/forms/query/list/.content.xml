@@ -53,7 +53,7 @@
                     <table
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/widgets/table"
-                        dataSource="http://localhost:8000/datastore/queries/cms"
+                        dataSource="http://api.typerefinery.localhost:8100/datastore/queries/cms"
                         flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json"
                         flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
                         id="table_R3VPOZVT6"
@@ -62,7 +62,7 @@
                         <actionButtons jcr:primaryType="nt:unstructured">
                             <_x0030_
                                 jcr:primaryType="nt:unstructured"
-                                actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/forms/query/edit.html/?id={{queryid}}"
+                                actionButtonModalContentURL="/content/typerefinery-showcase/pages/forms/query/edit.html/?id={{queryid}}"
                                 actionButtonNavigateToPath="\0"
                                 hideFooter="false"
                                 icon="pi pi-pencil"
@@ -70,7 +70,7 @@
                                 label="Update"/>
                             <_x0031_
                                 jcr:primaryType="nt:unstructured"
-                                actionButtonModalContentURL="http://localhost:8113/content/typerefinery-showcase/pages/forms/query/delete.html/?id={{queryid}}"
+                                actionButtonModalContentURL="/content/typerefinery-showcase/pages/forms/query/delete.html/?id={{queryid}}"
                                 actionButtonNavigateToPath="\0"
                                 hideFooter="false"
                                 icon="pi pi-trash"

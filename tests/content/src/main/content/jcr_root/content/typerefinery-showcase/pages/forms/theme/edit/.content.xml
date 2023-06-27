@@ -40,10 +40,10 @@
                         flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                         id="form_ZNQAPBZCP"
                         readMethod="GET"
-                        readUrl="http://localhost:8000/datastore/theme/{id}"
+                        readUrl="http://api.typerefinery.localhost:8100/datastore/theme/{id}"
                         writeMethod="PUT"
                         writePayloadType="application/json"
-                        writeUrl="http://localhost:8000/datastore/theme/{id}">
+                        writeUrl="http://api.typerefinery.localhost:8100/datastore/theme/{id}">
                         <container
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/layout/container"
@@ -78,7 +78,7 @@
                                         id="field_FS6R3RSNT"
                                         keyNameInOptionList="projectid"
                                         labelNameInOptionList="label"
-                                        readOptionsFromDataSource="http://localhost:8000/datastore/project"
+                                        readOptionsFromDataSource="http://api.typerefinery.localhost:8100/datastore/project"
                                         title="Field"/>
                                 </select>
                             </container>
