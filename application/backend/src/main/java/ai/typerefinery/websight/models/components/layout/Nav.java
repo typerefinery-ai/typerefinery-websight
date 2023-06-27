@@ -84,7 +84,6 @@ public class Nav extends Container {
         if(StringUtils.isNotBlank(backgroundColorClass)) {
             grid.addClasses(backgroundColorClass);
         }
-        // Default nav class
-        grid.addClasses("_nav_container_");
+
     }
 }
