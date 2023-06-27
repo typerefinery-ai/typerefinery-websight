@@ -1478,7 +1478,7 @@ public class FlowService {
     )
     public @interface FlowServiceConfiguration {
 
-        public final static String FLOW_HOST = "http://localhost:8000"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
+        public final static String FLOW_HOST = "http://api.typerefinery.localhost:8100"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";

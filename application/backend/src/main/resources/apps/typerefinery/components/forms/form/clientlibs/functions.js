@@ -13,7 +13,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 (function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
     "use strict";
-
+    
+    ns.filesUrl = "http://files.typerefinery.localhost:8100";
+    
     ns.uploadFile = async (file) => {
         const fileName = file?.name?.trim()?.replace(/\s/g, "-");
         const datePathWithTime =  new Date().toISOString().split("T")[0].replace(/-/g, "-") + "/" + new Date().toISOString().split("T")[1].split(".")[0].replace(/:/g, "-"); 
@@ -21,10 +23,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         // remove .html from the path
         path = path.replace(".html", "");
         path += `/${datePathWithTime}`;
-        const PREVIEW = `http://localhost:8199/api${path}/${fileName}`
+        const PREVIEW = `${ns.filesUrl}/api${path}/${fileName}`
         try{
             await fetch(
-                `http://localhost:8199/api${path}?type=CREATE_FOLDER`,
+                `${ns.filesUrl}/api${path}?type=CREATE_FOLDER`,
                 {
                     method: "POST",
                     mode: 'no-cors',
@@ -40,7 +42,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             // ERROR IN CASE PATH EXIST.
         }     
         try{
-            const URL = `http://localhost:8199/api${path}/${fileName}?type=UPLOAD_FILE&overwrite=true`;
+            const URL = `${ns.filesUrl}/api${path}/${fileName}?type=UPLOAD_FILE&overwrite=true`;
             const formData = new FormData();
             formData.append("upload", file);
             await fetch(
