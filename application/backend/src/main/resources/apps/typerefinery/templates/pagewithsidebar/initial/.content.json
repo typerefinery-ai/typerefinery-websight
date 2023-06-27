@@ -6,9 +6,10 @@
         "rootcontainer": {
             "sling:resourceType": "typerefinery/components/layout/rootcontainer",
             "jcr:primaryType": "nt:unstructured",
-            "nav": {
-                "sling:resourceType": "typerefinery/components/layout/nav",
-                "jcr:primaryType": "nt:unstructured"
+            "asideleft": {
+                "sling:resourceType": "typerefinery/components/layout/aside",
+                "jcr:primaryType": "nt:unstructured",
+                "classes": "aside-left"
             },
             "header": {
                 "sling:resourceType": "typerefinery/components/layout/header",
