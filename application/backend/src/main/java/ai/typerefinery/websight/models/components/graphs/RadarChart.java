@@ -18,6 +18,5 @@ public class RadarChart {
     
     @Getter
     @Inject
-    // @Default (values = "http://localhost:8080/apps/typerefinery/components/graphs/radarchart/dataSource_1.json")
     public String dataSource;
 }
