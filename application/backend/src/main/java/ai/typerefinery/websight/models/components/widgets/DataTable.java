@@ -43,11 +43,9 @@ public class DataTable extends BaseComponent {
 
   @Getter
   @Inject
-  @Default(values = "ws://localhost:8112/$tms")
   public String websocketHost;
 
   @Getter
   @Inject
-  // @Default (values = "")
   public String websocketTopic;
 }
