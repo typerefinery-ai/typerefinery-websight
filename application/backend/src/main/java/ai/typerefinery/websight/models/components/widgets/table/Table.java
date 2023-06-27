@@ -53,7 +53,7 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     private static final String DEFAULT_DATASOURCE = "";
 
     private static final String PROPERTY_WEBSOCKET_HOST = "websocketHost";
-    private static final String DEFAULT_WEBSOCKET_HOST = "ws://localhost:8112/$tms";
+    private static final String DEFAULT_WEBSOCKET_HOST = "ws://tms.typerefinery.localhost:8100/$tms";
 
     private static final String PROPERTY_WEBSOCKET_TOPIC = "websocketTopic";
     private static final String DEFAULT_WEBSOCKET_TOPIC = "";
