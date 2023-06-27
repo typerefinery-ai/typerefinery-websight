@@ -1486,9 +1486,9 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_DESIGN = "/flow/%s/design";
         public final static String FLOW_ENDPOINT_READ = "/flow/read/%s";
         public final static String FLOW_ENDPOINT_CLIENT = "/flowproxy/%s"; // this will allow posting data to the flow service via the proxy without CORS issues
-        public final static String FLOW_WS_URL = "ws://localhost:8111/flows/%s";
-        public final static String FLOW_TMS_URL = "ws://localhost:8112/$tms";
-        public final static String FLOW_DESIGNER_URL = "http://localhost:8111/designer/?darkmode=%s&socket=%s&components=%s";
+        public final static String FLOW_WS_URL = "ws://flow.typerefinery.localhost:8100/flows/%s";
+        public final static String FLOW_TMS_URL = "ws://tms.typerefinery.localhost:8100/$tms";
+        public final static String FLOW_DESIGNER_URL = "http://flow.typerefinery.localhost:8100/designer/?darkmode=%s&socket=%s&components=%s";
         public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
         public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
         

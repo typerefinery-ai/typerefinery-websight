@@ -17,7 +17,7 @@ Component for adding chart to pages
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/chart](http://localhost:8113/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/chart::editor)
+- **Showcase**: [/typerefinery/components/widgets/chart](http://cms.typerefinery.localhost:8100/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/chart::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/chart]
 
 # Authoring
