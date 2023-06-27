@@ -18,17 +18,9 @@ package ai.typerefinery.websight.models.components.widgets.tabs;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.engine.SlingRequestProcessor;
 import org.apache.sling.models.annotations.Model;
@@ -37,8 +29,6 @@ import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.models.components.KeyValuePair;
-import ai.typerefinery.websight.utils.FakeRequest;
-import ai.typerefinery.websight.utils.FakeResponse;
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
 

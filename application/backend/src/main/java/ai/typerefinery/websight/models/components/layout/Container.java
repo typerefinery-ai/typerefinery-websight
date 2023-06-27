@@ -17,9 +17,6 @@ package ai.typerefinery.websight.models.components.layout;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,10 +27,6 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -54,8 +47,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
-import ai.typerefinery.websight.utils.FakeRequest;
-import ai.typerefinery.websight.utils.FakeResponse;
 import ai.typerefinery.websight.utils.LinkUtil;
 import ai.typerefinery.websight.utils.PageUtil;
 import ai.typerefinery.websight.utils.SlingUtil;
