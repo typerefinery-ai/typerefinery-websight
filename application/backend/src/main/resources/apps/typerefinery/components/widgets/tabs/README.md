@@ -17,7 +17,7 @@ Component for adding tab to pages
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/tab](http://localhost:8080/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/tab::editor)
+- **Showcase**: [/typerefinery/components/widgets/tab](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/tab::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/tab]
 
 # Authoring

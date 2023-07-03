@@ -17,7 +17,7 @@ Component for adding map to pages
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/map](https://cms.typerefinery.localhost:8100/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/map::editor)
+- **Showcase**: [/typerefinery/components/widgets/map](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/map::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/map]
 - **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map)
 - **Readme**: [/typerefinery/components/widgets/map/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-map-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/map/README.md)

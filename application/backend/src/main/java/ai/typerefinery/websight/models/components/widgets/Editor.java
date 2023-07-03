@@ -26,7 +26,7 @@ public class Editor extends BaseComponent {
     
 
     
-    private static final String DEFAULT_WEBSOCKET_HOST = "ws://tms.typerefinery.localhost:8100/$tms";
+    private static final String DEFAULT_WEBSOCKET_HOST = "wss://tms.typerefinery.localhost:8101/$tms";
     private static final String DEFAULT_VARIANT = "CODE_EDITOR";
     private static final String DEFAULT_CODE_EDITOR = "CODEMIRROR";
     private static final String DEFAULT_EDITOR_THEME = "light";

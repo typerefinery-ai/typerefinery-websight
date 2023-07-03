@@ -1478,7 +1478,7 @@ public class FlowService {
     )
     public @interface FlowServiceConfiguration {
 
-        public final static String FLOW_HOST = "http://api.typerefinery.localhost:8100"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
+        public final static String FLOW_HOST = "http://localhost:8000"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
@@ -1486,9 +1486,9 @@ public class FlowService {
         public final static String FLOW_ENDPOINT_DESIGN = "/flow/%s/design";
         public final static String FLOW_ENDPOINT_READ = "/flow/read/%s";
         public final static String FLOW_ENDPOINT_CLIENT = "/flowproxy/%s"; // this will allow posting data to the flow service via the proxy without CORS issues
-        public final static String FLOW_WS_URL = "ws://flow.typerefinery.localhost:8100/flows/%s";
-        public final static String FLOW_TMS_URL = "ws://tms.typerefinery.localhost:8100/$tms";
-        public final static String FLOW_DESIGNER_URL = "http://flow.typerefinery.localhost:8100/designer/?darkmode=%s&socket=%s&components=%s";
+        public final static String FLOW_WS_URL = "wss://flow.typerefinery.localhost:8101/flows/%s";
+        public final static String FLOW_TMS_URL = "wss://tms.typerefinery.localhost:8101/$tms";
+        public final static String FLOW_DESIGNER_URL = "https://flow.typerefinery.localhost:8101/designer/?darkmode=%s&socket=%s&components=%s";
         public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
         public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
         
