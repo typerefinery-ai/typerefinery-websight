@@ -1,0 +1,46 @@
+@use '~bootstrap/scss/bootstrap-utilities' as bsu;
+@use "sass:map";
+
+/* used to make breakpoint grids*/
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+) !default;
+
+$container-widths: (
+    25: 25%,
+    50: 50%,
+    75: 75%,
+    100: 100%
+) !default;
+
+/* mixin make-grid-breakpoint-width */
+@mixin make-grid-breakpoint-width($breakpoints: $grid-breakpoints, $widths: $container-widths) {
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: $breakpoint;
+
+        @include bsu.media-breakpoint-up($breakpoint, $breakpoints) {
+        
+            @each $name, $width in $widths {
+                .w-#{$infix}-#{$name} {
+                    width: $width !important;
+                //   @include make-col($i, $columns);
+                }
+            }  
+        }
+    }
+}
+
+
+.test {
+    height: 100%;
+}
+
+/* output make-grid-breakpoint-width */
+// .test2 {
+    @include make-grid-breakpoint-width();
+// }

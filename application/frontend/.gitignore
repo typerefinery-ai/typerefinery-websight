@@ -2,3 +2,5 @@ src/main/resources
 dist
 node
 node_modules
+assets/*
+!.gitkeep

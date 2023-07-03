@@ -1,0 +1,36 @@
+[component="page-details"] {
+  img {
+    object-fit: cover;
+  }
+}
+
+[component="page-details"] {
+
+  /* default positioning of items */
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  /* if using background image */
+  background-size: cover;
+  background-position: 50%;
+
+  /* add height */
+  height: 433px;
+
+  .picture-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+}

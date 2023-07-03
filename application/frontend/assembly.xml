@@ -9,10 +9,13 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
         <fileSet>
-            <directory>${basedir}/dist</directory>
+            <directory>${basedir}/src/main/resources</directory>
             <includes>
                 <include>**/*</include>
             </includes>
+            <excludes>
+                <exclude>index.html</exclude>
+            </excludes>
             <outputDirectory></outputDirectory>
         </fileSet>
     </fileSets>
