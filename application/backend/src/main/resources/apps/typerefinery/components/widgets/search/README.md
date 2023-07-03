@@ -17,7 +17,7 @@ Component for adding search to pages
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/search](https://cms.typerefinery.localhost:8100/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/search::editor)
+- **Showcase**: [/typerefinery/components/widgets/search](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/search::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/search]
 
 # Authoring

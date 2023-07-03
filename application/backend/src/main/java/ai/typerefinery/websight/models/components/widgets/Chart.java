@@ -53,7 +53,7 @@ public class Chart extends FlowComponent implements FlowComponentRegister {
     private static final String DEFAULT_DATASOURCE = "";
 
     private static final String PROPERTY_WEBSOCKET_HOST = "websocketHost";
-    private static final String DEFAULT_WEBSOCKET_HOST = "ws://tms.typerefinery.localhost:8100/$tms";
+    private static final String DEFAULT_WEBSOCKET_HOST = "wss://tms.typerefinery.localhost:8101/$tms";
 
     private static final String PROPERTY_WEBSOCKET_TOPIC = "websocketTopic";
     private static final String DEFAULT_WEBSOCKET_TOPIC = "";

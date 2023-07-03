@@ -14,7 +14,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
     "use strict";
     
-    ns.filesUrl = "http://files.typerefinery.localhost:8100";
+    ns.filesUrl = "https://files.typerefinery.localhost:8101";
     
     ns.uploadFile = async (file) => {
         const fileName = file?.name?.trim()?.replace(/\s/g, "-");

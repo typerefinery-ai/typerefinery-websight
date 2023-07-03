@@ -18,7 +18,7 @@ Component for adding Table to page.
 - **Compatibility**: CMS
 - **Reference**: [Bootstrap table](https://getbootstrap.com/docs/5.0/content/tables/)
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/widgets/table](https://cms.typerefinery.localhost:8100/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor)
+- **Showcase**: [/typerefinery/components/widgets/table](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/widgets/table::editor)
 - **Local Code**: [/apps/typerefinery/components/widgets/table]
 - **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table)
 - **Readme**: [/typerefinery/components/widgets/table/readme](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/%23203-table-flow-enabled/application/backend/src/main/resources/apps/typerefinery/components/widgets/table/README.md)
