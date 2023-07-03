@@ -1,0 +1,11 @@
+
+@mixin blur {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(200%) blur(30px);
+    background-clip: border-box;
+}
+
+/* blur element */
+.blur {
+    @include blur;
+}

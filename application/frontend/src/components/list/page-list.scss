@@ -1,0 +1,36 @@
+[component="page-list"] {
+  .card {
+    overflow: hidden;
+  }
+
+  .image {
+      /* height: 100%; */
+      width: 100%;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      
+      background: rgb(0,0,0);
+      background: linear-gradient(0deg, 
+      rgba(0,0,0,1) 0%, 
+      rgba(0,0,0,0) 65%, 
+      rgba(0,0,0,1) 95%
+      ); 
+
+  }
+
+  .card-body {
+      width: 100%;
+      position: relative;
+      height: 50%;
+      top: 50%;
+  }
+
+  .image img {
+    height: 100%;
+    width: 100%;
+    opacity: .5;
+    object-fit: cover;
+  }
+}

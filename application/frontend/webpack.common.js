@@ -9,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 const SOURCE_ROOT = __dirname + '/src';
+const OUTPUT_ROOT = __dirname + '/src/main/resources/webroot';
 
 const resolve = {
     extensions: ['.js', '.ts'],
@@ -28,6 +29,20 @@ module.exports = {
         },
         path: path.resolve(__dirname, 'dist')
     },
+    externals: {
+        bootstrap: "bootstrap",
+        jquery: "jQuery",
+        popperjs: "@popperjs/core"
+
+    },
+    // externals: Object.keys(require('./package.json').dependencies)
+    //     .reduce(
+    //         function (acc, cur) {
+    //             acc[cur] = cur
+    //             return acc
+    //         },
+    //         new Object()
+    //     ), 
     module: {
         rules: [
             {
@@ -91,22 +106,6 @@ module.exports = {
                 { from: path.resolve(__dirname, SOURCE_ROOT + '/resources'), to: './main' }
             ]
         }),
-        new FileManagerPlugin({
-            events: {
-                onEnd: {
-                    copy: [
-                        {
-                            source: path.join(__dirname, 'dist/main'),
-                            destination: path.join(__dirname, 'src/main/resources/apps/typerefinery/webroot')
-                        },
-                        {
-                            source: path.join(__dirname, 'src/static'),
-                            destination: path.join(__dirname, 'src/main/resources/apps/typerefinery')
-                        }
-                    ]
-                }
-            }
-        })
     ],
     stats: {
         assetsSort: 'chunks',
