@@ -53,7 +53,7 @@
                     <table
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/widgets/table"
-                        dataSource="http://api.typerefinery.localhost:8100/datastore/queries/cms"
+                        dataSource="https://api.typerefinery.localhost:8101/datastore/queries/cms"
                         flowapi_sampledata="/apps/typerefinery/components/widgets/table/templates/flowsample.json"
                         flowapi_template="/apps/typerefinery/components/widgets/table/templates/table.json"
                         id="table_R3VPOZVT6"
