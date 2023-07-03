@@ -343,7 +343,7 @@ public class FlowService {
      * @param routerPath path to endpoint
      */
     public static String compileClientHttpRouteUrl(FlowServiceConfiguration configuration, String routerPath) {
-        String flowapi_httproute =  String.format(configuration.host_url() + configuration.endpoint_client(), routerPath.startsWith("/") ? routerPath.substring(1) : routerPath); //replease leading slash in routerPath
+        String flowapi_httproute =  String.format(configuration.host_url_client() + configuration.endpoint_client(), routerPath.startsWith("/") ? routerPath.substring(1) : routerPath); //replease leading slash in routerPath
         return flowapi_httproute;
     }
 
@@ -1479,13 +1479,14 @@ public class FlowService {
     public @interface FlowServiceConfiguration {
 
         public final static String FLOW_HOST = "http://localhost:8000"; // this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
+        public final static String FLOW_HOST_CLIENT = "https://flow.typerefinery.localhost:8101"; // this is a client facing url, this could be Flow service or Fast API Proxy, 8000 is Fastapi proxy
         public final static String FLOW_ENDPOINT_EXPORT = "/flow/export/%s";
         public final static String FLOW_ENDPOINT_IMPORT = "/flow/import";
         public final static String FLOW_ENDPOINT_UPDATE = "/flow/update";
         public final static String FLOW_ENDPOINT_DESIGN_SAVE = "/flow/%s/design/save";
         public final static String FLOW_ENDPOINT_DESIGN = "/flow/%s/design";
         public final static String FLOW_ENDPOINT_READ = "/flow/read/%s";
-        public final static String FLOW_ENDPOINT_CLIENT = "/flowproxy/%s"; // this will allow posting data to the flow service via the proxy without CORS issues
+        public final static String FLOW_ENDPOINT_CLIENT = "/%s"; // this will allow posting data to the flow service via the proxy without CORS issues
         public final static String FLOW_WS_URL = "wss://flow.typerefinery.localhost:8101/flows/%s";
         public final static String FLOW_TMS_URL = "wss://tms.typerefinery.localhost:8101/$tms";
         public final static String FLOW_DESIGNER_URL = "https://flow.typerefinery.localhost:8101/designer/?darkmode=%s&socket=%s&components=%s";
@@ -1498,6 +1499,13 @@ public class FlowService {
             defaultValue = FLOW_HOST
         )
         String host_url() default FLOW_HOST;
+
+        @AttributeDefinition(
+            name = "Host URL Client",
+            description = "Host url of the external service accessible by client.",
+            defaultValue = FLOW_HOST
+        )
+        String host_url_client() default FLOW_HOST_CLIENT;
 
         @AttributeDefinition(
                 name = "Endpoint Export",
