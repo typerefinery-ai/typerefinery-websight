@@ -4,47 +4,55 @@
   
   @include default.root;
 
-  @media (min-width: 576px) {
-    .container {
-      width: 100% !important;
-    }
-  }
-  @media (min-width: 768px) {
-    .container {
-       width: 50% !important;
-    }
-  }
   .container {
     display: flex;
     position: absolute;
-    width: 50%;
     height: 100%;
     left: 0px;
     overflow: hidden;
+
+    @media (min-width: 576px) {
+      width: 100% !important;
+    }
+  
+    @media (min-width: 768px) {
+      width: 50% !important;
+    }
+  
   }
 
   .image {
-      height: 100%;
-      width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+
+    width: 100% !important;
+    left: 0;
+
+    @media (min-width: 992px) {
+      width: 50% !important;
       left: 50%;
-      position: absolute;
-      top: 0;
-      z-index: -1;
+    }
 
     .picture-container {
-      transform: skewX(-10deg);
       overflow: hidden;
       width: 100%;
-      border-bottom-left-radius: 0.75rem;
       height: 100%;
       position: absolute;
-      margin-left: 3rem;
+
+      @media (min-width: 992px) {
+        transform: skewX(-10deg);
+        margin-left: 3rem;
+      }
 
       img {
+        @media (min-width: 992px) {
+          margin-left: -4rem;
+          transform: skewX(10deg);  
+        }
+        width: 105%;
         height: 100%;
-        margin-left: -4rem;
-        width: 100%;
-        transform: skewX(10deg);
       }
     
     }
