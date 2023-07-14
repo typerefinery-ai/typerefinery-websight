@@ -40,7 +40,7 @@ module.exports = merge(common, {
                 serveIndex: true,
             }
         ],
-        port: 8888,
+        port: 8999,
         hot: true,
         liveReload:true,
         // devMiddleware: {
