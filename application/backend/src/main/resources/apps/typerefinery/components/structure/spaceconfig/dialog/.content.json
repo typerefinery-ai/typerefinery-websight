@@ -76,7 +76,8 @@
             "sling:resourceType": "wcm/dialogs/components/textfield",
             "label": "Personal Token",
             "name": "deployGithubToken",
-            "description": "Github Personal Access Token",
+            "type": "password",
+            "description": "Github Personal Access Token (ghp_xxx...)",
             "placeholder": "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         },
         "githubBranch": {
@@ -85,6 +86,13 @@
             "description": "branch to push file to.",
             "name": "deployGithubBranch",
             "placeholder": "main"
+        },
+        "contentGithubBranch": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Content Export and Import Branch",
+          "description": "branch to use for exporting and importing space contents.",
+          "name": "contentGithubBranch",
+          "placeholder": "content"
         },
         "githubUsername": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
