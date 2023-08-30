@@ -34,6 +34,7 @@
     <commonmark.version>0.20.0</commonmark.version>
     <jgit.version>6.5.0.202303070854-r</jgit.version>
     <slf4j.version>2.0.7</slf4j.version>
+    <log4j.version>2.20.0</log4j.version>
     <JavaEWAH.version>1.2.3</JavaEWAH.version>
   </properties>
   <build>
