@@ -356,7 +356,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
                 .collect(Collectors.toCollection(LinkedHashSet::new))
                 .toArray(new String[] {});
                 
-            grid.addClasses(getAllGridClasses());
+            grid.addClasses(grid.getAllGridClasses());
         }
 
         //bootstrap margin styling
