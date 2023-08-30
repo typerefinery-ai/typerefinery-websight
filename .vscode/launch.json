@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Attach)",
+            "name": "Debug (Attach 8115)",
             "request": "attach",
             "projectName": "CMS",
             "hostName": "localhost",
