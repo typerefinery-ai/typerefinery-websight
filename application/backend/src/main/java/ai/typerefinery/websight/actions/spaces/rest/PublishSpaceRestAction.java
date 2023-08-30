@@ -1,6 +1,5 @@
 package ai.typerefinery.websight.actions.spaces.rest;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -17,12 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.UserManager;
-import org.apache.jackrabbit.core.TransactionException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
@@ -38,6 +33,7 @@ import pl.ds.websight.rest.framework.RestAction;
 import pl.ds.websight.rest.framework.RestActionResult;
 import pl.ds.websight.rest.framework.annotations.PrimaryTypes;
 import pl.ds.websight.rest.framework.annotations.SlingAction;
+import static ai.typerefinery.websight.actions.spaces.SpaceConfigModel.*;
 
 import org.apache.sling.jcr.base.util.AccessControlUtil;
 
@@ -48,12 +44,6 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
         implements RestAction<SpacesRestModel, Void> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublishSpaceRestAction.class);
-
-    public static final String PAGES_SPACE_RESOURCE_TYPE = "typerefinery/components/structure/pagesspace";
-    public static final String ASSEPS_SPACE_RESOURCE_TYPE = "typerefinery/components/structure/assetsspace";
-
-    public static final String DEFAULT_GIT_USER_NAME = "typerefinery";
-    public static final String DEFAULT_GIT_USER_EMAIL = "deploy@typerefinery.ai";
     
     @Reference
     private PublishService publishService;
@@ -232,6 +222,9 @@ public class PublishSpaceRestAction extends AbstractSpacesRestAction<SpacesRestM
 
                     // get environment variable PUBLISH_DOCROOT
                     String docrootPath = System.getenv("PUBLISH_DOCROOT");
+                    if (StringUtils.isBlank(docrootPath)) {
+                        docrootPath = "docroot";
+                    }
 
                     // create new folder docroot/deploy/githuib/<space-name>
                     Path publishPagesPath = Paths.get(docrootPath,"deploy","github", resource.getName());                                
