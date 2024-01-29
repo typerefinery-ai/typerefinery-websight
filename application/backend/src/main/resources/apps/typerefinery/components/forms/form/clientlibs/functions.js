@@ -34,7 +34,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         'accept': 'application/json',
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-                    }
+                    },
+                    redirect: 'follow'
                 }
             );
         }   
@@ -55,7 +56,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         'accept': 'application/json',
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-                    }
+                    },
+                    redirect: 'follow'
                 },
             );
             // REMOVE LOADER 
@@ -127,32 +129,81 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.submit = async (url, method, payloadType, body, successCallback = () => { }, errorCallback = () => { }) => {
+        console.log("---------------SUBMIT----------------")
+        console.log([url, method, payloadType, body])
+        let controller = new AbortController();
         try {
-            const response = await fetch(
-                url,
-                {
-                    method: method,
-                    headers: {
-                        "Content-Type": payloadType
-                    },
-                    body
-                }
-            );
-            // if status is 200 to 299 then it will call success callback.
-            if (response.status >= 200 && response.status <= 299) {
-                successCallback();
-            } else {
-                console.log("Error in submitting the request");
-                console.error(response);
-                errorCallback();
-            }               
-            return;
+
+          await fetch('https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/create-user/_jcr_content/rootcontainer/form', {
+            method: method || 'POST',
+            headers: {
+              'Content-Type': payloadType || 'application/x-www-form-urlencoded'
+            },
+            body: body,
+            keepalive: true,
+            redirect: 'follow',
+            signal: controller.signal
+          })
+          .then(res => res.json())
+          .then(res => {
+            console.log("---------------SUBMITED RESPONSE----------------")
+            console.log(res)
+            successCallback()
+          });
+        
+
+          // const [submitResponse] = await Promise.all([
+          //   fetch(
+          //     url,
+          //     {
+          //         method: method || "POST",
+          //         mode: 'no-cors',
+          //         headers: {
+          //             "Content-Type": payloadType || "application/x-www-form-urlencoded"
+          //         },
+          //         cache: 'no-cache',
+          //         body: body,
+          //         keepalive: true,
+          //         redirect: 'follow',
+          //         signal: controller.signal
+          //     }
+          //   )
+          // ]);
+          //   // const response = await fetch(
+          //   //     url,
+          //   //     {
+          //   //         method: method || "POST",
+          //   //         mode: 'no-cors',
+          //   //         headers: {
+          //   //             "Content-Type": payloadType || "application/x-www-form-urlencoded"
+          //   //         },
+          //   //         body: body,
+          //   //         keepalive: true,
+          //   //         redirect: 'follow',
+          //   //         signal: controller.signal
+          //   //     }
+          //   // );
+          //   var responseJson = await submitResponse.json();
+          //   // console.log(json);
+          //   // var text = await response.text();
+          //   console.log(responseJson);
+          //   // if status is 200 to 299 then it will call success callback.
+          //   if (submitResponse.status >= 200 && submitResponse.status <= 299) {
+          //       successCallback();
+          //   } else {
+          //       console.log("Error in submitting the request");
+          //       console.error(submitResponse);
+          //       errorCallback();
+          //   }               
+          //   return;
         } catch (error) {
             console.log("Error in submitting the request");
             console.error(error);
             errorCallback();
             return;
         }
+        controller = null;
+        return;
     };
 
     ns.successCallback = () => {
@@ -172,12 +223,12 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.formRequest = async (url, componentConfig, payload) => {
-        const { payloadType, writeMethod } = componentConfig;
+        const { writePayloadType, writeMethod } = componentConfig;
         const formData = new URLSearchParams();
         Object.entries(payload).map(item => {
             formData.append(item[0], item[1])
         });
-        await ns.submit(url, writeMethod, payloadType, formData.toString(), ns.successCallback, ns.errorCallback);
+        await ns.submit(url, writeMethod, writePayloadType, formData.toString(), ns.successCallback, ns.errorCallback);
     };
 
     ns.updateButtonState = ($component, state) => {
@@ -193,6 +244,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.formSubmitHandler = async ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
+        console.log(["componentConfig", componentConfig])
         let { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if (!writePayloadType || !writeMethod || !writeUrl) {
             console.log("Author should fill all the parameters.");
@@ -227,7 +279,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     method: readMethod || "GET",
                     headers: {
                         "Content-Type": readPayloadType || "application/json"
-                    }
+                    },
+                    keepalive: true,
+                    redirect: 'follow'
                 }
             ).then(response => response.json());
 
@@ -322,6 +376,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log("---------------SUBMITTING----------------")
             e.preventDefault();
             const { target } = e;
+            console.log(target)
             ns.formSubmitHandler(target);
         });
     };
