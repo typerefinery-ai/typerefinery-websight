@@ -1,7 +1,7 @@
 import React from "/apps/websight-atlaskit-esm/web-resources/react.js";
-import PublishSpaceModal from "/apps/typerefinery/components/actions/spaces/publishspace.modal.js";
+import ExportSpaceModal from "/apps/typerefinery/components/actions/spaces/exportspace.modal.js";
 
-class PublishSpaceAction extends React.Component {
+class ExportSpaceAction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,27 +24,27 @@ class PublishSpaceAction extends React.Component {
       spacePath,
       executeCallback
     } = this.props;
-    return /*#__PURE__*/React.createElement(PublishSpaceModal, {
+    return /*#__PURE__*/React.createElement(ExportSpaceModal, {
       spaceName: spaceName,
       spacePath: spacePath,
       onSuccess: () => executeCallback(),
       ref: element => {
         this.modalRef = element;
       },
-      testId: "Modal_PublishSpace"
+      testId: "Modal_ExportSpace"
     });
   }
 
 }
 
-const publishSpace = {
+const exportSpace = {
   data: {
-    name: "Publish Space",
-    icon: "park",
+    name: "Export Space",
+    icon: "upload",
     properties: {
       appearance: "primary"
     }
   },
-  actionComponent: PublishSpaceAction
+  actionComponent: ExportSpaceAction
 };
-export default publishSpace;
+export default exportSpace;

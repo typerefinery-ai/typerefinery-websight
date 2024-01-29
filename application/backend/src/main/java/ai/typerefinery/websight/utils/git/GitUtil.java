@@ -1,6 +1,7 @@
 package ai.typerefinery.websight.utils.git;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.InitCommand;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.PushCommand;
 
@@ -41,6 +42,7 @@ import org.eclipse.jgit.api.CreateBranchCommand;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -97,6 +99,9 @@ public class GitUtil {
     private static final Logger log = LoggerFactory.getLogger(GitUtil.class);
 
     public static void initializeGit(GitConfig gitConfig, boolean failOnError) {
+        initializeGit(gitConfig, failOnError, false);
+    }
+    public static void initializeGit(GitConfig gitConfig, boolean failOnError, boolean forceInit) {
         if (gitConfig.git != null && gitConfig.localFolder != null) {
             return;
         }
@@ -125,7 +130,7 @@ public class GitUtil {
             // If LFS is enabled, we will use only built-in LFS.
             // BuiltinLFS.register(); //TODO: check if this is needed
 
-            boolean clonedOrCreated = cloneOrInit(gitConfig);
+            boolean clonedOrCreated = cloneOrInit(gitConfig, forceInit);
 
             gitConfig.git = Git.open(gitConfig.localFolder);
             updateGitConfigs(gitConfig);
@@ -507,7 +512,7 @@ public class GitUtil {
         }
     }
 
-    private void pull(GitConfig gitConfig, String commitToRevert) throws GitAPIException, IOException {
+    public static void pull(GitConfig gitConfig, String commitToRevert) throws GitAPIException, IOException {
         if (gitConfig.uri == null) {
             return;
         }
@@ -570,7 +575,7 @@ public class GitUtil {
      *
      * @param commitToDiscard if null, commit will not be discarded. If not null, commit with that id will be discarded.
      */
-    private void reset(GitConfig gitConfig, String commitToDiscard) {
+    private static void reset(GitConfig gitConfig, String commitToDiscard) {
         try {
             String fullBranch = gitConfig.git.getRepository().getFullBranch();
             if (ObjectId.isId(fullBranch)) {
@@ -607,7 +612,7 @@ public class GitUtil {
         }
     }
 
-    private boolean isCommitMerged(GitConfig gitConfig, String commitId) throws IOException {
+    private static boolean isCommitMerged(GitConfig gitConfig, String commitId) throws IOException {
         Repository repository = gitConfig.git.getRepository();
         try (RevWalk revWalk = new RevWalk(repository)) {
             RevCommit branchHead = revWalk.parseCommit(repository.resolve(Constants.R_HEADS + gitConfig.branch));
@@ -679,7 +684,7 @@ public class GitUtil {
         return String.valueOf(maxId + 1);
     }
     
-    private void applyMergeCommit(GitConfig gitConfig, MergeResult mergeResult, String mergeMessage) throws GitAPIException {
+    private static void applyMergeCommit(GitConfig gitConfig, MergeResult mergeResult, String mergeMessage) throws GitAPIException {
         if (mergeResult.getMergeStatus().equals(MergeResult.MergeStatus.MERGED_NOT_COMMITTED)) {
             gitConfig.git.commit()
                 .setMessage(mergeMessage)
@@ -719,7 +724,7 @@ public class GitUtil {
     }
 
 
-    private String getMergeMessage(GitConfig gitConfig, Ref r) throws IOException {
+    private static String getMergeMessage(GitConfig gitConfig, Ref r) throws IOException {
         String userMessage = new MergeMessageFormatter().format(Collections.singletonList(r),
         gitConfig.git.getRepository().exactRef(Constants.HEAD));
         if (gitConfig.escapedCommentTemplate == null) {
@@ -744,6 +749,9 @@ public class GitUtil {
     }
 
     public static boolean cloneOrInit(GitConfig gitConfig) throws IOException, GitAPIException {
+        return cloneOrInit(gitConfig, false);
+    }
+    public static boolean cloneOrInit(GitConfig gitConfig, Boolean forceInit) throws IOException, GitAPIException {
         boolean shouldCloneOrInit;
         boolean shouldUpdateOrigin = false;
         if (!gitConfig.localFolder.exists()) {
@@ -783,10 +791,39 @@ public class GitUtil {
                     }
                     shouldCloneOrInit = false;
                 } else {
-                    // Cannot overwrite existing files that is definitely not git repository
-                    throw new IOException(String.format(
-                        "Folder '%s' already exists and is not a git repository. Use another gitConfig.localFolder path or delete the existing folder to create a git repository.",
-                        gitConfig.localFolder));
+                    if (forceInit) {
+                        //init new repo
+                        Git repo = Git.init()
+                            .setDirectory(gitConfig.localFolder)
+                            .call();
+
+                        try {
+                            repo.remoteAdd()
+                                .setName(Constants.DEFAULT_REMOTE_NAME)
+                                .setUri(new URIish(gitConfig.uri))                                
+                                .call();
+                        } catch (URISyntaxException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                            log.debug("Could not add remote {}", gitConfig.uri);
+                        }
+                        try {
+                            repo.branchCreate()
+                                .setName(gitConfig.branch)
+                                .call();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                            log.debug("Could not create branch {}", gitConfig.branch);
+                        }
+                        repo.close();
+                        return true;
+                    } else {
+                        // Cannot overwrite existing files that is definitely not git repository
+                        throw new IOException(String.format(
+                            "Folder '%s' already exists and is not a git repository. Use another gitConfig.localFolder path or delete the existing folder to create a git repository.",
+                            gitConfig.localFolder));
+                    }
                 }
             } else {
                 shouldCloneOrInit = true;
@@ -795,6 +832,7 @@ public class GitUtil {
 
         if (shouldCloneOrInit) {
             try {
+                //clone repo
                 if (gitConfig.uri != null) {
                     CloneCommand cloneCommand = Git.cloneRepository()
                         .setURI(gitConfig.uri)
@@ -827,6 +865,7 @@ public class GitUtil {
 
                     cloned.close();
                 } else {
+                    //init new repo
                     Git repo = Git.init().setDirectory(gitConfig.localFolder).call();
                     repo.close();
                 }

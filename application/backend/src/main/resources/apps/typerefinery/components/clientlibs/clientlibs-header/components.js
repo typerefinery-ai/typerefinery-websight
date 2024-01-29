@@ -15,7 +15,10 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     };
     ns.replaceRegex = (str, obj) => {
         return str.replace(/{{(\w+)}}/gm, function(match, key) {
-            return obj[key];
+            if (!obj.hasOwnProperty(key)) {
+              console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
+            }
+            return obj[key] || "";
         });
     };
     ns.queryToObject = (query) => {
