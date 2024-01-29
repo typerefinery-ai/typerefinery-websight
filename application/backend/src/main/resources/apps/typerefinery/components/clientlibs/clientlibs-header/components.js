@@ -13,6 +13,9 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     ns.getComponentConfig = ($component) => {
       return $($component).data('model') || {};
     };
+    ns.hasRegex = (str) => {
+        return str.match(/{{(\w+)}}/gm);
+    };      
     ns.replaceRegex = (str, obj) => {
         return str.replace(/{{(\w+)}}/gm, function(match, key) {
             if (!obj.hasOwnProperty(key)) {
