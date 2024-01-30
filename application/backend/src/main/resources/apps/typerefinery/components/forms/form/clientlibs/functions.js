@@ -134,7 +134,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         let controller = new AbortController();
         try {
 
-          await fetch('https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/create-user/_jcr_content/rootcontainer/form', {
+          await fetch(url, {
             method: method || 'POST',
             headers: {
               'Content-Type': payloadType || 'application/x-www-form-urlencoded'
