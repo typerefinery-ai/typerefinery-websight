@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="./main/main.css">
     
     <!-- <link rel="stylesheet" href="src/style.css" /> -->
-    <!-- <link rel="stylesheet" href="src/page-details-default.scss" /> -->
-    <!-- <link rel="stylesheet" href="src/page-details-oblique.scss" /> -->
-    <!-- <link rel="stylesheet" href="src/page-details-oblique.css" /> -->
-    <!-- <link rel="stylesheet" href="src/page-details-hover.css" /> -->
-    <!-- <link rel="stylesheet" href="src/page-list.css" /> -->
+    <!-- <link rel="stylesheet" href="src/teaser-default.scss" /> -->
+    <!-- <link rel="stylesheet" href="src/teaser-oblique.scss" /> -->
+    <!-- <link rel="stylesheet" href="src/teaser-oblique.css" /> -->
+    <!-- <link rel="stylesheet" href="src/teaser-hover.css" /> -->
+    <!-- <link rel="stylesheet" href="src/list.css" /> -->
     <!-- <link rel="stylesheet" href="src/container.css" /> -->
 </head>
   </head>
@@ -90,8 +90,8 @@
     <!-- NAV END -->
     <main class="text-center">
 
-      <!-- PAGE DETAILS START -->
-      <div component="page-details" class="oblique" role="banner">
+      <!-- TEASER START -->
+      <div component="teaser" class="oblique" role="banner">
         <div class="image d-none d-md-block">
           <div class="picture-container">
           	<picture>
@@ -108,11 +108,33 @@
   				</div>
       	</div>
       </div>
-      <!-- PAGE DETAILS END -->
+      <!-- TEASER END -->
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="default" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="oblique" role="banner">
+          <div class="image d-none d-md-block">
+            <div class="picture-container  rounded-3">
+              <picture>
+                <img alt="" data-sizes="auto" src="./assets/general/service.jpg" sizes="1407px">
+              </picture>
+            </div>
+          </div>
+          <div class="container d-flex align-items-center justify-content-center">
+            <div component="text">
+              <h1>Join us at our midyear Study Expo.</h1>
+              <p>Tuesday 6 June, 4pm-6pm.</p>
+              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-secondary">Secondary</button>
+            </div>
+          </div>
+        </div>
+        <!-- TEASER END -->
+      </section>
+
+      <section>
+        <!-- TEASER START -->
+        <div component="teaser" class="default" role="banner">
           <div class="image d-none d-md-block">
             <div class="picture-container">
             	<picture>
@@ -122,19 +144,41 @@
           </div>
          	<div class="container d-flex align-items-center justify-content-center">
     				<div component="text">
-    					<h1>Page Details 1</h1>
+    					<h1>Teaser 1</h1>
     					<p>Tuesday 6 June, 4pm-6pm.</p>
               <button type="button" class="btn btn-primary">Primary</button>
               <button type="button" class="btn btn-secondary">Secondary</button>
     				</div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="hover" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="default" role="banner">
+          <div class="image d-none d-md-block">
+            <div class="picture-container rounded-3">
+            	<picture>
+            		<img alt="" data-sizes="auto" src="./assets/general/service.jpg" sizes="1407px">
+            	</picture>
+            </div>
+          </div>
+         	<div class="container d-flex align-items-center justify-content-center">
+    				<div component="text">
+    					<h1>Teaser 1</h1>
+    					<p>Tuesday 6 June, 4pm-6pm.</p>
+              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-secondary">Secondary</button>
+    				</div>
+        	</div>
+        </div>
+        <!-- TEASER END -->
+      </section>
+
+      <section>
+        <!-- TEASER START -->
+        <div component="teaser" class="hover" role="banner">
           <div class="image ">
             <div class="picture-container">
             	<picture>
@@ -144,19 +188,19 @@
           </div>
          	<div class="container d-flex align-items-center justify-content-center shadow rounded-2">
             <div component="text">
-              <h1>Page Details 2</h1>
+              <h1>Teaser 2</h1>
               <p>Tuesday 6 June, 4pm-6pm.</p>
               <button type="button" class="btn btn-primary">Primary</button>
               <button type="button" class="btn btn-secondary">Secondary</button>
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top h-100 w-100">
             	<picture>
@@ -168,7 +212,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-7">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 3</h1>
+                  <h1>Teaser 3</h1>
                   <p>Image Full Size</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -177,12 +221,12 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top ms-auto w-sm-100 w-lg-50 rounded-2">
             	<picture>
@@ -194,7 +238,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-7 ">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 4</h1>
+                  <h1>Teaser 4</h1>
                   <p>Image Right</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -203,12 +247,12 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top w-sm-100 w-lg-50">
             	<picture>
@@ -220,7 +264,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-7 offset-md-5">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 5</h1>
+                  <h1>Teaser 5</h1>
                   <p>Image Left</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -229,12 +273,12 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top w-100">
             	<picture>
@@ -246,7 +290,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-12">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 6</h1>
+                  <h1>Teaser 6</h1>
                   <p>Full Width</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -255,12 +299,12 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top w-100 rounded-3">
             	<picture>
@@ -272,7 +316,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-12">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 mt-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 6</h1>
+                  <h1>Teaser 6</h1>
                   <p>Full Width Rounded</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -281,13 +325,13 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
     
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="oblique h-30rem" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="oblique h-30rem" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top w-100 rounded-3">
             	<picture>
@@ -299,7 +343,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-12">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 mt-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 7</h1>
+                  <h1>Teaser 7</h1>
                   <p>Full Width Rounded</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -308,13 +352,13 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
         
       <section>
-        <!-- PAGE DETAILS START -->
-        <div component="page-details" class="oblique h-30rem rounded-3" role="banner">
+        <!-- TEASER START -->
+        <div component="teaser" class="oblique h-30rem rounded-3" role="banner">
           <div class="image z-0">
             <div class="picture-container position-absolute fixed-top w-100 rounded-3">
             	<picture>
@@ -326,7 +370,7 @@
             <div class="d-flex justify-content-center flex-column col-lg-12">
               <div class="row d-flex align-items-center justify-content-center shadow-lg rounded-2 p-5 mt-5 h-60 blur">
                 <div component="text">
-                  <h1>Page Details 8</h1>
+                  <h1>Teaser 8</h1>
                   <p>Full Width Rounded</p>
                   <button type="button" class="btn btn-primary">Primary</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -335,18 +379,21 @@
             </div>
         	</div>
         </div>
-        <!-- PAGE DETAILS END -->
+        <!-- TEASER END -->
       </section>
 
-    
+      <section>
+        <div component="container" class="col-lg-6 col-md-6 col-sm-12  container-fluid center between">
+          <div component="text">
+            <h2>Our Services</h2>
+            <p>We're constantly trying to express ourselves and actualize our dreams. If you have the opportunity to play this game of life you need to appreciate every moment.</p>
+          </div>
+        </div>
+      </section>
 
       <!-- PAGE LIST START -->
       <section>
-        <div component="text">
-          <h2>Our Services</h2>
-          <p>Test about our servicves</p>
-        </div>
-        <div component="page-list" class="container text-center">
+        <div component="list" class="container text-center">
           <div class="row align-items-end">
             <div class="col">
               
