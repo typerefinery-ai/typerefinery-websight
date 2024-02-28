@@ -8,7 +8,7 @@
   },
   "roleSelect": {
     "sling:resourceType": "wcm/dialogs/components/select",
-    "name": "attirbuteSelect",
+    "name": "roleSelect",
     "label": "Role Select",
     "default": {
       "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -276,9 +276,9 @@
     "label": "Aria Attributes",
     "sling:resourceType": "wcm/dialogs/components/multifield",
     "ws:disallowedContext": ["edit:panel"],
-    "attirbuteSelect": {
+    "select": {
       "sling:resourceType": "wcm/dialogs/components/select",
-      "name": "attirbuteSelect",
+      "name": "select",
       "label": "Attribute",
       "default": {
         "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -511,14 +511,14 @@
         "value": "aria-setsize"
       }
     },
-    "attirbuteName": {
+    "other": {
       "sling:resourceType": "wcm/dialogs/components/textfield",
-      "name": "attirbuteName",
-      "label": "Name (other optional)"
+      "name": "other",
+      "label": "Other"
     },
     "attirbuteValue": {
       "sling:resourceType": "wcm/dialogs/components/textfield",
-      "name": "attirbuteValue",
+      "name": "value",
       "label": "Value"
     }
   }
