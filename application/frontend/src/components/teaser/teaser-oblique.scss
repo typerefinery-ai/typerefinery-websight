@@ -1,6 +1,6 @@
-@use 'page-details-default' as default;
+@use 'teaser-default' as default;
 
-[component="page-details"].oblique {
+[component="teaser"].oblique {
   
   @include default.root;
 

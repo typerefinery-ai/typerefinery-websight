@@ -1,4 +1,4 @@
-@use 'page-details-default' as default;
+@use 'teaser-default' as default;
 @use '~bootstrap/scss/bootstrap-utilities' as bs;
 @use "sass:map";
 @use "../utils/index" as utils;
@@ -18,7 +18,7 @@ $enable-shadows: true;
   display: flex;
 }
 
-[component="page-details"].hover {
+[component="teaser"].hover {
   
   @include default.root;
 
