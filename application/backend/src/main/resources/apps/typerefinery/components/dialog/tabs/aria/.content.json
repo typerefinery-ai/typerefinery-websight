@@ -1,0 +1,255 @@
+{
+  "sling:resourceType": "wcm/dialogs/components/tab",
+  "label": "Aria",
+  "ariaAttributes": {
+    "name": "ariaAttributes",
+    "label": "Aria Attributes",
+    "sling:resourceType": "wcm/dialogs/components/multifield",
+    "ws:disallowedContext": ["edit:panel"],
+    "attirbuteSelect": {
+      "sling:resourceType": "wcm/dialogs/components/select",
+      "name": "attirbuteSelect",
+      "label": "Attribute",
+      "default": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Other",
+        "value": ""
+      },
+      "ariaAutocomplete": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Auto Complete",
+        "value": "aria-autocomplete"
+      },
+      "ariaChecked": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Checked",
+        "value": "aria-checked"
+      },
+      "ariaDisabled": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Disabled",
+        "value": "aria-disabled"
+      },
+      "ariaExpanded": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Expanded",
+        "value": "aria-expanded"
+      },
+      "ariaHaspopup": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Has Popup",
+        "value": "aria-haspopup"
+      },
+      "ariaHidden": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Hidden",
+        "value": "aria-hidden"
+      },
+      "ariaInvalid": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Invalid",
+        "value": "aria-invalid"
+      },
+      "ariaLabel": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Label",
+        "value": "aria-label"
+      },
+      "ariaLevel": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Level",
+        "value": "aria-level"
+      },
+      "ariaModal": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Modal",
+        "value": "aria-modal"
+      },
+      "ariaMultiline": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Multi Line",
+        "value": "aria-multiline"
+      },
+      "ariaMultiselectable": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Multi Selectable",
+        "value": "aria-multiselectable"
+      },
+      "ariaOrientation": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Orientation",
+        "value": "aria-orientation"
+      },
+      "ariaPressed": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Pressed",
+        "value": "aria-pressed"
+      },
+      "ariaReadonly": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Read Only",
+        "value": "aria-readonly"
+      },
+      "ariaRequired": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Required",
+        "value": "aria-required"
+      },
+      "ariaSelected": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Selected",
+        "value": "aria-selected"
+      },
+      "ariaSort": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Sort",
+        "value": "aria-sort"
+      },
+      "ariaValuemax": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Value Max",
+        "value": "aria-valuemax"
+      },
+      "ariaValuemin": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Value Min",
+        "value": "aria-valuemin"
+      },
+      "ariaValuenow": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Value Now",
+        "value": "aria-valuenow"
+      },
+      "ariaValuetext": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Widget - Value Text",
+        "value": "aria-valuetext"
+      },
+      "ariaBusy": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Live Region - Busy",
+        "value": "aria-busy"
+      },
+      "ariaLive": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Live Region - Live",
+        "value": "aria-live"
+      },
+      "ariaRelevant": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Live Region - Relevant",
+        "value": "aria-relevant"
+      },
+      "ariaAtomic": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Live Region - Atomic",
+        "value": "aria-atomic"
+      },
+      "ariaDropeffect": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Drag and Drop - Drop Effect",
+        "value": "aria-dropeffect"
+      },
+      "ariaGrabbed": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Drag and Drop - Grabbed",
+        "value": "aria-grabbed"
+      },
+      "ariaActivedescendant": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Active Descendant",
+        "value": "aria-activedescendant"
+      },
+      "ariaColcount": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Column Count",
+        "value": "aria-colcount"
+      },
+      "ariaColindex": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Column Index",
+        "value": "aria-colindex"
+      },
+      "ariaColspan": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Column Span",
+        "value": "aria-colspan"
+      },
+      "ariaControls": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Controls",
+        "value": "aria-controls"
+      },
+      "ariaDescribedby": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Described By",
+        "value": "aria-describedby"
+      },
+      "ariaDescription": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Description",
+        "value": "aria-description"
+      },
+      "ariaDetails": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Details",
+        "value": "aria-details"
+      },
+      "ariaErrormessage": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Error Message",
+        "value": "aria-errormessage"
+      },
+      "ariaFlowto": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Flow To",
+        "value": "aria-flowto"
+      },
+      "ariaLabelledby": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Labelled By",
+        "value": "aria-labelledby"
+      },
+      "ariaOwns": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Owns",
+        "value": "aria-owns"
+      },
+      "ariaPosinset": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Position in Set",
+        "value": "aria-posinset"
+      },
+      "ariaRowcount": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Row Count",
+        "value": "aria-rowcount"
+      },
+      "ariaRowindex": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Row Index",
+        "value": "aria-rowindex"
+      },
+      "ariaRowspan": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Row Span",
+        "value": "aria-rowspan"
+      },
+      "ariaSetsize": {
+        "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+        "label": "Relationships - Set Size",
+        "value": "aria-setsize"
+      }
+    },
+    "attirbuteName": {
+      "sling:resourceType": "wcm/dialogs/components/textfield",
+      "name": "attirbuteName",
+      "label": "Name (other optional)"
+    },
+    "attirbuteValue": {
+      "sling:resourceType": "wcm/dialogs/components/textfield",
+      "name": "attirbuteValue",
+      "label": "Value"
+    }
+  }
+}
