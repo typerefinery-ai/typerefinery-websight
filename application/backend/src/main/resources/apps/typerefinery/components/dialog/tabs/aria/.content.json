@@ -1,6 +1,276 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
   "label": "Aria",
+  "roleOther": {
+    "sling:resourceType": "wcm/dialogs/components/textfield",
+    "name": "roleOther",
+    "label": "Role Value (other)"
+  },
+  "roleSelect": {
+    "sling:resourceType": "wcm/dialogs/components/select",
+    "name": "attirbuteSelect",
+    "label": "Role Select",
+    "default": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Other",
+      "value": ""
+    },
+    "documentToolbar": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Toolbar",
+      "value": "toolbar"
+    },
+    "documentTooltip": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Tooltip",
+      "value": "tooltip"
+    },
+    "documentFeed": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Feed",
+      "value": "feed"
+    },
+    "documentMath": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Math",
+      "value": "math"
+    },
+    "documentPresentation": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Presentation",
+      "value": "presentation"
+    },
+    "documentNote": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Note",
+      "value": "note"
+    },
+    "documentDirectory": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Directory",
+      "value": "directory"
+    },
+    "documentDocument": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Document",
+      "value": "document"
+    },
+    "documentGroup": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Document - Group",
+      "value": "group"
+    },
+    "widgetScrollbar": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Scrollbar",
+      "value": "scrollbar"
+    },
+    "widgetSearchbox": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Searchbox",
+      "value": "searchbox"
+    },
+    "widgetSeparator": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Separator",
+      "value": "separator"
+    },
+    "widgetSlider": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Slider",
+      "value": "slider"
+    },
+    "widgetSpinbutton": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Spinbutton",
+      "value": "spinbutton"
+    },
+    "widgetSwitch": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Switch",
+      "value": "switch"
+    },
+    "widgetTab": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Tab",
+      "value": "tab"
+    },
+    "widgetTabPanel": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Tab Panel",
+      "value": "tabpanel"
+    },
+    "widgetTreeitem": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Widget - Treeitem",
+      "value": "treeitem"
+    },
+    "compositeCombobox": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Combobox",
+      "value": "combobox"
+    },
+    "compositeMenu": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Menu",
+      "value": "menu"
+    },
+    "compositeMenubar": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Menubar",
+      "value": "menubar"
+    },
+    "compositeTablist": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Tablist",
+      "value": "tablist"
+    },
+    "compositeTree": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Tree",
+      "value": "tree"
+    },
+    "compositeTreeGrid": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Composite - Tree Grid",
+      "value": "treegrid"
+    },
+    "landmarkBanner": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Banner",
+      "value": "banner"
+    },
+    "landmarkComplementary": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Complementary",
+      "value": "complementary"
+    },
+    "landmarkContentinfo": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Contentinfo",
+      "value": "contentinfo"
+    },
+    "landmarkForm": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Form",
+      "value": "form"
+    },
+    "landmarkMain": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Main",
+      "value": "main"
+    },
+    "landmarkNavigation": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Navigation",
+      "value": "navigation"
+    },
+    "landmarkRegion": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Region",
+      "value": "region"
+    },
+    "landmarkSearch": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Landmark - Search",
+      "value": "search"
+    },
+    "liveRegionAlert": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Live Region - Alert",
+      "value": "alert"
+    },
+    "liveRegionLog": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Live Region - Log",
+      "value": "log"
+    },
+    "liveRegionMarquee": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Live Region - Marquee",
+      "value": "marquee"
+    },
+    "liveRegionStatus": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Live Region - Status",
+      "value": "status"
+    },
+    "liveRegionTimer": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Live Region - Timer",
+      "value": "timer"
+    },
+    "windowAlertdialog": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Window - Alertdialog",
+      "value": "alertdialog"
+    },
+    "windowDialog": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Window - Dialog",
+      "value": "dialog"
+    },
+    "abstractCommand": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Command",
+      "value": "command"
+    },
+    "abstractComposite": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Composite",
+      "value": "composite"
+    },
+    "abstractInput": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Input",
+      "value": "input"
+    },
+    "abstractLandmark": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Landmark",
+      "value": "landmark"
+    },
+    "abstractRange": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Range",
+      "value": "range"
+    },
+    "abstractRoletype": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Roletype",
+      "value": "roletype"
+    },
+    "abstractSection": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Section",
+      "value": "section"
+    },
+    "abstractSectionhead": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Sectionhead",
+      "value": "sectionhead"
+    },
+    "abstractSelect": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Select",
+      "value": "select"
+    },
+    "abstractStructure": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Structure",
+      "value": "structure"
+    },
+    "abstractWidget": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Widget",
+      "value": "widget"
+    },
+    "abstractWindow": {
+      "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+      "label": "Abstract - Window",
+      "value": "window"
+    }
+  },
   "ariaAttributes": {
     "name": "ariaAttributes",
     "label": "Aria Attributes",
