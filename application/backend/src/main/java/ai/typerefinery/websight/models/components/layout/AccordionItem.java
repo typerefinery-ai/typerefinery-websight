@@ -41,19 +41,30 @@ import lombok.Getter;
         Resource.class,
         SlingHttpServletRequest.class
     },
-    resourceType = { Accordion.RESOURCE_TYPE },
+    resourceType = { AccordionItem.RESOURCE_TYPE },
     defaultInjectionStrategy = OPTIONAL
 )
 @Exporter(name = "jackson", extensions = "json", options = {
         @ExporterOption(name = "MapperFeature.SORT_PROPERTIES_ALPHABETICALLY", value = "true"),
         @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "false")
 })
-public class Accordion extends BaseComponent  {
+public class AccordionItem extends BaseComponent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Accordion.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccordionItem.class);
     
-    public static final String RESOURCE_TYPE = "typerefinery/components/layout/accordion";
-  
+    public static final String RESOURCE_TYPE = "typerefinery/components/layout/accordionitem";
+
+    @Inject
+    @Getter
+    @Default(values = "Accordion Item ")
+    private String title;
+
+    @Getter
+    @Inject
+    @Nullable
+    private Boolean show;
+
+
     @Override
     @PostConstruct
     protected void init() {
