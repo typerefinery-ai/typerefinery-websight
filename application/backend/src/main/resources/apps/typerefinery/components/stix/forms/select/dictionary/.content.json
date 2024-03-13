@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Select",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Dictionary Select",
+  "title": "Dictionary",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

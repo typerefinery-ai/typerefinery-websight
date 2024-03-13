@@ -1,0 +1,144 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
+      },
+      "inputType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputType",
+        "label": "Type",
+        "string": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Dictionary",
+          "value": "dictionary"
+        },
+        "extension": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Extension",
+          "value": "extension"
+        },
+        "list": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "List",
+          "value": "list"
+        },
+        "enum": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Enum",
+          "value": "enum"
+        },
+        "vocab": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Vocab",
+          "value": "vocab"
+        },
+        "hash": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Hash",
+          "value": "hash"
+        },
+        "pattern": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Pattern",
+          "value": "pattern"
+        }  
+      },
+      "selectOptions": {
+        "name": "selectOptions",
+        "label": "Add Options",
+        "description": "If option endpoint is mentioned then options will be read from datasource",
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "labelText": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "label",
+          "label": "Label"
+        },
+        "value": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "value",
+          "label": "Value"
+        }
+      }
+      
+    },
+    "optionsTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Options",
+      "readOptionsFromDataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readOptionsFromDataSource",
+        "label": "Read options from data source",
+        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
+      },
+      "keyNameInOptionList": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "keyNameInOptionList",
+        "label": "Key name in option list"
+      },
+      "labelNameInOptionList": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "labelNameInOptionList",
+        "label": "Label name in option list"
+      }
+    },
+    "advancedTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Advanced",
+      "multipleSelection": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "multipleSelection",
+        "label": "Multiple Select"
+      },
+      "maxSelection": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "maxSelection",
+        "label": "Max Selections",
+        "ws:display": {
+          "condition": {
+            "sourceName": "multipleSelection",
+            "values": true
+          }
+        }
+      },
+      "defaultSelectedOptions": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "defaultSelectedOptions",
+        "label": "Default Selected Options",
+        "description": "Comma separated list of values to be selected by default"
+      }
+    },
+    "validationTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/validation"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    }
+  }
+}

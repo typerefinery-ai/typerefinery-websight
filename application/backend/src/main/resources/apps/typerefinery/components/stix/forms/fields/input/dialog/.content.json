@@ -1,0 +1,100 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
+      },
+      "inputType": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "inputType",
+        "label": "Type",
+        "string": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "String",
+          "value": "string"
+        },
+        "integer": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Integer",
+          "value": "integer"
+        },
+        "float": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Float",
+          "value": "float"
+        },
+        "boolean": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Boolean",
+          "value": "boolean"
+        },
+        "timestamp": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Timestamp",
+          "value": "timestamp"
+        },
+        "binary": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Binary",
+          "value": "binary"
+        },
+        "hex": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Hex",
+          "value": "hex"
+        },
+        "embeddedObject": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Embedded Object",
+          "value": "embeddedobject"
+        },
+        "id": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ID",
+          "value": "id"
+        },
+        "objectReference": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Object Reference",
+          "value": "objectrference"
+        },
+        "reference": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Reference",
+          "value": "reference"
+        },
+        "selector": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Selector",
+          "value": "selector"
+        },
+        "threat": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Threat",
+          "value": "threat"
+        }      
+      }
+    },
+    "validationTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/validation"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    }
+  }
+}

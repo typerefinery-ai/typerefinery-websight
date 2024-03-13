@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Input",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Hex input field.",
+  "title": "Hex",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

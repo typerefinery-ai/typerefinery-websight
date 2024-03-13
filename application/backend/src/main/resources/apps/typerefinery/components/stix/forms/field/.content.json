@@ -1,0 +1,12 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "isLayout": false,
+  "allowedComponents": [
+    "Typerefinery - Forms - Stix - Input",
+    "Typerefinery - Forms - Stix - Select"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Container for form elements",
+  "title": "Form Field"
+}

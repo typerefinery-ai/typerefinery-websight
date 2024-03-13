@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Select",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "List Select",
+  "title": "List",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}
