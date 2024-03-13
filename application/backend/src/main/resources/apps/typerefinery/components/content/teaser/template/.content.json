@@ -1,0 +1,44 @@
+{
+  "jcr:primaryType": "nt:unstructured",
+  "sling:resourceType": "typerefinery/components/layout/container",
+  "title": "Teaser - Oblique",
+  "classes": "oblique",
+  "image": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/content/image",
+    "classes": "image d-none d-md-block",
+    "title": "Image"
+  },
+  "container": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/layout/container",
+    "title": "Container",
+    "classes": "d-flex align-items-center justify-content-center",
+    "text": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/content/text",
+      "title": "Text"
+    },
+    "actions": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/layout/container",
+      "title": "Container",
+      "buton1": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/button",
+        "label": "Primary",
+        "navigateTo": "#",
+        "buttonStyle": "primary",
+        "buttonType": "navigate"
+      },
+      "buton2": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/button",
+        "label": "Secondary",
+        "navigateTo": "#",
+        "buttonStyle": "secondary",
+        "buttonType": "navigate"
+      }
+    }
+  }
+}

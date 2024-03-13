@@ -1,0 +1,10 @@
+{
+  "title": "Teaser",
+  "group": "Typerefinery - Content",
+  "sling:resourceType": "ws:Component",
+  "isContainer": false,
+  "isLayout": false,
+  "description": "Used to create a teaser for a page.",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
+}
+
