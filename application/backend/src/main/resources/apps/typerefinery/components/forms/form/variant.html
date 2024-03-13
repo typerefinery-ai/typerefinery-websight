@@ -27,7 +27,7 @@
 
     <sly data-sly-test="${!resource.hasChildren}">
         <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-            data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+            data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
         </sly>
     </sly>
 </template>
