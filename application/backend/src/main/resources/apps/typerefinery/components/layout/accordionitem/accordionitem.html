@@ -11,18 +11,25 @@
     limitations under the License.
 */-->
 <!-- new -->
-<sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.Accordion">
-    <li>
-        <p-accordiontab header="${model.title}">
-            <sly data-sly-test="${resource.hasChildren}">
-                <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
-                </sly>
-            </sly>
-            <sly data-sly-test="${!resource.hasChildren}">
-                <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-                    data-sly-call="${lib.placeholder @ classes=CSSclasses}">
-                </sly>
-            </sly>
-        </p-accordiontab>
-    </li>
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.AccordionItem">
+  <div class="accordion-item"
+    data-sly-set.expand="${wcmmode.isEdit || model.show}">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}" aria-expanded="${model.show ? 'true' : ''}" aria-controls="${model.id}">
+        ${model.title}
+      </button>
+    </h2>
+    <!--${expand}-->
+    <div id="${model.id}" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="#${resource.parent.id}">
+      <div class="accordion-body">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
+        </sly>
+        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+          data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+        </sly>
+
+        <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle}</div>
+      </div>
+    </div>
+  </div>
 </sly>
