@@ -83,7 +83,8 @@ public class BaseModel {
     protected void init() {
 
         this.componentName = PageUtil.getResourceTypeName(resource);
-        this.componentTitle = StringUtils.capitalize(this.componentName);
+        // this.componentTitle = StringUtils.capitalize(this.componentName);
+        this.componentTitle = PageUtil.getResourceTypeTitle(resource, resourceResolver);
 
         if (StringUtils.isBlank(this.id)) {
             //TODO: generate a unique id

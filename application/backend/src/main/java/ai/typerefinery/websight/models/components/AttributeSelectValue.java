@@ -38,4 +38,9 @@ public class AttributeSelectValue {
     @Inject
     public String value;
 
+    // override toString method
+    public String toString() {
+        String attributeName = select != null ? select : other;
+        return attributeName + "=\"" + value + "\"";
+    }
 }

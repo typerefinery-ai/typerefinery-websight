@@ -69,6 +69,19 @@ public class PageUtil {
         return null;
     }
 
+
+    /**
+     * return resource as a ValueMap
+     * @param resource resource to use
+     * @return ValueMap of resource
+     */
+    public static ValueMap getResourceValueMap(@NotNull Resource resource) {
+        if (resource != null ) {
+            return resource.getValueMap();
+        }
+        return null;
+    }
+
     /**
      * return resource child JCR_CONTENT as a ValueMap
      * @param resource resource to use
@@ -99,6 +112,19 @@ public class PageUtil {
      */
     public static String getResourcePagePath(@NotNull Resource resource) {
         return resource.getPath().substring(0, resource.getPath().indexOf(JcrConstants.JCR_CONTENT)-1);
+    }
+
+    public static String getResourceTypeTitle(@NotNull Resource resource, @NotNull ResourceResolver resourceResolver) {
+        String resourceType = resource.getResourceType();
+        //get resource type resource
+        Resource resourceTypeResource = resourceResolver.getResource(resourceType);
+        if (resourceTypeResource != null) {
+            ValueMap resourceTypeValueMap = getResourceValueMap(resourceTypeResource);
+            if (resourceTypeValueMap != null && resourceTypeValueMap.containsKey(PROPERTY_TITLE)) {
+                return resourceTypeValueMap.get(PROPERTY_TITLE, StringUtils.EMPTY);
+            }
+        }
+        return getResourceTypeName(resource);
     }
 
     /**

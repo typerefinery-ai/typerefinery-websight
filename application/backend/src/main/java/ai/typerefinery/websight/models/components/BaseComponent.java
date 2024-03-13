@@ -5,6 +5,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -169,7 +170,18 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Getter
     @Default(values = "")
     private String name;
-
+    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String roleOther;    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String roleSelect;
+    @Inject
+    @Getter
+    public List<AttributeSelectValue> ariaAttributes;
     
     @Inject
     @Getter
@@ -432,5 +444,19 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             //     // style.addClasses(className);
             // }
         }
+    }
+
+    public String getRole() {
+        if (StringUtils.isNotBlank(roleSelect)) {
+            return roleSelect;
+        }
+        return roleOther;
+    }
+
+    public String getAriaAttributesString() {
+        if (ariaAttributes != null) {
+            return ariaAttributes.stream().map(AttributeSelectValue::toString).collect(Collectors.joining(" "));
+        }
+        return "";
     }
 }
