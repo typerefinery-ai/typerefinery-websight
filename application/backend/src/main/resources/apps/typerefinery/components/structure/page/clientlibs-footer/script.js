@@ -110,4 +110,5 @@ $(document).ready(() => {
     });
 
     vueApp.use(router).use(primevue.config.default).mount('#app');
+    console.log("Vue app mounted");
 });
