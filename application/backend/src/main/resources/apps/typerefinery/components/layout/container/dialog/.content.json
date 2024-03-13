@@ -177,6 +177,10 @@
     "backgroundTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/background"
+    },
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
     }
   }
 }
