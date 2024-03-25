@@ -4,7 +4,8 @@
   "isLayout": false,
   "allowedComponents": [
     "Typerefinery - Forms - Stix - Input",
-    "Typerefinery - Forms - Stix - Select"
+    "Typerefinery - Forms - Stix - Select",
+    "Typerefinery - Forms - Stix - Composite"
   ],
   "sling:resourceType": "ws:Component",
   "description": "Container for form elements",

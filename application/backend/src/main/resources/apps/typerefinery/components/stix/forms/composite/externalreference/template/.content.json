@@ -1,0 +1,93 @@
+{
+  "label": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/forms/fields/label",
+    "label": "External Reference"
+  },
+  "field": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/stix/forms/fields/composite",
+    "label": "External Reference Field",
+    "inputType": "externalreference",
+    "source_name": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "source_name"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "source_name",
+        "name": "source_name",
+        "inputType": "string"
+      }
+    },
+    "description": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "description"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "description",
+        "name": "description",
+        "inputType": "string"
+      }
+    },
+    "url": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "url"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "url",
+        "name": "url",
+        "inputType": "string"
+      }
+    },
+    "hashes": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "hashes"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "hashes",
+        "name": "hashes",
+        "inputType": "string"
+      }
+    },
+    "external_id": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "external_id"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "external_id",
+        "name": "external_id",
+        "inputType": "string"
+      }
+    }
+  }
+}
