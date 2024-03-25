@@ -92,6 +92,7 @@ public class FlowService {
     public static final String PROPERTY_TEMPLATE_DESIGN = "designtemplate";
     public static final String PROPERTY_ISCONTAINER = "iscontainer";
     public static final String PROPERTY_HTTPROUTE = "httproute";
+    public static final String PROPERTY_HTTPROUTE_NOSFX = "httproutenosfx";
     public static final String PROPERTY_WEBSOCKETURL = "websocketurl";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
 
@@ -110,6 +111,7 @@ public class FlowService {
 
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/{{id}}"; // used to prefix http route url, eg form get url to be used /form/{{id}} will be updated to the {page URL}/{{id}}, this will allow client to substitiute the id in the url
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_NOSFX = "<http-route-url-nosfx>"; // used to specify which http route flow will use if any, will be url without suffix
 
     public static final String FLOW_DEFAULT_TITLE_SUFFIX = " flow"; // used to generate flow title if not specified, flow title will be {page title} flow
 
@@ -762,6 +764,7 @@ public class FlowService {
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
         response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
+        response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
@@ -826,6 +829,7 @@ public class FlowService {
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
         response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
+        response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
 
         LOGGER.info("flowstreamdata: {}", response);
@@ -870,7 +874,8 @@ public class FlowService {
             put(FLOW_TEMPLATE_FIELD_PRINTJSON_ID, StringUtils.join(childPathId, "printjson"));
             put(FLOW_TEMPLATE_FIELD_SENDDATA_ID, StringUtils.join(childPathId, "senddata"));
             put(FLOW_TEMPLATE_FIELD_PUBLISH_ID, StringUtils.join(childPathId, "publish"));
-            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX); // used for HTTP Route step, eg in forms            
+            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL, httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX); // used for HTTP Route step, eg in forms
+            put(FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_NOSFX, httpRoutePath); // used for HTTP Route step with url without suffix, eg in forms
             put(FLOW_TEMPLATE_FIELD_SAMPLE_DATA, componentSampleDataValueFinal); // used for HTTP Route step, eg in forms            
             put(FLOW_TEMPLATE_FIELD_TMS_TOPIC, topic); // used for filtering TMS messages            
         }};

@@ -1,0 +1,15 @@
+{
+  "title": "Client Libs - Forms",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": [
+    "ai.typerefinery.websight.components",
+    "ai.typerefinery.websight.components.forms.composite"
+  ],
+  "css": [
+  ],
+  "js": [
+    "functions.js",
+    "behaviour.js"
+  ]
+}

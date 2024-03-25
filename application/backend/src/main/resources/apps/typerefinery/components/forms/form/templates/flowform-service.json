@@ -51,7 +51,7 @@
 		"httppost": {
 			"id": "httppost",
 			"config": {
-				"url": "<http-route-url>",
+				"url": "<http-route-url-nosfx>",
 				"method": "POST",
 				"timeout": 5000,
 				"limit": 5120,

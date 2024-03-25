@@ -1,0 +1,10 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "description": "This is Composite field returning JSON of its values",
+  "title": "Composite",
+  "allowedComponents": [
+    "Typerefinery - Forms"
+  ]
+}

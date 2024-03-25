@@ -2,15 +2,36 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.VueData = Typerefinery.VueData || {};
 
-; (function (ns, vueDataNs, document, window) {
+;(function ($, ns, vueDataNs, document, window) {
     "use strict";
+
+    ns.findExclude = function($component, selector, mask) {
+      return $component.find(selector).not($component.find(mask).find(selector));
+    }
+
     ns.registerComponent = (componentData) => {
         vueDataNs.data = {
             ...vueDataNs.data,
             ...componentData
         }
     };
+
+    ns.isTrue = function(value) {
+      // if undefined or null return false
+      if (value == null) {
+        return false;
+      }
+      return new Boolean(value) == true;
+    };
+
+    ns.isJQuery = function(obj) {
+      //test if object is a jQuery object
+      return obj instanceof $ || (typeof obj === "object" && obj != null && obj.jquery != null);
+    };
     ns.getComponentConfig = ($component) => {
+      if (ns.isJQuery($component)) {
+        return $component.data('model') || {};
+      }
       return $($component).data('model') || {};
     };
     ns.hasRegex = (str) => {
@@ -88,4 +109,4 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         }, 1000);
     };
     ns.init();
-})(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
+})(jQuery, window.Typerefinery.Components, window.Typerefinery.VueData, document, window);

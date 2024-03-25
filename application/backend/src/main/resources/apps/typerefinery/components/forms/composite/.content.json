@@ -1,0 +1,12 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Forms",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Form Composite",
+  "title": "Composite Field",
+  "sling:resourceSuperType": "typerefinery/components/forms/field",
+  "allowedComponents": [
+    "Typerefinery - Forms"
+  ]
+}
