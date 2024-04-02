@@ -1,0 +1,23 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "formsuccess": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "FORM_SUCCESS",
+    "value": "Form Success"
+  },
+  "formerror":{
+    "sling:resourceType": "nt:unstructured",
+    "key": "FORM_ERROR",
+    "value": "Form Error"
+  },
+  "formsubmit": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "FORM_SUBMIT",
+    "value": "Form Submit"
+  },
+  "formcancel": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "FORM_CANCEL",
+    "value": "Form Cancel"
+  }    
+}
