@@ -1,0 +1,22 @@
+{
+  "type": "/apps/typerefinery/components/dialog/select/Select.js",
+  "props": {
+      "name": "${properties.name}",
+      "label": "${properties.label}",
+      "description": "${properties.description}",
+      "allowCreate": "${properties.allowCreate || false}",
+      "required": ${properties.required || false},
+      "options": [
+          <sly data-sly-list.item="${resource.children}"
+              data-sly-use.selectitem="./selectitem/selectitem.json.html"
+              data-sly-use.selectgroup="./selectgroup/selectgroup.json.html">
+            <sly data-sly-test="${item['sling:resourceType']=='typerefinery/components/dialog/select/selectitem'}">
+              <sly data-sly-call="${selectitem.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+            </sly>
+            <sly data-sly-test="${item['sling:resourceType']=='typerefinery/components/dialog/select/selectgroup'}">
+              <sly data-sly-call="${selectgroup.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+            </sly>
+          </sly>
+      ]
+  }
+}
