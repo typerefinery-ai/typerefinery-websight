@@ -11,7 +11,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.registerEvent = ($component, componentId, fieldName) => {
         const key = `${componentId}-${fieldName}`;
         eventNs.registerEvents(key, (data) => {
-            if(data.type === "LOAD_DATA") {
+            if(data.type === eventNs.EVENTS.EVENT_READ_ACTION) {
                 // get the first children and set the inner html.
                 const $firstChild = $component.children[0];
                 const componentConfig = componentNs.getComponentConfig($component);

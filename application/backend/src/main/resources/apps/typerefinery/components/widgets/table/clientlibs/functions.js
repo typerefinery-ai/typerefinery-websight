@@ -389,7 +389,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         const key = `${componentId}-${fieldName}`;
         
         eventNs.registerEvents(key, (data) => {
-            if(data.type === "LOAD_DATA") {
+            if(data.type === eventNs.EVENTS.EVENT_READ_ACTION) {
                 ns.updateComponentHTML(id, data.data.value, $component);
             }
         }); 
