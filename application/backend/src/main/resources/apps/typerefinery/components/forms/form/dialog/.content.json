@@ -27,6 +27,7 @@
       },
       "info": {
         "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:panel"],
         "appearance": "info",
         "iconLabel": "Info",
         "title": "Map component actions to events, this allows you to respond to component actions in other components.",
@@ -120,6 +121,21 @@
               "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
               "label": "Success",
               "value": "successaction"
+            },
+            "cancel": {
+              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+              "label": "Cancel",
+              "value": "cancelaction"
+            },
+            "reset": {
+              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+              "label": "Reset",
+              "value": "resetaction"
+            },
+            "submit": {
+              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+              "label": "Submit",
+              "value": "submitaction"
             },
             "error": {
               "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
@@ -218,7 +234,8 @@
       "writeUrl": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "writeUrl",
-        "label": "Endpoint URL"
+        "label": "Endpoint URL",
+        "description": "Add the endpoint URL to send the data to, parameters can be specified using {{...}}, parameters will be replaced with the values from querystring."
       }
     },
     "readTab": {
@@ -242,14 +259,9 @@
       "readUrl": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "readUrl",
-        "label": "Endpoint URL"
-      },
-      "readEmitEvent": {
-        "sling:resourceType": "wcm/dialogs/components/checkbox",
-        "name": "readEmitEvent",
-        "label": "Emit Event on Read",
-        "description": "Emit form data to other components on page. Any component with matching field name will receive the data."
-    }
+        "label": "Endpoint URL",
+        "description": "Add the endpoint URL to send the data to, parameters can be specified using {{...}}, parameters will be replaced with the values from querystring."
+      }
     },
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
