@@ -9,7 +9,8 @@
     "tms/client.js",
     "tms/jsonschema.js",
     "tms/functions.js",
-    "events/functions.js"
+    "events/functions.js",
+    "files/functions.js"
   ],
   "css": [
     "style.css"
