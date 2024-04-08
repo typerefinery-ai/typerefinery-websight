@@ -85,9 +85,9 @@
               "value": ""
             }
           },
-          "componenetcrud": {
+          "componentcrud": {
             "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
-            "label": "Componenet",
+            "label": "Component",
             "create": {
               "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
               "label": "Create",
