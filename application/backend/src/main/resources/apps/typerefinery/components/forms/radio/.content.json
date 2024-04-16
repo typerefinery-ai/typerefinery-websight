@@ -3,7 +3,7 @@
   "group": "Typerefinery - Forms",
   "isLayout": false,
   "sling:resourceType": "ws:Component",
-  "description": "Form Radio button.",
-  "title": "Radiobutton Field",
+  "description": "Form Radio.",
+  "title": "Radio Field",
   "sling:resourceSuperType": "typerefinery/components/forms/field"
 }
