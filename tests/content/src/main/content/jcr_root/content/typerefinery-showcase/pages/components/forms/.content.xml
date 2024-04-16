@@ -18,9 +18,9 @@
                       sling:resourceType="typerefinery/components/forms/form"
                       writePayloadType="application/json"
                       writeMethod="POST"
-                      writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/{{id}}"
+                      writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/"
                       readMethod="GET"
-                      readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/{{id}}">
+                      readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/">
                     <title jcr:primaryType="nt:unstructured"
                            sling:resourceType="typerefinery/components/content/title"
                            title="Personal Information" />
