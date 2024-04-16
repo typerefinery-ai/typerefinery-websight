@@ -94,6 +94,9 @@ public class BaseFormComponent extends BaseComponent {
             }
         }
         super.init();
+        if (StringUtils.isBlank(this.name)) {
+            this.name = this.id;
+        }
 
     }
 
