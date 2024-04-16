@@ -6,6 +6,7 @@ window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Sele
 ;(function (ns, document) {
     "use strict";
     $(document).ready(function () {
+      console.log('Select component Behaviour loaded');
         $("[component='select']").each(function () {
             ns.init(this);
         });

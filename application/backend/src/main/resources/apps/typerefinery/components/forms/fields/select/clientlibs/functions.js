@@ -88,7 +88,30 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         }
     };
 
-
+    // public methods to interact with the select component instances
+    ns.getValue = function (id) {
+      console.group('select getValue');
+      console.log('id', id);
+      let returnValue = "";
+      returnValue = selectInstances[id].getValue(true)
+      console.log('returnValue', returnValue);
+      console.groupEnd();
+      return returnValue;
+    }
+    ns.setChoiceByValue = function (id, value) {
+      console.group('select setChoiceByValue');
+      console.log('id', id);
+      console.log('value', value);
+      selectInstances[id].setChoiceByValue(value);
+      console.groupEnd();
+    }
+    ns.setValue = function (id, data) {
+      console.group('select setValue');
+      console.log('id', id);
+      console.log('value', value);
+      selectInstances[id].setValue(data);
+      console.groupEnd();
+    }
 
     ns.init = async ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
