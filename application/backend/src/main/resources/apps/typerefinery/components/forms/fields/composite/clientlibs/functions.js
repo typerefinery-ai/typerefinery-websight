@@ -1,10 +1,11 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
+window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
 
 
-;(function ($, ns, componentNs, window, document) {
+;(function ($, ns, componentNs, formNs, document, window) {
     "use strict";
 
     ns.selectorAttribute = "isCompositeParent";
@@ -19,44 +20,71 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
     ns.selectorCompositeInput = `[${ns.selectorCompositeInputAttribute}]`;
     //template for form components in parent
     ns.selectorTemplate = "> [template]";
-    ns.selectonNameAttribute = "name";
+    ns.selectorNameAttribute = "name";
+    ns.selectorIdAttribute = "id";
 
     $.fn.findExclude = function(selector, mask) {
       return this.find(selector).not(this.find(mask).find(selector));
     }    
 
-    $.fn.compositeVal = function() {
+    $.fn.compositeVal = function(addFieldHint) {
       //get all immediate isCompositeParent
       var $compositeParents = this.parent(ns.selector).findExclude(ns.selector,ns.selector);
       var data = {};
     
       //add current field values to data
       Object.assign(data,JSON.parse(this.val()));
-      
+
       //for each get their values and merge their composites in
       $compositeParents.each(function(){
         //find composite value input field
         var $compositeValue = $(this).findExclude(ns.selectorValue,ns.selector);        
         if ($compositeValue) {
           // create placeholder for composite value
-          data[$compositeValue.attr(ns.selectonNameAttribute)] = {};
+          data[$compositeValue.attr(ns.selectorNameAttribute)] = {};
           // get composite value for this field, this will cascade to other composite fields
-          Object.assign(data[$compositeValue.attr(ns.selectonNameAttribute)],$compositeValue.compositeVal());
+          Object.assign(data[$compositeValue.attr(ns.selectorNameAttribute)],$compositeValue.compositeVal());
         }
       });
       return data;
     }
 
-    ns.compileValue = function($compositeParent) {
+    ns.setValue = function($compositeParent, data) {
+      //get all immediate isCompositeParent
+      var $compositeParents = $compositeParent.parent(ns.selector).findExclude(ns.selector,ns.selector);
+      //set value of composite input
+      $compositeParent.val(JSON.stringify(data));
+      //for each get their values and merge their composites in
+      $compositeParents.each(function(){
+        //find composite value input field
+        var $compositeValue = $(this).findExclude(ns.selectorValue,ns.selector);
+        if ($compositeValue) {
+          // get composite value for this field, this will cascade to other composite fields
+          $compositeValue.setValue(data[$compositeValue.attr(ns.selectorNameAttribute)]);
+        }
+      });
+    }
+
+    ns.compileValue = function($compositeParent, addFieldHint) {
       var $field = $compositeParent.findExclude(ns.selectorValue,ns.selector);
       var $templateFields = $compositeParent.findExclude(ns.selectorTemplate,ns.selector).findExclude(ns.selectorCompositeInput,ns.selector);
       var data = {};
   
+      if (addFieldHint) {
+        //add hint to component
+        formNs.addFieldHint($field, $field.attr(ns.selectorNameAttribute), $field.attr(ns.selectorIdAttribute));
+      }
+
       $templateFields.each(function(){
         //get name and value of each input field
-        var name = $(this).attr(ns.selectonNameAttribute);
+        var name = $(this).attr(ns.selectorNameAttribute);
         var value = $(this).val();
         data[name] = value;
+
+        if (addFieldHint) {
+          //add hint to component
+          formNs.addFieldHint($(this), $(this).attr(ns.selectorNameAttribute), $(this).attr(ns.selectorIdAttribute));
+        }
       });
       //set value of composite input
       $field.val(JSON.stringify(data));
@@ -86,4 +114,4 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
     }
 
 
-})(jQuery, Typerefinery.Components.Forms.Composite, window.Typerefinery.Components, window, document);
+})(jQuery, Typerefinery.Components.Forms.Composite, Typerefinery.Components, Typerefinery.Components.Forms.Form, document, window);
