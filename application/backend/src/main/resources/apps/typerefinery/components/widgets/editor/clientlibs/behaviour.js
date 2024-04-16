@@ -6,6 +6,7 @@ window.Typerefinery.Components.Widgets.Editor = Typerefinery.Components.Widgets.
 (function (ns, document) {
     "use strict";
     $(document).ready(function () {
+      console.log('Editor component Behaviour loaded');
         $('[component=editor]').each(function () {
             ns?.init(this);
         });

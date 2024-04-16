@@ -170,6 +170,47 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
         );
     };
 
+    // public methods to interact with the editor component instances
+    ns.getValue = async function (id) {
+      console.group('editor getValue');
+      console.log('id', id);
+      console.log('editorInstanceNs', editorInstanceNs);
+      const editorObject = editorInstanceNs[id];
+      console.log('editorObject', editorObject);
+      let returnValue = "";
+      if (editorObject) {
+        if (editorObject instanceof CodeMirror) {
+          console.log('CodeMirror getValue');
+          // get value from codemirror editor
+          returnValue = editorObject.getValue();
+        } else if (Object.keys(editorObject).includes("save")) {
+          console.log('save sync');
+          returnValue = await editorObject.save().then((outputData) => {
+            console.log('save getValueAsync', outputData);
+            return outputData;
+          });
+        }
+      }
+      console.log('returnValue', returnValue);
+      console.groupEnd();
+      return returnValue;
+    }
+
+    ns.setEditorData = function (id, data) {
+      console.group('editor setEditorData');
+      console.log('id', id);
+      console.log('data', data);
+      console.log('editorInstanceNs', editorInstanceNs);
+      const editorObject = editorInstanceNs[id];
+      if (editorObject instanceof CodeMirror) {
+          // set value to codemirror editor
+          editorObject.setValue(data);
+      } else if (Object.keys(editorObject).includes("render")) {
+          editorObject.render(data);
+      }
+      console.log('returnValue', returnValue);
+      console.groupEnd();
+    }
 
     ns.init = ($component) => {
         // parse json value from data-model attribute as component config
