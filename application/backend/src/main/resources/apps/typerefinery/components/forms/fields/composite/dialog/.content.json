@@ -23,7 +23,7 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputType",
         "label": "Type",
-        "granularmarking": {
+        "composite": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Composite",
           "value": "composite"

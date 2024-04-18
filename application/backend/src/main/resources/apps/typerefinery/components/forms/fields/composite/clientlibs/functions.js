@@ -5,7 +5,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
 
 
-;(function ($, ns, componentNs, formNs, document, window) {
+;(function ($, ns, componentsNs, formNs, document, window) {
     "use strict";
 
     ns.selectorAttribute = "isCompositeParent";
@@ -91,7 +91,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
     }
 
     ns.init = async ($component) => {
-      const componentConfig = componentNs.getComponentConfig($component);
+      const componentConfig = componentsNs.getComponentConfig($component);
 
       $(document).ready(function () {
 
