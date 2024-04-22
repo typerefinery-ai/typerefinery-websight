@@ -153,6 +153,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       $field.val(JSON.stringify(data));
     }
 
+    //add new row and return row id
     ns.addRow = function($compositeParent) {
       var $newRow = $($compositeParent.find("template.content").html());
       const $templateActions = $($compositeParent.find("template.actions").html());
@@ -161,10 +162,12 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       //add move and actions to new row
       $newRow.prepend($templateMove.clone());
       $newRow.append($templateActions.clone());
-      $newRow.attr('id', 'row-' + Math.random().toString(36));
+      const newid = 'row-' + Math.random().toString(36);
+      $newRow.attr('id', newid);
       $newRow.attr('state', "new");
 
       $compositeParent.find(".rows").append($newRow.clone());
+      return newid;
     }
 
     ns.init = async ($compositeParent) => {
@@ -221,26 +224,6 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       $field.attr(ns.selectorCompositeInputAttribute,"true");
       //compile value for composite input
       ns.compileValue($compositeParent);
-
-      //find all input fields that are not inside another composite input
-      // var $field = $(this).findExclude(ns.selectorTemplate,ns.selector).findExclude(ns.selectorInput, ns.selector);
-      // console.log('remove input attribute and add composite input attribute', $field);
-      // //remove isInput attribute and add isCompositeInput attribute, this will ensure that form fields are not processed by form submit
-      // $field.removeAttr(ns.selectorInputAttribute);
-      // $field.attr(ns.selectorCompositeInputAttribute,"true");
-      //compile value for composite input
-      // ns.compileValue($(this));
-
-      // //compile all values within this parent now for all input fields
-      // $compositeParent.find(ns.selector).each(function(){
-      //   //find all input fields that are not inside another composite input
-      //   var $field = $(this).findExclude(ns.selectorTemplate,ns.selector).findExclude(ns.selectorInput, ns.selector);
-      //   //remove isInput attribute and add isCompositeInput attribute, this will ensure that form fields are not processed by form submit
-      //   $field.removeAttr(ns.selectorInputAttribute);
-      //   $field.attr(ns.selectorCompositeInputAttribute,"true");
-      //   //compile value for composite input
-      //   ns.compileValue($(this));
-      // });
 
       console.groupEnd();
     }
