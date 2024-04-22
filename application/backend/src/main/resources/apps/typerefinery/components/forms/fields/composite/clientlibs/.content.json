@@ -7,8 +7,10 @@
     "ai.typerefinery.websight.components.forms.composite"
   ],
   "css": [
+    "style.css"
   ],
   "js": [
+    "/apps/typerefinery/clientlibs/vendor/sortable/sortable.js",
     "functions.js",
     "behaviour.js"
   ]

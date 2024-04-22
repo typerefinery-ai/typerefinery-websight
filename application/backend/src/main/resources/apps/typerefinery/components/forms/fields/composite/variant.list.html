@@ -1,0 +1,87 @@
+<!--/*
+    Copyright (C) 2023 Typerefinery.io
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/-->
+<template data-sly-template.variant="${ @ model }">
+  <input 
+    component="${model.componentName}"
+    isInput="true"
+    id="${model.id}" 
+    name="${model.name}"
+    type="${model.inputType}"
+    data-fieldId="${model.id}-${model.name}" 
+    placeholder="${model.placeholder}"
+    class="${model.variantClassNames} form-control" 
+    required="${model.validationRequired}"
+    data-model="${model.jsonString}"
+    disabled="${model.disabled}"
+    isCompositeValue="true"
+    hidden
+  >
+  </input>
+  <sly data-sly-test="${wcmmode.isEdit}">
+    <!--edit mode display row-->
+    <div class="contents">
+      <div class="rows">
+        <div class="row">
+          <div class="move">
+            <button class="top" disabled><i class="fa-solid fa-angles-up pi pi-angle-double-up"></i></button>
+            <button class="up" disabled><i class="fa-solid fa-angle-up pi pi-angle-up"></i></button>
+            <button class="drag" disabled><i class="fa-solid fa-up-down pi pi-arrows-v"></i></button>
+            <button class="down" disabled><i class="fa-solid fa-angle-down pi pi-angle-down"></i></button>
+            <button class="bottom" disabled><i class="fa-solid fa-angles-down pi pi-angle-double-down"></i></button>
+          </div>
+          <div class=content>
+            <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
+          </div>
+          <div class="actions">
+            <button class="delete" disabled><i class="fa-solid fa-trash pi pi-trash"></i></button>
+          </div>
+        </div>
+      </div>
+      <button class="add" disabled><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
+    </div>
+  </sly>
+  <sly data-sly-test="${!wcmmode.isEdit}">
+    <div class="contents">
+      <div class="rows">
+      </div>
+      <button class="add"><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
+    </div>
+    <template class="trash">
+    </template>
+    <template class="content">
+      <div class="row">
+        <div class=content>
+          <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
+        </div>
+      </div>      
+    </template>
+    <template class="move">
+      <div class="move">
+        <button class="up"><i class="fa-solid fa-angle-up pi pi-angle-up"></i></button>
+        <button class="top"><i class="fa-solid fa-angles-up pi pi-angle-double-up"></i></button>
+        <button class="drag"><i class="fa-solid fa-up-down pi pi-arrows-v"></i></button>
+        <button class="down"><i class="fa-solid fa-angle-down pi pi-angle-down"></i></button>
+        <button class="bottom"><i class="fa-solid fa-angles-down pi pi-angle-double-down"></i></button>
+      </div>
+    </template>  
+    <template class="actions">
+      <div class="actions">
+        <button class="delete"><i class="fa-solid fa-trash pi pi-trash"></i></button>
+      </div>
+    </template>
+  </sly>  
+  <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle} - Template</div>
+</template>

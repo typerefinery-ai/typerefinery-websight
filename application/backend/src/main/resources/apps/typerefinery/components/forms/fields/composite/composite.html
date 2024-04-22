@@ -15,7 +15,8 @@
 */-->
 <sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.Composite">
   <div class="${model.componentClassNames}" id="${model.id}" type="${model.inputType}" component="${model.componentName}" isCompositeParent="true">
-    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+    <sly data-sly-set.variantTemplate="./variant${model.inputType ? '.' : ''}${model.inputType ? model.inputType : ''}.html"></sly>
+    <sly data-sly-use.template="${variantTemplate}" data-sly-call="${template.variant @ model=model}">
     </sly>
   </div>
 </sly>
