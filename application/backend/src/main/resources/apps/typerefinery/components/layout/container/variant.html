@@ -37,7 +37,7 @@
       data-sly-element="${model.decorationTagName}"
       style="${model.inlineStyleValue @ context='unsafe'}"
       role="${model.role}"
-      ${model.ariaAttributesString @ context='unsafe'}
+      data-sly-attribute="${model.ariaAttributesString @ context='unsafe'}"
       data-sly-test="${resource.hasChildren}">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </div>
