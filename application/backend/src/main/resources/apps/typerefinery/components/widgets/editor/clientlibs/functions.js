@@ -9,6 +9,8 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
 (function (ns, componentNs, editorInstanceNs, document, window) {
     "use strict";
 
+    ns.selectorComponent = '[component="editor"]';
+
     ns.getCodeEditorTheme = (editor, theme) => {
         switch (editor) {
             case "MONACO":

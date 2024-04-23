@@ -9,6 +9,8 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 ;(function (ns, componentNs, selectInstances, window, document) {
     "use strict";
 
+    ns.selectorComponent = '[component="select"]';
+    
     ns.getOptionsSelectedAsAnArray = ($component) => {
         const $selectedOption = $component.querySelector('option[selected]');
         if($selectedOption) {

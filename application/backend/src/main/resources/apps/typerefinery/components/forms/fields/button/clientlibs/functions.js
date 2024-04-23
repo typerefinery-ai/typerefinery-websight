@@ -8,6 +8,9 @@ window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
 (function (ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
+    "use strict";
+    ns.selectorComponent = '[component="button"]';
+
     ns.addEventListener = ($component, id) => {
         $component.addEventListener("click", (e) => {
             e?.preventDefault();

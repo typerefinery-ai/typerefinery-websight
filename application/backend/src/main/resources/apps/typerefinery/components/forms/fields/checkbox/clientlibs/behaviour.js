@@ -5,7 +5,7 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 
 ;(function (ns, document) {
     "use strict";
-    $(document).ready(function () {
-        ns.init();
-    });
+    // $(document).ready(function () {
+    //     ns.init();
+    // });
 })(window.Typerefinery.Components.Forms.Checkbox, document);
