@@ -5,5 +5,7 @@
   "title": "Accordion",
   "isLayout": true,
   "allowedComponents": [
-    "/apps/typerefinery/components/accordion/accordionitem"]
+    "/apps/typerefinery/components/layout/accordionitem",
+    "/apps/typerefinery/components/layout/template"
+  ]
 }

@@ -29,6 +29,7 @@ import ai.typerefinery.websight.models.components.BaseComponent;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.jcr.Node;
 
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
@@ -53,10 +54,32 @@ public class Accordion extends BaseComponent  {
     private static final Logger LOGGER = LoggerFactory.getLogger(Accordion.class);
     
     public static final String RESOURCE_TYPE = "typerefinery/components/layout/accordion";
+    public static final String RESOURCE_TYPE_TEMPLATE = "typerefinery/components/layout/template";
+    public static final String NODE_TEMPLATE = "template";
   
+    @Inject
+    @Getter
+    public Boolean isTemplated;
+
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+        if (isTemplated) {
+            //if child node template does not exist, create it
+            Resource template = resource.getChild(NODE_TEMPLATE);
+            if (template == null) {
+                LOGGER.info("Creating template node");
+                Node resourceNode = resource.adaptTo(Node.class);
+                try {
+                    Node templateNode = resourceNode.addNode(NODE_TEMPLATE);
+                    templateNode.setProperty("sling:resourceType", RESOURCE_TYPE_TEMPLATE);
+                    resourceNode.getSession().save();
+                } catch (Exception e) {
+                    LOGGER.error("Error creating template node", e);
+                }                
+            }
+        }
+        
     }
 }

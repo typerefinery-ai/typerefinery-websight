@@ -19,7 +19,14 @@
     id="${model.id}"
     class="${model.componentName} ${model.componentClassNames} ${model.variantClassNames}"
     data-sly-test="${resource.hasChildren}">
-      <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
+      <sly data-sly-repeat.paragraph="${resource.children}">
+        <sly data-sly-test="${paragraph.name != 'template'}">
+          <sly data-sly-test="${paragraph.resourceType && paragraph['sling:resourceType']}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
+        </sly>
+        <sly data-sly-test="${paragraph.name == 'template' && model.isTemplated}">
+          <sly data-sly-test="${paragraph.resourceType && paragraph['sling:resourceType']}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
+          <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle} - Template</div>
+        </sly>
       </sly>
   </div>
   <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"

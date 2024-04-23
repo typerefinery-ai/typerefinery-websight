@@ -2,6 +2,26 @@
   "sling:resourceType": "wcm/dialogs/dialog",
   "tabs": {
     "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "warning": {
+        "sling:resourceType": "typerefinery/components/dialog/label",
+        "ws:disallowedContext": ["edit:dialog"],
+        "appearance": "error",
+        "iconLabel": "Open Dialog",
+        "title": "Some fields are not editable in side-panel.",
+        "message": "Please open this component in dialog to edit these fields.",
+        "secondaryText": "",
+        "placement": "bottom-start"
+      },    
+      "isTemplated": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "isTemplated",
+        "label": "Is Templated?",
+        "description": "Use a template to add new items."
+      }
+    },
     "eventTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/event"
