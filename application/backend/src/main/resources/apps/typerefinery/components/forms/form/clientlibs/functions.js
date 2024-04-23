@@ -13,6 +13,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 (function ($, ns, componentNs, editorNs, selectNs, compositeNs, eventNs, filesNs, document, window) {
     "use strict";
     
+    ns.selectorComponent = '[component="form"]';
     ns.selectorInputAttribute = "isInput";
     ns.selectorInput = `[${ns.selectorInputAttribute}]`;
 
