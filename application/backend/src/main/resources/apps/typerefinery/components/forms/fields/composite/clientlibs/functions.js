@@ -25,6 +25,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
     ns.selectorNameAttribute = "name";
     ns.selectorName = `[${ns.selectorNameAttribute}]`;
     ns.selectorIdAttribute = "id";
+    ns.selectorTypeField = "field";
     ns.selectorTypeList = "list";
 
     $.fn.findExclude = function(selector, mask) {
@@ -33,7 +34,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
 
     $.fn.compositeVal = function(addFieldHint) {
       console.group('compositeVal');
-      const type = this.attr('type');
+      const type = this.attr('type') || ns.selectorTypeField;
       const isList = type === ns.selectorTypeList;
       console.group("type", type);
       console.group("isList", isList);
@@ -105,27 +106,86 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
         });
         console.groupEnd();
         return data;
-      }    
+      }
     }
 
-    ns.setValue = function($compositeParent, data) {
+    ns.findFieldAndSetValue = function($compositeParent, key, value) {
+      console.group(key);
+      console.log("value", value);
+      const $field = $compositeParent.find(`[${ns.selectorNameAttribute}=${key}]`);
 
-      const type = $compositeParent.attr('type');
+      if ($field.length === 0) {
+        console.log("field not found", key);
+        console.groupEnd();
+        return;
+      }
+      console.log("$field", $field);
+      console.log("$field.is(ns.selectorInput)", ns.selectorInput, $field.is(ns.selectorInput));
+      console.log("$field.is(ns.selectorValue)", ns.selectorValue, $field.is(ns.selectorValue));
+      // if field is basic input field
+      if ($field.is(ns.selectorValue)) {
+        // if field is composite field
+        ns.setValue($field, value);
+        console.log("set composite value");      
+      } else if ($field.is(ns.selectorInput)) {
+        $field.val(value);
+        console.log("set val()");
+      } else {
+        console.log("unknow field", $field);
+      }           
+      console.log("$field.val()", $field.val());
+      console.groupEnd();
+    }
+
+    ns.setValue = function($compositeValue, data) {
+      console.group('composite setValue');
+      console.log("$compositeValue", $compositeValue);
+      const $compositeParent = $compositeValue.parent(ns.selector);
+      console.log("$compositeParent", $compositeParent);
+      console.log("data", data);
+      const type = $compositeParent.attr('type') || ns.selectorTypeField;
       const isList = type === ns.selectorTypeList;
+      console.log("type", type);
+      console.log("isList", isList);
 
-      //get all immediate isCompositeParent
-      var $compositeParents = $compositeParent.parent(ns.selector).findExclude(ns.selector,ns.selector);
-      //set value of composite input
-      $compositeParent.val(JSON.stringify(data));
-      //for each get their values and merge their composites in
-      $compositeParents.each(function(){
-        //find composite value input field
-        var $compositeValue = $(this).findExclude(ns.selectorValue,ns.selector);
-        if ($compositeValue) {
-          // get composite value for this field, this will cascade to other composite fields
-          $compositeValue.setValue(data[$compositeValue.attr(ns.selectorNameAttribute)]);
-        }
-      });
+      if (!isList) {
+        Object.keys(data).forEach(function(key) {
+          const value = data[key];
+          ns.findFieldAndSetValue($compositeParent, key, value);
+        });
+      } else {
+        //for each row in data add a new row
+        data.forEach(function(rowData){
+          console.group("list row");
+          console.log("rowData", rowData);
+
+          //get row id from data
+          const rowId = rowData['id'];
+          console.log("data rowId", rowId);
+          //check if row already exists
+          let $dataRow = $compositeParent.find(`.row#${rowId}`);
+
+          if ($dataRow.length > 0) {
+            console.log("row exists");
+          } else {
+            const newRowId = ns.addRow($compositeParent, rowId);
+            console.log("newRowId", newRowId);
+            $dataRow = $compositeParent.find(`.row#${newRowId}`);
+          }
+          console.log("$dataRow", $dataRow);
+
+          //for rowData set value of fields
+          //get all simple input fields and set value
+          Object.keys(rowData).forEach(function(key) {
+            const value = rowData[key];
+            ns.findFieldAndSetValue($dataRow, key, value);
+          });
+          console.groupEnd();
+        });
+      }
+
+      console.groupEnd();
+      return;
     }
 
     ns.compileValue = function($compositeParent, addFieldHint) {
@@ -154,7 +214,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
     }
 
     //add new row and return row id
-    ns.addRow = function($compositeParent) {
+    ns.addRow = function($compositeParent, id) {
       var $newRow = $($compositeParent.find("template.content").html());
       const $templateActions = $($compositeParent.find("template.actions").html());
       const $templateMove = $($compositeParent.find("template.move").html());
@@ -162,12 +222,17 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       //add move and actions to new row
       $newRow.prepend($templateMove.clone());
       $newRow.append($templateActions.clone());
-      const newid = 'row-' + Math.random().toString(36);
-      $newRow.attr('id', newid);
+      var rowId = id;
+      if (!id) {
+        rowId = 'row-' + Math.random().toString(36).substring(2, 15);
+      }
+
+      $newRow.attr('id', rowId);
       $newRow.attr('state', "new");
 
-      $compositeParent.find(".rows").append($newRow.clone());
-      return newid;
+      var $resultRow = $compositeParent.find(".rows").append($newRow.clone());
+      console.log("new row added", $resultRow);
+      return rowId;
     }
 
     ns.init = async ($compositeParent) => {
@@ -177,42 +242,50 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       console.log($compositeParent);
       console.log(componentConfig);
 
-      const type = $compositeParent.attr('type');
-      const isList = type === ns.selectorTypeList;
+      const type = $compositeParent.attr('type') || ns.selectorTypeField;
+      const isList = (type === ns.selectorTypeList) ? true : false;
+      const listIsUserReadonly = $compositeParent.attr('listIsUserReadonly');
 
-      console.log(type);
-      console.log(isList);
+      console.log("type", type);
+      console.log("isList", isList);
 
       if (isList) {
-        console.log('Composite List component Behaviour loading');
-        //setup list variant
-        var $newRow = $($compositeParent.find("template.content").html());
-        const $templateActions = $($compositeParent.find("template.actions").html());
-        const $templateMove = $($compositeParent.find("template.move").html());
+        console.group("composite list init");
 
-        //add move and actions to new row
-        $newRow.prepend($templateMove.clone());
-        $newRow.append($templateActions.clone());
-        $newRow.attr('id', 'row-' + Math.random().toString(36));
-        $newRow.attr('state', "new");
+        if (listIsUserReadonly && listIsUserReadonly === 'true') {
+          console.log('composite list is user readonly');
+        } else {
+          //setup list variant
+          var $newRow = $($compositeParent.find("template.content").html());
+          const $templateActions = $($compositeParent.find("template.actions").html());
+          const $templateMove = $($compositeParent.find("template.move").html());
+            //add move and actions to new row
+          $newRow.prepend($templateMove.clone());
+          $newRow.append($templateActions.clone());
+          $newRow.attr('state', "new");
+          $newRow.attr('id', 'row-' + Math.random().toString(36).substring(2, 15));
 
-        //add move and actions to all rows
-        $compositeParent.find(".rows .row").each(function(){
-          $(this).prepend($templateMove.clone());
-          $(this).append($templateActions.clone());
-        });
-        console.log("sortable target",$compositeParent.get(0), $compositeParent.find(".rows").get(0));
-        //initialize sortable on rows
-        new Sortable($compositeParent.find(".rows").get(0), {
-          handle: '.move', // handle's class
-          animation: 150
-        });
+          //add move and actions to all rows
+          $compositeParent.find(".rows .row").each(function(){
+            $(this).prepend($templateMove.clone());
+            $(this).append($templateActions.clone());
+            $(this).attr('state', "existing");
+          });
+
+          console.log("sortable target",$compositeParent.get(0), $compositeParent.find(".rows").get(0));
+          //initialize sortable on rows
+          new Sortable($compositeParent.find(".rows").get(0), {
+            handle: '.move', // handle's class
+            animation: 150
+          });
+
+          //add new row listener
+          $compositeParent.find(".add").on("click", function() {
+            $compositeParent.find(".rows").append($newRow.clone());
+          });          
+        }
         
-        //add new row listener
-        $compositeParent.find(".add").on("click", function() {
-          $compositeParent.find(".rows").append($newRow.clone());
-        });
-        console.log('Composite List component Behaviour loaded');
+        console.groupEnd();
       }
       
       // compile current values for all input fields
