@@ -1,0 +1,20 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "configTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Config",
+      "id": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Id",
+        "name": "id"
+      },
+      "name": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Name",
+        "name": "name"
+      }
+    }
+  }
+}

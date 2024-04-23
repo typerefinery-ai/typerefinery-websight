@@ -1,0 +1,20 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Layout",
+  "isLayout": true,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Widgets - Security",
+    "Typerefinery - Flow"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Template container to group components into a template tag.",
+  "title": "Template",
+  "sling:resourceSuperType": "typerefinery/components/layout/container"
+}
