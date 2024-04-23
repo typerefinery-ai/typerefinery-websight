@@ -38,6 +38,10 @@ public class Composite extends BaseFormComponent {
     @Getter
     public String inputType;
 
+    @Inject
+    @Getter
+    public Boolean listIsUserReadonly;
+
     @Override
     @PostConstruct
     protected void init() {

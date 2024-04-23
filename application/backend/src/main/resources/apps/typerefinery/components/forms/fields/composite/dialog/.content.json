@@ -33,6 +33,18 @@
           "label": "List",
           "value": "list"
         }
+      },
+      "listUserEditable": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "listIsUserReadonly",
+        "label": "Is User Readonly?",
+        "description": "Do not allow adding and removing items.",
+        "ws:display": {
+          "condition": {
+            "sourceName": "inputType",
+            "values": "list"
+          }
+        }
       }
     },
     "validationTab": {

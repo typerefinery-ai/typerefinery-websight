@@ -26,6 +26,7 @@
     required="${model.validationRequired}"
     data-model="${model.jsonString}"
     disabled="${model.disabled}"
+    listIsUserReadonly="${model.listIsUserReadonly}"
     isCompositeValue="true"
     hidden
   >
@@ -35,7 +36,7 @@
     <div class="contents">
       <div class="rows">
         <div class="row">
-          <div class="move">
+          <div class="move" data-sly-test="${!model.listIsUserReadonly}">
             <button class="top" disabled><i class="fa-solid fa-angles-up pi pi-angle-double-up"></i></button>
             <button class="up" disabled><i class="fa-solid fa-angle-up pi pi-angle-up"></i></button>
             <button class="drag" disabled><i class="fa-solid fa-up-down pi pi-arrows-v"></i></button>
@@ -45,19 +46,19 @@
           <div class=content>
             <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
           </div>
-          <div class="actions">
+          <div class="actions" data-sly-test="${!model.listIsUserReadonly}">
             <button class="delete" disabled><i class="fa-solid fa-trash pi pi-trash"></i></button>
           </div>
         </div>
       </div>
-      <button class="add" disabled><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
+      <button class="add" disabled data-sly-test="${!model.listIsUserReadonly}"><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
     </div>
   </sly>
   <sly data-sly-test="${!wcmmode.isEdit}">
     <div class="contents">
       <div class="rows">
       </div>
-      <button class="add"><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
+      <button class="add" data-sly-test="${!model.listIsUserReadonly}"><i class="fa-solid fa-plus pi pi-plus-circle"></i></button>
     </div>
     <template class="trash">
     </template>
