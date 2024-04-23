@@ -1,7 +1,16 @@
 
+[component=composite][type=list] .contents {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+
 [component=composite][type=list] .rows {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 [component=composite][type=list] .row {
