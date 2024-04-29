@@ -10,7 +10,7 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 (function (ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
     "use strict";
 
-    ns.selectorComponent = '[component="accordion"]';
+    ns.selectorComponent = '[component=accordion]';
 
     ns.addNewItem = ($component) => {
         // const $items = $component.querySelector('[component="accordion-items"]');

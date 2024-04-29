@@ -8,7 +8,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function (ns, componentNs, eventNs, document, window) {
     "use strict";
 
-    ns.selectorComponent = '[component="text"]';
+    ns.selectorComponent = '[component=text]';
 
     ns.registerEvent = ($component, componentId, fieldName) => {
         const key = `${componentId}-${fieldName}`;

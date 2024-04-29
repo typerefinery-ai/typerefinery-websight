@@ -9,7 +9,7 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
 (function (ns, componentNs, editorInstanceNs, document, window) {
     "use strict";
 
-    ns.selectorComponent = '[component="editor"]';
+    ns.selectorComponent = '[component=editor]';
 
     ns.getCodeEditorTheme = (editor, theme) => {
         switch (editor) {
@@ -111,8 +111,8 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
     ns.createCodeMirrorEditor = ($component, componentConfig) => {
 
         editorInstanceNs[componentConfig.id] = new CodeMirror(
-            (node) => {
-                $component.parentNode.replaceChild(node, $component);
+            (node) => {                
+                $component.replaceWith(node);
                 node.setAttribute('id', componentConfig.id);
                 node.setAttribute('component', 'editor');
                 node.setAttribute('data-model', JSON.stringify(componentConfig));
@@ -215,14 +215,20 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
     }
 
     ns.init = ($component) => {
-        // parse json value from data-model attribute as component config
-        const componentConfig = componentNs.getComponentConfig($component);
 
-        if (componentConfig.variant === "CODE_EDITOR") {
-            ns.createCodeEditor($component, componentConfig);
-        } else if (componentConfig.variant === "TEXT_EDITOR") {
-            ns.createTextEditor($component, componentConfig);
-        }
+      console.group("Editor init");
+      console.log($component);
+      // parse json value from data-model attribute as component config
+      const componentConfig = componentNs.getComponentConfig($component);
+
+      console.log(componentConfig.variant);
+
+      if (componentConfig.variant === "CODE_EDITOR") {
+          ns.createCodeEditor($component, componentConfig);
+      } else if (componentConfig.variant === "TEXT_EDITOR") {
+          ns.createTextEditor($component, componentConfig);
+      }
+      console.groupEnd();
 
     }
 
