@@ -59,6 +59,7 @@ public class Accordion extends BaseComponent  {
   
     @Inject
     @Getter
+    @Default(values = "false")
     public Boolean isTemplated;
 
     @Override
