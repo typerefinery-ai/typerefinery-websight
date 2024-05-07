@@ -90,4 +90,21 @@ public class ResourceUtils {
     } 
   }
 
+  public static int getDepth(Resource resource) {
+    if (resource == null) {
+      return 0; 
+    }
+    String path = resource.getPath();
+    if (path == null || path.isEmpty()) {
+      return 0; 
+    }
+    int depth = 0;
+    //count the number of slashes in the path
+    for (int i = 0; i < path.length(); i++) {
+      if (path.charAt(i) == '/')
+        depth++; 
+    }
+    return depth;
+  }
+
 }

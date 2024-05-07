@@ -56,6 +56,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public static final String PROPERTY_DECORATION_TAG_NAME = "decorationTagName";
     public static final String PROPERTY_VARIANT = "variant";
     public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_REL = "rel"; //html sematic relationship, how this element relates to the current context/document
     public static final String PROPERTY_TITLE_TAG_NAME = "titleTagName";
     public static final String PROPERTY_DESCRIPTION = "description";
 
@@ -69,6 +70,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Named(PROPERTY_TITLE)
     @Nullable
     public String title;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_REL)
+    @Nullable
+    public String rel;
 
     @Inject
     @Getter

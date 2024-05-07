@@ -14,14 +14,28 @@
     limitations under the License.
 */-->
 <template data-sly-template.variant="${ @ model }">
-    <div 
-      component="${model.componentName}"
-      id="${model.id}"
-      class="${model.componentClassNames}">
-        <p-breadcrumb 
-            :home="breadcrumb.home"  
-            :model="breadcrumb.items" 
-        >
-        </p-breadcrumb>
-    </div>
+    <nav 
+    aria-label="breadcrumb" 
+    component="${model.componentName}"
+    id="${model.id}"
+    class="${model.componentClassNames}">
+      <ol class="breadcrumb ${model.variantClassNames}" itemscope itemtype="http://schema.org/BreadcrumbList"
+      data-sly-list.navItem="${model.items}">
+        <li class="breadcrumb-item${navItem.active ? ' active' : ''}" 
+          itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"
+          aria-current="${navItem.active ? 'page' : false}">
+          <a class="link"
+            itemprop="item"
+            lang="${navItem.lang}"
+            href="${navItem.url}"
+            hreflang="${navItem.lang}"
+            data-sly-attribute="${navItem.ariaAttributesString @ context='unsafe'}"
+            data-sly-unwrap="${navItem.active}">
+            <span itemprop="name">${navItem.title}</span>
+          </a>
+          <meta itemprop="position" content="${navItemList.count}" />
+        </li>
+      </ol>
+    </nav>
+
 </template>
