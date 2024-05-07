@@ -5,10 +5,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
 
-(function (ns, componentNs, eventNs, document, window) {
+(function ($, ns, componentNs, eventNs, document, window) {
     "use strict";
 
-
+    ns.selectorComponent = "[component='tabs']";
 
     ns.compileHandlerBar = ($component, componentConfig) => {
         const items = {
@@ -344,6 +344,6 @@ Typerefinery.Components.Widgets.Tab = Typerefinery.Components.Widgets.Tab || {};
     };
 
 
-})(Typerefinery.Components.Widgets.Tab, Typerefinery.Components, Typerefinery.Page.Events, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Tab, Typerefinery.Components, Typerefinery.Page.Events, document, window);
 
                                                                                                                                                                                                                                                                                                                                 

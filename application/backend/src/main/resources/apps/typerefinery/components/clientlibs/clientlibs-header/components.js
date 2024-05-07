@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.VueData = Typerefinery.VueData || {};
 
-;(function ($, ns, vueDataNs, document, window) {
+(function ($, ns, vueDataNs, document, window) {
     "use strict";
 
     ns.findExclude = function($component, selector, mask) {

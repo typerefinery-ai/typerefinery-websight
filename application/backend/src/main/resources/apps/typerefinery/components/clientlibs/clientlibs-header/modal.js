@@ -1,7 +1,7 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
 
-; (function (ns, document, window) {
+(function ($, ns, document, window) {
 
     // Inner HTML for the modal window.
     ns.getModalInnerHTML = (modalTitle, iframeURL, hideFooter) => {
@@ -228,4 +228,4 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     // A common modals for all the components.
     ns.initCommonModal();
-})(Typerefinery.Modal, document, window);
+})(jQuery, Typerefinery.Modal, document, window);

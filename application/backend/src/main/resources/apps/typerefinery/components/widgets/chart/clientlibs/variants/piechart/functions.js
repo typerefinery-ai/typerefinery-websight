@@ -10,8 +10,10 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
+(function ($, ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = "[component='chart'][data-module='pieChart']";
 
     ns.defaultData = {
         labels: ["Group A", "Group B", "Group C", "Group D", "Group E", "Group F"],
@@ -205,4 +207,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(Typerefinery.Components.Widgets.Chart.Variants.PieChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Chart.Variants.PieChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

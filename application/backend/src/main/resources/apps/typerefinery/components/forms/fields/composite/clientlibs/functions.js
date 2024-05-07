@@ -5,7 +5,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
 
 
-;(function ($, ns, componentsNs, formNs, Sortable, document, window) {
+(function ($, ns, componentsNs, formNs, Sortable, document, window) {
     "use strict";
     
     ns.selectorComponentName = "composite";

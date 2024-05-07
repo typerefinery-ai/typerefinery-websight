@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 Typerefinery.Modal = Typerefinery.Modal || {};
 
-; (function (ns, modalNs, document, window) {
+(function ($, ns, modalNs, document, window) {
 
     // Inner HTML for the Dropdown window.
     ns.getDropdownInnerHTML = (menuItems) => {
@@ -68,4 +68,4 @@ Typerefinery.Modal = Typerefinery.Modal || {};
     };
     
     ns.dropDownButtonEventListener();
-})(Typerefinery.Dropdown, Typerefinery.Modal, document, window);
+})(jQuery, Typerefinery.Dropdown, Typerefinery.Modal, document, window);

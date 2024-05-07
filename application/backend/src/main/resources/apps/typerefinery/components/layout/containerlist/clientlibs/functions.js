@@ -4,7 +4,11 @@ window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
 window.Typerefinery.Components.Layout.ContainerList =
   Typerefinery.Components.Layout.ContainerList || {};
 
-(function (ns, componentNs, document, window) {
+(function ($, ns, componentNs, document, window) {
+  "use strict";
+
+  ns.selectorComponent = '[component="containerlist"]';
+
   ns.updateComponentHTML = ($component) => {
     if (!$component) {
       return;
@@ -55,4 +59,4 @@ window.Typerefinery.Components.Layout.ContainerList =
     ns.updateComponentHTML($component);
     ns.eventListnerActiveClass();
   };
-})(Typerefinery.Components.Layout.ContainerList,Typerefinery.Components,document,window);
+})(jQuery, Typerefinery.Components.Layout.ContainerList,Typerefinery.Components,document,window);

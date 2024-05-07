@@ -8,9 +8,10 @@ Typerefinery.Components.Widgets.Treeview.Instance = Typerefinery.Components.Widg
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function (ns, componentNs, treeViewInstanceNs, eventNs, searchNs, document, window) {
+(function ($, ns, componentNs, treeViewInstanceNs, eventNs, searchNs, document, window) {
     "use strict";
 
+    ns.selectorComponent = '[component="treeview"]';
 
     String.prototype.insert = function (index, string) {
         if (index > 0) {
@@ -253,4 +254,4 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         }
     }
 
-})(Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, Typerefinery.Components.Widgets.Treeview.Instance, Typerefinery.Page.Events, Typerefinery.Components.Widgets.Search, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Treeview, Typerefinery.Components, Typerefinery.Components.Widgets.Treeview.Instance, Typerefinery.Page.Events, Typerefinery.Components.Widgets.Search, document, window);

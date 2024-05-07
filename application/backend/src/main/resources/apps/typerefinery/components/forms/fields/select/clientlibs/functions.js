@@ -4,9 +4,7 @@ window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Select || {};
 window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.Forms.Select.Instances || {};
 
-
-
-;(function (ns, componentNs, selectInstances, window, document) {
+(function ($, ns, componentNs, selectInstances, window, document) {
     "use strict";
 
     ns.selectorComponent = '[component=select]';
@@ -156,4 +154,4 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         console.groupEnd();
     }
 
-})(Typerefinery.Components.Forms.Select, Typerefinery.Components, Typerefinery.Components.Forms.Select.Instances, window, document);
+})(jQuery, Typerefinery.Components.Forms.Select, Typerefinery.Components, Typerefinery.Components.Forms.Select.Instances, window, document);

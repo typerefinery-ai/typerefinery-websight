@@ -1,6 +1,6 @@
-$(document).ready(function (e) {
-window.JSONSchemas = {}
-;(function (ns) {
+window.JSONSchemas = {};
+
+(function ($, ns) {
   ns.REG_NUMBER = /[\d,\\.]+/g
   ns.jsonschemas = {}
   ns.SchemaValue = function () {
@@ -601,5 +601,6 @@ window.JSONSchemas = {}
   ns.register = function (schema) {
     if (schema.$id) ns.jsonschemas[schema.$id] = schema
   }
-})(window.JSONSchemas)
-})
+
+})(jQuery, window.JSONSchemas);
+

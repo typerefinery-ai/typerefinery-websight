@@ -1,7 +1,7 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 
-(function (ns, document, window) {
+(function ($, ns, document, window) {
   ns.init = ($component, componentConfig) => {
     // Updating the component with Bootstrap Attributes.
     $component.setAttribute("data-bs-toggle", "collapse");
@@ -18,4 +18,4 @@ window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
       element.classList.add("collapse");
     });
   };
-})(Typerefinery.ToggleComponent, document, window);
+})(jQuery, Typerefinery.ToggleComponent, document, window);

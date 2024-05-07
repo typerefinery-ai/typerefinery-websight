@@ -7,8 +7,11 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, document, window) {
+(function ($, ns, tmsNs, componentNs, themeNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = '[component=ticker]';
+
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
             return;
@@ -123,4 +126,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);

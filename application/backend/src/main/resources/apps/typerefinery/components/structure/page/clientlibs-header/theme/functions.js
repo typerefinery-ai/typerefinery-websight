@@ -7,7 +7,7 @@ window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets.C
 window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components.Widgets.
   Chart.Instances || {};
 
-(function (ns, chartInstances, document, window) {
+(function ($, ns, chartInstances, document, window) {
   "use strict";
 
   ns.toggleTheme = () => {
@@ -63,7 +63,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     
     ns.updateATagColor(newTheme);
     
-
+    //TODO: move this to chart component
     setTimeout(() => {
       Object.entries(chartInstances)?.forEach(($chart) => {
         const gridAxisToBeValidated = ["x", "y", "r"];
@@ -147,4 +147,4 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
     ns.setInitialTheme(componentConfig);
     ns.attachEventListener($component, componentConfig);
   };
-})(Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
+})(jQuery, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

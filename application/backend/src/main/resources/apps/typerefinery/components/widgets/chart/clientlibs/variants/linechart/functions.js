@@ -10,8 +10,10 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
+(function ($, ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
   "use strict";
+
+  ns.selectorComponent = "[component='chart'][data-module='lineChart']";
 
   ns.defaultData = {
     chartData: [1, 1, 2, 3, 55, 50, 44, 39, 6, 7, 9, 35],
@@ -210,4 +212,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
       ns.modelDataConnected($component);
     }
   }
-})(Typerefinery.Components.Widgets.Chart.Variants.LineChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Chart.Variants.LineChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

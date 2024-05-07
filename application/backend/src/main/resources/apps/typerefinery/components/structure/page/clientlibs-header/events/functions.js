@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function (ns, document, window) {
+(function ($, ns, document, window) {
     "use strict";
 
     ns.registery = {};
@@ -153,4 +153,4 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     $(document).ready(() => {
         ns.init();
     });
-})(Typerefinery.Page.Events, document, window);
+})(jQuery, Typerefinery.Page.Events, document, window);

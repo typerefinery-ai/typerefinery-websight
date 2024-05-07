@@ -5,8 +5,10 @@ window.Typerefinery.Components.Widgets.Search = Typerefinery.Components.Widgets.
 window.Typerefinery.Page = Typerefinery.Page|| {};
 window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-; (function (ns, componentNs, eventNs, document, window) {
+(function ($, ns, componentNs, eventNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = "[component='search']";
 
     ns.debounce = (fn, delay) => {
         let timerId;
@@ -56,4 +58,4 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         $component.addEventListener("input", ns.debounce(() => eventNs.emitEvent(topic, { value: document.getElementById(componentConfig.id).value }), 500));
        
     };
-})(Typerefinery.Components.Widgets.Search, Typerefinery.Components, Typerefinery.Page.Events, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Search, Typerefinery.Components, Typerefinery.Page.Events, document, window);

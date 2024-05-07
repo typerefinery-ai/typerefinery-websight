@@ -4,16 +4,10 @@ window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Security = Typerefinery.Components.Widgets.Security || {};
 window.Typerefinery.Components.Widgets.Security.Stix = Typerefinery.Components.Widgets.Security.Stix || {};
 
-
-
-(function (ns, document, window) {
+(function ($, ns, componentsNs, document, window) {
   "use strict";
 
-  $(document).ready(function () {
-    $('[component="stix"]').each(function () {
-      ns.init($(this));
-    });
-  });
-
-
-})(window.Typerefinery.Components.Widgets.Security.Stix, document, window);
+  //init and watch for new components
+  componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+  
+})(jQuery, window.Typerefinery.Components.Widgets.Security.Stix, window.Typerefinery.Components, document, window);

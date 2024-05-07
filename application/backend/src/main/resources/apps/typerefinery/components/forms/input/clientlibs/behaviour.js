@@ -3,10 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input || {};
 
-(function (ns, document) {
+(function ($, ns, componentsNs, document, window) {
     "use strict";
-    $(document).ready(function () {
-        // Input mask will be added for all input tag.
-        // $(":input")?.inputmask();
-    });
-})(window.Typerefinery.Components.Forms.Input, document);
+
+    //init and watch for new components
+    //componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+
+})(jQuery, window.Typerefinery.Components.Forms.Input, window.Typerefinery.Components, document, window);

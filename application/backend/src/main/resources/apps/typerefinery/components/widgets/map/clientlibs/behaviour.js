@@ -4,11 +4,10 @@ window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Map = Typerefinery.Components.Widgets.Map || {};
 window.Typerefinery.Components.Widgets.Map.LeafletMap = Typerefinery.Components.Widgets.Map.LeafletMap || {};
 
-;(function (ns, document) {
+(function ($, ns, componentsNs, document, window) {
     "use strict";
-    $(document).ready(function () {
-        $("[component='map']").each(function() {
-            ns.init(this);
-        });
-    });
-})(window.Typerefinery.Components.Widgets.Map.LeafletMap, document);
+
+    //init and watch for new components
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+
+})(jQuery, window.Typerefinery.Components.Widgets.Map.LeafletMap, window.Typerefinery.Components, document, window);

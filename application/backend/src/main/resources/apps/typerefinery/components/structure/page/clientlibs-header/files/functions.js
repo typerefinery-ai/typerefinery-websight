@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
-(function (ns, document, window) {
+(function ($, ns, document, window) {
     "use strict";
 
     ns.filesUrl = "https://files.typerefinery.localhost:8101";
@@ -60,4 +60,4 @@ Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       
   };
 
-})(Typerefinery.Page.Files, document, window);
+})(jQuery, Typerefinery.Page.Files, document, window);

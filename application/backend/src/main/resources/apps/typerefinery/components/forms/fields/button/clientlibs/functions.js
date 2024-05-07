@@ -7,7 +7,7 @@ window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
-(function (ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
+(function ($, ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
     "use strict";
     ns.selectorComponent = '[component=button]';
 
@@ -83,4 +83,4 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
         ns.addEventListener($component, id);
         ns.windowResizeListener($component)
     }
-})(Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, Typerefinery.ToggleComponent, window.Typerefinery.Page.Theme, document, window);
+})(jQuery, Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, Typerefinery.ToggleComponent, window.Typerefinery.Page.Theme, document, window);

@@ -4,8 +4,7 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
-
-(function (ns, themeNs, tmsNs, document, window) {
+(function ($, ns, themeNs, tmsNs, document, window) {
 
     "use strict";
     ns.init = () => {
@@ -17,4 +16,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
     $(document).ready(function () {
         ns.init();
     });
-})(Typerefinery.Page, Typerefinery.Page.Theme, Typerefinery.Page.Tms, document, window);
+})(jQuery, Typerefinery.Page, Typerefinery.Page.Theme, Typerefinery.Page.Tms, document, window);

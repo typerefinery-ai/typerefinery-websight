@@ -4,7 +4,7 @@ window.Typerefinery.Components.Stix = Typerefinery.Components.Stix || {};
 window.Typerefinery.Components.Stix.Forms = Typerefinery.Components.Stix.Forms || {};
 window.Typerefinery.Components.Stix.Forms.Composite = Typerefinery.Components.Stix.Forms.Composite || {};
 
-;(function (ns, document) {
+(function ($, ns, document) {
     "use strict";
     $(document).ready(function () {
         console.log('Stix Composite component Behaviour loaded');
@@ -12,4 +12,4 @@ window.Typerefinery.Components.Stix.Forms.Composite = Typerefinery.Components.St
             ns.init(this);
         });
     });
-})(window.Typerefinery.Components.Stix.Forms.Composite, document);
+})(jQuery, window.Typerefinery.Components.Stix.Forms.Composite, document);

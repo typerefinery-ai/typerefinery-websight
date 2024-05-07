@@ -1,12 +1,10 @@
-
-console.log("client.js loaded")
-
-window.MessageService = {}
+window.MessageService = {};
 // eslint-disable-next-line no-undef
-window.MessageService.Config = MessageService.Config || {}
+window.MessageService.Config = MessageService.Config || {};
 // eslint-disable-next-line no-undef
-window.MessageService.Client = MessageService.Client || {}
-  ; (function (ns, JSONSchemas, document, window) {
+window.MessageService.Client = MessageService.Client || {};
+
+(function ($, ns, JSONSchemas, document, window) {
     ns.publishers = {}
     ns.subscribers = {}
     ns.callbacks = {}
@@ -231,5 +229,6 @@ window.MessageService.Client = MessageService.Client || {}
       }
     }
 
-    init()
-  })(window.MessageService.Client, window.JSONSchemas, document, window)
+    init();
+
+  })(jQuery, window.MessageService.Client, window.JSONSchemas, document, window);

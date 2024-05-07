@@ -10,8 +10,10 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
+(function ($, ns, tmsNs, componentNs, themeNs, chartInstanceNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = "[component='chart'][data-module='barChart']";
 
     ns.defaultData = {
         chartData: [75000, 75000, 75000, 15000, 14000, 12000, 11000, 11500, 11000],
@@ -200,4 +202,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     };
-})(Typerefinery.Components.Widgets.Chart.Variants.BarChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Chart.Variants.BarChart, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

@@ -6,7 +6,7 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
 
 
 
-(function (ns, componentNs, editorInstanceNs, document, window) {
+(function ($, ns, componentNs, editorInstanceNs, document, window) {
     "use strict";
 
     ns.selectorComponent = '[component=editor]';
@@ -232,4 +232,4 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
 
     }
 
-})(Typerefinery.Components.Widgets.Editor, Typerefinery.Components, Typerefinery.Components.Widgets.Editor.Instances, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Editor, Typerefinery.Components, Typerefinery.Components.Widgets.Editor.Instances, document, window);

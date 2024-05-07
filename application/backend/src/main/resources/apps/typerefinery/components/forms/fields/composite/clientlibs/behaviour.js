@@ -3,7 +3,7 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
 
-;(function (ns, componentsNs, document) {
+(function ($, ns, componentsNs, document) {
     "use strict";
     $(document).ready(function () {
       console.log('Composite component Behaviour loaded');
@@ -57,4 +57,4 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       });
       
     });
-})(window.Typerefinery.Components.Forms.Composite, window.Typerefinery.Components, document);
+})(jQuery, window.Typerefinery.Components.Forms.Composite, window.Typerefinery.Components, document);
