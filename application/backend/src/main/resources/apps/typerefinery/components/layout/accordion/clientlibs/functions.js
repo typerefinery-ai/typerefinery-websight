@@ -1,13 +1,9 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
-window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
-window.Typerefinery.Components.Forms.Button = Typerefinery.Components.Forms.Button || {};
-window.Typerefinery.Modal = Typerefinery.Modal || {};
-window.Typerefinery.Dropdown = Typerefinery.Dropdown || {};
-window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
-window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
+window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
+window.Typerefinery.Components.Layout.Accordion = Typerefinery.Components.Layout.Accordion || {};
 
-(function ($, ns, componentNs, modalNs, dropdownNs, toggleComponentNs, themeNs, document, window) {
+(function ($, ns, componentNs, document, window) {
     "use strict";
 
     ns.selectorComponent = '[component=accordion]';
@@ -44,7 +40,7 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
       $itemCollapse.attr('id', itemContentId);
 
       const itemDataParent = $itemCollapse.attr(ns.attributeParent); // is pointing to the parent, needs to be updated to current component
-      $itemCollapse.attr(ns.attributeParent, componentId);
+      $itemCollapse.attr(ns.attributeParent, `#${componentId}`);
 
       console.log('$newRow', $newRow);
       
@@ -55,6 +51,5 @@ window.Typerefinery.Page.Theme = Typerefinery.Page.Theme || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        ns.addNewItem($component);      
     }
-})(jQuery, Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, Typerefinery.ToggleComponent, window.Typerefinery.Page.Theme, document, window);
+})(jQuery, Typerefinery.Components.Layout.Accordion, Typerefinery.Components, document, window);
