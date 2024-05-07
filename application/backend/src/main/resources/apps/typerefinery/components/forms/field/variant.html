@@ -1,6 +1,8 @@
 <template data-sly-template.variant="${ @ model }">
-    <field id="${model.id}" class="${model.componentClassNames}" data-fieldid="${model.id}" label="${label}">                
-        <sly data-sly-set.labelid="${'{0}-{1}' @ format=[model.id, resource.name]}" data-sly-resource="${'label' @ selectors=['id', labelid]}"></sly>
-        <sly data-sly-set.inputid="${'{0}-{1}' @ format=[model.id, resource.name]}" data-sly-resource="${'field' @ selectors=['id', inputid]}"></sly>
+    <field id="${model.id}" class="${model.componentClassNames}" data-fieldid="${model.id}"
+      data-sly-set.labelid="${'{0}-{1}' @ format=[model.id, 'label']}" 
+      data-sly-set.inputid="${'{0}-{1}' @ format=[model.id, 'field']}">
+      <sly data-sly-resource="${'label' @ selectors=['id', labelid, 'for', inputid]}"></sly>
+      <sly data-sly-resource="${'field' @ selectors=['id', inputid]}"></sly>  
     </field>
 </template>

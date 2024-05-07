@@ -4,7 +4,7 @@
       component="${model.componentName}"
       id="${model.id}"
       class="${model.componentClassNames} ${model.variantClassNames}"
-      for="${model.id}">${model.label}</label>    
+      for="${model.forId}">${model.label}</label>    
   </sly>
   <sly data-sly-test="${wcmmode.isEdit && model.hideLabel}">
     <div style="--bs-bg-opacity: .5;" class="bg-warning">Label is Hidden</div>

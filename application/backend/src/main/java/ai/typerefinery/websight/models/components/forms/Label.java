@@ -18,6 +18,7 @@ package ai.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
@@ -51,6 +52,13 @@ public class Label extends BaseFormComponent {
 
     protected static final String PROPERTY_HIDE_LABEL = "hideLabel";
     
+    public static final String PROPERTY_FOR = "for";
+    
+    @Inject
+    @Getter
+    @Named(PROPERTY_FOR)
+    @Nullable
+    public String forId;
 
     @Inject
     @Getter
@@ -64,6 +72,23 @@ public class Label extends BaseFormComponent {
         this.module = DEFAULT_MODULE;
         super.init();
 
+        // check if selectors are present
+        if (request != null && request.getRequestPathInfo() != null) {
+            String selectors = request.getRequestPathInfo().getSelectorString();
+            if (StringUtils.isNotBlank(selectors)) {
+                String[] selectorArray = StringUtils.split(selectors, ".");
+                if (selectorArray.length >= 2) {
+                    // check if id is present and update component id
+                    if (ArrayUtils.contains(selectorArray, "for")) {
+                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "for")+1];
+                        if (StringUtils.isNotBlank(value)) {
+                            this.forId = value;
+                        }
+                    }
+                    
+                }
+            }
+        }
         if (StringUtils.isBlank(label)) {
             label = DEFAULT_LABEL;
         }
