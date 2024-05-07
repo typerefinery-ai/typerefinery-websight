@@ -163,7 +163,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         return;
       }
     
-      console.group("loading searchBox");
+      console.group("onDocumentReady for " + selector);
 
       ns.initComponentBySelector(selector, callbackFn);
       ns.observeDOMForSelector(selector, callbackFn);
