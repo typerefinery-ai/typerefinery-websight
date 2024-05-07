@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 (function ($, ns, componentNs, window, document) {
     "use strict";
 
-    ns.selectorComponent = '[component="checkBox"]';
+    ns.selectorComponent = '[component=checkBox]';
 
     ns.init = () => {
 

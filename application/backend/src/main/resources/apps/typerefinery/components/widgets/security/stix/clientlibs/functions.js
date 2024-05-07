@@ -9,7 +9,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 (function ($, ns, tmsNs, componentNs, d3, stix2viz, document, window) {
   "use strict";
 
-  ns.selectorComponent = '[component="stix"]';
+  ns.selectorComponent = '[component=stix]';
 
   class ComponentElements {
     canvasElement = null;

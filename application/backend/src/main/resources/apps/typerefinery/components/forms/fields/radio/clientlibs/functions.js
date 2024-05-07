@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Radio = Typerefinery.Components.Forms.Radio
 (function ($, ns, componentNs, window, document) {
     "use strict";
 
-    ns.selectorComponent = '[component="radio"]';
+    ns.selectorComponent = '[component=radio]';
 
     ns.init = () => {
 

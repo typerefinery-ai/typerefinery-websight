@@ -8,7 +8,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
 
     "use strict";
 
-    ns.selectorComponent = '[component="fileupload"]';
+    ns.selectorComponent = '[component=fileupload]';
 
     ns.customDragAndDrop = ($component, componentConfig) => {
         // }

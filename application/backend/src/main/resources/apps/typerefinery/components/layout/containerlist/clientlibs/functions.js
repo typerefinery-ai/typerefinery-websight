@@ -7,7 +7,7 @@ window.Typerefinery.Components.Layout.ContainerList =
 (function ($, ns, componentNs, document, window) {
   "use strict";
 
-  ns.selectorComponent = '[component="containerlist"]';
+  ns.selectorComponent = '[component=containerlist]';
 
   ns.updateComponentHTML = ($component) => {
     if (!$component) {

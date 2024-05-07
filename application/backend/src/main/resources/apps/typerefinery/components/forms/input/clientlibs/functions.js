@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
 (function ($, ns, componentNs, document, window) {
   "use strict";
 
-  ns.selectorComponent = '[component="input"]';
+  ns.selectorComponent = '[component=input]';
 
   ns.init = ($component) => {
       const componentConfig = componentNs.getComponentConfig($component);

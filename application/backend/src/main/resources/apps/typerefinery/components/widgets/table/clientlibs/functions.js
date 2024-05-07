@@ -12,7 +12,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 (function ($, ns, tmsNs, eventNs, componentNs, modalNs, tableInstanceNs, searchNs, document, window) {
     "use strict";
 
-    ns.selectorComponent = '[component="table"]';    
+    ns.selectorComponent = '[component=table]';    
 
     ns.defaultData = {
         columns: [],

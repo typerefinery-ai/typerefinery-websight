@@ -11,7 +11,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function ($, ns, componentNs, treeViewInstanceNs, eventNs, searchNs, document, window) {
     "use strict";
 
-    ns.selectorComponent = '[component="treeview"]';
+    ns.selectorComponent = '[component=treeview]';
 
     String.prototype.insert = function (index, string) {
         if (index > 0) {
