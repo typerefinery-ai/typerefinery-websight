@@ -42,7 +42,7 @@ public class BaseFormComponent extends BaseComponent {
     public static final String PROPERTY_PLACEHOLDER = "placeholder";
 
     @Self
-    private SlingHttpServletRequest request;
+    protected SlingHttpServletRequest request;
 
     @Inject
     @Getter
@@ -95,7 +95,7 @@ public class BaseFormComponent extends BaseComponent {
         }
         super.init();
         if (StringUtils.isBlank(this.name)) {
-            this.name = this.id;
+            this.name = resource.getName();
         }
 
     }
