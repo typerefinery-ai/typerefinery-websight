@@ -57,12 +57,17 @@ public class AccordionItem extends BaseComponent {
     @Inject
     @Getter
     @Default(values = "Accordion Item ")
-    private String title;
+    public String title;
 
     @Getter
     @Inject
-    @Nullable
-    private Boolean show;
+    @Default(values = "false")
+    public Boolean showopen;
+
+    @Getter
+    @Inject
+    @Default(values = "false")
+    public Boolean alwaysopen;
 
 
     @Override

@@ -12,8 +12,13 @@
       },
       "enable": {
         "sling:resourceType": "wcm/dialogs/components/checkbox",
-        "name": "show",
+        "name": "showopen",
         "label": "Show Open"
+      },
+      "alwaysopen": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "alwaysopen",
+        "label": "Always Open"
       }
     },
     "styleTab": {
