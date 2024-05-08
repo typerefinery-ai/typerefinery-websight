@@ -94,12 +94,6 @@ public class Treeview extends BaseComponent {
     @Getter
     public String numOfNodeLevelsToExpand;
 
-    // key is topic and value is type = HIGHLIGHT || FILTER
-    @Getter
-    @Inject
-    public List<KeyValuePair> events;
-
-
     @Inject
     @Getter
     public Boolean openNodeInNewTab;

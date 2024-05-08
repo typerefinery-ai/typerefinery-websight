@@ -20,6 +20,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.jetbrains.annotations.Nullable;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
+import ai.typerefinery.websight.models.dialog.EventsListItem;
 import ai.typerefinery.websight.utils.Styled;
 import ai.typerefinery.websight.utils.Grid;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -190,6 +192,10 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Getter
     public List<AttributeSelectValue> ariaAttributes;
     
+    @Getter
+    @ChildResource(name = "_events_")
+    private List<EventsListItem> events;
+
     @Inject
     @Getter
     public Boolean persistColorWhenThemeSwitches;

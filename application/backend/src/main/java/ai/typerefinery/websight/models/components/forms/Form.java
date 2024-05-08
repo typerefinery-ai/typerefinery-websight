@@ -17,8 +17,6 @@ package ai.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
-import java.util.List;
-
 import javax.inject.Inject;
 import lombok.Getter;
 
@@ -28,16 +26,11 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
-import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.osgi.service.component.annotations.Component;
 
 import javax.annotation.PostConstruct;
 
-import ai.typerefinery.websight.models.components.BaseFormComponent;
 import ai.typerefinery.websight.models.components.FlowComponent;
-import ai.typerefinery.websight.models.components.KeyValuePair;
-import ai.typerefinery.websight.models.components.flow.FlowContainer;
-import ai.typerefinery.websight.models.dialog.EventsListItem;
 import ai.typerefinery.websight.services.flow.FlowService;
 import ai.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -82,10 +75,6 @@ public class Form extends FlowComponent implements FlowComponentRegister {
     @Inject
     @Getter
     private String readPayloadType;
-
-    @Getter
-    @ChildResource(name = "_events_")
-    private List<EventsListItem> events;
 
     @Inject
     @Getter
