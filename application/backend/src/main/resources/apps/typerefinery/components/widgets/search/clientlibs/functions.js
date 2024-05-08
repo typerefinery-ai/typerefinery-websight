@@ -51,11 +51,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         const topic = componentConfig.topic;
 
         if(topic === "#PAGE" || !topic) {
-            $component.addEventListener("input", ns.debounce(() => ns.highlightWholePage(componentConfig), 500));
+            $component.on("input", ns.debounce(() => ns.highlightWholePage(componentConfig), 500));
             return;
         }
 
-        $component.addEventListener("input", ns.debounce(() => eventNs.emitEvent(topic, { value: document.getElementById(componentConfig.id).value }), 500));
+        $component.on("input", ns.debounce(() => eventNs.emitEvent(topic, { value: document.getElementById(componentConfig.id).value }), 500));
        
     };
 })(jQuery, Typerefinery.Components.Widgets.Search, Typerefinery.Components, Typerefinery.Page.Events, document, window);

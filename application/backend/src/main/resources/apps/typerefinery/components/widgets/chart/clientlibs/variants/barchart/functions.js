@@ -189,12 +189,12 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
+            $component.attr("id", componentTopic);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentPath);
+            $component.attr("id", componentPath);
             ns.jsonConnected(componentDataSource, $component);
         }
         // MODEL

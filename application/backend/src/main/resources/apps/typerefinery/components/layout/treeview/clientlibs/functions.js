@@ -24,7 +24,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 
     ns.addSidebarTreeNodes = ($component, componentConfig) => {
-        const dataTree = JSON.parse($component.getAttribute('data-tree') || '{}');
+        const dataTree = JSON.parse($component.attr('data-tree') || '{}');
 
         if (Object.keys(dataTree).length === 0) {
             return;

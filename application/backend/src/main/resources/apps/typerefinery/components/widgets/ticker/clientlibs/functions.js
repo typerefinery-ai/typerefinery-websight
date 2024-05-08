@@ -114,7 +114,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentPath = componentConfig.resourcePath;
         // TMS.
         if (componentHost && componentTopic) { 
-            $component.setAttribute("id", `${componentPath}-${componentTopic}`);
+            $component.attr("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON

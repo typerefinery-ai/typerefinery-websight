@@ -110,7 +110,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         console.group("select init");
         const componentConfig = componentNs.getComponentConfig($component);
         if(componentConfig.multipleSelection) {
-            $component.setAttribute('multiple', 'true');
+            $component.attr('multiple', 'true');
         }
 
 

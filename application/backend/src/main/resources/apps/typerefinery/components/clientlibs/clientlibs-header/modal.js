@@ -158,16 +158,16 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         // Modal Container with default Attributes
         const newModalDivContainer = document.createElement("div");
         const randIdForModal = Math.random().toString(16).slice(2);
-        newModalDivContainer.setAttribute("class", "modal fade");
-        newModalDivContainer.setAttribute("id", randIdForModal);
+        newModalDivContainer.attr("class", "modal fade");
+        newModalDivContainer.attr("id", randIdForModal);
 
         // Updating the component with Bootstrap Attributes.
-        $component.setAttribute("data-bs-toggle", "modal");
-        $component.setAttribute("type", "button");
-        $component.setAttribute("data-bs-target", `#${randIdForModal}`);
+        $component.attr("data-bs-toggle", "modal");
+        $component.attr("type", "button");
+        $component.attr("data-bs-target", `#${randIdForModal}`);
 
         // invoke remove  loader on modal load when a modal is opened.
-        $component.addEventListener("click", ns.removeLoaderOnModalLoad);
+        $component.on("click", ns.removeLoaderOnModalLoad);
         
 
         const ORIGIN = window.location.origin;

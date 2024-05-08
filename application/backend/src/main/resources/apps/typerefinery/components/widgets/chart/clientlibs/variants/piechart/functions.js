@@ -47,7 +47,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ...ns.defaultData
         }
         if (!componentConfig.resourcePath) {
-            componentConfig.resourcePath = data.resourcePath || $component.getAttribute(`data-resource-path`);
+            componentConfig.resourcePath = data.resourcePath || $component.attr(`data-resource-path`);
         }
         const ctx = document.getElementById(`${componentConfig.resourcePath}-pieChart`).getContext("2d");
 
@@ -194,12 +194,12 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
         // TMS.
         if (componentHost && componentTopic) {
-            $component.setAttribute("id", componentTopic);
+            $component.attr("id", componentTopic);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
         else if (componentDataSource) {
-            $component.setAttribute("id", componentPath);
+            $component.attr("id", componentPath);
             ns.jsonConnected(componentDataSource, $component);
         }
         // MODEL 

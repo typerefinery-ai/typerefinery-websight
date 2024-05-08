@@ -27,16 +27,16 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 
         
         // Updating the component with Bootstrap Attributes.
-        $component.setAttribute("data-bs-toggle", "dropdown");
-        $component.setAttribute("type", "button");
-        $component.setAttribute("aria-expanded", "false");
-        const buttonId = $component.getAttribute("id");
+        $component.attr("data-bs-toggle", "dropdown");
+        $component.attr("type", "button");
+        $component.attr("aria-expanded", "false");
+        const buttonId = $component.asttr("id");
 
 
         // Dropdown Container with default Attributes
         const newDropdownContainer = document.createElement("div");
-        newDropdownContainer.setAttribute("class", "dropdown-menu dropdownMenu");
-        newDropdownContainer.setAttribute("aria-labelledby", buttonId);
+        newDropdownContainer.attr("class", "dropdown-menu dropdownMenu");
+        newDropdownContainer.attr("aria-labelledby", buttonId);
 
 
         const { dropdownItems } = componentConfig;

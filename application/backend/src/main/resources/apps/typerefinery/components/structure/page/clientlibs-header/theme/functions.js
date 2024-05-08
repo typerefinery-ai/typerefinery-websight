@@ -13,49 +13,50 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
   ns.toggleTheme = () => {
     const currentPageTheme = localStorage.getItem("pageTheme") || "light";
     const newTheme = currentPageTheme == "light" ? "dark" : "light";
-    const $body = document.getElementsByTagName("body")[0];
+    const $body = $("body")[0];
 
     if ($body) {
-      $body.classList.remove(`bg-${currentPageTheme}`);
-      $body.classList.add(`bg-${newTheme}`);
+      $body.removeClass(`bg-${currentPageTheme}`);
+      $body.addClass(`bg-${newTheme}`);
     }
 
     //to change the background of component
-    const toggleTheme = document.querySelectorAll(`[toggleTheme]`);
-    toggleTheme.forEach(function ($component) {
+    const toggleTheme = $(`[toggleTheme]`);
+    toggleTheme.each(function ($component) {
+      var $component = $(this);
 
-      const toggle = $component.getAttribute("toggleTheme");
+      const toggle = $component.attr("toggleTheme");
 
 
       const $body = document.getElementsByTagName("body")[0];
 
       if (newTheme === "light") {
-        $body.classList.add("bg-light");
+        $body.addClass("bg-light");
       } else if (newTheme === "dark") {
-        $body.classList.add("bg-dark");
+        $body.addClass("bg-dark");
       }
 
       if (newTheme === 'dark') {
         if (toggle === "text") {
-          $component.classList.remove("text-dark");
-          $component.classList.add("text-white");
+          $component.removeClass("text-dark");
+          $component.addClass("text-white");
         } else if(toggle === "component") {
-          $component.classList.remove("bg-light", "shadow-lg");
-          $component.classList.add("bg-dark", "shadow-lg");
+          $component.removeClass("bg-light", "shadow-lg");
+          $component.addClass("bg-dark", "shadow-lg");
         
         }else if (toggle === "true") {
-          $component.classList.remove("bg-light", "shadow-lg", "text-dark");
-          $component.classList.add("bg-dark", "shadow-lg", "text-white");
+          $component.removeClass("bg-light", "shadow-lg", "text-dark");
+          $component.addClass("bg-dark", "shadow-lg", "text-white");
         }
 
       }
       else {
         if (toggle === "text") {
-          $component.classList.remove("text-white");
-          $component.classList.add("text-dark");
+          $component.removeClass("text-white");
+          $component.addClass("text-dark");
         } else if (toggle === "true") {
-          $component.classList.remove("bg-dark", "shadow-lg", "text-white");
-          $component.classList.add("bg-light", "shadow-lg", "text-dark");
+          $component.removeClass("bg-dark", "shadow-lg", "text-white");
+          $component.addClass("bg-light", "shadow-lg", "text-dark");
         }
       }
     });
@@ -102,14 +103,15 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
   };
 
   ns.updateATagColor = (theme) => {
-    const $aTags = document.querySelectorAll("a");
-    $aTags.forEach(($aTag) => {
+    const $aTags = $("a");
+    $aTags.each(() => {
+      var $aTag = $(this);
       if (theme === "dark") {
-        $aTag.classList.remove("text-dark");
-        $aTag.classList.add("text-white");
+        $aTag.removeClass("text-dark");
+        $aTag.addClass("text-white");
       } else {
-        $aTag.classList.remove("text-white");
-        $aTag.classList.add("text-dark");
+        $aTag.removeClass("text-white");
+        $aTag.addClass("text-dark");
       }
     });
   };
@@ -140,7 +142,7 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
 
   ns.attachEventListener = ($component, componentConfig) => {
     // Event Listener for toggle theme (dark | light);
-    $($component).on("click", ns.toggleTheme);
+    $component.on("click", ns.toggleTheme);
   };
 
   ns.init = ($component, componentConfig) => {

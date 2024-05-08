@@ -4,8 +4,8 @@ window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 (function ($, ns, document, window) {
   ns.init = ($component, componentConfig) => {
     // Updating the component with Bootstrap Attributes.
-    $component.setAttribute("data-bs-toggle", "collapse");
-    $component.setAttribute(
+    $component.attr("data-bs-toggle", "collapse");
+    $component.attr(
       "data-bs-target",
       `${componentConfig.toggleTarget}`
     );
