@@ -12,9 +12,9 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
     ns.selectorInitNot = ':not([data-choice])'
     
     ns.getOptionsSelectedAsAnArray = ($component) => {
-        const $selectedOption = $component.querySelector('option[selected]');
+        const $selectedOption = $component.find('option[selected]');
         if($selectedOption) {
-            return [$selectedOption.value];
+            return [$selectedOption.val()];
         } else {
             return [];
         }

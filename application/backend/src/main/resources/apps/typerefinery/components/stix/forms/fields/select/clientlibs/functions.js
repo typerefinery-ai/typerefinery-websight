@@ -14,9 +14,9 @@ window.Typerefinery.Components.Stix.Forms.Select.Instances = Typerefinery.Compon
     ns.selectorInitNot = ':not([data-choice])'
     
     ns.getOptionsSelectedAsAnArray = ($component) => {
-        const $selectedOption = $component.querySelector('option[selected]');
+        const $selectedOption = $component.find('option[selected]');
         if($selectedOption) {
-            return [$selectedOption.value];
+            return [$selectedOption.val()];
         } else {
             return [];
         }
