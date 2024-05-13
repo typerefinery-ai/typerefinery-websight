@@ -58,7 +58,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               eventNs.registerEvents(topicName, (data) => {
                   // check make sure the event is for this event
                   console.log(["event data", data]);
-                  if (data.type === eventName) {
+                  if (data.type === eventName) {                  
                       ns.handleEventAction($component, action, data);
                   }
               });
@@ -170,7 +170,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.handleEventAction = ($component, action, data) => {
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
-      //load data into form
+      //FIXME: execute the correct function based on action from current namespace
       if (action === "ADD_ITEM") {
           ns.addNewItem($component, data);
       }
