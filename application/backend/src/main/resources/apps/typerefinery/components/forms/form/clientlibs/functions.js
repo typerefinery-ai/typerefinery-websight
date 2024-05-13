@@ -201,22 +201,22 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // local actions representing the form actions
     ns.FORM_SUCCESS = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
     }
     ns.FORM_ERROR = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
     }
     ns.FORM_SUBMIT = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_SUBMIT_ACTION, "FORM_SUBMIT");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUBMIT_ACTION, "FORM_SUBMIT");
     }
     ns.FORM_CANCEL = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_CANCEL_ACTION, "FORM_CANCEL");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_CANCEL_ACTION, "FORM_CANCEL");
     }
     ns.FORM_RESET = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_RESET_ACTION, "FORM_RESET");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_RESET_ACTION, "FORM_RESET");
     }
     ns.FORM_LOADED = ($component, componentConfig, formData) => {
-      ns.emitLocalEvent($component, componentConfig, formData, eventNs.EVENTS.EVENT_READ_ACTION, "FORM_LOADED");
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_READ_ACTION, "FORM_LOADED");
     }
 
     // json form post
@@ -451,45 +451,6 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             console.log("Error in fetching form initial data");
             console.error(error);
         }
-    }
-
-    ns.emitLocalEvent = ($component, componentConfig, payload, eventName, componentAction) => {
-      console.group('emitLocalEvent');
-      console.log(["config", $component, componentConfig, payload, eventName, componentAction]);
-      const eventData = eventNs.compileEventData(payload, eventName, componentAction);
-
-      if (!ns.eventMap) {
-        console.error("Event map is missing");
-        console.groupEnd();
-        return;
-      }
-      //find event in eventMap and emit event to all the topics
-      if (ns.eventMap[eventNs.EVENT_TYPE_EMIT]) {
-        if (ns.eventMap[eventNs.EVENT_TYPE_EMIT][eventName]) {
-          if (ns.eventMap[eventNs.EVENT_TYPE_EMIT][eventName][componentAction]) {
-            const topicValues = ns.eventMap[eventNs.EVENT_TYPE_EMIT][eventName][componentAction];
-            console.log("match");
-
-            // if topicValues is array then emit event to all the topics
-            if (Array.isArray(topicValues)) {
-              topicValues.forEach(topicValue => {
-                console.log(topicValue);
-                eventNs.emitEvent(topicValue, eventData);
-              });
-            } else {
-              //is single value use it as topic
-              if (topicValues) {   
-                console.log(topicValues);
-                eventNs.emitEvent(topicValues, eventData);
-              }
-            }
-          } else {
-            console.log("no match");
-          }
-        }
-      }
-
-      console.groupEnd();
     }
 
     ns.consumeIncomingEvent =  ($component, eventData) => {
