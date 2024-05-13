@@ -521,7 +521,8 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           // if type is not defined then its emitted
           let typeName = type || eventNs.EVENT_TYPE_EMIT;
 
-          let eventName = name || nameCustom;
+          //custom name takes precidence over name, this will be raised as event name
+          let eventName = nameCustom || name;
 
           console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
           eventNs.registerEventActionMapping(ns.eventMap, topicName, typeName, action, eventName);

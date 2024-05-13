@@ -1,0 +1,13 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "additem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ADD_ITEM",
+    "value": "Add New Item"
+  },
+  "openitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "OPEN_ITEM",
+    "value": "Open Item"
+  }
+}

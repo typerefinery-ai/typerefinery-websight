@@ -1,0 +1,8 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "buttonclick": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "BUTTON_CLICK",
+    "value": "Button Click"
+  }
+}

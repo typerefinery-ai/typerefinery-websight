@@ -18,6 +18,7 @@
     component="${model.componentName}"
     id="${model.id}"
     class="${model.componentName} ${model.componentClassNames} ${model.variantClassNames}"
+    data-model="${model.jsonString}"
     data-sly-test="${resource.hasChildren}">
       <sly data-sly-repeat.paragraph="${resource.children}">
         <sly data-sly-test="${paragraph.name != 'template'}">

@@ -53,15 +53,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         return ns.EVENTS_CACHE;
       }
       ns.EVENTS_CACHE = {};
-      ns.EVENTS_CACHE[ns.EVENT_TYPE_EMIT] = ns.genericEvents([]);
-      ns.EVENTS_CACHE[ns.EVENT_TYPE_LISTEN] = ns.genericEvents([]);
+      //ns.EVENTS_CACHE[ns.EVENT_TYPE_EMIT] = ns.genericEvents([]);
+      //ns.EVENTS_CACHE[ns.EVENT_TYPE_LISTEN] = ns.genericEvents([]);
       return ns.EVENTS_CACHE;      
     }
 
     //add event mapping in eventMap local to component, maps component action to topic with event, for quick access by functions.
-    ns.registerEventActionMapping = function(eventMap, topic, type, componentAction, eventName) {
+    ns.registerEventActionMapping = function(eventMap, componentId, topic, type, componentAction, eventName, config) {
       console.group('registerEventActionMapping');
-      console.log(eventMap, topic, type, componentAction, eventName);
+      console.log(eventMap, topic, type, componentAction, eventName, config);
       //check if params are passed
       if (!topic || !componentAction || !eventMap) {
         console.error("missing params");
@@ -75,38 +75,53 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       }
 
       //create event config
-      const topicAction = {
+      let topicAction = {
         topic: topic,
         action: componentAction,
+        event: eventName,
+        config: config
       }
 
-      //init type
+      //init event type, EMIT or LISTEN
       if (!eventMap[type]) {
-        eventMap[type] = [eventName];
-        console.warn("type not found, creating new type");
+        eventMap[type] = {};
+        console.warn(`event type not found ${type}, creating new type ${type}`);
       }
 
-      if (!eventMap[type][eventName]) {
-        eventMap[type][eventName] = [componentAction];
-        console.warn("event not found, creating new event");
+      //init component action that maps to event name
+      if (!eventMap[type][componentAction]) {
+        eventMap[type][componentAction] = {};
+        console.warn(`event action not found ${componentAction}, creating new action ${componentAction}`);
+      } 
+
+      //init mapped event name to component id
+      if (!eventMap[type][componentAction][componentId]) {
+        eventMap[type][componentAction][componentId] = {};
+        console.warn(`component id not found ${componentId}, creating new component id ${componentId}`);
       }
 
-      if (!eventMap[type][eventName][componentAction]) {
-        eventMap[type][eventName][componentAction] = [topic];
-        console.warn("component action not found, creating new component action");
+      console.log(["topicAction", topicAction]);
+
+      //init mapped event name that maps to topic
+      if (!eventMap[type][componentAction][componentId][eventName]) {
+        eventMap[type][componentAction][componentId][eventName] = [topicAction];
+        console.warn(`event name not found ${eventName}, creating new event name with topic ${topic}`);
       } else {
         //add event to type
-        eventMap[type][eventName][componentAction].push(topic);
-        console.warn("component action found, adding topic to component action");
+        eventMap[type][componentAction][componentId][eventName].push(topicAction);
+        console.warn(`component action found ${eventName}, adding topic to component action ${topic}`);
       }
 
       console.groupEnd();
     };
 
     ns.emitEvent = (topic, payload) => {
+        console.group('emitEvent');
+        console.log(["topic", topic, "payload", payload]);
         const evt = document.createEvent('customEvent');
         evt.initCustomEvent('customEvent', false, false, { topic, payload });
         ns.socket.dispatchEvent(evt);
+        console.groupEnd();
     };
 
     ns.createWebSocketConnection = () => {
@@ -128,9 +143,74 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         });
     };
 
+    ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction) => {
+      console.group('emitLocalEvent');
+      console.log(["config", $component, componentConfig, payload, eventName, componentAction]);
 
-    ns.compileEventData = (payload, eventName, action) => {
-        return { type: eventName, payload: payload, action: action};
+      const { id } = componentConfig;
+
+      // const eventData = ns.compileEventData(payload, eventName, componentAction);
+      // console.log(["eventData", eventData]);
+      console.log(["eventMap", eventMap]);
+
+      if (!eventMap) {
+        console.error("Event map is missing");
+        console.groupEnd();
+        return;
+      }
+      //find event in eventMap and emit event to all the topics
+      if (eventMap[ns.EVENT_TYPE_EMIT]) {
+        console.log("eventMap found", componentAction, eventMap[ns.EVENT_TYPE_EMIT]);
+        if (eventMap[ns.EVENT_TYPE_EMIT][componentAction]) {
+          console.log("componentAction found", eventName, eventMap[ns.EVENT_TYPE_EMIT][componentAction]);
+          
+          //check if events exist for component id
+          if (!eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]) {
+            console.warn("no events found for component");
+            console.groupEnd();
+            return;
+          }
+          
+          // for each event name in the component action emit event
+          const eventNames = Object.keys(eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]);
+          console.group("eventNames");
+          console.log("eventNames", eventNames);
+          // for each topic in the event name emit event
+          eventNames.forEach(eventName => {
+            console.log("eventName", eventName);
+            const topicValues = eventMap[ns.EVENT_TYPE_EMIT][componentAction][id][eventName];
+            console.log("topicValues", topicValues);
+            // if topicValues is array then emit event to all the topics
+            if (Array.isArray(topicValues)) {
+              topicValues.forEach(topicValue => {
+                const { topic, config } = topicValue;
+                console.log("emit event for topic", topic);
+                const eventData = ns.compileEventData(payload, eventName, componentAction, id, config);
+                ns.emitEvent(topic, eventData);
+              });
+            } else {
+              //is single value use it as topic
+              if (topicValues) {   
+                const { topic, config } = topicValue;
+                console.log("emit event for topic", topic);
+                const eventData = ns.compileEventData(payload, eventName, componentAction, id, config);
+                ns.emitEvent(topic, eventData);
+              }
+            }
+          });
+          console.groupEnd();
+        } else {
+          console.log("no component action match");
+        }
+      } else {
+        console.log("no event type match");
+      }
+
+      console.groupEnd();
+    }
+
+    ns.compileEventData = (payload, eventName, action, componentId, config) => {
+        return { type: eventName, payload: payload, action: action, componentId: componentId, config: config};
     };
 
     ns.registerEvents = (topic, callbackFn) => {

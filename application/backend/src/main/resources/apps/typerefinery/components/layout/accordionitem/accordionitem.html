@@ -12,13 +12,17 @@
 */-->
 <sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.AccordionItem">
   <div class="accordion-item"
+    data-sly-set.parentid="#${resource.parent.id}"
     data-sly-set.expand="${wcmmode.isEdit || model.showopen}">
+    <!-- wcmmode.isEdit ${wcmmode.isEdit}-->
+    <!-- model.showopen ${model.showopen}-->
+    <!-- expand ${expand}-->
     <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}" aria-expanded="${model.showopen ? 'true' : ''}" aria-controls="${model.id}">
+      <button class="accordion-button ${expand ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}" aria-expanded="${expand ? 'true' : 'false'}" aria-controls="${model.id}">
         ${model.title}
       </button>
     </h2>
-    <sly data-sly-set.parentid="#${resource.parent.id}"></sly>
+    <!-- expand ${expand}-->
     <div id="${model.id}" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="${model.alwaysopen ? '' : parentid }">
       <div class="accordion-body">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
