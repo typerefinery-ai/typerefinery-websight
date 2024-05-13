@@ -135,7 +135,7 @@
           "label": "Delete",
           "value": "deleteitem"
         },
-        "seelect": {
+        "select": {
           "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
           "label": "Select",
           "value": "selectitem"
@@ -147,6 +147,12 @@
       "name": "nameCustom",
       "label": "Custom Event Name",
       "description": "Custom Event Name of the even raised by the component"
+    },
+    "eventConfig": {
+      "sling:resourceType": "wcm/dialogs/components/textfield",
+      "name": "config",
+      "label": "Event Config",
+      "description": "Additional config to send with event."
     }
   }
 }

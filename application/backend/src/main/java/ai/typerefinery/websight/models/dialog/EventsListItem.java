@@ -71,6 +71,10 @@ public class EventsListItem {
     @ValueMapValue
     private String type;
 
+    @Getter
+    @ValueMapValue
+    private String config;
+
 
     @PostConstruct
     protected void init() {
