@@ -62,3 +62,8 @@ body {
 .dropdownMenu {
     width: 10px;
 }
+
+/*global utils */
+body:not(.isEditMode) .hidden {
+  display: none;
+}

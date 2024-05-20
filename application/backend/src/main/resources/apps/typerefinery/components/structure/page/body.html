@@ -12,7 +12,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<body class="${properties.defaultTemplateCSS} ${properties.bodyClasses}">    
+<body data-sly-set.isEditMode="${wcmmode.isEdit ? 'isEditMode ' : ''}" class="${isEditMode}${properties.defaultTemplateCSS} ${properties.bodyClasses}">    
     <sly data-sly-include="body-content.html"></sly>   
     <sly data-sly-include="body-end.html"></sly>
 </body>
