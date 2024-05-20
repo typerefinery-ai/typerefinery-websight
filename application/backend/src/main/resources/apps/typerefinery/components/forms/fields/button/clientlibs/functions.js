@@ -108,28 +108,6 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    //FIXME: this is for hamburger functionality
-     ns.windowResizeListener = ($component) => {
-       const target = $component.attr("data-bs-target");
-       // remove the '#' from the value
-       const targetId = target?.replace("#", "");
-       // select all elements with the same id as targetId
-       const elements = document.querySelectorAll(`#${targetId}`);
-
-      //FIXME: this needs to be converted to events
-      //  $(window)
-      //    .on("resize", function () {
-      //      if ($(this).width() > 1000) {
-      //        $(document).find(".collapse").removeClass("collapse");
-      //      } else {
-      //        elements.forEach((element) => {
-      //          element.classList.add("collapse");
-      //        });
-      //      }
-      //    })
-      //    .resize();
-     };
-
     // local actions representing the form actions
     ns.BUTTON_CLICK = ($component, componentConfig, data) => {
       console.group('BUTTON_CLICK');
@@ -151,30 +129,44 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.group("init " + id);
         console.log(["config", componentConfig, $component, ns.eventMap]);
 
-        if(buttonType === "submit") {
-            return;
-        }
-        else if(buttonType === "action") {
-            // if(actionType === "openModal") {
-                // modalNs.init($component, componentConfig);
-            // }else 
-            if(actionType === "openDropdown") {
+        let initEvents = true;
+
+        switch (buttonType) {
+          case "submit":
+            initEvents = false;
+            break;
+          case "action":
+            //FIXME: need to convert these to events.
+            switch (actionType) {
+              case "openModal":
+                modalNs.init($component, componentConfig);
+                break;
+              case "openDropdown":
                 dropdownNs.init($component, componentConfig);
-                return;
-            }else if(actionType === "initialTheme") {                
+                initEvents = false;
+                break;
+              case "initialTheme":
                 themeNs.init($component, componentConfig);
-                return;
-            }else if(actionType === "toggleComponent") {               
+                break;
+              case "toggleComponent":
                 toggleComponentNs.init($component, componentConfig);
-                return;
+                break;
+              default:
+                break;
             }
+            initEvents = false;
+            break;
+          default:
+            break;
         }
-        console.log("adding event listeners");
-        ns.addEventListener($component, componentConfig);
-        console.log(["ns.eventMap", ns.eventMap]);
-      
-        //FIXME: this is for hamburger functionality
-        ns.windowResizeListener($component)
+
+
+        if (initEvents) {
+          console.log("adding event listeners");
+          ns.addEventListener($component, componentConfig);
+          console.log(["ns.eventMap", ns.eventMap]);
+        }
+
         console.groupEnd();
     }
 })(jQuery, Typerefinery.Components.Forms.Button, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Dropdown, Typerefinery.ToggleComponent, window.Typerefinery.Page.Theme, Typerefinery.Page.Events, document, window);
