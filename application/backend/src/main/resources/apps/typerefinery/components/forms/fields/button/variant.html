@@ -17,8 +17,14 @@
     <i class="${model.icon}"></i>
 </template>
 <template data-sly-template.variant="${ @ model }">
-    <button data-label="${model.label}" toggleTheme="${model.persistColorWhenThemeSwitches ? 'false': 'text' }" component="${model.componentName}" id="${model.id}" type="${model.buttonType}" data-model="${model.jsonString}"
-        class="${model.componentClassNames} ${model.variantClassNames}">
+    <button data-label="${model.label}" 
+      toggleTheme="${model.persistColorWhenThemeSwitches ? 'false': 'text' }"
+      component="${model.componentName}"
+      id="${model.id}"
+      type="${model.buttonType}"
+      data-actionType="${model.actionType}"
+      data-model="${model.jsonString}"
+      class="${model.componentClassNames} ${model.variantClassNames}">
         <sly data-sly-call="${icon @ model=model}" data-sly-test="${ model.showIcon && model.iconPosition== 'left' }">
         </sly>
         ${model.label}
