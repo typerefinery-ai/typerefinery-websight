@@ -116,17 +116,18 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
        // select all elements with the same id as targetId
        const elements = document.querySelectorAll(`#${targetId}`);
 
-       $(window)
-         .on("resize", function () {
-           if ($(this).width() > 1000) {
-             $(document).find(".collapse").removeClass("collapse");
-           } else {
-             elements.forEach((element) => {
-               element.classList.add("collapse");
-             });
-           }
-         })
-         .resize();
+      //FIXME: this needs to be converted to events
+      //  $(window)
+      //    .on("resize", function () {
+      //      if ($(this).width() > 1000) {
+      //        $(document).find(".collapse").removeClass("collapse");
+      //      } else {
+      //        elements.forEach((element) => {
+      //          element.classList.add("collapse");
+      //        });
+      //      }
+      //    })
+      //    .resize();
      };
 
     // local actions representing the form actions

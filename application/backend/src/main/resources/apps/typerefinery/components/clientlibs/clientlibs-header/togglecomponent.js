@@ -3,19 +3,26 @@ window.Typerefinery.ToggleComponent = Typerefinery.ToggleComponent || {};
 
 (function ($, ns, document, window) {
   ns.init = ($component, componentConfig) => {
-    // Updating the component with Bootstrap Attributes.
-    $component.attr("data-bs-toggle", "collapse");
+
+    console.group("ToggleComponent");
+    console.log(["config", componentConfig, $component]);
+
     $component.attr(
-      "data-bs-target",
+      "data-action-target",
       `${componentConfig.toggleTarget}`
     );
 
-    //Set class "collapse" to hide the elements intially, which need to be toggle.
-    const targetElement = document.querySelectorAll(
-      `${componentConfig.toggleTarget}`
-    );
-    targetElement.forEach((element) => {
-      element.classList.add("collapse");
+    console.log(["target", componentConfig.toggleTarget]);
+
+    $component.on("click", function () {
+      var targetElement = $(this).attr("data-action-target");
+      var $targetElement = $(targetElement);
+      console.log("ToggleComponent Clicked", $targetElement);
+      $targetElement.toggle();
+      $targetElement.focus();
     });
+
+    console.groupEnd();
+
   };
 })(jQuery, Typerefinery.ToggleComponent, document, window);
