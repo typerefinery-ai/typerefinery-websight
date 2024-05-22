@@ -7,6 +7,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.registery = {};
 
+    ns.CUSTOM_EVENT_NAME = "customEvent";
+
     // component event types
     ns.EVENT_TYPE_EMIT = "emit";
     ns.EVENT_TYPE_LISTEN = "listen";
@@ -118,8 +120,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.emitEvent = (topic, payload) => {
         console.group('emitEvent');
         console.log(["topic", topic, "payload", payload]);
-        const evt = document.createEvent('customEvent');
-        evt.initCustomEvent('customEvent', false, false, { topic, payload });
+        const evt = document.createEvent(ns.CUSTOM_EVENT_NAME);
+        evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
         ns.socket.dispatchEvent(evt);
         console.groupEnd();
     };
@@ -129,7 +131,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.socketListener = () => {
-        ns.socket.addEventListener('customEvent', (e) => {
+        ns.socket.addEventListener(ns.CUSTOM_EVENT_NAME, (e) => {
             const detail = e.detail;
             const { topic, payload } = detail;
 
