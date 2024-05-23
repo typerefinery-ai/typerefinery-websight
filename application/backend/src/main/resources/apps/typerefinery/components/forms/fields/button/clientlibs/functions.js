@@ -138,28 +138,32 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           case "action":
             //FIXME: need to convert these to events.
             switch (actionType) {
-              case "openModal":
-                modalNs.init($component, componentConfig);
-                break;
+              //NOTE: handled in on click.
+              // case "openModal":
+              //   modalNs.init($component, componentConfig);
+              //   initEvents = false;
+              //   break;
               case "openDropdown":
                 dropdownNs.init($component, componentConfig);
                 initEvents = false;
                 break;
               case "initialTheme":
                 themeNs.init($component, componentConfig);
+                initEvents = false;
                 break;
               case "toggleComponent":
                 toggleComponentNs.init($component, componentConfig);
+                initEvents = false;
                 break;
               default:
                 break;
             }
-            initEvents = false;
             break;
           default:
             break;
         }
 
+        console.log(["initEvents", initEvents]);
 
         if (initEvents) {
           console.log("adding event listeners");
