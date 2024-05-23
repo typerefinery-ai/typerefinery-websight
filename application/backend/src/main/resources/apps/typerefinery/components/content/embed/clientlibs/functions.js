@@ -28,7 +28,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // if autoResize is set to true, then register the autoResize event.
       const componentConfig = componentNs.getComponentConfig($component);
       if (componentConfig.autoResize) {
-        $iframe.on("load", function() {
+        $component.on("load", function() {
             ns.autoResize($component);
         });
       }
