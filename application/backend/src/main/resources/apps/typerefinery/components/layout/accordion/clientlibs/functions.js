@@ -91,6 +91,38 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const id = config;
       const $item = $component.find(`#${id}`);
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
+      const $itemButton = $item.find(ns.selectorButton);
+      const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
+      const $itemCollapse = $item.find(itemButtonTarget);
+      const itemDataParent = $itemCollapse.attr(ns.attributeParent);
+      
+      console.log(["$item", $item]);
+      console.log(["$itemContainer", $itemContainer]);
+      console.log(["$itemButton", $itemButton]);
+      console.log(["itemButtonTarget", itemButtonTarget]);
+      console.log(["$itemCollapse", $itemCollapse]);
+      console.log(["itemDataParent", itemDataParent]);
+
+      // if button is not aria-expanded then click it
+      const ariaExpanded = $itemButton.attr('aria-expanded');
+      console.log(["ariaExpanded", ariaExpanded]);
+      if (ariaExpanded === "false") {
+        $itemButton.click();
+      } else {
+        console.log("already open");
+      }
+
+      console.groupEnd();
+    }
+    
+    ns.closeItem = ($component, data) => {
+      console.group('openItem');
+      console.log(["openItem", $component, data]);
+
+      const { config } = data;
+      const id = config;
+      const $item = $component.find(`#${id}`);
+      const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
       const $itemCollapse = $itemContainer.find(itemButtonTarget);
@@ -103,13 +135,97 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log(["$itemCollapse", $itemCollapse]);
       console.log(["itemDataParent", itemDataParent]);
 
-      $itemButton.removeClass('collapsed');
-      $item.addClass('show');
+      // if button is not aria-expanded then click it
+      const ariaExpanded = $itemButton.attr('aria-expanded');
+      console.log(["ariaExpanded", ariaExpanded]);
+      if (ariaExpanded === "true") {
+        $itemButton.click();
+      } else {
+        console.log("already closed");
+      }
+
 
       console.groupEnd();
     }
 
-    ns.addNewItem = ($component, data) => {
+    ns.toggleItem = ($component, data) => {
+      console.group('openItem');
+      console.log(["openItem", $component, data]);
+
+      const { config } = data;
+      const id = config;
+      const $item = $component.find(`#${id}`);
+      const $itemContainer = $item.closest(ns.selectorAccordionItem);
+      const $itemButton = $itemContainer.find(ns.selectorButton);
+      const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
+      const $itemCollapse = $itemContainer.find(itemButtonTarget);
+      const itemDataParent = $itemCollapse.attr(ns.attributeParent);
+      
+      console.log(["$item", $item]);
+      console.log(["$itemContainer", $itemContainer]);
+      console.log(["$itemButton", $itemButton]);
+      console.log(["itemButtonTarget", itemButtonTarget]);
+      console.log(["$itemCollapse", $itemCollapse]);
+      console.log(["itemDataParent", itemDataParent]);
+
+      $itemButton.click();      
+
+      console.groupEnd();
+    }
+
+    
+    ns.showItem = ($component, data) => {
+      console.group('showItem');
+      console.log(["showItem", $component, data]);
+
+      const { config } = data;
+      const id = config;
+      const $item = $component.find(`#${id}`);
+      const $itemContainer = $item.closest(ns.selectorAccordionItem);
+      const $itemButton = $itemContainer.find(ns.selectorButton);
+      const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
+      const $itemCollapse = $itemContainer.find(itemButtonTarget);
+      const itemDataParent = $itemCollapse.attr(ns.attributeParent);
+      
+      console.log(["$item", $item]);
+      console.log(["$itemContainer", $itemContainer]);
+      console.log(["$itemButton", $itemButton]);
+      console.log(["itemButtonTarget", itemButtonTarget]);
+      console.log(["$itemCollapse", $itemCollapse]);
+      console.log(["itemDataParent", itemDataParent]);
+
+      $item.show();
+
+      console.groupEnd();
+    }
+
+    ns.hideItem = ($component, data) => {
+      console.group('hideItem');
+      console.log(["hideItem", $component, data]);
+
+      const { config } = data;
+      const id = config;
+      const $item = $component.find(`#${id}`);
+      const $itemContainer = $item.closest(ns.selectorAccordionItem);
+      const $itemButton = $itemContainer.find(ns.selectorButton);
+      const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
+      const $itemCollapse = $itemContainer.find(itemButtonTarget);
+      const itemDataParent = $itemCollapse.attr(ns.attributeParent);
+      
+      console.log(["$item", $item]);
+      console.log(["$itemContainer", $itemContainer]);
+      console.log(["$itemButton", $itemButton]);
+      console.log(["itemButtonTarget", itemButtonTarget]);
+      console.log(["$itemCollapse", $itemCollapse]);
+      console.log(["itemDataParent", itemDataParent]);
+
+      $item.hide();
+
+      console.groupEnd();
+    }
+
+    
+    ns.addNewItem = ($component, data, once) => {
       console.group('addNewItem');
 
       console.log(["addNewItem", $component, data]);
@@ -132,10 +248,25 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log('$template', $template);
       }
 
+      // get the template id if set
+      const templateId = $template.attr('id');
 
+      // if once check if template not already added
+      if (once && templateId !== undefined) {
+        const $templateExists = $component.find(`[templateId='${templateId}']`);
+        if ($templateExists.length > 0) {
+          console.log("template already used once");
+          ns.openItem($component, { config: $templateExists.attr('id') });
+          return;
+        }
+      }
+      
       var $newRow = $($template.html());
       const itemId = Math.random().toString(36).substring(2, 15);
 
+      if (once) {
+        $newRow.attr('templateId', templateId);  
+      }
       $newRow.attr('state', "new");
       $newRow.attr('id', itemId);
 
@@ -148,6 +279,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const $itemButton = $newRow.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget); //needs to be updated with new id
       const itemAriaControls = $itemButton.attr(ns.attributeAriaControls); //needs to be updated with new id
+      console.log('$itemButton', $itemButton);
       $itemButton.attr(ns.attributeTarget, `#${itemContentId}`);
       $itemButton.attr(ns.attributeAriaControls, itemContentId);
 
@@ -158,11 +290,26 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent); // is pointing to the parent, needs to be updated to current component
       $itemCollapse.attr(ns.attributeParent, `#${componentId}`);
 
+      const isExpanded = $itemButton.attr('aria-expanded');
+      if (isExpanded === "true") {
+        //remove show class
+        $itemCollapse.removeClass('show');
+        //remove aria-expanded
+        $itemButton.attr('aria-expanded', 'false');
+      }
+
       console.log('$newRow', $newRow);
 
+      //insert into accordion
       $internalTemplate.before($newRow);
-
+      
+      //raise event that item is added
       ns.ADD_ITEM($component, componentConfig, { type: "accordion", action: "add_item" , "id": itemId } );
+      
+      if (isExpanded === "true") {
+        //open the item
+        ns.openItem($component, { config: itemId });
+      }
 
       console.groupEnd();
     }
@@ -172,10 +319,25 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log(["handleEvent", $component, action, data]);
       //FIXME: execute the correct function based on action from current namespace
       if (action === "ADD_ITEM") {
-          ns.addNewItem($component, data);
+          ns.addNewItem($component, data, false);
+      }
+      if (action === "ADDONCE_ITEM") {
+          ns.addNewItem($component, data, true);
       }
       if (action === "OPEN_ITEM") {
           ns.openItem($component, data);
+      }
+      if (action === "CLOSE_ITEM") {
+          ns.closeItem($component, data);
+      }
+      if (action === "TOGGLE_ITEM") {
+          ns.toggleItem($component, data);
+      }
+      if (action === "SHOW_ITEM") {
+          ns.showItem($component, data);
+      }
+      if (action === "HIDE_ITEM") {
+          ns.hideItem($component, data);
       }
       console.groupEnd();
   }

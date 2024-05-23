@@ -11,19 +11,19 @@
     limitations under the License.
 */-->
 <sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.AccordionItem">
-  <div class="accordion-item"
+  <div id="${model.id}" component="${model.componentName}" class="accordion-item ${model.variantClassNames}"
     data-sly-set.parentid="#${resource.parent.id}"
     data-sly-set.expand="${wcmmode.isEdit || model.showopen}">
     <!-- wcmmode.isEdit ${wcmmode.isEdit}-->
     <!-- model.showopen ${model.showopen}-->
     <!-- expand ${expand}-->
     <h2 class="accordion-header">
-      <button class="accordion-button ${expand ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}" aria-expanded="${expand ? 'true' : 'false'}" aria-controls="${model.id}">
+      <button class="accordion-button ${expand ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}_content" aria-expanded="${expand ? 'true' : 'false'}" aria-controls="${model.id}_content">
         ${model.title}
       </button>
     </h2>
     <!-- expand ${expand}-->
-    <div id="${model.id}" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="${model.alwaysopen ? '' : parentid }">
+    <div id="${model.id}_content" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="${model.alwaysopen ? '' : parentid }">
       <div class="accordion-body">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
         </sly>
