@@ -130,19 +130,72 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         ns.socket = new EventTarget();
     };
 
-    ns.socketListener = () => {
-        ns.socket.addEventListener(ns.CUSTOM_EVENT_NAME, (e) => {
-            const detail = e.detail;
-            const { topic, payload } = detail;
+    ns.windowListener = function() {
+      console.log("windowListener added");
+      window.addEventListener('message', function(event) {  
+        console.group('windowListener');
+        console.log(["event", event]);
+        var eventData = event.data;
+        var sourceWindow = event.source;
+        var sourceOrigin = event.origin;
+        console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
+        // if (event.origin !== window.location.origin) {
+        //   console.error("origin not matched");
+        //   return;
+        // }
 
-            if (ns.registery[topic]) {
-                ns.registery[topic].forEach((callbackFn) => {
-                    if (typeof callbackFn === 'function') {
-                        callbackFn(payload);
-                    }
-                });
+        var sourceData;
+        if (eventData) {
+          if (typeof eventData === 'string') {
+            sourceData = JSON.parse( eventData );
+          }
+        }
+
+        console.log(["sourceData", sourceData]);
+
+        if (sourceData) {
+          const { action, payload } = sourceData;
+          console.log(["action", action, "payload", payload]);
+          console.log(["registery", ns.registery]);
+          console.log(["ns.registery action", ns.registery[action]]);
+
+
+          const eventPayloadData = ns.compileEventData(payload, action, sourceData.action, sourceData.componentId, sourceData.config);
+
+          console.log(["eventPayloadData", eventPayloadData]);
+          // ns.emitLocalEvent($component, componentConfig, ns.eventMap, data, action, action);
+          ns.emitEvent(action, eventPayloadData);
+          // if (ns.registery[action]) {
+          //   console.log("topic found", action);
+          //   ns.registery[action].forEach((callbackFn) => {
+          //     console.log("callbackFn", callbackFn);
+          //     if (typeof callbackFn === 'function') {
+          //       callbackFn(payload);
+          //     } 
+          //   });
+          // }
+        }
+        console.groupEnd();
+      });
+    };
+
+    ns.socketListener = () => {
+      console.log("socketListener added");
+      ns.socket.addEventListener(ns.CUSTOM_EVENT_NAME, (e) => {
+        console.group('socketListener');
+        const detail = e.detail;
+        const { topic, payload } = detail;
+        console.log(["topic", topic, "payload", payload]);
+        if (ns.registery[topic]) {
+          console.log("topic found", topic);
+          ns.registery[topic].forEach((callbackFn) => {
+            console.log("callbackFn", callbackFn);
+            if (typeof callbackFn === 'function') {
+              callbackFn(payload);
             }
-        });
+          });
+        }
+      });
     };
 
     ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction) => {
@@ -229,6 +282,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         // NOTE: socket in this ns is a custom event. It is not a websocket.
         ns.createWebSocketConnection();
         ns.socketListener();
+        ns.windowListener();
     };
 
     // document ready jquery
