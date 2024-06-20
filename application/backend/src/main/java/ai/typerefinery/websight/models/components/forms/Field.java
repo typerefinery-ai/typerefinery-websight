@@ -32,6 +32,7 @@ import lombok.Getter;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 
 @Model(adaptables = {
@@ -45,6 +46,12 @@ public class Field extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "field";
     protected static final String DEFAULT_MODULE = "field";
+
+    @Getter
+    protected String labelId = DEFAULT_ID;
+
+    @Getter
+    protected String fieldId = DEFAULT_ID;
 
     // authored flex toggle
     @Inject
@@ -72,6 +79,25 @@ public class Field extends BaseFormComponent {
         }
         // Default margin gap.
         grid.addClasses("mb-3");
+
+        if (this.resource != null) {
+            this.labelId = this.resource.getName();
+            this.fieldId = this.resource.getName();
+
+            if (this.resource.hasChildren()) {
+                this.resource.getChildren().forEach(child -> {
+                    String name = child.getName();
+                    if (name.equals("label")) {
+                        String id = child.getValueMap().get("id", "");
+                        this.labelId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                    } else if (name.equals("field")) {
+                        String id = child.getValueMap().get("id", "");
+                        this.fieldId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                    }
+                });
+            }
+
+        }
     }
 
 }

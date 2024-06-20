@@ -72,11 +72,18 @@ public class BaseFormComponent extends BaseComponent {
     @Getter
     @Default(booleanValues = false)
     protected Boolean disabled;
-    
+
+    @Getter
+    protected String parentFieldId;
+
 
     @Override
     @PostConstruct
     protected void init() {
+
+        // set default parent field id
+        this.parentFieldId = this.id;
+
         // check if selectors are present
         if (request != null && request.getRequestPathInfo() != null) {
             String selectors = request.getRequestPathInfo().getSelectorString();
@@ -84,10 +91,16 @@ public class BaseFormComponent extends BaseComponent {
                 String[] selectorArray = StringUtils.split(selectors, ".");
                 if (selectorArray.length >= 2) {
                     // check if id is present and update component id
-                    if (ArrayUtils.contains(selectorArray, "id")) {
+                    if (ArrayUtils.contains(selectorArray, "id")) { //overide id 
                         String value = selectorArray[ArrayUtils.indexOf(selectorArray, "id")+1];
                         if (StringUtils.isNotBlank(value)) {
                             this.id = value;
+                        }
+                    } 
+                    if (ArrayUtils.contains(selectorArray, "fid")) { //parent field id
+                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "fid")+1];
+                        if (StringUtils.isNotBlank(value)) {
+                            this.parentFieldId = value;
                         }
                     }
                 }
