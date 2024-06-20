@@ -8,6 +8,6 @@ window.Typerefinery.Components.Stix.Forms.Select = Typerefinery.Components.Stix.
     "use strict";
 
     //init and watch for new components
-    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}${ns.selectorInitNot}`, ns.init);
 
 })(jQuery, window.Typerefinery.Components.Stix.Forms.Select, window.Typerefinery.Components, document, window);

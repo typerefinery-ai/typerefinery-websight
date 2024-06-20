@@ -111,8 +111,19 @@ window.Typerefinery.Components.Stix.Forms.Select.Instances = Typerefinery.Compon
     ns.init = async ($component) => {
         console.group("select init");
         const componentConfig = componentNs.getComponentConfig($component);
+        console.log("componentConfig", componentConfig);
         if(componentConfig.multipleSelection) {
             $component.attr('multiple', 'true');
+        }
+
+        if (!componentConfig.id) {
+          console.log("$component",$component);
+          console.log("$component.html()",$component.html());
+          console.log("componentConfig",componentConfig);
+          console.log("componentConfig.id",componentConfig.id);
+          console.error("component id is required");
+          console.groupEnd();
+          return
         }
 
 
@@ -124,36 +135,70 @@ window.Typerefinery.Components.Stix.Forms.Select.Instances = Typerefinery.Compon
         const defaultSelectedOptions = ns.getDefaultOptionsSelected(componentConfig.defaultSelectedOptions);
 
         if(componentConfig.readOptionsFromDataSource) {
-          console.log("loading options from data source");
-          var optionsList = await ns.getOptionsFromDataSource(componentConfig);
-          console.log("data source list", optionsList);
-          ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
-          console.log($component.html());
+          console.log("loading options from data source", componentConfig.readOptionsFromDataSource);
+          console.groupEnd();
+          await ns.getOptionsFromDataSource(componentConfig).then((optionsList) => {
+
+            console.group("select init, resuming after loading options from data source");
+            console.log("componentConfig", componentConfig);
+            console.log("id", componentConfig.id);
+            console.log("data source list", optionsList);
+            ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
+            console.log($component.html());
+            console.log("loaded options");
+
+            console.log("init choices");
+            console.log("init choices for", $component.get(0));
+  
+            selectInstances[componentConfig.id] = new Choices($component.get(0), {
+                removeItemButton: true,
+                maxItemCount: componentConfig.maxSelection || -1,
+                allowHTML: false,
+                shouldSort: true,
+                loadingText: 'Loading...',
+                itemSelectText: 'Press to select',
+                uniqueItemText: 'Only unique values can be added',
+                addItemText: (value) => {
+                  return `Press Enter to add <b>"${value}"</b>`;
+                },
+            }); 
+            
+            console.groupEnd();
+
+          });
+          
         } else {
           console.log("loading options from config");
           if(componentConfig.selectOptions && Array.isArray(componentConfig.selectOptions)) {
             console.log("config options list", componentConfig.selectOptions)
             ns.addOptionsToSelect($component, defaultSelectedOptions, componentConfig.selectOptions, "value", "label");
           }
+          console.log("loaded options");
+
+          console.log("init choices");
+
+          if ($component.get(0)) {
+  
+            selectInstances[componentConfig.id] = new Choices($component.get(0), {
+                removeItemButton: true,
+                maxItemCount: componentConfig.maxSelection || -1,
+                allowHTML: false,
+                shouldSort: true,
+                loadingText: 'Loading...',
+                itemSelectText: 'Press to select',
+                uniqueItemText: 'Only unique values can be added',
+                addItemText: (value) => {
+                  return `Press Enter to add <b>"${value}"</b>`;
+                },
+            }); 
+
+          } else {
+            console.error("component not found");
+          }
+          
+          console.groupEnd();
         }
-        console.log("loaded options");
 
-        console.log("init choices");
-
-        selectInstances[componentConfig.id] = new Choices($component.get(0), {
-            removeItemButton: true,
-            maxItemCount: componentConfig.maxSelection || -1,
-            allowHTML: false,
-            shouldSort: true,
-            loadingText: 'Loading...',
-            itemSelectText: 'Press to select',
-            uniqueItemText: 'Only unique values can be added',
-            addItemText: (value) => {
-              return `Press Enter to add <b>"${value}"</b>`;
-            },
-        }); 
-        
-        console.groupEnd();
     }
 
 
