@@ -122,36 +122,57 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         const defaultSelectedOptions = ns.getDefaultOptionsSelected(componentConfig.defaultSelectedOptions);
 
         if(componentConfig.readOptionsFromDataSource) {
-          console.log("loading options from data source");
+          console.log("loading options from data source, wait for response");
+          console.groupEnd();
           var optionsList = await ns.getOptionsFromDataSource(componentConfig);
+          console.group("select init, resume after response from data source");
           console.log("data source list", optionsList);
           ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
           console.log($component.html());
+          console.log("loaded options");
+
+          console.log("init choices");
+
+          selectInstances[componentConfig.id] = new Choices($component.get(0), {
+              removeItemButton: true,
+              maxItemCount: componentConfig.maxSelection || -1,
+              allowHTML: false,
+              shouldSort: true,
+              loadingText: 'Loading...',
+              itemSelectText: 'Press to select',
+              uniqueItemText: 'Only unique values can be added',
+              addItemText: (value) => {
+                return `Press Enter to add <b>"${value}"</b>`;
+              },
+          }); 
+          console.groupEnd();
         } else {
           console.log("loading options from config");
+          
           if(componentConfig.selectOptions && Array.isArray(componentConfig.selectOptions)) {
             console.log("config options list", componentConfig.selectOptions)
             ns.addOptionsToSelect($component, defaultSelectedOptions, componentConfig.selectOptions, "value", "label");
           }
+          console.log("loaded options");
+
+          console.log("init choices");
+
+          selectInstances[componentConfig.id] = new Choices($component.get(0), {
+              removeItemButton: true,
+              maxItemCount: componentConfig.maxSelection || -1,
+              allowHTML: false,
+              shouldSort: true,
+              loadingText: 'Loading...',
+              itemSelectText: 'Press to select',
+              uniqueItemText: 'Only unique values can be added',
+              addItemText: (value) => {
+                return `Press Enter to add <b>"${value}"</b>`;
+              },
+          }); 
+          
+          console.groupEnd();
         }
-        console.log("loaded options");
-
-        console.log("init choices");
-
-        selectInstances[componentConfig.id] = new Choices($component.get(0), {
-            removeItemButton: true,
-            maxItemCount: componentConfig.maxSelection || -1,
-            allowHTML: false,
-            shouldSort: true,
-            loadingText: 'Loading...',
-            itemSelectText: 'Press to select',
-            uniqueItemText: 'Only unique values can be added',
-            addItemText: (value) => {
-              return `Press Enter to add <b>"${value}"</b>`;
-            },
-        }); 
         
-        console.groupEnd();
     }
 
 })(jQuery, Typerefinery.Components.Forms.Select, Typerefinery.Components, Typerefinery.Components.Forms.Select.Instances, window, document);
