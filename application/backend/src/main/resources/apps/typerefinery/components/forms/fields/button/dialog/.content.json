@@ -368,32 +368,32 @@
         },
         "warning": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Warning Button",
+          "label": "Warning",
           "value": "warning"
         },
         "danger": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Danger Button",
+          "label": "Danger",
           "value": "danger"
         },
         "info": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Info Button",
+          "label": "Info",
           "value": "info"
         },
         "dark": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Dark Button",
+          "label": "Dark",
           "value": "dark"
         },
         "gray": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Gray Button",
+          "label": "Gray",
           "value": "light"
         },
         "link": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Link Button",
+          "label": "Link",
           "value": "text"
         }
       },
