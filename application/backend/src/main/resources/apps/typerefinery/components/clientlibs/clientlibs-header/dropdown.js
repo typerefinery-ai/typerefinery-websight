@@ -30,20 +30,20 @@ Typerefinery.Modal = Typerefinery.Modal || {};
         $component.attr("data-bs-toggle", "dropdown");
         $component.attr("type", "button");
         $component.attr("aria-expanded", "false");
-        const buttonId = $component.asttr("id");
+        const buttonId = $component.attr("id");
 
 
         // Dropdown Container with default Attributes
-        const newDropdownContainer = document.createElement("div");
-        newDropdownContainer.attr("class", "dropdown-menu dropdownMenu");
-        newDropdownContainer.attr("aria-labelledby", buttonId);
+        const $newDropdownContainer = $("<div></div>");
+        $newDropdownContainer.attr("class", "dropdown-menu dropdownMenu");
+        $newDropdownContainer.attr("aria-labelledby", buttonId);
 
 
         const { dropdownItems } = componentConfig;
 
-        newDropdownContainer.innerHTML = ns.getDropdownInnerHTML(dropdownItems);
+        $newDropdownContainer.html(ns.getDropdownInnerHTML(dropdownItems));
 
-        $component.parentNode.appendChild(newDropdownContainer);
+        $component.add($newDropdownContainer);
 
     };
 
