@@ -38,6 +38,7 @@ public class BaseFormComponent extends BaseComponent {
 
     public static final String PROPERTY_NAME = "name";
     public static final String PROPERTY_LABEL = "label";
+    public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_VALUE = "value";
     public static final String PROPERTY_PLACEHOLDER = "placeholder";
 
@@ -55,6 +56,12 @@ public class BaseFormComponent extends BaseComponent {
     @Named(PROPERTY_LABEL)
     @Nullable
     protected String label;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE)
+    @Nullable
+    protected String title;
     
     @Inject
     @Getter

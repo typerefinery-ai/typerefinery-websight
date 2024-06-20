@@ -19,6 +19,10 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
+      "fieldTitle": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldTitle"
+      },
       "buttonType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonType",
