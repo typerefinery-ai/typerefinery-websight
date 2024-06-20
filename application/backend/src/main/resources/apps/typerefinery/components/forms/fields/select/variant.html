@@ -15,13 +15,16 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
   <select 
-    isInput="select"
-    name="${model.name}"
-    class="${model.variantClassNames} form-control" 
-    id="${model.id}" 
-    data-model="${model.jsonString}"
     component="${model.componentName}"
+    isInput="true"
+    id="${model.id}" 
+    type="${model.inputType}"
+    name="${model.name}"
+    data-fieldId="${model.parentFieldId}" 
     placeholder="${model.placeholder}"
+    class="${model.variantClassNames} form-control" 
+    required="${model.validationRequired}"
+    data-model="${model.jsonString}"
     disabled="${model.disabled}"
   >
   </select>

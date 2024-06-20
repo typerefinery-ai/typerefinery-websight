@@ -17,13 +17,14 @@
   <input 
     component="${model.componentName}"
     isInput="true"
-    id="${model.id}" 
+    id="${model.id}"
     type="${model.inputType}"
     name="${model.name}"
-    data-fieldId="${model.id}-${model.name}" 
-    placeholder="${model.placeholder}" 
+    data-fieldId="${model.parentFieldId}"
+    placeholder="${model.placeholder}"
     class=" ${model.variantClassNames}"
     required="${model.validationRequired}"
+    autocomplete="${model.autocomplete}"
     data-inputmask = " 'mask' : '${model.validationInputMask}'"
     disabled="${model.disabled}"
   />
