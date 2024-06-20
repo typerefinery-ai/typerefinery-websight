@@ -24,6 +24,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         });      
     }
 
+    ns.sendMessage = function($component, data) {
+      console.log(["sendMessage", data]);
+      var $iframe = $component.find("iframe");
+      var iframe = $iframe[0];
+      iframe.contentWindow.postMessage(data, "*");
+    }
+
     ns.autoLoad = ($component) => {
       // if autoResize is set to true, then register the autoResize event.
       const componentConfig = componentNs.getComponentConfig($component);
