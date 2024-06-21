@@ -32,11 +32,16 @@ window.MessageService.Client = MessageService.Client || {};
       },
     }
 
-    function init() {
+    ns.init = function() {     
+      console.group("tms init");
+
+      //generate client id
       ns.client_id = Date.now()
 
       // output id to page
       ns.events.emit(ns.events.CLIENT_ID, ns.client_id)
+
+      console.groupEnd();
     }
 
     //get metadata field messagehost
@@ -229,6 +234,6 @@ window.MessageService.Client = MessageService.Client || {};
       }
     }
 
-    init();
+    ns.init();
 
   })(jQuery, window.MessageService.Client, window.JSONSchemas, document, window);

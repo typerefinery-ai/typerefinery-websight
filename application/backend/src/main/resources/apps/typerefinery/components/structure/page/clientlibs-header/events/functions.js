@@ -279,10 +279,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 
     ns.init = () => {
+
+        console.group("events init");
+
         // NOTE: socket in this ns is a custom event. It is not a websocket.
         ns.createWebSocketConnection();
         ns.socketListener();
         ns.windowListener();
+
+        console.groupEnd();
     };
 
     // document ready jquery

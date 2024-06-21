@@ -146,7 +146,12 @@ window.Typerefinery.Components.Widgets.Chart.Instances = Typerefinery.Components
   };
 
   ns.init = ($component, componentConfig) => {
+
+    console.group("theme init");
+
     ns.setInitialTheme(componentConfig);
     ns.attachEventListener($component, componentConfig);
+
+    console.groupEnd();
   };
 })(jQuery, Typerefinery.Page.Theme, Typerefinery.Components.Widgets.Chart.Instances, document, window);

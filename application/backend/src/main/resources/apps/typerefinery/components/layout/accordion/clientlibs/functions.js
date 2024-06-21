@@ -233,14 +233,33 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const componentId = $component.attr('id');
       const componentConfig = componentNs.getComponentConfig($component);
 
-      //default template
-      const $internalTemplate = $component.find(ns.selectorTemplate);
+      let $internalTemplate = $component.find(ns.selectorTemplate);
+      const { config } = data;
+      console.log('config', config);
+      if (config) {
+        //if config starts with # then its a selector
+        if (config.startsWith("#")) {
+          console.log(`config is a selectot for template, looking up template by selector ${ns.selectorTemplate + config}`);
+          const $templateById = $component.find(ns.selectorTemplate + config);
+          if ($templateById.length === 0) {
+            console.error("template not found by id");
+          } else {
+            console.log("template found by id", $templateById);
+            $internalTemplate = $templateById.first();
+          }
+        }
+      }
+
+      if ($internalTemplate.length > 1) {
+        console.log("more than one template found, using first one");
+        $internalTemplate = $internalTemplate.first();
+      }
+
+      //default template      
       let $template = $internalTemplate;
 
       console.log('$template', $template);
 
-      const { config } = data;
-      console.log('config', config);
 
       if (config) {
         const $externalTemplate = $(config);
