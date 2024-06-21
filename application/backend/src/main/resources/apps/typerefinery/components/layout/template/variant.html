@@ -20,7 +20,10 @@
     id="${model.id}"
     name="${model.name}"
     >
-    <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle} Start (${model.id})</div>
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Start (', model.id ,')'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+      
     <sly data-sly-test="${resource.hasChildren}">
       <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </sly>
@@ -29,6 +32,8 @@
         data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
       </sly>
     </sly>
-    <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle} End (${model.id})</div>
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - End (', model.id ,')'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
   </template>
 </template>

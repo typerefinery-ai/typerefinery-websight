@@ -31,7 +31,9 @@
           data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
         </sly>
 
-        <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle}</div>
+        <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+          data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - (', model.title ,')'] @ join=''}"
+          data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
       </div>
     </div>
   </div>

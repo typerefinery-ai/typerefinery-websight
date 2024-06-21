@@ -33,5 +33,8 @@
   <div template>
     <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
   </div>
-  <div data-sly-test="${wcmmode.isEdit}" component="${model.componentTitle}" style="--bs-bg-opacity: .5;" class="bg-warning ${model.componentClassNames}">${model.componentTitle}</div>
+  <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+    data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - (', model.name ,')'] @ join=''}"
+    data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+
 </template>
