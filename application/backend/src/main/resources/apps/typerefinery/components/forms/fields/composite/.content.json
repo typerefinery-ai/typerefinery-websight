@@ -5,6 +5,9 @@
   "description": "This is Composite field returning JSON of its values",
   "title": "Composite",
   "allowedComponents": [
-    "Typerefinery - Forms"
+    "Typerefinery - Forms",
+    "Typerefinery - Forms - Stix - Input",
+    "Typerefinery - Forms - Stix - Select",
+    "Typerefinery - Forms - Stix - Composite"
   ]
 }

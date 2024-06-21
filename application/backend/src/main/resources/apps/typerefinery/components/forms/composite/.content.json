@@ -7,6 +7,9 @@
   "title": "Composite Field",
   "sling:resourceSuperType": "typerefinery/components/forms/field",
   "allowedComponents": [
-    "Typerefinery - Forms"
+    "Typerefinery - Forms",
+    "Typerefinery - Forms - Stix - Input",
+    "Typerefinery - Forms - Stix - Select",
+    "Typerefinery - Forms - Stix - Composite"
   ]
 }
