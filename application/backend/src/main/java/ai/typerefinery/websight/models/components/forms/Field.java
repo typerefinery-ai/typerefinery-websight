@@ -51,7 +51,14 @@ public class Field extends BaseFormComponent {
     protected String labelId = DEFAULT_ID;
 
     @Getter
+    protected boolean labelHidden = true; //hidden untill we find it as a child
+
+    @Getter
     protected String fieldId = DEFAULT_ID;
+
+    @Getter
+    protected boolean fieldHidden = true; //hidden untill we find it as a child
+
 
     // authored flex toggle
     @Inject
@@ -90,9 +97,11 @@ public class Field extends BaseFormComponent {
                     if (name.equals("label")) {
                         String id = child.getValueMap().get("id", "");
                         this.labelId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.labelHidden = false;
                     } else if (name.equals("field")) {
                         String id = child.getValueMap().get("id", "");
                         this.fieldId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.fieldHidden = false;
                     }
                 });
             }
