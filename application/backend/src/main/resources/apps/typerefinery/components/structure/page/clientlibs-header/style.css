@@ -67,3 +67,7 @@ body {
 body:not(.isEditMode) .hidden {
   display: none;
 }
+
+[component="editinfobadge"] {
+  --bs-bg-opacity: .5;
+}
