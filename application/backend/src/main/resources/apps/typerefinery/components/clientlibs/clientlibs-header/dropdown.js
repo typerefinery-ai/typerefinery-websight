@@ -25,6 +25,7 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.init = ($component, componentConfig) => {
 
+        console.group("dropdown init");
         
         // Updating the component with Bootstrap Attributes.
         $component.attr("data-bs-toggle", "dropdown");
@@ -41,9 +42,17 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 
         const { dropdownItems } = componentConfig;
 
-        $newDropdownContainer.html(ns.getDropdownInnerHTML(dropdownItems));
+        if (!dropdownItems || dropdownItems.length === 0) {
+            console.error("not dropdown items provided in component config.");
+        } else {
 
+          $newDropdownContainer.html(ns.getDropdownInnerHTML(dropdownItems));
+          
+        }
+        
         $component.add($newDropdownContainer);
+
+        console.groupEnd();
 
     };
 
