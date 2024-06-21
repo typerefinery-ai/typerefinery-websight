@@ -13,6 +13,10 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/placeholder"
       },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldValue"
+      },      
       "inputType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputType",

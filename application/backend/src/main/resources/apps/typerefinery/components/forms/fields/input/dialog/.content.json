@@ -13,6 +13,10 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/placeholder"
       },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldValue"
+      },
       "inputType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "inputType",
@@ -52,10 +56,15 @@
           "label": "Date",
           "value": "date"
         },
-        "time": {
+        "hidden": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Time",
           "value": "time"
+        },
+        "time": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Hidden (but, visible in edit mode)",
+          "value": "hidden"
         }
       }
     },
