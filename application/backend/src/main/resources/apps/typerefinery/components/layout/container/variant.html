@@ -28,6 +28,9 @@
     <!--${model.componentName} inherited start ${model.inheritedResource.path}-->
     ${model.inheritedHtml @ context='unsafe'}
     <!--${model.componentName} inherited end ${model.inheritedResource.path}-->
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Inherited (', model.inheritedResource.path, ')'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
   </sly>
 
   <!--/* Normal print of component */-->
@@ -44,10 +47,11 @@
       data-sly-test="${resource.hasChildren}">
         <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
     </div>
-    <sly data-sly-test="${!resource.hasChildren}">
-      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
-      </sly>
+    <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+      data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
     </sly>
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Not Inherited'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
   </sly>
 </template>
