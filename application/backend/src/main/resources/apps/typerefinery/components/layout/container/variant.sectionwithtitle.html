@@ -31,10 +31,16 @@
     </header>
     <div class="${model.classNamesForChildren}">
       <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+
+      <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+        data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+      </sly>
+
+      <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+        data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+        data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+
     </div>
-    
+
   </div>
-  <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-    data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
-  </sly>
 </template>
