@@ -1,7 +1,7 @@
-.label {
-    margin-left: 10px;
-}
 
+
+/* form/compoisite */
+/* composite field add hint to field */
 .fieldhint {
   top: 10px;
   z-index: 999;
@@ -12,4 +12,10 @@
   align-self: end;
   position: relative;
   float:inline-end;
+}
+
+/* form/field */
+/* hide field container with hidden input of type hidden */
+field:has(> div > input[type=hidden]) {
+  display: none;
 }
