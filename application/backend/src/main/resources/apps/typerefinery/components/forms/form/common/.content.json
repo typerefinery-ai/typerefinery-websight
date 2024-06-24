@@ -20,8 +20,8 @@
   "fieldValue": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "value",
-    "label": "value",
-    "description": "Component value"
+    "label": "Default Value",
+    "description": "Default value for the field."
   },
   "placeholder": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
