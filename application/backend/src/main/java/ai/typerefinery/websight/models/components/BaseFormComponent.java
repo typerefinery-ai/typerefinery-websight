@@ -99,15 +99,21 @@ public class BaseFormComponent extends BaseComponent {
                 if (selectorArray.length >= 2) {
                     // check if id is present and update component id
                     if (ArrayUtils.contains(selectorArray, "id")) { //overide id 
-                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "id")+1];
-                        if (StringUtils.isNotBlank(value)) {
-                            this.id = value;
+                        int valueIndex = ArrayUtils.indexOf(selectorArray, "id")+1;
+                        if (valueIndex < selectorArray.length) {
+                            String value = selectorArray[valueIndex];
+                            if (StringUtils.isNotBlank(value)) {
+                                this.id = value;
+                            }
                         }
                     } 
                     if (ArrayUtils.contains(selectorArray, "fid")) { //parent field id
-                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "fid")+1];
-                        if (StringUtils.isNotBlank(value)) {
-                            this.parentFieldId = value;
+                        int valueIndex = ArrayUtils.indexOf(selectorArray, "fid")+1;
+                        if (valueIndex < selectorArray.length) {
+                            String value = selectorArray[valueIndex];
+                            if (StringUtils.isNotBlank(value)) {
+                                this.parentFieldId = value;
+                            }
                         }
                     }
                 }

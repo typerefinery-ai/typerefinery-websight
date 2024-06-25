@@ -80,12 +80,14 @@ public class Label extends BaseFormComponent {
                 if (selectorArray.length >= 2) {
                     // check if id is present and update component id
                     if (ArrayUtils.contains(selectorArray, "for")) {
-                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "for")+1];
-                        if (StringUtils.isNotBlank(value)) {
-                            this.forId = value;
+                        int valueIndex = ArrayUtils.indexOf(selectorArray, "for") + 1;
+                        if (valueIndex < selectorArray.length) {
+                            String value = selectorArray[valueIndex];
+                            if (StringUtils.isNotBlank(value)) {
+                                this.forId = value;
+                            }
                         }
-                    }
-                    
+                    }                    
                 }
             }
         }
