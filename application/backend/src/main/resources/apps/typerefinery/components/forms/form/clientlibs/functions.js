@@ -253,9 +253,16 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         const componentConfig = componentNs.getComponentConfig($component);
         console.log(["formSubmitHandler", componentConfig, $component])
         let { writePayloadType, writeMethod, writeUrl } = componentConfig;
-        if (!writePayloadType || !writeMethod || !writeUrl) {
-            ns.FORM_CANCEL({data: payload, reason: "Form has not been configured properly."});
-            console.log("Author should fill all the parameters.");
+        if (!writeUrl) {
+          ns.FORM_CANCEL({data: componentConfig, reason: "Form has not been configured properly."});
+          console.log("Post URL not set can't continue.");
+          return;
+        }
+        //do default JSON and POST if not set
+        if (!writePayloadType || !writeMethod ) {
+            writePayloadType = "application/json";
+            writeMethod = "POST";
+            console.log("Payload type or method not set, defaulting to JSON and POST.");
             return;
         }
         const payload = await ns.getFormData($component);
