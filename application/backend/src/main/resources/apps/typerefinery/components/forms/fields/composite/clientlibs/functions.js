@@ -36,8 +36,8 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       console.group('compositeVal');
       const type = this.attr('type') || ns.selectorTypeField;
       const isList = type === ns.selectorTypeList;
-      console.group("type", type);
-      console.group("isList", isList);
+      console.log("type", type);
+      console.log("isList", isList);
 
       if (!isList) {
         //get all immediate isCompositeParent components
