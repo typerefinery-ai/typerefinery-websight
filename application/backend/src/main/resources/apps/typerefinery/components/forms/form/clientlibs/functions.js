@@ -154,7 +154,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
     };
 
     // submit the request to the server
-    ns.submit = async (url, method, payloadType, body, successCallback = () => { }, errorCallback = () => { }) => {
+    ns.submit = async ($component, componentConfig, url, method, payloadType, body, successCallback = () => { }, errorCallback = () => { }) => {
         console.group("submit");
         console.log([url, method, payloadType, body])
         let controller = new AbortController();
@@ -173,7 +173,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           .then(res => {
             console.group("submit response");
             console.log(res)
-            successCallback({
+            successCallback($component, componentConfig, {
               url: url, 
               method: method, 
               payloadType: payloadType, 
@@ -185,7 +185,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         } catch (error) {
             console.group("Error in submitting the request");
             console.error(error);
-            errorCallback({
+            errorCallback($component, componentConfig, {
               url: url, 
               method: method, 
               payloadType: payloadType, 
@@ -201,39 +201,57 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // local actions representing the form actions
     ns.FORM_SUCCESS = ($component, componentConfig, formData) => {
+      console.group("FORM_SUCCESS");
+      console.log(["FORM_SUCCESS", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
+      console.groupEnd();
     }
     ns.FORM_ERROR = ($component, componentConfig, formData) => {
+      console.log("FORM_ERROR");
+      console.log(["FORM_ERROR", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
+      console.groupEnd();
     }
     ns.FORM_SUBMIT = ($component, componentConfig, formData) => {
+      console.log("FORM_SUBMIT");
+      console.log(["FORM_SUBMIT", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUBMIT_ACTION, "FORM_SUBMIT");
+      console.groupEnd();
     }
     ns.FORM_CANCEL = ($component, componentConfig, formData) => {
+      console.log("FORM_CANCEL");
+      console.log(["FORM_CANCEL", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_CANCEL_ACTION, "FORM_CANCEL");
+      console.groupEnd();
     }
     ns.FORM_RESET = ($component, componentConfig, formData) => {
+      console.log("FORM_RESET");
+      console.log(["FORM_RESET", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_RESET_ACTION, "FORM_RESET");
+      console.groupEnd();
     }
     ns.FORM_LOADED = ($component, componentConfig, formData) => {
+      console.log("FORM_LOADED");
+      console.log(["FORM_LOADED", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_READ_ACTION, "FORM_LOADED");
+      console.groupEnd();
     }
 
     // json form post
-    ns.jsonRequest = async (url, componentConfig, payload) => {
+    ns.jsonRequest = async (url, componentConfig, payload, $component) => {
         const { writePayloadType, writeMethod } = componentConfig;
-        ns.FORM_SUBMIT(payload);
-        await ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.FORM_SUCCESS, ns.FORM_ERROR);
+        ns.FORM_SUBMIT($component, componentConfig, payload);
+        await ns.submit($component, componentConfig, url, writeMethod, writePayloadType, JSON.stringify(payload), ns.FORM_SUCCESS, ns.FORM_ERROR);
     };
     //plain form post
-    ns.formRequest = async (url, componentConfig, payload) => {
+    ns.formRequest = async (url, componentConfig, payload, $component) => {
         const { writePayloadType, writeMethod } = componentConfig;
         const formData = new URLSearchParams();
         Object.entries(payload).map(item => {
             formData.append(item[0], item[1])
         });
-        ns.FORM_SUBMIT(formData);
-        await ns.submit(url, writeMethod, writePayloadType, formData.toString(), ns.FORM_SUCCESS, ns.FORM_ERROR);
+        ns.FORM_SUBMIT($component, componentConfig, formData);
+        await ns.submit($component, componentConfig, url, writeMethod, writePayloadType, formData.toString(), ns.FORM_SUCCESS, ns.FORM_ERROR);
     };
 
     // update the button state to loading or completed.
@@ -254,7 +272,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         console.log(["formSubmitHandler", componentConfig, $component])
         let { writePayloadType, writeMethod, writeUrl } = componentConfig;
         if (!writeUrl) {
-          ns.FORM_CANCEL({data: componentConfig, reason: "Form has not been configured properly."});
+          ns.FORM_CANCEL($component, componentConfig, {data: componentConfig, reason: "Form has not been configured properly."});
           console.log("Post URL not set can't continue.");
           return;
         }
@@ -272,9 +290,9 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());
 
         if (writePayloadType === "application/json") {
-            await ns.jsonRequest(writeUrl, componentConfig, payload);
+            await ns.jsonRequest(writeUrl, componentConfig, payload, $component);
         } else if (writePayloadType === "application/x-www-form-urlencoded") {
-            await ns.formRequest(writeUrl, componentConfig, payload);
+            await ns.formRequest(writeUrl, componentConfig, payload, $component);
         }
         ns.updateButtonState($component, "completed");
     };
@@ -402,7 +420,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           });
 
           // emit event to notify the form is loaded
-          ns.FORM_LOADED($component, componentConfig, data);
+          ns.FORM_LOADED($component, componentConfig, data, $component);
 
         } catch (error) {
             console.log("Error loading data into form");
