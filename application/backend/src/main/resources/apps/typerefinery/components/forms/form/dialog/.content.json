@@ -17,22 +17,12 @@
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Events",
       "warning": {
-        "sling:resourceType": "typerefinery/components/dialog/label",
-        "ws:disallowedContext": ["edit:dialog"],
-        "appearance": "error",
-        "iconLabel": "Open Dialog",
-        "title": "Some fields are not editable in side-panel.",
-        "secondaryText": "",
-        "placement": "bottom-start"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
       },
       "info": {
-        "sling:resourceType": "typerefinery/components/dialog/label",
-        "ws:disallowedContext": ["edit:panel"],
-        "appearance": "info",
-        "iconLabel": "Info",
-        "title": "Map component actions to events, this allows you to respond to component actions in other components.",
-        "secondaryText": "",
-        "placement": "bottom-start"
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
       },
       "event": {
         "sling:resourceType": "wcm/dialogs/components/multifield",
@@ -41,28 +31,12 @@
         "description": "Pick generic event or specify custom event to which component action will be mapped.",
         "label": "Events",
         "topic": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "topic",
-          "label": "Topic",
-          "description": "The topic of the event, default is component id."
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
         },
         "type": {
-          "sling:resourceType": "wcm/dialogs/components/select",
-          "name": "type",
-          "label": "Event Type",
-          "description": "How will the component interact with the event system.",
-          "listen": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Listen",
-            "value": "listen",
-            "selected": true
-          },
-          "emit": {
-            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "Emit",
-            "value": "emit",
-            "selected": true
-          }
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
         },
         "eventAction": {
           "sling:resourceType": "typerefinery/components/dialog/eventactions",
@@ -71,113 +45,16 @@
           "description": "Which component action to map to event."
         },
         "eventName": {
-          "sling:resourceType": "typerefinery/components/dialog/select",
-          "name": "name",
-          "allowCreate": true,
-          "label": "Event Name",
-          "description": "Event Name of the even raised by the component",
-          "default": {
-            "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
-            "label": "Default",
-            "default": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Custom",
-              "value": ""
-            }
-          },
-          "componentcrud": {
-            "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
-            "label": "Component",
-            "create": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Create",
-              "value": "createaction"
-            },
-            "read": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Read",
-              "value": "readaction"
-            },
-            "update": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Update",
-              "value": "updateaction"
-            },
-            "delete": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Delete",
-              "value": "deleteaction"
-            },
-            "filter": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Filter",
-              "value": "filteraction"
-            }
-          },
-          "generic": {
-            "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
-            "label": "Generic",
-            "success": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Success",
-              "value": "successaction"
-            },
-            "cancel": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Cancel",
-              "value": "cancelaction"
-            },
-            "reset": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Reset",
-              "value": "resetaction"
-            },
-            "submit": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Submit",
-              "value": "submitaction"
-            },
-            "error": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Error",
-              "value": "erroraction"
-            }
-          },
-          "itemcrud": {
-            "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
-            "label": "Item",
-            "create": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Create",
-              "value": "createitem"
-            },
-            "read": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Read",
-              "value": "readitem"
-            },
-            "update": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Update",
-              "value": "updateitem"
-            },
-            "delete": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Delete",
-              "value": "deleteitem"
-            },
-            "seelect": {
-              "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-              "label": "Select",
-              "value": "selectitem"
-            }
-          }
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
         },
         "eventNameCustom": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
-          "name": "nameCustom",
-          "label": "Custom Event Name",
-          "description": "Custom Event Name of the even raised by the component"
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
         }
       }
     },

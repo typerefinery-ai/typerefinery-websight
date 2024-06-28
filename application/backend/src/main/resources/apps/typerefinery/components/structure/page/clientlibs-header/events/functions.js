@@ -63,7 +63,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     //add event mapping in eventMap local to component, maps component action to topic with event, for quick access by functions.
     ns.registerEventActionMapping = function(eventMap, componentId, topic, type, componentAction, eventName, config) {
       console.group('registerEventActionMapping');
-      console.log(eventMap, topic, type, componentAction, eventName, config);
+      console.log(eventMap, componentId, topic, type, componentAction, eventName, config);
       //check if params are passed
       if (!topic || !componentAction || !eventMap) {
         console.error("missing params");
@@ -87,19 +87,19 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //init event type, EMIT or LISTEN
       if (!eventMap[type]) {
         eventMap[type] = {};
-        console.warn(`event type not found ${type}, creating new type ${type}`);
+        console.warn(`event type not found ${type} in eventMap, creating new type ${type}`);
       }
 
       //init component action that maps to event name
       if (!eventMap[type][componentAction]) {
         eventMap[type][componentAction] = {};
-        console.warn(`event action not found ${componentAction}, creating new action ${componentAction}`);
+        console.warn(`event action not found ${componentAction} in eventMap[${type}], creating new action ${componentAction}`);
       } 
 
       //init mapped event name to component id
       if (!eventMap[type][componentAction][componentId]) {
         eventMap[type][componentAction][componentId] = {};
-        console.warn(`component id not found ${componentId}, creating new component id ${componentId}`);
+        console.warn(`component id not found ${componentId} in eventMap[${type}][${componentAction}], creating new component id ${componentId}`);
       }
 
       console.log(["topicAction", topicAction]);
@@ -107,7 +107,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //init mapped event name that maps to topic
       if (!eventMap[type][componentAction][componentId][eventName]) {
         eventMap[type][componentAction][componentId][eventName] = [topicAction];
-        console.warn(`event name not found ${eventName}, creating new event name with topic ${topic}`);
+        console.warn(`event name not found ${eventName} in eventMap[${type}][${componentAction}][${componentId}], creating new event name with topic ${topic}`);
       } else {
         //add event to type
         eventMap[type][componentAction][componentId][eventName].push(topicAction);

@@ -501,7 +501,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       //register events
       if (events) {        
         events.forEach(event => {
-          const { topic, type, name, nameCustom, action } = event;
+          const { topic, type, name, nameCustom, action, config} = event;
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
           // if type is not defined then its emitted
@@ -511,7 +511,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           let eventName = nameCustom || name;
 
           console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
-          eventNs.registerEventActionMapping(ns.eventMap, topicName, typeName, action, eventName);
+          eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
           console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
 
           // if event type is listen then add event listener for the event

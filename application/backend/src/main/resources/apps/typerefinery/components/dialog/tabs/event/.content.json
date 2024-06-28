@@ -12,6 +12,7 @@
   },
   "info": {
     "sling:resourceType": "typerefinery/components/dialog/label",
+    "ws:disallowedContext": ["edit:panel"],
     "appearance": "info",
     "iconLabel": "Info",
     "title": "Map component actions to events, this allows you to respond to component actions in other components.",
@@ -105,6 +106,21 @@
           "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
           "label": "Success",
           "value": "successaction"
+        },
+        "cancel": {
+          "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+          "label": "Cancel",
+          "value": "cancelaction"
+        },
+        "reset": {
+          "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+          "label": "Reset",
+          "value": "resetaction"
+        },
+        "submit": {
+          "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+          "label": "Submit",
+          "value": "submitaction"
         },
         "error": {
           "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
