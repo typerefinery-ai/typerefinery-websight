@@ -10,7 +10,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.selectorComponent = '[component=accordion]';
     ns.selectorTemplate = "> template";
     ns.selectorButton = 'button.accordion-button';
-    ns.selectorAccordionItem = "accordion-item";
+    ns.selectorAccordionItem = ".accordion-item";
     ns.attributeTarget = "data-bs-target";
     ns.attributeParent = "data-bs-parent";
     ns.attributeAriaControls = "aria-controls";
@@ -97,11 +97,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
-      console.log(["$itemContainer", $itemContainer]);
-      console.log(["$itemButton", $itemButton]);
-      console.log(["itemButtonTarget", itemButtonTarget]);
-      console.log(["$itemCollapse", $itemCollapse]);
-      console.log(["itemDataParent", itemDataParent]);
+      console.log(["$itemContainer", ns.selectorAccordionItem, $itemContainer]);
+      console.log(["$itemButton", ns.selectorButton, $itemButton]);
+      console.log(["itemButtonTarget", ns.attributeTarget, itemButtonTarget]);
+      console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
+      console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
       // if button is not aria-expanded then click it
       const ariaExpanded = $itemButton.attr('aria-expanded');
@@ -116,8 +116,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
     
     ns.closeItem = ($component, data) => {
-      console.group('openItem');
-      console.log(["openItem", $component, data]);
+      console.group('closeItem');
+      console.log(["closeItem", $component, data]);
 
       const { config } = data;
       const id = config;
@@ -129,11 +129,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
-      console.log(["$itemContainer", $itemContainer]);
-      console.log(["$itemButton", $itemButton]);
-      console.log(["itemButtonTarget", itemButtonTarget]);
-      console.log(["$itemCollapse", $itemCollapse]);
-      console.log(["itemDataParent", itemDataParent]);
+      console.log(["$itemContainer", ns.selectorAccordionItem, $itemContainer]);
+      console.log(["$itemButton", ns.selectorButton, $itemButton]);
+      console.log(["itemButtonTarget", ns.attributeTarget, itemButtonTarget]);
+      console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
+      console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
       // if button is not aria-expanded then click it
       const ariaExpanded = $itemButton.attr('aria-expanded');
@@ -149,12 +149,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
     ns.toggleItem = ($component, data) => {
-      console.group('openItem');
-      console.log(["openItem", $component, data]);
+      console.group('toggleItem');
+      console.log(["toggleItem", $component, data]);
 
       const { config } = data;
       const id = config;
-      const $item = $component.find(`#${id}`);
+      const $item = $component.find(`#${id}`); //find item by id, should be accordion item
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
@@ -162,11 +162,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
-      console.log(["$itemContainer", $itemContainer]);
-      console.log(["$itemButton", $itemButton]);
-      console.log(["itemButtonTarget", itemButtonTarget]);
-      console.log(["$itemCollapse", $itemCollapse]);
-      console.log(["itemDataParent", itemDataParent]);
+      console.log(["$itemContainer", ns.selectorAccordionItem, $itemContainer]);
+      console.log(["$itemButton", ns.selectorButton, $itemButton]);
+      console.log(["itemButtonTarget", ns.attributeTarget, itemButtonTarget]);
+      console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
+      console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
       $itemButton.click();      
 
@@ -188,11 +188,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
-      console.log(["$itemContainer", $itemContainer]);
-      console.log(["$itemButton", $itemButton]);
-      console.log(["itemButtonTarget", itemButtonTarget]);
-      console.log(["$itemCollapse", $itemCollapse]);
-      console.log(["itemDataParent", itemDataParent]);
+      console.log(["$itemContainer", ns.selectorAccordionItem, $itemContainer]);
+      console.log(["$itemButton", ns.selectorButton, $itemButton]);
+      console.log(["itemButtonTarget", ns.attributeTarget, itemButtonTarget]);
+      console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
+      console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
       $item.show();
 
@@ -213,11 +213,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
-      console.log(["$itemContainer", $itemContainer]);
-      console.log(["$itemButton", $itemButton]);
-      console.log(["itemButtonTarget", itemButtonTarget]);
-      console.log(["$itemCollapse", $itemCollapse]);
-      console.log(["itemDataParent", itemDataParent]);
+      console.log(["$itemContainer", ns.selectorAccordionItem, $itemContainer]);
+      console.log(["$itemButton", ns.selectorButton, $itemButton]);
+      console.log(["itemButtonTarget", ns.attributeTarget, itemButtonTarget]);
+      console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
+      console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
       $item.hide();
 
