@@ -239,7 +239,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       if (config) {
         //if config starts with # then its a selector
         if (config.startsWith("#")) {
-          console.log(`config is a selectot for template, looking up template by selector ${ns.selectorTemplate + config}`);
+          console.log(`config is a seelector for template, looking up template by selector ${ns.selectorTemplate + config}`);
           const $templateById = $component.find(ns.selectorTemplate + config);
           if ($templateById.length === 0) {
             console.error("template not found by id");
@@ -359,7 +359,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           ns.hideItem($component, data);
       }
       console.groupEnd();
-  }
+    }
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
