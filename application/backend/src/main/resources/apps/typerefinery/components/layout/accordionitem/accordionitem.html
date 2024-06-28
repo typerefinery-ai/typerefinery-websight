@@ -25,7 +25,7 @@
     <!-- expand ${expand}-->
     <div id="${model.id}_content" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="${model.alwaysopen ? '' : parentid }">
       <div class="accordion-body">
-        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
         </sly>
         <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
           data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
