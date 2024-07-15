@@ -105,7 +105,11 @@ public class BaseFormComponent extends BaseComponent {
                         if (valueIndex < selectorArray.length) {
                             String value = selectorArray[valueIndex];
                             if (StringUtils.isNotBlank(value)) {
-                                this.id = value;
+                                if (value.endsWith(this.id)) {
+                                    this.id = value;
+                                } else {
+                                    this.id = value + "-" + this.id;                            
+                                }
                             }
                         }
                     } 
