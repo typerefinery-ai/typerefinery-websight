@@ -613,6 +613,21 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           var initData = ns.getData($component, componentConfig);
           ns.loadData($component, initData, componentConfig);
         }
+
+        //highlight fields with same ids
+        const isEditMode = $("body").hasClass("isEditMode");
+
+        if (isEditMode) {
+          $("form [id]").each( function () {
+            const fieldId = $(this).attr("id"); 
+            const duplicates = $('form [id='+fieldId+']'); 
+            if (duplicates.length > 1) { 
+              duplicates.css("background-color","rgb(255 1 1 / 5%)")
+                .css("border","1px dashed rgb(255 1 1 / 20%)");
+            } 
+          })
+        }
+
         console.groupEnd();
     }
 
