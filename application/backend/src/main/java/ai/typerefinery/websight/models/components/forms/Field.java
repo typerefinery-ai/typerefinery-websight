@@ -19,6 +19,7 @@ package ai.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.sling.api.resource.Resource;
@@ -92,7 +93,9 @@ public class Field extends BaseFormComponent {
             this.fieldId = this.resource.getName();
 
             if (this.resource.hasChildren()) {
-                this.resource.getChildren().forEach(child -> {
+                Iterator<Resource> children = this.resource.listChildren();
+                while (children.hasNext()) {
+                    Resource child = children.next();
                     String name = child.getName();
                     if (name.equals("label")) {
                         String id = child.getValueMap().get("id", "");
@@ -103,7 +106,7 @@ public class Field extends BaseFormComponent {
                         this.fieldId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
                         this.fieldHidden = false;
                     }
-                });
+                }
             }
 
         }
