@@ -2,5 +2,6 @@
   "group": ".hidden",
   "sling:resourceType": "ws:Component",
   "description": "Basic form input field.",
-  "title": "Input"
+  "title": "Input Stix",
+  "sling:resourceSuperType": "typerefinery/components/forms/fields/input"
 }

@@ -70,6 +70,10 @@
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/alignment"
     },
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
+    },
     "writeTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Write",

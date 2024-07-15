@@ -1,6 +1,24 @@
 {
   "sling:resourceType": "wcm/dialogs/components/tab",
   "label": "Aria",
+  "warning": {
+    "sling:resourceType": "typerefinery/components/dialog/label",
+    "ws:disallowedContext": ["edit:dialog"],
+    "appearance": "error",
+    "iconLabel": "Open Dialog",
+    "title": "Some fields are not editable in side-panel.",
+    "secondaryText": "",
+    "placement": "bottom-start"
+  },
+  "info": {
+    "sling:resourceType": "typerefinery/components/dialog/label",
+    "ws:disallowedContext": ["edit:panel"],
+    "appearance": "info",
+    "iconLabel": "Info",
+    "title": "Add relevant Aria Attributes as required",
+    "secondaryText": "",
+    "placement": "bottom-start"
+  },
   "roleOther": {
     "sling:resourceType": "wcm/dialogs/components/textfield",
     "name": "roleOther",

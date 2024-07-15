@@ -423,6 +423,10 @@
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },    
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
     }
   }
 }
