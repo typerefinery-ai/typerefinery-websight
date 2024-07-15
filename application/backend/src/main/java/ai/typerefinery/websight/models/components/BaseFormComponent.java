@@ -88,6 +88,8 @@ public class BaseFormComponent extends BaseComponent {
     @PostConstruct
     protected void init() {
 
+        super.init();
+
         // set default parent field id
         this.parentFieldId = this.id;
 
@@ -119,7 +121,7 @@ public class BaseFormComponent extends BaseComponent {
                 }
             }
         }
-        super.init();
+
         if (StringUtils.isBlank(this.name)) {
             this.name = resource.getName();
         }

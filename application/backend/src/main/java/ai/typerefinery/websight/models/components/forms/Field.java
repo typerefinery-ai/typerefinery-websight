@@ -26,6 +26,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import ai.typerefinery.websight.models.components.BaseFormComponent;
+import ai.typerefinery.websight.utils.ComponentUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -99,10 +100,18 @@ public class Field extends BaseFormComponent {
                     String name = child.getName();
                     if (name.equals("label")) {
                         String id = child.getValueMap().get("id", "");
+                        //ensure child has an id
+                        if (StringUtils.isEmpty(id)) {
+                            id = ComponentUtil.getComponentId(child);
+                        }
                         this.labelId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
                         this.labelHidden = false;
                     } else if (name.equals("field")) {
                         String id = child.getValueMap().get("id", "");
+                        //ensure child has an id
+                        if (StringUtils.isEmpty(id)) {
+                            id = ComponentUtil.getComponentId(child);
+                        }
                         this.fieldId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
                         this.fieldHidden = false;
                     }
