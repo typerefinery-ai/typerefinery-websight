@@ -6,6 +6,9 @@
         "ai.typerefinery.websight.components",
         "ai.typerefinery.websight.components.content.embed"
     ],
+    "css": [
+        "style.css"
+    ],
     "js": [
         "functions.js",
         "behaviour.js"
