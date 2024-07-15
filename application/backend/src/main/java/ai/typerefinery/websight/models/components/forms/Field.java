@@ -104,7 +104,7 @@ public class Field extends BaseFormComponent {
                         if (StringUtils.isEmpty(id)) {
                             id = ComponentUtil.getComponentId(child);
                         }
-                        this.labelId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.labelId = this.id + (StringUtils.isNotEmpty(id) ? "-" + id : "");
                         this.labelHidden = false;
                     } else if (name.equals("field")) {
                         String id = child.getValueMap().get("id", "");
@@ -112,7 +112,7 @@ public class Field extends BaseFormComponent {
                         if (StringUtils.isEmpty(id)) {
                             id = ComponentUtil.getComponentId(child);
                         }
-                        this.fieldId = this.resource.getName() + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.fieldId = this.id + (StringUtils.isNotEmpty(id) ? "-" + id : "");
                         this.fieldHidden = false;
                     }
                 }
