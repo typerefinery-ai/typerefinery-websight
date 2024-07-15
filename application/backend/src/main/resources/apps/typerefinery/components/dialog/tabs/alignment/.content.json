@@ -8,8 +8,8 @@
         "description": "Bootstrap container width",
         "default": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "default",
-            "value": "default"
+            "label": "Default",
+            "value": ""
         },
         "defaultPadding": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
@@ -32,6 +32,11 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "verticalAlignment",
         "label": "Vertical alignment",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": ""
+        },
         "start": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "Start",
@@ -73,6 +78,11 @@
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "horizontalAlignment",
         "label": "Horizontal alignment",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "value": ""
+        },
         "start": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
             "label": "Start",
@@ -110,7 +120,7 @@
         "label": "Text Alignment",
         "default": {
             "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-            "label": "default",
+            "label": "Default",
             "value": ""
         },
         "left": {
