@@ -216,7 +216,7 @@ window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Component
 
     ns.init = ($component) => {
 
-      console.group("Editor init");
+      console.groupCollapsed("Editor init");
       console.log($component);
       // parse json value from data-model attribute as component config
       const componentConfig = componentNs.getComponentConfig($component);

@@ -126,7 +126,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         const componentConfig = componentNs.getComponentConfig($component);
         const { buttonType, id, actionType } = componentConfig;
 
-        console.group("button init " + id);
+        console.groupCollapsed("button init " + id);
         console.log("$component", $component);
         console.log("componentConfig", componentConfig);
         console.log("buttonType", buttonType);

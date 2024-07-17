@@ -364,7 +364,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         const { id} = componentConfig;
-        console.group('init ' + id);
+        console.groupCollapsed('init ' + id);
         console.log(["config", componentConfig]);
 
         console.log("adding event listeners");

@@ -598,7 +598,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        console.group("forms init");
+        console.groupCollapsed("forms init");
         console.log(["config", componentConfig, $component, ns.eventMap]);
         if (Object.keys(componentConfig).length === 0) {
             console.error("Component config of form component is missing");
