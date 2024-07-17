@@ -132,7 +132,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         // if this is not a parent view then return.
         if(!isParentView) {
-            console.log("This is not a parent view");
+            // console.log("This is not a parent view");
             return;
         }
 

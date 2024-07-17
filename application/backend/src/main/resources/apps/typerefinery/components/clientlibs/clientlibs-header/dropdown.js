@@ -57,8 +57,8 @@ Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
     ns.dropDownButtonEventListener = () => {
-        console.log("drop down button event listener")
-        $(document).on("click", "#__dropdown__", function (e) {
+      $(document).on("click", "#__dropdown__", function (e) {
+            console.groupCollapsed("drop down button event listener on " + window.location);
             // console.log("again 1 clicked on dropdown item", e.target );
             const componentConfig = JSON.parse(e.target.getAttribute("data-model"));
             const { label, name, link, action, hideFooter = false } = componentConfig;
@@ -73,6 +73,7 @@ Typerefinery.Modal = Typerefinery.Modal || {};
                 // navigate to the link.
                 window.location.href = link;
             }
+            console.groupEnd();
         });
     };
     

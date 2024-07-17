@@ -53,6 +53,8 @@ window.MessageService.Client = MessageService.Client || {};
 
     // listen to messages.
     window.addEventListener(clientNs?.events.MESSAGE, function (message) {
+      console.groupCollapsed("tms message on " + window.location);
+
       console.log(["tms message", message]);
       let messagePayload = message?.detail?.data?.payload || null;
       let messageTopic = message?.detail?.data?.topic || null;
@@ -76,6 +78,7 @@ window.MessageService.Client = MessageService.Client || {};
           }
         }
       }
+      console.groupEnd();
     });
   };
 
