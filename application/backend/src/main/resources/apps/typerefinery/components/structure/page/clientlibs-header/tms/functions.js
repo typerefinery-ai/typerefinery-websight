@@ -7,7 +7,7 @@ window.MessageService.Client = MessageService.Client || {};
 (function ($, ns, clientNs, document, window) {
   "use strict";
 
-  ns.registery = {};
+  ns.registry = {};
 
   ns.persistData = (key, data) => {
      localStorage.setItem(key, data);
@@ -25,10 +25,10 @@ window.MessageService.Client = MessageService.Client || {};
 
   ns.registerToTms = (host, topic, key, callbackFn) => {
     ns.hostAdded(host);
-    ns.registery[host] = ns.registery[host] || {};
-    ns.registery[host][topic] = ns.registery[host][topic] || {};
-    ns.registery[host][topic] = callbackFn;
-    ns.registery[host][topic][key] = callbackFn;
+    ns.registry[host] = ns.registry[host] || {};
+    ns.registry[host][topic] = ns.registry[host][topic] || {};
+    ns.registry[host][topic] = callbackFn;
+    ns.registry[host][topic][key] = callbackFn;
   };
 
   ns.connect = () => {
@@ -61,7 +61,7 @@ window.MessageService.Client = MessageService.Client || {};
         ns.persistData(messageTopic, messagePayload);
         console.log(["tms message save to local storage", messageTopic]);
         // TODO: get host from the message.
-        const host = Object.entries(ns.registery)[0];
+        const host = Object.entries(ns.registry)[0];
         console.log(["tms message host", host]);
         // first idx[key, values].
         if (host) {
