@@ -33,7 +33,7 @@ window.MessageService.Client = MessageService.Client || {};
     }
 
     ns.init = function() {     
-      console.group("tms init");
+      console.groupCollapsed("tms init on " + window.location);
 
       //generate client id
       ns.client_id = Date.now()

@@ -6,7 +6,6 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
 (function ($, ns, componentsNs, document) {
     "use strict";
     $(document).ready(function () {
-      console.log('Composite component Behaviour loaded');
 
       //init and watch for new components
       componentsNs.watchDOMForComponent(`${ns.selectorComponent}${ns.selector}`, ns.init);

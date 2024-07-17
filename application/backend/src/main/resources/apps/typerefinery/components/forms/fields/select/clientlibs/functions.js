@@ -125,7 +125,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           console.log("loading options from data source, wait for response");
           console.groupEnd();
           var optionsList = await ns.getOptionsFromDataSource(componentConfig);
-          console.group("select init, resume after response from data source");
+          console.groupCollapsed("select init, resume after response from data source on" + window.location);
           console.log("data source list", optionsList);
           ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
           console.log($component.html());
