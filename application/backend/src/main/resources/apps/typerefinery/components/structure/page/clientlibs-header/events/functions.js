@@ -5,7 +5,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 (function ($, ns, document, window) {
     "use strict";
 
-    ns.registery = {};
+    //global registry for events
+    ns.registry = {};
 
     ns.CUSTOM_EVENT_NAME = "customEvent";
 
@@ -34,7 +35,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       EVENT_CANCEL_ACTION: "cancelaction",
       EVENT_RESET_ACTION: "resetaction",
       EVENT_SUBMIT_ACTION: "submitaction",
-      EVENT_ERROR_ACTION: "erroraction"      
+      EVENT_ERROR_ACTION: "erroraction",
+      //event proxy
+      EVENT_PROXY: "eventproxy", //one component proxying event to another
     }
 
     //return object with all generic events
@@ -130,10 +133,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         ns.socket = new EventTarget();
     };
 
+    /* listen for messages posted to this window */
     ns.windowListener = function() {
-      console.log("windowListener added");
       window.addEventListener('message', function(event) {  
-        console.group('windowListener');
+        console.groupCollapsed('global windowListener on ' + window.location);
         console.log(["event", event]);
         var eventData = event.data;
         var sourceWindow = event.source;
@@ -149,6 +152,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           if (typeof eventData === 'string') {
             sourceData = JSON.parse( eventData );
           }
+          sourceData = eventData;
         }
 
         console.log(["sourceData", sourceData]);
@@ -156,50 +160,70 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         if (sourceData) {
           const { action, payload } = sourceData;
           console.log(["action", action, "payload", payload]);
-          console.log(["registery", ns.registery]);
-          console.log(["ns.registery action", ns.registery[action]]);
+          console.log(["registry", ns.registry]);
+          console.log(["ns.registry action", ns.registry[action]]);
 
 
           const eventPayloadData = ns.compileEventData(payload, action, sourceData.action, sourceData.componentId, sourceData.config);
 
           console.log(["eventPayloadData", eventPayloadData]);
           // ns.emitLocalEvent($component, componentConfig, ns.eventMap, data, action, action);
-          ns.emitEvent(action, eventPayloadData);
-          // if (ns.registery[action]) {
+          //ns.emitEvent(action, eventPayloadData);
+          // if (ns.registry[action]) {
           //   console.log("topic found", action);
-          //   ns.registery[action].forEach((callbackFn) => {
+          //   ns.registry[action].forEach((callbackFn) => {
           //     console.log("callbackFn", callbackFn);
           //     if (typeof callbackFn === 'function') {
           //       callbackFn(payload);
           //     } 
           //   });
           // }
+        } else {
+          console.warn("no source data sent");
         }
         console.groupEnd();
       });
     };
 
     ns.socketListener = () => {
+      console.group('socketListener');
       console.log("socketListener added");
       ns.socket.addEventListener(ns.CUSTOM_EVENT_NAME, (e) => {
-        console.group('socketListener');
-        const detail = e.detail;
+        console.group('socketListener on ' + window.location);
+        var detail = e.detail;
+        //parse detail if string
+        if (detail) {
+          if (typeof detail === 'string') {
+            detail = JSON.parse( detail );
+          }
+        }
         const { topic, payload } = detail;
         console.log(["topic", topic, "payload", payload]);
-        if (ns.registery[topic]) {
+        if (ns.registry[topic]) {
           console.log("topic found", topic);
-          ns.registery[topic].forEach((callbackFn) => {
+          ns.registry[topic].forEach((callbackFn) => {
             console.log("callbackFn", callbackFn);
             if (typeof callbackFn === 'function') {
               callbackFn(payload);
             }
           });
+        } else {
+          console.warn("topic not found", topic);
         }
+        const { componentId } = payload;
+        const componentConfig = { id: componentId || null };
+        // ns.emitLocalEvent(null, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "BUTTON_CLICK");
+        //emit local event
+        console.groupEnd();
       });
+      console.groupEnd();
     };
 
     ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction) => {
       console.group('emitLocalEvent');
+      if (!$component) {
+        console.warn("event is external, no component found");
+      }
       console.log(["config", $component, componentConfig, payload, eventName, componentAction]);
 
       const { id } = componentConfig;
@@ -215,7 +239,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       }
       //find event in eventMap and emit event to all the topics
       if (eventMap[ns.EVENT_TYPE_EMIT]) {
-        console.log("eventMap found", componentAction, eventMap[ns.EVENT_TYPE_EMIT]);
+        console.log("eventMap type found", componentAction, eventMap[ns.EVENT_TYPE_EMIT]);
         if (eventMap[ns.EVENT_TYPE_EMIT][componentAction]) {
           console.log("componentAction found", eventName, eventMap[ns.EVENT_TYPE_EMIT][componentAction]);
           
@@ -227,28 +251,28 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           }
           
           // for each event name in the component action emit event
-          const eventNames = Object.keys(eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]);
-          console.group("eventNames");
-          console.log("eventNames", eventNames);
+          const actionComponents = Object.keys(eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]);
+          console.group("actionComponents");
+          console.log("actionComponents", actionComponents);
           // for each topic in the event name emit event
-          eventNames.forEach(eventName => {
-            console.log("eventName", eventName);
-            const topicValues = eventMap[ns.EVENT_TYPE_EMIT][componentAction][id][eventName];
-            console.log("topicValues", topicValues);
+          actionComponents.forEach(actionComponent => {
+            console.log("actionComponents", actionComponent);
+            const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][id][actionComponent];
+            console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
-            if (Array.isArray(topicValues)) {
-              topicValues.forEach(topicValue => {
+            if (Array.isArray(actionEvents)) {
+              actionEvents.forEach(topicValue => {
                 const { topic, config } = topicValue;
                 console.log("emit event for topic", topic);
-                const eventData = ns.compileEventData(payload, eventName, componentAction, id, config);
+                const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
                 ns.emitEvent(topic, eventData);
               });
             } else {
               //is single value use it as topic
-              if (topicValues) {   
+              if (actionEvents) {   
                 const { topic, config } = topicValue;
                 console.log("emit event for topic", topic);
-                const eventData = ns.compileEventData(payload, eventName, componentAction, id, config);
+                const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
                 ns.emitEvent(topic, eventData);
               }
             }
@@ -269,23 +293,31 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.registerEvents = (topic, callbackFn) => {
-        if (!ns.registery[topic]) {
-            ns.registery[topic] = [callbackFn];
+      console.group('registerEvents');
+        if (!ns.registry[topic]) {
+          ns.registry[topic] = [callbackFn];
         } else {
-            // push to array
-            ns.registery[topic].push(callbackFn);
+          // push to array
+          ns.registry[topic].push(callbackFn);
         }
+        console.log(["topic", topic, "callbackFn", callbackFn]);
+        console.log(["registry", ns.registry]);
+      console.groupEnd();
     };
-
 
     ns.init = () => {
 
-        console.group("events init");
+        console.groupCollapsed("events init on " + window.location);
 
         // NOTE: socket in this ns is a custom event. It is not a websocket.
         ns.createWebSocketConnection();
+
+        // socket listener for custom events
         ns.socketListener();
-        ns.windowListener();
+
+        // window listener for postMessage
+        //TODO: this is only needed if we expect to receive global messages from other windows
+        //ns.windowListener();
 
         console.groupEnd();
     };
