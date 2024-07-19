@@ -71,6 +71,51 @@
         }
       }
     },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "warning": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
+      },
+      "info": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
+      },
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "name": "_events_",
+        "description": "Pick generic event or specify custom event to which component action will be mapped.",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action",
+          "description": "Which component action to map to event."
+        },
+        "eventName": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
+        },
+        "eventNameCustom": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
+        }
+      }
+    },
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
