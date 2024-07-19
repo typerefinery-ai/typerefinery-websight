@@ -17,6 +17,14 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
     ns.selectorInputAttribute = "isInput";
     ns.selectorInput = `[${ns.selectorInputAttribute}]`;
 
+    //actions supported by this component
+    ns.ACTIONS = {
+        FORM_SUBMIT: "FORM_SUBMIT",
+        FORM_SUCCESS: "FORM_SUCCESS",
+        FORM_ERROR: "FORM_ERROR",
+        FORM_CANCEL: "FORM_CANCEL",        
+    }
+
     // map event types to handlers in component
     // this will indicate which events are supported by component
     ns.eventMap = eventNs.genericEventsTopicMap();
@@ -593,6 +601,8 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         //load data into form
         if (eventName === eventNs.EVENTS.EVENT_READ_ACTION) {
             ns.loadData($component, data);
+        } else {
+            console.error(["unsupported action", eventName]);
         }
     }
 
