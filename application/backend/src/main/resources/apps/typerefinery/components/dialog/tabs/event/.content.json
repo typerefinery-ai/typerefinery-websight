@@ -97,6 +97,11 @@
           "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
           "label": "Filter",
           "value": "filteraction"
+        },
+        "proxy": {
+          "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+          "label": "Proxy",
+          "value": "eventproxy"
         }
       },
       "generic": {
