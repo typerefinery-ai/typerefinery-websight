@@ -31,6 +31,35 @@ window.MessageService.Client = MessageService.Client || {};
     ns.registry[host][topic][key] = callbackFn;
   };
 
+  ns.isSystemMessage = (message) => {
+    
+    // if message?.detail is a type of string
+    if (typeof message?.detail === "string") {
+      // is message a connect message
+      if (message?.detail.startsWith(ns.MESSAGE_PREFIX_OPEN)) {
+        return true;
+      }
+      // is message a disconnect message
+      if (message?.detail.startsWith(ns.MESSAGE_PREFIX_CLOSE)) {
+        return true;
+      }
+      // is message a error message
+      if (message?.detail.startsWith(ns.MESSAGE_PREFIX_ERROR)) {
+        return true;
+      }
+    }
+    //check is message has TMS welcome fields
+    if (message?.detail?.call 
+      && message?.detail?.name
+      && message?.detail?.publish
+      && message?.detail?.subscribe
+      && message?.detail?.subscribers) {
+        return true;
+    }
+
+    return false;
+  } 
+
   ns.connect = () => {
     const listOfHost = JSON.parse(localStorage.getItem("tmsHost") || "[]");
 
@@ -56,28 +85,35 @@ window.MessageService.Client = MessageService.Client || {};
       console.groupCollapsed("tms message on " + window.location);
 
       console.log(["tms message", message]);
-      let messagePayload = message?.detail?.data?.payload || null;
-      let messageTopic = message?.detail?.data?.topic || null;
-      if (messagePayload && messageTopic) {
-        console.log(["tms message payload", messageTopic, messagePayload]);
-        ns.persistData(messageTopic, messagePayload);
-        console.log(["tms message save to local storage", messageTopic]);
-        // TODO: get host from the message.
-        const host = Object.entries(ns.registry)[0];
-        console.log(["tms message host", host]);
-        // first idx[key, values].
-        if (host) {
-          // grab the topic from the host.
-          const hostCallbacks = host[1];
-          console.log(["tms message host topic", hostCallbacks, messageTopic, hostCallbacks[messageTopic]]);
-          if (hostCallbacks) {
-            console.log(["tms message call topic callbacks", hostCallbacks]);
-            if(hostCallbacks && hostCallbacks[messageTopic]) {
-              hostCallbacks[messageTopic](JSON.parse(messagePayload));
+
+      //is this a message from the tms?
+      if (!ns.isSystemMessage(message)) {        
+        let messagePayload = message?.detail?.data?.payload || null;
+        let messageTopic = message?.detail?.data?.topic || null;
+        if (messagePayload && messageTopic) {
+          console.log(["tms message payload", messageTopic, messagePayload]);
+          ns.persistData(messageTopic, messagePayload);
+          console.log(["tms message save to local storage", messageTopic]);
+          // TODO: get host from the message.
+          const host = Object.entries(ns.registry)[0];
+          console.log(["tms message host", host]);
+          // first idx[key, values].
+          if (host) {
+            // grab the topic from the host.
+            const hostCallbacks = host[1];
+            console.log(["tms message host topic", hostCallbacks, messageTopic, hostCallbacks[messageTopic]]);
+            if (hostCallbacks) {
+              console.log(["tms message call topic callbacks", hostCallbacks]);
+              if(hostCallbacks && hostCallbacks[messageTopic]) {
+                hostCallbacks[messageTopic](JSON.parse(messagePayload));
+              }
             }
           }
         }
+      } else {
+        console.log(["tms welcome message", message]);
       }
+
       console.groupEnd();
     });
   };

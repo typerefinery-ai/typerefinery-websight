@@ -5,6 +5,12 @@ window.MessageService.Config = MessageService.Config || {};
 window.MessageService.Client = MessageService.Client || {};
 
 (function ($, ns, JSONSchemas, document, window) {
+
+    ns.MESSAGE_PREFIX_OPEN = "[open]"
+    ns.MESSAGE_PREFIX_CLOSE = "[close]"
+    ns.MESSAGE_PREFIX_ERROR = "[error]"
+    ns.MESSAGE_OPEN = `${ns.MESSAGE_PREFIX_OPEN} Connection established cms`
+    ns.MESSAGE_CLOSE = `${ns.MESSAGE_PREFIX_CLOSE} Connection closed cms`
     ns.publishers = {}
     ns.subscribers = {}
     ns.callbacks = {}
@@ -12,6 +18,8 @@ window.MessageService.Client = MessageService.Client || {};
     ns.dataToSend = []
     ns.callTimeout = 10000
     ns.meta = undefined
+    ns.isOpen = false
+    ns.errorLog = []
     ns.events = {
       READY: "messageservice:ready",
       CLIENT_ID: "messageservice:clientid",
@@ -38,6 +46,8 @@ window.MessageService.Client = MessageService.Client || {};
       //generate client id
       ns.client_id = Date.now()
 
+      console.log("client id: ", ns.events.CLIENT_ID, ns.client_id)
+
       // output id to page
       ns.events.emit(ns.events.CLIENT_ID, ns.client_id)
 
@@ -53,11 +63,19 @@ window.MessageService.Client = MessageService.Client || {};
       ns.ws = new WebSocket(host)
 
       ns.ws.onopen = function (e) {
-        ns.logMessage("[open] Connection established cms")
+        ns.isOpen = true
+        ns.logMessage(ns.MESSAGE_OPEN)
+      }
+      ns.ws.onclose = function (e) {
+        ns.isOpen = false
+        ns.logMessage(ns.MESSAGE_CLOSE)
       }
       ns.ws.onerror = function (error) {
         var message = JSON.stringify(error)
-        ns.logMessage(`[error] ${message}`)
+        ns.isError = true
+        const timestamp = new Date().toISOString()
+        ns.errorLog.push(`${timestamp} - ${message}`)
+        ns.logMessage(`${ns.MESSAGE_PREFIX_ERROR} ${message}`)
       }
       ns.ws.onmessage = function (event) {
         var message = JSON.parse(event.data)
