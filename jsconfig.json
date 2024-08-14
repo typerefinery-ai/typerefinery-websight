@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "module": "None",
+      "target": "ES5",
+      "checkJs": true,
+      "moduleResolution": "node",
+      "allowJs": true
+    },
+    "include": ["application/backend/src/main/resources/**/*.js"]
+  }
