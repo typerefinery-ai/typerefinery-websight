@@ -499,7 +499,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
     };
 
     ns.addEventListener = ($component, componentConfig) => {
-      console.group('addEventListener');
+      console.group('addEventListener form');
       const { events, id } = componentConfig;
       const defaultTopic = id;
 

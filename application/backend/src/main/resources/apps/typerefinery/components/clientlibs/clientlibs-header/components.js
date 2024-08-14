@@ -167,8 +167,11 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 
       console.groupCollapsed("onDocumentReady for " + selector + " on " + pagePath);
 
+      console.log("initComponentBySelector", selector);
       ns.initComponentBySelector(selector, callbackFn);
+      console.log("observeDOMForSelector", selector);
       ns.observeDOMForSelector(selector, callbackFn);
+      console.log("onDocumentReady done");
 
       console.groupEnd();
 
