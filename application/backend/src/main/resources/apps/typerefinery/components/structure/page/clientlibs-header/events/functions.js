@@ -38,6 +38,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       EVENT_ERROR_ACTION: "erroraction",
       //event proxy
       EVENT_PROXY: "eventproxy", //one component proxying event to another
+      //topic
+      EVENT_TOPIC_PAYLOAD: "topicpayload", //payload for topic
     }
 
     //return object with all generic events
@@ -125,7 +127,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log(["topic", topic, "payload", payload]);
         const evt = document.createEvent(ns.CUSTOM_EVENT_NAME);
         evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
-        ns.socket.dispatchEvent(evt);
+        if (ns.socket && ns.socket.dispatchEvent) {
+          ns.socket.dispatchEvent(evt);
+        } else {
+          console.warn("socket not found.");
+        }
         console.groupEnd();
     };
 
