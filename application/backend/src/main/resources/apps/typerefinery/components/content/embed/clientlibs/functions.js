@@ -10,40 +10,37 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.selectorComponent = '[component=embed]';
 
+    ns.ACTION_EVENT_PROXY = "EVENT_PROXY";
+    ns.ACTION_DATA_REQUEST = "DATA_REQUEST";
+    ns.ACTION_DATA_PAYLOAD = "DATA_PAYLOAD";
+    ns.ACTION_DATA_SOURCE = "DATA_SOURCE";
+    
     //actions supported by this component
     ns.ACTIONS = {
-      EVENT_PROXY: "EVENT_PROXY"
+      EVENT_PROXY: ns.ACTION_EVENT_PROXY, //send event to above component
+      DATA_REQUEST: ns.ACTION_DATA_REQUEST, //request data
+      DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD, //deliver data
+      DATA_SOURCE: ns.ACTION_DATA_SOURCE //change source for iframe
     }
 
     // map event types to handlers in component
     // this will indicate which events are supported by component
     ns.eventMap = eventNs.genericEventsTopicMap();
 
-    ns.registerEvent = ($component, componentId, fieldName) => {
-      console.group("registerEvent");
-      const key = `${componentId}-${fieldName}`;
-      console.log(["registerEvent", key]);
-      eventNs.registerEvents(key, (data) => {
-        console.group("registerEvents callback on " + window.location);
-        console.log(["registerEvents callback", key, data.type, data]);
-        if(data.type === eventNs.EVENTS.EVENT_PROXY) {
-            // get the first children and set the inner html.
-            const $firstChild = $component.children[0];
-            console.log(["registerEvents callback EVENT_PROXY", $firstChild]);
-            const componentConfig = componentNs.getComponentConfig($component);
-            console.log(["registerEvents callback EVENT_PROXY", componentConfig, componentConfig.variant]);
-            if (componentConfig.variant === "iframe") {
-              console.log(["registerEvents callback EVENT_PROXY", componentConfig, componentConfig.variant, $component.find("iframe").attr("src"), data.data.value]);
-              $component.find("iframe").attr("src", data.data.value);
-            }
-        }
-        console.groupEnd();
-      });      
+    // change src for iframe
+    ns.updateDataSource = ($component, config) => {
+      console.group("updateDataSource");
+      console.log(["updateDataSource", $component, config]);
+      if (config.source) {
+        $component.find("iframe").attr("src", config.source);
+      } else {
+        console.error("no source was specified");
+      }
       console.groupEnd();
     }
 
     //send message to iframe
-    ns.sendMessageToiFrame = function($component, data) {
+    ns.sendMessageToiFrame = function($component, action, data) {
       console.group("sendMessageToiFrame on " + window.location);
 
 
@@ -61,7 +58,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // console.log(["sendMessageToiFrame", data]);
       var $iframe = $component.find("iframe");
       var iframe = $iframe[0];
-      console.log(["sendMessageToiFrame", sourceData, $iframe, iframe]);
+      console.log(["sendMessageToiFrame", action, sourceData, $iframe, iframe]);
       //if iframe does not have TypeRefinery then it will need to manage its own events
       iframe.contentWindow.postMessage(sourceData, "*");
       //call events
@@ -107,26 +104,78 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     // local actions
     ns.EVENT_PROXY = ($component, componentConfig, data) => {
-      console.group(ns.ACTIONS.EVENT_PROXY);
-      console.log([ns.ACTIONS.EVENT_PROXY, $component, componentConfig, data]);
+      console.group(ns.ACTION_EVENT_PROXY);
+      console.log([ns.ACTION_EVENT_PROXY, $component, componentConfig, data]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_PROXY, ns.ACTIONS.EVENT_PROXY);
       console.groupEnd();
     }
 
+    ns.DATA_REQUEST = ($component, componentConfig, data) => {
+      console.group(ns.ACTION_DATA_REQUEST);
+      console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, data]);
 
-    ns.handleEvent = ($component, eventName, data) => {
-      console.log(["update", $component, eventName, data]);
+      // get data - make a get request to the url
+      
+      // raise event - ns.ACTION_DATA_PAYLOAD
+
+
+
+      //eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.DATA_REQUEST, ns.ACTIONS.DATA_REQUEST);
+      console.groupEnd();
+    }
+
+    // ns.tmsConnected = async (host, topic, $component) => {
+    //   try {
+    //       if (!topic || !host) {
+    //           ns.modelDataConnected($component);
+    //           return;
+    //       }
+          
+    //       let componentConfig = componentNs.getComponentConfig($component);
+    //       tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.updateChartInstance(data, $component));
+    //       const componentData = localStorage.getItem(`${topic}`);
+    //       if (!componentData) {
+    //           ns.modelDataConnected($component);
+    //           return;
+    //       }
+    //       ns.updateComponentHTML(JSON.parse(componentData), $component);
+    //   } catch (error) {
+    //       ns.modelDataConnected($component);
+    //   }
+    // };
+
+
+    // iframe has requested data    
+    ns.handleDataRequest = ($component, componentConfig, event) => {
+      console.group("getData");
+      console.log(["getData", $component, componentConfig, event]);
+      ns.DATA_REQUEST($component, componentConfig, event);
+      console.groupEnd();
+    }        
+
+    // decide which action to take based on action name
+    ns.handleEventAction = ($component, action, data) => {
+      console.log(["update", $component, action, data]);
       //load data into form
-      if (eventName === eventNs.EVENTS.EVENT_PROXY) {
-          ns.EVENT_PROXY($component, data);
+      if (action === ns.ACTION_EVENT_PROXY) {
+        //send message to iframe
+        ns.sendMessageToiFrame($component, action, data.payload);
+        // ns.EVENT_PROXY($component, data);
+      } else if (action === ns.ACTION_DATA_PAYLOAD) {
+        ns.sendMessageToiFrame($component, action, data.payload);
+        // ns.DATA_PAYLOAD($component, data);
+      } else if (action === ns.ACTION_DATA_REQUEST) {
+        ns.handleDataRequest($component, data);
+      } else if (action === ns.ACTION_DATA_SOURCE) {
+        // ns.DATA_REQUEST($component, data);
+        ns.updateDataSource($component, data);
       } else {
-        console.error(["unsupported action", eventName]);
+        console.error(["unsupported action", action]);
       }
     }
 
-
     ns.addEventListener = ($component, componentConfig) => {
-      console.group('addEventListener');
+      console.group('addEventListener embed');
       const { events, id } = componentConfig;
       const defaultTopic = id;
 
@@ -136,6 +185,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //register events
       if (events) {        
         events.forEach(event => {
+          console.groupCollapsed("event");
           console.log(["event", event]);
           const { topic, type, name, nameCustom, action, config} = event;
           //if topic not set use component id as topic
@@ -149,7 +199,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           // if action is EVENT_PROXY 
 
           // if action is EVENT_PROXY then add the event to registry
-          if (action === ns.ACTIONS.EVENT_PROXY) {
+          // does ns.ACTIONS have this action
+          if (ns.ACTIONS[action]) {
 
             console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
             eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
@@ -157,20 +208,47 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
             // if event type is listen then add event listener for the event
             if (typeName === eventNs.EVENT_TYPE_EMIT) {
-                console.log(["add windowListeneriFrameEventProxy for this component", eventName, id]);
+              //NOTE: this is the event that will be raised by iFrame
+              // iframe will raise events and this component will emit them
+
+              // if action is EVENT_PROXY then add event listener for the event
+              //listen for global message events that are emited by iframe
+
+              //TODO: handle all different actions in windowListeneriFrameEvent
+              if (action === ns.ACTION_EVENT_PROXY) {
+                console.log(["add windowListeneriFrameEvent for this component", action, id]);
                 //listen for global message events that are emited by iframe
-                ns.windowListeneriFrameEventProxy($component, componentConfig, eventName, action, id, config);
+                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, (data) => {
+                  console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
+                  // proxy all events
+                  console.log(["EVENT_PROXY", $component, componentConfig, data]);
+                  ns.EVENT_PROXY($component, componentConfig, data);
+                });
+              } else if (action === ns.ACTION_DATA_REQUEST) {
+                console.log(["add windowListeneriFrameEvent for this component", action, id]);
+                //listen for global message events that are emited by iframe
+                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, (data) => {
+                  console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
+                  console.log(["DATA_REQUEST", $component, componentConfig, data]);
+                  ns.DATA_REQUEST($component, componentConfig, data);
+                });
+              }
             } else {
                 //listen register the event and listent for specific event on topic
                 console.log(["registerEvents", topicName, eventName]);
-                eventNs.registerEvents(topicName, (data) => {
+
+                if (eventName === eventNs.EVENTS.EVENT_TOPIC_PAYLOAD) {
+                  //register with TMS
+                  console.warn("register with TMS, not implemented");
+                } else {
+                  eventNs.registerEvents(topicName, (data) => {
                     console.log(["registerEvents callback", topicName, eventName, data]);
                     // check make sure the event is for this event
                     if (data.type === eventName) {
-                      //send message to iframe
-                        ns.sendMessageToiFrame($component, data.payload);
+                      ns.handleEventAction($component, action, data);
                     }
-                });
+                  });
+                }
                 //need to reach into the frame and register message event
                 //this will ensure that only messages from this frame are listened
                 //windowListener
@@ -179,6 +257,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.error(["unsupported action", action]);
           }
 
+          console.log(["addEventListener done"]);
+          console.groupEnd();
         });
       }
 
@@ -212,41 +292,121 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     }
 
+    //all the callbacks for events, these are the actions to be taken when event is raised
+    ns.windowListeneriFrameEventCallBacks = {};
+    ns.addEventEmitter = function($component, componentConfig, topicName, eventName, action, callbackFn) {
+      console.groupCollapsed(`embed addEmitter for ${topicName},${eventName},${action}, on ${window.location}`);
+      console.log(["addEmitter", topicName, eventName, action, callbackFn]);
+
+      const { id } = componentConfig;
+      const callbackId = `${id}-${topicName}-${eventName}-${action}`;
+      
+      ns.windowListeneriFrameEventCallBacks[callbackId] = {
+        $component: $component,
+        componentConfig: componentConfig,
+        topicName: topicName,
+        eventName: eventName,
+        action: action,
+        callbackFn: callbackFn
+      }
+      console.log(["windowListeneriFrameEventCallBacks", ns.windowListeneriFrameEventCallBacks]);
+      ns.bindWindowListeneriFrameEvent($component);
+      console.groupEnd();
+    }
+
+    ns.windowListeneriFrameEventBound = false;
+    ns.bindWindowListeneriFrameEvent = function($component) {
+      console.groupCollapsed("bindWindowListeneriFrameEvent");
+      console.log(["bindWindowListeneriFrameEvent", ns.windowListeneriFrameEventBound]);
+      if (ns.windowListeneriFrameEventBound) {
+        console.groupEnd();
+        return;
+      }
+      ns.windowListeneriFrameEvent($component);
+      ns.windowListeneriFrameEventBound = true;
+      console.log(["bindWindowListeneriFrameEvent", ns.windowListeneriFrameEventBound]);
+      console.groupEnd();
+    }
+    
+    ns.processWindowListenerEvent = function($component, event, sourceData) {
+      console.groupCollapsed("processWindowListenerEvent");
+      console.log(["processWindowListenerEvent", $component, event, sourceData]);
+      const eventType = sourceData.type;
+      const eventAction = sourceData.action;
+      console.log(["eventType", eventType]);
+      console.log(["eventAction", eventAction]);
+      console.log(["sourceData", sourceData]);
+      const countofCallbacks = Object.keys(ns.windowListeneriFrameEventCallBacks).length;
+      console.log(`find matching callbacks for event ${eventAction}:${eventType} in ${countofCallbacks} callbacks`);
+
+      //check if this event is for this component
+      for (const key in ns.windowListeneriFrameEventCallBacks) {
+        if (ns.windowListeneriFrameEventCallBacks.hasOwnProperty(key)) {
+          const callBack = ns.windowListeneriFrameEventCallBacks[key];
+          const callBackAction = callBack.action; //action component supports
+          const callBackTopicName = callBack.topicName; //topic name, should match event type
+          // const eventName = callBack.eventName; //named or custom event name
+          console.groupCollapsed(`callBack action ${callBackAction}:${callBackTopicName}`);
+          console.log(["callBack", callBack]);
+          // console.log(["eventName", eventName]);
+          const isProxyEvent = (callBackAction === ns.ACTION_EVENT_PROXY);
+          const isActionMatch = (callBackAction === eventAction);
+          const isTopicMatch = (callBackTopicName === eventType);
+          if (isProxyEvent) {
+            console.warn(["isProxyEvent", isProxyEvent]);
+          } else {
+            console.log(["isProxyEvent", isProxyEvent]);
+          }
+          if (isActionMatch) {
+            console.warn(["isActionMatch", isActionMatch]);
+          } else {
+            console.log(["isActionMatch", isActionMatch]);
+          }
+          if (isTopicMatch) {
+            console.warn(["isTopicMatch", isTopicMatch]);
+          } else {
+            console.log(["isTopicMatch", isTopicMatch]);
+          }
+          if (isProxyEvent || (isActionMatch && isTopicMatch)) {
+            console.log(["call", callBack]);
+            callBack.callbackFn(sourceData);
+          } else {
+            console.warn("no match");
+          }
+          console.groupEnd();
+        }
+      }
+      console.groupEnd();
+    };
+
     /* listen for window post messages sent by iframe to this component */
-    ns.windowListeneriFrameEventProxy = function($component, componentConfig, eventName, action, id, config) {
+    ns.windowListeneriFrameEvent = function($component) {
       const iFrameContentWindow = $component.find("iframe")[0].contentWindow;
-      console.log(["windowListeneriFrameEventProxy", iFrameContentWindow]);
+      console.log(["windowListeneriFrameEvent", iFrameContentWindow]);
+      
+      //listen for global message events that are emited by iframe
       window.addEventListener('message', function(event) {  
-        console.groupCollapsed('embed windowListeneriFrameEventProxy on ' + window.location);
-        console.log(["event", event, event.source == iFrameContentWindow, eventName, action, id, config, event.data]);
+        console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
         if (event.source == iFrameContentWindow) {
+          //this message is from component iframe
           console.log(["event", event]);
           var eventData = event.data;
           var sourceWindow = event.source;
           var sourceOrigin = event.origin;
           console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
 
-          var sourceData;
-          if (eventData) {
-            if (typeof eventData === 'string') {
-              sourceData = JSON.parse( eventData );
-            }
-            sourceData = eventData;
+          var sourceData = eventData;
+          if (typeof eventData === 'string') {
+            sourceData = JSON.parse( eventData );
           }
-
-          console.log(["sourceData", sourceData]);
-
+        
           if (sourceData) {
-            //const eventPayloadData = eventNs.compileEventData(sourceData, eventName, action, id, config);
+            console.log(["sourceData", sourceData]);
 
-            //console.log(["eventPayloadData", eventPayloadData]);
-
-            //emit the event
-            ns.EVENT_PROXY($component, componentConfig, sourceData);
-
+            ns.processWindowListenerEvent($component, event, sourceData);
           }
         } else {
-          console.warn("source not matched");
+          console.warn("event.source does not match component iframe, ignoring");
         }
         console.groupEnd();
       });
@@ -263,6 +423,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //run events for this component when it loads
       ns.autoLoad($component);
 
+      console.log(["addEventListener"]);
       // add event listener that have been configured for this component
       ns.addEventListener($component, componentConfig);
 
@@ -270,4 +431,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 }
-)(jQuery, Typerefinery.Components.Content.Embed, Typerefinery.Components, Typerefinery.Page.Events, document, window);
+)(
+  // @ts-ignore
+  window.jQuery, 
+  Typerefinery.Components.Content.Embed, 
+  Typerefinery.Components, 
+  Typerefinery.Page.Events, 
+  document,
+  window
+);
+

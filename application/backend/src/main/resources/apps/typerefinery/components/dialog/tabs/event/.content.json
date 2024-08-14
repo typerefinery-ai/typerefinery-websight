@@ -70,6 +70,15 @@
           "value": ""
         }
       },
+      "topic": {
+        "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
+        "label": "Topic",
+        "create": {
+          "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+          "label": "Payload",
+          "value": "topicpayload"
+        }
+      },
       "componentcrud": {
         "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
         "label": "Component",

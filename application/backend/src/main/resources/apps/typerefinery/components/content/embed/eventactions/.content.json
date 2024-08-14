@@ -1,8 +1,23 @@
 { 
   "sling:resourceType": "nt:unstructured",
-  "buttonclick": {
+  "eventproxy": {
     "sling:resourceType": "nt:unstructured",
     "key": "EVENT_PROXY",
     "value": "Event Proxy"
+  },
+  "datarequest": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "DATA_REQUEST",
+    "value": "Data Request"
+  },
+  "datapayload": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "DATA_PAYLOAD",
+    "value": "Data Payload"
+  },
+  "datasource": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "DATA_SOURCE",
+    "value": "Data Source"
   }
 }
