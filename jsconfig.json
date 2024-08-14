@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "module": "None",
-      "target": "ES5",
+      "target": "ES2023",
       "checkJs": true,
       "moduleResolution": "node",
       "allowJs": true
