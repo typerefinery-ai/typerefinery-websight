@@ -96,7 +96,7 @@ window.MessageService.Client = MessageService.Client || {};
           console.log(["tms message save to local storage", messageTopic]);
           // TODO: get host from the message.
           const host = Object.entries(ns.registry)[0];
-          console.log(["tms message host", host]);
+          console.log(["tms message host", host, ns.registry]);
           // first idx[key, values].
           if (host) {
             // grab the topic from the host.
