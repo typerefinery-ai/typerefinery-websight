@@ -56,6 +56,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             </div>
         `;
 
+        //TODO: add Handlebars to namesapce signature
         const handlebarTemplate = Handlebars.compile(htmlTemplate);
         // merge all the objects.
         $component.innerHTML = handlebarTemplate({ ...defaultData, ...defaultConfigData, ...data });
