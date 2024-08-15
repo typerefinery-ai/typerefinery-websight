@@ -62,6 +62,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log(["sendMessageToiFrame", action, sourceData, $iframe, iframe]);
       //if iframe does not have TypeRefinery then it will need to manage its own events
       iframe.contentWindow.postMessage(sourceData, "*");
+
+      
       //call events
       //TODO: this will trigger CORS issue
       try {
@@ -116,19 +118,21 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    ns.DATA_PAYLOAD = ($component, topic, data, doNotSave) => {
+    ns.DATA_PAYLOAD = ($component, eventData, doNotSave) => {
       console.group(ns.ACTION_DATA_PAYLOAD);
-      console.log([ns.ACTION_DATA_PAYLOAD, $component, topic, data, doNotSave]);
+      console.log([ns.ACTION_DATA_PAYLOAD, $component, eventData, doNotSave]);
       
-      if (ns.useLocalStorage && !doNotSave) {
-        console.log("save data to local storage");
-        //save data to local storage to load nexr time
-        localStorage.setItem(`${topic}`, JSON.stringify(data));
-      }
+      //TODO: save data to local storage      
+      // if (ns.useLocalStorage && !doNotSave) {
+      //   const { topic, data } = eventData;
+      //   console.log("save data to local storage");
+      //   //save data to local storage to load nexr time
+      //   localStorage.setItem(`${topic}`, JSON.stringify(data));
+      // }
       
       console.log("send data to iframe");
       //TODO: send data to iframe
-      ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, data);
+      ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, eventData);
       console.log("data sent to iframe");
       console.groupEnd();
     }
@@ -138,11 +142,12 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, url]);
       console.log(["getRequest", url]);
       //TODO: get data - make a get request to the url
-      ns.getRequest($component, eventData, url, ($component, data) => {
-        console.log(["getData success", $component, data]);
+      ns.getRequest($component, eventData, url, ($component, eventData) => {
+        console.log(["getData success", $component, eventData]);
         // raise event - ns.ACTION_DATA_PAYLOAD
-        ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, data);
-        return data;
+        ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, eventData);
+        console.log(["getData done"]);
+        return eventData;
       }, ($component, data) => {
         console.log(["getData error", $component, data]);
         return data;
@@ -186,7 +191,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           signal: controller.signal
         })
         .then(response => response.json())
-        .then(response => {
+        .then(responseJson => {
           console.group("fetch response");
           successCallback($component, {
             ...eventData,
@@ -195,7 +200,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             payloadType: contentType, 
             body: body,
             ok: true,
-            response: response,
+            data: responseJson,
           })
           console.groupEnd();
         });
@@ -343,10 +348,19 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   console.log(["register with TMS", host, topicName]);
  
                   ns.tmsConnected($component, host, topicName, (data) => {
+                    const eventData = {
+                      topicName: topicName,
+                      eventName: eventName,
+                      action: action,
+                      url: config,
+                      data: data,
+                      target: "iframe-" + id,
+                      source: host
+                    }
                     console.log(["tms data callback", topicName, eventName, data]);
                     // check make sure the event is for this event
                     // ns.handleEventAction($component, action, data);
-                    ns.DATA_PAYLOAD($component, topicName, data);
+                    ns.DATA_PAYLOAD($component, eventData);
                   });
                   //console.warn("register with TMS, not implemented");
                 } else {
