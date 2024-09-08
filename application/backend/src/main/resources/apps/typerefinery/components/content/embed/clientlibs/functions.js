@@ -137,21 +137,39 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    ns.DATA_REQUEST = ($component, componentConfig, eventData, url) => {
+    /**
+     * Get data from endpoint
+     * @param {*} $component component instance
+     * @param {*} componentConfig component configuration
+     * @param {*} eventData event data
+     * @param {*} endpointConfig endpoint configuration to make request, needs to have at least url
+     */
+    ns.DATA_REQUEST = ($component, componentConfig, eventData, endpointConfig) => {
       console.group(ns.ACTION_DATA_REQUEST);
-      console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, url]);
-      console.log(["getRequest", url]);
+      console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, endpointConfig]);
+      console.log(["getRequest", endpointConfig]);
       //TODO: get data - make a get request to the url
-      ns.getRequest($component, eventData, url, ($component, eventData) => {
-        console.log(["getData success", $component, eventData]);
-        // raise event - ns.ACTION_DATA_PAYLOAD
-        ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, eventData);
-        console.log(["getData done"]);
-        return eventData;
-      }, ($component, data) => {
-        console.log(["getData error", $component, data]);
-        return data;
-      });
+      let url = endpointConfig.url;
+      let requestMethod = endpointConfig.method || "GET";
+      let responseContentType = endpointConfig.responseContentType || "application/json";
+      ns.getRequest(
+        $component, 
+        eventData, 
+        url, 
+        ($component, eventData) => {
+          console.log(["getData success", $component, eventData]);
+          // raise event - ns.ACTION_DATA_PAYLOAD
+          ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, eventData);
+          console.log(["getData done"]);
+          return eventData;
+        }, 
+        ($component, data) => {
+          console.log(["getData error", $component, data]);
+          return data;
+        }, 
+        requestMethod, 
+        responseContentType
+      );
       console.log(["DATA_REQUEST initiated", $component, componentConfig, url]);
       //eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.DATA_REQUEST, ns.ACTIONS.DATA_REQUEST);
       console.groupEnd();
@@ -326,15 +344,26 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 ns.addEventEmitter($component, componentConfig, topicName, eventName, action, (data) => {
                   console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
                   console.log(["DATA_REQUEST", $component, componentConfig, config]);                  
+
+                  let endpointConfig = {};
+                  try {
+                    const test = JSON.parse(config);
+                    endpointConfig = test;
+                  } catch (error) {
+                    endpointConfig.url = config;
+                  }
+
                   const eventData = {
                     ...data,
                     topicName: topicName,
                     eventName: eventName,
                     action: action,
-                    url: config
+                    endpointConfig: endpointConfig
                   }
                   eventData.target = "iframe-" + id;
-                  ns.DATA_REQUEST($component, componentConfig, eventData, config);
+                  //check if config is possible JSON string
+
+                  ns.DATA_REQUEST($component, componentConfig, eventData, endpointConfig);
                 });
               }
             } else {
