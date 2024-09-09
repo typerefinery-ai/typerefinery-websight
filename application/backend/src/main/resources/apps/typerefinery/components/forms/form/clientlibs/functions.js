@@ -50,6 +50,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             const name = $input.attr("name") || $input.attr("id");
             const id = $input.attr("id");
             const type = $input.attr("type") || "";
+            const component = $input.attr("component") || "";
             console.group(name);
             console.log("$input", $input);
             console.log("inputObject", inputObject);
@@ -59,14 +60,17 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             const isInput = $input.attr(ns.selectorInputAttribute);
             //is this composite value
             const isCompositeParent = $input.is(compositeNs.selector);
+            // is this text area or input field.
+            const isEditor = $input.is(editorNs.selectorComponent);
+            // is this select field
+            const isSelect = $input.is(selectNs.selectorComponent);
 
-            console.log(["getFormData form component", name, isInput, isCompositeParent]);
+            console.log(["isInput", $input, compositeNs.selector, editorNs.selectorComponent, selectNs.selectorComponent]);
+
+            console.log(["getFormData form component", name, isInput, isCompositeParent, isEditor, isSelect]);
 
             //skip all field that do not have a name
             if (name) {
-                // is this text area or input field.
-                const isEditor = isInput === "editor";
-                const isSelect = isInput === "select";
 
                 console.log(["getFormData basic form component", isSelect, isEditor]);
 
