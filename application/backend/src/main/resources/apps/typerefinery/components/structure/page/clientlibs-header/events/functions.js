@@ -126,7 +126,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.group('emitEvent');
         console.log(["topic", topic, "payload", payload]);
         const evt = document.createEvent(ns.CUSTOM_EVENT_NAME);
-        evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
+        if (evt.initCustomEvent) {
+          evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
+        } else {
+          console.error("initCustomEvent not found on custom event.");
+        }
         if (ns.socket && ns.socket.dispatchEvent) {
           ns.socket.dispatchEvent(evt);
         } else {
@@ -204,7 +208,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           }
         }
         const { topic, payload } = detail;
-        console.log(["topic", topic, "payload", payload]);
+        console.log(["topic", topic, "payload", payload, ns.registry]);
         if (ns.registry[topic]) {
           console.log("topic found", topic);
           ns.registry[topic].forEach((callbackFn) => {
@@ -272,6 +276,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log("emit event for topic", topic);
                 const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
                 ns.emitEvent(topic, eventData);
+                console.log("event emitted", topic, eventData);
               });
             } else {
               //is single value use it as topic
@@ -280,6 +285,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log("emit event for topic", topic);
                 const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
                 ns.emitEvent(topic, eventData);
+                console.log("event emitted", topic, eventData);
               }
             }
           });
