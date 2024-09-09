@@ -64,7 +64,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
     };
 
     ns.addOptionsToSelect = ($component, defaultSelectedOptions, optionsList, keyName, labelName) => {
-      console.log('options from data source', optionsList);
+      console.log('options from data source', optionsList, defaultSelectedOptions, keyName, labelName);
       if(optionsList.length !== 0) {
           const selectOptions = optionsList.map((option) => {
               console.log(option);
