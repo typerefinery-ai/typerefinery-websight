@@ -19,6 +19,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     //actions supported by this component
     ns.ACTIONS = {
+        FORM_LOAD: "FORM_LOAD",
         FORM_SUBMIT: "FORM_SUBMIT",
         FORM_SUCCESS: "FORM_SUCCESS",
         FORM_ERROR: "FORM_ERROR",
@@ -510,11 +511,26 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       if (events) {        
         events.forEach(event => {
           const { topic, type, name, nameCustom, action, config} = event;
+
+          //if type unset then log warning
+          if (!type) {
+            console.warn("type is unset for event will default to emit", event);
+          }
+
+          // if topic is not set then log warning
+          if (!topic) {
+            console.warn("topic is unset for event will default to component id", event);
+          }
+
+          // if nameCustom is not set then log warning
+          if (!nameCustom) {
+            console.warn("nameCustom is unset for event will default to name", event);
+          }
+
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
           // if type is not defined then its emitted
           let typeName = type || eventNs.EVENT_TYPE_EMIT;
-
           //custom name takes precidence over name, this will be raised as event name
           let eventName = nameCustom || name;
 
@@ -526,13 +542,16 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
               //emit do nothing here
+              console.info("event type is emit, do nothing");
           } else {
               //listen register the event and listent for specific event on topic
               console.log(["registerEvents", topicName, eventName]);
               eventNs.registerEvents(topicName, (data) => {
+                  console.log(["registerEvents consumeIncomingEvent", data, eventName]);
                   // check make sure the event is for this event
                   if (data.type === eventName) {
-                      ns.update($component, data.type, data.data);
+                      console.log(["registerEvents match calling update", action, data]);
+                      ns.update($component, action, data);
                   }
               });
           }
@@ -596,13 +615,23 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       console.groupEnd();
     }          
 
-    ns.update = ($component, eventName, data) => {
-        console.log(["update", $component, eventName, data]);
-        //load data into form
-        if (eventName === eventNs.EVENTS.EVENT_READ_ACTION) {
+    /**
+     * 
+     * @param {*} $component 
+     * @param {*} actionName can be either global action name or component action name
+     * @param {*} data 
+     */
+    ns.update = ($component, actionName, data) => {
+        console.log(["form update", $component, actionName, data]);
+        //load data into form if action is FORM_LOAD or EVENT_READ_ACTION
+        if (ns.ACTIONS[actionName] == "FORM_LOAD" || actionName === eventNs.EVENTS.EVENT_READ_ACTION) {
             ns.loadData($component, data);
+        } else if (ns.ACTIONS[actionName] == "FORM_SUBMIT" || actionName == eventNs.EVENTS.EVENT_SUBMIT_ACTION) {
+            //submit form if action is FORM_SUBMIT or EVENT_SUBMIT_ACTION
+            ns.formSubmitHandler($component);
         } else {
-            console.error(["unsupported action", eventName]);
+            //log error if action is not supported
+            console.error(["unsupported action", actionName]);
         }
     }
 
