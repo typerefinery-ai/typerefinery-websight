@@ -263,10 +263,10 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log("$field", $field);
             rowData[$field.attr(ns.selectorNameAttribute)] = $field.val();
           });
-          console.log("rowData", JSON.stringify(rowData));
+          console.log("rowData row", JSON.stringify(rowData));
           //get all immediate isCompositeParent components and add to data
           var $compositeParents = $rowContents.findExclude(ns.selector,ns.selector);
-          console.log("compositeParents", $compositeParents);
+          console.log("compositeParents to process", $compositeParents, $compositeParents.length);
           $compositeParents.each(function(){
             //find composite value input field
             var $compositeValue = $(this).findExclude(ns.selectorValue,ns.selector);        
@@ -280,11 +280,13 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               Object.assign(data,$compositeValue.compositeVal(addFieldHint));
               rowData[compositeValueName] = data;
             }
-            console.log("rowData", JSON.stringify(rowData));
+            console.log("rowData with compositeParents", JSON.stringify(rowData));
           });
           //add row data to data
           data.push(rowData);
+          console.log("data", data);
         });
+        console.log("data final", data);
         console.groupEnd();
         return data;
       }
