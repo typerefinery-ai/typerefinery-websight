@@ -83,8 +83,10 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                   console.log(["getFormData composite value input", $compositeValue]);
                   var compositeValueName = $compositeValue.attr(compositeNs.selectorNameAttribute);
                   console.log(["getFormData composite value", $compositeValue]);
-                  result[compositeValueName] = {};
-                  Object.assign(result[compositeValueName], $compositeValue.compositeVal(addFieldHint));
+                  const compositeValue = $compositeValue.compositeVal(addFieldHint);
+                  console.log("compositeValue", compositeValue);
+                  result[compositeValueName] = compositeValue;
+                  // Object.assign(result[compositeValueName], $compositeValue.compositeVal(addFieldHint));
 
                   if (addFieldHint) {
                     ns.addFieldHint($input, compositeValueName, id);
@@ -334,17 +336,27 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
               const id = $input.attr("id");
               const type = $input.attr("type") || "";
               const tagName = $input.prop("tagName");
+              //is this input field
               const isInput = $input.attr(ns.selectorInputAttribute);
+              //is this composite value
               const isCompositeParent = $input.is(compositeNs.selector);
+              // is this text area or input field.
+              const isEditor = $input.is(editorNs.selectorComponent);
+              // is this select field
+              const isSelect = $input.is(selectNs.selectorComponent);
               console.group(name);
-              console.log($input);
-              console.log(inputObject);
-              console.log($input.val());
+              console.log(`$input[${name}]`, $input);
+              console.log(`data[${name}]`, data[name]);
+              console.log("inputObject", inputObject);
+              console.log("console.log($input.val());", $input.val());
+              console.log("isInput", isInput);
+              console.log("isCompositeParent", isCompositeParent);
+              console.log("isEditor", isEditor);
+              console.log("isSelect", isSelect);
+
 
               //skip all field that do not have a name and dont exist in data
               if (name && data[name]) {
-                  const isSelect = tagName === "SELECT";
-                  const isEditor = isInput === "editor";
                   console.log(["loadData basic form component", isSelect, isEditor]);
 
                   if(isCompositeParent) {
@@ -427,7 +439,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                   $item.attr("value", data[name]);
 
               } else if (isInput === "editor") {
-                  const editorId = $input.data("editor-id");
+                  const editorId = $item.data("editor-id");
                   ns.editorNs.setEditorData(editorId, data[name]);
               }
           });
@@ -653,8 +665,11 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
         if (ns.isDataLoadRequired(componentConfig)) {
           console.log("query string exists, loading data...");
-          var initData = ns.getData($component, componentConfig);
-          ns.loadData($component, initData, componentConfig);
+          ns.getData($component, componentConfig).then(data => {;
+            console.log("data loaded", data);
+            ns.loadData($component, data, componentConfig);
+            console.log("data loaded done", data);
+          });
         }
 
         //highlight fields with same ids
