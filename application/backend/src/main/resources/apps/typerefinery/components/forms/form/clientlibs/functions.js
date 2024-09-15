@@ -295,8 +295,8 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         if (!writePayloadType || !writeMethod ) {
             writePayloadType = "application/json";
             writeMethod = "POST";
-            console.log("Payload type or method not set, defaulting to JSON and POST.");
-            return;
+            console.warn("Payload type or method not set, defaulting to JSON and POST.");
+            // return;
         }
         const payload = await ns.getFormData($component);
         ns.updateButtonState($component, "loading");
