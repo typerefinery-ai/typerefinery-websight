@@ -224,7 +224,6 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    
     ns.addNewItem = ($component, data, once) => {
       console.group('addNewItem');
 
@@ -233,38 +232,81 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const componentId = $component.attr('id');
       const componentConfig = componentNs.getComponentConfig($component);
 
-      let $internalTemplate = $component.find(ns.selectorTemplate);
+      let $componentTemplate = $component.find(ns.selectorTemplate);
+      const isComponentTemplate = $componentTemplate.length > 0;
       const { config } = data;
       console.log('config', config);
-      if (config) {
-        //if config starts with # then its a selector
-        if (config.startsWith("#")) {
-          console.log(`config is a seelector for template, looking up template by selector ${ns.selectorTemplate + config}`);
-          const $templateById = $component.find(ns.selectorTemplate + config);
-          if ($templateById.length === 0) {
-            console.error("template not found by id");
-          } else {
-            console.log("template found by id", $templateById);
-            $internalTemplate = $templateById.first();
+
+      const isDataString = typeof config === 'string' || config instanceof String;
+
+      //if config starts with # then its a selector
+      const isDataId = isDataString && config.startsWith("#");
+
+      let dataIdString = isDataId ? config.substring(1) : (isDataString ? config : null);
+
+      //if config an object then try get id
+      if (!dataIdString && config && typeof config === 'object') {
+        console.log('config is an object, looking for id');      
+        // if object config has own attribute id then get it
+        if (Object.hasOwnProperty.call(config, 'id')) {
+          const dataObjectIdString = config["id"];
+          if (dataObjectIdString) {
+            console.log('has an id attibute', dataObjectIdString);
+            dataIdString = dataObjectIdString;
           }
+        }
+      } else {
+        console.log('config is not an object');
+      }
+
+      let $template; //template
+      let isFoundTemplate = false; // is template found at all
+      let isFoundTemplateInternal = false; //if template is found by id in internal templates
+      let isFoundTemplateExternal = false; //if template is found by id in external templates
+    
+      if (config) {
+        console.log(`config is a seelector for template, looking up template by selector [${ns.selectorTemplate} #${dataIdString}]`);
+        const $interntalTemplateById = $component.find(`${ns.selectorTemplate} #${dataIdString}`);
+
+        console.log("internal template found by id", $interntalTemplateById);
+        if ($interntalTemplateById.length === 0) {
+          console.error("internal template not found by id");
+        } else {
+          if ($interntalTemplateById.length > 1) {
+            console.log("more than one template found, using first one");
+          } 
+          $template = $interntalTemplateById.first();
+          isFoundTemplateInternal = true;
+          isFoundTemplate = true;
         }
       }
 
-      if ($internalTemplate.length > 1) {
-        console.log("more than one template found, using first one");
-        $internalTemplate = $internalTemplate.first();
-      }
-
-      //default template      
-      let $template = $internalTemplate;
-
+      console.log('isFoundTemplate', isFoundTemplate);
+      console.log('isFoundTemplateInternal', isFoundTemplateInternal);
       console.log('$template', $template);
 
+      if (!isFoundTemplateInternal) {
+        const $externalTemplateById = $(`#${dataIdString}`);
+        if ($externalTemplateById.length === 0) {
+          console.error("external template not found by id");
+        } else {
+          if ($externalTemplateById.length > 1) {
+            console.log("more than one template found, using first one");
+          }
+          isFoundTemplateExternal = true;
+          isFoundTemplate = true;
+          $template = $externalTemplateById.first();
+        }
+      }
+      
+      console.log('isFoundTemplate', isFoundTemplate);
+      console.log('isFoundTemplateExternal', isFoundTemplateExternal);
+      console.log('$template', $template);
 
-      if (config) {
-        const $externalTemplate = $(config);
-        $template = $externalTemplate.length ? $externalTemplate : $template;
-        console.log('$template', $template);
+      // if template not found then return
+      if (!isFoundTemplate) {
+        console.error("template not found");
+        return;
       }
 
       // get the template id if set
@@ -319,8 +361,9 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       console.log('$newRow', $newRow);
 
-      //insert into accordion
-      $internalTemplate.before($newRow);
+      //insert newrow into accordion
+      $component.append($newRow);
+      
       
       //raise event that item is added
       ns.ADD_ITEM($component, componentConfig, { type: "accordion", action: "add_item" , "id": itemId } );
