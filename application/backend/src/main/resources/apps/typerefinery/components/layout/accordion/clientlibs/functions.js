@@ -91,9 +91,9 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const id = config;
       const $item = $component.find(`#${id}`);
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
-      const $itemButton = $item.find(ns.selectorButton);
+      const $itemButton = $item.find(ns.selectorButton).first();
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
-      const $itemCollapse = $item.find(itemButtonTarget);
+      const $itemCollapse = $item.find(itemButtonTarget).first();
       const itemDataParent = $itemCollapse.attr(ns.attributeParent);
       
       console.log(["$item", $item]);
