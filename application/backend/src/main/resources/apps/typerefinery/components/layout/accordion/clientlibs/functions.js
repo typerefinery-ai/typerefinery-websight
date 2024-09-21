@@ -103,6 +103,30 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log(["$itemCollapse", itemButtonTarget, $itemCollapse]);
       console.log(["itemDataParent", ns.attributeParent, itemDataParent]);
 
+      //find all nested parent accordion items that are not open and open them in reverse order top down
+      const $parentItems = $($itemContainer.parents(ns.selectorAccordionItem).toArray().reverse());
+      console.log(["$parentItems", $parentItems]);
+      $parentItems.each((index, item) => {
+        const $parentItem = $(item);
+        const $parentItemButton = $parentItem.find(ns.selectorButton).first();
+        const parentItemButtonTarget = $parentItemButton.attr(ns.attributeTarget);
+        const $parentItemCollapse = $parentItem.find(parentItemButtonTarget).first();
+        const parentItemDataParent = $parentItemCollapse.attr(ns.attributeParent);
+        console.log(["$parentItem", $parentItem]);
+        console.log(["$parentItemButton", $parentItemButton]);
+        console.log(["parentItemButtonTarget", parentItemButtonTarget]);
+        console.log(["$parentItemCollapse", $parentItemCollapse]);
+        console.log(["parentItemDataParent", parentItemDataParent]);
+        // if button is not aria-expanded then click it
+        const ariaExpanded = $parentItemButton.attr('aria-expanded');
+        console.log(["ariaExpanded", ariaExpanded]);
+        if (ariaExpanded === "false") {
+          $parentItemButton.click();
+        } else {
+          console.log("already open");
+        }
+      });
+        
       // if button is not aria-expanded then click it
       const ariaExpanded = $itemButton.attr('aria-expanded');
       console.log(["ariaExpanded", ariaExpanded]);
