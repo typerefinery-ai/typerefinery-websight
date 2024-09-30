@@ -123,16 +123,23 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.emitEvent = (topic, payload) => {
-        console.group('emitEvent');
+        console.groupCollapsed(`emitEvent ${topic}`);
         console.log(["topic", topic, "payload", payload]);
         const evt = document.createEvent(ns.CUSTOM_EVENT_NAME);
-        if (evt.initCustomEvent) {
-          evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
+        // if evt has initCustomEvent then use it
+        console.log(["initCustomEvent", evt["initCustomEvent"]]);
+        if (typeof evt["initCustomEvent"] === 'function') {
+          console.log("initCustomEvent found on custom event.");
+          evt["initCustomEvent"](ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
+          // evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
+          console.log("event initialized");
         } else {
           console.error("initCustomEvent not found on custom event.");
         }
         if (ns.socket && ns.socket.dispatchEvent) {
+          console.log("socket found, dispatching event");
           ns.socket.dispatchEvent(evt);
+          console.log("event dispatched");
         } else {
           console.warn("socket not found.");
         }
@@ -238,9 +245,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { id } = componentConfig;
 
+      console.log(["id", id]);
+
       // const eventData = ns.compileEventData(payload, eventName, componentAction);
       // console.log(["eventData", eventData]);
       console.log(["eventMap", eventMap]);
+      const eventType = payload.type || "";
+      console.log(["eventType", eventType]);
 
       if (!eventMap) {
         console.error("Event map is missing");
@@ -249,9 +260,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       }
       //find event in eventMap and emit event to all the topics
       if (eventMap[ns.EVENT_TYPE_EMIT]) {
-        console.log("eventMap type found", componentAction, eventMap[ns.EVENT_TYPE_EMIT]);
+        console.log(["eventMap type found", componentAction, eventMap[ns.EVENT_TYPE_EMIT]]);
         if (eventMap[ns.EVENT_TYPE_EMIT][componentAction]) {
-          console.log("componentAction found", eventName, eventMap[ns.EVENT_TYPE_EMIT][componentAction]);
+          console.log(["componentAction found", eventName, eventMap[ns.EVENT_TYPE_EMIT][componentAction]]);
           
           //check if events exist for component id
           if (!eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]) {
@@ -266,26 +277,39 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log("actionComponents", actionComponents);
           // for each topic in the event name emit event
           actionComponents.forEach(actionComponent => {
-            console.log("actionComponents", actionComponent);
+            console.log("actionComponent", actionComponent);
             const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][id][actionComponent];
             console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
             if (Array.isArray(actionEvents)) {
+              if (actionEvents.length == 0) {
+                console.warn("no topics found");
+              }
               actionEvents.forEach(topicValue => {
-                const { topic, config } = topicValue;
-                console.log("emit event for topic", topic);
-                const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
-                ns.emitEvent(topic, eventData);
-                console.log("event emitted", topic, eventData);
+                const { topic, config, event } = topicValue;
+                if (topic && (topic == eventType || event == actionComponent)) {
+                  console.log("emit event for topic", topic);
+                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
+                  ns.emitEvent(topic, eventData);
+                  console.log("event emitted", topic, eventData);
+                } else {
+                  console.warn("topic not matched", topic, eventType, actionComponent);
+                }
               });
             } else {
               //is single value use it as topic
               if (actionEvents) {   
-                const { topic, config } = topicValue;
-                console.log("emit event for topic", topic);
-                const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
-                ns.emitEvent(topic, eventData);
-                console.log("event emitted", topic, eventData);
+                const { topic, config, event } = actionEvents;
+                if (topic && (topic == eventType || event == actionComponent)) {
+                  console.log("emit event for topic", topic);
+                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
+                  ns.emitEvent(topic, eventData);
+                  console.log("event emitted", topic, eventData);
+                } else {
+                  console.warn("topic not matched", topic, eventType, actionComponent);
+                }
+              } else {
+                console.warn("no topic found");
               }
             }
           });
@@ -338,4 +362,4 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     $(document).ready(() => {
         ns.init();
     });
-})(jQuery, Typerefinery.Page.Events, document, window);
+})(window["jQuery"], Typerefinery.Page.Events, document, window);
