@@ -11,16 +11,16 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.selectorComponent = '[component=embed]';
 
-    ns.ACTION_EVENT_PROXY = "EVENT_PROXY";
-    ns.ACTION_DATA_REQUEST = "DATA_REQUEST";
-    ns.ACTION_DATA_PAYLOAD = "DATA_PAYLOAD";
-    ns.ACTION_DATA_SOURCE = "DATA_SOURCE";
+    ns.ACTION_EVENT_PROXY = "EVENT_PROXY"; //emmit event from iframe as if it was raised by this component
+    ns.ACTION_DATA_REQUEST = "DATA_REQUEST"; //request data by iframe
+    ns.ACTION_DATA_PAYLOAD = "DATA_PAYLOAD"; //deliver data to iframe
+    ns.ACTION_DATA_SOURCE = "DATA_SOURCE"; //change source for iframe
     
     //actions supported by this component
     ns.ACTIONS = {
-      EVENT_PROXY: ns.ACTION_EVENT_PROXY, //send event to above component
-      DATA_REQUEST: ns.ACTION_DATA_REQUEST, //request data
-      DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD, //deliver data
+      EVENT_PROXY: ns.ACTION_EVENT_PROXY, //emmit event from iframe as if it was raised by this component
+      DATA_REQUEST: ns.ACTION_DATA_REQUEST, //request data by iframe
+      DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD, //deliver data to iframe
       DATA_SOURCE: ns.ACTION_DATA_SOURCE //change source for iframe
     }
 
@@ -32,8 +32,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.updateDataSource = ($component, config) => {
       console.group("updateDataSource");
       console.log(["updateDataSource", $component, config]);
-      if (config.source) {
-        $component.find("iframe").attr("src", config.source);
+      //check if config has source or config.config.source then get is value
+      let sourceUrl = config.source || config.config.source;
+
+      const payloadData = config.payload || {};
+      
+      if (sourceUrl) {
+        sourceUrl = componentNs.replaceRegex(sourceUrl, payloadData)
+        console.log(["update iframe source", sourceUrl]);
+        $component.find("iframe").attr("src", sourceUrl);
       } else {
         console.error("no source was specified");
       }
@@ -289,6 +296,26 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       }
     }
 
+    // function to check if string is JSON
+    ns.isJsonString = (str) => {
+      try {
+          JSON.parse(str);
+      } catch (e) {
+          return false;
+      }
+      return true;
+    }
+
+    //function to convert string to JSON or return string
+    ns.parseJson = (str) => {
+      if (ns.isJsonString(str)) {
+        return JSON.parse(str);
+      }
+      return str;
+    }
+
+          
+    
     ns.addEventListener = ($component, componentConfig) => {
       console.group('addEventListener embed');
       const { events, id } = componentConfig;
@@ -301,6 +328,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       if (events) {        
         events.forEach(event => {
           const { topic, type, name, nameCustom, action, config} = event;
+          const configData = ns.parseJson(config) || "";
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
           // if type is not defined then its emitted
@@ -309,7 +337,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           //custom name takes precidence over name, this will be raised as event name
           let eventName = nameCustom || name;
 
-          console.groupCollapsed(`event ${typeName} - ${action}:${topic} [${config}]`);
+          console.groupCollapsed(`event ${typeName} - ${action}:${topic}`);
           console.log(["event", event]);
 
           // if action is EVENT_PROXY 
@@ -319,7 +347,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           if (ns.ACTIONS[action]) {
 
             console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
-            eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
+            eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, configData);
             console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
 
             // if event type is listen then add event listener for the event
@@ -330,27 +358,27 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               //TODO: add new event to allow sending data to tms
               //NOTE: handle all different actions in windowListeneriFrameEvent
               if (action === ns.ACTION_EVENT_PROXY) {
-                console.log(["add windowListeneriFrameEvent for this component", action, id]);
+                console.log(["add windowListeneriFrameEvent for this component", action, id, configData]);
                 //listen for global message events that are emited by iframe
-                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, (data) => {
-                  console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
+                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, configData, (data) => {
+                  console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data, configData]);
                   // proxy all events
                   console.log(["EVENT_PROXY", $component, componentConfig, data]);
                   ns.EVENT_PROXY($component, componentConfig, data);
                 });
               } else if (action === ns.ACTION_DATA_REQUEST) {
-                console.log(["add windowListeneriFrameEvent for this component", action, id]);
-                //listen for global message events that are emited by iframe
-                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, (data) => {
+                console.log(["add windowListeneriFrameEvent for this component", action, id, configData]);
+                //listen for data request that are emited by iframe and conver these to data request events
+                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, configData, (data) => {
                   console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
-                  console.log(["DATA_REQUEST", $component, componentConfig, config]);                  
+                  console.log(["DATA_REQUEST", $component, componentConfig, configData]);                  
 
-                  let endpointConfig = {};
-                  try {
-                    const test = JSON.parse(config);
-                    endpointConfig = test;
-                  } catch (error) {
-                    endpointConfig.url = config;
+                  // get url from config or use config as url
+                  let endpointConfig = {};                  
+                  if (typeof configData === 'string') {
+                    endpointConfig.url = configData;
+                  } else {
+                    endpointConfig = configData;
                   }
 
                   const eventData = {
@@ -373,15 +401,26 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 if (eventName === eventNs.EVENTS.EVENT_TOPIC_PAYLOAD) {
                  
                   //if config is string then use it as host
-                  const host = (typeof config === 'string' ? (config ? config : false) : (typeof config === 'object' ? config.host : false)) || "ws://localhost:8112/$tms";
+                  const host = (typeof configData === 'string' ? (configData ? configData : false) : (typeof configData === 'object' ? configData.host : false)) || "ws://localhost:8112/$tms"; //TODO: get host default value from config
+                  //add warning if host is not set
+                  if (!host) {
+                    console.warn("host not set for TMS address.");
+                  }
                   console.log(["register with TMS", host, topicName]);
+
+                  const url = typeof configData === 'string' ? configData : configData.url;
+                  //add warning if url is not set
+                  if (!url) {
+                    console.warn("url is not set for Payload.");
+                  }
+
  
                   ns.tmsConnected($component, host, topicName, (data) => {
                     const eventData = {
                       topicName: topicName,
                       eventName: eventName,
                       action: action,
-                      url: config,
+                      url: url,
                       data: data,
                       target: "iframe-" + id,
                       source: host
@@ -445,22 +484,23 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
     //all the callbacks for events, these are the actions to be taken when event is raised
-    ns.windowListeneriFrameEventCallBacks = {};
-    ns.addEventEmitter = function($component, componentConfig, topicName, eventName, action, callbackFn) {
+    ns.windowListeneriFrameEventCallBacks = new Map();
+    ns.addEventEmitter = function($component, componentConfig, topicName, eventName, action, configData, callbackFn) {
       console.groupCollapsed(`embed addEmitter for ${topicName},${eventName},${action}, on ${window.location}`);
-      console.log(["addEmitter", topicName, eventName, action, callbackFn]);
+      console.log(["addEmitter", topicName, eventName, action, configData, callbackFn]);
 
       const { id } = componentConfig;
       const callbackId = `${id}-${topicName}-${eventName}-${action}`;
       
-      ns.windowListeneriFrameEventCallBacks[callbackId] = {
+      ns.windowListeneriFrameEventCallBacks.set(callbackId,{
         $component: $component,
         componentConfig: componentConfig,
         topicName: topicName,
         eventName: eventName,
         action: action,
+        config: configData,
         callbackFn: callbackFn
-      }
+      })
       console.log(["windowListeneriFrameEventCallBacks", ns.windowListeneriFrameEventCallBacks]);
       ns.bindWindowListeneriFrameEvent($component);
       console.groupEnd();
@@ -481,52 +521,120 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
     
     ns.processWindowListenerEvent = function($component, event, sourceData) {
-      console.groupCollapsed("processWindowListenerEvent");
+      console.groupCollapsed(`processWindowListenerEvent ${sourceData.type}`);
       console.log(["processWindowListenerEvent", $component, event, sourceData]);
       const eventType = sourceData.type;
       const eventAction = sourceData.action;
       console.log(["eventType", eventType]);
       console.log(["eventAction", eventAction]);
       console.log(["sourceData", sourceData]);
-      const countofCallbacks = Object.keys(ns.windowListeneriFrameEventCallBacks).length;
+      const countofCallbacks = ns.windowListeneriFrameEventCallBacks.size;
       console.log(`find matching callbacks for event ${eventAction}:${eventType} in ${countofCallbacks} callbacks`);
 
-      //check if this event is for this component
-      for (const key in ns.windowListeneriFrameEventCallBacks) {
-        if (ns.windowListeneriFrameEventCallBacks.hasOwnProperty(key)) {
-          const callBack = ns.windowListeneriFrameEventCallBacks[key];
-          const callBackAction = callBack.action; //action component supports
-          const callBackTopicName = callBack.topicName; //topic name, should match event type
-          // const eventName = callBack.eventName; //named or custom event name
-          console.groupCollapsed(`callBack action ${callBackAction}:${callBackTopicName}`);
-          console.log(["callBack", callBack]);
-          // console.log(["eventName", eventName]);
-          const isProxyEvent = (callBackAction === ns.ACTION_EVENT_PROXY);
-          const isActionMatch = (callBackAction === eventAction);
-          const isTopicMatch = (callBackTopicName === eventType);
-          if (isProxyEvent) {
-            console.warn(["isProxyEvent", isProxyEvent]);
-          } else {
-            console.log(["isProxyEvent", isProxyEvent]);
-          }
-          if (isActionMatch) {
-            console.warn(["isActionMatch", isActionMatch]);
-          } else {
-            console.log(["isActionMatch", isActionMatch]);
-          }
-          if (isTopicMatch) {
-            console.warn(["isTopicMatch", isTopicMatch]);
-          } else {
-            console.log(["isTopicMatch", isTopicMatch]);
-          }
-          if (isProxyEvent || (isActionMatch && isTopicMatch)) {
-            console.log(["call", callBack]);
-            callBack.callbackFn(sourceData);
-          } else {
-            console.warn("no match");
-          }
-          console.groupEnd();
+      let hasCatchAll = false;
+
+      const matchedCallbacksArray = [...ns.windowListeneriFrameEventCallBacks];
+
+      console.log(["matchedCallbacksArray", matchedCallbacksArray]);
+
+      //find all callbacks that match the event
+      const matchedCallbacks = [...ns.windowListeneriFrameEventCallBacks].filter(([key, callBack]) => {
+        const callBackAction = callBack.action; //action component supports
+        const callBackTopicName = callBack.topicName; //topic name, should match event type
+        // const eventName = callBack.eventName; //named or custom event name
+        console.groupCollapsed(`callBack action ${callBackAction}:${callBackTopicName}`);
+        console.log(["callBack", callBack]);
+        console.log(["callBackAction", callBackAction]);
+        console.log(["callBackTopicName", callBackTopicName]);
+        // console.log(["eventName", eventName]);
+        const isProxyEvent = (callBackAction === ns.ACTION_EVENT_PROXY);
+        const isActionMatch = (callBackAction === eventAction);
+        const isTopicMatch = (callBackTopicName === eventType);
+        const isCatchAll = (callBack.config ? (callBack.config.catchAll ? callBack.config.catchAll : false) : false);
+        if (isProxyEvent) {
+          console.warn(["isProxyEvent", isProxyEvent]);
+        } else {
+          console.log(["isProxyEvent", isProxyEvent]);
         }
+        if (isActionMatch) {
+          console.warn(["isActionMatch", isActionMatch]);
+        } else {
+          console.log(["isActionMatch", isActionMatch]);
+        }
+        if (isTopicMatch) {
+          console.warn(["isTopicMatch", isTopicMatch]);
+        } else {
+          console.log(["isTopicMatch", isTopicMatch]);
+        }
+        if (isCatchAll) {
+          console.warn(["isCatchAll", isCatchAll]);
+          hasCatchAll = true;
+        } else {
+          console.log(["isCatchAll", isCatchAll]);
+        }
+
+        // if event is proxy and is catch all then match all events
+        // if event is proxy then match topic only
+        // if action is match and topic is match then match
+        if ((isProxyEvent && isCatchAll) || (isProxyEvent && isTopicMatch) ||  (isActionMatch && isTopicMatch)) {
+          console.log(["match"]);
+          console.groupEnd();
+          return true;
+          //callBack.callbackFn(sourceData);
+        } else {
+          console.warn("no match");
+        }
+        console.groupEnd();
+        return false;
+      });
+
+      console.log(["matchedCallbacks", matchedCallbacks]);
+
+
+      if (matchedCallbacks.length > 0) {
+        if (matchedCallbacks.length == 1) {
+          console.log(["matchedCallbacks", matchedCallbacks]);
+          const callBackItem = matchedCallbacks[0];
+          const callBack = callBackItem[1];
+          const callBackKey = callBackItem[0];
+          console.log([`callBack exec ${callBackKey}`, callBack]);
+          // if callbackFn is set then call it
+          if (callBack.callbackFn) {
+            callBack.callbackFn(sourceData);
+            console.log([`callBack done ${callBackKey}`]);
+          } else {
+            console.error(`no callback function found ${callBackKey}`);
+          }
+        } else {
+          //order the to have the catch all last
+          matchedCallbacks.sort((a, b) => {
+            if (a.config && a.config.catchAll) {
+              return 1;
+            }
+            return 0;
+          });
+      
+          console.log(["matchedCallbacks", matchedCallbacks]);
+
+          //run callbacks
+          matchedCallbacks.forEach(([key, callBack]) => {
+            //skip catch all but not if catchAllAlways is set
+            if (callBack.config && callBack.config.catchAll && !callBack.config.catchAllAlways) {
+              return;
+            }          
+
+            console.log([`callBack exec ${key}`, callBack]);
+            // if callbackFn is set then call it
+            if (callBack.callbackFn) {
+              callBack.callbackFn(sourceData);
+              console.log([`callBack done ${key}`]); 
+            } else {
+              console.error(`no callback function found ${key}`);
+            }
+          });
+        }        
+      } else {
+        console.warn("no matching callbacks found");
       }
       console.groupEnd();
     };
