@@ -39,14 +39,12 @@
       "listen": {
         "sling:resourceType": "wcm/dialogs/components/select/selectitem",
         "label": "Listen",
-        "value": "listen",
-        "selected": true
+        "value": "listen"
       },
       "emit": {
         "sling:resourceType": "wcm/dialogs/components/select/selectitem",
         "label": "Emit",
-        "value": "emit",
-        "selected": true
+        "value": "emit"
       }
     },
     "eventAction": {
