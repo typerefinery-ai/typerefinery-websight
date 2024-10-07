@@ -331,8 +331,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           const configData = ns.parseJson(config) || "";
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
-          // if type is not defined then its emitted
-          let typeName = type || eventNs.EVENT_TYPE_LISTEN; //default is listen
+          // if type is not defined then its listen event
+          let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
 
           //custom name takes precidence over name, this will be raised as event name
           let eventName = nameCustom || name;

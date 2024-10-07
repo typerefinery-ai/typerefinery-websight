@@ -32,8 +32,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           const { topic, type, name, nameCustom, action, config } = event;
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
-          // if type is not defined then its emitted
-          let typeName = type || eventNs.EVENT_TYPE_LISTEN;
+          // if type is not defined then its listen event
+          let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
 
           let eventName = nameCustom || name;
           console.group(action + " " + eventName);
