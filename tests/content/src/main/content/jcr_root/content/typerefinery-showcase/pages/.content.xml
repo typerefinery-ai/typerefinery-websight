@@ -2,4 +2,11 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:ws="http://ds.pl/websight"
     jcr:primaryType="ws:Pages"
     ws:template="/apps/typerefinery/templates/pagesspace">
+    <components/>
+    <content/>
+    <forms/>
+    <os-intel/>
+    <os-triage/>
+    <pages/>
+    <test/>
 </jcr:root>

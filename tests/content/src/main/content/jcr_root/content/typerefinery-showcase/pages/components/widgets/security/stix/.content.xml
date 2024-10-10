@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Stix"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-03-04T09:26:22.047Z"
+        ws:lastModified="{Date}2024-02-08T09:47:59.780+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -36,8 +36,21 @@
                 <stix
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/widgets/security/stix"
+                    flowapi_createdon="2024-02-07T22:48:01.099Z"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff19b3n001tj51d&amp;components="
+                    flowapi_enable="true"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f19b3n001tj51d"
+                    flowapi_group="/content/typerefinery-showcase/pages/components/widgets/security/stix/_jcr_content/rootcontainer/main/stix"
+                    flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/widgets/security/stix/_jcr_content/rootcontainer/main/stix/{{id}}"
+                    flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
+                    flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/widgets/security/stix/templates/stix.json"
+                    flowapi_title="Stix flow"
+                    flowapi_topic="stix_a327cba72a7b465a95e9e976c0b921ff"
+                    flowapi_websocketurl="wss://tms.typerefinery.localhost:8101/$tms"
                     id="stix_SVTBP4VXM"/>
             </main>
             <footer

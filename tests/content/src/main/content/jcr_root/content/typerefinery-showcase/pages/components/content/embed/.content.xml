@@ -2,10 +2,21 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
     <jcr:content
+        jcr:lastModified="{Date}2024-03-04T11:07:15.292+11:00"
+        jcr:lastModifiedBy="admin"
         jcr:primaryType="ws:PageContent"
         jcr:title="Embed"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:template="/apps/typerefinery/templates/page">
+        ws:lastModified="{Date}2024-03-04T11:10:14.232+11:00"
+        ws:lastModifiedBy="admin"
+        ws:template="/apps/typerefinery/templates/page"
+        description="\0"
+        hideInNav="false"
+        icon="\0"
+        ogDescription="\0"
+        ogTitle="\0"
+        ogUrl="\0"
+        propertyTitle="\0">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
@@ -30,11 +41,13 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/content/embed"
                         borderEnabled="false"
+                        classes="\0"
                         id="embed_SSRJRONQ2"
                         marginEnabled="false"
                         paddingEnabled="false"
                         persistColorWhenThemeSwitches="false"
-                        source="&lt;iframe src=&quot;https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10601.849068561562!2d144.95320519129666!3d-37.81467323756081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne%20VIC!5e0!3m2!1sen!2sau!4v1709510888812!5m2!1sen!2sau&quot; width=&quot;600&quot; height=&quot;450&quot; style=&quot;border:0;&quot; allowfullscreen=&quot;&quot; loading=&quot;lazy&quot; referrerpolicy=&quot;no-referrer-when-downgrade&quot;>&lt;/iframe>"/>
+                        source="&lt;iframe src=&quot;https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10601.849068561562!2d144.95320519129666!3d-37.81467323756081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad646b5d2ba4df7%3A0x4045675218ccd90!2sMelbourne%20VIC!5e0!3m2!1sen!2sau!4v1709510888812!5m2!1sen!2sau&quot; width=&quot;600&quot; height=&quot;450&quot; style=&quot;border:0;&quot; allowfullscreen=&quot;&quot; loading=&quot;lazy&quot; referrerpolicy=&quot;no-referrer-when-downgrade&quot;>&lt;/iframe>"
+                        variant="\0"/>
                 </container>
                 <container_1
                     jcr:primaryType="nt:unstructured"
@@ -50,6 +63,7 @@
                         sling:resourceType="typerefinery/components/content/embed"
                         autoResize="false"
                         borderEnabled="false"
+                        classes="\0"
                         height="300"
                         id="embed_1E2Q4TQMD"
                         marginEnabled="false"
@@ -66,4 +80,9 @@
                 id="footer_0HDYMOOJD"/>
         </rootcontainer>
     </jcr:content>
+    <vizhub/>
+    <github/>
+    <codesandbox/>
+    <jsfiddle/>
+    <codepen/>
 </jcr:root>

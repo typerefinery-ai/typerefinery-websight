@@ -2,6 +2,8 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
     <jcr:content
+        jcr:lastModified="{Date}2023-11-19T07:02:35.430+11:00"
+        jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
         jcr:title="Table"
         sling:resourceType="typerefinery/components/structure/page"

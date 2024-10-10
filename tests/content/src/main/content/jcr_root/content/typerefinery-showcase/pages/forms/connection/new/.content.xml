@@ -368,8 +368,8 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 gap="2"
-                                label="Create Connection"
                                 id="button_5QVNHQCN6"
+                                label="Create Connection"
                                 lgColSize="4"
                                 persistColorWhenThemeSwitches="{Boolean}true"/>
                         </container>

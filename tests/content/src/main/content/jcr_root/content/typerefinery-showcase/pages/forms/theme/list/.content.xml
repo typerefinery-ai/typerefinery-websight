@@ -32,6 +32,8 @@
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
+                    backgroundColor="light"
+                    backgroundColorOfHeader="bg-light"
                     borderColor="light"
                     borderEnabled="true"
                     borderPositionBottom="true"
@@ -44,8 +46,6 @@
                     marginGeneral="three"
                     paddingEnabled="true"
                     paddingGeneral="three"
-                    backgroundColor="light"
-                    backgroundColorOfHeader="bg-light"
                     title="List Of Queries"
                     titleTagName="h3"
                     variant="sectionwithtitle">
