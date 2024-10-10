@@ -4,9 +4,11 @@ Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupload || {};
 
 
-(function (ns, componentNs, document, window) {
+(function ($, ns, componentNs, document, window) {
 
     "use strict";
+
+    ns.selectorComponent = '[component=fileupload]';
 
     ns.customDragAndDrop = ($component, componentConfig) => {
         // }
@@ -111,4 +113,4 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
         $component = document.getElementById(componentConfig.id);
         ns.customDragAndDrop($component, componentConfig);
     }
-})(Typerefinery.Components.Forms.Fileupload, Typerefinery.Components, document, window);
+})(jQuery, Typerefinery.Components.Forms.Fileupload, Typerefinery.Components, document, window);

@@ -32,11 +32,11 @@
                 <container
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
+                    backgroundColor="light"
+                    backgroundColorOfHeader="bg-light"
                     borderColor="light"
                     borderEnabled="true"
                     borderPositionBottom="true"
-                    backgroundColor="light"
-                    backgroundColorOfHeader="bg-light"
                     borderPositionLeft="true"
                     borderPositionRight="true"
                     borderPositionTop="true"

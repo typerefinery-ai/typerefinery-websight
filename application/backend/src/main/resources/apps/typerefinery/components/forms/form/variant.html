@@ -22,12 +22,12 @@
         class="${model.componentClassNames}" 
         toggleTheme="true"
     >
-        <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}"></sly>
+      <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
     </form>
 
     <sly data-sly-test="${!resource.hasChildren}">
         <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-            data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+            data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
         </sly>
     </sly>
 </template>

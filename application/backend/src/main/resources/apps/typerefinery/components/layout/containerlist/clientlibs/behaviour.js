@@ -3,14 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
 window.Typerefinery.Components.Layout.ContainerList = Typerefinery.Components.Layout.ContainerList || {};
 
-(function (ns, document, window) {
+(function ($, ns, componentsNs, document, window) {
   "use strict";
  
-  $(document).ready(function () {
-    $('[component=containerlist]').each(function () {
-      ns?.init(this);
-    });
-  });
+  //init and watch for new components
+  componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
 
-
-})(Typerefinery.Components.Layout.ContainerList, document, window);
+})(jQuery, Typerefinery.Components.Layout.ContainerList, window.Typerefinery.Components, document, window);

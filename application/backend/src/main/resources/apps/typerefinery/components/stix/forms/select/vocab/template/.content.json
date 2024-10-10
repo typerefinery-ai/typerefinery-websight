@@ -1,0 +1,13 @@
+{
+  "label": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/forms/fields/label",
+    "label": "Vocab"
+  },
+  "field": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/stix/forms/fields/select",
+    "label": "Vocab",
+    "inputType": "vocab"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "description": "Paragraph System component responsible for rendering sub-nodes.",
+  "title": "Parsys Component"
+}

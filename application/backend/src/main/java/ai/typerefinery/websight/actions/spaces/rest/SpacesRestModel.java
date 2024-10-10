@@ -3,6 +3,7 @@ package ai.typerefinery.websight.actions.spaces.rest;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 
 import ai.typerefinery.websight.rest.spaces.SpacesRestModelBase;
@@ -20,7 +21,16 @@ public class SpacesRestModel extends SpacesRestModelBase implements Validatable 
   private String options;  
 
   @RequestParameter
+  @Default(booleanValues = true, values = {"false"})
   private Boolean deploy;
+  
+  @RequestParameter
+  @Default(booleanValues = true, values = {"false"})
+  private Boolean commit;
+
+  @RequestParameter
+  @Default(booleanValues = true, values = {"false"})
+  private Boolean backup;
   
   public List<String> getItems() {
     return this.items;
@@ -32,6 +42,14 @@ public class SpacesRestModel extends SpacesRestModelBase implements Validatable 
       
   public Boolean getDeploy() {
     return this.deploy;
+  }
+        
+  public Boolean getCommit() {
+    return this.commit;
+  }
+          
+  public Boolean getBackup() {
+    return this.backup;
   }
   
   public Errors validate() {

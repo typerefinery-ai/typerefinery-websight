@@ -52,11 +52,13 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                 hideLabel="true"
+                                id="label_ASOSS1WM0"
                                 label="\0"
                                 title="Label"/>
                             <field
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                id="field_A41S3LQFZ"
                                 title="Field"/>
                         </fileupload>
                         <text

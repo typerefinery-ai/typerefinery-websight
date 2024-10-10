@@ -1,0 +1,61 @@
+{
+  "label": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/forms/fields/label",
+    "label": "Granular Marking"
+  },
+  "field": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/stix/forms/fields/composite",
+    "label": "Granular Marking Field",
+    "inputType": "granularmarking",
+    "lang": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "lang"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "lang",
+        "name": "lang",
+        "inputType": "string"
+      }
+    },
+    "marking_ref": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "marking_ref"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "marking_ref",
+        "name": "marking_ref",
+        "inputType": "string"
+      }
+    },
+    "selectors": {
+      "jcr:primaryType": "nt:unstructured",
+      "sling:resourceType": "typerefinery/components/forms/input",
+      "label": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/forms/fields/label",
+        "label": "selectors"
+      },
+      "field": {
+        "jcr:primaryType": "nt:unstructured",
+        "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+        "label": "selectors",
+        "name": "selectors",
+        "inputType": "string"
+      }
+    }
+  }
+}

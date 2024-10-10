@@ -1,0 +1,8 @@
+{
+  "isContainer": true,
+  "group": ".hidden",
+  "sling:resourceType": "ws:Component",
+  "description": "This is Composite field returning JSON of its values",
+  "title": "Composite Stix",
+  "sling:resourceSuperType": "typerefinery/components/forms/fields/composite"
+}

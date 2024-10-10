@@ -38,11 +38,12 @@ public class BaseFormComponent extends BaseComponent {
 
     public static final String PROPERTY_NAME = "name";
     public static final String PROPERTY_LABEL = "label";
+    public static final String PROPERTY_TITLE = "title";
     public static final String PROPERTY_VALUE = "value";
     public static final String PROPERTY_PLACEHOLDER = "placeholder";
 
     @Self
-    private SlingHttpServletRequest request;
+    protected SlingHttpServletRequest request;
 
     @Inject
     @Getter
@@ -55,6 +56,12 @@ public class BaseFormComponent extends BaseComponent {
     @Named(PROPERTY_LABEL)
     @Nullable
     protected String label;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_TITLE)
+    @Nullable
+    protected String title;
     
     @Inject
     @Getter
@@ -72,11 +79,20 @@ public class BaseFormComponent extends BaseComponent {
     @Getter
     @Default(booleanValues = false)
     protected Boolean disabled;
-    
+
+    @Getter
+    protected String parentFieldId;
+
 
     @Override
     @PostConstruct
     protected void init() {
+
+        super.init();
+
+        // set default parent field id
+        this.parentFieldId = this.id;
+
         // check if selectors are present
         if (request != null && request.getRequestPathInfo() != null) {
             String selectors = request.getRequestPathInfo().getSelectorString();
@@ -84,16 +100,35 @@ public class BaseFormComponent extends BaseComponent {
                 String[] selectorArray = StringUtils.split(selectors, ".");
                 if (selectorArray.length >= 2) {
                     // check if id is present and update component id
-                    if (ArrayUtils.contains(selectorArray, "id")) {
-                        String value = selectorArray[ArrayUtils.indexOf(selectorArray, "id")+1];
-                        if (StringUtils.isNotBlank(value)) {
-                            this.id = value;
+                    if (ArrayUtils.contains(selectorArray, "id")) { //overide id 
+                        int valueIndex = ArrayUtils.indexOf(selectorArray, "id")+1;
+                        if (valueIndex < selectorArray.length) {
+                            String value = selectorArray[valueIndex];
+                            if (StringUtils.isNotBlank(value)) {
+                                if (value.endsWith(this.id)) {
+                                    this.id = value;
+                                } else {
+                                    this.id = value + "-" + this.id;                            
+                                }
+                            }
+                        }
+                    } 
+                    if (ArrayUtils.contains(selectorArray, "fid")) { //parent field id
+                        int valueIndex = ArrayUtils.indexOf(selectorArray, "fid")+1;
+                        if (valueIndex < selectorArray.length) {
+                            String value = selectorArray[valueIndex];
+                            if (StringUtils.isNotBlank(value)) {
+                                this.parentFieldId = value;
+                            }
                         }
                     }
                 }
             }
         }
-        super.init();
+
+        if (StringUtils.isBlank(this.name)) {
+            this.name = resource.getName();
+        }
 
     }
 

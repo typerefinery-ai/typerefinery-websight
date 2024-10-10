@@ -108,18 +108,9 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     @Inject
     public Boolean multipleSelectRowEnabled;
 
-    
-    // key is topic and value is type = HIGHLIGHT || FILTER
-    @Getter
-    @Inject
-    public List<KeyValuePair> events;
-
-
     @Getter
     @Inject
     public Boolean singleSelectEnabled;
-
-
 
     @Getter
     @Inject

@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Input",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Threat input field.",
+  "title": "Threat",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

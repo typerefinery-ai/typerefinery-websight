@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Composite",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "External Reference composite field.",
+  "title": "External Reference",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

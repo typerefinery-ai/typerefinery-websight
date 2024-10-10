@@ -1,0 +1,128 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Source",
+          "value": ""
+        },
+        "iframe": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "iFrame",
+          "value": "iframe"
+        }
+      },
+      "variantiframe": {
+        "sling:resourceType": "wcm/dialogs/components/container",
+        "url": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Url",
+          "name": "url"
+        },
+        "height": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "label": "Height",
+          "name": "height"
+        },
+        "scrolling": {
+          "sling:resourceType": "wcm/dialogs/components/toggle",
+          "name": "scrolling",
+          "checkedValue": "yes",
+          "uncheckedValue": "no",
+          "label": "Scrolling",
+          "description": "Enable or disable scrolling in iFrame"
+        },
+        "autoResize": {
+          "sling:resourceType": "wcm/dialogs/components/toggle",
+          "name": "autoResize",
+          "label": "Auto Resize to fit content",
+          "description": "On loading of content will resize iFrame to fit contents."
+        },
+
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values": "iframe"
+          }
+        }
+      },
+      "variantsource": {
+        "sling:resourceType": "wcm/dialogs/components/container",
+        "source": {
+          "jcr:primaryType": "nt:unstructured",
+          "sling:resourceType": "wcm/dialogs/components/textarea",
+          "name": "source",
+          "title": "Source",
+          "description": "Output plain HTML."
+        },
+        "ws:display": {
+          "condition": {
+            "sourceName": "variant",
+            "values": ""
+          }
+        }
+      }
+    },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "warning": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
+      },
+      "info": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
+      },
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "name": "_events_",
+        "description": "Pick generic event or specify custom event to which component action will be mapped.",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action",
+          "description": "Which component action to map to event."
+        },
+        "eventName": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
+        },
+        "eventNameCustom": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
+        }
+      }
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    }
+  }
+}

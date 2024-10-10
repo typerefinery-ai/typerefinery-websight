@@ -3,11 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Editor = Typerefinery.Components.Widgets.Editor || {};
 
-(function (ns, document) {
+(function ($, ns, componentsNs, document, window) {
     "use strict";
-    $(document).ready(function () {
-        $('[component=editor]').each(function () {
-            ns?.init(this);
-        });
-    });
-})(Typerefinery.Components.Widgets.Editor, document);
+
+    //init and watch for new components
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+    
+})(jQuery, Typerefinery.Components.Widgets.Editor, window.Typerefinery.Components, document, window);

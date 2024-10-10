@@ -2,7 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 Typerefinery.Dropdown = Typerefinery.Dropdown || {};
 Typerefinery.Modal = Typerefinery.Modal || {};
 
-; (function (ns, modalNs, document, window) {
+(function ($, ns, modalNs, document, window) {
 
     // Inner HTML for the Dropdown window.
     ns.getDropdownInnerHTML = (menuItems) => {
@@ -25,31 +25,40 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.init = ($component, componentConfig) => {
 
+        console.group("dropdown init");
         
         // Updating the component with Bootstrap Attributes.
-        $component.setAttribute("data-bs-toggle", "dropdown");
-        $component.setAttribute("type", "button");
-        $component.setAttribute("aria-expanded", "false");
-        const buttonId = $component.getAttribute("id");
+        $component.attr("data-bs-toggle", "dropdown");
+        $component.attr("type", "button");
+        $component.attr("aria-expanded", "false");
+        const buttonId = $component.attr("id");
 
 
         // Dropdown Container with default Attributes
-        const newDropdownContainer = document.createElement("div");
-        newDropdownContainer.setAttribute("class", "dropdown-menu dropdownMenu");
-        newDropdownContainer.setAttribute("aria-labelledby", buttonId);
+        const $newDropdownContainer = $("<div></div>");
+        $newDropdownContainer.attr("class", "dropdown-menu dropdownMenu");
+        $newDropdownContainer.attr("aria-labelledby", buttonId);
 
 
         const { dropdownItems } = componentConfig;
 
-        newDropdownContainer.innerHTML = ns.getDropdownInnerHTML(dropdownItems);
+        if (!dropdownItems || dropdownItems.length === 0) {
+            console.error("not dropdown items provided in component config.");
+        } else {
 
-        $component.parentNode.appendChild(newDropdownContainer);
+          $newDropdownContainer.html(ns.getDropdownInnerHTML(dropdownItems));
+          
+        }
+        
+        $component.add($newDropdownContainer);
+
+        console.groupEnd();
 
     };
 
     ns.dropDownButtonEventListener = () => {
-        console.log("drop down button event listener")
-        $(document).on("click", "#__dropdown__", function (e) {
+      $(document).on("click", "#__dropdown__", function (e) {
+            console.groupCollapsed("drop down button event listener on " + window.location);
             // console.log("again 1 clicked on dropdown item", e.target );
             const componentConfig = JSON.parse(e.target.getAttribute("data-model"));
             const { label, name, link, action, hideFooter = false } = componentConfig;
@@ -64,8 +73,9 @@ Typerefinery.Modal = Typerefinery.Modal || {};
                 // navigate to the link.
                 window.location.href = link;
             }
+            console.groupEnd();
         });
     };
     
     ns.dropDownButtonEventListener();
-})(Typerefinery.Dropdown, Typerefinery.Modal, document, window);
+})(jQuery, Typerefinery.Dropdown, Typerefinery.Modal, document, window);

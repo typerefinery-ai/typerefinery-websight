@@ -3,11 +3,10 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 
-(function (ns, document) {
+(function ($, ns, componentsNs, document, window) {
     "use strict";
-    $(document).ready(function () {
-        $('[component="form"]').each(function () {
-            ns.init(this);
-        });
-    });
-})(window.Typerefinery.Components.Forms.Form, document);
+
+    //init and watch for new components
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+
+})(jQuery, window.Typerefinery.Components.Forms.Form, window.Typerefinery.Components, document, window);

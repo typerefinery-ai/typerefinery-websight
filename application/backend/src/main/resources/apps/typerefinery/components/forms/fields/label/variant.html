@@ -3,10 +3,11 @@
     <label 
       component="${model.componentName}"
       id="${model.id}"
+      data-fieldId="${model.parentFieldId}"
       class="${model.componentClassNames} ${model.variantClassNames}"
-      for="${model.id}">${model.label}</label>    
+      for="${model.forId}">${model.label}</label>    
   </sly>
-  <sly data-sly-test="${wcmmode.isEdit && model.hideLabel}">
-    <div style="--bs-bg-opacity: .5;" class="bg-warning">Label is Hidden</div>
-  </sly>
+  <sly data-sly-test="${model.hideLabel}" data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+    data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Label is hidden'] @ join=''}"
+    data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
 </template>

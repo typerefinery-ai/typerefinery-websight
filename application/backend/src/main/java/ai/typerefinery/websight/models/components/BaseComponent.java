@@ -5,6 +5,7 @@ import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIO
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.jetbrains.annotations.Nullable;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -28,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ai.typerefinery.websight.models.components.BaseComponent;
+import ai.typerefinery.websight.models.dialog.EventsListItem;
 import ai.typerefinery.websight.utils.Styled;
 import ai.typerefinery.websight.utils.Grid;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -55,6 +58,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     public static final String PROPERTY_DECORATION_TAG_NAME = "decorationTagName";
     public static final String PROPERTY_VARIANT = "variant";
     public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_REL = "rel"; //html sematic relationship, how this element relates to the current context/document
     public static final String PROPERTY_TITLE_TAG_NAME = "titleTagName";
     public static final String PROPERTY_DESCRIPTION = "description";
 
@@ -68,6 +72,12 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Named(PROPERTY_TITLE)
     @Nullable
     public String title;
+
+    @Inject
+    @Getter
+    @Named(PROPERTY_REL)
+    @Nullable
+    public String rel;
 
     @Inject
     @Getter
@@ -169,8 +179,23 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
     @Getter
     @Default(values = "")
     private String name;
-
     
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String roleOther;    
+    @Inject
+    @Getter
+    @Default(values = "")
+    private String roleSelect;
+    @Inject
+    @Getter
+    public List<AttributeSelectValue> ariaAttributes;
+    
+    @Getter
+    @ChildResource(name = "_events_")
+    private List<EventsListItem> events;
+
     @Inject
     @Getter
     public Boolean persistColorWhenThemeSwitches;
@@ -356,7 +381,7 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
                 .collect(Collectors.toCollection(LinkedHashSet::new))
                 .toArray(new String[] {});
                 
-            grid.addClasses(getAllGridClasses());
+            grid.addClasses(grid.getAllGridClasses());
         }
 
         //bootstrap margin styling
@@ -432,5 +457,19 @@ public class BaseComponent extends BaseModel implements Styled, Grid {
             //     // style.addClasses(className);
             // }
         }
+    }
+
+    public String getRole() {
+        if (StringUtils.isNotBlank(roleSelect)) {
+            return roleSelect;
+        }
+        return roleOther;
+    }
+
+    public String getAriaAttributesString() {
+        if (ariaAttributes != null) {
+            return ariaAttributes.stream().map(AttributeSelectValue::toString).collect(Collectors.joining(" "));
+        }
+        return "";
     }
 }

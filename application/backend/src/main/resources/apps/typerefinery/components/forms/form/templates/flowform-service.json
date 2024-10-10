@@ -51,7 +51,7 @@
 		"httppost": {
 			"id": "httppost",
 			"config": {
-				"url": "<http-route-url>",
+				"url": "<http-route-url-nosfx>",
 				"method": "POST",
 				"timeout": 5000,
 				"limit": 5120,
@@ -106,7 +106,7 @@
 		"httpget": {
 			"id": "httpget",
 			"config": {
-				"url": "<http-route-url>",
+				"url": "<http-route-url-nosfx>",
 				"method": "GET",
 				"timeout": 5000,
 				"limit": 5120,
@@ -163,7 +163,7 @@
 		"httpput": {
 			"id": "httpput",
 			"config": {
-				"url": "<http-route-url>",
+				"url": "<http-route-url-nosfx>",
 				"method": "PUT",
 				"timeout": 5000,
 				"limit": 5120,
@@ -263,7 +263,7 @@
 		"httpdelete": {
 			"id": "httpdelete",
 			"config": {
-				"url": "<http-route-url>",
+				"url": "<http-route-url-nosfx>",
 				"method": "DELETE",
 				"timeout": 5000,
 				"limit": 5120,

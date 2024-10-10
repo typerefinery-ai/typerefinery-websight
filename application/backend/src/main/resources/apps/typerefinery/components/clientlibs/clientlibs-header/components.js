@@ -2,20 +2,47 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.VueData = Typerefinery.VueData || {};
 
-; (function (ns, vueDataNs, document, window) {
+(function ($, ns, vueDataNs, document, window) {
     "use strict";
+
+    ns.findExclude = function($component, selector, mask) {
+      return $component.find(selector).not($component.find(mask).find(selector));
+    }
+
     ns.registerComponent = (componentData) => {
         vueDataNs.data = {
             ...vueDataNs.data,
             ...componentData
         }
     };
+
+    ns.isTrue = function(value) {
+      // if undefined or null return false
+      if (value == null) {
+        return false;
+      }
+      return new Boolean(value) == true;
+    };
+
+    ns.isJQuery = function(obj) {
+      //test if object is a jQuery object
+      return obj instanceof $ || (typeof obj === "object" && obj != null && obj.jquery != null);
+    };
     ns.getComponentConfig = ($component) => {
+      if (ns.isJQuery($component)) {
+        return $component.data('model') || {};
+      }
       return $($component).data('model') || {};
     };
+    ns.hasRegex = (str) => {
+        return str.match(/{{(\w+)}}/gm);
+    };      
     ns.replaceRegex = (str, obj) => {
         return str.replace(/{{(\w+)}}/gm, function(match, key) {
-            return obj[key];
+            if (!obj.hasOwnProperty(key)) {
+              console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
+            }
+            return obj[key] || "";
         });
     };
     ns.queryToObject = (query) => {
@@ -81,5 +108,82 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
             });
         }, 1000);
     };
+
+    //find all selectors and run callbackFn
+    ns.initComponentBySelector = (selector, callbackFn) => {
+        if ((selector == null || selector == undefined) || (callbackFn == null || callbackFn == undefined)) {
+          console.error("initComponent: selector and callbackFn is required");
+          return;
+        }
+        //init component on all found instances
+        var elements = document.querySelectorAll(selector);
+        for (var i = 0; i < elements.length; i++) {
+          callbackFn($(elements[i]));
+        }
+    }
+
+    //observe DOM for new instances of a selector and run callbackFn
+    ns.observeDOMForSelector = (selector, callbackFn) => {
+
+      if ((selector == null || selector == undefined) || (callbackFn == null || callbackFn == undefined)) {
+        console.error("observeDOMForSelector: selector and callbackFn is required");
+        return;
+      }
+
+      //observe DOM for future instances of a selector
+      var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+      var body = document.querySelector("body");
+      var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+              var nodesArray = [].slice.call(mutation.addedNodes);
+              if (nodesArray.length > 0) {
+                  nodesArray.forEach(function(addedNode) {
+                      if (addedNode.querySelectorAll) {
+                          var elementsArray = [].slice.call(addedNode.querySelectorAll(selector));
+                          elementsArray.forEach(function(element) {
+                            console.log("new element", selector);
+                            callbackFn($(element));
+                          });
+                      }
+                  });
+              }
+          });
+      });
+
+      observer.observe(body, {
+          subtree: true,
+          childList: true,
+          characterData: true
+      });
+    }
+
+    ns.onDocumentReady = (selector, callbackFn) => {
+      if ((selector == null || selector == undefined) || (callbackFn == null || callbackFn == undefined)) {
+        console.error("onDocumentReady: selector and callbackFn is required");
+        return;
+      }
+    
+      const pagePath = window.location.pathname;
+
+      console.groupCollapsed("onDocumentReady for " + selector + " on " + pagePath);
+
+      console.log("initComponentBySelector", selector);
+      ns.initComponentBySelector(selector, callbackFn);
+      console.log("observeDOMForSelector", selector);
+      ns.observeDOMForSelector(selector, callbackFn);
+      console.log("onDocumentReady done");
+
+      console.groupEnd();
+
+    }
+
+    ns.watchDOMForComponent = (selector, callbackFn) => {
+      if (document.readyState !== "loading") {
+          ns.onDocumentReady(selector, callbackFn);
+      } else {
+          document.addEventListener("DOMContentLoaded", ns.onDocumentReady(selector, callbackFn));
+      }
+    }
+
     ns.init();
-})(window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
+})(jQuery, window.Typerefinery.Components, window.Typerefinery.VueData, document, window);

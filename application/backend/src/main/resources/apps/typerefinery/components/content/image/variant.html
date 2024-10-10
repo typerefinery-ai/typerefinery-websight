@@ -32,6 +32,8 @@
 
 <template data-sly-template.image="${ @ imagesCount, defaultImage, imageSources, alt, showLink, url, openInNewTab, classes}">
     <!-- imagesCount: ${imagesCount} -->
+    <!-- imagesCount==1: ${imagesCount == 1} -->
+    <!-- imagesCount>1: ${imagesCount > 1} -->
     <!-- defaultImage: ${defaultImage} -->
     <!-- imageSources: ${imageSources} -->
     <!-- alt: ${alt} -->
@@ -39,14 +41,17 @@
     <!-- url: ${url} -->
     <!-- openInNewTab: ${openInNewTab} -->
     <!-- classes: ${classes} -->
-    <sly data-sly-test="${imagesCount == 1}"
-         data-sly-test.imageClasses="${classes @ join=' '}">
-        <sly data-sly-call="${simpleImage @ defaultImage=defaultImage, showLink=showLink, alt=alt, url=url, openInNewTab=openInNewTab, classes=imageClasses}"></sly>
+    <sly data-sly-test="${imagesCount == 1}">
+      <div class="picture-container ${classes @ join=' '}">
+        <picture>
+          <sly data-sly-call="${simpleImage @ defaultImage=defaultImage, showLink=showLink, alt=alt, url=url, openInNewTab=openInNewTab}"></sly>
+        </picture>
+      </div>
     </sly>
-    <sly data-sly-test="${imagesCount > 1}"
-         data-sly-set.imageClasses="${classes @ join=' '}">
+    <sly data-sly-test="${imagesCount > 1}">
          <div class="hl-image ${classes @ join=' '}">
             <a href="${url}" class="hl-image__link" target="${openInNewTab ? '_blank' : ''}" data-sly-unwrap="${!showLink || !url || url == ''}">
+              <div class="picture-container">
                 <picture class="hl-image__picture">
                     <sly data-sly-list="${imageSources}">
                         <source media="(min-width:${item.minWidth}px)"
@@ -54,6 +59,7 @@
                     </sly>
                     <sly data-sly-call="${img @ defaultImage=defaultImage, alt=alt}"></sly>
                 </picture>
+              </div>
             </a>
           </div>
     </sly>

@@ -6,8 +6,11 @@ window.Typerefinery.Components.Widgets.Map.LeafletMap = Typerefinery.Components.
 window.Typerefinery.Components.Widgets.Map.Instances = Typerefinery.Components.Widgets.Map.Instances || {};
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
-; (function (ns, componentNs, tmsNs, leafletMap, mapInstanceNs, window, document) {
+(function ($, ns, componentNs, tmsNs, leafletMap, mapInstanceNs, window, document) {
     "use strict";
+
+    ns.selectorComponent = "[component='map']";
+
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
             console.log('[LeafletMap/clientlibs/functions.js] component does not exist')
@@ -114,4 +117,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(window.Typerefinery.Components.Widgets.Map.LeafletMap, window.Typerefinery.Components, window.Typerefinery.Page.Tms, L, window.Typerefinery.Components.Widgets.Map.Instances, window, document);
+})(jQuery, window.Typerefinery.Components.Widgets.Map.LeafletMap, window.Typerefinery.Components, window.Typerefinery.Page.Tms, L, window.Typerefinery.Components.Widgets.Map.Instances, window, document);

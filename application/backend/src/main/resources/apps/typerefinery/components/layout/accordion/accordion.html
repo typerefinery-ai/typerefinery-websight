@@ -13,30 +13,48 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<sly data-sly-use.model="pl.ds.howlite.components.models.DefaultStyledGridComponent">
-    <sly data-sly-test.CSSclasses="hl-accordion ${model.classes @ join=' '}"></sly>
-    <!-- <sly data-sly-test="${wcmmode.isEdit}"> -->
-    <sly data-sly-test.multiple="true"></sly>
-    <sly data-sly-test.activeIndex="0"></sly>
-    <ul data-sly-list="${resource.listChildren @ begin = 1}">
-        <sly data-sly-test.activeIndex="${activeIndex},${itemList.index}"></sly>
-    </ul>
-
-    <!-- </sly> -->
-    <div 
-      component="${model.componentName}"
-      id="${model.id}"
-      class="${model.componentClassNames} ${model.variantClassNames}">
-      data-sly-test="${resource.hasChildren}" class="${CSSclasses}">
-        <!-- multiple and active index not working else accordion component working -->
-        <p-accordion :multiple="${multiple}" :active-index="[${activeIndex}]">
-            <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
-            </sly>
-        </p-accordion>
-    </div>
-    <sly data-sly-test="${!resource.hasChildren}">
-        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-            data-sly-call="${lib.placeholder @ classes=CSSclasses}">
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.Accordion">
+  <div 
+    component="${model.componentName}"
+    id="${model.id}"
+    class="${model.componentName} ${model.componentClassNames} ${model.variantClassNames}"
+    data-model="${model.jsonString}"
+    data-sly-test="${resource.hasChildren}">
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Items Start'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+    
+    <sly data-sly-repeat.paragraph="${resource.children}">
+        <sly data-sly-test="${paragraph.name != 'template'}">
+          <sly data-sly-test="${paragraph.resourceType && paragraph['sling:resourceType']}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
         </sly>
     </sly>
+
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Items End'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+      
+    <sly data-sly-test="${model.isTemplated}">
+      <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+        data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Template Start'] @ join=''}"
+        data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+
+      <sly data-sly-repeat.paragraph="${resource.children}">
+          <sly data-sly-test="${paragraph.name == 'template'}">
+            <sly data-sly-test="${paragraph.resourceType && paragraph['sling:resourceType']}" data-sly-resource="${paragraph.path @ resourceType=paragraph.resourceType}"></sly>
+          </sly>
+      </sly>
+
+      <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+        data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Template End'] @ join=''}"
+        data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+
+    </sly>
+  </div>
+  <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+      data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+  </sly>
+  <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+    data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+    data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
 </sly>

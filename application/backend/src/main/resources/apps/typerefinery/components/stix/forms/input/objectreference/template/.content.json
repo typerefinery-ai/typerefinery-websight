@@ -1,0 +1,13 @@
+{
+  "label": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/forms/fields/label",
+    "label": "Object Reference"
+  },
+  "field": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+    "label": "Object Reference",
+    "inputType": "objectreference"
+  }
+}

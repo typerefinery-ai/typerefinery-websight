@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import ai.typerefinery.websight.models.components.layout.NavigationItemComponent;
 
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
@@ -37,10 +38,18 @@ import javax.inject.Named;
 
 import lombok.Getter;
 import org.apache.sling.models.annotations.Default;
+import org.apache.sling.models.annotations.Exporter;
+import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
-@Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
 public class Button extends BaseFormComponent {
 
     protected static final String DEFAULT_LABEL = "Click me";

@@ -45,6 +45,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             hideLabel="true"
+                            id="label_YNVXSIKX7"
                             label="\0"
                             title="Label"/>
                         <field
@@ -52,7 +53,7 @@
                             sling:resourceType="typerefinery/components/forms/fields/input"
                             borderEnabled="false"
                             classes="\0"
-                            id="\0"
+                            id="field_32EKLEISU"
                             marginEnabled="false"
                             name="\0"
                             paddingEnabled="false"
@@ -70,11 +71,13 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             hideLabel="true"
+                            id="label_WW6LLQSO9"
                             label="\0"
                             title="Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                            id="field_3AHRIMZSK"
                             title="Field"/>
                     </fileupload>
                 </container>

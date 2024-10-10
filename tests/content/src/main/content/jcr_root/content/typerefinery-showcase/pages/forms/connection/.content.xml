@@ -12,7 +12,10 @@
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
-            sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
-        </rootcontainer>
+            sling:resourceType="typerefinery/components/layout/fixedrootcontainer"/>
     </jcr:content>
+    <delete/>
+    <edit/>
+    <list/>
+    <new/>
 </jcr:root>

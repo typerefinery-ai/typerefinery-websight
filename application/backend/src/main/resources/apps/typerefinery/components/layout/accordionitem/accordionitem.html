@@ -10,19 +10,31 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<!-- new -->
-<sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.Accordion">
-    <li>
-        <p-accordiontab header="${model.title}">
-            <sly data-sly-test="${resource.hasChildren}">
-                <sly data-sly-include="${'parsys.html' @ prependPath='/libs/wcm/foundation/components/parsys'}">
-                </sly>
-            </sly>
-            <sly data-sly-test="${!resource.hasChildren}">
-                <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-                    data-sly-call="${lib.placeholder @ classes=CSSclasses}">
-                </sly>
-            </sly>
-        </p-accordiontab>
-    </li>
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.layout.AccordionItem">
+  <div id="${model.id}" component="${model.componentName}" class="accordion-item ${model.variantClassNames}"
+    data-sly-set.parentid="#${resource.parent.id}"
+    data-sly-set.expand="${wcmmode.isEdit || model.showopen}">
+    <!-- wcmmode.isEdit ${wcmmode.isEdit}-->
+    <!-- model.showopen ${model.showopen}-->
+    <!-- expand ${expand}-->
+    <h2 class="accordion-header">
+      <button class="accordion-button ${expand ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${model.id}_content" aria-expanded="${expand ? 'true' : 'false'}" aria-controls="${model.id}_content">
+        ${model.title}
+      </button>
+    </h2>
+    <!-- expand ${expand}-->
+    <div id="${model.id}_content" class="accordion-collapse collapse ${expand ? 'show' : ''}" data-bs-parent="${model.alwaysopen ? '' : parentid }">
+      <div class="accordion-body">
+        <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
+        </sly>
+        <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+          data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+        </sly>
+
+        <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+          data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - (', model.title ,')'] @ join=''}"
+          data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+      </div>
+    </div>
+  </div>
 </sly>

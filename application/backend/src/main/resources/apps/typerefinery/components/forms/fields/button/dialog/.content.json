@@ -19,6 +19,10 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
+      "fieldTitle": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldTitle"
+      },
       "buttonType": {
         "sling:resourceType": "wcm/dialogs/components/select",
         "name": "buttonType",
@@ -131,6 +135,51 @@
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "right",
           "value": "right"
+        }
+      }
+    },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "warning": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
+      },
+      "info": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
+      },
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "name": "_events_",
+        "description": "Pick generic event or specify custom event to which component action will be mapped.",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action",
+          "description": "Which component action to map to event."
+        },
+        "eventName": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
+        },
+        "eventNameCustom": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
         }
       }
     },
@@ -323,32 +372,32 @@
         },
         "warning": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Warning Button",
+          "label": "Warning",
           "value": "warning"
         },
         "danger": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Danger Button",
+          "label": "Danger",
           "value": "danger"
         },
         "info": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Info Button",
+          "label": "Info",
           "value": "info"
         },
         "dark": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Dark Button",
+          "label": "Dark",
           "value": "dark"
         },
         "gray": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Gray Button",
+          "label": "Gray",
           "value": "light"
         },
         "link": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Link Button",
+          "label": "Link",
           "value": "text"
         }
       },
@@ -374,6 +423,10 @@
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },    
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
     }
   }
 }

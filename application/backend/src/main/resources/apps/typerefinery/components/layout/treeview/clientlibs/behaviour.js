@@ -4,12 +4,9 @@ Typerefinery.Components = Typerefinery.Components || {};
 Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 Typerefinery.Components.Widgets.Treeview = Typerefinery.Components.Widgets.Treeview || {};
 
+(function ($, ns, componentsNs, document, window) {
+  "use strict";
+  //init and watch for new components
+  componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
 
-;(function (ns, document, window) {
-    "use strict";
-    $(document).ready(function () {
-        $("[component='treeview']").each(function () {
-            ns.init(this);
-        });
-    });
-})(Typerefinery.Components.Widgets.Treeview, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Treeview, window.Typerefinery.Components, document, window);

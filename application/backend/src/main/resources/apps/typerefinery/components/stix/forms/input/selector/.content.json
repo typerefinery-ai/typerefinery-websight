@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Input",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Selector input field.",
+  "title": "Selector",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

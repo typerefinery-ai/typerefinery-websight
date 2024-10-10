@@ -1,0 +1,13 @@
+{
+  "label": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/forms/fields/label",
+    "label": "Threat"
+  },
+  "field": {
+    "jcr:primaryType": "nt:unstructured",
+    "sling:resourceType": "typerefinery/components/stix/forms/fields/input",
+    "label": "Threat",
+    "inputType": "threat"
+  }
+}

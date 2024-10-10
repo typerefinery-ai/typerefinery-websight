@@ -7,8 +7,11 @@ window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 
 
-(function (ns, tmsNs, componentNs, themeNs, document, window) {
+(function ($, ns, tmsNs, componentNs, themeNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = '[component=ticker]';
+
     ns.updateComponentHTML = (data, $component) => {
         if (!$component) {
             return;
@@ -53,6 +56,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             </div>
         `;
 
+        //TODO: add Handlebars to namesapce signature
         const handlebarTemplate = Handlebars.compile(htmlTemplate);
         // merge all the objects.
         $component.innerHTML = handlebarTemplate({ ...defaultData, ...defaultConfigData, ...data });
@@ -111,7 +115,7 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         const componentPath = componentConfig.resourcePath;
         // TMS.
         if (componentHost && componentTopic) { 
-            $component.setAttribute("id", `${componentPath}-${componentTopic}`);
+            $component.attr("id", `${componentPath}-${componentTopic}`);
             ns.tmsConnected(componentHost, componentTopic, $component);
         }
         // JSON
@@ -123,4 +127,4 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
             ns.modelDataConnected($component);
         }
     }
-})(Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Ticker, Typerefinery.Page.Tms, Typerefinery.Components, Typerefinery.Page.Theme, document, window);

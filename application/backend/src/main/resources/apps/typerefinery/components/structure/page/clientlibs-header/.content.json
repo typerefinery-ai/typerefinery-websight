@@ -4,12 +4,13 @@
   "sling:resourceType": "io/typerefinery/websight/clientlibs",
   "categories": ["ai.typerefinery.websight.components-header","ai.typerefinery.websight.components.structure.page-header"],  
   "js": [
-    "functions.js",
+    "jsonschema/jsonschema.js",
     "theme/functions.js",
     "tms/client.js",
-    "tms/jsonschema.js",
     "tms/functions.js",
-    "events/functions.js"
+    "events/functions.js",
+    "files/functions.js",
+    "functions.js"
   ],
   "css": [
     "style.css"

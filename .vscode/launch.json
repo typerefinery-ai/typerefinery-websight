@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Attach)",
+            "name": "Debug (Attach 8115)",
+            "projectName": "websight",
             "request": "attach",
-            "projectName": "CMS",
             "hostName": "localhost",
             "port": "8115"
         }

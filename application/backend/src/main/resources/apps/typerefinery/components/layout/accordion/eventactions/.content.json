@@ -1,0 +1,38 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "additem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ADD_ITEM",
+    "value": "Add New Item"
+  },
+  "addonceitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ADDONCE_ITEM",
+    "value": "Add New Item Once"
+  },
+  "openitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "OPEN_ITEM",
+    "value": "Open Item"
+  },
+  "closeitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "CLOSE_ITEM",
+    "value": "Close Item"
+  },
+  "toggleitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "TOGGLE_ITEM",
+    "value": "Toggle Item"
+  },
+  "showitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "SHOW_ITEM",
+    "value": "Show Item"
+  },
+  "hideitem": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "HIDE_ITEM",
+    "value": "Hide Item"
+  }
+}

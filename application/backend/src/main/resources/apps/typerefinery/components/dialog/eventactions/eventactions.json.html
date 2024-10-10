@@ -1,0 +1,17 @@
+<sly data-sly-use.model="ai.typerefinery.websight.models.dialog.Dialog"></sly>
+{
+  "type": "/apps/typerefinery/components/dialog/eventactions/EventActions.js",
+  "props": {
+      "name": "${properties.name}",
+      "label": "${properties.label}",
+      "description": "${properties.description}",
+      "required": ${properties.required || false},
+      "options": [
+        <sly data-sly-use.selectitem="./selectitem/selectitem.json.html">
+          <sly data-sly-list.item="${model.eventActions}">
+              <sly data-sly-call="${selectitem.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+          </sly>
+        </sly>
+      ]
+  }
+}

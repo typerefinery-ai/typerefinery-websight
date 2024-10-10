@@ -10,11 +10,20 @@
         "name": "title",
         "label": "Title"
       },
-      "content": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "content",
-        "label": "Content"
+      "enable": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "showopen",
+        "label": "Show Open"
+      },
+      "alwaysopen": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "alwaysopen",
+        "label": "Always Open"
       }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

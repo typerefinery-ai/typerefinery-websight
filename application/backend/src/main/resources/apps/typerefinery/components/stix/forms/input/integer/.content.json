@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Input",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Integer input field.",
+  "title": "Integer",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

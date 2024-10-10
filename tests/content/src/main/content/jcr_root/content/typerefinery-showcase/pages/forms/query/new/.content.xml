@@ -71,43 +71,42 @@
                             title="\0"
                             variant="\0">
                             <container_0
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/layout/container"
-                            borderEnabled="false"
-                            classes="\0"
-                            flexEnabled="false"
-                            id="container_GQ6TYA7QK"
-                            lgColSize="10"
-                            marginEnabled="false"
-                            paddingEnabled="false"
-                            persistColorWhenThemeSwitches="false"
-                            title="\0">
-                            <select_1
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/select"
-                            id="select_1_XXXESKT7S">
-                            <label
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/label"
-                                label="Projects"/>
-                            <field
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/fields/select"
+                                sling:resourceType="typerefinery/components/layout/container"
                                 borderEnabled="false"
                                 classes="\0"
-                                defaultSelectedOptions="\0"
-                                id="field_EKXHG5WB9"
+                                flexEnabled="false"
+                                id="container_GQ6TYA7QK"
+                                lgColSize="10"
                                 marginEnabled="false"
-                                multipleSelection="false"
-                                name="projectid"
                                 paddingEnabled="false"
                                 persistColorWhenThemeSwitches="false"
-                                placeholder="Select Project"
-                                readOptionsFromDataSource="\0"
-                                validationRequired="false"/>
-                        </select_1>
-                        </container_0>
-
+                                title="\0">
+                                <select_1
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/select"
+                                    id="select_1_XXXESKT7S">
+                                    <label
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="typerefinery/components/forms/fields/label"
+                                        label="Projects"/>
+                                    <field
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="typerefinery/components/forms/fields/select"
+                                        borderEnabled="false"
+                                        classes="\0"
+                                        defaultSelectedOptions="\0"
+                                        id="field_EKXHG5WB9"
+                                        marginEnabled="false"
+                                        multipleSelection="false"
+                                        name="projectid"
+                                        paddingEnabled="false"
+                                        persistColorWhenThemeSwitches="false"
+                                        placeholder="Select Project"
+                                        readOptionsFromDataSource="\0"
+                                        validationRequired="false"/>
+                                </select_1>
+                            </container_0>
                             <container
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/layout/container"

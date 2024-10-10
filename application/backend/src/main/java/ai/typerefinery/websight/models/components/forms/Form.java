@@ -17,7 +17,6 @@ package ai.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
-
 import javax.inject.Inject;
 import lombok.Getter;
 
@@ -31,9 +30,7 @@ import org.osgi.service.component.annotations.Component;
 
 import javax.annotation.PostConstruct;
 
-import ai.typerefinery.websight.models.components.BaseFormComponent;
 import ai.typerefinery.websight.models.components.FlowComponent;
-import ai.typerefinery.websight.models.components.flow.FlowContainer;
 import ai.typerefinery.websight.services.flow.FlowService;
 import ai.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import ai.typerefinery.websight.utils.PageUtil;
@@ -78,7 +75,6 @@ public class Form extends FlowComponent implements FlowComponentRegister {
     @Inject
     @Getter
     private String readPayloadType;
-
 
     @Inject
     @Getter

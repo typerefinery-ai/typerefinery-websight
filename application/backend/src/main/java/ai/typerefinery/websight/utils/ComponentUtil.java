@@ -18,6 +18,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -30,6 +31,9 @@ import pl.ds.websight.components.core.api.ComponentManager;
 
 public class ComponentUtil {
     
+    public static final String WS_RESOURCE_TYPE_COMPONENT = "ws:Component";
+    public static final String WS_RESOURCE_TYPE_DIALOG = "wcm/dialogs/dialog";
+
     /***
      * get or generate component id.
      * @param componentNode component node
@@ -176,4 +180,26 @@ public class ComponentUtil {
         return resource;
     }
 
+    @Nullable
+    public static Resource getDialogDefinition(Resource componentResource) {
+        ComponentManager componentManager = (ComponentManager)componentResource.getResourceResolver().adaptTo(ComponentManager.class);
+        if (componentManager == null) {
+            return null; 
+        }
+        Component component = componentManager.getComponentOfResource(componentResource.getPath());
+        if (component == null) {
+            return null; 
+        }
+        return component.getDialogResource();
+    }
+
+    @Nullable
+    public static Resource getResourceAncestorByResourceType(@NotNull Resource resource, @NotNull String resourceType) {
+        Resource parent = resource.getParent();
+        if (parent == null)
+            return null; 
+        if (parent.isResourceType(resourceType))
+            return parent; 
+        return getResourceAncestorByResourceType(parent, resourceType);
+    }
 }

@@ -2,11 +2,11 @@
   "label": {
     "jcr:primaryType": "nt:unstructured",
     "sling:resourceType": "typerefinery/components/forms/fields/label",
-    "title": "Label"
+    "label": "Radio Label"
   },
   "field": {
     "jcr:primaryType": "nt:unstructured",
     "sling:resourceType": "typerefinery/components/forms/fields/radio",
-    "title": "Field"
+    "label": "Radio"
   }
 }

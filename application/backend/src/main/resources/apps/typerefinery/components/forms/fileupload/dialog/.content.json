@@ -15,6 +15,10 @@
         "label": "Arrange children in same line",
         "description": "Components arranged in Horizontal Direction"
       }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

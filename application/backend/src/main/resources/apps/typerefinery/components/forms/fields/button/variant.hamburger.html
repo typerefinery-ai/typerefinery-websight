@@ -24,7 +24,8 @@
             </sly>
         </button>
     </div>
-    <sly data-sly-test="${wcmmode.isEdit}">
-        <div style="--bs-bg-opacity: .5;" class="bg-warning">Hamburger visible for limited screen size.</div>
-    </sly>
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - Visible only on some screen sizes.'] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+
 </template>

@@ -1,0 +1,13 @@
+<template data-sly-template.item="${ @ item}">
+  {
+      "label": "${item.label}",
+      "options": [
+          <sly data-sly-list.item="${item.children}"
+            data-sly-use.selectitem="/apps/typerefinery/components/dialog/select/selectitem/selectitem.json.html">
+              <sly data-sly-test="${item['sling:resourceType']=='typerefinery/components/dialog/select/selectitem'}">
+                  <sly data-sly-call="${selectitem.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+              </sly>
+          </sly>
+      ]
+  }
+</template>

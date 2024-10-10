@@ -30,6 +30,16 @@
   <meta data-sly-test.ogUrl="${properties.ogUrl}" name="og:url" content="${ogUrl}" />
   <meta data-sly-test.ogDescription="${properties.ogDescription}" name="og:description" content="${ogDescription}" />
   <meta data-sly-test.ogTitle="${properties.ogTitle}" name="og:title" content="${ogTitle}">
+
+  <sly data-sly-test="${wcmmode.isEdit}">
+    <!-- Set custom media query for edit mode -->
+    <style>
+      :root {
+        --is-edit-mode: true;
+      }
+    </style>
+  </sly>
+
   <!-- <link href="/libs/howlite/web_root/main.css" rel="stylesheet" type="text/css"> -->
   <!-- <link data-sly-test="${wcmmode.isEdit}" href="/libs/howlite/author/author.css" rel="stylesheet" type="text/css"> -->
   <sly data-sly-include="head-libs.html"></sly>

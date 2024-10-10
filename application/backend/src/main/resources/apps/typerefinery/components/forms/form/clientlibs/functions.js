@@ -2,339 +2,705 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
-window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
 window.Typerefinery.Components.Widgets.Editor = Typerefinery.Components.Widgets.Editor || {};
-window.Typerefinery.Components.Widgets.Editor.Instances = Typerefinery.Components.Widgets.Editor.Instances || {};
 window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Select || {};
-window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.Forms.Select.Instances || {};
-Typerefinery.Page = Typerefinery.Page || {};
-Typerefinery.Page.Events = Typerefinery.Page.Events || {};
+window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
+window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
-(function (ns, componentNs, editorInstanceNs, selectInstanceNs, eventNs, document, window) {
+(function ($, ns, componentNs, editorNs, selectNs, compositeNs, eventNs, filesNs, document, window) {
     "use strict";
     
-    ns.filesUrl = "https://files.typerefinery.localhost:8101";
-    
-    ns.uploadFile = async (file) => {
-        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-        const datePathWithTime =  new Date().toISOString().split("T")[0].replace(/-/g, "-") + "/" + new Date().toISOString().split("T")[1].split(".")[0].replace(/:/g, "-"); 
-        let path = window.location.pathname === "/" ? "" : window.location.pathname;
-        // remove .html from the path
-        path = path.replace(".html", "");
-        path += `/${datePathWithTime}`;
-        const PREVIEW = `${ns.filesUrl}/api${path}/${fileName}`
-        try{
-            await fetch(
-                `${ns.filesUrl}/api${path}?type=CREATE_FOLDER`,
-                {
-                    method: "POST",
-                    mode: 'no-cors',
-                    headers: {
-                        'accept': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-                    }
-                }
-            );
-        }   
-        catch(error) {
-            // ERROR IN CASE PATH EXIST.
-        }     
-        try{
-            const URL = `${ns.filesUrl}/api${path}/${fileName}?type=UPLOAD_FILE&overwrite=true`;
-            const formData = new FormData();
-            formData.append("upload", file);
-            await fetch(
-                URL,
-                {
-                    method: "POST",
-                    body: formData,
-                    mode: 'no-cors',
-                    headers: {
-                        'accept': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-                    }
-                },
-            );
-            // REMOVE LOADER 
+    ns.selectorComponent = '[component=form]';
+    ns.selectorInputAttribute = "isInput";
+    ns.selectorInput = `[${ns.selectorInputAttribute}]`;
 
-            return PREVIEW;
-        }catch(error) {
-            return PREVIEW;
-        }
-        
-    };
+    //actions supported by this component
+    ns.ACTIONS = {
+        FORM_LOAD: "FORM_LOAD",
+        FORM_SUBMIT: "FORM_SUBMIT",
+        FORM_SUCCESS: "FORM_SUCCESS",
+        FORM_ERROR: "FORM_ERROR",
+        FORM_CANCEL: "FORM_CANCEL",        
+    }
 
-    ns.getFormData = async ($component) => {
+    // map event types to handlers in component
+    // this will indicate which events are supported by component
+    ns.eventMap = eventNs.genericEventsTopicMap();
+
+    // compule form data into payload
+    ns.getFormData = async ($component, addFieldHint) => {
         const result = {};
-        const _inputs = $component.querySelectorAll("[isInput]");
-        for(let i = 0; i < _inputs.length; i++) {
-            const $input = _inputs[i];
-            const name = $input.getAttribute("name");
+        // get all non composite fields and immidiate composite fields.
+        const $formComponents = $component.findExclude(`${ns.selectorInput},${compositeNs.selector}`,compositeNs.selector);
+        console.group("getFormData");
+        
+        const formId = $component.attr("id");
+        //get form data from global form object
+        const formData = Object.fromEntries(new FormData(document.forms[formId]));
+        
+        console.log($formComponents, $component, formData);
+
+        // using for to ensure async await works.
+        for(let i = 0; i < $formComponents.length; i++) {
+            const $input = $($formComponents[i]);
+            const inputObject = $input.get(0);
+            const name = $input.attr("name") || $input.attr("id");
+            const id = $input.attr("id");
+            const type = $input.attr("type") || "";
+            const component = $input.attr("component") || "";
+            console.group(name);
+            console.log("$input", $input);
+            console.log("inputObject", inputObject);
+            console.log("console.log($input.val());", $input.val());
+
+            //is this input field
+            const isInput = $input.attr(ns.selectorInputAttribute);
+            //is this composite value
+            const isCompositeParent = $input.is(compositeNs.selector);
+            // is this text area or input field.
+            const isEditor = $input.is(editorNs.selectorComponent);
+            // is this select field
+            const isSelect = $input.is(selectNs.selectorComponent);
+
+            console.log(["isInput", $input, compositeNs.selector, editorNs.selectorComponent, selectNs.selectorComponent]);
+
+            console.log(["getFormData form component", name, isInput, isCompositeParent, isEditor, isSelect]);
+
+            //skip all field that do not have a name
             if (name) {
-                const isInput = $input.getAttribute('isInput');
-                if(isInput === "child") {
 
-                    // get value from child component
-                    const $firstChild = $input.children[0];
-                    
-                    // get value from codemirror editor
-                    result[name] = editorInstanceNs[$firstChild.getAttribute("id")].getValue();
-                 
-                }else if($input.tagName === "SELECT") {
+                console.log(["getFormData basic form component", isSelect, isEditor]);
+
+                if(isCompositeParent) {
+
+                  console.log(["getFormData composite component", name, isCompositeParent]);
+                  
+                  // get value from composite value
+                  var $compositeValue = $input.findExclude(compositeNs.selectorValue, compositeNs.selector);
+                  console.log(["getFormData composite value input", $compositeValue]);
+                  var compositeValueName = $compositeValue.attr(compositeNs.selectorNameAttribute);
+                  console.log(["getFormData composite value", $compositeValue]);
+                  const compositeValue = $compositeValue.compositeVal(addFieldHint);
+                  console.log("compositeValue", compositeValue);
+                  result[compositeValueName] = compositeValue;
+                  // Object.assign(result[compositeValueName], $compositeValue.compositeVal(addFieldHint));
+
+                  if (addFieldHint) {
+                    ns.addFieldHint($input, compositeValueName, id);
+                  }
+
+                } else if(isEditor) {
+                    const editorId = $input.data("editor-id");
+                    console.log(["getFormData editor component", name, editorId]);
+                    result[name] = await editorNs.getValue(editorId);
+
+                    if (addFieldHint) {
+                      ns.addFieldHint($input, name, editorId);
+                    }             
+                }else if(isSelect) {
                     // get value from select tag
-                    result[name] = selectInstanceNs[$input.getAttribute("id")].getValue(true);
-                }else if($input.type === "file") {
-                    
-                    const files = [...$input.files];
-                    // add loader.
-                    files.forEach(file => {
-                        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-                        document.getElementById(`close-${fileName}`).style.display = "none";
-                        document.getElementById(`loader-${fileName}`).style.display = "block";
-                    });
-                    if($input.multiple) {
-                        result[name] = [];
-                        for(let i = 0; i < files.length; i++) {
-                            const fileName = files[i]?.name?.trim()?.replace(/\s/g, "-");
-                            const output = await ns.uploadFile(files[i]);
-                            document.getElementById(`loader-${fileName}`).style.display = "none";
-                            document.getElementById(`close-${fileName}`).style.display = "block";
-                            result[name].push(output);
+                    console.log(["getFormData select component", name, id]);
+                    result[name] = selectNs.getValue(id);
+                    if (addFieldHint) {
+                      ns.addFieldHint($input, name, id);
+                    }             
+                  } else {
+                    console.log(["getFormData other component value", name, result[name], $input.val()]);
+                    if (type === "checkbox") {
+                        // get value from checkbox if checked
+                        if ($input.is(":checked")) {
+                          if (!result[name]) {
+                              result[name] = [];
+                          }
+                          result[name].push($input.val());
                         }
-                    }else if($input.files.length > 0){
-                        const blobUrl = await ns.uploadFile(files[0]);
-                        const fileName = files[0]?.name?.trim()?.replace(/\s/g, "-");
-                        document.getElementById(`loader-${fileName}`).style.display = "none";
-                        document.getElementById(`close-${fileName}`).style.display = "block";
-                        result[name] = blobUrl;
-                    } else {
-                        // if no file is selected then it will return empty string.
-                        result[name] = "";
+                    } else if (type === "radio") {
+                        // get value from radio if checked
+                        if ($input.is(":checked")) {
+                          result[name] = $input.val();
+                        }
+                    } else if (type === "file") {
+                      const files = [...inputObject.files];
+                      // add loader.
+                      files.forEach(file => {
+                          const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+                          document.getElementById(`close-${fileName}`).style.display = "none";
+                          document.getElementById(`loader-${fileName}`).style.display = "block";
+                      });
+                      if($input.multiple) {
+                          result[name] = [];
+                          for(let i = 0; i < files.length; i++) {
+                              const fileName = files[i]?.name?.trim()?.replace(/\s/g, "-");
+                              const output = await filesNs.uploadFile(files[i]);
+                              document.getElementById(`loader-${fileName}`).style.display = "none";
+                              document.getElementById(`close-${fileName}`).style.display = "block";
+                              result[name].push(output);
+                          }
+                      }else if($input.files.length > 0){
+                          const blobUrl = await filesNs.uploadFile(files[0]);
+                          const fileName = files[0]?.name?.trim()?.replace(/\s/g, "-");
+                          document.getElementById(`loader-${fileName}`).style.display = "none";
+                          document.getElementById(`close-${fileName}`).style.display = "block";
+                          result[name] = blobUrl;
+                      } else {
+                          // if no file is selected then it will return empty string.
+                          result[name] = "";
+                      }
+                    } else {                        
+                      // get value from $input tag
+                      result[name] = $input.val();
                     }
-
-
                     
-                } else {
-                    // get value from $input tag
-                    result[name] = $input?.value || "";
+                    if (addFieldHint) {
+                      ns.addFieldHint($input, name, id);
+                    }             
+
                 }
+
             }
+            console.groupEnd();
         }
+        console.log(["getFormData", result]);
+        console.groupEnd();
         return result;
     };
 
-    ns.submit = async (url, method, payloadType, body, successCallback = () => { }, errorCallback = () => { }) => {
-        try {
-            const response = await fetch(
-                url,
-                {
-                    method: method,
-                    headers: {
-                        "Content-Type": payloadType
-                    },
-                    body
-                }
-            );
-            // if status is 200 to 299 then it will call success callback.
-            if (response.status >= 200 && response.status <= 299) {
-                successCallback();
-            } else {
-                console.log("Error in submitting the request");
-                console.error(response);
-                errorCallback();
-            }               
-            return;
+    // submit the request to the server
+    ns.submit = async ($component, componentConfig, url, method, payloadType, body, successCallback = ($component, componentConfig, payload) => { }, errorCallback = ($component, componentConfig, payload) => { }) => {
+        console.group("submit");
+        console.log([url, method, payloadType, body])
+        let controller = new AbortController();
+        try {          
+          await fetch(url, {
+            method: method || 'POST',
+            headers: {
+              'Content-Type': payloadType || 'application/x-www-form-urlencoded'
+            },
+            body: body,
+            keepalive: true,
+            redirect: 'follow',
+            signal: controller.signal
+          })
+          .then(res => res.json())
+          .then(res => {
+            console.group("submit response");
+            console.log(res)
+            successCallback($component, componentConfig, {
+              url: url, 
+              method: method, 
+              payloadType: payloadType, 
+              body: body
+            })
+            console.groupEnd();
+          });
+        
         } catch (error) {
-            console.log("Error in submitting the request");
+            console.group("Error in submitting the request");
             console.error(error);
-            errorCallback();
+            errorCallback($component, componentConfig, {
+              url: url, 
+              method: method, 
+              payloadType: payloadType, 
+              body: body
+            });
+            console.groupEnd();
             return;
         }
+        controller = null;
+        console.groupEnd();
+        return;
     };
 
-    ns.successCallback = () => {
-        // TODO: Need to add toast.
-        alert("SUCCESS");
-    };
+    // local actions representing the form actions
+    ns.FORM_SUCCESS = ($component, componentConfig, formData) => {
+      console.group("FORM_SUCCESS");
+      console.log(["FORM_SUCCESS", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
+      console.groupEnd();
+    }
+    ns.FORM_ERROR = ($component, componentConfig, formData) => {
+      console.log("FORM_ERROR");
+      console.log(["FORM_ERROR", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
+      console.groupEnd();
+    }
+    ns.FORM_SUBMIT = ($component, componentConfig, formData) => {
+      console.log("FORM_SUBMIT");
+      console.log(["FORM_SUBMIT", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUBMIT_ACTION, "FORM_SUBMIT");
+      console.groupEnd();
+    }
+    ns.FORM_CANCEL = ($component, componentConfig, formData) => {
+      console.log("FORM_CANCEL");
+      console.log(["FORM_CANCEL", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_CANCEL_ACTION, "FORM_CANCEL");
+      console.groupEnd();
+    }
+    ns.FORM_RESET = ($component, componentConfig, formData) => {
+      console.log("FORM_RESET");
+      console.log(["FORM_RESET", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_RESET_ACTION, "FORM_RESET");
+      console.groupEnd();
+    }
+    ns.FORM_LOADED = ($component, componentConfig, formData) => {
+      console.log("FORM_LOADED");
+      console.log(["FORM_LOADED", $component, componentConfig, formData]);
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_READ_ACTION, "FORM_LOADED");
+      console.groupEnd();
+    }
 
-    ns.errorCallback = () => {
-        // TODO: Need to add toast.
-        alert("ERROR");
-    };
-
-    ns.jsonRequest = async (url, componentConfig, payload) => {
+    // json form post
+    ns.jsonRequest = async (url, componentConfig, payload, $component) => {
         const { writePayloadType, writeMethod } = componentConfig;
-        
-        await ns.submit(url, writeMethod, writePayloadType, JSON.stringify(payload), ns.successCallback, ns.errorCallback);
+        ns.FORM_SUBMIT($component, componentConfig, payload);
+        await ns.submit($component, componentConfig, url, writeMethod, writePayloadType, JSON.stringify(payload), ns.FORM_SUCCESS, ns.FORM_ERROR);
     };
-
-    ns.formRequest = async (url, componentConfig, payload) => {
-        const { payloadType, writeMethod } = componentConfig;
+    //plain form post
+    ns.formRequest = async (url, componentConfig, payload, $component) => {
+        const { writePayloadType, writeMethod } = componentConfig;
         const formData = new URLSearchParams();
         Object.entries(payload).map(item => {
             formData.append(item[0], item[1])
         });
-        await ns.submit(url, writeMethod, payloadType, formData.toString(), ns.successCallback, ns.errorCallback);
+        ns.FORM_SUBMIT($component, componentConfig, formData);
+        await ns.submit($component, componentConfig, url, writeMethod, writePayloadType, formData.toString(), ns.FORM_SUCCESS, ns.FORM_ERROR);
     };
 
+    // update the button state to loading or completed.
     ns.updateButtonState = ($component, state) => {
-        const $button = $component.querySelector("button[type='submit']");
+        const $button = $component.find("button[type='submit']");
         if ($button) {
             
             // disable the button and loading text 
             $button.disabled = state === "loading";
-            $button.innerHTML = state === "loading" ? `<i class="pi pi-spin pi-spinner"></i>` : $button.getAttribute("data-label");
+            $button.innerHTML = state === "loading" ? `<i class="pi pi-spin pi-spinner"></i>` : $button.attr("data-label");
         }
     };
 
 
+    // form submit handler
     ns.formSubmitHandler = async ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
+        console.log(["formSubmitHandler", componentConfig, $component])
         let { writePayloadType, writeMethod, writeUrl } = componentConfig;
-        if (!writePayloadType || !writeMethod || !writeUrl) {
-            console.log("Author should fill all the parameters.");
-            return;
+        if (!writeUrl) {
+          ns.FORM_CANCEL($component, componentConfig, {data: componentConfig, reason: "Form has not been configured properly."});
+          console.log("Post URL not set can't continue.");
+          return;
+        }
+        //do default JSON and POST if not set
+        if (!writePayloadType || !writeMethod ) {
+            writePayloadType = "application/json";
+            writeMethod = "POST";
+            console.warn("Payload type or method not set, defaulting to JSON and POST.");
+            // return;
         }
         const payload = await ns.getFormData($component);
         ns.updateButtonState($component, "loading");
 
+        //TODO: do form validation here and cancel the request if validation fails
         writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());
 
         if (writePayloadType === "application/json") {
-            await ns.jsonRequest(writeUrl, componentConfig, payload);
+            await ns.jsonRequest(writeUrl, componentConfig, payload, $component);
         } else if (writePayloadType === "application/x-www-form-urlencoded") {
-            await ns.formRequest(writeUrl, componentConfig, payload);
+            await ns.formRequest(writeUrl, componentConfig, payload, $component);
         }
         ns.updateButtonState($component, "completed");
     };
 
-    ns.loadInitialData = async ($component) => {
+    ns.loadData = async ($component, data, componentConfig) => {
+        try { 
+          // if componentConfig is not passed then get the componentConfig from the $component           
+          if (!componentConfig) {
+              componentConfig = componentNs.getComponentConfig($component);
+          }
+          const $formComponents = $component.findExclude(`${ns.selectorInput},${compositeNs.selector}`,compositeNs.selector);
+          console.group("loadData");
+          console.log(["loadData", $component, data, componentConfig, $formComponents]);
+
+          // if data is not passed then return
+          if (!data) {
+              console.log("Data is missing");
+              return;
+          }
+            
+          // step though $formComponents
+          for(let i = 0; i < $formComponents.length; i++) {
+              const $input = $($formComponents[i]);
+              const inputObject = $input.get(0);
+              const name = $input.attr("name") || $input.attr("id");
+              const id = $input.attr("id");
+              const type = $input.attr("type") || "";
+              const tagName = $input.prop("tagName");
+              //is this input field
+              const isInput = $input.attr(ns.selectorInputAttribute);
+              //is this composite value
+              const isCompositeParent = $input.is(compositeNs.selector);
+              // is this text area or input field.
+              const isEditor = $input.is(editorNs.selectorComponent);
+              // is this select field
+              const isSelect = $input.is(selectNs.selectorComponent);
+              console.group(name);
+              console.log(`$input[${name}]`, $input);
+              console.log(`data[${name}]`, data[name]);
+              console.log("inputObject", inputObject);
+              console.log("console.log($input.val());", $input.val());
+              console.log("isInput", isInput);
+              console.log("isCompositeParent", isCompositeParent);
+              console.log("isEditor", isEditor);
+              console.log("isSelect", isSelect);
+
+
+              //skip all field that do not have a name and dont exist in data
+              if (name && data[name]) {
+                  console.log(["loadData basic form component", isSelect, isEditor]);
+
+                  if(isCompositeParent) {
+                    console.log(["loadData composite component", name, isCompositeParent]);
+                    compositeNs.setValue($input, data[name]);
+                  } else if(isEditor) {
+                      const editorId = $input.data("editor-id");
+                      console.log(["loadData editor component", name, editorId]);
+                      editorNs.setEditorData(editorId, data[name]);
+                  } else if(isSelect) {
+                      selectNs.setValue(id, data[name]);
+                  } else {
+                      console.log(["loadData other component value", name, data[name], $input.val()]);
+                      if (type === "checkbox") {
+                          // check all inputs
+                          if (data[name] === $input.val()) {
+                              $input.attr("checked", "checked");
+                          }
+                      } else if (type === "radio") {
+                          // check all radio inputs
+                          if (data[name] === $input.val()) {
+                              $input.attr("checked", "checked");
+                          }
+                      } else {
+                          $input.attr("value", data[name]);
+                      }
+                  }
+              }
+              console.groupEnd();
+
+          }
+
+          // loop through all the input fields and set the value from the response.
+          $component.find("[isInput]").each(function() {
+              const $item = $(this);
+              
+              const name = $item.attr("name");
+
+              if (!data[name]) {
+                  return;
+              }
+
+              const isInput = $item.attr('isInput');
+              if (isInput === "true") {
+                  // if select tag then update the option with selected attribute
+                  if ($item.tagName === "SELECT") {
+                      const options = $item.find("option");
+
+                      // if data[name] is string then split by , and trim all.
+                      if (typeof data[name] === "string") {
+                          data[name] = data[name].split(",").map(item => item.trim());
+                      }
+
+                      // if data[name] is array then loop through the array and check wether the option value is present in the array or not.
+                      if (Array.isArray(data[name])) {
+                          // if choice js gas not rendered the select, set values in select tag.
+                          options.each(function() {
+                              const option = $(this);
+                              if (data[name].includes(option.attr("value"))) {
+                                  option.attr("selected", true);
+                              }
+                          });
+                          //set values in choice js instance
+                          data[name].forEach(function(option) {
+                            selectNs.setChoiceByValue(`${$item.attr('id')}`, option);
+                          });
+                          // $(`#${$item.attr('id')}`).val(data[name]);
+                      }
+                  }
+
+
+                  // if item type is checked or radio then set checked attribute
+                  if ($item.attr("type") === "checkbox" || $item.attr("type") === "radio") {
+                      if (data[name]) {
+                          $item.attr("checked", name);
+                      }
+                  }
+
+                  // set value attribute
+                  $item.attr("value", data[name]);
+
+              } else if (isInput === "editor") {
+                  const editorId = $item.data("editor-id");
+                  ns.editorNs.setEditorData(editorId, data[name]);
+              }
+          });
+
+          // emit event to notify the form is loaded
+          ns.FORM_LOADED($component, componentConfig, data, $component);
+
+        } catch (error) {
+            console.log("Error loading data into form");
+            console.error(error);
+        }
+    }
+    
+    // check if query string exists and return the query string.
+    ns.isDataLoadRequired = (componentConfig) => {
+      const { readUrl } = componentConfig;
+      console.warn(["isDataLoadRequired", readUrl, window.location, window.location.search.substring(1)]);
+      if (!readUrl && readUrl != "") {
+        return false;
+      }
+      return window.location.search.substring(1) === "" ? false : true;
+    }
+
+
+    ns.getData = async ($component, initConfig) => {
         try {
-            const componentConfig = componentNs.getComponentConfig($component);
+            const componentConfig = initConfig || componentNs.getComponentConfig($component);
             const { readUrl, readMethod = "GET", readPayloadType = "application/json", id } = componentConfig;
-            if (!readUrl) {
+            if (!readUrl && readUrl != "") {
+                return;
+            }
+            const queryParams = componentNs.getQueryParams();
+            const url = componentNs.replaceRegex(readUrl, queryParams);
+            console.log(["componentConfig", componentConfig, readUrl, queryParams, url, readMethod, readPayloadType]);
+            
+            var response;
+            try {
+              response = await fetch(
+                  url,
+                  {
+                      method: readMethod || "GET",
+                      headers: {
+                          "Content-Type": readPayloadType || "application/json"
+                      },
+                      keepalive: true,
+                      redirect: 'follow'
+                  }
+              ).then(response => response.json());
+
+            } catch (error) {
+                console.log(`Could not read data from ${readUrl}, possible reasons: querystring is missing; endpoint does not provide default data; CORS issue or server error.`);
+                console.error(error);
                 return;
             }
 
-            const url = componentNs.replaceRegex(readUrl, componentNs.getQueryParams());
-            
-            const response = await fetch(
-                url,
-                {
-                    method: readMethod || "GET",
-                    headers: {
-                        "Content-Type": readPayloadType || "application/json"
-                    }
-                }
-            ).then(response => response.json());
+            return response;
 
-            $component.querySelectorAll("[isInput]").forEach($item => {
-
-                const name = $item.getAttribute("name");
-
-                if (!response[name]) {
-                    return;
-                }
-
-                const isInput = $item.getAttribute('isInput');
-                if (isInput === "true") {
-                    // if select tag then update the option with selected attribute
-                    if ($item.tagName === "SELECT") {
-                        const options = $item.querySelectorAll("option");
-
-                        // if response[name] is string then split by , and trim all.
-                        if (typeof response[name] === "string") {
-                            response[name] = response[name].split(",").map(item => item.trim());
-                        }
-
-                        // if response[name] is array then loop through the array and check wether the option value is present in the array or not.
-                        if (Array.isArray(response[name])) {
-                            // check wether choice js is rendered then update the value of the select tag
-                            options.forEach(option => {
-                                if (response[name].includes(option.getAttribute("value"))) {
-                                    option.setAttribute("selected", true);
-                                }
-                            });
-                            response[name].forEach((option) => {
-                                selectInstanceNs[`${$item.getAttribute('id')}`].setChoiceByValue(option);
-                            });
-                            // $(`#${$item.getAttribute('id')}`).val(response[name]);
-                        }
-                    }
-
-
-                    // if item type is checked or radio then set checked attribute
-                    if ($item.getAttribute("type") === "checkbox" || $item.getAttribute("type") === "radio") {
-                        if (response[name]) {
-                            $item.setAttribute("checked", name);
-                        }
-                    }
-
-                    // set value attribute
-                    $item.setAttribute("value", response[name]);
-
-                } else if (isInput === "child") {
-                    // check the first children of the $item component and check wether it is editable or not and set the value accordingly. 
-                    const $firstChild = $item.children[0];
-                    const editorConfig = componentNs.getComponentConfig($firstChild)
-                    if ($firstChild.getAttribute("component") === "editor") {
-                        if (editorInstanceNs[`${editorConfig.id}`]) {
-
-                            if (editorConfig.variant === "CODE_EDITOR") {
-                                // Works for code mirror editor.
-                                editorInstanceNs[`${editorConfig.id}`].setValue(response[name]);
-                            }
-
-                            // TODO: need to load the data for other editors.
-
-                        }
-                    }
-                }
-            });
-            $component.querySelectorAll("[data-field-name]").forEach(
-                $item => {
-                    const fieldName = $item.getAttribute("data-field-name");
-                    const componentId = $item.getAttribute("data-field-componentId"); 
-                    if (response[fieldName]) {
-                        const key = `${componentId}-${fieldName}`;
-                        eventNs.emitEvent(key, {
-                            data: {
-                                value: response[fieldName]
-                            },
-                            type: "LOAD_DATA"
-                        });
-                        // eventNs.registerEvents(key, ns.getEventHandlerCallBackFn($component, event));
-                    }
-                }
-            )
         } catch (error) {
             console.log("Error in fetching form initial data");
             console.error(error);
         }
     }
 
-    ns.addEventListener = ($component) => {
-        $component.addEventListener("submit",  function (e) {
-            
-            console.log("---------------SUBMITTING----------------")
-            e.preventDefault();
-            const { target } = e;
-            ns.formSubmitHandler(target);
-        });
+    ns.consumeIncomingEvent =  ($component, eventData) => {
+        const { type, topic, payload } = eventData;
+        console.log(["consumeIncomingEvent", type, topic, payload]);
+        const componentConfig = componentNs.getComponentConfig($component);
+        const { id } = componentConfig;
+        const key = `${id}-${type}`;
+        const event = ns.eventMap[eventNs.EVENT_TYPE_LISTEN][key];
+        if (event) {
+            event(payload);
+        }  
     };
+
+    ns.addEventListener = ($component, componentConfig) => {
+      const { events, id } = componentConfig;
+      const defaultTopic = id;
+      
+      console.group('addEventListener ' + id);
+
+      console.log(["config", events, id, defaultTopic]);
+      
+      console.log("registering events");
+      //register events
+      if (events) {        
+        events.forEach(event => {
+          const { topic, type, name, nameCustom, action, config} = event;
+
+          
+          //if type unset then log warning
+          if (!type) {
+            console.warn("type is unset for event will default to emit", event);
+          }
+
+          // if topic is not set then log warning
+          if (!topic) {
+            console.warn("topic is unset for event will default to component id", event);
+          }
+
+          // if nameCustom is not set then log warning
+          if (!nameCustom) {
+            console.warn("nameCustom is unset for event will default to name", event);
+          }
+
+          //if topic not set use component id as topic
+          const topicName = topic || defaultTopic;
+          // if type is not defined then its listen event
+          let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
+          //custom name takes precidence over name, this will be raised as event name
+          let eventName = nameCustom || name;
+
+          console.group(action + " " + eventName);
+
+          console.log(["event config", topic, type, name, nameCustom, action]);
+          console.log(["event to register", topicName, typeName, eventName, action]);
+
+          console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
+          eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
+          console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
+
+          // if event type is listen then add event listener for the event
+
+          if (typeName === eventNs.EVENT_TYPE_EMIT) {
+              //emit do nothing here
+              console.info("event type is emit, do nothing");
+          } else {
+              //listen register the event and listent for specific event on topic
+              console.log(["register event listen", topicName, eventName]);
+              eventNs.registerEvents(topicName, (data) => {
+                  console.log(["registerEvents consumeIncomingEvent", data, eventName]);
+                  // check make sure the event is for this event
+                  if (data.type === eventName) {
+                      console.log(["registerEvents match calling update", action, data]);
+                      ns.handleEventAction($component, action, data);
+                  }
+              });
+          }
+
+          console.groupEnd();
+        });
+      }
+
+      console.log(["eventMap", ns.eventMap]);
+
+      console.log("adding submit event listener");
+
+      // override default submit to handle form submit using code
+      $component.on("submit",  function (e) {
+          console.group("form submit event listener")
+          e.preventDefault();
+          const { target } = e;
+          console.log(target)
+          ns.formSubmitHandler($(target));
+          console.groupEnd();
+      });
+
+      // add event listener to document to listen for incoming events
+      $(document).keydown(function(event) {
+        if (event.ctrlKey && event.shiftKey && event.altKey && String.fromCharCode(event.which) === "I") {
+          console.group("showhints");
+          ns.showFormHints($component, componentConfig).then(() => {
+            console.groupEnd();
+          });
+        }
+    });
+
+      console.groupEnd();
+    };
+
+    ns.addFieldHint = ($field, fieldName, fieldId) => {
+      const $fieldHint = $field.find(`div.fieldhint[data-fieldid="${fieldId}"]`);
+      console.log("found field", $field);
+      console.log("found hint", $fieldHint);
+      //updated it or create it
+      if ($fieldHint.length > 0) {
+        $fieldHint.html(`${fieldName}`);  
+      } else {
+        const $hint = $(`<div class="fieldhint badge rounded-pill bg-secondary" data-fieldid="${fieldId}">${fieldName}</div>`);
+        console.log("created hint", $hint);
+        const $fieldParent = $field.closest(`field`);
+        console.log("found parent", $fieldParent);
+        if ($fieldParent.length > 0) {
+          $hint.insertBefore($fieldParent);
+        } else {
+          //add hint above the field
+          $hint.insertBefore($field);
+        }
+      }
+    }      
+    
+    ns.showFormHints = async ($component, componentConfig) => {
+      //find all fields and show hints that represent field name and value
+      const formData = await ns.getFormData($component, true);
+      console.group("showFormHints");
+      console.log(formData);
+      $component.find(".fieldhint").show();
+      console.groupEnd();
+    }          
+
+
+    /**
+     * handle events for the form component
+     * @param {*} $component component instance
+     * @param {*} action component action
+     * @param {*} data data to be passed to the action
+     */
+    ns.handleEventAction = ($component, action, data) => {
+      console.group('handleEvent');
+      console.log(["handleEvent", $component, action, data]);
+
+      //load data into form if action is FORM_LOAD or EVENT_READ_ACTION
+      if (ns.ACTIONS[action] == "FORM_LOAD" || action === eventNs.EVENTS.EVENT_READ_ACTION) {
+          ns.loadData($component, data);
+      } else if (ns.ACTIONS[action] == "FORM_SUBMIT" || action == eventNs.EVENTS.EVENT_SUBMIT_ACTION) {
+          //submit form if action is FORM_SUBMIT or EVENT_SUBMIT_ACTION
+          ns.formSubmitHandler($component);
+      } else {
+          //log error if action is not supported
+          console.error(["unsupported action", action]);
+      }
+
+      console.groupEnd();
+    }
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
+        console.groupCollapsed("forms init");
+        console.log(["config", componentConfig, $component, ns.eventMap]);
         if (Object.keys(componentConfig).length === 0) {
-            console.log(componentConfig, "componentConfig", $component)
-            console.log("Component config of form component is missing");
+            console.error("Component config of form component is missing");
             return;
         }
-        ns.loadInitialData($component);
-        ns.addEventListener($component);
+        console.log("adding event listeners");
+        ns.addEventListener($component, componentConfig);
+        console.log(["ns.eventMap", ns.eventMap]);
+
+        if (ns.isDataLoadRequired(componentConfig)) {
+          console.log("query string exists, loading data...");
+          ns.getData($component, componentConfig).then(data => {;
+            console.log("data loaded", data);
+            ns.loadData($component, data, componentConfig);
+            console.log("data loaded done", data);
+          });
+        }
+
+        //highlight fields with same ids
+        const isEditMode = $("body").hasClass("isEditMode");
+
+        if (isEditMode) {
+          $("form [id]").each( function () {
+            const fieldId = $(this).attr("id"); 
+            const duplicates = $('form [id='+fieldId+']'); 
+            if (duplicates.length > 1) { 
+              duplicates.css("background-color","rgb(255 1 1 / 5%)")
+                .css("border","1px dashed rgb(255 1 1 / 20%)");
+            } 
+          })
+        }
+
+        console.groupEnd();
     }
 
-})(Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Components.Widgets.Editor.Instances, Typerefinery.Components.Forms.Select.Instances, Typerefinery.Page.Events, document, window);
+})(jQuery, Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Components.Widgets.Editor, Typerefinery.Components.Forms.Select, window.Typerefinery.Components.Forms.Composite, Typerefinery.Page.Events, Typerefinery.Page.Files, document, window);

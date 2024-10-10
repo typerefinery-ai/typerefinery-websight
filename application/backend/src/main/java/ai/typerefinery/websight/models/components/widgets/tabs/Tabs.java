@@ -40,11 +40,6 @@ public class Tabs extends BaseComponent {
     @Inject
     @ChildResource(name = "tabs")
     public List<TabItem> tabsList;
-
-    @Inject
-    @Getter
-    public List<KeyValuePair> events;
-
     
     @Inject
     @Getter

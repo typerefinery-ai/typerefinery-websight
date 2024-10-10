@@ -22,17 +22,17 @@ import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 
 @Model(adaptables = Resource.class, defaultInjectionStrategy = OPTIONAL)
 public class KeyValuePair {
 
     @Getter
-    @Inject
+    @ValueMapValue
     public String key;
 
-
     @Getter
-    @Inject
+    @ValueMapValue
     public String value;
 
 }

@@ -19,12 +19,14 @@ package ai.typerefinery.websight.models.components.forms;
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
 
 import ai.typerefinery.websight.models.components.BaseFormComponent;
+import ai.typerefinery.websight.utils.ComponentUtil;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -32,6 +34,7 @@ import lombok.Getter;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 
 @Model(adaptables = {
@@ -45,6 +48,19 @@ public class Field extends BaseFormComponent {
 
     protected static final String DEFAULT_ID = "field";
     protected static final String DEFAULT_MODULE = "field";
+
+    @Getter
+    protected String labelId = DEFAULT_ID;
+
+    @Getter
+    protected boolean labelHidden = true; //hidden untill we find it as a child
+
+    @Getter
+    protected String fieldId = DEFAULT_ID;
+
+    @Getter
+    protected boolean fieldHidden = true; //hidden untill we find it as a child
+
 
     // authored flex toggle
     @Inject
@@ -72,6 +88,37 @@ public class Field extends BaseFormComponent {
         }
         // Default margin gap.
         grid.addClasses("mb-3");
+
+        if (this.resource != null) {
+            this.labelId = this.resource.getName();
+            this.fieldId = this.resource.getName();
+
+            if (this.resource.hasChildren()) {
+                Iterator<Resource> children = this.resource.listChildren();
+                while (children.hasNext()) {
+                    Resource child = children.next();
+                    String name = child.getName();
+                    if (name.equals("label")) {
+                        String id = child.getValueMap().get("id", "");
+                        //ensure child has an id
+                        if (StringUtils.isEmpty(id)) {
+                            id = ComponentUtil.getComponentId(child);
+                        }
+                        this.labelId = this.id + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.labelHidden = false;
+                    } else if (name.equals("field")) {
+                        String id = child.getValueMap().get("id", "");
+                        //ensure child has an id
+                        if (StringUtils.isEmpty(id)) {
+                            id = ComponentUtil.getComponentId(child);
+                        }
+                        this.fieldId = this.id + (StringUtils.isNotEmpty(id) ? "-" + id : "");
+                        this.fieldHidden = false;
+                    }
+                }
+            }
+
+        }
     }
 
 }

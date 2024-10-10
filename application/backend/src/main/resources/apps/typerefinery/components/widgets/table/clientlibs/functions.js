@@ -9,8 +9,10 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
 window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
 
-(function (ns, tmsNs, eventNs, componentNs, modalNs, tableInstanceNs, searchNs, document, window) {
+(function ($, ns, tmsNs, eventNs, componentNs, modalNs, tableInstanceNs, searchNs, document, window) {
     "use strict";
+
+    ns.selectorComponent = '[component=table]';    
 
     ns.defaultData = {
         columns: [],
@@ -380,8 +382,8 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             eventNs.registerEvents(event.topic, ns.getEventHandlerCallBackFn($component, event));
         });
 
-        const componentId = $component.getAttribute("data-field-componentId");
-        const fieldName = $component.getAttribute("data-field-name");
+        const componentId = $component.attr("data-field-componentId");
+        const fieldName = $component.attr("data-field-name");
         if(!componentId || !fieldName) {
             return;
         }
@@ -389,7 +391,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         const key = `${componentId}-${fieldName}`;
         
         eventNs.registerEvents(key, (data) => {
-            if(data.type === "LOAD_DATA") {
+            if(data.type === eventNs.EVENTS.EVENT_READ_ACTION) {
                 ns.updateComponentHTML(id, data.data.value, $component);
             }
         }); 
@@ -429,4 +431,4 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     };
 
-})(Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Page.Events, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, Typerefinery.Components.Widgets.Search, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Table, Typerefinery.Page.Tms, Typerefinery.Page.Events, Typerefinery.Components, Typerefinery.Modal, Typerefinery.Components.Widgets.Table.Instances, Typerefinery.Components.Widgets.Search, document, window);

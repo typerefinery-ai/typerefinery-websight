@@ -139,6 +139,12 @@ public class FlowComponent extends BaseComponent {
     @Getter
     @Inject
     @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_HTTPROUTE_NOSFX)
+    public String flowapi_httproutenosfx;
+
+    @Getter
+    @Inject
+    @Nullable
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_WEBSOCKETURL)
     public String flowapi_websocketurl;
 

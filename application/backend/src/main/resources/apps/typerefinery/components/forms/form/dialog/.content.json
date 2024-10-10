@@ -13,11 +13,55 @@
         "defaultValue": "Demo"
       }
     },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "warning": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
+      },
+      "info": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
+      },
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "name": "_events_",
+        "description": "Pick generic event or specify custom event to which component action will be mapped.",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action",
+          "description": "Which component action to map to event."
+        },
+        "eventName": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
+        },
+        "eventNameCustom": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
+        }
+      }
+    },
     "styleTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/style"
     },
-    
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
@@ -25,6 +69,10 @@
     "alignmentTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/alignment"
+    },
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
     },
     "writeTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
@@ -67,7 +115,8 @@
       "writeUrl": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "writeUrl",
-        "label": "Endpoint URL"
+        "label": "Endpoint URL",
+        "description": "Add the endpoint URL to send the data to, parameters can be specified using {{...}}, parameters will be replaced with the values from querystring."
       }
     },
     "readTab": {
@@ -91,7 +140,8 @@
       "readUrl": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "readUrl",
-        "label": "Endpoint URL"
+        "label": "Endpoint URL",
+        "description": "Add the endpoint URL to send the data to, parameters can be specified using {{...}}, parameters will be replaced with the values from querystring."
       }
     },
     "flowTab": {

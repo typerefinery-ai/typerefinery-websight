@@ -9,6 +9,12 @@
         "sling:resourceType": "wcm/dialogs/components/include",
         "path": "/apps/typerefinery/components/forms/form/common/fieldLabel"
       },
+      "forId": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "forId",
+        "label": "For ID",
+        "description": "Enter the ID of the form element this label is for, if this label is associated with a form element it will be generated."
+      },
       "hideLabel": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "hideLabel",
@@ -18,6 +24,10 @@
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
     }
   }
 }

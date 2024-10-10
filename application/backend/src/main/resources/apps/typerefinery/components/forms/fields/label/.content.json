@@ -1,5 +1,5 @@
 {
-  "group": ".hidden",
+  "group": "Typerefinery - Forms",
   "sling:resourceType": "ws:Component",
   "description": "Label for fields.",
   "title": "Label"

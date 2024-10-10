@@ -5,16 +5,10 @@ window.Typerefinery.Components.Widgets.Chart = Typerefinery.Components.Widgets.C
 window.Typerefinery.Components.Widgets.Chart.Variants = Typerefinery.Components.Widgets.Chart.Variants || {};
 window.Typerefinery.Components.Widgets.Chart.Variants.LineChart = Typerefinery.Components.Widgets.Chart.Variants.LineChart || {};
 
-
-
-(function (ns, document, window) {
+(function ($, ns, componentsNs, document, window) {
   "use strict";
 
-  $(document).ready(function () {
-    $("[component='chart'][data-module='lineChart']").each(function () {
-      ns?.init(this);
-    });
-  });
+  //init and watch for new components
+  componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
 
-
-})(Typerefinery.Components.Widgets.Chart.Variants.LineChart, document, window);
+})(jQuery, Typerefinery.Components.Widgets.Chart.Variants.LineChart, window.Typerefinery.Components, document, window);

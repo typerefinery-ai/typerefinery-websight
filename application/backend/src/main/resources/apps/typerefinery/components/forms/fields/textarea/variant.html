@@ -15,6 +15,7 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
   <textarea 
+    isInput="true"
     component="${model.componentName}"
     id="${model.id}" 
     name="${model.name}"
@@ -25,6 +26,5 @@
     class="${model.variantClassNames}" 
     required="${model.validationRequired}"
     disabled="${model.disabled}"
-  >
-  </textarea>
+  ></textarea>
 </template>

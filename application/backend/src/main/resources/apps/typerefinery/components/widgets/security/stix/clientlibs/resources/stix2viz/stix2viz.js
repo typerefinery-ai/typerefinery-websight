@@ -2,8 +2,7 @@ window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Vendor = Typerefinery.Vendor || {};
 window.Typerefinery.Vendor.Stix2Viz = Typerefinery.Vendor.Stix2Viz || {};
 
-
-(function (ns, d3, document, window) {
+(function ($, ns, d3, document, window) {
 
   refRegex = /_refs*$/;
   var parsed; // provides a single store for all parsed content
@@ -983,4 +982,4 @@ window.Typerefinery.Vendor.Stix2Viz = Typerefinery.Vendor.Stix2Viz || {};
   // export the Viz object to the global namespace
   ns.Viz = Viz;
 
-})(window.Typerefinery.Vendor.Stix2Viz, d3, document, window);
+})(jQuery, window.Typerefinery.Vendor.Stix2Viz, d3, document, window);

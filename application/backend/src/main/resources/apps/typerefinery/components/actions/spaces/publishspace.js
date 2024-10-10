@@ -31,7 +31,7 @@ class PublishSpaceAction extends React.Component {
       ref: element => {
         this.modalRef = element;
       },
-      testId: "Modal_CreatePage"
+      testId: "Modal_PublishSpace"
     });
   }
 

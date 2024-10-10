@@ -1,0 +1,9 @@
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms - Stix - Composite",
+  "isLayout": false,
+  "sling:resourceType": "ws:Component",
+  "description": "Kill Chain Phase composite field.",
+  "title": "Kill Chain Phase",
+  "sling:resourceSuperType": "typerefinery/components/stix/forms/field"
+}

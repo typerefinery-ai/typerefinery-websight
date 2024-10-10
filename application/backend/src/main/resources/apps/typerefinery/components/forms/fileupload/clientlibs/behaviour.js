@@ -3,12 +3,10 @@ Typerefinery.Components = Typerefinery.Components || {};
 Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupload || {};
 
-(function (ns, document, window) {
+(function ($, ns, componentsNs, document, window) {
     "use strict";
-    $(document).ready(function () {
-        $('[component="fileupload"]').each(function () {
-            console.log('fileupload', this);
-            ns.init(this);
-        });
-    });
-})(window.Typerefinery.Components.Forms.Fileupload, document, window);
+
+    //init and watch for new components
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+
+})(jQuery, window.Typerefinery.Components.Forms.Fileupload, window.Typerefinery.Components, document, window);
