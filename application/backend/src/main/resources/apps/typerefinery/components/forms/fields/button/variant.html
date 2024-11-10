@@ -16,6 +16,9 @@
 <template data-sly-template.icon="${ @ model }">
     <i class="${model.icon}"></i>
 </template>
+<template data-sly-template.image="${ @ model }">
+    <img class="button-image__img" src="${model.defaultImage}" height="${model.imageHeight}" alt="">
+</template>
 <template data-sly-template.variant="${ @ model }">
     <button data-label="${model.label}" 
       toggleTheme="${model.persistColorWhenThemeSwitches ? 'false': 'text' }"
@@ -28,8 +31,12 @@
       class="${model.componentClassNames} ${model.variantClassNames}">
         <sly data-sly-call="${icon @ model=model}" data-sly-test="${ model.showIcon && model.iconPosition== 'left' }">
         </sly>
+        <sly data-sly-call="${image @ model=model}" data-sly-test="${ model.showImage && model.imagePosition== 'left' }">
+        </sly>
         ${model.label}
         <sly data-sly-call="${icon @ model=model}" data-sly-test="${ model.showIcon && model.iconPosition== 'right' }">
+        </sly>
+        <sly data-sly-call="${image @ model=model}" data-sly-test="${ model.showImage && model.imagePosition== 'right' }">
         </sly>
     </button>
 </template>

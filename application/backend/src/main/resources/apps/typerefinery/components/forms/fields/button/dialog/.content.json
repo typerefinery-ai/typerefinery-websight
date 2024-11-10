@@ -95,46 +95,77 @@
           }
         }
       },
-      "showIcon": {
-        "sling:resourceType": "wcm/dialogs/components/toggle",
-        "name": "showIcon",
-        "label": "Show Icon"
-      },
       "hideButtonLabel": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "hideButtonLabel",
         "label": "Hide Label"
       },
-      "icon": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "icon",
-        "label": "Icon",
+      "showIcon": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showIcon",
+        "label": "Show Icon"
+      },
+      "showIconOptions": {
+        "sling:resourceType": "wcm/dialogs/components/container",
         "ws:display": {
           "condition": {
             "sourceName": "showIcon",
             "values": true
+          }
+        },
+        "icon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "icon",
+          "label": "Icon"
+        },
+        "iconPosition": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "iconPosition",
+          "label": "Icon Position",
+          "left": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "left",
+            "value": "left"
+          },
+          "right": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "right",
+            "value": "right"
           }
         }
       },
-      "iconPosition": {
-        "sling:resourceType": "wcm/dialogs/components/select",
-        "name": "iconPosition",
-        "label": "Icon Position",
+      "showImage": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "showImage",
+        "label": "Show Image"
+      },
+      "showImageOptions": {
+        "sling:resourceType": "wcm/dialogs/components/container",
         "ws:display": {
           "condition": {
-            "sourceName": "showIcon",
+            "sourceName": "showImage",
             "values": true
           }
         },
-        "left": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "left",
-          "value": "left"
+        "imageHeight": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "imageHeight",
+          "label": "Image Height"
         },
-        "right": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "right",
-          "value": "right"
+        "imagePosition": {
+          "sling:resourceType": "wcm/dialogs/components/select",
+          "name": "imagePosition",
+          "label": "Image Position",
+          "left": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "left",
+            "value": "left"
+          },
+          "right": {
+            "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+            "label": "right",
+            "value": "right"
+          }
         }
       }
     },
@@ -423,7 +454,17 @@
     "gridTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/grid"
-    },    
+    },
+    "imageTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/image",
+      "ws:display": {
+        "condition": {
+          "sourceName": "showImage",
+          "values": true
+        }
+      }
+    },
     "ariaTab": {
       "sling:resourceType": "wcm/dialogs/components/include",
       "path": "/apps/typerefinery/components/dialog/tabs/aria"

@@ -89,31 +89,47 @@ public class Image extends BaseComponent {
     @PostConstruct
     protected void init() {
         super.init();
-        initImagesCount();
-        initDefaultImage();
-        initImageSources();
+        imagesCount = initImagesCount(smImageSrc, mdImageSrc, lgImageSrc);
+        defaultImage = initDefaultImage(smImageSrc, mdImageSrc, lgImageSrc, resourceResolver);
+        imageSources = initImageSources(smImageSrc, mdImageSrc, lgImageSrc, resourceResolver);
     }
 
-    private void initImageSources() {
-        imageSources = new LinkedList<>();
+    public static Collection<ImageSource> initImageSources(
+        String smImageSrc,
+        String mdImageSrc,
+        String lgImageSrc,
+        ResourceResolver resourceResolver
+    ) {
+        //only add image sources if they are not empty, do not include smImageSrc as it will be default
+        Collection<ImageSource> outputSources = new LinkedList<>();
         if (StringUtils.isNotEmpty(mdImageSrc)) {
-            imageSources.add(new ImageSource(LinkUtil.handleLink(lgImageSrc, resourceResolver),
+            outputSources.add(new ImageSource(LinkUtil.handleLink(lgImageSrc, resourceResolver),
                     LG_BREAKPOINT_MIN_WIDTH));
         }
         if (StringUtils.isNotEmpty(mdImageSrc) && StringUtils.isNotEmpty(smImageSrc)) {
-            imageSources.add(new ImageSource(LinkUtil.handleLink(mdImageSrc, resourceResolver),
+            outputSources.add(new ImageSource(LinkUtil.handleLink(mdImageSrc, resourceResolver),
                     MD_BREAKPOINT_MIN_WIDTH));
         }
+        return outputSources;
     }
 
-    private void initImagesCount() {
-        imagesCount = Stream.of(smImageSrc, mdImageSrc, lgImageSrc)
+    public static long initImagesCount(
+        String smImageSrc,
+        String mdImageSrc,
+        String lgImageSrc 
+    ) {
+        return Stream.of(smImageSrc, mdImageSrc, lgImageSrc)
                 .filter(StringUtils::isNotEmpty)
                 .count();
     }
 
-    private void initDefaultImage() {
-        defaultImage = LinkUtil.handleLink(
+    public static String initDefaultImage(
+        String smImageSrc,
+        String mdImageSrc,
+        String lgImageSrc,
+        ResourceResolver resourceResolver
+    ) {
+        return LinkUtil.handleLink(
                 DefaultImageUtil.chooseDefaultImage(lgImageSrc, mdImageSrc, smImageSrc),
                 resourceResolver);
     }
@@ -126,8 +142,7 @@ public class Image extends BaseComponent {
     @AllArgsConstructor
     @EqualsAndHashCode
     public static class ImageSource {
-
-        private String image;
-        private Integer minWidth;
+        public String image;
+        public Integer minWidth;
     }
 }

@@ -18,6 +18,7 @@ package ai.typerefinery.websight.models.components.forms;
 
 import static org.apache.sling.models.annotations.DefaultInjectionStrategy.OPTIONAL;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.apache.sling.models.annotations.Model;
 import org.jetbrains.annotations.Nullable;
 
 import ai.typerefinery.websight.models.components.BaseFormComponent;
+import ai.typerefinery.websight.models.components.content.Image;
 import ai.typerefinery.websight.utils.LinkUtil;
 import ai.typerefinery.websight.utils.PageUtil;
 
@@ -37,6 +39,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import lombok.Getter;
+import ai.typerefinery.websight.models.components.content.Image.ImageSource;
+
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
@@ -177,6 +181,54 @@ public class Button extends BaseFormComponent {
         }
     };
 
+    // Image properties
+    
+    @Inject
+    @Getter
+    private Boolean showImage;
+
+    @Inject
+    private String smImageSrc;
+
+    @Inject
+    private String mdImageSrc;
+
+    @Inject
+    private String lgImageSrc;
+
+    @Getter
+    @Inject
+    private String alt;
+
+    @Getter
+    @Inject
+    private Boolean showLink;
+
+    @Inject
+    private String url;
+
+    @Getter
+    @Inject
+    @Default(values = "false")
+    private String openInNewTab;
+
+    @Getter
+    private Collection<ImageSource> imageSources;
+    @Getter
+    private String defaultImage;
+    @Getter
+    private long imagesCount;
+
+    @Inject
+    @Getter
+    private String imagePosition;
+
+    @Inject
+    @Getter
+    private String imageHeight;
+
+    // methods
+
     @Override
     @PostConstruct
     protected void init() {
@@ -224,6 +276,17 @@ public class Button extends BaseFormComponent {
             //update any defaults that should be set
             PageUtil.updatResourceProperties(resource, props);
         }
+
+        // Image properties
+        imagesCount = Image.initImagesCount(smImageSrc, mdImageSrc, lgImageSrc);
+        defaultImage = Image.initDefaultImage(smImageSrc, mdImageSrc, lgImageSrc, resourceResolver);
+        imageSources = Image.initImageSources(smImageSrc, mdImageSrc, lgImageSrc, resourceResolver);
+        if (StringUtils.isBlank(this.imagePosition)) {
+            this.imagePosition = "left";
+        }
+        props.put(defaultImage, defaultImage);
+        props.put(imagePosition, imagePosition);
+
     }
 
 }
