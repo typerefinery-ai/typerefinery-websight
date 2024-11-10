@@ -2,4 +2,7 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="sling:OrderedFolder">
     <typerefinery.png/>
+    <norm-anecdote.svg/>
+    <norm-artifact.svg/>
+    <norm-attack-campaign.svg/>
 </jcr:root>

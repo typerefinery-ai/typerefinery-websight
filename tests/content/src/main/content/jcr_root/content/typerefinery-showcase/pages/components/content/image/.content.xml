@@ -28,10 +28,16 @@
                         sling:resourceType="typerefinery/components/content/title"
                         id="title_VRPHNZKHL"
                         title="Image component"/>
-                    <text
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/text"
-                        id="text_KHZCMZJNH"/>
+                    <image
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/content/image"
+                            id="image_MVLBKR7LV"
+                            lgColSize="5"
+                            lgImageSrc="/content/typerefinery-showcase/assets/images/norm-anecdote.svg"
+                            mdColSize="5"
+                            mdImageSrc="/content/typerefinery-showcase/assets/images/norm-anecdote.svg"
+                            smColSize="5"
+                            smImageSrc="/content/typerefinery-showcase/assets/images/norm-anecdote.svg"/>
                 </section>
             </container>
         </rootcontainer>

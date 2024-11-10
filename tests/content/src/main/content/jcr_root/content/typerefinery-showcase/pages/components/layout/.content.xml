@@ -22,4 +22,5 @@
     <sidebar/>
     <accordion/>
     <bread-crumbs/>
+    <container/>
 </jcr:root>
