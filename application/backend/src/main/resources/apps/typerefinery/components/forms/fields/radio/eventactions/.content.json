@@ -1,0 +1,13 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "radioclick": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "RADIO_CLICK",
+    "value": "Radio Click"
+  },
+  "radiogroupclick": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "RADIOGROUP_CLICK",
+    "value": "Radio Group Click"
+  }
+}

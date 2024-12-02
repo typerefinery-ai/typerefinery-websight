@@ -5,7 +5,8 @@ window.Typerefinery.Components.Forms.Radio = Typerefinery.Components.Forms.Radio
 
 (function ($, ns, componentsNs, document, window) {
     "use strict";
+    
     //init and watch for new components
-    //componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
 
 })(jQuery, window.Typerefinery.Components.Forms.Radio, window.Typerefinery.Components, document, window);
