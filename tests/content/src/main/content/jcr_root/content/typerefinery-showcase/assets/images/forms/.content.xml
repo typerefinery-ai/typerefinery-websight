@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="sling:OrderedFolder">
+    <ext_contact.svg/>
+    <ext_incident.svg/>
+    <icon_CO.svg/>
+    <icon_DF.svg/>
+    <icon_ER.svg/>
+    <icon_GM.svg/>
+    <icon_LB.svg/>
+    <icon_LG.svg/>
+    <icon_OM.svg/>
+    <icon_RV.svg/>
+    <ext_sighting_hunt.svg/>
+    <ext_sighting_framework.svg/>
+    <ext_sighting_external.svg/>
+    <ext_sighting_enrichment.svg/>
+    <ext_sighting_exclusion.svg/>
+    <ext_sighting_anecdote.svg/>
+    <ext_sighting_context.svg/>
+    <ext_sighting_alert.svg/>
+    <ext_impact_traceability.svg/>
+    <ext_impact_physical.svg/>
+    <ext_impact_monetary.svg/>
+    <ext_impact_integrity.svg/>
+    <ext_impact_external.svg/>
+    <ext_impact_confidentiality.svg/>
+    <ext_impact_availability.svg/>
+</jcr:root>
