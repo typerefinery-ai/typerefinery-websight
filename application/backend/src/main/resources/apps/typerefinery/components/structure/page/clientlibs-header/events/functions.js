@@ -236,16 +236,54 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     };
 
-    ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction) => {
+    //get option from options object, if not found return default value
+    ns.getOption = (options, key, defaultValue) => {
+      // if options, key or key is not in options return default value
+      if (!options || !key || !options[key]) {
+        return defaultValue;
+      }
+      // return key value
+      return options[key];
+    };
+
+    ns.setOption = (options, key, value) => {
+      // if options, key or key is not in options return default value
+      if (!value || !key) {
+        return;
+      }
+      // set key value
+      options[key] = value;
+    };
+
+    /**
+     * 
+     * @param {*} $component JQuery object
+     * @param {*} componentConfig JSON object
+     * @param {*} eventMap JSON object
+     * @param {*} payload JSON object
+     * @param {*} eventName string name of the event
+     * @param {*} componentAction string name of the action
+     * @param {*} options JSON object with override values
+     * @returns 
+     */
+    ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction, options) => {
       console.group('emitLocalEvent');
       if (!$component) {
         console.warn("event is external, no component found");
       }
       console.log(["config", $component, componentConfig, payload, eventName, componentAction]);
 
-      const { id } = componentConfig;
+      //get component id, use override if passed, else use config id, else null
+      const componentId = ns.getOption(options, "id") || componentConfig.id || null;
 
-      console.log(["id", id]);
+      // if componnet id is not set exit
+      if (!componentId) {
+        console.error("component id not set, events will not be possible to match.");
+        console.groupEnd();
+        return;
+      }
+
+      console.log(["id", componentId]);
 
       // const eventData = ns.compileEventData(payload, eventName, componentAction);
       // console.log(["eventData", eventData]);
@@ -265,20 +303,20 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log(["componentAction found", eventName, eventMap[ns.EVENT_TYPE_EMIT][componentAction]]);
           
           //check if events exist for component id
-          if (!eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]) {
+          if (!eventMap[ns.EVENT_TYPE_EMIT][componentAction][componentId]) {
             console.warn("no events found for component");
             console.groupEnd();
             return;
           }
           
           // for each event name in the component action emit event
-          const actionComponents = Object.keys(eventMap[ns.EVENT_TYPE_EMIT][componentAction][id]);
+          const actionComponents = Object.keys(eventMap[ns.EVENT_TYPE_EMIT][componentAction][componentId]);
           console.group("actionComponents");
           console.log("actionComponents", actionComponents);
           // for each topic in the event name emit event
           actionComponents.forEach(actionComponent => {
             console.log("actionComponent", actionComponent);
-            const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][id][actionComponent];
+            const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][componentId][actionComponent];
             console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
             if (Array.isArray(actionEvents)) {
@@ -289,7 +327,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 const { topic, config, event } = topicValue;
                 if (topic && (topic == eventType || event == actionComponent)) {
                   console.log("emit event for topic", topic);
-                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
+                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {
@@ -302,7 +340,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 const { topic, config, event } = actionEvents;
                 if (topic && (topic == eventType || event == actionComponent)) {
                   console.log("emit event for topic", topic);
-                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, id, config);
+                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {

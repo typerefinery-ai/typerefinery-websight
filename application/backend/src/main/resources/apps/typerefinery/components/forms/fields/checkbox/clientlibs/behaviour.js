@@ -5,7 +5,8 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 
 (function ($, ns, componentsNs, document, window) {
     "use strict";
+    
     //init and watch for new components
-    //componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+    componentsNs.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
 
 })(jQuery, window.Typerefinery.Components.Forms.Checkbox, window.Typerefinery.Components, document, window);
