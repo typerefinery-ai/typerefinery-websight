@@ -38,11 +38,22 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         return str.match(/{{(\w+)}}/gm);
     };      
     ns.replaceRegex = (str, obj) => {
-        return str.replace(/{{(\w+)}}/gm, function(match, key) {
-            if (!obj.hasOwnProperty(key)) {
-              console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
-            }
-            return obj[key] || "";
+        //find any {{key}} in the string and replace with value from obj
+        return str.replace(/{{(.*)}}/gm, function(match, key) {
+          //get key value using json path from obj
+          // if (!obj.hasOwnProperty(key)) {
+          // console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
+          let jpName = "$." + key;
+          console.log("find key in object using json path", key, jpName, obj);
+          let value = ns.jsonPath(obj, jpName);
+          // return first value if found
+          if (value.length > 0) {
+            return value[0];
+          }  
+          // return empty string if not found
+          return "";
+          // }
+          // return obj[key] || "";
         });
     };
     ns.queryToObject = (query) => {
@@ -182,6 +193,15 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
           ns.onDocumentReady(selector, callbackFn);
       } else {
           document.addEventListener("DOMContentLoaded", ns.onDocumentReady(selector, callbackFn));
+      }
+    }
+
+    ns.jsonPath = function(obj, expr, arg) {
+      // if window has jsonPath function use it
+      if (window.jsonPath) {
+        return window.jsonPath(obj, expr, arg);
+      } else {
+        console.warn("jsonPath function not found, using fallback");
       }
     }
 

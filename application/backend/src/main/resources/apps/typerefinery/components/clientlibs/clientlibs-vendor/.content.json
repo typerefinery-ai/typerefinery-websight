@@ -12,6 +12,7 @@
   "js": [
     "/apps/typerefinery/clientlibs/vendor/jquery/jquery.min.js",
     "/apps/typerefinery/clientlibs/vendor/bootstrap/bootstrap.min.js",
-    "/apps/typerefinery/clientlibs/vendor/handlebars/handlebars.js"
+    "/apps/typerefinery/clientlibs/vendor/handlebars/handlebars.js",
+    "/apps/typerefinery/clientlibs/vendor/jsonpath/jsonpath.js"
   ] 
 }

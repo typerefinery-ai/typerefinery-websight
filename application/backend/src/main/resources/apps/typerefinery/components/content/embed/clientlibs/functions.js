@@ -37,9 +37,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const payloadData = config.payload || {};
       
+      //this will replace all the variables in the sourceUrl with values from payloadData
       if (sourceUrl) {
+        // console.log(["update iframe source", sourceUrl, payloadData]);
         sourceUrl = componentNs.replaceRegex(sourceUrl, payloadData)
-        console.log(["update iframe source", sourceUrl]);
+        console.log(["update iframe source done", sourceUrl]);
         $component.find("iframe").attr("src", sourceUrl);
       } else {
         console.error("no source was specified");
