@@ -59,6 +59,7 @@
                             flowapi_flowstreamid="f19b3r001tj51d"
                             flowapi_group="/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/observables/_jcr_content/rootcontainer/container1/container/container_1/stix"
                             flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/observables/_jcr_content/rootcontainer/container1/container/container_1/stix/{{id}}"
+                            flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/observables/_jcr_content/rootcontainer/container1/container/container_1/stix"
                             flowapi_iscontainer="{Boolean}false"
                             flowapi_sampledata="/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
                             flowapi_success="true"

@@ -41,6 +41,7 @@
                 flowapi_flowstreamid="f19b4j001tj51d"
                 flowapi_group="/content/typerefinery-showcase/pages/test/_jcr_content/rootcontainer/stix"
                 flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/test/_jcr_content/rootcontainer/stix/{{id}}"
+                flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/test/_jcr_content/rootcontainer/stix"
                 flowapi_iscontainer="{Boolean}false"
                 flowapi_sampledata="/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
                 flowapi_success="true"

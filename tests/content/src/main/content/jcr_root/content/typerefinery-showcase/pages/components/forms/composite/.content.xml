@@ -42,7 +42,8 @@
                     flowapi_flowstreamid="f1aqgm001nx51d"
                     flowapi_group="/content/typerefinery-showcase/pages/components/forms/composite/_jcr_content/rootcontainer/main/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/composite/_jcr_content/rootcontainer/main/form/{{id}}"
-                    flowapi_iscontainer="false"
+                    flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/composite/_jcr_content/rootcontainer/main/form"
+                    flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
@@ -139,6 +140,89 @@
                                     label="Input"
                                     name="fieldcinputc"/>
                             </input_2>
+                            <composite
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/composite"
+                                id="composite_XCOS1QKWN">
+                                <label
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_ZJ5RTNYEJ"
+                                    label="Composite"/>
+                                <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/forms/fields/composite"
+                                    id="field_Y1OSTYDXA"
+                                    label="Composite Field"
+                                    name="fieldASASFASDF">
+                                    <input
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="typerefinery/components/forms/input"
+                                        id="input_RYCSKZ2BO">
+                                        <label
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="typerefinery/components/forms/fields/label"
+                                            id="label_XTO3R2QN2"
+                                            label="Input Label"/>
+                                        <field
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="typerefinery/components/forms/fields/input"
+                                            id="field_VE6EFRBUG"
+                                            label="Input"
+                                            name="dssdfgjsdfgj"/>
+                                    </input>
+                                    <composite
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="typerefinery/components/forms/composite"
+                                        id="composite_4JWZXA9WG">
+                                        <label
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="typerefinery/components/forms/fields/label"
+                                            id="label_KJXCZPB8A"
+                                            label="Composite"/>
+                                        <field
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="typerefinery/components/forms/fields/composite"
+                                            id="field_X13IBO1KG"
+                                            inputType="list"
+                                            label="Composite Field"
+                                            name="list">
+                                            <input
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="typerefinery/components/forms/input"
+                                                id="input_4HH0ZLRIU">
+                                                <label
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                                    id="label_VXQNSLFGJ"
+                                                    label="Input Label"/>
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="typerefinery/components/forms/fields/input"
+                                                    id="field_FWJIB74IE"
+                                                    label="Input"
+                                                    name="fa"/>
+                                            </input>
+                                            <input_1
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="typerefinery/components/forms/input"
+                                                id="input_1_EVIBVAHNY">
+                                                <label
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="typerefinery/components/forms/fields/label"
+                                                    id="label_0UJMWBO0Z"
+                                                    label="Input Label"/>
+                                                <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="typerefinery/components/forms/fields/input"
+                                                    id="field_I2SX3Y3EE"
+                                                    label="Input"
+                                                    name="fb"/>
+                                            </input_1>
+                                        </field>
+                                    </composite>
+                                </field>
+                            </composite>
                         </field>
                     </composite>
                     <input_1

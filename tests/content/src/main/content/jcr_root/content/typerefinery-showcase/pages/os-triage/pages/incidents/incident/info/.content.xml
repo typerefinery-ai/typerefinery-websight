@@ -48,6 +48,7 @@
                     flowapi_flowstreamid="f19b3v001tj51d"
                     flowapi_group="/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/info/_jcr_content/rootcontainer/container1/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/info/_jcr_content/rootcontainer/container1/form/{{id}}"
+                    flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident/info/_jcr_content/rootcontainer/container1/form"
                     flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_success="true"

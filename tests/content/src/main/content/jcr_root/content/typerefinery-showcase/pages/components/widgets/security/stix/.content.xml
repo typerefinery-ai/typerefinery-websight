@@ -44,6 +44,7 @@
                     flowapi_flowstreamid="f19b3n001tj51d"
                     flowapi_group="/content/typerefinery-showcase/pages/components/widgets/security/stix/_jcr_content/rootcontainer/main/stix"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/widgets/security/stix/_jcr_content/rootcontainer/main/stix/{{id}}"
+                    flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/widgets/security/stix/_jcr_content/rootcontainer/main/stix"
                     flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/widgets/security/stix/templates/flowsample.json"
                     flowapi_success="true"

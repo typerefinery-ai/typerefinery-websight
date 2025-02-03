@@ -282,7 +282,7 @@
                     flowapi_group="/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form/{{id}}"
                     flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form"
-                    flowapi_iscontainer="false"
+                    flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
