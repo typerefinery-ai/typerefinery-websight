@@ -248,7 +248,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.setOption = (options, key, value) => {
       // if options, key or key is not in options return default value
-      if (!value || !key) {
+      if (!value || !key || !options) {
         return;
       }
       // set key value
