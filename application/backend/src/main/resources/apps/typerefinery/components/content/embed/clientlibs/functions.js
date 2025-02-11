@@ -68,21 +68,22 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // console.log(["sendMessageToiFrame", data]);
       var $iframe = $component.find("iframe");
       var iframe = $iframe[0];
-      console.log(["sendMessageToiFrame", action, sourceData, $iframe, iframe]);
+      console.log(["sendMessageToiFrame using postMessage", action, sourceData, $iframe, iframe]);
       //if iframe does not have TypeRefinery then it will need to manage its own events
       iframe.contentWindow.postMessage(sourceData, "*");
 
-      
+      console.log(["sendMessageToiFrame using postMessage, done"]);
       //call events
-      //TODO: this will trigger CORS issue
-      try {
-        if (iframe.contentWindow.Typerefinery.Page.Events) {
-          const topic = sourceData.type;
-          iframe.contentWindow.Typerefinery.Page.Events.emitEvent(topic, sourceData);
-        }
-      } catch (error) {
-        console.error("sendMessageToiFrame", error);
-      }
+      //TODO: this will trigger CORS issue, disable to acoid double events?
+      // try {
+      //   if (iframe.contentWindow.Typerefinery.Page.Events) {
+      //     console.log(["sendMessageToiFrame using events call, expect possible cors issue."]);
+      //     const topic = sourceData.type;
+      //     iframe.contentWindow.Typerefinery.Page.Events.emitEvent(topic, sourceData);
+      //   }
+      // } catch (error) {
+      //   console.error("sendMessageToiFrame", error);
+      // }
       console.groupEnd();
     }
 
