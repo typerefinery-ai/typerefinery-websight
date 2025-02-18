@@ -8,5 +8,8 @@
   "css": [
     "style.css"
   ],  
-  "js": [] 
+  "js": [
+    "functions.js",
+    "behaviour.js"
+  ] 
 }
