@@ -76,7 +76,7 @@ window.Typerefinery.Components.Forms.Textarea = Typerefinery.Components.Forms.Te
                       value: value,
                       type: type,
                       id: id,
-                      action: "click" 
+                      action: "change" 
                     });
           
                     console.groupEnd();
