@@ -1,0 +1,8 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "filechange": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "FILE_CHANGE",
+    "value": "File Change"
+  }
+}

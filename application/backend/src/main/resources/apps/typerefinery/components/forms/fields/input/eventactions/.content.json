@@ -1,0 +1,8 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "textchange": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "TEXT_CHANGE",
+    "value": "Text Change"
+  }
+}

@@ -1,0 +1,8 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "textareachange": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "TEXTAREA_CHANGE",
+    "value": "Textarea Change"
+  }
+}

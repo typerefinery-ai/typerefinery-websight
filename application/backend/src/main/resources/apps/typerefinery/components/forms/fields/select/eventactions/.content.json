@@ -1,0 +1,8 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "selectchange": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "SELECT_CHANGE",
+    "value": "Select Change"
+  }
+}
