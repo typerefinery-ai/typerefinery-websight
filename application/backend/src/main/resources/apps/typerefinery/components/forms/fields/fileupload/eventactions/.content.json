@@ -1,8 +1,8 @@
 { 
   "sling:resourceType": "nt:unstructured",
-  "filechange": {
+  "fileuploadchange": {
     "sling:resourceType": "nt:unstructured",
-    "key": "FILE_CHANGE",
+    "key": "FILEUPLOAD_CHANGE",
     "value": "File Change"
   }
 }
