@@ -14,6 +14,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.ACTION_RADIO_CLICK = "RADIO_CLICK";
     ns.ACTION_RADIOGROUP_CLICK = "RADIOGROUP_CLICK";
 
+    //actions supported by this component
+    ns.ACTIONS = {
+      RADIO_CLICK: ns.ACTION_RADIO_CLICK,
+      RADIOGROUP_CLICK: ns.ACTION_RADIOGROUP_CLICK
+    }
+
     // map event types to handlers in component
     // this will indicate which events are supported by component
     // ns.eventMap = eventNs.genericEventsTopicMap();
@@ -61,8 +67,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         
                   console.log(["config", componentConfig]);
         
-                  // ns.RADIO_CLICK($component, componentConfig, { type: "radio", action: "click" , "id": id } );
-                  ns.handleEventAction($component, componentConfig, ns.RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
+                  ns.handleEventAction($component, componentConfig, ns.ACTION_RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
         
                   console.groupEnd();
               });
@@ -86,7 +91,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   const id = $radio.attr('id');
         
                   console.log(["$radio", $radio, value, id]);
-                  ns.handleEventAction($radio, componentConfig, ns.RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
+                  ns.handleEventAction($radio, componentConfig, ns.ACTION_RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
         
                   console.groupEnd();
               });
@@ -127,7 +132,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const { id } = componentConfig;
       const comonentEventId = componentConfig.name || id;
 
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_SELECT, "RADIO_CLICK", {id: comonentEventId});
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_SELECT, ns.ACTION_RADIO_CLICK, {id: comonentEventId});
       console.groupEnd();
     }
 

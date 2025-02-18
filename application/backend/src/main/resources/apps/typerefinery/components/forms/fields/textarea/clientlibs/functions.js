@@ -72,7 +72,7 @@ window.Typerefinery.Components.Forms.Textarea = Typerefinery.Components.Forms.Te
                     const id = $instance.attr('id');
                     const type = $instance.attr('type');
   
-                    ns.handleEventAction($component, componentConfig, ns.TEXTAREA_CHANGE, { 
+                    ns.handleEventAction($component, componentConfig, ns.ACTION_TEXTAREA_CHANGE, { 
                       value: value,
                       type: type,
                       id: id,

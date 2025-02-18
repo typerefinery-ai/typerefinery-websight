@@ -72,7 +72,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
                     const id = $input.attr('id');
                     const type = $input.attr('type');
   
-                    ns.handleEventAction($component, componentConfig, ns.INPUT_CHANGE, { 
+                    ns.handleEventAction($component, componentConfig, action, { 
                       value: value,
                       type: type,
                       id: id,
