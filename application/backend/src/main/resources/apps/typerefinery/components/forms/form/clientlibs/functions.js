@@ -54,7 +54,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             console.group(name);
             console.log("$input", $input);
             console.log("inputObject", inputObject);
-            console.log("console.log($input.val());", $input.val());
+            console.log("$input.val()", $input.val());
 
             //is this input field
             const isInput = $input.attr(ns.selectorInputAttribute);
@@ -107,29 +107,36 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                     if (addFieldHint) {
                       ns.addFieldHint($input, name, id);
                     }             
-                  } else {
-                    console.log(["getFormData other component value", name, result[name], $input.val()]);
-                    if (type === "checkbox") {
-                        // get value from checkbox if checked
-                        if ($input.is(":checked")) {
-                          if (!result[name]) {
-                              result[name] = [];
-                          }
-                          result[name].push($input.val());
+                } else {
+                  console.log(["getFormData other component value", name, result[name], type, $input.val()]);
+                  if (type === "checkbox") {
+                      // get value from checkbox if checked
+                      if ($input.is(":checked")) {
+                        if (!result[name]) {
+                            result[name] = [];
                         }
-                    } else if (type === "radio") {
-                        // get value from radio if checked
-                        if ($input.is(":checked")) {
-                          result[name] = $input.val();
-                        }
-                    } else if (type === "file") {
-                      const files = [...inputObject.files];
+                        result[name].push($input.val());
+                      }
+                  } else if (type === "radio") {
+                      // get value from radio if checked
+                      if ($input.is(":checked")) {
+                        result[name] = $input.val();
+                      }
+                  } else if (type === "file") {
+                    const files = [...inputObject.files];
+
+                    if (files.length > 0) {
                       // add loader.
                       files.forEach(file => {
                           const fileName = file?.name?.trim()?.replace(/\s/g, "-");
                           document.getElementById(`close-${fileName}`).style.display = "none";
                           document.getElementById(`loader-${fileName}`).style.display = "block";
                       });
+                      console.log("files", files);
+                      console.log("$input", $input);
+                      console.log("$input.multiple", $input.multiple);
+                      console.log("$input.files", $input.files);
+
                       if($input.multiple) {
                           result[name] = [];
                           for(let i = 0; i < files.length; i++) {
@@ -149,14 +156,17 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                           // if no file is selected then it will return empty string.
                           result[name] = "";
                       }
-                    } else {                        
-                      // get value from $input tag
-                      result[name] = $input.val();
+                    } else {
+                      console.log("No file selected...");
                     }
-                    
-                    if (addFieldHint) {
-                      ns.addFieldHint($input, name, id);
-                    }             
+                  } else {                        
+                    // get value from $input tag
+                    result[name] = $input.val();
+                  }
+                  
+                  if (addFieldHint) {
+                    ns.addFieldHint($input, name, id);
+                  }             
 
                 }
 
@@ -348,7 +358,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
               console.log(`$input[${name}]`, $input);
               console.log(`data[${name}]`, data[name]);
               console.log("inputObject", inputObject);
-              console.log("console.log($input.val());", $input.val());
+              console.log("$input.val()", $input.val());
               console.log("isInput", isInput);
               console.log("isCompositeParent", isCompositeParent);
               console.log("isEditor", isEditor);
