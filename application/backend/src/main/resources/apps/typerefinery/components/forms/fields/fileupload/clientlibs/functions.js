@@ -10,6 +10,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
 
     ns.selectorComponent = '[component=fileupload]';
 
+    //FIXME: file input field is not getting reflected with the files.
     ns.customDragAndDrop = ($component, componentConfig) => {
         const componentId = `#${componentConfig.id}-${componentConfig.name}`;
         console.log('componentId', componentId);
