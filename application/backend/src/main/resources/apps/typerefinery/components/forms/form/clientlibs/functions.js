@@ -123,40 +123,53 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                         result[name] = $input.val();
                       }
                   } else if (type === "file") {
-                    const files = [...inputObject.files];
+                    const $parentContainer = $input.closest(Typerefinery.Components.Forms.Fileupload.selectorComponent);
+                    console.log("inputObject", inputObject);
+                    console.log("$parentContainer", $parentContainer);
+                    console.log("parentContainer", $parentContainer[0]);
+                    console.log("parentContainer.files", $parentContainer[0].files);
 
-                    if (files.length > 0) {
-                      // add loader.
-                      files.forEach(file => {
-                          const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-                          document.getElementById(`close-${fileName}`).style.display = "none";
-                          document.getElementById(`loader-${fileName}`).style.display = "block";
-                      });
+                    let files = new Map();
+
+                    let hasFiles = false;
+                    //check if parent container has files and there is parent container and nothing is undefined
+                    if ($parentContainer && $parentContainer[0] && $parentContainer[0].files) {
+                      hasFiles = true;
+                    }
+
+                    // get files from parent container if it is file upload component.                    
+                    if (hasFiles) {
+
+                      console.log("files", $parentContainer[0].files);
+                      result[name] = [];
+
+                      files = $parentContainer[0].files;
                       console.log("files", files);
-                      console.log("$input", $input);
-                      console.log("$input.multiple", $input.multiple);
-                      console.log("$input.files", $input.files);
 
-                      if($input.multiple) {
-                          result[name] = [];
-                          for(let i = 0; i < files.length; i++) {
-                              const fileName = files[i]?.name?.trim()?.replace(/\s/g, "-");
-                              const output = await filesNs.uploadFile(files[i]);
-                              document.getElementById(`loader-${fileName}`).style.display = "none";
-                              document.getElementById(`close-${fileName}`).style.display = "block";
-                              result[name].push(output);
-                          }
-                      }else if($input.files.length > 0){
-                          const blobUrl = await filesNs.uploadFile(files[0]);
-                          const fileName = files[0]?.name?.trim()?.replace(/\s/g, "-");
-                          document.getElementById(`loader-${fileName}`).style.display = "none";
-                          document.getElementById(`close-${fileName}`).style.display = "block";
-                          result[name] = blobUrl;
-                      } else {
-                          // if no file is selected then it will return empty string.
-                          result[name] = "";
-                      }
+                      // loop files map
+                      for (let [fileId, file] of files.entries()) {
+                        console.log("file", file);
+                        console.log("fileId", fileId);
+                        console.log("filename", file.name);
+                        console.log("file.size", file.size);
+                        console.log("file.type", file.type);
+                        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+                        // hide close button and show loader
+                        $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
+                        $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).show();
+
+                        // upload file to server
+                        const output = await filesNs.uploadFile(file);
+
+                        // hide loader and show close button
+                        $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).hide();
+                        $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
+
+                        result[name].push(output);
+                      };
+
                     } else {
+                      result[name] = "";
                       console.log("No file selected...");
                     }
                   } else {                        
