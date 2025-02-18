@@ -11,15 +11,20 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
     ns.selectorComponent = '[component=fileupload]';
 
     ns.customDragAndDrop = ($component, componentConfig) => {
-        // }
-        let uploadButton = document.getElementById(`${componentConfig.id}-${componentConfig.name}`);
-        let container = $component;
-        let error = document.getElementById("error");
-        let imageDisplay = document.getElementById("image-display");
+        const componentId = `#${componentConfig.id}-${componentConfig.name}`;
+        console.log('componentId', componentId);
+        let $fileInput = $component.find(componentId);
+        let $container = $component;
+        let $error = $component.find("#error");
+        let $imageDisplay = $component.find("#image-display");
+        console.log('$fileInput', $fileInput);
+        console.log('$container', $container);
+        console.log('$error', $error);
+        console.log('$imageDisplay', $imageDisplay);
         // close-icon handle click.
-        $(document).on("click", ".close-icon", function () {
+        $($component).on("click", ".close-icon", function () {
             if(this.id && this.id.split("close-").length >= 2){
-                document.getElementById(`figure-${this.id.split("close-")[1]}`).remove();
+              $component.find(`#figure-${this.id.split("close-")[1]}`).remove();
             }
         });
 
@@ -27,10 +32,10 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
             type = type.split("/").legnth >= 2 ? type.split("/")[1] : type; 
             if (componentConfig.accept !== "*" && componentConfig.accept && !componentConfig.accept.includes(type)) {
                 //File Type Error
-                error.innerText = "Please upload " + componentConfig.accept + " file type only";
+                $error.innerText = "Please upload " + componentConfig.accept + " file type only";
                 return false;
             }
-            error.innerText = "";
+            $error.innerText = "";
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
@@ -61,42 +66,42 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
 
                 imageContainer.appendChild(img);
                 imageContainer.innerHTML += `<figcaption >${name}</figcaption>`;
-                imageDisplay.appendChild(imageContainer);
+                $imageDisplay.append($(imageContainer));
             };
         };
-        uploadButton.addEventListener("change", () => {
-            imageDisplay.innerHTML = "";
-            Array.from(uploadButton.files).forEach((file) => {
+        $fileInput[0].addEventListener("change", (event) => {
+            $imageDisplay.innerHTML = "";
+            Array.from(event.target.files).forEach((file) => {
                 fileHandler(file, file.name, file.type);
             });
         });
-        container.addEventListener(
+        $container[0].addEventListener(
             "dragenter",
             (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                container.classList.add("active");
+                $container.addClass("active");
             },
             false
         );
-        container.addEventListener(
+        $container[0].addEventListener(
             "dragleave",
             (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                container.classList.remove("active");
+                $container.removeClass("active");
             },
             false
         );
-        container.addEventListener(
+        $container[0].addEventListener(
             "drop",
             (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                container.classList.remove("active");
+                $container.removeClass("active");
                 let draggedData = e.dataTransfer;
                 let files = draggedData.files;
-                imageDisplay.innerHTML = "";
+                $imageDisplay.innerHTML = "";
                 Array.from(files).forEach((file) => {
                     fileHandler(file, file.name, file.type);
                 });
@@ -104,13 +109,14 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
             false
         );
         window.onload = () => {
-            error.innerText = "";
+            $error.innerText = "";
         };
     }
 
     ns.init = ($component) => {
+        console.groupCollapsed('Fileupload init');
         const componentConfig = componentNs.getComponentConfig($component);
-        $component = document.getElementById(componentConfig.id);
         ns.customDragAndDrop($component, componentConfig);
+        console.groupEnd();
     }
 })(jQuery, Typerefinery.Components.Forms.Fileupload, Typerefinery.Components, document, window);
