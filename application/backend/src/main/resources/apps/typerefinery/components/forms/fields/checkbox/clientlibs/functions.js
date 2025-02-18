@@ -15,10 +15,10 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 
     //actions supported by this component
     ns.ACTIONS = {
-      CHECKBOX_CHANGE: ns.ACTION_CHECKBOX_CHANGE // action to handle checkbox change
+      CHECKBOX_CHANGE: ns.ACTION_CHECKBOX_CHANGE, // action to handle checkbox change
+      CHECKBOX_CLICK: ns.ACTION_CHECKBOX_CLICK // action to handle checkbox click
     }
     
-
     // map event types to handlers in component
     // this will indicate which events are supported by component
     // ns.eventMap = eventNs.genericEventsTopicMap();
@@ -96,9 +96,15 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
           
                     console.log(["config", componentConfig]);
           
-                    // ns.RADIO_CLICK($component, componentConfig, { type: "radio", action: "click" , "id": id } );
-                    ns.handleEventAction($component, componentConfig, ns.RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
-          
+                    ns.handleEventAction($component, componentConfig, ns.ACTION_CHECKBOX_CLICK, { 
+                      type: "checkbox", 
+                      action: "click", 
+                      "itemId": id, 
+                      "itemValue": value, 
+                      "id": name, 
+                      value: value
+                    });
+
                     console.groupEnd();
                 });
           
@@ -115,14 +121,14 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
         
                   console.log(["config on change", componentConfig, name, value]);
         
-                  ns.CHECKBOX_CHANGE($component, componentConfig, { 
+                  ns.handleEventAction($component, componentConfig, ns.ACTION_CHECKBOX_CHANGE, {
                     type: "checkbox", 
                     action: "change", 
                     "itemId": id, 
                     "itemValue": value, 
                     "id": name, 
                     value: ns.getValue(name) 
-                  });
+                  });                    
         
                   console.groupEnd();
               });
