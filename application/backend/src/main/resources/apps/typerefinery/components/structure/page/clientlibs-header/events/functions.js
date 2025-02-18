@@ -129,7 +129,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         // if evt has initCustomEvent then use it
         console.log(["initCustomEvent", evt["initCustomEvent"]]);
         if (typeof evt["initCustomEvent"] === 'function') {
-          console.log("initCustomEvent found on custom event.");
+          console.log(["initCustomEvent found on custom event.", ns.CUSTOM_EVENT_NAME, evt["initCustomEvent"]]);
           evt["initCustomEvent"](ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
           // evt.initCustomEvent(ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
           console.log("event initialized");
