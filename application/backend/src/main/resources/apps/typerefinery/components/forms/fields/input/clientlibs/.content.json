@@ -9,6 +9,8 @@
     "style.css"
   ],  
   "js": [
-    "/apps/typerefinery/clientlibs/vendor/inputmask/inputmask.min.js"
+    "/apps/typerefinery/clientlibs/vendor/inputmask/inputmask.min.js",
+    "functions.js",
+    "behaviour.js"
   ] 
 }
