@@ -19,5 +19,10 @@
     "sling:resourceType": "nt:unstructured",
     "key": "DATA_SOURCE",
     "value": "Data Source"
+  },
+  "datarefresh": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "DATA_REFRESH",
+    "value": "Data Refresh"
   }
 }

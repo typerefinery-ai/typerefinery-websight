@@ -15,13 +15,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.ACTION_DATA_REQUEST = "DATA_REQUEST"; //request data by iframe
     ns.ACTION_DATA_PAYLOAD = "DATA_PAYLOAD"; //deliver data to iframe
     ns.ACTION_DATA_SOURCE = "DATA_SOURCE"; //change source for iframe
+    ns.ACTION_DATA_REFRESH = "DATA_REFRESH"; //notify iframe to refresh data
     
     //actions supported by this component
     ns.ACTIONS = {
-      EVENT_PROXY: ns.ACTION_EVENT_PROXY, //emmit event from iframe as if it was raised by this component
-      DATA_REQUEST: ns.ACTION_DATA_REQUEST, //request data by iframe
-      DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD, //deliver data to iframe
-      DATA_SOURCE: ns.ACTION_DATA_SOURCE //change source for iframe
+      EVENT_PROXY: ns.ACTION_EVENT_PROXY,
+      DATA_REQUEST: ns.ACTION_DATA_REQUEST,
+      DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD,
+      DATA_SOURCE: ns.ACTION_DATA_SOURCE,
+      DATA_REFRESH: ns.ACTION_DATA_REFRESH
     }
 
     // map event types to handlers in component
@@ -50,16 +52,16 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
     //send message to iframe
-    ns.sendMessageToiFrame = function($component, action, data) {
+    ns.sendMessageToiFrame = function($component, action, eventData) {
       console.group("sendMessageToiFrame on " + window.location);
 
-
-      var sourceData = data;
-      if (typeof sourceData === 'string') {
-        sourceData = JSON.parse( data );
+      //ensure that eventData is object
+      var parsedEventData = eventData;
+      if (typeof parsedEventData === 'string') {
+        parsedEventData = JSON.parse( eventData );
       }
 
-      if (!sourceData) {
+      if (!parsedEventData) {
         console.error("no data to send");
         console.groupEnd();
         return;
@@ -68,9 +70,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // console.log(["sendMessageToiFrame", data]);
       var $iframe = $component.find("iframe");
       var iframe = $iframe[0];
-      console.log(["sendMessageToiFrame using postMessage", action, sourceData, $iframe, iframe]);
+      console.log(["sendMessageToiFrame using postMessage", action, parsedEventData, $iframe, iframe]);
       //if iframe does not have TypeRefinery then it will need to manage its own events
-      iframe.contentWindow.postMessage(sourceData, "*");
+      iframe.contentWindow.postMessage(parsedEventData, "*");
 
       console.log(["sendMessageToiFrame using postMessage, done"]);
       //call events
@@ -147,6 +149,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
+    ns.DATA_REFRESH = ($component, componentConfig, eventData) => {
+      console.group(ns.ACTION_DATA_REFRESH);
+      console.log([ns.ACTION_DATA_REFRESH, $component, componentConfig, eventData]);
+      console.log("send data refresh to iframe");
+      ns.sendMessageToiFrame($component, ns.ACTION_DATA_REFRESH, eventData);
+      console.log("data refresh sent to iframe");
+      console.groupEnd();
+    }
+
     /**
      * Get data from endpoint
      * @param {*} $component component instance
@@ -173,9 +184,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log(["getData done"]);
           return eventData;
         }, 
-        ($component, data) => {
-          console.log(["getData error", $component, data]);
-          return data;
+        ($component, eventData) => {
+          console.log(["getData error", $component, eventData]);
+          ns.sendMessageToiFrame($component, ns.ACTION_DATA_PAYLOAD, eventData);
+          console.log(["getData error done"]);
+          return eventData;
         }, 
         requestMethod, 
         responseContentType
@@ -287,13 +300,15 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //load data into form
       if (action === ns.ACTION_EVENT_PROXY) {
         //send message to iframe
-        ns.sendMessageToiFrame($component, action, data.payload);
+        ns.sendMessageToiFrame($component, action, data);
       } else if (action === ns.ACTION_DATA_PAYLOAD) {
-        ns.sendMessageToiFrame($component, action, data.payload);
+        ns.sendMessageToiFrame($component, action, data);
       // } else if (action === ns.ACTION_DATA_REQUEST) {
       //   ns.handleDataRequest($component, data);
       } else if (action === ns.ACTION_DATA_SOURCE) {
         ns.updateDataSource($component, data);
+      } else if (action === ns.ACTION_DATA_REFRESH) {
+        ns.sendMessageToiFrame($component, action, data);
       } else {
         console.error(["handleEventAction unsupported action", action]);
       }
