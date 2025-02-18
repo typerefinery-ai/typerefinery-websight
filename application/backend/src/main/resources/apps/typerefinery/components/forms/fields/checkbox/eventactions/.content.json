@@ -4,5 +4,10 @@
     "sling:resourceType": "nt:unstructured",
     "key": "CHECKBOX_CHANGE",
     "value": "Checkbox Change"
+  },
+  "checkboxclick": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "CHECKBOX_CLICK",
+    "value": "Checkbox Click"
   }
 }

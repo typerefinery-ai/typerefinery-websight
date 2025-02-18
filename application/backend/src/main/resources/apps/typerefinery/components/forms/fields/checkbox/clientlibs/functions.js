@@ -10,7 +10,8 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
     ns.selectorComponent = '[component=checkbox]';
     ns.selectorChecked = ':checked';
 
-    ns.ACTION_CHECKBOX_CHANGE = "CHECKBOX_CHANGE"; // action to handle checkbox change
+    ns.ACTION_CHECKBOX_CHANGE = "CHECKBOX_CHANGE"; // action to handle checkbox change for all checkboxes with the same name
+    ns.ACTION_CHECKBOX_CLICK = "CHECKBOX_CLICK"; // action to handle checkbox click for checkbox
 
     //actions supported by this component
     ns.ACTIONS = {
@@ -63,14 +64,14 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
       //register events
       if (events) {        
         events.forEach(event => {
-          const { topic, type, name, nameCustom, action, config } = event;
+          const { topic, type, name, nameCustom, action, config, value } = event;
 
           //if topic not set use component id as topic
           const topicName = topic || defaultTopic;
           // if type is not defined then its listen event
           let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
 
-          let eventName = nameCustom || name;
+          let eventName = nameCustom || name || topic;
           
           console.groupCollapsed(`event ${typeName} - ${action}:${topic}`);
           console.log(["event config", topic, type, name, nameCustom, action, config]);
@@ -85,6 +86,49 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
               //emit do nothing here              
+              console.log("adding event listener " + action);
+              if (action === ns.ACTION_CHECKBOX_CLICK) {
+                console.group(`adding click listener to component ${comonentEventId}`);
+  
+                $component.on("click", (e) => {
+                    console.group("click");
+                    console.log(["click", e]);
+          
+                    console.log(["config", componentConfig]);
+          
+                    // ns.RADIO_CLICK($component, componentConfig, { type: "radio", action: "click" , "id": id } );
+                    ns.handleEventAction($component, componentConfig, ns.RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
+          
+                    console.groupEnd();
+                });
+          
+                console.groupEnd();
+              } else if (action === ns.ACTION_CHECKBOX_CHANGE) {
+                console.group("adding checkbox change listener");
+  
+                $component.on("change", (e) => {
+                  console.group("change");
+                  console.log(["change", e]);
+                  e?.preventDefault();
+                  const componentConfig = componentNs.getComponentConfig(e.currentTarget);
+                  let { buttonType, navigateTo, navigateToInNewWindow, name, value} = componentConfig;
+        
+                  console.log(["config on change", componentConfig, name, value]);
+        
+                  ns.CHECKBOX_CHANGE($component, componentConfig, { 
+                    type: "checkbox", 
+                    action: "change", 
+                    "itemId": id, 
+                    "itemValue": value, 
+                    "id": name, 
+                    value: ns.getValue(name) 
+                  });
+        
+                  console.groupEnd();
+              });
+                console.groupEnd();
+                
+              }
           } else {
               //listen register the event and listent for specific event on topic
               console.log(["register event listen", topicName, eventName]);
@@ -92,7 +136,7 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
                   // check make sure the event is for this event
                   console.log(["registerEvents callback", topicName, eventName, data]);
                   if (data.type === eventName) {
-                      ns.handleEventAction($component, action, data);
+                      ns.handleEventAction($component, componentConfig, action, data);
                   }
               });
           }
@@ -107,30 +151,6 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
 
       console.groupEnd();
       
-      console.group("adding change listener");
-
-      $component.on("change", (e) => {
-          console.group("change");
-          console.log(["change", e]);
-          e?.preventDefault();
-          const componentConfig = componentNs.getComponentConfig(e.currentTarget);
-          let { buttonType, navigateTo, navigateToInNewWindow, name, value} = componentConfig;
-
-          console.log(["config on change", componentConfig, name, value]);
-
-          ns.CHECKBOX_CHANGE($component, componentConfig, { 
-            type: "checkbox", 
-            action: "change", 
-            "itemId": id, 
-            "itemValue": value, 
-            "id": name, 
-            value: ns.getValue(name) 
-          });
-
-          console.groupEnd();
-      });
-
-      console.groupEnd();
     }
 
     ns.CHECKBOX_CHANGE = ($component, componentConfig, data) => {
@@ -138,24 +158,48 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
       const { id } = componentConfig;
       const comonentEventId = componentConfig.name || id;
 
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, ns.ACTION_CHECKBOX_CHANGE, {id: comonentEventId});
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_UPDATE, ns.ACTION_CHECKBOX_CHANGE, {id: comonentEventId});
 
       console.groupEnd();
     }
 
-    ns.handleEventAction = ($component, action, data) => {
+    ns.CHECKBOX_CLICK = ($component, componentConfig, data) => {
+      console.group(ns.ACTION_CHECKBOX_CLICK);
+      const { id } = componentConfig;
+      const comonentEventId = componentConfig.name || id;
+
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_SELECT, ns.ACTION_CHECKBOX_CLICK, {id: comonentEventId});
+
+      console.groupEnd();
+    }
+
+    ns.handleEventAction = ($component,componentConfig, action, data) => {
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
+      switch (action) {
+        case ns.CHECKBOX_CLICK:
+            ns.CHECKBOX_CLICK($component, componentConfig, data );
+            break;
+        case ns.CHECKBOX_CHANGE:
+            ns.CHECKBOX_CHANGE($component, componentConfig, data );
+            break
+        default:
+            console.log("no action found");
+            break;
+    }
       console.groupEnd();
   }
 
     ns.init = async ($component) => {
-      console.group("checkbox init");
       const componentConfig = componentNs.getComponentConfig($component);
-
+      const { id, actionType } = componentConfig;
+      console.groupCollapsed("checkbox init " + id);
+      console.log("$component", $component);
       console.log("componentConfig", componentConfig);
 
+      console.log("adding event listeners");
       ns.addEventListener($component, componentConfig);
+      console.log(["ns.eventMap", ns.eventMap]);
 
       console.groupEnd();
 
