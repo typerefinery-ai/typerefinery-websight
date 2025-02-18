@@ -22,7 +22,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
     // ns.eventMap = eventNs.genericEventsTopicMap();
     ns.eventMap = eventNs.genericEventsTopicMap();
 
-    // this will add event listener to the component and register the event for all chechboxes with the same name
+    // this will add event listener to the component and register the event for all inputs with the same name
     ns.addEventListener = ($component, componentConfig) => {
         
       const { events, id } = componentConfig;
