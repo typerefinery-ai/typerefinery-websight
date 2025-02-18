@@ -21,7 +21,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.addEventListener = ($component, componentConfig) => {
       const { events, id } = componentConfig;
-      const defaultTopic = id;
+      const defaultTopic = componentConfig.name || id;
+      const comonentEventId = componentConfig.name || id;
       console.group('addEventListener ' + id);
       
       console.log(["config", events, id, defaultTopic]);
@@ -44,7 +45,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log(["event to register", topicName, typeName, eventName, action]);
 
           console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName, config]);
-          eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
+          eventNs.registerEventActionMapping(ns.eventMap, comonentEventId, topicName, typeName, action, eventName, config);
           console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
 
           // if event type is listen then add event listener for the event
@@ -52,7 +53,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
             console.log("adding event listener " + action);
             if (action === ns.ACTION_RADIO_CLICK) {
-              console.group("adding click listener");
+              console.group(`adding click listener to component ${comonentEventId}`);
 
               $component.on("click", (e) => {
                   console.group("click");
@@ -99,6 +100,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               console.log(["register event listen", topicName, eventName]);
               eventNs.registerEvents(topicName, (data) => {
                   // check make sure the event is for this event
+                  console.log(["registerEvents callback", topicName, eventName, data]);
                   if (data.type === eventName) {
                       ns.handleEventAction($component, componentConfig, action, data);
                   }
@@ -121,8 +123,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     // local actions representing the form actions
     ns.RADIO_CLICK = ($component, componentConfig, data) => {
-      console.group('RADIO_CLICK');
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "RADIO_CLICK");
+      console.group(ns.ACTION_RADIO_CLICK);
+      const { id } = componentConfig;
+      const comonentEventId = componentConfig.name || id;
+
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_SELECT, "RADIO_CLICK", {id: comonentEventId});
       console.groupEnd();
     }
 
@@ -144,7 +149,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       const componentConfig = componentNs.getComponentConfig($component);
       const { id, actionType } = componentConfig;
 
-      console.groupCollapsed("button init " + id);
+      console.groupCollapsed("radio init " + id);
       console.log("$component", $component);
       console.log("componentConfig", componentConfig);
 
