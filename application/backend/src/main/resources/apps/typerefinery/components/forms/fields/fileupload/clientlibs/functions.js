@@ -109,7 +109,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
       
     }
 
-    ns.FILEUPLOAD_CHANGE = (componentConfig, data) => {
+    ns.FILEUPLOAD_CHANGE = ($component, componentConfig, data) => {
       console.group(ns.ACTION_FILEUPLOAD_CHANGE);
       const { id } = componentConfig;
       const comonentEventId = componentConfig.name || id;
