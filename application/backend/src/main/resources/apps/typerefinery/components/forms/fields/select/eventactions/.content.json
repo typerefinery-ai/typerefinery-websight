@@ -4,5 +4,20 @@
     "sling:resourceType": "nt:unstructured",
     "key": "SELECT_CHANGE",
     "value": "Select Change"
+  },
+  "selectitemadd": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "SELECT_ITEM_ADD",
+    "value": "Select Add Item"
+  },
+  "selectitemremove": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "SELECT_ITEM_REMOVE",
+    "value": "Select Remove Item"
+  },
+  "selectitemchange": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "SELECT_ITEM_CHANGE",
+    "value": "Select Item Change"
   }
 }
