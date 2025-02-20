@@ -59,7 +59,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
               //emit do nothing here              
               console.log("adding event listener " + action);
-              if (action === ns.ACTION_TEXTAREA_CHANGE) {
+              if (action === ns.ACTION_FILEUPLOAD_CHANGE) {
                 console.group(`adding change listener to component ${comonentEventId}`);
   
                 $component.on("change", (e) => {
@@ -148,13 +148,15 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
         const id = Math.random().toString(36).substr(2, 9);
         $component[0].files.set(id, file);
 
+        console.log(["isEmitEvents", ns.isEmitEvents($component)]);
+
         if (ns.isEmitEvents($component)) {
           console.log("change add file emit");
           ns.handleEventAction($component, null, ns.ACTION_FILEUPLOAD_CHANGE, { 
             value: file.name,
             type: file.type,
             id: id,
-            action: "change" 
+            action: "add" 
           });
         }
         
@@ -263,16 +265,12 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
                     $imageContainer.remove();
                 });
 
-                $imageContainer.append($closeIcon);
-
                 // add loader icon which is display none.
                 let $loaderIcon = $(`<span fileId="${id}" fileName="${name}" class="loader-icon pi pi-spin pi-spinner" id="loader-${name}"></span>`);
 
                 console.log('$loaderIcon', $loaderIcon);
 
-                $imageContainer.append($loaderIcon);
-
-                $imageContainer.append($img);
+                $imageContainer.prepend($closeIcon, $loaderIcon, $img);
 
                 // append the image container to the image display
                 $imageDisplay.append($imageContainer);
