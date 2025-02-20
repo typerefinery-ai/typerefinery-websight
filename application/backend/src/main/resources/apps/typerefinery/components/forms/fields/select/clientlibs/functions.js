@@ -4,7 +4,7 @@ window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Select || {};
 window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.Forms.Select.Instances || {};
 
-(function ($, ns, componentNs, selectInstances, eventNs, window, document) {
+(function ($, ns, componentNs, selectInstances, eventNs, Choices, window, document) {
     "use strict";
 
     ns.selectorComponent = '[component=select]';
@@ -161,7 +161,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                 });
 
                 console.groupEnd();
-
+              }
           } else {
               //listen register the event and listent for specific event on topic
               console.log(["register event listen", topicName, eventName]);
@@ -421,4 +421,4 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         
     }
 
-})(jQuery, Typerefinery.Components.Forms.Select, Typerefinery.Components, Typerefinery.Components.Forms.Select.Instances, Typerefinery.Page.Events, window, document);
+})(jQuery,  Typerefinery.Components.Forms.Select, Typerefinery.Components, Typerefinery.Components.Forms.Select.Instances, Typerefinery.Page.Events, Choices, window, document);
