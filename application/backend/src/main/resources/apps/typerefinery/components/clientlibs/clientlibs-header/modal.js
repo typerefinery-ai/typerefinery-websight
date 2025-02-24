@@ -4,7 +4,12 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 (function ($, ns, document, window) {
 
     // Inner HTML for the modal window.
-    ns.getModalInnerHTML = (modalTitle, iframeURL, hideFooter) => {
+    ns.getModalInnerHTML = (options) => {
+      let modalTitle = options.modalTitle || "";
+      let iframeURL = options.iframeURL || "";
+      let hideFooter = options.hideFooter || false;
+      let loadingText = options.loadingText || "Loading...";
+      let saveChangesText = options.saveChangesText || "Save Changes";
         return `
             <div class="modal-dialog modal-lg" id="modalView">
                 <div class="modal-content">
@@ -20,7 +25,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                     <div class="modal-body">
                         <div class="loader" id="loader">
                             <div class="loader__figure"></div>
-                            <p class="text-center">Loading...</p>
+                            <p class="text-center">${loadingText}</p>
                         </div>
                         <iframe id="modalIframe" src="${iframeURL}" class="iframeClassName"></iframe>
                     </div>
@@ -29,7 +34,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                             : 
                             `
                                 <div class="modal-footer" >
-                                    <button type="button" id="submitHandlerInModal" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" id="submitHandlerInModal" class="btn btn-primary">${saveChangesText}</button>
                                 </div>
                             `
                         }
@@ -145,7 +150,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         const id = '__common_modal__';
         modalDivContainer.setAttribute("class", "modal fade");
         modalDivContainer.setAttribute("id", `${id}`);
-        modalDivContainer.innerHTML = ns.getModalInnerHTML("Modal", "", false);
+        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: "Modal"});
         document.body.appendChild(modalDivContainer);
         ns.expandModalListener(modalDivContainer);
         ns.submitListenerForModal(modalDivContainer);
@@ -174,7 +179,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         const { actionModalTitle, hideFooter, actionUrl } = componentConfig;
 
-        newModalDivContainer.innerHTML = ns.getModalInnerHTML(actionModalTitle, `${ORIGIN}${actionUrl}`, hideFooter);
+        newModalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: actionModalTitle, iframeURL: `${ORIGIN}${actionUrl}`, hideFooter: hideFooter});
 
         document.body.appendChild(newModalDivContainer);
 
@@ -192,7 +197,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.updateCommonModalAndOpen = (modalTitle, iframeURL, hideFooter) => {
         const modalDivContainer = document.getElementById('__common_modal__');
-        modalDivContainer.innerHTML = ns.getModalInnerHTML(modalTitle, iframeURL, hideFooter);
+        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: modalTitle, iframeURL: iframeURL, hideFooter: hideFooter});
         $("#loader").show();
         const modal = new bootstrap.Modal(modalDivContainer);
         modal.show();
@@ -213,7 +218,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         const randIdForModal = Math.random().toString(16).slice(2);
         modalDivContainer.setAttribute("class", "modal fade modal-default");
         modalDivContainer.setAttribute("id", randIdForModal);
-        modalDivContainer.innerHTML = ns.getModalInnerHTML(modalTitle, iframeURL, hideFooter);
+        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: modalTitle, iframeURL: iframeURL, hideFooter: hideFooter});
         document.body.appendChild(modalDivContainer);
         ns.expandModalListener(modalDivContainer);
         ns.submitListenerForModal(modalDivContainer);

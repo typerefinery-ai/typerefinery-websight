@@ -49,7 +49,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             const newModalDivContainer = document.createElement("div");
             newModalDivContainer.setAttribute("class", "modal fade");
             newModalDivContainer.setAttribute("id", "tableModalContent");
-            newModalDivContainer.innerHTML = modalNs.getModalInnerHTML("", "", false);
+            newModalDivContainer.innerHTML = modalNs.getModalInnerHTML();
             document.body.appendChild(newModalDivContainer);
             modalNs.submitListenerForModal(newModalDivContainer);
             modalNs.expandModalListener(newModalDivContainer);
