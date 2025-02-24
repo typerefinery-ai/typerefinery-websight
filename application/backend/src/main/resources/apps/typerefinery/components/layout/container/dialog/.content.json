@@ -157,7 +157,7 @@
           "selected": true,
           "value": ""
         },
-        "small": {
+        "sectionwithtitle": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Section with Title",
           "value": "sectionwithtitle"
