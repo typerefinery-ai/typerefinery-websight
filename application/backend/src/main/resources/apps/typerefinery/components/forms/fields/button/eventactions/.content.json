@@ -7,7 +7,7 @@
   },
   "openmodal": {
     "sling:resourceType": "nt:unstructured",
-    "key": "OPEN_MODAL",
+    "key": "MODAL_OPEN",
     "value": "Open Modal with URL"
   }
 }

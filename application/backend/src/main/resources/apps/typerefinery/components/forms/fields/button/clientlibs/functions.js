@@ -14,11 +14,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 
     ns.ACTION_BUTTON_CLICK = "BUTTON_CLICK";
-    ns.ACTION_OPEN_MODAL = "OPEN_MODAL";
+    ns.ACTION_MODAL_OPEN = "MODAL_OPEN";
 
     ns.ACTIONS = {
         BUTTON_CLICK: ns.ACTION_BUTTON_CLICK,
-        OPEN_MODAL: ns.ACTION_OPEN_MODAL
+        MODAL_OPEN: ns.ACTION_MODAL_OPEN
     }
 
     // map event types to handlers in component
@@ -75,12 +75,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
                       console.groupEnd();
                   });
-              } else if (action === ns.ACTION_OPEN_MODAL) {
+              } else if (action === ns.ACTION_MODAL_OPEN) {
                   $component.on("click", (e) => {
                       console.group("click");
                       console.log(["click", e]);
                       e?.preventDefault();
-                      ns.OPEN_MODAL($component, componentConfig, { 
+                      ns.MODAL_OPEN($component, componentConfig, { 
                         type: "button",
                         action: "click" ,
                         "id": id
@@ -155,9 +155,9 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    ns.OPEN_MODAL = ($component, componentConfig, data) => {
-      console.group('OPEN_MODAL');
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "OPEN_MODAL");
+    ns.MODAL_OPEN = ($component, componentConfig, data) => {
+      console.group('MODAL_OPEN');
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "MODAL_OPEN");
       console.groupEnd();
     }
   
@@ -172,8 +172,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         case ns.ACTION_BUTTON_CLICK:
           ns.BUTTON_CLICK($component, componentConfig, data);
           break;
-        case ns.ACTION_OPEN_MODAL:
-          ns.OPEN_MODAL($component, componentConfig, data);
+        case ns.ACTION_MODAL_OPEN:
+          ns.MODAL_OPEN($component, componentConfig, data);
           break;
         default:
           break;
