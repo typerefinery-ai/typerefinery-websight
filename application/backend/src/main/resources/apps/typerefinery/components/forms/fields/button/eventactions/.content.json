@@ -4,5 +4,10 @@
     "sling:resourceType": "nt:unstructured",
     "key": "BUTTON_CLICK",
     "value": "Button Click"
+  },
+  "openmodal": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "OPEN_MODAL",
+    "value": "Open Modal with URL"
   }
 }

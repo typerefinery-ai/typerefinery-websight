@@ -12,6 +12,15 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     "use strict";
     ns.selectorComponent = '[component=button]';
 
+
+    ns.ACTION_BUTTON_CLICK = "BUTTON_CLICK";
+    ns.ACTION_OPEN_MODAL = "OPEN_MODAL";
+
+    ns.ACTIONS = {
+        BUTTON_CLICK: ns.ACTION_BUTTON_CLICK,
+        OPEN_MODAL: ns.ACTION_OPEN_MODAL
+    }
+
     // map event types to handlers in component
     // this will indicate which events are supported by component
     // ns.eventMap = eventNs.genericEventsTopicMap();
@@ -49,13 +58,43 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
               //emit do nothing here
+              console.log("adding event listener " + action);
+              if (action === ns.ACTION_BUTTON_CLICK) {
+                  $component.on("click", (e) => {
+                      console.group("click");
+                      
+                      console.log(["click", e]);
+                      
+                      e?.preventDefault();
+                      
+                      ns.BUTTON_CLICK($component, componentConfig, { 
+                        type: "button",
+                        action: "click" ,
+                        "id": id
+                      });
+
+                      console.groupEnd();
+                  });
+              } else if (action === ns.ACTION_OPEN_MODAL) {
+                  $component.on("click", (e) => {
+                      console.group("click");
+                      console.log(["click", e]);
+                      e?.preventDefault();
+                      ns.OPEN_MODAL($component, componentConfig, { 
+                        type: "button",
+                        action: "click" ,
+                        "id": id
+                      });
+                      console.groupEnd();
+                  });
+              }
           } else {
               //listen register the event and listent for specific event on topic
               console.log(["register event listen", topicName, eventName]);
               eventNs.registerEvents(topicName, (data) => {
                   // check make sure the event is for this event
                   if (data.type === eventName) {
-                      ns.handleEventAction($component, action, data);
+                      ns.handleEventAction($component, componentConfig, action, data);
                   }
               });
           }
@@ -70,6 +109,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       console.groupEnd();
       
+      // basic button actions
       console.group("adding click listener");
 
       $component.on("click", (e) => {
@@ -113,12 +153,31 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.group('BUTTON_CLICK');
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "BUTTON_CLICK");
       console.groupEnd();
-    }     
+    }
 
+    ns.OPEN_MODAL = ($component, componentConfig, data) => {
+      console.group('OPEN_MODAL');
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "OPEN_MODAL");
+      console.groupEnd();
+    }
   
-    ns.handleEventAction = ($component, action, data) => {
+    ns.handleEventAction = ($component, componentConfig, action, data) => {
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
+      // if componentConfig is not passed then get it from the component
+      if (!componentConfig) {
+        componentConfig = componentNs.getComponentConfig($component);
+      }
+      switch (action) {
+        case ns.ACTION_BUTTON_CLICK:
+          ns.BUTTON_CLICK($component, componentConfig, data);
+          break;
+        case ns.ACTION_OPEN_MODAL:
+          ns.OPEN_MODAL($component, componentConfig, data);
+          break;
+        default:
+          break;
+      }
       console.groupEnd();
   }
 
