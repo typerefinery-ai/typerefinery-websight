@@ -57,7 +57,6 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
           // if event type is listen then add event listener for the event
 
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
-              //emit do nothing here              
               console.log("adding event listener " + action);
               if (action === ns.ACTION_FILEUPLOAD_CHANGE) {
                 console.group(`adding change listener to component ${comonentEventId}`);
