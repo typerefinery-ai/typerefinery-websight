@@ -134,12 +134,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
   
         // hide the modal after 2 seconds
         setTimeout(() => {
-          let {handler} = ns.modalListeners.get(eventHandlerId);
-  
-          // call abort controller to remove the event listener
-          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_SUCCESS);
-  
-          ns.hideModal($modal);
+          ns.closeModal($modal, ns.MESSAGE_NAMES.FORM_SUCCESS);
         }, 2000);
       });
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_CANCEL, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
@@ -152,12 +147,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
   
         // hide the modal after 2 seconds
         setTimeout(() => {
-          let {handler} = ns.modalListeners.get(eventHandlerId);
-  
-          // call abort controller to remove the event listener
-          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_CANCEL);
-  
-          ns.hideModal($modal);
+          ns.closeModal($modal);
         }, 2000);
       }
 
@@ -172,12 +162,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
   
         // hide the modal after 2 seconds
         setTimeout(() => {
-          let {handler} = ns.modalListeners.get(eventHandlerId);
-  
-          // call abort controller to remove the event listener
-          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_ERROR);
-  
-          ns.hideModal($modal);
+          ns.closeModal($modal);
         }, 2000);
       });
     };
@@ -248,6 +233,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       console.log("adding close event listener for modal");
       $modal.on("hidden.bs.modal", function () {
         console.log("modal closed, destroying modal");
+        // remove all event listeners
+        ns.modalUnredisterAllEvents($modal);
         $modal.remove();
       });
     };
@@ -411,6 +398,11 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     };
 
+    /**
+     * Unregister named event for the modal by removing the event listener and aborting the controller.
+     * @param {*} $modal 
+     * @param {*} eventName 
+     */
     ns.modalUnregisterEvent = ($modal, eventName) => {
       console.log("unregistering modal");
       let modalId = $modal.attr('id');
@@ -418,6 +410,25 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       let {controller} = ns.modalListeners.get(eventHandlerId);
       controller.abort();
       ns.modalListeners.delete(eventHandlerId); // Remove it from the map
+    };
+
+
+    /**
+     * Unregister all events for the modal by removing all event listeners and aborting all controllers.
+     * @param {*} $modal 
+     */
+    ns.modalUnredisterAllEvents = ($modal) => {
+      console.log("unregistering all modal events");
+      let modalId = $modal.attr('id');
+      let eventHandlerId = ns.generateEventControllerId(modalId, "");
+     // find all event that start with this modalId and abort them.
+      ns.modalListeners.forEach((value, key) => {
+        if(key.startsWith(eventHandlerId)) {
+          console.log(["aborting event", key]);
+          value.controller.abort();
+          ns.modalListeners.delete(key);
+        }
+      });
     };
 
     // translate the event payload action to message name
@@ -492,6 +503,20 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       console.groupEnd();
     }
 
+    /**
+     * Unregister all events and close modal
+     * @param {*} $modal 
+     */
+    ns.closeModal = ($modal) => {
+      console.log("closing modal");
+      ns.modalUnredisterAllEvents($modal);
+      ns.hideModal($modal);
+    };
+
+    /**
+     * Close the modal
+     * @param {*} $modal 
+     */
     ns.hideModal = ($modal) => {
       console.log("hiding modal");
       let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
