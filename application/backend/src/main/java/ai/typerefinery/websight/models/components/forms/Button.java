@@ -141,6 +141,10 @@ public class Button extends BaseFormComponent {
 
     @Inject
     @Getter
+    private Boolean backdropIsStatic;
+
+    @Inject
+    @Getter
     private Boolean showIcon;
 
     @Inject
