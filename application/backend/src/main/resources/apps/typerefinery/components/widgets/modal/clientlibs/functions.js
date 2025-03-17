@@ -70,7 +70,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 modal.addEventListener('shown.bs.modal', function (event) {
                   var target = event.relatedTarget;
                   console.log(['shown.bs.modal',target]);
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_MODAL_OPENED, { 
+                  ns.handleEventAction($component, ns.ACTION_MODAL_OPENED, { 
                     value: "open",
                     type: type,
                     id: id,
@@ -83,7 +83,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 modal.addEventListener('hidden.bs.modal', function (event) {
                   var target = event.relatedTarget;
                   console.log(['hidden.bs.modal',target]);
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_MODAL_CLOSED, { 
+                  ns.handleEventAction($component, ns.ACTION_MODAL_CLOSED, { 
                     value: "close",
                     type: type,
                     id: id,
@@ -96,7 +96,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 modal.addEventListener('hidePrevented.bs.modal', function (event) {
                   var target = event.relatedTarget;
                   console.log(['hidePrevented.bs.modal',target]);
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_MODAL_CLOSE_STOP, { 
+                  ns.handleEventAction($component, ns.ACTION_MODAL_CLOSE_STOP, { 
                     value: "closestop",
                     type: type,
                     id: id,
@@ -109,7 +109,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 modal.addEventListener('hide.bs.modal', function (event) {
                   var target = event.relatedTarget;
                   console.log(['hide.bs.modal',target]);
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_MODAL_CLOSE, { 
+                  ns.handleEventAction($component, ns.ACTION_MODAL_CLOSE, { 
                     value: "closing",
                     type: type,
                     id: id,
@@ -122,7 +122,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 modal.addEventListener('open.bs.modal', function (event) {
                   var target = event.relatedTarget;
                   console.log(['hide.bs.modal',target]);
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_MODAL_OPEN, { 
+                  ns.handleEventAction($component, ns.ACTION_MODAL_OPEN, { 
                     value: "openning",
                     type: type,
                     id: id,
@@ -182,6 +182,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log(["data", data]);
         const { id } = componentConfig;
         const comonentEventId = componentConfig.name || id;
+        console.log(["comonentEventId", comonentEventId, id]);
   
         // open modal
         eventNs.emitLocalEvent(
@@ -298,22 +299,23 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.handleEventAction = ($component, action, data) => {
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
+      let componentConfig = componentNs.getComponentConfig($component);
 
       switch (action) {
         case ns.ACTION_MODAL_OPEN:
-          ns.MODAL_OPEN($component, action, data);
+          ns.MODAL_OPEN($component, componentConfig, data);
           break;
         case ns.ACTION_MODAL_CLOSE:
-          ns.MODAL_CLOSE($component, action, data);
+          ns.MODAL_CLOSE($component, componentConfig, data);
           break;
         case ns.ACTION_MODAL_OPENED:
-          ns.MODAL_OPENED($component, action, data);
+          ns.MODAL_OPENED($component, componentConfig, data);
           break;
         case ns.ACTION_MODAL_CLOSED:
-          ns.MODAL_CLOSED($component, action, data);
+          ns.MODAL_CLOSED($component, componentConfig, data);
           break;
         case ns.ACTION_MODAL_CLOSE_STOP:
-          ns.MODAL_CLOSE_STOP($component, action, data);
+          ns.MODAL_CLOSE_STOP($component, componentConfig, data);
           break;
         default:
           console.log("no action found");
@@ -322,9 +324,10 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       console.groupEnd();
     }
- 
+    
     ns.getModal = ($component) => {
-      let modalObject = $component.get(0);
+      let modalObject = $component.find(".modal").get(0);
+      console.log(["modalObject", modalObject]);
       return bootstrap.Modal.getOrCreateInstance(modalObject);
     }
 
@@ -355,13 +358,13 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        const { id} = componentConfig;
+        const { id } = componentConfig;
         console.groupCollapsed('init ' + id);
         console.log(["config", componentConfig]);
 
         
         console.log("adding event listeners");
-        //ns.addEventListener($component, componentConfig);
+        ns.addEventListener($component, componentConfig);
         console.log(["ns.eventMap", ns.eventMap]);
 
         console.groupEnd();
