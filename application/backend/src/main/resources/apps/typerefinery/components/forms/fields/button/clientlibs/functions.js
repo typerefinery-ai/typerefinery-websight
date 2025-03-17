@@ -35,6 +35,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log(["config", events, id, defaultTopic]);
       
       console.log("registering events");
+
+      let eventsAdded = false;
       //register events
       if (events) {        
         events.forEach(event => {
@@ -58,44 +60,46 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
           if (typeName === eventNs.EVENT_TYPE_EMIT) {
               //emit do nothing here
-              console.log("adding event listener " + action);
-              if (action === ns.ACTION_BUTTON_CLICK) {
-                  $component.on("click", (e) => {
-                      console.group("click");
-                      
-                      console.log(["click", e]);
-                      
-                      e?.preventDefault();
-                      
-                      ns.BUTTON_CLICK($component, componentConfig, { 
-                        type: "button",
-                        action: "click" ,
-                        "id": id
-                      });
+                console.log("adding event listener " + action);
+                if (action === ns.ACTION_BUTTON_CLICK) {
+                    $component.on("click", (e) => {
+                        console.group("click");
+                        
+                        console.log(["click", e]);
+                        
+                        e?.preventDefault();
+                        
+                        ns.BUTTON_CLICK($component, componentConfig, { 
+                            type: "button",
+                            action: "click" ,
+                            "id": id
+                        });
 
-                      console.groupEnd();
-                  });
-              } else if (action === ns.ACTION_MODAL_OPEN) {
-                  $component.on("click", (e) => {
-                      console.group("click");
-                      console.log(["click", e]);
-                      e?.preventDefault();
-                      ns.MODAL_OPEN($component, componentConfig, { 
-                        type: "button",
-                        action: "click" ,
-                        "id": id
-                      });
-                      console.groupEnd();
-                  });
-              }
+                        console.groupEnd();
+                    });
+                    eventsAdded = true;
+                } else if (action === ns.ACTION_MODAL_OPEN) {
+                    $component.on("click", (e) => {
+                        console.group("click");
+                        console.log(["click", e]);
+                        e?.preventDefault();
+                        ns.MODAL_OPEN($component, componentConfig, { 
+                            type: "button",
+                            action: "click" ,
+                            "id": id
+                        });
+                        console.groupEnd();
+                    });
+                    eventsAdded = true;
+                }
           } else {
               //listen register the event and listent for specific event on topic
               console.log(["register event listen", topicName, eventName]);
               eventNs.registerEvents(topicName, (data) => {
-                  // check make sure the event is for this event
-                  if (data.type === eventName) {
-                      ns.handleEventAction($component, componentConfig, action, data);
-                  }
+                    // check make sure the event is for this event
+                    if (data.type === eventName) {
+                        ns.handleEventAction($component, componentConfig, action, data);
+                    }
               });
           }
           console.groupEnd();
@@ -107,51 +111,54 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log("no events found");
       }
 
+      if (eventsAdded) {
+          console.log("component events has already added event listeners skipping basic events");
+      } else {
+        // basic button actions
+        console.log("adding click listener");
+
+        $component.on("click", (e) => {
+            console.group("click");
+            console.log(["click", e]);
+            e?.preventDefault();
+            const componentConfig = componentNs.getComponentConfig(e.currentTarget);
+            let { buttonType, navigateTo, navigateToInNewWindow } = componentConfig;
+
+            console.log(["config", componentConfig, buttonType, navigateTo, navigateToInNewWindow]);
+
+            if(buttonType === "navigate") {
+                if(navigateTo) {
+                    
+                    if(navigateToInNewWindow) {
+                        window.open(navigateTo);
+                        return;
+                    }
+                    window.location.href = navigateTo;
+                }
+            }else if(buttonType === "action") {
+                const { actionType } = componentConfig;
+                if(actionType === "openModal") {
+                    // add query params from the url and pass it to the modal.
+                    const url = new URL(window.location.href);
+                    const params = new URLSearchParams(url.search);
+                    const modalUrl = componentConfig.actionUrl + "?" + params.toString();
+                    let options = {
+                        modalTitle: componentConfig.actionModalTitle, 
+                        iframeURL: modalUrl, 
+                        hideFooter: componentConfig.hideFooter,
+                        backdropIsStatic: componentConfig.backdropIsStatic
+                    };
+                    modalNs.createModalAndOpen($component, options);
+                } else {
+                    ns.BUTTON_CLICK($component, componentConfig, { type: "button", action: "click" , "id": id } );
+                }
+            }
+            console.groupEnd();
+        });
+      }
+
       console.groupEnd();
-      
-      // basic button actions
-      console.group("adding click listener");
 
-      $component.on("click", (e) => {
-          console.group("click");
-          console.log(["click", e]);
-          e?.preventDefault();
-          const componentConfig = componentNs.getComponentConfig(e.currentTarget);
-          let { buttonType, navigateTo, navigateToInNewWindow } = componentConfig;
-
-          console.log(["config", componentConfig, buttonType, navigateTo, navigateToInNewWindow]);
-
-          if(buttonType === "navigate") {
-              if(navigateTo) {
-                  
-                  if(navigateToInNewWindow) {
-                      window.open(navigateTo);
-                      return;
-                  }
-                  window.location.href = navigateTo;
-              }
-          }else if(buttonType === "action") {
-              const { actionType } = componentConfig;
-              if(actionType === "openModal") {
-                  // add query params from the url and pass it to the modal.
-                  const url = new URL(window.location.href);
-                  const params = new URLSearchParams(url.search);
-                  const modalUrl = componentConfig.actionUrl + "?" + params.toString();
-                  let options = {
-                    modalTitle: componentConfig.actionModalTitle, 
-                    iframeURL: modalUrl, 
-                    hideFooter: componentConfig.hideFooter,
-                    backdropIsStatic: componentConfig.backdropIsStatic
-                  };
-                  modalNs.createModalAndOpen($component, options);
-              } else {
-                  ns.BUTTON_CLICK($component, componentConfig, { type: "button", action: "click" , "id": id } );
-              }
-          }
-          console.groupEnd();
-      });
-
-      console.groupEnd();
     }
 
     // local actions representing the form actions
