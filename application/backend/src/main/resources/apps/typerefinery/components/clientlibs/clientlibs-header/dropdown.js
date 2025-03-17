@@ -57,6 +57,7 @@ Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
     ns.dropDownButtonEventListener = () => {
+      //TODO: this has to be contained to this component only.
       $(document).on("click", "#__dropdown__", function (e) {
             console.groupCollapsed("drop down button event listener on " + window.location);
             // console.log("again 1 clicked on dropdown item", e.target );
@@ -67,7 +68,13 @@ Typerefinery.Modal = Typerefinery.Modal || {};
                 showFooter = true;
             }
             if(action === "modal") {
-                modalNs.createModalAndOpen(label || name, link, hideFooter);
+                let $component = $(e.target);
+                let options = {
+                  modalTitle: label || name, 
+                  iframeURL: link, 
+                  hideFooter: hideFooter
+                };
+                modalNs.createModalAndOpen($component, options);
             }
             else if(action === "navigate") {
                 // navigate to the link.

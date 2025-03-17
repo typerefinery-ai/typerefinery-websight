@@ -1,84 +1,547 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
+window.Typerefinery.Components = Typerefinery.Components || {};
+window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
+window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 
-(function ($, ns, document, window) {
+(function ($, ns, formNs, document, window) {
+
+
+    ns.eventNameShowModal = "tr.moodal.show";
+    ns.classButtonMaximise = "btn-maximize";
+    ns.selectorButtonMaximise = `.${ns.classButtonMaximise}`;
+    ns.classCancelButton = "btn-secondary";
+    ns.selectorCancelButton = `.${ns.classCancelButton}`;
+    ns.classSaveButton = "btn-primary";
+    ns.selectorSaveButton = `.${ns.classSaveButton}`;
+    ns.classCloseButton = "btn-close";
+    ns.selectorCloseButton = `.${ns.classCloseButton}`;
+    ns.classModalDialog = "modal-dialog";
+    ns.selectorModalDialog = `.${ns.classModalDialog}`;
+    ns.classStatus = "status";
+    ns.selectorStatus = `.${ns.classStatus}`;
+    ns.classStatusLoader = "loading";
+    ns.selectorStatusLoader = `.${ns.classStatusLoader}`;
+    ns.classStatusSubmitting = "submitting";
+    ns.selectorStatusSubmitting = `.${ns.classStatusSubmitting}`;
+    ns.classStatusSubmitted = "submitted";
+    ns.selectorStatusSubmitted = `.${ns.classStatusSubmitted}`;
+    ns.classStatusError = "error";
+    ns.selectorStatusError = `.${ns.classStatusError}`;
+    
+    ns.selectorFrame = "iframe";
+    ns.selectorForm = "form";
+    ns.selectorIcon = ".icon";
+    
+    ns.messageNameFormSubmit = "ts.form.submit";
+    ns.messageNameFormSuccess = "ts.form.success";
+    ns.messageNameFormCancel = "ts.form.cancel";
+    ns.messageNameFormError = "ts.form.error";
+    ns.messageNameFormUnknown = "ts.form.unknown";
+
+    ns.MESSAGE_NAMES = {
+      FORM_SUBMIT: ns.messageNameFormSubmit,
+      FORM_SUCCESS: ns.messageNameFormSuccess,
+      FORM_CANCEL: ns.messageNameFormCancel,
+      FORM_ERROR: ns.messageNameFormError,
+      FORM_UNKNOWN: ns.messageNameFormUnknown
+    };
+
+
+    ns.isParentWindow = false;
+
+    ns.modalListeners = new Map();
 
     // Inner HTML for the modal window.
     ns.getModalInnerHTML = (options) => {
       let modalTitle = options.modalTitle || "";
       let iframeURL = options.iframeURL || "";
       let hideFooter = options.hideFooter || false;
-      let loadingText = options.loadingText || "Loading...";
       let saveChangesText = options.saveChangesText || "Save Changes";
-        return `
-            <div class="modal-dialog modal-lg" id="modalView">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">${modalTitle}</h5>
-                        <button type="button" class="maximizeButtonInModal" id="maximizeModal">
-                            <i class="icon pi pi-window-maximize"></i>
+      let labelCancel = options.saveChangesText || "Cancel";
+      let loadingText = options.loadingText || "Loading...";
+      let labelStatusSubmitting = options.labelStatusSubmitting || "Submitting...";
+      let labelStatusSubmitted = options.labelStatusSubmitted || "Submitted";
+      let labelStatusError = options.labelStatusError || "Error";
+      return `
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">${modalTitle}</h5>
+                      <div class="modal-header-icons">
+                        <button type="button" class="${ns.classButtonMaximise}">
+                          <i class="icon pi pi-window-maximize"></i>
                         </button>
-                        <button type="button" class="closeButtonInModal" data-bs-dismiss="modal">
-                            <i class="pi pi-times"></i>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${labelCancel}">
                         </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="loader" id="loader">
-                            <div class="loader__figure"></div>
-                            <p class="text-center">${loadingText}</p>
-                        </div>
-                        <iframe id="modalIframe" src="${iframeURL}" class="iframeClassName"></iframe>
-                    </div>
-                        ${hideFooter === true ? 
-                                "" 
-                            : 
-                            `
-                                <div class="modal-footer" >
-                                    <button type="button" id="submitHandlerInModal" class="btn btn-primary">${saveChangesText}</button>
-                                </div>
-                            `
-                        }
-                </div>
-            </div>
-        `;
+                      </div>
+                  </div>
+                  <div class="modal-body">
+                      <div class="status ${ns.classStatusLoader}">
+                          <div class="spinner-border" role="status">
+                            <span class="visually-hidden">${loadingText}</span>
+                          </div>
+                      </div>
+                      <div class="status ${ns.classStatusSubmitting}">
+                          <div class="spinner-border text-warning" role="status">
+                            <span class="visually-hidden">${labelStatusSubmitting}</span>
+                          </div>
+                      </div>
+                      <div class="status ${ns.classStatusSubmitted}">
+                          <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">${labelStatusSubmitted}</span>
+                          </div>
+                      </div>
+                      <div class="status ${ns.classStatusError}">
+                          <div class="spinner-border text-danger" role="status">
+                            <span class="visually-hidden">${labelStatusError}</span>
+                          </div>
+                      </div>
+                      <iframe src="${iframeURL}"></iframe>
+                  </div>
+                      ${hideFooter === true ? 
+                              "" 
+                          : 
+                          `
+                              <div class="modal-footer" >
+                                  <button type="button" class="btn ${ns.classCancelButton}" data-bs-dismiss="modal">${labelCancel}</button>
+                                  <button type="button" class="btn ${ns.classSaveButton}" disabled>
+                                    <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                                    ${saveChangesText}
+                                  </button>
+                              </div>
+                          `
+                      }
+              </div>
+          </div>
+      `;
     };
 
-    ns.submitListenerForModal = (newModalDivContainer) => {
-        $(newModalDivContainer).on("click", "#submitHandlerInModal", function () {
-            const $iframeDocument = document.getElementById('modalIframe').contentDocument;
-            const forms = $iframeDocument.getElementsByTagName('form');
+    ns.addModelListners = ($modal) => {
+      ns.addModalMaximiseListener($modal);
+      ns.addModalSubmitListener($modal);
+      ns.addModalCloseListener($modal);
+      ns.addModalLoaderEventListener($modal);
+      ns.addModelOpenListener($modal);
+      ns.addModalFrameErrorListener($modal);
+      ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_SUCCESS, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
+        console.log("form submitted");
+        console.log(["$modal", $modal, "data", data]);
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+        // show submitted message
+        $modal.find(ns.selectorStatusSubmitted).show();
+  
+        // hide the modal after 2 seconds
+        setTimeout(() => {
+          let {handler} = ns.modalListeners.get(eventHandlerId);
+  
+          // call abort controller to remove the event listener
+          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_SUCCESS);
+  
+          ns.hideModal($modal);
+        }, 2000);
+      });
+      ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_CANCEL, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
+        console.log("form cancelled");
+        console.log(["$modal", $modal, "data", data]);
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+        // show called message
+        $modal.find(ns.selectorStatusError).show();
+  
+        // hide the modal after 2 seconds
+        setTimeout(() => {
+          let {handler} = ns.modalListeners.get(eventHandlerId);
+  
+          // call abort controller to remove the event listener
+          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_CANCEL);
+  
+          ns.hideModal($modal);
+        }, 2000);
+      }
 
-            if(forms.length > 0) {
-                // Trigger the modal iframe submit event of the form element.
-                forms[0].requestSubmit();
-            }
-        });
+      );
+      ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_ERROR, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
+        console.log("form submitted");
+        console.log(["$modal", $modal, "data", data]);
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+        // show error message
+        $modal.find(ns.selectorStatusError).show();
+  
+        // hide the modal after 2 seconds
+        setTimeout(() => {
+          let {handler} = ns.modalListeners.get(eventHandlerId);
+  
+          // call abort controller to remove the event listener
+          ns.modalUnregisterEvent($modal, ns.MESSAGE_NAMES.FORM_ERROR);
+  
+          ns.hideModal($modal);
+        }, 2000);
+      });
     };
 
-    ns.expandModalListener = (newModalDivContainer) => {
+    ns.addModalSubmitListener = ($modal) => {
+      // Add listener to submit button in the dialog
+      console.log("adding submit event listener for modal");
+      $modal.on("click", ns.selectorSaveButton, function (e) {
+        e?.preventDefault();
+        e?.stopPropagation();
+        console.log("submit clicked");
+
+        // hide all status
+        $modal.find(ns.selectorStatus).hide();
+        // hide form
+        $modal.find(ns.selectorFrame).hide();
+        // show submitting status
+        $modal.find(ns.selectorStatusSubmitting).show();
+
+        let formOnSameDomain = false;
+        try {
+          //
+          let $frame = $modal.find(ns.selectorFrame);
+          //find the iframe in the modal
+          const iframeDocument = $frame.get(0).contentDocument;
+          //find first form in the iframe
+          const forms = iframeDocument.getElementsByTagName(ns.selectorForm);
+
+          console.log(["forms", forms]);
+
+          $modal.attr('hasForm', forms.length > 0);
+
+          if(forms.length > 0) {
+            // get the first form as Form Element and request submit it.
+            forms[0].requestSubmit();
+            // disable the primary action button.
+            $(this).prop('disabled', true);
+          }
+          formOnSameDomain = true;
+        } catch (e) {
+          console.log("could not find form in the iframe, or iframe is from different origin.");
+          console.log(e);
+        }
+
+        if (formOnSameDomain == false) {
+          console.log("form is not on the same domain, sending frame message.");
+          // send message to iframe to submit the form.
+          const iframe = $modal.find(ns.selectorFrame).get(0);
+          iframe.contentWindow.postMessage('submit', '*');
+          console.log("message sent to iframe to submit the form.");
+        }
+      });
+    };
+
+    ns.addModelOpenListener = ($modal) => {
+      console.log("adding open event listener for modal");
+      $modal.on("show.bs.modal", function () {
+        console.log(`modal opened ${$modal.attr('id')}`);
+        //if modal has iframe then show loader
+        if($modal.find(ns.selectorFrame).length > 0) {
+          $modal.find(ns.selectorStatusLoader).show();
+        }
+      });
+    };
+
+    ns.addModalCloseListener = ($modal) => {
+      // listen to modal event hidden.bs.modal and remove modal from the dom.
+      console.log("adding close event listener for modal");
+      $modal.on("hidden.bs.modal", function () {
+        console.log("modal closed, destroying modal");
+        $modal.remove();
+      });
+    };
+
+    // Add listener to expand icon in the dialog
+    ns.addModalMaximiseListener = ($modal) => {   
+      console.log(["adding maximise event listener for modal", $modal.find(ns.selectorButtonMaximise)]);     
+      $modal.find(ns.selectorButtonMaximise).on("click", function (e) {
+        console.log("maximize clicked");
+        e?.preventDefault();
+        e?.stopPropagation();  
+        ns.maximiseModal($modal);
+        // let $modalDialog = $(this).find(ns.selectorModalDialog);
+        // if($modalDialog.length === 0) {
+        //     return;
+        // }
         
-        $(newModalDivContainer).on("click", "#maximizeModal", function () {
-            const id = newModalDivContainer.getAttribute("id");
-            let modalViewEvent = document.getElementById(id);
-            modalViewEvent = modalViewEvent.getElementsByClassName('modal-dialog');
-            if(modalViewEvent.length === 0) {
-                return;
-            }
-            modalViewEvent = modalViewEvent[0];
-            
-            let modalWindowIcon = modalViewEvent.getElementsByClassName("icon");
-            if(modalWindowIcon.length === 0) {
-                modalViewEvent.classList.toggle('modal-fullscreen');
-                return;
-            }
-            modalWindowIcon = modalWindowIcon[0];
-            modalViewEvent.classList.toggle('modal-fullscreen');
-            modalWindowIcon.classList.toggle('pi-window-maximize');
-            modalWindowIcon.classList.toggle('pi-window-minimize');
-        });
+        // let $modalIcon = $modalDialog.find(ns.selectorIcon);
+        // if($modalIcon.length === 0) {
+        //   $modalDialog.toggleClass("modal-fullscreen");
+        //   return;
+        // }
+        // $modalDialog.toggleClass("modal-fullscreen");
+        // $modalIcon.toggleClass("pi-window-maximize pi-window-minimize");
+
+      });
     };
 
+    ns.addModalLoaderEventListener = ($modal) => {
+      console.log("adding loader event listener for modal");
+      //show loader when modal is opened
+      $modal.find(ns.selectorStatusLoader).show();
+
+      let iframe = $modal.find(ns.selectorFrame).get(0);
+      
+      console.log([ns.selectorFrame, iframe]);
+      
+      iframe.addEventListener('load', function () {
+        console.log("iframe loaded");
+
+        let frameStatusAccessed = false
+        try {
+          var frameStatus = iframe.contentWindow.performance.getEntries().find(e => e.entryType === "navigation")['responseStatus'];
+          frameStatusAccessed = true;
+          if (frameStatus !== 200) {
+            console.log("iframe loaded with error status", frameStatus);
+            // hide the loaders
+            $modal.find(ns.selectorStatus).hide();
+            // show error message
+            $modal.find(ns.selectorStatusError).show();
+            //enable the save button
+            $modal.find(ns.selectorSaveButton).prop('disabled', true);
+            return;
+          } else {
+            console.log("iframe loaded successfully");
+          }
+        } catch (e) {
+          console.log("could not read frame status, iframe is from different origin.");
+          console.log(e);
+        }
+
+        // if frameStatusAccessed is false then listen for message event from iframe
+        if(frameStatusAccessed === false) {
+
+        }
+        
+
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+
+        //enable the save button
+        $modal.find(ns.selectorSaveButton).prop('disabled', false);
+
+        //show the form
+        $(this).show();
+
+      }, true);
+    };  
+
+    ns.maximiseModal = ($modal, force) => {
+
+      console.group(`maximiseModal`, $modal);
+      let $modalDialog = $modal.find(ns.selectorModalDialog);
+      console.log(["$modal", $modal, "$modalDialog", $modalDialog]);
+      //quick check if modal dialog is available
+      if($modalDialog.length > 0) {
+        console.log("modal dialog found");
+        let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+
+        console.log(["$modal", $modal, "modal", modal]);
+
+        //check if modal is visible
+        if($modal.is(":visible")) {
+          console.log("modal is visible");
+          
+          let $maximiseButton = $modal.find(ns.selectorButtonMaximise);
+          console.log(["$maximiseButton", $maximiseButton]);
+
+          //check if modal is already maximised
+          if(!$modalDialog.hasClass("modal-fullscreen") || force) {
+            console.log("modal is not maximised, maximising modal");
+            //toggle maximise
+            let $modalIcon = $maximiseButton.find(ns.selectorIcon);
+            if($modalIcon.length === 0) {
+              console.log("icon not found");
+              $modalDialog.toggleClass("modal-fullscreen");
+            } else {
+              console.log("icon found");
+              $modalDialog.toggleClass("modal-fullscreen");
+              $modalIcon.toggleClass("pi-window-maximize pi-window-minimize");
+            }
+          } else {
+            console.log("modal is already maximised");
+            //minimise modal
+            $modalDialog.toggleClass("modal-fullscreen");
+            let $modalIcon = $maximiseButton.find(ns.selectorIcon);
+            if($modalIcon.length > 0) {
+              $modalIcon.toggleClass("pi-window-minimize pi-window-maximize");
+            }
+          }
+        } else {
+          console.log("modal is not visible");
+        }
+      } else {
+        console.log("modal dialog not found");
+      }
+
+      console.groupEnd();
+    };
+
+    ns.generateEventControllerId = (modalId, name) => {
+      return `ts.modal.frame.event.${modalId}.${name}`;
+    };
+
+    //create a new function for this modal and store it ns.modalListeners map that will use abortcontroller to abort listener when modal is closed.
+    ns.modalRegisterEvent = ($modal, name, handler, callback) => {
+      console.log("registering modal");
+      const iFrameContentWindow = $modal.find("iframe")[0].contentWindow;
+      console.log(["windowListeneriFrameEvent", iFrameContentWindow]);
+      //show loader when modal is opened
+      let iframe = $modal.find(ns.selectorFrame).get(0);
+      //listen for global message events that are emited by iframe
+      let modalId = $modal.attr('id');
+      let eventHandlerId = ns.generateEventControllerId(modalId, name);
+      let controller = new AbortController();
+      // create a new function for this modal and store it ns.modalListeners map
+      ns.modalListeners.set(eventHandlerId, {
+        "id": eventHandlerId,
+        "modalId": modalId,
+        "handler": handler, 
+        "frame": iFrameContentWindow, 
+        "$modal": $modal, 
+        "callback": callback, 
+        "controller": controller
+      });
+
+      // add event listener for message event from ns.modalListeners map
+      window.addEventListener('message', ns.modalListeners.get(eventHandlerId).handler, {
+        signal: ns.modalListeners.get(eventHandlerId).controller.signal
+      });
+
+    };
+
+    ns.modalUnregisterEvent = ($modal, eventName) => {
+      console.log("unregistering modal");
+      let modalId = $modal.attr('id');
+      let eventHandlerId = ns.generateEventControllerId(modalId, eventName);
+      let {controller} = ns.modalListeners.get(eventHandlerId);
+      controller.abort();
+      ns.modalListeners.delete(eventHandlerId); // Remove it from the map
+    };
+
+    // translate the event payload action to message name
+    ns.getMessageNameFromEventAction = (eventAction) => {
+      console.log(["eventDataPayloadAction", eventAction]);
+      let messageName = null;
+
+      if (eventAction === formNs.ACTIONS.FORM_SUCCESS) {
+        messageName = ns.MESSAGE_NAMES.FORM_SUCCESS;
+      } else if (eventAction === formNs.ACTIONS.FORM_CANCEL) {
+        messageName = ns.MESSAGE_NAMES.FORM_CANCEL;
+      } else if (eventAction === formNs.ACTIONS.FORM_ERROR) {
+        messageName = ns.MESSAGE_NAMES.FORM_ERROR;
+      } else {
+        messageName = ns.MESSAGE_NAMES.FORM_UNKNOWN;
+        console.warn("eventDataPayloadAction not found");
+      }
+      console.log(["messageName", messageName]);
+      return messageName;
+    };
+
+    ns.frameMessageHandler = (event) => {
+      console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
+      console.log(["event", event]);
+
+      var eventType = event.type;
+      var eventSource = event.source;
+      var eventOrigin = event.origin;
+      var eventData = event.data;
+
+      console.log(["eventType", eventType, "eventSource", eventSource, "eventOrigin", eventOrigin, "eventData", eventData]);
+      console.log(["modalListeners", ns.modalListeners, ns.modalListeners.has(event.source)]);
+
+      let eventDataPayloadAction = eventData?.payload?.action;
+      console.log(["eventDataPayloadAction", eventDataPayloadAction]);
+
+      //this is the suffix for event name
+      let messageName = ns.getMessageNameFromEventAction(eventDataPayloadAction);
+      console.log(["messageName", messageName]);
+
+      let modalId = eventSource?.frameElement?.closest(".modal")?.id;
+      console.log(["modalId", modalId]);
+      let eventHandlerId = ns.generateEventControllerId(modalId, messageName);
+      console.log(["eventHandlerId", eventHandlerId, ns.modalListeners.has(eventHandlerId)]);
+
+      // find the modalListener in modalListeners map by looking for  event source
+      if (ns.modalListeners.has(eventHandlerId)) {
+        let {$modal, callback} = ns.modalListeners.get(eventHandlerId);
+        console.log(["modal", $modal, "callback", callback]);
+        //this message is from component iframe
+        var eventData = event.data;
+        var sourceWindow = event.source;
+        var sourceOrigin = event.origin;
+        console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
+
+        var sourceData = eventData;
+        if (typeof eventData === 'string') {
+          sourceData = JSON.parse( eventData );
+        }
+      
+        if (sourceData) {
+          console.log(["sourceData", sourceData]);
+
+          // ns.processWindowListenerEvent($component, event, sourceData);
+          if (callback) {
+            callback($modal, sourceData, eventHandlerId);
+          }
+        }
+      } else {
+        console.warn(`eventHandlerId ${eventHandlerId} does not match component iframe, ignoring`);
+      }
+      console.groupEnd();
+    }
+
+    ns.hideModal = ($modal) => {
+      console.log("hiding modal");
+      let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+      modal.hide();
+    };
+
+    ns.addModalFrameErrorListener = ($modal) => {
+      console.log("adding frame error event listener for modal");
+      //show loader when modal is opened
+      let iframe = $modal.find(ns.selectorFrame).get(0);
+
+      console.log([ns.selectorFrame, iframe]);
+
+      iframe.addEventListener('error', function () {
+        $modal.find(ns.selectorFrame).hide();
+        console.log("iframe error");
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+        // show error message
+        $modal.find(ns.selectorStatusError).show();
+      }, true);   
+
+      try {
+        //try iframe contentWindow onerror
+        if (iframe.contentWindow && iframe.contentWindow.addEventListener) {
+          iframe.contentWindow.addEventListener("error", function () {
+            $modal.find(ns.selectorFrame).hide();
+            console.log("iframe error");
+            // hide the loaders
+            $modal.find(ns.selectorStatus).hide();
+            // show error message
+            $modal.find(ns.selectorStatusError).show();
+          });
+        } else {
+          console.log("iframe.contentWindow does not exist.");
+        }
+      } catch (e) {
+        console.log("could not add iframe contentWindow onerror, iframe is from different origin.");
+        console.log(e);
+      }
+    };
+
+    /**
+     * if iframe is from same origin then we can check the ready state of the iframe content document.
+     * @param {*} iframe iframe element
+     * @param {*} callback callback function 
+     * @returns {boolean} true if iframe is loaded, false if iframe is not loaded. 
+     */
     ns.iframeLoaded = (iframe, callback) => {
+      if (iframe?.contentDocument) {
         let state = iframe?.contentDocument?.readyState || null;
         if(!state || state === 'complete') {
             callback();
@@ -93,44 +556,42 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 state = iframe.contentDocument?.readyState;
             }
         }, 200);
+      } else {
+        console.log("iframe contentDocument is not available, executing callback.");
+        callback();
+        return false;
+      }
     }
 
-    ns.removeLoaderOnModalLoad = () => {
-        const iframeList = document.querySelectorAll('#modalIframe');
-        const lastIndex = iframeList.length - 1;
-        if(lastIndex < 0) {
-            return;
-        }
-        
-        ns.iframeLoaded(iframeList[lastIndex], () => {
-            // hide the loader.
-            setTimeout(() => {
-                const loaders = document.querySelectorAll('#loader');
-                loaders.forEach(loader => {
-                    loader.style.display = 'none';
-                });
-            }, 4500);
-        });
-
-    };
-
+    /**
+     * check if this is from iframe or not.
+     * @returns {boolean} true if this is parent view, false if this is iframe view.
+     */
     ns.isParentView = () => {
-        // check if this is from iframe or not.
         return window.self === window.top;
         
     }
 
-    ns.isUpdateModalAvailable = false;
-
+    /**
+     * This is the Iframe Event Listener.
+     * listen for showModal event.
+     */
     ns.iframeEventListener = () => {
-        window.document.addEventListener("showModal", function (event) {
-            console.log('-----------event.detail-----------', event.detail);
-            const { modalTitle, iframeURL, hideFooter } = event.detail;
-    
-            ns.createModalAndOpen(modalTitle, iframeURL, hideFooter);
-        }, false);
+      // This is the Iframe Event Listener.
+      // listen for showModal event.
+      window.document.addEventListener(ns.eventNameShowModal, function (event) {
+        console.group(`${ns.eventNameShowModal} event`);
+        console.log(["event", event]);
+          let options = event.detail.options;
+          let $component = event.detail.$component;
+          console.log(["$component", $component]);
+          console.log(["options", options]);
+          ns.createModalAndOpen($component, options);
+        console.groupEnd();
+      }, false);
     }
 
+    // Setup modal controller for the page to listen to the ns.eventNameShowModal event that is dispatched from the iframe or other components that should not show modals.
     ns.initCommonModal = () => {
         // check if this is from iframe or not.
         const isParentView = ns.isParentView(); 
@@ -145,92 +606,68 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         ns.iframeEventListener();
         
         // This is the parent view event listener.
-        ns.isUpdateModalAvailable = true;
-        const modalDivContainer = document.createElement("div");
-        const id = '__common_modal__';
-        modalDivContainer.setAttribute("class", "modal fade");
-        modalDivContainer.setAttribute("id", `${id}`);
-        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: "Modal"});
-        document.body.appendChild(modalDivContainer);
-        ns.expandModalListener(modalDivContainer);
-        ns.submitListenerForModal(modalDivContainer);
+        ns.isParentWindow = true;
+
     };  
-    
+  
 
-    ns.init = ($component, componentConfig) => {
+    ns.createModalAndOpen = ($component, options) => {
+
+      console.group('createModalAndOpen');
+      console.log(["$component", $component, options]);
+      console.log(["isParentWindow", ns.isParentWindow]);
+      //if this is not parent then raise the event to parent, to manage the modal.
+      if(ns.isParentWindow === false) {
+        console.log("This is not a parent view, so dispatching the event to the parent view.");
+        // dispatch parent
+        const event = new CustomEvent(ns.eventNameShowModal, { detail: {options: options, $component: $component}});
+        window.parent.document.dispatchEvent(event);
+
+        return;
+      }
+      console.log("This is a parent view, so creating the modal here.");
+
+      
+      const modalId = Math.random().toString(16).slice(2);
+      const modalContent = ns.getModalInnerHTML(options);
+      const modalComponentName = options.modalComponentName || "generatedmodal";
+
+      // Modal Container with default Attributes
+      let $modal = $(`<div 
+        class="modal 
+        fade modal-default" 
+        id="${modalId}"
+        component="${modalComponentName}"
+        tabindex="-1">
+        ${modalContent}
+      </div>`);
+
+      // add event listener for modal
+      $modal.on("click", function (e) { 
+        console.log("modal clicked cancel event propogation");
+        e?.preventDefault();
+        e?.stopPropagation();
+      });
 
 
-        // Modal Container with default Attributes
-        const newModalDivContainer = document.createElement("div");
-        const randIdForModal = Math.random().toString(16).slice(2);
-        newModalDivContainer.attr("class", "modal fade");
-        newModalDivContainer.attr("id", randIdForModal);
+      console.log(["$modal", $modal]);
+      $component.append($modal);
 
-        // Updating the component with Bootstrap Attributes.
-        $component.attr("data-bs-toggle", "modal");
-        $component.attr("type", "button");
-        $component.attr("data-bs-target", `#${randIdForModal}`);
+      console.log("creating modal");
 
-        // invoke remove  loader on modal load when a modal is opened.
-        $component.on("click", ns.removeLoaderOnModalLoad);
-        
+      const modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
 
-        const ORIGIN = window.location.origin;
+      console.log("adding modal listeners");
+      ns.addModelListners($modal);
 
-        const { actionModalTitle, hideFooter, actionUrl } = componentConfig;
+      console.log(["showing modal",modal]);
+      modal.show();
 
-        newModalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: actionModalTitle, iframeURL: `${ORIGIN}${actionUrl}`, hideFooter: hideFooter});
 
-        document.body.appendChild(newModalDivContainer);
-
-        ns.expandModalListener(newModalDivContainer);
-
-        ns.submitListenerForModal(newModalDivContainer);
-
-        // on modal close show the loader.
-        $(newModalDivContainer).on("hidden.bs.modal", function () {
-            $("#loader").show();
-        });
-
-        
+      console.groupEnd();
     };
 
-    ns.updateCommonModalAndOpen = (modalTitle, iframeURL, hideFooter) => {
-        const modalDivContainer = document.getElementById('__common_modal__');
-        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: modalTitle, iframeURL: iframeURL, hideFooter: hideFooter});
-        $("#loader").show();
-        const modal = new bootstrap.Modal(modalDivContainer);
-        modal.show();
-
-        // invoke remove  loader on modal load when a modal is opened.
-        ns.removeLoaderOnModalLoad();
-    };
-
-    ns.createModalAndOpen = (modalTitle, iframeURL, hideFooter) => {
-        if(ns.isUpdateModalAvailable === false) {
-            // dispatch parent
-            const event = new CustomEvent('showModal', { detail: { modalTitle, iframeURL, hideFooter } });
-            window.parent.document.dispatchEvent(event);
-
-            return;
-        }
-        const modalDivContainer = document.createElement("div");
-        const randIdForModal = Math.random().toString(16).slice(2);
-        modalDivContainer.setAttribute("class", "modal fade modal-default");
-        modalDivContainer.setAttribute("id", randIdForModal);
-        modalDivContainer.innerHTML = ns.getModalInnerHTML({modalTitle: modalTitle, iframeURL: iframeURL, hideFooter: hideFooter});
-        document.body.appendChild(modalDivContainer);
-        ns.expandModalListener(modalDivContainer);
-        ns.submitListenerForModal(modalDivContainer);
-        
-
-        const modal = new bootstrap.Modal(modalDivContainer);
-        modal.show();
-
-        // invoke remove  loader on modal load when a modal is opened.
-        ns.removeLoaderOnModalLoad();
-    };
-
-    // A common modals for all the components.
+    // Init a common modal controller for the page to listen to the showModal event that is dispatched from the iframe or other components that should not show modals.
     ns.initCommonModal();
-})(jQuery, Typerefinery.Modal, document, window);
+
+})(jQuery, Typerefinery.Modal, Typerefinery.Components.Forms.Form, document, window);

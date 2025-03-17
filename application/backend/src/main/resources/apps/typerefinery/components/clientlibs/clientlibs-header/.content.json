@@ -8,5 +8,8 @@
     "modal.js",
     "dropdown.js",
     "togglecomponent.js"
-  ] 
+  ],
+  "css": [
+    "modal.css"
+  ]
 }

@@ -137,7 +137,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   const url = new URL(window.location.href);
                   const params = new URLSearchParams(url.search);
                   const modalUrl = componentConfig.actionUrl + "?" + params.toString();
-                  modalNs.createModalAndOpen(componentConfig.actionModalTitle, modalUrl, componentConfig.hideFooter);
+                  let options = {
+                    modalTitle: componentConfig.actionModalTitle, 
+                    iframeURL: modalUrl, 
+                    hideFooter: componentConfig.hideFooter
+                  };
+                  modalNs.createModalAndOpen($component, options);
               } else {
                   ns.BUTTON_CLICK($component, componentConfig, { type: "button", action: "click" , "id": id } );
               }
