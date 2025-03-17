@@ -1,0 +1,83 @@
+<!--/*
+    Copyright (C) 2022 Typerefinery.ai
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/-->
+<template data-sly-template.variant="${ @ model }">
+
+  <div 
+    component="${model.componentName}"
+    id="${model.id}"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    data-model="${model.jsonString}">
+
+    <sly data-sly-test="${!wcmmode.isEdit}">
+      <!--preview modal-->
+      <sly data-sly-set.modalClass="modal" />
+    </sly>
+    <sly data-sly-test="${wcmmode.isEdit}">
+      <!--edit modal-->
+      <sly data-sly-set.modalClass="modal-edit" />
+    </sly>
+
+    <div class="${modalClass}" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">${model.title}</h5>
+              <button type="button" class="maximizeButtonInModal" id="maximizeModal">
+                  <i class="icon pi pi-window-maximize"></i>
+              </button>
+              <button type="button" class="closeButtonInModal" data-bs-dismiss="modal">
+                  <i class="pi pi-times"></i>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="loader" id="loader">
+                  <div class="loader__figure"></div>
+                  <p class="text-center">${model.labelLoading}</p>
+              </div>
+              <div class="error" id="error">
+                  <div class="error__figure"></div>
+                  <p class="text-center">${model.labelError}</p>
+              </div>
+              <div class="retry" id="retry">
+                  <div class="retry__figure"></div>
+                  <p class="text-center">${model.labelRetry}</p>
+              </div>
+              <!-- modal content -->
+              <div class="${model.classNamesForChildren}">
+                <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
+                
+                <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+                  data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+                </sly>
+          
+                <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+                  data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+                  data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>          
+              </div>
+          </div>
+          <div class="modal-footer" data-sly-test="${!model.hideFooter}">
+              <button type="button" id="modalCancel" class="btn btn-secondary">${model.labelCancel}</button>
+              <button type="button" id="modalOk" class="btn btn-primary">${model.labelOk}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+      data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
+  </div>
+</template>

@@ -1,0 +1,64 @@
+
+[component=modal] .button {
+  text-align: center;
+  margin: 5px auto;
+  width: 100%;
+  margin-bottom: 1%;
+}
+
+[component=modal] .modal {
+  /* display: none; */
+}
+
+[component=modal] .modal-edit {
+  /* display: block; */
+}
+
+[component=modal] .modal-edit .modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--bs-modal-header-padding);
+  border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+  border-top-left-radius: var(--bs-modal-inner-border-radius);
+  border-top-right-radius: var(--bs-modal-inner-border-radius);
+}
+
+[component=modal] .modal-content iframe {
+  height: 100%;
+  width: 100%;
+}
+
+[component=modal] .modal-content {
+  height: 90%;
+}
+
+[component=modal] .modal-dialog {
+  height: 100%;
+}
+
+[component=modal] .modal-header .close {
+  margin-left: 10px !important;
+  border: white;
+}
+
+[component=modal] .modal-header .maximize {
+  margin: calc(-0.5 * var(--bs-modal-header-padding-y))
+    calc(-0.5 * var(--bs-modal-header-padding-x))
+    calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
+
+  border: white;
+}
+
+[component=modal] .modal-body .loader {
+  display: none;
+}
+
+[component=modal] .modal-body .error {
+  display: none;
+}
+
+[component=modal] .modal-body .retry {
+  display: none;
+}

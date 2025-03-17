@@ -1,0 +1,22 @@
+{
+  "isContainer": true,
+  "group": "Typerefinery - Widgets",
+  "isLayout": false,
+  "allowedComponents": [
+    "Typerefinery - Content",
+    "Typerefinery - Details",
+    "Typerefinery - Forms",
+    "Typerefinery - Forms - Stix - Input",
+    "Typerefinery - Forms - Stix - Select",
+    "Typerefinery - Forms - Stix - Composite",
+    "Typerefinery - Graphs",
+    "Typerefinery - Layout",
+    "Typerefinery - List",
+    "Typerefinery - Widgets",
+    "Typerefinery - Flow",
+    "Typerefinery - Widgets - Security"
+  ],
+  "sling:resourceType": "ws:Component",
+  "description": "Show content in a modal dialog.",
+  "title": "Modal"
+}

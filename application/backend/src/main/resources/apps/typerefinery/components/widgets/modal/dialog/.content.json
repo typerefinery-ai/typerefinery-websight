@@ -1,0 +1,122 @@
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "configTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Config",
+      "title": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Title",
+        "name": "title"
+      },
+      "hideFooter": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "label": "Hide Footer",
+        "name": "hideFooter"
+      },
+      "labelOk": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "OK Button Label",
+        "name": "labelOk"
+      },
+      "labelCancel": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Cancel Button Label",
+        "name": "labelCancel"
+      },
+      "labelClose": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Close Button Label",
+        "name": "labelClose"
+      },
+      "labelLoading": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Loading Label",
+        "name": "labelLoading"
+      },
+      "labelError": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Error Label",
+        "name": "labelError"
+      },
+      "labelRetry": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Retry Label",
+        "name": "labelRetry"
+      }
+    },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "warning": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/warning"
+      },
+      "info": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/dialog/tabs/event/info"
+      },
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "ws:disallowedContext": ["edit:panel"],
+        "name": "_events_",
+        "description": "Pick generic event or specify custom event to which component action will be mapped.",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action",
+          "description": "Which component action to map to event."
+        },
+        "eventName": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventName"
+        },
+        "eventNameCustom": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventNameCustom"
+        },
+        "eventConfig": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/eventConfig"
+        }
+      }
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "variantTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Variant",
+      "variant": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "variant",
+        "label": "Variant",
+        "default": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Default",
+          "selected": true,
+          "value": ""
+        }
+      }
+    },
+    "backgroundTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/background"
+    },
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
+    }
+  }
+}

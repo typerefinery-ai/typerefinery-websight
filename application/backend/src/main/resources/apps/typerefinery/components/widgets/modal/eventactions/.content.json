@@ -1,0 +1,28 @@
+{ 
+  "sling:resourceType": "nt:unstructured",
+  "modalopen": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "MODAL_OPEN",
+    "value": "Open"
+  },
+  "modalclose": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "MODAL_CLOSE",
+    "value": "Close"
+  },
+  "modalopened": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "MODAL_OPENED",
+    "value": "Modal has Opened"
+  },
+  "modalclosed": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "MODAL_CLOSED",
+    "value": "Model has Closed"
+  },
+  "modalclosestop": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "MODAL_CLOSE_STOP",
+    "value": "Modal close attempt stopped"
+  }
+}
