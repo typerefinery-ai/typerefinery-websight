@@ -152,8 +152,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
         //emmit parent window event
         // if window is a child window, post message to parent
-        if (window.parent) {
-          console.log("window parent found, posting message");
+        if (window.parent && window.parent != window) {
+          console.log("window parent found, posting message", window.parent, window.parent == window);
           window.parent.postMessage({ topic, payload }, ns.DEFAULT_POST_MESSAGE_ORIGIN);
           console.log("message posted");
         } else {
