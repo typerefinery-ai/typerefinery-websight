@@ -9,6 +9,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.registry = {};
 
     ns.CUSTOM_EVENT_NAME = "customEvent";
+    ns.DEFAULT_POST_MESSAGE_ORIGIN = "*";
+    ns.DEFAULT_POST_MESSAGE_LISTENER = "message";
 
     // component event types
     ns.EVENT_TYPE_EMIT = "emit";
@@ -128,6 +130,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         const evt = document.createEvent(ns.CUSTOM_EVENT_NAME);
         // if evt has initCustomEvent then use it
         console.log(["initCustomEvent", evt["initCustomEvent"]]);
+        //emit custom event
         if (typeof evt["initCustomEvent"] === 'function') {
           console.log(["initCustomEvent found on custom event.", ns.CUSTOM_EVENT_NAME, evt["initCustomEvent"]]);
           evt["initCustomEvent"](ns.CUSTOM_EVENT_NAME, false, false, { topic, payload });
@@ -136,12 +139,25 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         } else {
           console.error("initCustomEvent not found on custom event.");
         }
+        //emit topic event
         if (ns.socket && ns.socket.dispatchEvent) {
           console.log("socket found, dispatching event");
           ns.socket.dispatchEvent(evt);
           console.log("event dispatched");
         } else {
           console.warn("socket not found.");
+        }
+
+        //check if payload is string, if not stringify it          
+
+        //emmit parent window event
+        // if window is a child window, post message to parent
+        if (window.parent) {
+          console.log("window parent found, posting message");
+          window.parent.postMessage({ topic, payload }, ns.DEFAULT_POST_MESSAGE_ORIGIN);
+          console.log("message posted");
+        } else {
+          console.warn("window parent not found, not pushing event to parent.");
         }
         console.groupEnd();
     };
@@ -152,7 +168,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     /* listen for messages posted to this window */
     ns.windowListener = function() {
-      window.addEventListener('message', function(event) {  
+      //listen to global messages coming from iFrames using system postMessage
+      window.addEventListener(ns.DEFAULT_POST_MESSAGE_LISTENER, function(event) {  
         console.groupCollapsed('global windowListener on ' + window.location);
         console.log(["event", event]);
         var eventData = event.data;
@@ -271,7 +288,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       if (!$component) {
         console.warn("event is external, no component found");
       }
-      console.log(["config", $component, componentConfig, payload, eventName, componentAction]);
+      console.log(["config", $component, componentConfig, payload, eventName, componentAction, options]);
 
       //get component id, use override if passed, else use config id, else null
       const componentId = ns.getOption(options, "id") || componentConfig.id || null;
@@ -363,7 +380,16 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
     ns.compileEventData = (payload, eventName, action, componentId, config) => {
-        return { type: eventName, payload: payload, action: action, componentId: componentId, config: config};
+      //check if payload is a JSON String, if so parse it
+      if (typeof payload === 'string') {
+        try {
+          payload = JSON.parse(payload);
+        } catch {
+          console.error("payload is not a valid JSON string, using as is.");
+        }
+      }
+      //return event data
+      return { type: eventName, payload: payload, action: action, componentId: componentId, config: config};
     };
 
     ns.registerEvents = (topic, callbackFn) => {
