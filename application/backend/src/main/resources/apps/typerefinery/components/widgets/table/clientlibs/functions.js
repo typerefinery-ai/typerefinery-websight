@@ -23,7 +23,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
     };
 
 
-    ns.getActionButtonHTML = (actionButtons, row, componentConfig) => {
+    ns.getActionButtonHTML = ($component, actionButtons, row, componentConfig) => {
 
         if (!actionButtons || !actionButtons.length) {
             return '';
@@ -50,12 +50,13 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             newModalDivContainer.setAttribute("class", "modal fade");
             newModalDivContainer.setAttribute("id", "tableModalContent");
             newModalDivContainer.innerHTML = modalNs.getModalInnerHTML();
-            document.body.appendChild(newModalDivContainer);
-            modalNs.submitListenerForModal(newModalDivContainer);
-            modalNs.expandModalListener(newModalDivContainer);
+            $component.append(newModalDivContainer);
+            // document.body.appendChild(newModalDivContainer);
+            modalNs.addModalSubmitListener(newModalDivContainer);
+            modalNs.addModalMaximiseListener(newModalDivContainer);
             $(newModalDivContainer).on('click', '.closeButtonInModal', function (e) {
-                document.querySelector("#tableModalContent iframe").setAttribute("src", "");
-                $("#loader").show();
+              $component.find("#tableModalContent iframe").setAttribute("src", "");
+              $(newModalDivContainer).find("#loader").show();
             });
 
 
@@ -273,7 +274,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 align: 'center',
                 valign: 'middle',
                 formatter: (value, row, index) => {
-                    return ns.getActionButtonHTML(componentConfig.actionButtons, row, componentConfig);
+                    return ns.getActionButtonHTML($component, componentConfig.actionButtons, row, componentConfig);
                 }
             });
         }
