@@ -632,12 +632,18 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       const modalContent = ns.getModalInnerHTML(options);
       const modalComponentName = options.modalComponentName || "generatedmodal";
 
+      let backdropIsStatic = options.backdropIsStatic || false;
+      let backdropIsStaticHtml = backdropIsStatic ? 'data-bs-backdrop="static"' : '';
+      let keyboardIsEnabled = options.keyboardIsEnabled || true;
+      let keyboardIsEnabledHtml = keyboardIsEnabled ? 'data-bs-keyboard="true"' : 'data-bs-keyboard="false"';
+
       // Modal Container with default Attributes
       let $modal = $(`<div 
-        class="modal 
-        fade modal-default" 
-        id="${modalId}"
         component="${modalComponentName}"
+        class="modal fade modal-default" 
+        id="${modalId}"
+        ${keyboardIsEnabledHtml}
+        ${backdropIsStaticHtml}
         tabindex="-1">
         ${modalContent}
       </div>`);

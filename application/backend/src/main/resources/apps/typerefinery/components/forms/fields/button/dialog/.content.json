@@ -327,6 +327,17 @@
           }
         }
       },
+      "backdropIsStatic": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "backdropIsStatic",
+        "label": "Backdrop is Static",
+        "ws:display": {
+          "condition": {
+            "sourceName": "actionType",
+            "values": "openModal"
+          }
+        }
+      },
       "dropdownItems": {
         "name": "dropdownItems",
         "label": "Dropdown menu options",

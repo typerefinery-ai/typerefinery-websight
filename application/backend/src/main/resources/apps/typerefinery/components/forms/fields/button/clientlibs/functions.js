@@ -140,7 +140,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   let options = {
                     modalTitle: componentConfig.actionModalTitle, 
                     iframeURL: modalUrl, 
-                    hideFooter: componentConfig.hideFooter
+                    hideFooter: componentConfig.hideFooter,
+                    backdropIsStatic: componentConfig.backdropIsStatic
                   };
                   modalNs.createModalAndOpen($component, options);
               } else {
