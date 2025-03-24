@@ -210,11 +210,17 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 
     $.fn.findExclude = function(selector, mask) {
-      return this.find(selector).not(this.find(mask).find(selector));
+        if (mask == null || mask == undefined) {
+            console.warn("findExclude: mask is not defined, ignoring...");
+            return this.find(selector).not(this.find(selector));
+        }
+        return this.find(selector).not(this.find(mask).find(selector));
     }    
 
     $.fn.compositeVal = function(addFieldHint) {
-      console.group('compositeVal');
+        const name = this.attr(ns.selectorNameAttribute);
+        
+      console.group(`compositeVal - ${name}`);
       const type = this.attr('type') || ns.selectorTypeField;
       const isList = type === ns.selectorTypeList;
       console.log("type", type);
@@ -222,7 +228,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       if (!isList) {
         //get all immediate isCompositeParent components
-        var $compositeParents = this.parent(ns.selector).findExclude(ns.selector,ns.selector);
+        var $compositeParents = this.closest(ns.selector).findExclude(ns.selector,ns.selector);
         var data = {};
       
         console.log("this.value", this.val());
@@ -238,19 +244,37 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           if ($compositeValue) {
             const compositeValueName = $compositeValue.attr(ns.selectorNameAttribute);
             console.log("compositeValueName", compositeValueName);
-            // create placeholder for composite value
-            data[compositeValueName] = {};
-            // get composite value for this field, this will cascade to other composite fields
-            Object.assign(data[compositeValueName],$compositeValue.compositeVal(addFieldHint));
+
+            console.log("data before", data);
+            let fieldValue = $compositeValue.compositeVal(addFieldHint);
+            console.log("fieldValue", fieldValue);
+
+            //is fieldValue an array
+            if (!Array.isArray(fieldValue)) {
+                if (!data[compositeValueName]) {
+                    data[compositeValueName] = {};
+                }
+                Object.assign(data[compositeValueName],fieldValue);
+            } else {
+                if (!data[compositeValueName]) {
+                    data[compositeValueName] = [];
+                }
+                //copy all array values to composite value array
+                fieldValue.forEach(function(rowData){
+                    data[compositeValueName].push(rowData);
+                });
+            }
+                
+            console.log("data after", data);
           }
         });
         console.groupEnd();
         return data;
       } else {
         var data = [];
-        console.log("parent", this.parent(ns.selector));
-        console.log("rows", this.parent(ns.selector).find('.row'));
-        this.parent(ns.selector).find('.row').each(function() {
+        console.log("parent", this.closest(ns.selector));
+        console.log("rows", this.closest(ns.selector).find('.row'));
+        this.closest(ns.selector).find('.row').each(function() {
           console.log("row", this);
           const $row = $(this);
           const $rowContents = $row.find('.content');
@@ -272,13 +296,33 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             var $compositeValue = $(this).findExclude(ns.selectorValue,ns.selector);        
             console.log("compositeValue", $compositeValue);
             if ($compositeValue) {
-              const compositeValueName = $compositeValue.attr(ns.selectorNameAttribute);
-              console.log("compositeValueName", compositeValueName);
-              // create placeholder for composite value
-              var data = {};
-              // get composite value for this field, this will cascade to other composite fields
-              Object.assign(data,$compositeValue.compositeVal(addFieldHint));
-              rowData[compositeValueName] = data;
+                const compositeValueName = $compositeValue.attr(ns.selectorNameAttribute);
+                console.log("compositeValueName", compositeValueName);
+
+                console.log("data before", data);
+                let fieldValue = $compositeValue.compositeVal(addFieldHint);
+                console.log("fieldValue", fieldValue);
+    
+                //is fieldValue an not array
+                if (!Array.isArray(fieldValue)) {
+                    if (!data[compositeValueName]) {
+                        data[compositeValueName] = {};
+                    }
+                    Object.assign(data[compositeValueName],fieldValue);
+                } else {
+                    if (!data[compositeValueName]) {
+                        data[compositeValueName] = [];
+                    }
+                    //copy all array values to composite value array
+                    fieldValue.forEach(function(rowData) {
+                        data[compositeValueName].push(rowData);
+                    });
+                }
+                    
+                console.log("data after", data);
+    
+                rowData[compositeValueName] = data;
+                console.log("rowData data after", JSON.stringify(rowData));
             }
             console.log("rowData with compositeParents", JSON.stringify(rowData));
           });
@@ -323,7 +367,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.setValue = function($compositeValue, data) {
       console.group('composite setValue');
       console.log("$compositeValue", $compositeValue);
-      const $compositeParent = $compositeValue.parent(ns.selector);
+      const $compositeParent = $compositeValue.closest(ns.selector);
       console.log("$compositeParent", $compositeParent);
       console.log("data", data);
       const type = $compositeParent.attr('type') || ns.selectorTypeField;

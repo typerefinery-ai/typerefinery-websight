@@ -32,7 +32,9 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // compule form data into payload
     ns.getFormData = async ($component, addFieldHint) => {
-        const result = {};
+        // form data object to store all form data
+        let result = {};
+
         // get all non composite fields and immidiate composite fields.
         const $formComponents = $component.findExclude(`${ns.selectorInput},${compositeNs.selector}`,compositeNs.selector);
         console.group("getFormData");
@@ -55,6 +57,11 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             console.log("$input", $input);
             console.log("inputObject", inputObject);
             console.log("$input.val()", $input.val());
+            console.log("name", name);
+            console.log("id", id);
+            console.log("type", type);
+            console.log("component", component);
+            console.log("result", JSON.stringify(result, null, 2));
 
             //is this input field
             const isInput = $input.attr(ns.selectorInputAttribute);
@@ -79,15 +86,20 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                   console.log(["getFormData composite component", name, isCompositeParent]);
                   
                   // get value from composite value
-                  var $compositeValue = $input.findExclude(compositeNs.selectorValue, compositeNs.selector);
+                  let $compositeValue = $input.findExclude(compositeNs.selectorValue, compositeNs.selector);
                   console.log(["getFormData composite value input", $compositeValue]);
-                  var compositeValueName = $compositeValue.attr(compositeNs.selectorNameAttribute);
+                  let compositeValueName = $compositeValue.attr(compositeNs.selectorNameAttribute);
                   console.log(["getFormData composite value", $compositeValue]);
-                  const compositeValue = $compositeValue.compositeVal(addFieldHint);
+                  let compositeValue = $compositeValue.compositeVal(addFieldHint);
                   console.log("compositeValue", compositeValue);
-                  result[compositeValueName] = compositeValue;
-                  // Object.assign(result[compositeValueName], $compositeValue.compositeVal(addFieldHint));
+                                  
+                  // warn if compositeValueName is already present in result
+                  if (result[compositeValueName]) {
+                    console.warn(`Composite value ${compositeValueName} is already present in result object.`);
+                  }
 
+                  result[compositeValueName] = compositeValue;
+                  
                   if (addFieldHint) {
                     ns.addFieldHint($input, compositeValueName, id);
                   }
@@ -95,6 +107,11 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                 } else if(isEditor) {
                     const editorId = $input.data("editor-id");
                     console.log(["getFormData editor component", name, editorId]);
+                    // warn if editorValue is already present in result
+                    if (result[name]) {
+                        console.warn(`Editor value ${name} is already present in result object.`);
+                    }
+
                     result[name] = await editorNs.getValue(editorId);
 
                     if (addFieldHint) {
@@ -103,83 +120,95 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                 }else if(isSelect) {
                     // get value from select tag
                     console.log(["getFormData select component", name, id]);
+
+                    // warn if selectValue is already present in result
+                    if (result[name]) {
+                        console.warn(`Select value ${name} is already present in result object.`);
+                    }
+                                        
                     result[name] = selectNs.getValue(id);
                     if (addFieldHint) {
                       ns.addFieldHint($input, name, id);
                     }             
                 } else {
-                  console.log(["getFormData other component value", name, result[name], type, $input.val()]);
-                  if (type === "checkbox") {
-                      // get value from checkbox if checked
-                      if ($input.is(":checked")) {
-                        if (!result[name]) {
-                            result[name] = [];
+                    console.log(["getFormData other component value", name, result[name], type, $input.val()]);
+
+                    // warn if result[name] is already present in result
+                    if (result[name]) {
+                        console.warn(`Input value ${name} is already present in result object.`);
+                    }
+
+                    if (type === "checkbox") {
+                        // get value from checkbox if checked
+                        if ($input.is(":checked")) {
+                            if (!result[name]) {
+                                result[name] = [];
+                            }
+                            result[name].push($input.val());
                         }
-                        result[name].push($input.val());
-                      }
-                  } else if (type === "radio") {
-                      // get value from radio if checked
-                      if ($input.is(":checked")) {
+                    } else if (type === "radio") {
+                        // get value from radio if checked
+                        if ($input.is(":checked")) {
+                            result[name] = $input.val();
+                        }
+                    } else if (type === "file") {
+                        const $parentContainer = $input.closest(Typerefinery.Components.Forms.Fileupload.selectorComponent);
+                        console.log("inputObject", inputObject);
+                        console.log("$parentContainer", $parentContainer);
+                        console.log("parentContainer", $parentContainer[0]);
+                        console.log("parentContainer.files", $parentContainer[0].files);
+
+                        let files = new Map();
+
+                        let hasFiles = false;
+                        //check if parent container has files and there is parent container and nothing is undefined
+                        if ($parentContainer && $parentContainer[0] && $parentContainer[0].files) {
+                        hasFiles = true;
+                        }
+
+                        // get files from parent container if it is file upload component.                    
+                        if (hasFiles) {
+
+                        console.log("files", $parentContainer[0].files);
+                        result[name] = [];
+
+                        files = $parentContainer[0].files;
+                        console.log("files", files);
+
+                        // loop files map
+                        for (let [fileId, file] of files.entries()) {
+                            console.log("file", file);
+                            console.log("fileId", fileId);
+                            console.log("filename", file.name);
+                            console.log("file.size", file.size);
+                            console.log("file.type", file.type);
+                            const fileName = file?.name?.trim()?.replace(/\s/g, "-");
+                            // hide close button and show loader
+                            $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
+                            $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).show();
+
+                            // upload file to server
+                            const output = await filesNs.uploadFile(file);
+
+                            // hide loader and show close button
+                            $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).hide();
+                            $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
+
+                            result[name].push(output);
+                        };
+
+                        } else {
+                        result[name] = "";
+                        console.log("No file selected...");
+                        }
+                    } else {                        
+                        // get value from $input tag
                         result[name] = $input.val();
-                      }
-                  } else if (type === "file") {
-                    const $parentContainer = $input.closest(Typerefinery.Components.Forms.Fileupload.selectorComponent);
-                    console.log("inputObject", inputObject);
-                    console.log("$parentContainer", $parentContainer);
-                    console.log("parentContainer", $parentContainer[0]);
-                    console.log("parentContainer.files", $parentContainer[0].files);
-
-                    let files = new Map();
-
-                    let hasFiles = false;
-                    //check if parent container has files and there is parent container and nothing is undefined
-                    if ($parentContainer && $parentContainer[0] && $parentContainer[0].files) {
-                      hasFiles = true;
                     }
-
-                    // get files from parent container if it is file upload component.                    
-                    if (hasFiles) {
-
-                      console.log("files", $parentContainer[0].files);
-                      result[name] = [];
-
-                      files = $parentContainer[0].files;
-                      console.log("files", files);
-
-                      // loop files map
-                      for (let [fileId, file] of files.entries()) {
-                        console.log("file", file);
-                        console.log("fileId", fileId);
-                        console.log("filename", file.name);
-                        console.log("file.size", file.size);
-                        console.log("file.type", file.type);
-                        const fileName = file?.name?.trim()?.replace(/\s/g, "-");
-                        // hide close button and show loader
-                        $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
-                        $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).show();
-
-                        // upload file to server
-                        const output = await filesNs.uploadFile(file);
-
-                        // hide loader and show close button
-                        $parentContainer.find(`#loader-${fileName}[fileid="${fileId}"]`).hide();
-                        $parentContainer.find(`#close-${fileName}[fileid="${fileId}"]`).hide();
-
-                        result[name].push(output);
-                      };
-
-                    } else {
-                      result[name] = "";
-                      console.log("No file selected...");
-                    }
-                  } else {                        
-                    // get value from $input tag
-                    result[name] = $input.val();
-                  }
-                  
-                  if (addFieldHint) {
-                    ns.addFieldHint($input, name, id);
-                  }             
+                    
+                    if (addFieldHint) {
+                        ns.addFieldHint($input, name, id);
+                    }             
 
                 }
 

@@ -13,7 +13,7 @@ window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.C
       //listen for change event on all input fields and compile value for composite input
       $(document).on("change", `${ns.selectorComponent}`, function() {
         console.group("document onchange - composite change");
-        console.log($(this));
+        console.log([$(this),ns.compileValue($(this))]);
         ns.compileValue($(this));  
         console.groupEnd();
       });

@@ -25,12 +25,12 @@
         "label": "Type",
         "composite": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Field",
+          "label": "Field - Object",
           "value": "field"
         },
         "list": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "List",
+          "label": "List - Array",
           "value": "list"
         }
       },
