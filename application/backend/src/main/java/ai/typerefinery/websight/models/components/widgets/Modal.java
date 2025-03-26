@@ -32,37 +32,53 @@ import ai.typerefinery.websight.utils.StringsUtils;
 public class Modal extends BaseComponent {
     
     
-    public static final String PROPERTY_LABEL_OK = "labelOk";
-    public static final String PROPERTY_LABEL_CANCEL = "labelCancel";
-    public static final String PROPERTY_LABEL_LOADING = "labelLoading";
-    public static final String PROPERTY_LABEL_ERROR = "labelError";
+    public static final String PROPERTY_LABEL_BUTTON_OK = "labelButtonOk";
+    public static final String PROPERTY_LABEL_BUTTON_CANCEL = "labelButtonCancel";
+    public static final String PROPERTY_LABEL_STATUS_LOADING = "labelLoading";
+    public static final String PROPERTY_LABEL_STATUS_SUBMITTING = "labelSubmitting";
+    public static final String PROPERTY_LABEL_STATUS_SUBMITTED = "labelSubmitted";
+    public static final String PROPERTY_LABEL_STATUS_ERROR = "labelError";
     public static final String PROPERTY_LABEL_RETRY = "labelRetry";
+    public static final String PROPERTY_LABEL_MAXIMISE = "labelMaximise";
+    public static final String PROPERTY_LABEL_MINIMISE = "labelMinimise";
     
     @Getter
     @Inject
-    @Named(PROPERTY_LABEL_OK)
+    @Named(PROPERTY_LABEL_BUTTON_OK)
     @Nullable
-    public String labelOk;
+    public String labelButtonOk;
 
 
     @Getter
     @Inject
-    @Named(PROPERTY_LABEL_CANCEL)
+    @Named(PROPERTY_LABEL_BUTTON_CANCEL)
     @Nullable
-    public String labelCancel;
+    public String labelButtonCancel;
 
     
     @Getter
     @Inject
-    @Named(PROPERTY_LABEL_LOADING)
+    @Named(PROPERTY_LABEL_STATUS_LOADING)
     @Nullable
-    public String labelLoading;
+    public String labelStatusLoading;
     
     @Getter
     @Inject
-    @Named(PROPERTY_LABEL_ERROR)
+    @Named(PROPERTY_LABEL_STATUS_SUBMITTING)
     @Nullable
-    public String labelError;
+    public String labelStatusSubmitting;
+
+    @Getter
+    @Inject
+    @Named(PROPERTY_LABEL_STATUS_SUBMITTED)
+    @Nullable
+    public String labelStatusSubmitted;
+
+    @Getter
+    @Inject
+    @Named(PROPERTY_LABEL_STATUS_ERROR)
+    @Nullable
+    public String labelStatusError;
 
     @Getter
     @Inject
@@ -70,30 +86,72 @@ public class Modal extends BaseComponent {
     @Nullable
     public String labelRetry;
 
+    @Getter
+    @Inject
+    @Named(PROPERTY_LABEL_MAXIMISE)
+    @Nullable
+    public String labelMaximise;
+    
+    @Getter
+    @Inject
+    @Named(PROPERTY_LABEL_MINIMISE)
+    @Nullable
+    public String labelMinimise;
+
+    @Getter
+    @Inject
+    @Nullable
+    public Boolean hideFooter;
+
+    @Getter
+    @Inject
+    @Nullable
+    public Boolean backdropIsStatic;
+
+    @Getter
+    @Inject
+    @Nullable
+    public Boolean keyboardIsEnabled;
 
     @Override
     @PostConstruct
     protected void init() {
         super.init();
 
-        if (StringUtils.isBlank(this.labelOk)) {
-            this.labelOk = "Save";
+        if (StringUtils.isBlank(this.labelButtonOk)) {
+            this.labelButtonOk = "Save";
         }
 
-        if (StringUtils.isBlank(this.labelCancel)) {
-            this.labelCancel = "Cancel";
+        if (StringUtils.isBlank(this.labelButtonCancel)) {
+            this.labelButtonCancel = "Cancel";
         }
 
-        if (StringUtils.isBlank(this.labelLoading)) {
-            this.labelLoading = "Loading...";
+        if (StringUtils.isBlank(this.labelStatusLoading)) {
+            this.labelStatusLoading = "Loading...";
         }
 
-        if (StringUtils.isBlank(this.labelError)) {
-            this.labelError = "Error";
+        if (StringUtils.isBlank(this.labelStatusSubmitting)) {
+            this.labelStatusSubmitting = "Submitting...";
+        }
+
+        if (StringUtils.isBlank(this.labelStatusSubmitted)) {
+            this.labelStatusSubmitted = "Submitted";
+        }
+
+        if (StringUtils.isBlank(this.labelStatusError)) {
+            this.labelStatusError = "Error";
         }
 
         if (StringUtils.isBlank(this.labelRetry)) {
             this.labelRetry = "Retry";
+        }
+
+        if (StringUtils.isBlank(this.labelMaximise)) {
+            this.labelMaximise = "Maximise";
+        }
+
+        if (StringUtils.isBlank(this.labelMinimise)) {
+            this.labelMinimise = "Minimise";
         }
 
     }
