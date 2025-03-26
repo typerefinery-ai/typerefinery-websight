@@ -5,8 +5,15 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 (function ($, ns, vueDataNs, document, window) {
     "use strict";
 
+    ns.attributeInit = "data-init";
+    ns.registry = new Map();
+
     ns.findExclude = function($component, selector, mask) {
-      return $component.find(selector).not($component.find(mask).find(selector));
+        if (mask == null || mask == undefined) {
+            console.warn("findExclude: mask is not defined, ignoring...");
+            return $component.find(selector).not($component.find(selector));
+        }
+        return $component.find(selector).not($component.find(mask).find(selector));
     }
 
     ns.registerComponent = (componentData) => {
@@ -129,7 +136,25 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         //init component on all found instances
         var elements = document.querySelectorAll(selector);
         for (var i = 0; i < elements.length; i++) {
-          callbackFn($(elements[i]));
+            //set init attribute to true
+            ns.setInitAttribute(elements[i]);
+            callbackFn($(elements[i]));
+        }
+    }
+
+    ns.setInitAttribute = (node) => {
+        if (ns.isJQuery(node)) {
+            node.attr(ns.attributeInit, "true");
+        } else {
+            node.setAttribute(ns.attributeInit, "true");
+        }
+    }
+
+    ns.isInitAttribute = (node) => {
+        if (ns.isJQuery(node)) {
+            return node.attr(ns.attributeInit) == "true";
+        } else {
+            return node.getAttribute(ns.attributeInit) == "true";
         }
     }
 
@@ -145,20 +170,39 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
       var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
       var body = document.querySelector("body");
       var observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-              var nodesArray = [].slice.call(mutation.addedNodes);
-              if (nodesArray.length > 0) {
-                  nodesArray.forEach(function(addedNode) {
-                      if (addedNode.querySelectorAll) {
-                          var elementsArray = [].slice.call(addedNode.querySelectorAll(selector));
-                          elementsArray.forEach(function(element) {
-                            console.log("new element", selector);
+        mutations.forEach(function(mutation) {
+            // console.log("mutation", mutation);
+            var nodesArray = [].slice.call(mutation.addedNodes);
+            // console.log("nodesArray", nodesArray);
+            if (nodesArray.length > 0) {
+                nodesArray.forEach(function(addedNode) {
+                    // check if current node matches selector
+                    if (addedNode.matches && addedNode.matches(selector)) {
+                        console.log("addedNode - matches selector", selector, addedNode);
+                        if (ns.isInitAttribute(addedNode)) {
+                            console.warn("addedNode - already initialized", selector);
+                            return;
+                        }
+                        ns.setInitAttribute(addedNode);
+                        callbackFn($(addedNode));
+                    }
+
+                    // search for selector in child nodes
+                    if (addedNode.querySelectorAll) {
+                        var elementsArray = [].slice.call(addedNode.querySelectorAll(selector));
+                        elementsArray.forEach(function(element) {
+                            console.log("element - child node added", selector);
+                            if (ns.isInitAttribute(element)) {
+                                console.warn("element - already initialized", selector);
+                                return;
+                            }
+                            ns.setInitAttribute(addedNode);
                             callbackFn($(element));
-                          });
-                      }
-                  });
-              }
-          });
+                        });
+                    }
+                });
+            }
+        });
       });
 
       observer.observe(body, {
@@ -189,11 +233,18 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     }
 
     ns.watchDOMForComponent = (selector, callbackFn) => {
-      if (document.readyState !== "loading") {
-          ns.onDocumentReady(selector, callbackFn);
-      } else {
-          document.addEventListener("DOMContentLoaded", ns.onDocumentReady(selector, callbackFn));
-      }
+        //add selector to registry
+        ns.registry.set(selector, {
+                selector: selector,
+                callbackFn: callbackFn
+            }
+        );
+        //check if document is ready or wait for it
+        if (document.readyState !== "loading") {
+            ns.onDocumentReady(selector, callbackFn);
+        } else {
+            document.addEventListener("DOMContentLoaded", ns.onDocumentReady(selector, callbackFn));
+        }
     }
 
     ns.jsonPath = function(obj, expr, arg) {
