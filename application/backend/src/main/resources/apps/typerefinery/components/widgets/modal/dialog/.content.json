@@ -10,40 +10,50 @@
         "label": "Title",
         "name": "title"
       },
-      "hideFooter": {
-        "sling:resourceType": "wcm/dialogs/components/checkbox",
-        "label": "Hide Footer",
-        "name": "hideFooter"
-      },
-      "labelOk": {
+      "labelButtonOk": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "label": "OK Button Label",
-        "name": "labelOk"
+        "label": "Label Button OK ",
+        "name": "labelButtonOk"
       },
-      "labelCancel": {
+      "labelButtonCancel": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "label": "Cancel Button Label",
-        "name": "labelCancel"
+        "label": "Label Button Cancel",
+        "name": "labelButtonCancel"
       },
       "labelClose": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "label": "Close Button Label",
         "name": "labelClose"
       },
-      "labelLoading": {
+      "labelStatusLoading": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "label": "Loading Label",
-        "name": "labelLoading"
+        "label": "Status Loading Label",
+        "name": "labelStatusLoading"
       },
-      "labelError": {
+      "labelStatusSubmitting": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "label": "Error Label",
+        "label": "Status Submitting Label",
+        "name": "labelStatusSubmitting"
+      },
+      "labelStatusSubmitted": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Status Submitted Label",
+        "name": "labelStatusSubmitted"
+      },
+      "labelStatusError": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Status Error Label",
         "name": "labelError"
       },
-      "labelRetry": {
+      "labelMaximize": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
-        "label": "Retry Label",
-        "name": "labelRetry"
+        "label": "Maximize Button Label",
+        "name": "labelMaximize"
+      },
+      "labelMinimize": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "label": "Minimize Button Label",
+        "name": "labelMinimize"
       }
     },
     "eventTab": {
@@ -106,6 +116,16 @@
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "backdropIsStatic",
         "label": "Backdrop is Static"
+      },
+      "keyboardIsEnabled": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "label": "Keyboard is Enabled",
+        "name": "keyboardIsEnabled"
+      },
+      "hideFooter": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "label": "Hide Footer",
+        "name": "hideFooter"
       }
     },
     "variantTab": {
