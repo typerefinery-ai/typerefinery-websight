@@ -18,5 +18,5 @@
   ],
   "sling:resourceType": "ws:Component",
   "description": "Show content in a modal dialog.",
-  "title": "Modal"
+  "title": "Dialog Popup"
 }
