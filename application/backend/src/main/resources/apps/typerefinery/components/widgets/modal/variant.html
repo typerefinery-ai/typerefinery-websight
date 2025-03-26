@@ -15,69 +15,87 @@
 */-->
 <template data-sly-template.variant="${ @ model }">
 
-  <div 
-    component="${model.componentName}"
-    id="${model.id}"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    data-model="${model.jsonString}">
+    <div 
+        component="${model.componentName}"
+        id="${model.id}"
+        data-model="${model.jsonString}">
+        <sly data-sly-test="${!wcmmode.isEdit}">
+            <!--live modal-->
+            <sly data-sly-set.modalClass="modal" />
+        </sly>
+        <sly data-sly-test="${wcmmode.isEdit}">
+            <!--edit modal-->
+            <sly data-sly-set.modalClass="modal-edit" />
+        </sly>
 
-    <sly data-sly-test="${!wcmmode.isEdit}">
-      <!--live modal-->
-      <sly data-sly-set.modalClass="modal" />
-    </sly>
-    <sly data-sly-test="${wcmmode.isEdit}">
-      <!--edit modal-->
-      <sly data-sly-set.modalClass="modal-edit" />
-    </sly>
-
-    <div class="${modalClass}" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title">${model.title}</h5>
-              <button type="button" class="maximizeButtonInModal" id="maximizeModal">
-                  <i class="icon pi pi-window-maximize"></i>
-              </button>
-              <button type="button" class="closeButtonInModal" data-bs-dismiss="modal">
-                  <i class="pi pi-times"></i>
-              </button>
-          </div>
-          <div class="modal-body">
-              <div class="loader" id="loader">
-                  <div class="loader__figure"></div>
-                  <p class="text-center">${model.labelLoading}</p>
-              </div>
-              <div class="error" id="error">
-                  <div class="error__figure"></div>
-                  <p class="text-center">${model.labelError}</p>
-              </div>
-              <div class="retry" id="retry">
-                  <div class="retry__figure"></div>
-                  <p class="text-center">${model.labelRetry}</p>
-              </div>
-              <!-- modal content -->
-              <div class="${model.classNamesForChildren}">
-                <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
-                
-                <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
-                  data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
-                </sly>
-          
-                <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
-                  data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
-                  data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>          
-              </div>
-          </div>
-          <div class="modal-footer" data-sly-test="${!model.hideFooter}">
-              <button type="button" id="modalCancel" class="btn btn-secondary">${model.labelCancel}</button>
-              <button type="button" id="modalOk" class="btn btn-primary">${model.labelOk}</button>
-          </div>
+        <div class="${modalClass} fade modal-default" 
+            data-bs-backdrop="${model.backdropIsStatic ? 'static' : ''}"
+            data-bs-keyboard="${model.keyboardIsEnabled ? 'true' : 'false'}"
+            tabindex="-1"
+            role="dialog"
+            aria-modal="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">${model.title}</h5>
+                        <div class="modal-header-icons">
+                            <button type="button" class="btn-maximize" aria-label="${model.labelMaximize}" labelMaximise="${labelMaximise}" labelMinimise="${labelMinimise}">
+                                <i class="icon pi pi-window-maximize"></i>
+                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${model.labelCancel}">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="status loading">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">${model.labelStatusLoading}</span>
+                            </div>
+                        </div>
+                        <div class="status submitting">
+                            <div class="spinner-border text-warning" role="status">
+                                <span class="visually-hidden">${model.labelStatusSubmitting}</span>
+                            </div>
+                        </div>
+                        <div class="status submitted">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">${model.labelStatusSubmitted}</span>
+                            </div>
+                        </div>
+                        <div class="status error">
+                            <div class="spinner-border text-danger" role="status">
+                                <span class="visually-hidden">${model.labelStatusError}</span>
+                            </div>
+                        </div>
+                        <!-- modal content -->
+                        <div class="content ${model.classNamesForChildren}">
+                            <template data-sly-unwrap="${wcmmode.isEdit}">
+                            <sly data-sly-include="${'parsys.html' @ prependPath='/apps/typerefinery/components/parsys'}"></sly>
+                            
+                            <sly data-sly-use.lib="/libs/wcm/foundation/components/commons/templates.html"
+                                data-sly-call="${lib.placeholder @ classes=model.componentClassNames}">
+                            </sly>
+                            </template>
+                            <div class="render hide"></div>
+                    
+                            <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+                                data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+                                data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>          
+                        </div>
+                    </div>
+                    <div class="modal-footer" data-sly-test="${!model.hideFooter}">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${model.labelButtonCancel}</button>
+                        <button type="button" class="btn btn-primary" disabled>
+                            <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                            ${model.labelButtonOk}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
+            data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
+            data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
     </div>
-    <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
-      data-sly-set.componentPlaceholderTitle="${[model.componentTitle] @ join=''}"
-      data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
-  </div>
+
 </template>
