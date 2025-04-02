@@ -1,64 +1,144 @@
+/* namespace: [component=modal]*/
 
-[component=modal] .button {
-  text-align: center;
-  margin: 5px auto;
-  width: 100%;
-  margin-bottom: 1%;
+[component="modal"] .modal {
+    /* display: none; */
 }
 
-[component=modal] .modal {
-  /* display: none; */
+[component="modal"] .modal-edit {
+    /* reverses .show class for modal dialog */
+    opacity: 1;
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }
 
-[component=modal] .modal-edit {
-  /* display: block; */
+[component="modal"] .modal-body .status {
+    display: none;
 }
 
-[component=modal] .modal-edit .modal-header {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--bs-modal-header-padding);
-  border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
-  border-top-left-radius: var(--bs-modal-inner-border-radius);
-  border-top-right-radius: var(--bs-modal-inner-border-radius);
+[component="modal"] .modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid
+        var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
 }
 
-[component=modal] .modal-content iframe {
-  height: 100%;
-  width: 100%;
+[component="modal"] .modal-content {
+    height: 90%;
 }
 
-[component=modal] .modal-content {
-  height: 90%;
+[component="modal"] .modal-fullscreen .modal-content {
+    height: 100%;
 }
 
-[component=modal] .modal-dialog {
-  height: 100%;
+[component="modal"] .modal-content iframe {
+    height: 100%;
+    width: 100%;
 }
 
-[component=modal] .modal-header .close {
-  margin-left: 10px !important;
-  border: white;
+[component="modal"] .modal-edit .modal-content iframe {
+    display: block !important;
+    height: 100%;
+    width: 100%;
 }
 
-[component=modal] .modal-header .maximize {
-  margin: calc(-0.5 * var(--bs-modal-header-padding-y))
-    calc(-0.5 * var(--bs-modal-header-padding-x))
-    calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
-
-  border: white;
+[component="modal"] .modal-dialog {
+    height: 100%;
 }
 
-[component=modal] .modal-body .loader {
-  display: none;
+[component="modal"] .btn-close {
+    /* margin-left: 10px !important;
+    border: white; */
 }
 
-[component=modal] .modal-body .error {
-  display: none;
+[component="modal"] .modal-header .btn-maximize {
+
+    padding: calc(var(--bs-modal-header-padding-y) * 1)
+        calc(var(--bs-modal-header-padding-x) * 1);
+    margin: calc(0.5 * var(--bs-modal-header-padding-y))
+        calc(0.5 * var(--bs-modal-header-padding-x))
+        calc(0.5 * var(--bs-modal-header-padding-y))
+        calc(0.5 * var(--bs-modal-header-padding-x));
+
+    border: 0;
+    width: 1em;
+    height: 1em;
+    color: #000;
+    border: 0;
+    border-radius: 0.375rem;
+    opacity: 0.5;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers vertically */
+    justify-content: center; /* Centers horizontally */
+    background: transparent; /* Optional: Keeps background clean */
+    cursor: pointer; /* Adds a pointer cursor */
 }
 
-[component=modal] .modal-body .retry {
-  display: none;
+
+
+[component="modal"] .modal-header .btn-maximize:hover {
+    color: #000;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+[component="modal"] .modal-header .btn-maximize:focus {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+    opacity: 1;
+}
+
+[component="modal"] .modal-header .btn-maximize:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+}
+
+[component="modal"] .modal-content .modal-header-icons {
+    /* div needs to wrap buttons without taking up space, as it will be pushed to the right in header */
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+}
+
+[component="modal"] .fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    margin: 0 !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+[component="modal"] .modal-content .status {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+[component="modal"] .hide {
+    display: none !important;
+}
+
+[component="modal"] .modal-content .content  {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+[component="modal"] .modal-content .content .render  {
+    height: 100%;
+    width: 100%;
+    display: flex;
 }
