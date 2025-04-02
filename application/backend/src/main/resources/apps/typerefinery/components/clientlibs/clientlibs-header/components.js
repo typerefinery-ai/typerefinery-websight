@@ -6,6 +6,9 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     "use strict";
 
     ns.attributeInit = "data-init";
+    ns.selectorAttributeInit = `[${ns.attributeInit}]`;
+    ns.selectorComponent = "[component]";
+
     ns.registry = new Map();
 
     ns.findExclude = function($component, selector, mask) {
@@ -89,42 +92,45 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         </svg>
     `;
     ns.init = () => {
-        setTimeout(() => {
-            $("[component]").each(function () { 
-                const componentConfig = ns.getComponentConfig(this);
-                if (componentConfig.flowapi_enable && componentConfig.flowapi_enable == true && componentConfig.flowapi_editurl) {
-                    const $component = this;
-                    const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
-                    $flowEnabledFireBallDiv.append(`
-                        <a 
-                            class="flow-enabled-fire-ball-button lightening-icon-enabled" 
-                            id="lightningIcon"
-                            style="cursor:pointer"
-                            href="${componentConfig.flowapi_editurl}" 
-                            target="_blank" 
-                        >
-                            ${ns.lightningChargeFill}
-                        </a>
-                    `);
-                  
-                    $component.append($flowEnabledFireBallDiv[0]);
-                }else if(componentConfig && componentConfig.flowapi_enable == false){
-                    const $component = this;
-                    const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
-                    $flowEnabledFireBallDiv.append(`
-                       <div
-                            class="flow-enabled-fire-ball-button lightening-icon-disabled" 
-                            id="lightningIcon"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Flow is not enabled"
-                        >
-                            ${ns.lightningCharge}
-                        </div>
-                    `);
-                  
-                    $component.append($flowEnabledFireBallDiv[0]);
-                }
-            });
-        }, 1000);
+        // namespace init
+    };
+
+    ns.initComponentActionIcons = ($component) => { 
+        //TODO: this needs to be done with just a css class     
+        console.log("initComponentActionIcons", $component);  
+        const componentConfig = ns.getComponentConfig($component);
+        console.log("componentConfig", componentConfig);
+        console.log("componentConfig.flowapi_enable", componentConfig.flowapi_enable);
+        console.log("componentConfig.flowapi_editurl", componentConfig.flowapi_editurl);
+        if (componentConfig.flowapi_enable && componentConfig.flowapi_enable == true && componentConfig.flowapi_editurl) {
+            const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
+            $flowEnabledFireBallDiv.append(`
+                <a 
+                    class="flow-enabled-fire-ball-button lightening-icon-enabled" 
+                    id="lightningIcon"
+                    style="cursor:pointer"
+                    href="${componentConfig.flowapi_editurl}" 
+                    target="_blank" 
+                >
+                    ${ns.lightningChargeFill}
+                </a>
+            `);
+            
+            $component.append($flowEnabledFireBallDiv[0]);
+        }else if(componentConfig && componentConfig.flowapi_enable == false){
+            const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
+            $flowEnabledFireBallDiv.append(`
+                <div
+                    class="flow-enabled-fire-ball-button lightening-icon-disabled" 
+                    id="lightningIcon"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Flow is not enabled"
+                >
+                    ${ns.lightningCharge}
+                </div>
+            `);
+            
+            $component.append($flowEnabledFireBallDiv[0]);
+        }
     };
 
     //find all selectors and run callbackFn
@@ -137,24 +143,23 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         var elements = document.querySelectorAll(selector);
         for (var i = 0; i < elements.length; i++) {
             //set init attribute to true
+            console.log("initComponentBySelector", selector, elements[i]);
             ns.setInitAttribute(elements[i]);
+            ns.initComponentActionIcons($(elements[i]));
             callbackFn($(elements[i]));
         }
     }
 
     ns.setInitAttribute = (node) => {
-        if (ns.isJQuery(node)) {
-            node.attr(ns.attributeInit, "true");
-        } else {
-            node.setAttribute(ns.attributeInit, "true");
-        }
+        node.setAttribute(ns.attributeInit, "true");
     }
 
     ns.isInitAttribute = (node) => {
-        if (ns.isJQuery(node)) {
-            return node.attr(ns.attributeInit) == "true";
+        let initAttr = node.getAttribute(ns.attributeInit);
+        if (initAttr == null || initAttr == undefined) {
+            return false;
         } else {
-            return node.getAttribute(ns.attributeInit) == "true";
+            return initAttr === "true";
         }
     }
 
@@ -178,12 +183,13 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
                 nodesArray.forEach(function(addedNode) {
                     // check if current node matches selector
                     if (addedNode.matches && addedNode.matches(selector)) {
-                        console.log("addedNode - matches selector", selector, addedNode);
+                        console.log("addedNode - matches selector", selector, addedNode, ns.isInitAttribute(addedNode));
                         if (ns.isInitAttribute(addedNode)) {
                             console.warn("addedNode - already initialized", selector);
-                            return;
+                            //return;
                         }
                         ns.setInitAttribute(addedNode);
+                        ns.initComponentActionIcons($(addedNode));
                         callbackFn($(addedNode));
                     }
 
@@ -191,12 +197,13 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
                     if (addedNode.querySelectorAll) {
                         var elementsArray = [].slice.call(addedNode.querySelectorAll(selector));
                         elementsArray.forEach(function(element) {
-                            console.log("element - child node added", selector);
+                            console.log("element - child node added", selector, ns.isInitAttribute(element));
                             if (ns.isInitAttribute(element)) {
                                 console.warn("element - already initialized", selector);
-                                return;
+                                //return;
                             }
                             ns.setInitAttribute(addedNode);
+                            ns.initComponentActionIcons($(element));
                             callbackFn($(element));
                         });
                     }
@@ -256,5 +263,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
       }
     }
 
-    ns.init();
+    // ns.init();
+    ns.watchDOMForComponent(`${ns.selectorComponent}`, ns.init);
+
 })(jQuery, window.Typerefinery.Components, window.Typerefinery.VueData, document, window);
