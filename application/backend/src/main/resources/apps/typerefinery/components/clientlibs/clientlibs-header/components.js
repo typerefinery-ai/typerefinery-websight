@@ -97,11 +97,11 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 
     ns.initComponentActionIcons = ($component) => { 
         //TODO: this needs to be done with just a css class     
-        console.log("initComponentActionIcons", $component);  
+        // console.log("initComponentActionIcons", $component);  
         const componentConfig = ns.getComponentConfig($component);
-        console.log("componentConfig", componentConfig);
-        console.log("componentConfig.flowapi_enable", componentConfig.flowapi_enable);
-        console.log("componentConfig.flowapi_editurl", componentConfig.flowapi_editurl);
+        // console.log("componentConfig", componentConfig);
+        // console.log("componentConfig.flowapi_enable", componentConfig.flowapi_enable);
+        // console.log("componentConfig.flowapi_editurl", componentConfig.flowapi_editurl);
         if (componentConfig.flowapi_enable && componentConfig.flowapi_enable == true && componentConfig.flowapi_editurl) {
             const $flowEnabledFireBallDiv = $('<div class="flow-enabled-fire-ball-container"></div>');
             $flowEnabledFireBallDiv.append(`
@@ -143,7 +143,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
         var elements = document.querySelectorAll(selector);
         for (var i = 0; i < elements.length; i++) {
             //set init attribute to true
-            console.log("initComponentBySelector", selector, elements[i]);
+            // console.log("initComponentBySelector", selector, elements[i]);
             ns.setInitAttribute(elements[i]);
             ns.initComponentActionIcons($(elements[i]));
             callbackFn($(elements[i]));
@@ -183,10 +183,10 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
                 nodesArray.forEach(function(addedNode) {
                     // check if current node matches selector
                     if (addedNode.matches && addedNode.matches(selector)) {
-                        console.log("addedNode - matches selector", selector, addedNode, ns.isInitAttribute(addedNode));
+                        // console.log("addedNode - matches selector", selector, addedNode, ns.isInitAttribute(addedNode));
                         if (ns.isInitAttribute(addedNode)) {
-                            console.warn("addedNode - already initialized", selector);
-                            //return;
+                            // console.warn("addedNode - already initialized", selector);
+                            return;
                         }
                         ns.setInitAttribute(addedNode);
                         ns.initComponentActionIcons($(addedNode));
@@ -197,10 +197,10 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
                     if (addedNode.querySelectorAll) {
                         var elementsArray = [].slice.call(addedNode.querySelectorAll(selector));
                         elementsArray.forEach(function(element) {
-                            console.log("element - child node added", selector, ns.isInitAttribute(element));
+                            // console.log("element - child node added", selector, ns.isInitAttribute(element));
                             if (ns.isInitAttribute(element)) {
-                                console.warn("element - already initialized", selector);
-                                //return;
+                                // console.warn("element - already initialized", selector);
+                                return;
                             }
                             ns.setInitAttribute(addedNode);
                             ns.initComponentActionIcons($(element));
@@ -229,11 +229,15 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
 
       console.groupCollapsed("onDocumentReady for " + selector + " on " + pagePath);
 
-      console.log("initComponentBySelector", selector);
-      ns.initComponentBySelector(selector, callbackFn);
-      console.log("observeDOMForSelector", selector);
-      ns.observeDOMForSelector(selector, callbackFn);
-      console.log("onDocumentReady done");
+        console.groupCollapsed("initComponentBySelector", selector);
+            ns.initComponentBySelector(selector, callbackFn);
+        console.groupEnd();
+
+        console.groupCollapsed("observeDOMForSelector", selector);
+            ns.observeDOMForSelector(selector, callbackFn);
+        console.groupEnd();
+
+        console.log("onDocumentReady done");
 
       console.groupEnd();
 
