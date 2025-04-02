@@ -19,3 +19,102 @@
 field:has(> div > input[type=hidden]) {
   display: none;
 }
+
+/* form/field invalid state */
+form-control:invalid {
+    background-color: rgb(255 1 1 / 5%);
+    border: 1px dashed rgb(255 1 1 / 20%);
+}
+
+.field-invalid-name-pulse {
+    animation: field-invalid-name-pulse 1s infinite;
+}
+
+.field-invalid-id-pulse {
+    animation: field-invalid-id-pulse 1s infinite;
+}
+  
+
+@-webkit-keyframes field-invalid-name-pulse {
+    0% {
+        background-color: rgb(255 1 1 / 5%);
+        border: 1px dashed rgb(255 1 1 / 20%);
+    }
+    50% {
+        background-color: rgb(255 1 1 / 10%);
+        border: 1px dashed rgb(255 1 1 / 40%);
+    }
+    100% {
+        background-color: rgb(255 1 1 / 5%);
+        border: 1px dashed rgb(255 1 1 / 20%);
+    }
+}
+
+@keyframes field-invalid-name-pulse {
+    0% {
+        background-color: rgba(255, 1, 1, 0.05);
+        border: 1px dashed rgb(255 1 1 / 20%);
+    }
+    50% {
+        background-color: rgb(255 1 1 / 10%);
+        border: 1px dashed rgb(255 1 1 / 40%);
+    }
+    100% {
+        background-color: rgb(255 1 1 / 5%);
+        border: 1px dashed rgb(255 1 1 / 20%);
+    }
+}
+
+@-webkit-keyframes field-invalid-id-pulse {
+    0% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted dotted dotted solid;
+        border-width: 3px ;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    50% {
+        /* background-color: rgb(255 1 1 / 10%); */
+        border-style: solid dotted dotted dotted;
+        border-width: 3px ;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    75% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted solid dotted dotted;
+        border-width: 3px ;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    100% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted dotted solid dotted;
+        border-width: 3px ;
+        border-color: rgb(255 1 1 / 40%);
+    }
+}
+
+@keyframes field-invalid-id-pulse {
+    0% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted dotted dotted solid;
+        border-width: 3px;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    50% {
+        /* background-color: rgb(255 1 1 / 10%); */
+        border-style: solid dotted dotted dotted;
+        border-width: 3px;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    75% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted solid dotted dotted;
+        border-width: 3px;
+        border-color: rgb(255 1 1 / 40%);
+    }
+    100% {
+        /* background-color: rgb(255 1 1 / 5%); */
+        border-style: dotted dotted solid dotted;
+        border-width: 3px ;
+        border-color: rgb(255 1 1 / 40%);
+    }
+}

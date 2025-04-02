@@ -125,7 +125,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                     if (result[name]) {
                         console.warn(`Select value ${name} is already present in result object.`);
                     }
-                                        
+
                     result[name] = selectNs.getValue(id);
                     if (addFieldHint) {
                       ns.addFieldHint($input, name, id);
@@ -332,6 +332,46 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         }
     };
 
+    /**
+     * submit a form with callbacks
+     * @param {*} $component 
+     * @param {*} successCallback 
+     * @param {*} errorCallback 
+     * @returns 
+     */
+    ns.submitForm = async ($component, successCallback = ($component, componentConfig, payload) => { }, errorCallback = ($component, componentConfig, payload) => { }) => {
+        const componentConfig = componentNs.getComponentConfig($component);
+        console.log(["formSubmitHandler", componentConfig, $component])
+        let { writePayloadType, writeMethod, writeUrl } = componentConfig;
+        if (!writeUrl) {
+          ns.FORM_CANCEL($component, componentConfig, {data: componentConfig, reason: "Form has not been configured properly."});
+          console.log("Post URL not set can't continue.");
+          return;
+        }
+        //do default JSON and POST if not set
+        if (!writePayloadType || !writeMethod ) {
+            writePayloadType = "application/json";
+            writeMethod = "POST";
+            console.warn("Payload type or method not set, defaulting to JSON and POST.");
+            // return;
+        }
+        const payload = await ns.getFormData($component);
+
+        //TODO: do form validation here and cancel the request if validation fails
+        writeUrl = componentNs.replaceRegex(writeUrl, componentNs.getQueryParams());
+
+        if (writePayloadType === "application/json") {
+            ns.FORM_SUBMIT($component, componentConfig, payload);
+            await ns.submit($component, componentConfig, writeUrl, writeMethod, writePayloadType, JSON.stringify(payload), successCallback, errorCallback);
+        } else if (writePayloadType === "application/x-www-form-urlencoded") {
+            const formData = new URLSearchParams();
+            Object.entries(payload).map(item => {
+                formData.append(item[0], item[1])
+            });
+            ns.FORM_SUBMIT($component, componentConfig, formData);
+            await ns.submit($component, componentConfig, writeUrl, writeMethod, writePayloadType, formData.toString(), successCallback, errorCallback);    
+        }
+    }
 
     // form submit handler
     ns.formSubmitHandler = async ($component) => {
@@ -371,7 +411,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
               componentConfig = componentNs.getComponentConfig($component);
           }
           const $formComponents = $component.findExclude(`${ns.selectorInput},${compositeNs.selector}`,compositeNs.selector);
-          console.group("loadData");
+          console.groupCollapsed("form loadData");
           console.log(["loadData", $component, data, componentConfig, $formComponents]);
 
           // if data is not passed then return
@@ -719,7 +759,8 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
-        console.groupCollapsed("forms init");
+        const id = componentConfig.id;
+        console.groupCollapsed(`forms init ${id}`);
         console.log(["config", componentConfig, $component, ns.eventMap]);
         if (Object.keys(componentConfig).length === 0) {
             console.error("Component config of form component is missing");
@@ -741,15 +782,88 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         //highlight fields with same ids
         const isEditMode = $("body").hasClass("isEditMode");
 
+        console.log("isEditMode", isEditMode);
+
         if (isEditMode) {
-          $("form [id]").each( function () {
-            const fieldId = $(this).attr("id"); 
-            const duplicates = $('form [id='+fieldId+']'); 
-            if (duplicates.length > 1) { 
-              duplicates.css("background-color","rgb(255 1 1 / 5%)")
-                .css("border","1px dashed rgb(255 1 1 / 20%)");
-            } 
-          })
+            // check all fields for duplicate ids and names once the form is loaded
+            const fieldIds = [];
+            const fieldNames = [];
+            console.log("checking form for duplicate ids and names");
+            $component.find(".form-control[name],.form-control[id]").each(function() {
+                let field = this;
+                let fieldId = $(this).attr("id");
+                let fieldName = $(this).attr("name");
+                let customValidityMessage = "";
+                let isDuplicateId = false;
+                let isDuplicateName = false;
+
+                console.log("checking field", fieldId, fieldName, field, $(this));
+                // if id is already in the array then highlight every field with that id
+                if (fieldIds.includes(fieldId)) {
+                    isDuplicateId = true;
+                    // set setCustomValidity
+                    customValidityMessage = "Field id is already in use.";
+
+                    console.error("duplicate id", fieldId, $(this));
+                }
+                fieldIds.push(fieldId);
+
+                // if name is already in the array then highlight every field with that name
+                if (fieldNames.includes(fieldName)) {
+                    isDuplicateName = true;
+                    // set setCustomValidity
+                    customValidityMessage = (customValidityMessage == "" ? " ": "") + "Field name is already in use.";
+
+                    console.error("duplicate name", fieldName, $(this));
+
+                    // //set css class field-invalid-name-pulse
+                    // $(`[name="${fieldName}"]`).addClass("field-invalid-name-pulse");
+                }
+                fieldNames.push(fieldName);
+
+                if (isDuplicateName) {
+                    //set setCustomValidity for each field with same name
+                    console.group("setting custom validity by name " + fieldName);
+                    $(`[name="${fieldName}"]:not([data-invalid])`).each(function() {
+                        let anyField = this;
+                        console.log("field name", fieldName, anyField, $(anyField));
+
+                        $(anyField).addClass("field-invalid-name-pulse");
+                        //set attribute data-invalid
+                        $(anyField).attr("data-invalid", "true");
+                        //set setCustomValidity
+                        try {
+                            anyField.setCustomValidity(customValidityMessage);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    });
+                    console.groupEnd();
+                } 
+
+                //TODO: create showcase for this as its not possible using authoring
+                if (isDuplicateId) {
+                    //set setCustomValidity for each field with same id
+                    console.group("setting custom validity by id " + fieldId);
+                    $(`[id="${fieldId}"]:not([data-invalid]`).each(function() {
+                        let anyField = this;
+                        console.log("field id", fieldId, anyField, $(anyField));
+    
+                        $(anyField).addClass("field-invalid-id-pulse");
+                        //set attribute data-invalid
+                        $(anyField).attr("data-invalid", "true");
+                        //set setCustomValidity
+                        try {
+                            anyField.setCustomValidity(customValidityMessage);
+                        } catch (error) {
+                            console.error(error);
+                        }                        
+                    });
+                    console.groupEnd();
+                } 
+
+            });
+            console.log("checking form for duplicate ids and names done", fieldIds, fieldNames);      
         }
 
         console.groupEnd();
