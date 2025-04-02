@@ -7,7 +7,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 (function ($, ns, formNs, document, window) {
 
 
-    ns.eventNameShowModal = "tr.moodal.show";
+    ns.eventNameShowModal = "tr.modal.show";
     ns.classButtonMaximise = "btn-maximize";
     ns.selectorButtonMaximise = `.${ns.classButtonMaximise}`;
     ns.classCancelButton = "btn-secondary";
@@ -59,7 +59,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       let hideFooter = options.hideFooter || false;
       let saveChangesText = options.saveChangesText || "Save Changes";
       let labelCancel = options.saveChangesText || "Cancel";
-      let loadingText = options.loadingText || "Loading...";
+      let labelMaximise = options.labelMaximise || "Maximise";
+      let labelMinimise = options.labelMinimise || "Minimise";
+      let labelStatusLoading = options.loadingText || "Loading...";
       let labelStatusSubmitting = options.labelStatusSubmitting || "Submitting...";
       let labelStatusSubmitted = options.labelStatusSubmitted || "Submitted";
       let labelStatusError = options.labelStatusError || "Error";
@@ -69,7 +71,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
                   <div class="modal-header">
                       <h5 class="modal-title">${modalTitle}</h5>
                       <div class="modal-header-icons">
-                        <button type="button" class="${ns.classButtonMaximise}">
+                        <button type="button" class="${ns.classButtonMaximise}" aria-label="${labelMaximise}" labelMaximise="${labelMaximise}" labelMinimise="${labelMinimise}">
                           <i class="icon pi pi-window-maximize"></i>
                         </button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${labelCancel}">
@@ -79,7 +81,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
                   <div class="modal-body">
                       <div class="status ${ns.classStatusLoader}">
                           <div class="spinner-border" role="status">
-                            <span class="visually-hidden">${loadingText}</span>
+                            <span class="visually-hidden">${labelStatusLoading}</span>
                           </div>
                       </div>
                       <div class="status ${ns.classStatusSubmitting}">
@@ -117,6 +119,18 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       `;
     };
 
+    ns.showStatus = ($modal, statusSelector) => {
+        console.groupCollapsed('showStatus');
+        console.log(["status", statusSelector]);
+
+        // hide the loaders
+        $modal.find(ns.selectorStatus).hide();
+        // show submitted message
+        $modal.find(statusSelector).css('display', 'flex');
+
+        console.groupEnd();
+    }
+
     ns.addModelListners = ($modal) => {
       ns.addModalMaximiseListener($modal);
       ns.addModalSubmitListener($modal);
@@ -127,10 +141,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_SUCCESS, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
         console.log("form submitted");
         console.log(["$modal", $modal, "data", data]);
-        // hide the loaders
-        $modal.find(ns.selectorStatus).hide();
-        // show submitted message
-        $modal.find(ns.selectorStatusSubmitted).show();
+
+        ns.showStatus($modal, ns.selectorStatusSubmitted);
   
         // hide the modal after 2 seconds
         setTimeout(() => {
@@ -140,10 +152,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_CANCEL, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
         console.log("form cancelled");
         console.log(["$modal", $modal, "data", data]);
-        // hide the loaders
-        $modal.find(ns.selectorStatus).hide();
-        // show called message
-        $modal.find(ns.selectorStatusError).show();
+
+        ns.showStatus($modal, ns.selectorStatusError);
   
         // hide the modal after 2 seconds
         setTimeout(() => {
@@ -155,11 +165,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_ERROR, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
         console.log("form submitted");
         console.log(["$modal", $modal, "data", data]);
-        // hide the loaders
-        $modal.find(ns.selectorStatus).hide();
-        // show error message
-        $modal.find(ns.selectorStatusError).show();
-  
+
+        ns.showStatus($modal, ns.selectorStatusError);
+
         // hide the modal after 2 seconds
         setTimeout(() => {
           ns.closeModal($modal);
@@ -175,12 +183,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         e?.stopPropagation();
         console.log("submit clicked");
 
-        // hide all status
-        $modal.find(ns.selectorStatus).hide();
-        // hide form
+        // hide frame
         $modal.find(ns.selectorFrame).hide();
-        // show submitting status
-        $modal.find(ns.selectorStatusSubmitting).show();
+
+        ns.showStatus($modal, ns.selectorStatusSubmitting);
 
         let formOnSameDomain = false;
         try {
@@ -223,7 +229,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         console.log(`modal opened ${$modal.attr('id')}`);
         //if modal has iframe then show loader
         if($modal.find(ns.selectorFrame).length > 0) {
-          $modal.find(ns.selectorStatusLoader).show();
+            ns.showStatus($modal, ns.selectorStatusLoader);
         }
       });
     };
@@ -246,7 +252,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         console.log("maximize clicked");
         e?.preventDefault();
         e?.stopPropagation();  
-        ns.maximiseModal($modal);
+        ns.maximiseModalToggle($modal);
+
+        $(this).blur();
+
         // let $modalDialog = $(this).find(ns.selectorModalDialog);
         // if($modalDialog.length === 0) {
         //     return;
@@ -265,8 +274,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
     ns.addModalLoaderEventListener = ($modal) => {
       console.log("adding loader event listener for modal");
-      //show loader when modal is opened
-      $modal.find(ns.selectorStatusLoader).show();
+
+      ns.showStatus($modal, ns.selectorStatusLoader);
 
       let iframe = $modal.find(ns.selectorFrame).get(0);
       
@@ -281,10 +290,9 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
           frameStatusAccessed = true;
           if (frameStatus !== 200) {
             console.log("iframe loaded with error status", frameStatus);
-            // hide the loaders
-            $modal.find(ns.selectorStatus).hide();
-            // show error message
-            $modal.find(ns.selectorStatusError).show();
+
+            ns.showStatus($modal, ns.selectorStatusError);
+
             //enable the save button
             $modal.find(ns.selectorSaveButton).prop('disabled', true);
             return;
@@ -314,9 +322,14 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       }, true);
     };  
 
-    ns.maximiseModal = ($modal, force) => {
+    /**
+     * Toggle the modal  to maximise or minimise
+     * @param {*} $modal 
+     * @param {*} force 
+     */
+    ns.maximiseModalToggle = ($modal, force) => {
 
-      console.group(`maximiseModal`, $modal);
+      console.group(`maximiseModalToggle`, $modal);
       let $modalDialog = $modal.find(ns.selectorModalDialog);
       console.log(["$modal", $modal, "$modalDialog", $modalDialog]);
       //quick check if modal dialog is available
@@ -339,13 +352,17 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             //toggle maximise
             let $modalIcon = $maximiseButton.find(ns.selectorIcon);
             if($modalIcon.length === 0) {
-              console.log("icon not found");
-              $modalDialog.toggleClass("modal-fullscreen");
+                console.log("icon not found");
+                $modalDialog.toggleClass("modal-fullscreen");
             } else {
-              console.log("icon found");
-              $modalDialog.toggleClass("modal-fullscreen");
-              $modalIcon.toggleClass("pi-window-maximize pi-window-minimize");
+                console.log("icon found");
+                $modalDialog.toggleClass("modal-fullscreen");
+                $modalIcon.toggleClass("pi-window-maximize pi-window-minimize");
             }
+            // get new label from button
+            let label = $maximiseButton.attr("labelMaximise");
+            // set new aria-label
+            $maximiseButton.attr("aria-label", label);            
           } else {
             console.log("modal is already maximised");
             //minimise modal
@@ -354,6 +371,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             if($modalIcon.length > 0) {
               $modalIcon.toggleClass("pi-window-minimize pi-window-maximize");
             }
+            // get new label from button
+            let label = $maximiseButton.attr("labelMinimise");
+            // set new aria-label
+            $maximiseButton.attr("aria-label", label);
           }
         } else {
           console.log("modal is not visible");
@@ -374,8 +395,6 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       console.log("registering modal");
       const iFrameContentWindow = $modal.find("iframe")[0].contentWindow;
       console.log(["windowListeneriFrameEvent", iFrameContentWindow]);
-      //show loader when modal is opened
-      let iframe = $modal.find(ns.selectorFrame).get(0);
       //listen for global message events that are emited by iframe
       let modalId = $modal.attr('id');
       let eventHandlerId = ns.generateEventControllerId(modalId, name);
@@ -533,10 +552,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       iframe.addEventListener('error', function () {
         $modal.find(ns.selectorFrame).hide();
         console.log("iframe error");
-        // hide the loaders
-        $modal.find(ns.selectorStatus).hide();
-        // show error message
-        $modal.find(ns.selectorStatusError).show();
+
+        ns.showStatus($modal, ns.selectorStatusError);
       }, true);   
 
       try {
@@ -545,10 +562,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
           iframe.contentWindow.addEventListener("error", function () {
             $modal.find(ns.selectorFrame).hide();
             console.log("iframe error");
-            // hide the loaders
-            $modal.find(ns.selectorStatus).hide();
-            // show error message
-            $modal.find(ns.selectorStatusError).show();
+
+            ns.showStatus($modal, ns.selectorStatusError);
           });
         } else {
           console.log("iframe.contentWindow does not exist.");
