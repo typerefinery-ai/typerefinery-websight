@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="VizAndForm"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-09-23T16:44:03.837+10:00"
+        ws:lastModified="{Date}2025-02-18T21:38:42.604+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -147,11 +147,19 @@
                                 <_x0031_0
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
-                                    config="\{&quot;source&quot;:&quot;https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stix/identity/update.html&quot;,&quot;method&quot;:&quot;post&quot;}"
+                                    config="\{&quot;source&quot;:&quot;https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stix/identity/update.html?test={{payload.type}}&quot;,&quot;method&quot;:&quot;post&quot;}"
                                     name="updateaction"
                                     nameCustom="\0"
                                     topic="viz-open-form-identity"
                                     type="emit"/>
+                                <_x0031_1
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REFRESH"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="notifydatarefresh"
+                                    topic="notifydatarefresh"
+                                    type="listen"/>
                             </_events_>
                         </embed>
                     </container>

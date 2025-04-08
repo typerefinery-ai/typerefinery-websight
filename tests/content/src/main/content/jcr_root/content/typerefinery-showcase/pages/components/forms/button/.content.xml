@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Button"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-11-10T21:46:05.867+11:00"
+        ws:lastModified="{Date}2025-02-27T14:14:30.638+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
@@ -46,18 +46,68 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
                             buttonStyle="primary"
+                            buttonType="navigate"
+                            classes="\0"
+                            flexEnabled="false"
+                            hideButtonLabel="false"
                             id="button_1_2_OW6WKNSTH"
+                            isOutlinedButton="false"
                             label="Navigate"
                             lgColSize="3"
-                            persistColorWhenThemeSwitches="{Boolean}true"/>
+                            navigateTo="/content/typerefinery-showcase/pages/components/forms/button/button-action-navigate/"
+                            navigateToInNewWindow="false"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
+                            title="\0"/>
+                        <button_1_3_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/button"
+                            actionModalTitle="Open Modal"
+                            actionType="openModal"
+                            actionUrl="/content/typerefinery-showcase/pages/components/forms/button/button-action-open-modal/"
+                            buttonStyle="primary"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
+                            hideButtonLabel="false"
+                            hideFooter="false"
+                            id="button_1_3_JW0VM4RRH"
+                            isOutlinedButton="false"
+                            label="Action"
+                            lgColSize="3"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
+                            title="\0"
+                            variant="\0"/>
                         <button_1_3
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
+                            actionModalTitle="Open Modal"
+                            actionType="openModal"
+                            actionUrl="http://localhost:8113/content/typerefinery-showcase/pages/components/forms/button/button-action-open-modal.html"
                             buttonStyle="primary"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
+                            hideButtonLabel="false"
+                            hideFooter="false"
                             id="button_1_3_JW0VM4RRH"
-                            label="Action"
+                            isOutlinedButton="false"
+                            label="Action on External Domain"
                             lgColSize="3"
-                            persistColorWhenThemeSwitches="{Boolean}true"/>
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
+                            title="\0"
+                            variant="\0"/>
                     </container_1>
                     <container_2
                         jcr:primaryType="nt:unstructured"
@@ -485,4 +535,6 @@
             </container>
         </rootcontainer>
     </jcr:content>
+    <button-action-navigate/>
+    <button-action-open-modal/>
 </jcr:root>

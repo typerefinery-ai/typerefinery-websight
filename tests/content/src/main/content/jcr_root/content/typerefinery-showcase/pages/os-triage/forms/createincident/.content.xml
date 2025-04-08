@@ -137,6 +137,7 @@
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/radio"
+                                    id="field_IERNHYTLS"
                                     title="Field"/>
                             </radio>
                         </container>

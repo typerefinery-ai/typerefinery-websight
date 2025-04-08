@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Form"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-04-16T11:42:12.775+10:00"
+        ws:lastModified="{Date}2025-04-02T21:17:35.440+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
@@ -27,12 +27,12 @@
                     borderEnabled="false"
                     classes="\0"
                     flexEnabled="false"
-                    flowapi_createdon="2024-02-07T22:56:52.025Z"
+                    flowapi_createdon="2025-02-03T11:25:11.517Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff19b3w001tj51d&amp;components="
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1kgsp005mi51d&amp;components="
                     flowapi_enable="true"
                     flowapi_error="null"
-                    flowapi_flowstreamid="f19b3w001tj51d"
+                    flowapi_flowstreamid="f1kgsp005mi51d"
                     flowapi_group="/content/typerefinery-showcase/pages/components/forms/_jcr_content/rootcontainer/container/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/_jcr_content/rootcontainer/container/form/{{id}}"
                     flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/_jcr_content/rootcontainer/container/form"
@@ -619,6 +619,91 @@
                         persistColorWhenThemeSwitches="{Boolean}true"
                         type="submit"/>
                 </form>
+                <container_2
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_2_LROKDJK41"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="Invalid Form"
+                    variant="sectionwithtitle">
+                    <form
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/form"
+                        flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
+                        flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                        id="form_W8ZARZ7GC">
+                        <input_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input"
+                            id="input_1_LHN1944UB">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_PJBRJO9HY"
+                                label="duplicate name"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_XPDOAC6ZY"
+                                label="Input"
+                                name="duplicatename"/>
+                        </input_1>
+                        <input
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input"
+                            id="input_UBXZ8C9EL">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_JED9KPZSC"
+                                label="duplicate name"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_LPGFPF1Z4"
+                                label="Input"
+                                name="duplicatename"/>
+                        </input>
+                        <input_3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input"
+                            id="input_3_WJO6EJIIX">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_3BL2F6D2A"
+                                label="duplicate id"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="duplicateid"
+                                label="Input"
+                                name="duplicateid1"/>
+                        </input_3>
+                        <input_2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input"
+                            id="input_2_QAIVUY9BD">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_RMXSUUUGA"
+                                label="duplicate id"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="duplicateid"
+                                label="Input"
+                                name="duplicateid2"/>
+                        </input_2>
+                    </form>
+                </container_2>
             </container>
         </rootcontainer>
     </jcr:content>

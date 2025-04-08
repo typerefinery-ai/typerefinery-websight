@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Identity1"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-10-08T01:42:35.698+11:00"
+        ws:lastModified="{Date}2025-03-24T22:17:51.621+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -273,12 +273,12 @@
                     borderEnabled="false"
                     classes="\0"
                     flexEnabled="false"
-                    flowapi_createdon="2024-10-07T06:15:35.605Z"
+                    flowapi_createdon="2025-02-03T11:25:10.125Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1gsc3001rn51d&amp;components="
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1kgsp004mi50d&amp;components="
                     flowapi_enable="true"
                     flowapi_error="null"
-                    flowapi_flowstreamid="f1gsc3001rn51d"
+                    flowapi_flowstreamid="f1kgsp004mi50d"
                     flowapi_group="/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form/{{id}}"
                     flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/identity1/_jcr_content/rootcontainer/main/form"
@@ -855,7 +855,7 @@
                                     id="field_LQ0GSLXMV"
                                     inputType="field"
                                     label="Composite Field"
-                                    name="base_optional">
+                                    name="object">
                                     <container
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="typerefinery/components/layout/container"
@@ -925,8 +925,8 @@
                                                     id="field_JXFDEO92I"
                                                     inputType="string"
                                                     label="Field"
-                                                    name="description"
-                                                    placeholder="description"/>
+                                                    name="name"
+                                                    placeholder="name"/>
                                             </string_1>
                                             <vocab
                                                 jcr:primaryType="nt:unstructured"

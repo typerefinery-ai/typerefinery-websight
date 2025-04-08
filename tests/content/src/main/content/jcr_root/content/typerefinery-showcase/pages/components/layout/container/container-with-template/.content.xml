@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Container with Template"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-11-10T22:00:04.781+11:00"
+        ws:lastModified="{Date}2024-11-20T14:38:57.013+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"

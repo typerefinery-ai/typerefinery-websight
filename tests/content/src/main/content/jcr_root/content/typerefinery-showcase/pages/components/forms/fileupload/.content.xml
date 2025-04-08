@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="File Upload"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2023-05-02T19:18:47.090+05:30"
+        ws:lastModified="{Date}2025-02-20T20:51:46.702+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -35,7 +35,22 @@
                     borderEnabled="false"
                     classes="card"
                     flexEnabled="false"
+                    flowapi_createdon="2025-02-18T11:38:21.235Z"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1kxh2001nj51d&amp;components="
                     flowapi_enable="true"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f1kxh2001nj51d"
+                    flowapi_group="/content/typerefinery-showcase/pages/components/forms/fileupload/_jcr_content/rootcontainer/main/form"
+                    flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/fileupload/_jcr_content/rootcontainer/main/form/{{id}}"
+                    flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/fileupload/_jcr_content/rootcontainer/main/form"
+                    flowapi_iscontainer="{Boolean}false"
+                    flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
+                    flowapi_success="true"
+                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                    flowapi_title="Form flow"
+                    flowapi_topic="form_1dc72de434664922afe595e41a910731"
+                    flowapi_websocketurl="wss://tms.typerefinery.localhost:8101/$tms"
                     id="form_HOONAO6IC"
                     marginEnabled="false"
                     paddingEnabled="false"
@@ -69,10 +84,30 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/fileupload"
                             accept="*"
+                            borderEnabled="false"
+                            classes="\0"
+                            disabled="false"
                             id="field_SR49PTSR3"
+                            marginEnabled="false"
+                            multiple="true"
                             name="dragAndDrop"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            roleOther="\0"
                             title="Field"
-                            variant="DRAG_AND_DROP"/>
+                            validationRequired="false"
+                            variant="DRAG_AND_DROP">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="FILEUPLOAD_CHANGE"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="addfile"
+                                    topic="addfile"
+                                    type="emit"/>
+                            </_events_>
+                        </field>
                     </fileupload_1>
                     <button
                         jcr:primaryType="nt:unstructured"

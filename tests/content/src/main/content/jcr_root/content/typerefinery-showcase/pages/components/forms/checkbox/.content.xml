@@ -7,67 +7,109 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Checkbox"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2025-02-04T01:20:18.257+11:00"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
             <header
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/header"/>
+                sling:resourceType="typerefinery/components/layout/header"
+                id="header_M6P4N724Q"/>
             <container
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/container">
+                sling:resourceType="typerefinery/components/layout/container"
+                id="container_BE0NCQ0JO">
                 <form1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
+                    flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
+                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     id="form1_VWML1OGNY">
                     <title
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/content/title"
                         headingSize="h4"
+                        id="title_4LHESSSAI"
                         title="Checkbox With Label"/>
                     <label1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/fields/label"
+                        id="label1_DJLBBM9PB"
                         label="Select User Tech Skill"/>
                     <checkbox_1
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/checkbox">
+                        sling:resourceType="typerefinery/components/forms/checkbox"
+                        id="checkbox_1_B3R8JP0BT">
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
-                            label="Vue JS"/>
+                            id="label_2YKE1QFCC"
+                            label="Check 1"/>
                         <field
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/checkbox"/>
+                            sling:resourceType="typerefinery/components/forms/fields/checkbox"
+                            borderEnabled="false"
+                            classes="\0"
+                            disabled="false"
+                            id="field_WWD0ZK9HK"
+                            marginEnabled="false"
+                            name="checkboxwithlabel"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            roleOther="\0"
+                            validationRequired="false"
+                            value="value1">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="CHECKBOX_CHANGE"
+                                    config="\0"
+                                    name="updateitem"
+                                    nameCustom="testcheckboxchange"
+                                    topic="test"
+                                    type="emit"/>
+                            </_events_>
+                        </field>
                     </checkbox_1>
                     <checkbox_2
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/checkbox">
+                        sling:resourceType="typerefinery/components/forms/checkbox"
+                        id="checkbox_2_K3YHY8PCB">
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
-                            label="React"/>
+                            id="label_JIKRQGIAW"
+                            label="Check 2"/>
                         <field
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/checkbox"/>
+                            sling:resourceType="typerefinery/components/forms/fields/checkbox"
+                            id="field_HVDDTEPDP"
+                            name="checkboxwithlabel"
+                            value="value2"/>
                     </checkbox_2>
                     <title2
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/content/title"
                         headingSize="h4"
+                        id="title2_CKJ97ZS7Z"
                         title="Checkbox With Hidden Label"/>
                     <checkbox_3
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/checkbox">
+                        sling:resourceType="typerefinery/components/forms/checkbox"
+                        id="checkbox_3_1BDDJQKSJ">
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             hideLabel="true"
+                            id="label_SHBLGTVMG"
                             label="Subscribe"/>
                         <field
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/checkbox"/>
+                            sling:resourceType="typerefinery/components/forms/fields/checkbox"
+                            id="field_3EA9RBS2G"
+                            name="checkboxonly"/>
                     </checkbox_3>
                 </form1>
             </container>

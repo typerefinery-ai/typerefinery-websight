@@ -7,25 +7,31 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Radio"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2025-02-04T01:47:08.587+11:00"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/fixedrootcontainer">
             <header
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/header"/>
+                sling:resourceType="typerefinery/components/layout/header"
+                id="header_MRRMXZCEV"/>
             <container
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/container">
+                sling:resourceType="typerefinery/components/layout/container"
+                id="container_ACX2RWRO4">
                 <form1
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
-                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json">
+                    flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                    id="form1_BG703DQMV">
                     <title
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/content/title"
                         headingLevel="XL"
+                        id="title_6XPMOSROG"
                         title="Radio"/>
                     <label1
                         jcr:primaryType="nt:unstructured"
