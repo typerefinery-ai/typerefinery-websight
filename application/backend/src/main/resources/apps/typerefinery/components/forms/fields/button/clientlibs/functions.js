@@ -148,6 +148,9 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         hideFooter: componentConfig.hideFooter,
                         backdropIsStatic: componentConfig.backdropIsStatic
                     };
+                    options.callbackFn = ($modal, data, message) => {
+                        console.log(["modal callback", $modal, data, message]);
+                    };
                     modalNs.createModalAndOpen($component, options);
                 } else {
                     ns.BUTTON_CLICK($component, componentConfig, { type: "button", action: "click" , "id": id } );
