@@ -4,7 +4,7 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 
-(function ($, ns, formNs, document, window) {
+(function ($, ns, formNs, eventsNs, document, window) {
 
 
     ns.eventNameShowModal = "tr.modal.show";
@@ -39,12 +39,15 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     ns.messageNameFormError = "ts.form.error";
     ns.messageNameFormUnknown = "ts.form.unknown";
 
+    ns.messageNameFormLoad = "ts.form.load";
+
     ns.MESSAGE_NAMES = {
       FORM_SUBMIT: ns.messageNameFormSubmit,
       FORM_SUCCESS: ns.messageNameFormSuccess,
       FORM_CANCEL: ns.messageNameFormCancel,
       FORM_ERROR: ns.messageNameFormError,
-      FORM_UNKNOWN: ns.messageNameFormUnknown
+      FORM_UNKNOWN: ns.messageNameFormUnknown,
+      FORM_LOAD: ns.messageNameFormLoad
     };
 
 
@@ -131,11 +134,12 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         console.groupEnd();
     }
 
-    ns.addModelListners = ($modal) => {
+    ns.addModelListners = ($modal, options) => {
+
       ns.addModalMaximiseListener($modal);
       ns.addModalSubmitListener($modal);
       ns.addModalCloseListener($modal);
-      ns.addModalLoaderEventListener($modal);
+      ns.addModalLoaderEventListener($modal, options.callbackFnData);
       ns.addModelOpenListener($modal);
       ns.addModalFrameErrorListener($modal);
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_SUCCESS, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
@@ -143,6 +147,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         console.log(["$modal", $modal, "data", data]);
 
         ns.showStatus($modal, ns.selectorStatusSubmitted);
+
+        if (options.callbackFn) {
+            options.callbackFn($modal, data, ns.MESSAGE_NAMES.FORM_SUCCESS);
+        }
   
         // hide the modal after 2 seconds
         setTimeout(() => {
@@ -155,6 +163,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
         ns.showStatus($modal, ns.selectorStatusError);
   
+        if (options.callbackFn) {
+            options.callbackFn($modal, data, ns.MESSAGE_NAMES.FORM_CANCEL);
+        }
+        
         // hide the modal after 2 seconds
         setTimeout(() => {
           ns.closeModal($modal);
@@ -167,6 +179,10 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
         console.log(["$modal", $modal, "data", data]);
 
         ns.showStatus($modal, ns.selectorStatusError);
+
+        if (options.callbackFn) {
+            options.callbackFn($modal, data, ns.MESSAGE_NAMES.FORM_ERROR);
+        }
 
         // hide the modal after 2 seconds
         setTimeout(() => {
@@ -272,7 +288,12 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       });
     };
 
-    ns.addModalLoaderEventListener = ($modal) => {
+    /**
+     * Add event listener for the modal to show loader when iframe is loading.
+     * @param {*} $modal modal element
+     * @param {*} callbackFnData callback to get data to be passed to the iframe.
+     */
+    ns.addModalLoaderEventListener = ($modal, callbackFnData) => {
       console.log("adding loader event listener for modal");
 
       ns.showStatus($modal, ns.selectorStatusLoader);
@@ -298,6 +319,13 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             return;
           } else {
             console.log("iframe loaded successfully");
+            if (callbackFnData) {
+              // send message to iframe to load data into the form, the form should already have the event listener to handle this event.
+              let data = callbackFnData();
+              const eventPayloadData = eventsNs.compileEventData(data, formNs.ACTIONS.FORM_LOAD, formNs.ACTIONS.FORM_LOAD, $modal.componentId, null);
+              console.log(["send eventPayloadData to iframe", eventPayloadData]);
+              ns.sendMessageToiFrame($modal, formNs.ACTIONS.FORM_LOAD, eventPayloadData);
+            }
           }
         } catch (e) {
           console.log("could not read frame status, iframe is from different origin.");
@@ -321,6 +349,45 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
 
       }, true);
     };  
+
+
+    //send message to iframe
+    ns.sendMessageToiFrame = function($component, action, eventData) {
+        console.group("sendMessageToiFrame on " + window.location);
+  
+        //ensure that eventData is object
+        var parsedEventData = eventData;
+        if (typeof parsedEventData === 'string') {
+          parsedEventData = JSON.parse( eventData );
+        }
+  
+        if (!parsedEventData) {
+          console.error("no data to send");
+          console.groupEnd();
+          return;
+        }
+  
+        // console.log(["sendMessageToiFrame", data]);
+        var $iframe = $component.find("iframe");
+        var iframe = $iframe[0];
+        console.log(["sendMessageToiFrame using postMessage", action, parsedEventData, $iframe, iframe]);
+        //if iframe does not have TypeRefinery then it will need to manage its own events
+        iframe.contentWindow.postMessage(parsedEventData, "*");
+  
+        console.log(["sendMessageToiFrame using postMessage, done"]);
+        //call events
+        //TODO: this will trigger CORS issue, disable to acoid double events?
+        // try {
+        //   if (iframe.contentWindow.Typerefinery.Page.Events) {
+        //     console.log(["sendMessageToiFrame using events call, expect possible cors issue."]);
+        //     const topic = sourceData.type;
+        //     iframe.contentWindow.Typerefinery.Page.Events.emitEvent(topic, sourceData);
+        //   }
+        // } catch (error) {
+        //   console.error("sendMessageToiFrame", error);
+        // }
+        console.groupEnd();
+      }
 
     /**
      * Toggle the modal  to maximise or minimise
@@ -704,16 +771,17 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       const modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
 
       console.log("adding modal listeners");
-      ns.addModelListners($modal);
+      ns.addModelListners($modal, options);
 
       console.log(["showing modal",modal]);
       modal.show();
 
-
+      
       console.groupEnd();
+      return $modal;
     };
 
     // Init a common modal controller for the page to listen to the showModal event that is dispatched from the iframe or other components that should not show modals.
     ns.initCommonModal();
 
-})(jQuery, Typerefinery.Modal, Typerefinery.Components.Forms.Form, document, window);
+})(jQuery, Typerefinery.Modal, Typerefinery.Components.Forms.Form, Typerefinery.Page.Events, document, window);
