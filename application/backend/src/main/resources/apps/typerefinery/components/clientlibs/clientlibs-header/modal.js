@@ -291,7 +291,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
     /**
      * Add event listener for the modal to show loader when iframe is loading.
      * @param {*} $modal modal element
-     * @param {*} callbackFnData callback to get data to be passed to the iframe.
+     * @param {*} callbackFnData($modal, data, message) callback to get data to be passed to the iframe.
      */
     ns.addModalLoaderEventListener = ($modal, callbackFnData) => {
       console.log("adding loader event listener for modal");
