@@ -54,7 +54,7 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
           // if (!obj.hasOwnProperty(key)) {
           // console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
           let jpName = "$." + key;
-          console.log("find key in object using json path", key, jpName, obj);
+          //console.log("find key in object using json path", key, jpName, obj);
           let value = ns.jsonPath(obj, jpName);
           // return first value if found
           if (value.length > 0) {
