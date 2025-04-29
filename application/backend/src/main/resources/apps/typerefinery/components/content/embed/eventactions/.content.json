@@ -24,5 +24,10 @@
     "sling:resourceType": "nt:unstructured",
     "key": "DATA_REFRESH",
     "value": "Data Refresh"
+  },
+  "open_form_modal": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "OPEN_FORM_MODAL",
+    "value": "Open Form"
   }
 }

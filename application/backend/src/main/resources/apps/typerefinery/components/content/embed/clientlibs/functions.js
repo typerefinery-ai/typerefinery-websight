@@ -6,7 +6,7 @@ Typerefinery.Components.Content.Embed = Typerefinery.Components.Content.Embed ||
 Typerefinery.Page = Typerefinery.Page || {};
 Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function ($, ns, componentNs, eventNs, tmsNs, document, window) {
+(function ($, ns, componentNs, eventNs, tmsNs, modalNs, document, window) {
     "use strict";
 
     ns.selectorComponent = '[component=embed]';
@@ -16,6 +16,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.ACTION_DATA_PAYLOAD = "DATA_PAYLOAD"; //deliver data to iframe
     ns.ACTION_DATA_SOURCE = "DATA_SOURCE"; //change source for iframe
     ns.ACTION_DATA_REFRESH = "DATA_REFRESH"; //notify iframe to refresh data
+    ns.ACTION_OPEN_FORM_MODAL = "OPEN_FORM_MODAL"; //open form in iframe
     
     //actions supported by this component
     ns.ACTIONS = {
@@ -23,7 +24,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       DATA_REQUEST: ns.ACTION_DATA_REQUEST,
       DATA_PAYLOAD: ns.ACTION_DATA_PAYLOAD,
       DATA_SOURCE: ns.ACTION_DATA_SOURCE,
-      DATA_REFRESH: ns.ACTION_DATA_REFRESH
+      DATA_REFRESH: ns.ACTION_DATA_REFRESH,
+      OPEN_FORM_MODAL: ns.ACTION_OPEN_FORM_MODAL
     }
 
     // map event types to handlers in component
@@ -156,6 +158,61 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       ns.sendMessageToiFrame($component, ns.ACTION_DATA_REFRESH, eventData);
       console.log("data refresh sent to iframe");
       console.groupEnd();
+    }
+
+    ns.OPEN_FORM_MODAL = ($component, componentConfig, eventData) => {
+        console.group(ns.ACTION_OPEN_FORM_MODAL);
+        console.log([ns.ACTION_OPEN_FORM_MODAL, $component, componentConfig, eventData]);
+        //open modal
+        //check if config has source or config.config.source then get is value
+        let formUrl = componentConfig.url || componentConfig.config.url;
+
+        console.log(["formUrl", formUrl]);
+
+        //this will replace all the variables in the sourceUrl with values from payloadData
+        if (formUrl !== "") {
+            // console.log(["update iframe source", sourceUrl, payloadData]);
+            formUrl = componentNs.replaceRegex(formUrl, eventData)
+            console.log(["update iframe source done", formUrl]);
+
+            let options = {
+                modalTitle: componentConfig.actionModalTitle, 
+                iframeURL: formUrl, 
+                hideFooter: componentConfig.hideFooter,
+                backdropIsStatic: componentConfig.backdropIsStatic,
+                // load this data into the form
+                callbackFnData: () => {
+                    console.log(["callbackFnData", eventData]);
+                    return eventData.payload;
+                },
+                callbackFn: ($modal, data, statusMessage) => {
+                    //run this when modal is closed
+                    console.log(["modal callback", $modal, data, statusMessage]);
+                    //return data and original eventData to iFrame
+                    let modalOutcome = {
+                        ...data,
+                        eventData: eventData,
+                        statusMessage: statusMessage,
+                    };
+
+                    let eventName = eventData.eventName || ns.ACTION_OPEN_FORM_MODAL;
+                    let eventAction = eventData.action || ns.ACTION_OPEN_FORM_MODAL;
+
+                    //payload, eventName, action, componentId, config
+                    const eventPayloadData = eventNs.compileEventData(modalOutcome, eventName, eventAction, $component.componentId, null);
+                    console.log(["send modal callback event back to iframe", eventPayloadData]);
+                    ns.sendMessageToiFrame($component, ns.ACTION_OPEN_FORM_MODAL, eventPayloadData);
+                }
+            };
+            //open modal, pass data to it and return message to iFrame on callback 
+            let $modal = modalNs.createModalAndOpen($component, options);
+
+        } else {
+            console.error("no formUrl was specified.");
+        }
+    
+        //then send message to iframe
+        console.groupEnd();
     }
 
     /**
@@ -411,6 +468,33 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
                   ns.DATA_REQUEST($component, componentConfig, eventData, endpointConfig);
                 });
+              } else if (action === ns.ACTION_OPEN_FORM_MODAL) {
+                // listen for open modal event
+                console.log(["add windowListeneriFrameEvent for this component", action, id, configData]);
+                ns.addEventEmitter($component, componentConfig, topicName, eventName, action, configData, (data, event) => {
+                  console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data]);
+                  console.log(["OPEN_FORM_MODAL", $component, componentConfig, configData]);
+                  
+                  // get possible config from data sent
+                  let eventConfig = data.config;
+                  // get config from configData or use config from component if trusted source
+                  let eventDataConfig = eventNs.mergeTrustedEventConfig(event, configData, eventConfig);
+
+                  console.log(["eventDataConfig", eventDataConfig]);
+
+                  const eventData = {
+                    ...data,
+                    topicName: topicName,
+                    eventName: eventName,
+                    action: action,
+                    config: eventDataConfig
+                  }
+                  eventData.target = "iframe-" + id;
+
+                  console.log(["OPEN_FORM_MODAL", $component, eventDataConfig, eventData]);
+                  
+                  ns.OPEN_FORM_MODAL($component, eventDataConfig, eventData);
+                });
               }
             } else {
                 //listen register the event and listent for specific event on topic
@@ -618,7 +702,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log([`callBack exec ${callBackKey}`, callBack]);
           // if callbackFn is set then call it
           if (callBack.callbackFn) {
-            callBack.callbackFn(sourceData);
+            callBack.callbackFn(sourceData, event);
             console.log([`callBack done ${callBackKey}`]);
           } else {
             console.error(`no callback function found ${callBackKey}`);
@@ -644,7 +728,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log([`callBack exec ${key}`, callBack]);
             // if callbackFn is set then call it
             if (callBack.callbackFn) {
-              callBack.callbackFn(sourceData);
+              callBack.callbackFn(sourceData, event);
               console.log([`callBack done ${key}`]); 
             } else {
               console.error(`no callback function found ${key}`);
@@ -716,6 +800,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
   Typerefinery.Components, 
   Typerefinery.Page.Events, 
   Typerefinery.Page.Tms,
+  Typerefinery.Modal,
   document,
   window
 );
