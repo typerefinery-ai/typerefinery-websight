@@ -3,6 +3,8 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
+window.Typerefinery.Page = Typerefinery.Page || {};
+window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
 (function ($, ns, formNs, eventsNs, document, window) {
 
@@ -197,7 +199,8 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
       $modal.on("click", ns.selectorSaveButton, function (e) {
         e?.preventDefault();
         e?.stopPropagation();
-        console.log("submit clicked");
+        
+        console.groupCollapsed("submit clicked");
 
         // hide frame
         $modal.find(ns.selectorFrame).hide();
@@ -236,6 +239,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
           iframe.contentWindow.postMessage('submit', '*');
           console.log("message sent to iframe to submit the form.");
         }
+        console.groupEnd();
       });
     };
 
@@ -322,6 +326,7 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
             if (callbackFnData) {
               // send message to iframe to load data into the form, the form should already have the event listener to handle this event.
               let data = callbackFnData();
+              console.log(["callbackFnData", data]);
               const eventPayloadData = eventsNs.compileEventData(data, formNs.ACTIONS.FORM_LOAD, formNs.ACTIONS.FORM_LOAD, $modal.componentId, null);
               console.log(["send eventPayloadData to iframe", eventPayloadData]);
               ns.sendMessageToiFrame($modal, formNs.ACTIONS.FORM_LOAD, eventPayloadData);
@@ -331,12 +336,6 @@ window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form |
           console.log("could not read frame status, iframe is from different origin.");
           console.log(e);
         }
-
-        // if frameStatusAccessed is false then listen for message event from iframe
-        if(frameStatusAccessed === false) {
-
-        }
-        
 
         // hide the loaders
         $modal.find(ns.selectorStatus).hide();
