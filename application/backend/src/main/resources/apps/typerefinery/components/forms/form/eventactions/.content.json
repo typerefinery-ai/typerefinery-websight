@@ -19,5 +19,10 @@
     "sling:resourceType": "nt:unstructured",
     "key": "FORM_CANCEL",
     "value": "Form Cancel"
-  }    
+  },
+  "formload": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "FORM_LOAD",
+    "value": "Form Load"
+  }
 }

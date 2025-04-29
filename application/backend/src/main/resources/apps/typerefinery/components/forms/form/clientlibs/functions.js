@@ -222,7 +222,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // submit the request to the server
     ns.submit = async ($component, componentConfig, url, method, payloadType, body, successCallback = ($component, componentConfig, payload) => { }, errorCallback = ($component, componentConfig, payload) => { }) => {
-        console.group("submit");
+        console.groupCollapsed("submit");
         console.log([url, method, payloadType, body])
         let controller = new AbortController();
         try {          
@@ -268,37 +268,37 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // local actions representing the form actions
     ns.FORM_SUCCESS = ($component, componentConfig, formData) => {
-      console.group("FORM_SUCCESS");
+      console.groupCollapsed("FORM_SUCCESS");
       console.log(["FORM_SUCCESS", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
       console.groupEnd();
     }
     ns.FORM_ERROR = ($component, componentConfig, formData) => {
-      console.log("FORM_ERROR");
+      console.groupCollapsed("FORM_ERROR");
       console.log(["FORM_ERROR", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
       console.groupEnd();
     }
     ns.FORM_SUBMIT = ($component, componentConfig, formData) => {
-      console.log("FORM_SUBMIT");
+      console.groupCollapsed("FORM_SUBMIT");
       console.log(["FORM_SUBMIT", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUBMIT_ACTION, "FORM_SUBMIT");
       console.groupEnd();
     }
     ns.FORM_CANCEL = ($component, componentConfig, formData) => {
-      console.log("FORM_CANCEL");
+      console.groupCollapsed("FORM_CANCEL");
       console.log(["FORM_CANCEL", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_CANCEL_ACTION, "FORM_CANCEL");
       console.groupEnd();
     }
     ns.FORM_RESET = ($component, componentConfig, formData) => {
-      console.log("FORM_RESET");
+      console.groupCollapsed("FORM_RESET");
       console.log(["FORM_RESET", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_RESET_ACTION, "FORM_RESET");
       console.groupEnd();
     }
     ns.FORM_LOADED = ($component, componentConfig, formData) => {
-      console.log("FORM_LOADED");
+      console.groupCollapsed("FORM_LOADED");
       console.log(["FORM_LOADED", $component, componentConfig, formData]);
       eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_READ_ACTION, "FORM_LOADED");
       console.groupEnd();
@@ -543,6 +543,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             console.log("Error loading data into form");
             console.error(error);
         }
+        console.groupEnd();
     }
     
     // check if query string exists and return the query string.
@@ -619,59 +620,67 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       //register events
       if (events) {        
         events.forEach(event => {
-          const { topic, type, name, nameCustom, action, config} = event;
+            const { topic, type, name, nameCustom, action, config} = event;
 
-          
-          //if type unset then log warning
-          if (!type) {
-            console.warn("type is unset for event will default to emit", event);
-          }
+            
+            //if type unset then log warning
+            if (!type) {
+                console.warn("type is unset for event will default to emit", event);
+            }
 
-          // if topic is not set then log warning
-          if (!topic) {
-            console.warn("topic is unset for event will default to component id", event);
-          }
+            // if topic is not set then log warning
+            if (!topic) {
+                console.warn("topic is unset for event will default to component id", event);
+            }
 
-          // if nameCustom is not set then log warning
-          if (!nameCustom) {
-            console.warn("nameCustom is unset for event will default to name", event);
-          }
+            // if nameCustom is not set then log warning
+            if (!nameCustom) {
+                console.warn("nameCustom is unset for event will default to name", event);
+            }
 
-          //if topic not set use component id as topic
-          const topicName = topic || defaultTopic;
-          // if type is not defined then its listen event
-          let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
-          //custom name takes precidence over name, this will be raised as event name
-          let eventName = nameCustom || name;
+            //if topic not set use component id as topic
+            const topicName = topic || defaultTopic;
+            // if type is not defined then its listen event
+            let typeName = type || eventNs.EVENT_TYPE_LISTEN || "custom";
+            //custom name takes precidence over name, this will be raised as event name
+            let eventName = nameCustom || name;
 
-          console.group(action + " " + eventName);
+            console.group(action + " " + eventName);
 
-          console.log(["event config", topic, type, name, nameCustom, action]);
-          console.log(["event to register", topicName, typeName, eventName, action]);
+            console.log(["event config", topic, type, name, nameCustom, action]);
+            console.log(["event to register", topicName, typeName, eventName, action]);
 
-          console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
-          eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
-          console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
+            console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap), topicName, typeName, action, eventName]);
+            eventNs.registerEventActionMapping(ns.eventMap, id, topicName, typeName, action, eventName, config);
+            console.log(["registerEventActionMapping", JSON.stringify(ns.eventMap)]);
 
-          // if event type is listen then add event listener for the event
+            // if event type is listen then add event listener for the event
 
-          if (typeName === eventNs.EVENT_TYPE_EMIT) {
-              //emit do nothing here
-              console.info("event type is emit, do nothing");
-          } else {
-              //listen register the event and listent for specific event on topic
-              console.log(["register event listen", topicName, eventName]);
-              eventNs.registerEvents(topicName, (data) => {
-                  console.log(["registerEvents consumeIncomingEvent", data, eventName]);
-                  // check make sure the event is for this event
-                  if (data.type === eventName) {
-                      console.log(["registerEvents match calling update", action, data]);
-                      ns.handleEventAction($component, action, data);
-                  }
-              });
-          }
+            if (typeName === eventNs.EVENT_TYPE_EMIT) {
+                //emit do nothing here
+                console.info("event type is emit, do nothing");
+            } else {
+                //listen register the event and listent for specific event on topic
+                console.log(["register event listen", topicName, eventName]);
+                
+                eventNs.registerEvents(topicName, (data) => {
+                    console.log(["registerEvents consumeIncomingEvent", data, eventName]);
+                    // check make sure the event is for this event
+                    if (data.type === eventName) {
+                        console.log(["registerEvents match calling update", action, data]);
+                        ns.handleEventAction($component, action, data);
+                    }
+                });
 
-          console.groupEnd();
+                console.log(["process other rules", action]);
+                // if FORM_LOAD then also listen for iframe events
+                if (action === ns.ACTIONS.FORM_LOAD) {
+                    console.log(["register windowListeneriFrameEvent", action]);
+                    ns.windowListeneriFrameEvent($component);
+                }
+            }
+
+            console.groupEnd();
         });
       }
 
@@ -681,7 +690,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
       // override default submit to handle form submit using code
       $component.on("submit",  function (e) {
-          console.group("form submit event listener")
+          console.groupCollapsed("form submit event listener")
           e.preventDefault();
           const { target } = e;
           console.log(target)
@@ -744,9 +753,9 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       console.log(["handleEvent", $component, action, data]);
 
       //load data into form if action is FORM_LOAD or EVENT_READ_ACTION
-      if (ns.ACTIONS[action] == "FORM_LOAD" || action === eventNs.EVENTS.EVENT_READ_ACTION) {
+      if (ns.ACTIONS[action] == ns.ACTIONS.FORM_LOAD || action === eventNs.EVENTS.EVENT_READ_ACTION) {
           ns.loadData($component, data);
-      } else if (ns.ACTIONS[action] == "FORM_SUBMIT" || action == eventNs.EVENTS.EVENT_SUBMIT_ACTION) {
+      } else if (ns.ACTIONS[action] == ns.ACTIONS.FORM_SUBMIT || action == eventNs.EVENTS.EVENT_SUBMIT_ACTION) {
           //submit form if action is FORM_SUBMIT or EVENT_SUBMIT_ACTION
           ns.formSubmitHandler($component);
       } else {
@@ -756,6 +765,49 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
       console.groupEnd();
     }
+
+    /* listen for window post messages sent by iframe to this component */
+    ns.windowListeneriFrameEvent = function($component) {
+        console.groupCollapsed("windowListeneriFrameEvent");
+        //check if this page is in iFrame
+        if (window.self === window.top) {
+            console.warn("this page is not in iFrame, skipping windowListeneriFrameEvent");
+            return;
+        }
+
+        //declare page parent window to ensure only events from parent window are processed
+        var iFrameContentWindow = window.parent;
+
+        //listen for global message events that are emited by iframe
+        window.addEventListener('message', function(event) {  
+            console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
+            if (event.source == iFrameContentWindow) {
+                //this message is from component iframe
+                console.log(["event", event]);
+                var eventData = event.data;
+                var sourceWindow = event.source;
+                var sourceOrigin = event.origin;
+                console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
+    
+                var sourceData = eventData;
+                if (typeof eventData === 'string') {
+                sourceData = JSON.parse( eventData );
+                }
+            
+                if (sourceData) {
+                console.log(["sourceData", sourceData]);
+
+                let action = sourceData.action;
+                let formData = sourceData.payload;
+                ns.handleEventAction($component, action, formData);
+                }
+            } else {
+                console.warn("event.source does not match component iframe, ignoring");
+            }
+            console.groupEnd();
+        });
+        console.groupEnd();
+    };    
 
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
