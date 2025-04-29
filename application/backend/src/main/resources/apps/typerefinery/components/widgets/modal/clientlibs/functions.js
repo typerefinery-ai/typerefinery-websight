@@ -540,12 +540,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               console.log("could not read frame status, iframe is from different origin.");
               console.log(e);
             }
-    
-            // if frameStatusAccessed is false then listen for message event from iframe
-            if(frameStatusAccessed === false) {
-    
-            }
-            
+
             // hide the loaders
             ns.showStatus($modal, ns.selectorStatusLoader);
     

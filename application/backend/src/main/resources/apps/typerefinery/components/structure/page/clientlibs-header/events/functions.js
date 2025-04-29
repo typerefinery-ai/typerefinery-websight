@@ -40,9 +40,20 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       EVENT_ERROR_ACTION: "erroraction",
       //event proxy
       EVENT_PROXY: "eventproxy", //one component proxying event to another
+      // open modal
+      EVENT_OPEN_MODAL: "openmodal", //open modal
       //topic
       EVENT_TOPIC_PAYLOAD: "topicpayload", //payload for topic
     }
+
+    //trusted origins for postMessage, this will allow config to be passed from child iframe to parent
+    const trustedOrigins = [
+        "https://cms.typerefinery.localhost:8101/",
+        "https://www.typerefinery.io",
+        "https://typerefinery.io",
+        "https://widgetdev.typerefinery.localhost:8101",
+        "https://typerefinery-ai.github.io"
+    ]        
 
     //return object with all generic events
     ns.genericEvents = function(initValue) {
@@ -284,7 +295,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * @returns 
      */
     ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction, options) => {
-      console.group('emitLocalEvent');
+      console.groupCollapsed('emitLocalEvent');
       if (!$component) {
         console.warn("event is external, no component found");
       }
@@ -404,6 +415,60 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log(["registry", ns.registry]);
       console.groupEnd();
     };
+
+    /**
+     * Either merge default config with event config  or return default config
+     * @param {*} event Message event
+     * @param {*} defaultConfig default config object
+     * @param {*} eventConfig event config object
+     * @returns 
+     */
+    ns.mergeTrustedEventConfig = function(event, defaultConfig, eventConfig) {
+        console.groupCollapsed("mergeTrustedEventConfig");
+        console.log(["event", event]);
+        console.log(["defaultConfig", defaultConfig]);
+        console.log(["eventConfig", eventConfig]);
+        let finalConfig = defaultConfig;
+
+        if (event && defaultConfig && eventConfig) {
+            //get config from eventConfig
+            let isEventConfig = false
+            let eventConfigData = eventConfig['config'];
+            //if eventConfigData is string parse it as json if not return as is
+            if (typeof eventConfigData === 'string') {
+                try {
+                    eventConfigData = JSON.parse(eventConfigData);
+                    isEventConfig = true;
+                } catch {
+                    console.error("eventConfigData is not a valid JSON string, using as is.");
+                }            
+            }
+            if (isEventConfig) {
+                // get origin from event
+                let eventOrigin = event.origin;
+
+                if (eventOrigin) {
+                    //check if origin is in trustedOrigins
+                    if (trustedOrigins.indexOf(eventOrigin) === -1) {
+                        console.error("event origin is not trusted", eventOrigin);
+                    } else {
+                        console.log("event origin is trusted", eventOrigin);
+                        //merge eventConfigData with config
+                        console.log(["eventConfigData", eventConfigData]);
+                        finalConfig = {
+                            ...defaultConfig,
+                            ...eventConfigData
+                        }                
+                    }
+                }
+            }
+        } else {
+            console.warn("event, defaultConfig or eventConfig is not set");
+        }
+        console.groupEnd();
+        return finalConfig;
+    };
+    
 
     ns.init = () => {
 
