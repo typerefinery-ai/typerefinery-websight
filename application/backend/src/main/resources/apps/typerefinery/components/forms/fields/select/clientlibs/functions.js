@@ -334,12 +334,50 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
       selectInstances[id].setChoiceByValue(value);
       console.groupEnd();
     }
-    ns.setValue = function (id, data) {
-      console.group('select setValue');
-      console.log('id', id);
-      console.log('value', data);
-      selectInstances[id].setValue(data);
-      console.groupEnd();
+    ns.setValue = function (id, values, options) {
+        //TODO: check if data is an array or string and add it to the select options if not already present
+        console.group('select setValue');
+        console.log('id', id);
+        console.log('values', values);
+        console.log('Choice', selectInstances[id]);
+
+        // selectInstances[id].setValue(values);
+        if (options) {
+            console.log('options', options);
+            let replaceItems = options?.replaceItems || false;
+            console.log('replaceItems', replaceItems);
+            console.log('current select.items', selectInstances[id].items);
+            console.log('current select.choices', selectInstances[id].choices);
+
+            //if selectInstances[id] has choices then select by value if not add them
+            if (selectInstances[id].choices && replaceItems) {
+                console.log('no choices found and replace requested, adding new choices');
+                let choices = [];
+                // check if value is an array or string
+                if (Array.isArray(values)) {
+                    choices = values.map((val) => {
+                        return {
+                            value: val,
+                            label: val
+                        }
+                    });
+                } else {
+                    choices = [{
+                        value: values,
+                        label: values
+                    }];
+                }
+                console.log('choices', choices);
+                selectInstances[id].setChoices(choices, 'value', 'label', replaceItems);
+            } else {
+                console.log('choices found, setting value');
+                selectInstances[id].setValue(values);    
+            }
+        } else {
+            selectInstances[id].setValue(values);
+        }
+
+        console.groupEnd();
     }
 
     ns.init = async ($component) => {
