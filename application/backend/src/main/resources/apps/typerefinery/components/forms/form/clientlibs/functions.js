@@ -459,7 +459,8 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                       console.log(["loadData editor component", name, editorId]);
                       editorNs.setEditorData(editorId, data[name]);
                   } else if(isSelect) {
-                      selectNs.setValue(id, data[name]);
+                      // when select is empty then replace and add values
+                      selectNs.setValue(id, data[name], {replaceItems: true});
                   } else {
                       console.log(["loadData other component value", name, data[name], $input.val()]);
                       if (type === "checkbox") {
@@ -921,4 +922,15 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         console.groupEnd();
     }
 
-})(jQuery, Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Components.Widgets.Editor, Typerefinery.Components.Forms.Select, window.Typerefinery.Components.Forms.Composite, Typerefinery.Page.Events, Typerefinery.Page.Files, document, window);
+})(
+    jQuery,
+    Typerefinery.Components.Forms.Form,
+    Typerefinery.Components,
+    Typerefinery.Components.Widgets.Editor,
+    Typerefinery.Components.Forms.Select,
+    window.Typerefinery.Components.Forms.Composite,
+    Typerefinery.Page.Events,
+    Typerefinery.Page.Files,
+    document,
+    window
+);
