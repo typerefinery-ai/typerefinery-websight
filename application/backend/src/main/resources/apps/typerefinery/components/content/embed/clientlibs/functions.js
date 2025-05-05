@@ -224,12 +224,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      */
     ns.DATA_REQUEST = ($component, componentConfig, eventData, endpointConfig) => {
       console.group(ns.ACTION_DATA_REQUEST);
-      console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, endpointConfig]);
-      console.log(["getRequest", endpointConfig]);
+      console.log([ns.ACTION_DATA_REQUEST, $component, componentConfig, eventData, endpointConfig]);
+      console.log(["endpointConfig", endpointConfig]);
       //TODO: get data - make a get request to the url
       let url = endpointConfig.url;
       let requestMethod = endpointConfig.method || "GET";
       let responseContentType = endpointConfig.responseContentType || "application/json";
+      let payload = eventData?.payload?.data || null;
+      if (payload && typeof payload === 'object') {
+        payload = JSON.stringify(payload);
+      }
+      console.log(["payload", requestMethod, responseContentType, url, payload]);
       ns.getRequest(
         $component, 
         eventData, 
@@ -248,7 +253,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           return eventData;
         }, 
         requestMethod, 
-        responseContentType
+        responseContentType,
+        payload
       );
       console.log(["DATA_REQUEST initiated", $component, componentConfig, url]);
       //eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.DATA_REQUEST, ns.ACTIONS.DATA_REQUEST);
@@ -256,7 +262,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
     // json form post
-    ns.getRequest = async ($component, eventData, url, successCallbackFn, errorCallbackFn, requestMethod, responseContentType) => {
+    ns.getRequest = async ($component, eventData, url, successCallbackFn, errorCallbackFn, requestMethod, responseContentType, payload) => {
       const contentType = responseContentType || "application/json";
       const method = requestMethod || "GET";
       const responseData = await ns.fetch(
@@ -265,7 +271,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         method,
         contentType,
         eventData,
-        null,
+        payload,
         successCallbackFn,
         errorCallbackFn,
       );
