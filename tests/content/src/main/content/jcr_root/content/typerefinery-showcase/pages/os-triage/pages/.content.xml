@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
-    <forms/>
-    <pages/>
     <jcr:content
         jcr:lastModified="{Date}2023-04-07T12:28:52.278+05:30"
         jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
-        jcr:title="OS-Triage"
+        jcr:title="Pages"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-01-30T17:27:38.707+11:00"
+        ws:lastModified="{Date}2023-04-07T10:48:57.413+05:30"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar">
         <rootcontainer
@@ -18,29 +16,11 @@
             <aside
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/aside"
-                backgroundColor="secondary"
-                cancelInheritParent="true"
-                id="aside_FNBJXZF8A">
-                <reference
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/content/reference"
-                    id="reference_YTGVDNARH"
-                    path="/content/typerefinery-showcase/pages/os-triage/admin/asideleft/default/jcr:content/container"/>
-            </aside>
+                id="aside_KVJUHNHC1"/>
             <header
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/header"
-                backgroundColor="secondary"
-                cancelInheritParent="true"
-                id="header_GF7UCAM5R"
-                marginBottom="three"
-                marginEnabled="true">
-                <reference
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="typerefinery/components/content/reference"
-                    id="reference_YGAXGJYSH"
-                    path="/content/typerefinery-showcase/pages/os-triage/admin/header/default/jcr:content/container"/>
-            </header>
+                id="header_MMCEFBC7O"/>
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
@@ -53,12 +33,22 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/title"
                     headingLevel="h5"
-                    id="title_ROCGXMVDR"
+                    id="title_OS4A7FRTH"
                     persistColorWhenThemeSwitches="true"
                     textAlignment="center"
-                    title="Welcome to OS-Triage Wireframe"/>
+                    title="Create New Pages here..."/>
             </container1>
         </rootcontainer>
     </jcr:content>
-    <admin/>
+    <artifacts/>
+    <createnew/>
+    <dashboard/>
+    <enrichments/>
+    <incidents/>
+    <info/>
+    <notes/>
+    <observables/>
+    <tags/>
+    <tasks/>
+    <options/>
 </jcr:root>
