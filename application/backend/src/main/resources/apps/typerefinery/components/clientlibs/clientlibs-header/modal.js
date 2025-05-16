@@ -42,6 +42,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.messageNameFormUnknown = "ts.form.unknown";
 
     ns.messageNameFormLoad = "ts.form.load";
+    ns.messageNameModalOpen = "ts.modal.open";
+    ns.messageNameModalClosing = "ts.modal.closing";
 
     ns.MESSAGE_NAMES = {
       FORM_SUBMIT: ns.messageNameFormSubmit,
@@ -49,7 +51,9 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       FORM_CANCEL: ns.messageNameFormCancel,
       FORM_ERROR: ns.messageNameFormError,
       FORM_UNKNOWN: ns.messageNameFormUnknown,
-      FORM_LOAD: ns.messageNameFormLoad
+      FORM_LOAD: ns.messageNameFormLoad,
+      MODAL_OPEN: ns.messageNameModalOpen,
+      MODAL_CLOSING: ns.messageNameModalClosing,
     };
 
 
@@ -140,7 +144,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       ns.addModalMaximiseListener($modal);
       ns.addModalSubmitListener($modal);
-      ns.addModalCloseListener($modal);
+      ns.addModalCloseListener($modal, options.callbackFn);
       ns.addModalLoaderEventListener($modal, options.callbackFnData);
       ns.addModelOpenListener($modal);
       ns.addModalFrameErrorListener($modal);
@@ -254,10 +258,14 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       });
     };
 
-    ns.addModalCloseListener = ($modal) => {
+    ns.addModalCloseListener = ($modal, callbackFn) => {
       // listen to modal event hidden.bs.modal and remove modal from the dom.
       console.log("adding close event listener for modal");
       $modal.on("hidden.bs.modal", function () {
+        if (callbackFn) {
+            callbackFn($modal, ns.MESSAGE_NAMES.MODAL_CLOSING);
+        }
+        //TODO: raise event to parent about closing of the modal.
         console.log("modal closed, destroying modal");
         // remove all event listeners
         ns.modalUnredisterAllEvents($modal);
