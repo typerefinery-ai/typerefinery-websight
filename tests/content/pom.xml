@@ -50,6 +50,12 @@
             <jackrabbit-filter>
               <options>
                 <validRoots>/content</validRoots>
+                <filters>
+                  <filter>
+                    <root>/content/typerefinery-showcasepages</root>
+                    <mode>replace</mode>
+                  </filter>
+                </filters>
               </options>
             </jackrabbit-filter>
           </validatorsSettings>

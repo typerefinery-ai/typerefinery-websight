@@ -7,6 +7,8 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Container"
         sling:resourceType="typerefinery/components/structure/page"
+        ws:lastModified="{Date}2025-02-24T13:00:08.093+11:00"
+        ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/pagewithsidebar"
         description="\0"
         hideInNav="false"
@@ -20,19 +22,135 @@
             sling:resourceType="typerefinery/components/layout/rootcontainer">
             <header
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/header"/>
+                sling:resourceType="typerefinery/components/layout/header"
+                id="header_NKKLNDN61"/>
             <asideleft
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/aside"
-                classes="aside-left"/>
+                classes="aside-left"
+                id="asideleft_BBXJHJ7IL"/>
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
                 containerType="fullWidth"
-                decorationTagName="main"/>
+                decorationTagName="main"
+                id="main_8J5ZPLQXC">
+                <container
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_QJ2HKXZYI"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="Container">
+                    <text
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/text"
+                        classes="\0"
+                        id="text_BBEFQNAK3"
+                        markdown="\0"
+                        name="\0"
+                        paragraphMode="false"
+                        text="&lt;p>Plain container.&lt;/p>&lt;p>Container content text.&lt;/p>"/>
+                </container>
+                <container_1
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_1_C53PJNFHW"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="Container with Title H1"
+                    titleTagName="h1"
+                    variant="sectionwithtitle">
+                    <text
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/text"
+                        classes="\0"
+                        id="text_BBEFQNAK3"
+                        markdown="\0"
+                        name="\0"
+                        paragraphMode="false"
+                        text="&lt;p>Container content text.&lt;/p>"/>
+                </container_1>
+                <container_2
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_2_RJLV4NJ0O"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="Container with Title H2"
+                    titleTagName="h2"
+                    variant="sectionwithtitle">
+                    <text
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/text"
+                        classes="\0"
+                        id="text_BBEFQNAK3"
+                        markdown="\0"
+                        name="\0"
+                        paragraphMode="false"
+                        text="&lt;p>Container content text.&lt;/p>"/>
+                </container_2>
+                <container_3
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_3_7VYNBKQ1B"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="Container with Title H3"
+                    titleTagName="h3"
+                    variant="sectionwithtitle">
+                    <text
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/text"
+                        classes="\0"
+                        id="text_BBEFQNAK3"
+                        markdown="\0"
+                        name="\0"
+                        paragraphMode="false"
+                        text="&lt;p>Container content text.&lt;/p>"/>
+                </container_3>
+                <container_4
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    id="container_4_PP6A1NV90"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    roleOther="\0"
+                    title="\0"
+                    variant="sectionwithtitle"/>
+                <container_5
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    id="container_5_U7KQ78DPR"/>
+            </main>
             <footer
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="typerefinery/components/layout/footer"/>
+                sling:resourceType="typerefinery/components/layout/footer"
+                id="footer_DEBL3COTE"/>
         </rootcontainer>
     </jcr:content>
     <container-with-template/>

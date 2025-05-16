@@ -2,7 +2,7 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
     <jcr:content
-        jcr:lastModified="{Date}2024-10-21T12:35:57.326+11:00"
+        jcr:lastModified="{Date}2024-11-18T20:31:26.524+11:00"
         jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
         jcr:title="Editor"
