@@ -263,7 +263,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log("adding close event listener for modal");
       $modal.on("hidden.bs.modal", function () {
         if (callbackFn) {
-            callbackFn($modal, ns.MESSAGE_NAMES.MODAL_CLOSING);
+            callbackFn($modal, {}, ns.MESSAGE_NAMES.MODAL_CLOSING);
         }
         //TODO: raise event to parent about closing of the modal.
         console.log("modal closed, destroying modal");
