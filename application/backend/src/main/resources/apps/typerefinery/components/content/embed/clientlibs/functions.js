@@ -33,19 +33,23 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.eventMap = eventNs.genericEventsTopicMap();
 
     // change src for iframe
-    ns.updateDataSource = ($component, config) => {
+    ns.updateDataSource = ($component, eventData) => {
       console.group("updateDataSource");
-      console.log(["updateDataSource", $component, config]);
-      //check if config has source or config.config.source then get is value
-      let sourceUrl = config.source || config.config.source;
-
-      const payloadData = config.payload || {};
+      console.log(["updateDataSource", $component, eventData]);
       
+      //try find some source url in the eventData, under config is prefered
+      let sourceUrl = eventData.config.source || eventData.source;
+
+      console.log(["sourceUrl", sourceUrl]);
+
+      let payloadData = eventData.payload || {};
+
       //this will replace all the variables in the sourceUrl with values from payloadData
       if (sourceUrl) {
-        // console.log(["update iframe source", sourceUrl, payloadData]);
+        console.log(["resolve sourceUrl", sourceUrl, payloadData]);
         sourceUrl = componentNs.replaceRegex(sourceUrl, payloadData)
-        console.log(["update iframe source done", sourceUrl]);
+        console.log(["updating iframe source to", sourceUrl]);
+
         $component.find("iframe").attr("src", sourceUrl);
       } else {
         console.error("no source was specified");
@@ -443,8 +447,18 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 //listen for global message events that are emited by iframe
                 ns.addEventEmitter($component, componentConfig, topicName, eventName, action, configData, (data) => {
                   console.log(["windowListeneriFrameEvent callback", topicName, eventName, action, data, configData]);
+
+                  // get possible config from data sent
+                  let dataConfig = data.config || {};
+                  let configDataObject = configData || {};
+                  let eventDataConfig = {
+                    ...dataConfig,
+                    ...configDataObject
+                  };
+                  console.log(["eventDataConfig", eventDataConfig]);
+
                   // proxy all events
-                  console.log(["EVENT_PROXY", $component, componentConfig, data]);
+                  console.log(["EVENT_PROXY", $component, componentConfig, eventDataConfig]);
                   ns.EVENT_PROXY($component, componentConfig, data);
                 });
               } else if (action === ns.ACTION_DATA_REQUEST) {
