@@ -430,6 +430,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log(["eventConfig", eventConfig]);
         let finalConfig = defaultConfig;
 
+        // if both defaultConfig and eventConfig are empty namespaces
+        if ((typeof defaultConfig === 'object' && Object.keys(defaultConfig).length === 0)
+            && (typeof eventConfig === 'object' && Object.keys(eventConfig).length === 0)) {
+            console.warn("defaultConfig and eventConfig are empty namespaces");
+            return defaultConfig;
+        }
+        
         if (event && defaultConfig && eventConfig) {
             //get config from eventConfig
             let isEventConfig = false
