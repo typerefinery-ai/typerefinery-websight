@@ -47,14 +47,16 @@ window.Typerefinery.VueData = Typerefinery.VueData || {};
     ns.hasRegex = (str) => {
         return str.match(/{{(\w+)}}/gm);
     };      
-    ns.replaceRegex = (str, obj) => {
+    ns.replaceRegex = (str, obj, debug) => {
         //find any {{key}} in the string and replace with value from obj
-        return str.replace(/{{(.*)}}/gm, function(match, key) {
+        return str.replace(/{{(.*?)}}/gm, function(match, key) {
           //get key value using json path from obj
           // if (!obj.hasOwnProperty(key)) {
           // console.warn(`replaceRegex: ${key} is not defined in the data object, ignoring...`);
           let jpName = "$." + key;
-          //console.log("find key in object using json path", key, jpName, obj);
+          if (debug) {
+            console.log("find key in object using json path", match, key, jpName, obj);
+          }
           let value = ns.jsonPath(obj, jpName);
           // return first value if found
           if (value.length > 0) {
