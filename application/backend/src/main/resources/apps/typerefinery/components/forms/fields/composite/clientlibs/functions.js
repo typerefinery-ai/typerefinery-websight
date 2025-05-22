@@ -3,9 +3,12 @@ window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
 window.Typerefinery.Components.Forms.Composite = Typerefinery.Components.Forms.Composite || {};
+window.Typerefinery.Components.Widgets = Typerefinery.Components.Widgets || {};
+window.Typerefinery.Components.Widgets.Editor = Typerefinery.Components.Widgets.Editor || {};
+window.Typerefinery.Components.Forms.Select = Typerefinery.Components.Forms.Select || {};
 window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function ($, ns, componentsNs, formNs, Sortable, componentNs, eventNs, document, window) {
+(function ($, ns, componentsNs, formNs, Sortable, componentNs, eventNs, editorNs, selectNs, document, window) {
     "use strict";
     
     ns.selectorComponentName = "composite";
@@ -339,6 +342,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.findFieldAndSetValue = function($compositeParent, key, value) {
       console.group(key);
       console.log("value", value);
+      console.log("find field", `[${ns.selectorNameAttribute}=${key}]`);
       const $field = $compositeParent.find(`[${ns.selectorNameAttribute}=${key}]`);
 
       if ($field.length === 0) {
@@ -349,16 +353,33 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.log("$field", $field);
       console.log("$field.is(ns.selectorInput)", ns.selectorInput, $field.is(ns.selectorInput));
       console.log("$field.is(ns.selectorValue)", ns.selectorValue, $field.is(ns.selectorValue));
+      console.log("$field.is(ns.selectorCompositeInput)", ns.selectorCompositeInput, $field.is(ns.selectorCompositeInput));
+      console.log("$field.is(editorNs.selectorComponent)", editorNs.selectorComponent, $field.is(editorNs.selectorComponent));
+      console.log("$field.is(selectNs.selectorComponent)", selectNs.selectorComponent, $field.is(selectNs.selectorComponent));
       // if field is basic input field
       if ($field.is(ns.selectorValue)) {
         // if field is composite field
-        ns.setValue($field, value);
         console.log("set composite value");      
+        ns.setValue($field, value);
       } else if ($field.is(ns.selectorInput)) {
-        $field.val(value);
         console.log("set val()");
+        $field.val(value);
+      } else if ($field.is(editorNs.selectorComponent)) {
+        const editorId = $field.data("editor-id");
+        console.log("set editor value", editorId, value);
+        editorNs.setEditorData(editorId, value);
+      } else if ($field.is(selectNs.selectorComponent)) {
+        let id = $field.attr("id");
+        console.log("set select value", id, value);
+        selectNs.setValue(id, value, {replaceItems: true});
+      } else if ($field.is(ns.selectorCompositeInput)) {
+        console.log("set composite input value", $field);
+        $field.val(value);
       } else {
-        console.log("unknow field", $field);
+        console.log("unknow field, trying .val", $field);
+        if ($field.val) {
+          $field.val(value);
+        }
       }           
       console.log("$field.val()", $field.val());
       console.groupEnd();
@@ -410,6 +431,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.groupEnd();
         });
       }
+
+      ns.compileValue($compositeParent);
 
       console.groupEnd();
       return;
@@ -533,4 +556,16 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     }
 
 
-})(jQuery, Typerefinery.Components.Forms.Composite, Typerefinery.Components, Typerefinery.Components.Forms.Form, Sortable, Typerefinery.Components, Typerefinery.Page.Events, document, window);
+})(
+    jQuery, 
+    Typerefinery.Components.Forms.Composite, 
+    Typerefinery.Components, 
+    Typerefinery.Components.Forms.Form, 
+    Sortable, 
+    Typerefinery.Components, 
+    Typerefinery.Page.Events,
+    Typerefinery.Components.Widgets.Editor,
+    Typerefinery.Components.Forms.Select,
+    document, 
+    window
+);
