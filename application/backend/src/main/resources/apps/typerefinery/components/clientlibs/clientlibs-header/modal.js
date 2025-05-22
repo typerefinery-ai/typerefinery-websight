@@ -181,7 +181,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       );
       ns.modalRegisterEvent($modal, ns.MESSAGE_NAMES.FORM_ERROR, ns.frameMessageHandler, ($modal, data, eventHandlerId) => {
-        console.log("form submitted");
+        console.log("form error");
         console.log(["$modal", $modal, "data", data]);
 
         ns.showStatus($modal, ns.selectorStatusError);
@@ -268,7 +268,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         //TODO: raise event to parent about closing of the modal.
         console.log("modal closed, destroying modal");
         // remove all event listeners
-        ns.modalUnredisterAllEvents($modal);
+        ns.modalUnregisterAllEvents($modal);
         $modal.remove();
       });
     };
@@ -510,7 +510,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * Unregister all events for the modal by removing all event listeners and aborting all controllers.
      * @param {*} $modal 
      */
-    ns.modalUnredisterAllEvents = ($modal) => {
+    ns.modalUnregisterAllEvents = ($modal) => {
       console.log("unregistering all modal events");
       let modalId = $modal.attr('id');
       let eventHandlerId = ns.generateEventControllerId(modalId, "");
@@ -552,46 +552,58 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       var eventOrigin = event.origin;
       var eventData = event.data;
 
-      console.log(["eventType", eventType, "eventSource", eventSource, "eventOrigin", eventOrigin, "eventData", eventData]);
-      console.log(["modalListeners", ns.modalListeners, ns.modalListeners.has(event.source)]);
+      let modalId;
 
-      let eventDataPayloadAction = eventData?.payload?.action;
-      console.log(["eventDataPayloadAction", eventDataPayloadAction]);
+      try {
+        modalId = eventSource?.frameElement?.closest(".modal")?.id;
+      } catch (e) {
+        console.log("error getting modalId", e);
+      } 
 
-      //this is the suffix for event name
-      let messageName = ns.getMessageNameFromEventAction(eventDataPayloadAction);
-      console.log(["messageName", messageName]);
-
-      let modalId = eventSource?.frameElement?.closest(".modal")?.id;
-      console.log(["modalId", modalId]);
-      let eventHandlerId = ns.generateEventControllerId(modalId, messageName);
-      console.log(["eventHandlerId", eventHandlerId, ns.modalListeners.has(eventHandlerId)]);
-
-      // find the modalListener in modalListeners map by looking for  event source
-      if (ns.modalListeners.has(eventHandlerId)) {
-        let {$modal, callback} = ns.modalListeners.get(eventHandlerId);
-        console.log(["modal", $modal, "callback", callback]);
-        //this message is from component iframe
-        var eventData = event.data;
-        var sourceWindow = event.source;
-        var sourceOrigin = event.origin;
-        console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
-
-        var sourceData = eventData;
-        if (typeof eventData === 'string') {
-          sourceData = JSON.parse( eventData );
-        }
-      
-        if (sourceData) {
-          console.log(["sourceData", sourceData]);
-
-          // ns.processWindowListenerEvent($component, event, sourceData);
-          if (callback) {
-            callback($modal, sourceData, eventHandlerId);
-          }
-        }
+      if (!modalId) {
+        console.warn("modalId not found, ignoring event as modal is not found or out of reach");
       } else {
-        console.warn(`eventHandlerId ${eventHandlerId} does not match component iframe, ignoring`);
+
+        console.log(["eventType", eventType, "eventSource", eventSource, "eventOrigin", eventOrigin, "eventData", eventData]);
+        console.log(["modalListeners", ns.modalListeners, ns.modalListeners.has(event.source)]);
+
+        let eventDataPayloadAction = eventData?.payload?.action;
+        console.log(["eventDataPayloadAction", eventDataPayloadAction]);
+
+        //this is the suffix for event name
+        let messageName = ns.getMessageNameFromEventAction(eventDataPayloadAction);
+        console.log(["messageName", messageName]);
+
+        console.log(["modalId", modalId]);
+        let eventHandlerId = ns.generateEventControllerId(modalId, messageName);
+        console.log(["eventHandlerId", eventHandlerId, ns.modalListeners.has(eventHandlerId)]);
+
+        // find the modalListener in modalListeners map by looking for  event source
+        if (ns.modalListeners.has(eventHandlerId)) {
+            let {$modal, callback} = ns.modalListeners.get(eventHandlerId);
+            console.log(["modal", $modal, "callback", callback]);
+            //this message is from component iframe
+            var eventData = event.data;
+            var sourceWindow = event.source;
+            var sourceOrigin = event.origin;
+            console.log(["sourceWindow", sourceWindow, "sourceOrigin", sourceOrigin, "eventData", eventData]);
+
+            var sourceData = eventData;
+            if (typeof eventData === 'string') {
+            sourceData = JSON.parse( eventData );
+            }
+        
+            if (sourceData) {
+            console.log(["sourceData", sourceData]);
+
+            // ns.processWindowListenerEvent($component, event, sourceData);
+            if (callback) {
+                callback($modal, sourceData, eventHandlerId);
+            }
+            }
+        } else {
+            console.warn(`eventHandlerId ${eventHandlerId} does not match component iframe, ignoring`);
+        }
       }
       console.groupEnd();
     }
@@ -602,7 +614,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      */
     ns.closeModal = ($modal) => {
       console.log("closing modal");
-      ns.modalUnredisterAllEvents($modal);
+      ns.modalUnregisterAllEvents($modal);
       ns.hideModal($modal);
     };
 
