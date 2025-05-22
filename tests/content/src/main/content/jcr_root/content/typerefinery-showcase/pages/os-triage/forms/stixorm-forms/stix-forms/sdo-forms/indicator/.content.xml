@@ -2,10 +2,10 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:ws="http://ds.pl/websight" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="ws:Page">
     <jcr:content
-        jcr:lastModified="{Date}2024-11-19T13:16:46.312+11:00"
+        jcr:lastModified="{Date}2025-02-04T13:22:35.676+11:00"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="StixORM Forms"
+        jcr:title="Indicator forms"
         sling:resourceType="typerefinery/components/structure/page"
         ws:template="/apps/typerefinery/templates/blank"
         description="\0"
@@ -20,10 +20,6 @@
             sling:resourceType="typerefinery/components/layout/rootcontainer"
             decorationTagName="main"/>
     </jcr:content>
-    <stix-forms/>
-    <attack-forms/>
-    <os-threat-forms/>
-    <oca-forms/>
-    <default/>
-    <modal-forms/>
+    <indicator-create/>
+    <indicator-update/>
 </jcr:root>
