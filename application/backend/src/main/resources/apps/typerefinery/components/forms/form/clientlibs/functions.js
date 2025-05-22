@@ -424,7 +424,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
           for(let i = 0; i < $formComponents.length; i++) {
               const $input = $($formComponents[i]);
               const inputObject = $input.get(0);
-              const name = $input.attr("name") || $input.attr("id");
+              let name = $input.attr("name") || $input.attr("id");
               const id = $input.attr("id");
               const type = $input.attr("type") || "";
               const tagName = $input.prop("tagName");
@@ -446,6 +446,15 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
               console.log("isEditor", isEditor);
               console.log("isSelect", isSelect);
 
+              // if isCompositeParent get name of the compoite input
+              if (isCompositeParent) {
+                const fieldComponentConfig = componentNs.getComponentConfig($input);
+                console.log("this field is a composite parent, getting data name from config", fieldComponentConfig);
+                const fieldId = fieldComponentConfig.id;
+                const fieldDataInput = $input.find(`#${fieldId}`);
+                name = fieldDataInput.attr("name");
+                console.log("got name and data", name, data[name]);
+              }
 
               //skip all field that do not have a name and dont exist in data
               if (name && data[name]) {
@@ -477,65 +486,13 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                           $input.attr("value", data[name]);
                       }
                   }
+              } else {
+                console.warn(["could not find data for this field", name, data[name]]);
               }
               console.groupEnd();
 
           }
 
-          // loop through all the input fields and set the value from the response.
-          $component.find("[isInput]").each(function() {
-              const $item = $(this);
-              
-              const name = $item.attr("name");
-
-              if (!data[name]) {
-                  return;
-              }
-
-              const isInput = $item.attr('isInput');
-              if (isInput === "true") {
-                  // if select tag then update the option with selected attribute
-                  if ($item.tagName === "SELECT") {
-                      const options = $item.find("option");
-
-                      // if data[name] is string then split by , and trim all.
-                      if (typeof data[name] === "string") {
-                          data[name] = data[name].split(",").map(item => item.trim());
-                      }
-
-                      // if data[name] is array then loop through the array and check wether the option value is present in the array or not.
-                      if (Array.isArray(data[name])) {
-                          // if choice js gas not rendered the select, set values in select tag.
-                          options.each(function() {
-                              const option = $(this);
-                              if (data[name].includes(option.attr("value"))) {
-                                  option.attr("selected", true);
-                              }
-                          });
-                          //set values in choice js instance
-                          data[name].forEach(function(option) {
-                            selectNs.setChoiceByValue(`${$item.attr('id')}`, option);
-                          });
-                          // $(`#${$item.attr('id')}`).val(data[name]);
-                      }
-                  }
-
-
-                  // if item type is checked or radio then set checked attribute
-                  if ($item.attr("type") === "checkbox" || $item.attr("type") === "radio") {
-                      if (data[name]) {
-                          $item.attr("checked", name);
-                      }
-                  }
-
-                  // set value attribute
-                  $item.attr("value", data[name]);
-
-              } else if (isInput === "editor") {
-                  const editorId = $item.data("editor-id");
-                  ns.editorNs.setEditorData(editorId, data[name]);
-              }
-          });
 
           // emit event to notify the form is loaded
           ns.FORM_LOADED($component, componentConfig, data, $component);
