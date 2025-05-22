@@ -79,7 +79,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         FORM_CANCEL: ns.messageNameFormCancel,
         FORM_ERROR: ns.messageNameFormError,
         FORM_UNKNOWN: ns.messageNameFormUnknown
-      };
+    };
   
     ns.modalListeners = new Map();
 
@@ -651,7 +651,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * Unregister all events for the modal by removing all event listeners and aborting all controllers.
      * @param {*} $modal 
      */
-    ns.modalUnredisterAllEvents = ($modal) => {
+    ns.modalUnregisterAllEvents = ($modal) => {
         console.log("unregistering all modal events");
         let modalId = $modal.attr('id');
         let eventHandlerId = ns.generateEventControllerId(modalId, "");
@@ -685,7 +685,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     };
 
     ns.frameMessageHandler = (event) => {
-        console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
+        console.groupCollapsed(`modal frameMessageHandler on ${window.location}`);
         console.log(["event", event]);
   
         var eventType = event.type;
