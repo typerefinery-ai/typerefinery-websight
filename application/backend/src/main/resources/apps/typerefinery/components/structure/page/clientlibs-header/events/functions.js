@@ -159,8 +159,6 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.warn("socket not found.");
         }
 
-        //check if payload is string, if not stringify it          
-
         //emmit parent window event
         // if window is a child window, post message to parent
         if (window.parent && window.parent != window) {
@@ -348,14 +346,21 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
             if (Array.isArray(actionEvents)) {
+              console.log(["multiple actionEvents", actionEvents]);
               if (actionEvents.length == 0) {
                 console.warn("no topics found");
               }
               actionEvents.forEach(topicValue => {
                 const { topic, config, event } = topicValue;
-                if (topic && (topic == eventType || event == actionComponent)) {
+                console.log(["topicValue", topic, config, event]);
+                console.log(["topic == eventType", topic == eventType]);
+                console.log(["event == actionComponent", event == actionComponent]);
+
+                //only run actions that match event topic and actionComponent if eventType is not set
+                if (topic && (topic == eventType || (eventType == '' && topic == actionComponent))) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
+                  console.log("emit event", topic, eventData);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {
@@ -363,12 +368,18 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 }
               });
             } else {
+              console.log("single actionEvent", actionEvents);
               //is single value use it as topic
               if (actionEvents) {   
                 const { topic, config, event } = actionEvents;
-                if (topic && (topic == eventType || event == actionComponent)) {
+                console.log(["topicValue", topic, config, event]);
+                console.log(["topic == eventType", topic == eventType]);
+                console.log(["event == actionComponent", event == actionComponent]);
+                //only run actions that match event topic and actionComponent if eventType is not set
+                if (topic && (topic == eventType || (eventType == '' && topic == actionComponent))) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
+                  console.log("emit event", topic, eventData);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {
