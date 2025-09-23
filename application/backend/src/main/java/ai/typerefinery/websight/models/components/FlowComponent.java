@@ -175,8 +175,12 @@ public class FlowComponent extends BaseComponent {
             boolean isFlowExists = this.flowService.isFlowExists(this.flowapi_flowstreamid);
             if (!isFlowExists) {
                 LOG.info("flow does not exist, creating it: {}", this.flowapi_flowstreamid);
-                this.flowService.createFlowFromTemplate(this);
+                this.flowService.createFlowFromTemplate(this);                
             }
         }
+    }
+
+    public String getFlowStreamEditUrl() {
+        return this.flowService.compileEditUrl(flowapi_flowstreamid);
     }
 }

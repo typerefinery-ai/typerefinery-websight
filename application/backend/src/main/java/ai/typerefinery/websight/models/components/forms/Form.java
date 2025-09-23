@@ -116,15 +116,19 @@ public class Form extends FlowComponent implements FlowComponentRegister {
             props.put(FlowService.prop(FlowService.PROPERTY_SAMPLEDATA), this.flowapi_sampledata);
         }
 
+        // ensure flow if flowapi_enable
+        if (this.flowapi_enable) {
+            this.ensureFlowExists();
+            //ensure url is up to date
+            this.flowapi_editurl = this.getFlowStreamEditUrl();
+            props.put(FlowService.prop(FlowService.PROPERTY_EDITURL), this.flowapi_editurl);
+        }
+
         if (props.size() > 0) {
             //update any defaults that should be set
             PageUtil.updatResourceProperties(resource, props);
         }
 
-        // ensure flow if flowapi_enable
-        if (this.flowapi_enable) {
-            this.ensureFlowExists();
-        }
     }
 
     @Override
