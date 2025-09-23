@@ -120,6 +120,11 @@ public class Form extends FlowComponent implements FlowComponentRegister {
             //update any defaults that should be set
             PageUtil.updatResourceProperties(resource, props);
         }
+
+        // ensure flow if flowapi_enable
+        if (this.flowapi_enable) {
+            this.ensureFlowExists();
+        }
     }
 
     @Override

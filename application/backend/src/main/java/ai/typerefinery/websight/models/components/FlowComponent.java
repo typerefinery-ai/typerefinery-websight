@@ -166,4 +166,17 @@ public class FlowComponent extends BaseComponent {
         }
         return isContainer;
     }
+
+    /**
+     * if flow is enabled but it does not exist then create it
+     */
+    public void ensureFlowExists() {
+        if (this.flowapi_enable) {        
+            boolean isFlowExists = this.flowService.isFlowExists(this.flowapi_flowstreamid);
+            if (!isFlowExists) {
+                LOG.info("flow does not exist, creating it: {}", this.flowapi_flowstreamid);
+                this.flowService.createFlowFromTemplate(this);
+            }
+        }
+    }
 }
