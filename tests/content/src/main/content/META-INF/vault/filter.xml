@@ -17,5 +17,7 @@
 
 <workspaceFilter version="1.0">
   <filter root="/content/typerefinery-showcase"/>
+  <filter root="/content/typerefinery"/>
   <filter root="/content/os-triage"/>
+  <filter root="/etc/map"/>
 </workspaceFilter>
