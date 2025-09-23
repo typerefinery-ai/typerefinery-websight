@@ -61,7 +61,7 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             scrolling="no"
-                            url="https://widgetdev.typerefinery.localhost:8101"
+                            url="https://typerefinery-ai.github.io/widget-graph-viz/"
                             variant="iframe">
                             <_events_ jcr:primaryType="nt:unstructured">
                                 <_x0030_
