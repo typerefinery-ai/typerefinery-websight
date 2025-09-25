@@ -32,7 +32,7 @@
         </sly>
 
         <sly data-sly-use.lib="/apps/typerefinery/components/structure/templates/component-info.html"
-          data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - (', model.title ,')'] @ join=''}"
+          data-sly-set.componentPlaceholderTitle="${[model.componentTitle, ' - (', model.title, ' - ', model.id, ')'] @ join=''}"
           data-sly-call="${lib.placeholder @ title=componentPlaceholderTitle}"></sly>
       </div>
     </div>
