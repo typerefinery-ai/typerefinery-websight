@@ -1,18 +1,52 @@
 # QA Readme — How to Test Items Marked **In Review**
 
-This guide shows developers exactly how to pull the latest code, start the local stack, deploy the latest updates, and verify the changes.
+This guide shows developers exactly how to set up repositories, pull the latest code, start the local stack, deploy the latest updates, and verify the changes.
 
 ---
 
 ## 1) Prerequisites
 
 - Windows PowerShell
-- Git with access to the Typerefinery repos
+- Git with access to the Typerefinery GitHub repos
 - No uncommitted changes (stash or commit before pulling)
+- Cloned repositories with correct remotes
 
 ---
 
-## 2) Sync all repositories
+## 2) Repository Setup (first-time only)
+
+Clone the repositories into `C:\projects\typerefinery-ai\`:
+
+```powershell
+# A) typerefinery-websight
+git clone https://github.com/typerefinery-ai/typerefinery-websight.git
+
+# B) widget-graph-viz
+git clone https://github.com/typerefinery-ai/widget-graph-viz.git
+
+# C) typerefinery
+git clone https://github.com/typerefinery-ai/typerefinery.git
+```
+
+Verify the remotes:
+
+```powershell
+cd typerefinery-websight
+git remote -v
+# origin  https://github.com/typerefinery-ai/typerefinery-websight.git
+
+cd ..\widget-graph-viz
+git remote -v
+# origin  https://github.com/typerefinery-ai/widget-graph-viz.git
+
+cd ..\typerefinery
+git remote -v
+# origin  https://github.com/typerefinery-ai/typerefinery.git
+```
+
+---
+
+## 3) Sync all repositories
 
 > Run each block in its repo folder.
 
@@ -45,7 +79,7 @@ git submodule update --init --recursive
 
 ---
 
-## 3) Start core services
+## 4) Start core services
 
 > Start these **before** deploying apps/content.
 
@@ -68,7 +102,7 @@ Wait until services show as **running/healthy**.
 
 ---
 
-## 4) Deploy latest apps & content tests
+## 5) Deploy latest apps & content tests
 
 > From the `typerefinery-websight` repo:
 
@@ -80,14 +114,14 @@ cd C:\projects\typerefinery-ai\typerefinery-websight
 
 ---
 
-## 5) Open the CMS & Flow UIs
+## 6) Open the CMS & Flow UIs
 
 - CMS: https://cms.typerefinery.localhost:8101/
 - Flow: https://flow.typerefinery.localhost:8101/
 
 ---
 
-## 6) Test page (primary)
+## 7) Test page (primary)
 
 - View page:  
   https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/vizandform-local.html
@@ -97,17 +131,17 @@ cd C:\projects\typerefinery-ai\typerefinery-websight
 
 ---
 
-## 7) What to verify (minimum)
+## 8) What to verify (minimum)
 
-- Page loads without console errors
-- Expected UI changes appear (layout, components, data visualisation)
-- Form behaviour and graph viz interactions work as per the issue
-- No regressions on linked/embedded components
-- Deploy scripts complete without errors
+- Page loads without console errors  
+- Expected UI changes appear (layout, components, data visualisation)  
+- Form behaviour and graph viz interactions work as per the issue  
+- No regressions on linked/embedded components  
+- Deploy scripts complete without errors  
 
 ---
 
-## 8) Troubleshooting
+## 9) Troubleshooting
 
 - **Git pull blocked by local changes**  
   `git stash -u` (pull) → test → `git stash pop` (if needed)
@@ -123,7 +157,7 @@ cd C:\projects\typerefinery-ai\typerefinery-websight
 
 ---
 
-## 9) Reporting back in the ticket
+## 10) Reporting back in the ticket
 
 Include:
 
@@ -138,7 +172,7 @@ Include:
 
 ---
 
-## 10) Clean-up (optional)
+## 11) Clean-up (optional)
 
 If you need to reset local state after testing:
 ```powershell
@@ -149,4 +183,4 @@ git clean -fdx
 
 ---
 
-**That’s it.** Pull latest on the specified branches, start services, deploy from `typerefinery-websight`, then verify via the test page and editor links above.
+**That’s it.** Clone repos, pull latest on the specified branches, start services, deploy from `typerefinery-websight`, then verify via the test page and editor links above.
