@@ -97,8 +97,8 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
                     console.log(["config", componentConfig]);
           
                     ns.handleEventAction($component, componentConfig, ns.ACTION_CHECKBOX_CLICK, { 
-                      type: "checkbox", 
-                      action: "click", 
+                      type: topicName, 
+                      action: action, 
                       "itemId": id, 
                       "itemValue": value, 
                       "id": name, 
@@ -122,8 +122,8 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
                   console.log(["config on change", componentConfig, name, value]);
         
                   ns.handleEventAction($component, componentConfig, ns.ACTION_CHECKBOX_CHANGE, {
-                    type: "checkbox", 
-                    action: "change", 
+                    type: topicName, 
+                    action: action,
                     "itemId": id, 
                     "itemValue": value, 
                     "id": name, 

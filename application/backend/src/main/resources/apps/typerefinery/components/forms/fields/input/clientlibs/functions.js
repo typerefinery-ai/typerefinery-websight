@@ -76,7 +76,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
                       value: value,
                       type: type,
                       id: id,
-                      action: "change" 
+                      action: action
                     });
           
                     console.groupEnd();

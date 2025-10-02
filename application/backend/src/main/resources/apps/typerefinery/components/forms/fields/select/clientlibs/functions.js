@@ -82,7 +82,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                       value: value,
                       type: type,
                       id: id,
-                      action: "change" 
+                      action: action
                     });
           
                     console.groupEnd();
@@ -106,7 +106,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                       value: value,
                       type: type,
                       id: id,
-                      action: "addItem" 
+                      action: action
                     });
           
                     console.groupEnd();
@@ -130,7 +130,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                       value: value,
                       type: type,
                       id: id,
-                      action: "removeItem" 
+                      action: action
                     });
           
                     console.groupEnd();
@@ -154,7 +154,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                       value: value,
                       type: type,
                       id: id,
-                      action: "selectItem" 
+                      action: action
                     });
           
                     console.groupEnd();

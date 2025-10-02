@@ -75,7 +75,7 @@ Typerefinery.Components.Forms.Fileupload = Typerefinery.Components.Forms.Fileupl
                       value: value,
                       type: type,
                       id: id,
-                      action: "change" 
+                      action: action
                     });
           
                     console.groupEnd();

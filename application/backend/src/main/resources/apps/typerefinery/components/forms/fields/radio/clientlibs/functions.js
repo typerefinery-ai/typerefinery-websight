@@ -67,7 +67,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         
                   console.log(["config", componentConfig]);
         
-                  ns.handleEventAction($component, componentConfig, ns.ACTION_RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
+                  ns.handleEventAction($component, componentConfig, ns.ACTION_RADIO_CLICK, { 
+                        value: value, 
+                        type: topicName, 
+                        action: action,
+                        id: id
+                    });
         
                   console.groupEnd();
               });
@@ -91,7 +96,12 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   const id = $radio.attr('id');
         
                   console.log(["$radio", $radio, value, id]);
-                  ns.handleEventAction($radio, componentConfig, ns.ACTION_RADIO_CLICK, { value: value, type: 'radio', id: id, action: "click" });
+                  ns.handleEventAction($radio, componentConfig, ns.ACTION_RADIO_CLICK, { 
+                        value: value, 
+                        type: topicName, 
+                        id: id, 
+                        action: action 
+                    });
         
                   console.groupEnd();
               });

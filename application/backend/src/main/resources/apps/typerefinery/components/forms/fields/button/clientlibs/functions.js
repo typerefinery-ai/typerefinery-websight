@@ -70,8 +70,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         e?.preventDefault();
                         
                         ns.BUTTON_CLICK($component, componentConfig, { 
-                            type: "button",
-                            action: "click" ,
+                            type: topicName,
+                            action: action ,
                             "id": id
                         });
 
@@ -84,8 +84,8 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                         console.log(["click", e]);
                         e?.preventDefault();
                         ns.MODAL_OPEN($component, componentConfig, { 
-                            type: "button",
-                            action: "click" ,
+                            type: topicName,
+                            action: action,
                             "id": id
                         });
                         console.groupEnd();
