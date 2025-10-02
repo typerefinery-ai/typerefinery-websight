@@ -1,10 +1,11 @@
 window.Typerefinery = window.Typerefinery || {};
+// @ts-ignore
 window.Typerefinery.Components = Typerefinery.Components || {};
 window.Typerefinery.Components.Layout = Typerefinery.Components.Layout || {};
 window.Typerefinery.Components.Layout.Modal = Typerefinery.Components.Layout.Modal || {};
 window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function ($, ns, formNs, componentNs, eventNs, document, window) {
+(function ($, ns, formNs, componentNs, eventNs, Bootstrap, document, window) {
     "use strict";
 
     ns.selectorComponentName = "modal";
@@ -308,7 +309,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         //quick check if modal dialog is available
         if ($modalDialog.length > 0) {
             console.log("modal dialog found");
-            let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+            let modal = Bootstrap.Modal.getOrCreateInstance($modal.get(0));
 
             console.log(["$modal", $modal, "modal", modal]);
 
@@ -901,7 +902,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       if (!$modal || $modal.length === 0) {
         return null;
       }
-      return bootstrap.Modal.getOrCreateInstance($modal.get(0));
+      return Bootstrap.Modal.getOrCreateInstance($modal.get(0));
     }
 
     ns.loadModalContent = ($component) => {
@@ -1103,4 +1104,15 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.groupEnd();
     }
 
-})(jQuery, Typerefinery.Components.Layout.Modal, Typerefinery.Components.Forms.Form, Typerefinery.Components, Typerefinery.Page.Events, document, window);
+})(
+    // @ts-ignore
+    jQuery,
+    Typerefinery.Components.Layout.Modal, 
+    Typerefinery.Components.Forms.Form, 
+    Typerefinery.Components, 
+    Typerefinery.Page.Events, 
+    // @ts-ignore
+    window.bootstrap, 
+    document, 
+    window
+);

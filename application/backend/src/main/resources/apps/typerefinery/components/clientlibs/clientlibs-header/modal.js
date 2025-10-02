@@ -1,12 +1,15 @@
 window.Typerefinery = window.Typerefinery || {};
 window.Typerefinery.Modal = Typerefinery.Modal || {};
+// @ts-ignore
 window.Typerefinery.Components = Typerefinery.Components || {};
+// @ts-ignore
 window.Typerefinery.Components.Forms = Typerefinery.Components.Forms || {};
 window.Typerefinery.Components.Forms.Form = Typerefinery.Components.Forms.Form || {};
+// @ts-ignore
 window.Typerefinery.Page = Typerefinery.Page || {};
 window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
-(function ($, ns, formNs, eventsNs, document, window) {
+(function ($, ns, formNs, eventsNs, Bootstrap, document, window) {
 
 
     ns.eventNameShowModal = "tr.modal.show";
@@ -409,7 +412,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //quick check if modal dialog is available
       if($modalDialog.length > 0) {
         console.log("modal dialog found");
-        let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+        let modal = Bootstrap.Modal.getOrCreateInstance($modal.get(0));
 
         console.log(["$modal", $modal, "modal", modal]);
 
@@ -624,7 +627,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      */
     ns.hideModal = ($modal) => {
       console.log("hiding modal");
-      let modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+      let modal = Bootstrap.Modal.getOrCreateInstance($modal.get(0));
       modal.hide();
     };
 
@@ -787,7 +790,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       console.log("creating modal");
 
-      const modal = bootstrap.Modal.getOrCreateInstance($modal.get(0));
+      const modal = Bootstrap.Modal.getOrCreateInstance($modal.get(0));
 
       console.log("adding modal listeners");
       ns.addModelListners($modal, options);
@@ -803,4 +806,14 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     // Init a common modal controller for the page to listen to the showModal event that is dispatched from the iframe or other components that should not show modals.
     ns.initCommonModal();
 
-})(jQuery, Typerefinery.Modal, Typerefinery.Components.Forms.Form, Typerefinery.Page.Events, document, window);
+})(
+    // @ts-ignore
+    jQuery, 
+    Typerefinery.Modal, 
+    Typerefinery.Components.Forms.Form, 
+    Typerefinery.Page.Events, 
+    // @ts-ignore
+    window.bootstrap, 
+    document, 
+    window
+);
