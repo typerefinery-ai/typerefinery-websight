@@ -355,16 +355,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log(["topicValue", topic, config, event]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
+                console.log(["topic == actionComponent", topic == actionComponent]);
 
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (eventType == '' && topic == actionComponent))) {
+                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (event == actionComponent) )) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   console.log("emit event", topic, eventData);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {
-                  console.warn("topic not matched", topic, eventType, actionComponent);
+                  console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
                 }
               });
             } else {
@@ -375,15 +376,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log(["topicValue", topic, config, event]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
+                console.log(["topic == actionComponent", topic == actionComponent]);
+
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (eventType == '' && topic == actionComponent))) {
+                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (event == actionComponent) )) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   console.log("emit event", topic, eventData);
                   ns.emitEvent(topic, eventData);
                   console.log("event emitted", topic, eventData);
                 } else {
-                  console.warn("topic not matched", topic, eventType, actionComponent);
+                  console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
                 }
               } else {
                 console.warn("no topic found");
