@@ -315,7 +315,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // console.log(["eventData", eventData]);
       console.log(["eventMap", eventMap]);
       const eventType = payload.type || "";
-      console.log(["eventType", eventType]);
+      const eventId = payload.id || "";
+      const eventAction = payload.action || "";
+      console.log(["eventType", eventType, "eventId", eventId, "eventAction", eventAction]);
 
       if (!eventMap) {
         console.error("Event map is missing");
@@ -352,13 +354,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               }
               actionEvents.forEach(topicValue => {
                 const { topic, config, event } = topicValue;
-                console.log(["topicValue", topic, config, event]);
+                console.log(["topicValue", "topic", topic, "eventType", eventType, "eventId", eventId, "eventAction", eventAction, "event", event, "actionComponent", actionComponent, "config", config]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
                 console.log(["topic == actionComponent", topic == actionComponent]);
 
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (event == actionComponent) )) {
+                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (eventType && eventType == actionComponent) )) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   console.log("emit event", topic, eventData);
@@ -373,13 +375,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               //is single value use it as topic
               if (actionEvents) {   
                 const { topic, config, event } = actionEvents;
-                console.log(["topicValue", topic, config, event]);
+                console.log(["topicValue", "topic", topic, "eventType", eventType, "event", "eventId", eventId, "eventAction", eventAction, "actionComponent", actionComponent, "config", config]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
                 console.log(["topic == actionComponent", topic == actionComponent]);
 
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (event == actionComponent) )) {
+                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (eventType && eventType == actionComponent) )) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   console.log("emit event", topic, eventData);
