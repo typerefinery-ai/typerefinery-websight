@@ -57,7 +57,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               console.log(["register event listen", topicName, eventName]);
               eventNs.registerEvents(topicName, (data) => {
                   // check make sure the event is for this event
-                  console.log(["event data", data]);
+                  console.log(["accordion event data", topicName, eventName, data]);
                   if (data.type === eventName) {                  
                       ns.handleEventAction($component, action, data);
                   }
