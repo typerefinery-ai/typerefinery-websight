@@ -806,8 +806,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     /* listen for window post messages sent by iframe to this component */
     ns.windowListeneriFrameEvent = function($component) {
+      console.groupCollapsed("windowListeneriFrameEvent embed");
       const iFrameContentWindow = $component.find("iframe")[0].contentWindow;
-      console.log(["windowListeneriFrameEvent", iFrameContentWindow]);
+      console.log(["iFrameContentWindow", iFrameContentWindow]);
       
       //listen for global message events that are emited by iframe
       window.addEventListener('message', function(event) {  
@@ -835,6 +836,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         }
         console.groupEnd();
       });
+
+      console.groupEnd();
     };
 
     //used for event id
