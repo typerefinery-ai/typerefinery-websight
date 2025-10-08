@@ -91,7 +91,7 @@ window.Typerefinery.Components.Forms.Checkbox = Typerefinery.Components.Forms.Ch
                 console.group(`adding click listener to component ${comonentEventId}`);
   
                 $component.on("click", (e) => {
-                    console.group("click");
+                    console.group(`click on ${window.location}`);
                     console.log(["click", e]);
           
                     console.log(["config", componentConfig]);

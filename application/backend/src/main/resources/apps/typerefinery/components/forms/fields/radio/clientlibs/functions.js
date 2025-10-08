@@ -62,7 +62,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               console.group(`adding click listener to component ${comonentEventId}`);
 
               $component.on("click", (e) => {
-                  console.group("click");
+                  console.group(`click on ${window.location}`);
                   console.log(["click", e]);
         
                   console.log(["config", componentConfig]);
@@ -86,7 +86,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               console.log(["$radioGroup", $radioGroup]);
 
               $radioGroup.on("click", (e) => {
-                  console.group("click");
+                  console.group(`click on ${window.location}`);
                   console.log(["click", e]);
         
                   console.log(["config", componentConfig]);

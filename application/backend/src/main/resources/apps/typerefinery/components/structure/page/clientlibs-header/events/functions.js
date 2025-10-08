@@ -162,7 +162,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         //emmit parent window event
         // if window is a child window, post message to parent
         if (window.parent && window.parent != window) {
-          console.log("window parent found, posting message", window.parent, window.parent == window);
+          console.log("window parent found, posting message", topic, payload, ns.DEFAULT_POST_MESSAGE_ORIGIN, window.parent, window.parent == window);
           window.parent.postMessage({ topic, payload }, ns.DEFAULT_POST_MESSAGE_ORIGIN);
           console.log("message posted");
         } else {
@@ -293,7 +293,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * @returns 
      */
     ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction, options) => {
-      console.groupCollapsed('emitLocalEvent');
+      console.groupCollapsed(`emitLocalEvent on ${window.location}`);
       if (!$component) {
         console.warn("event is external, no component found");
       }
