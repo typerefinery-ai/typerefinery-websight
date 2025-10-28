@@ -49,7 +49,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.WINDOW_LISTENER_MESSAGE = "message";
     ns.COMPONENT_LISTENER_LOAD = "load";
 
+    //TODO: need to add code to allow for this, if event has this in config
     ns.EVENT_CONFIG_NAME_MONITOR_FORM_EVENTS = "monitorformevents";
+
+    // if event has this in config then we need to monitor page events for this event
+    ns.EVENT_CONFIG_NAME_MONITOR_PAGE_EVENTS = "monitorpageevents";
 
     // map of component listeners to hold abortcontrollers for each listener across all components in this namespace on this page
     ns.componentListeners = new Map();
@@ -178,7 +182,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.EVENT_PROXY = ($component, componentConfig, data) => {
       console.group(ns.ACTION_EVENT_PROXY);
       console.log([ns.ACTION_EVENT_PROXY, $component, componentConfig, data]);
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_PROXY, ns.ACTIONS.EVENT_PROXY);
+      //ns.emitLocalEvent = ($component, componentConfig, eventMap,    payload, eventName,                  componentAction,        options)
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data,    eventNs.EVENTS.EVENT_PROXY, ns.ACTIONS.EVENT_PROXY);
       console.groupEnd();
     }
 
@@ -466,6 +471,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           //custom name takes precidence over name, this will be raised as event name
           let eventName = nameCustom || name;
 
+          let isMonitorFormEvents = configData[ns.EVENT_CONFIG_NAME_MONITOR_FORM_EVENTS] || false;
+          let isMonitorPageEvents = configData[ns.EVENT_CONFIG_NAME_MONITOR_PAGE_EVENTS] || false;
+
           console.groupCollapsed(`event ${typeName} - ${action}:${topic}`);
           console.log(["event", event]);
 
@@ -501,8 +509,40 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                   };
                   console.log(["eventDataConfig", eventDataConfig]);
 
+                  const unwrapMessage = eventNs.getOption(eventDataConfig, "unwrap", false); // default is to wrap all proxy events
+                  const isCatchAll = eventNs.getOption(eventDataConfig, "catchAll", false); // default is to not catch all, events have to match topic and action to be caught
+                  const isProxyEvent = (action === ns.ACTION_EVENT_PROXY);
+
+                  console.log(["unwrapMessage", unwrapMessage]);
+                  console.log(["isCatchAll", isCatchAll]);
+                  console.log(["isProxyEvent", isProxyEvent]);
+
+                  if (unwrapMessage) {
+                    // unwrap the proxy event data
+                    const proxyEventData = data.payload;
+                    const proxyEventTopic = proxyEventData.topic || proxyEventData.type;
+                    const proxyEventAction = proxyEventData.action;
+                    const proxyEventComponentId = proxyEventData.componentId;
+                    const proxyEventConfig = proxyEventData.config;
+
+                    console.log(["proxyEventData", proxyEventData]);
+                    console.log(["proxyEventTopic", proxyEventTopic]);
+                    console.log(["proxyEventAction", proxyEventAction]);
+                    console.log(["proxyEventComponentId", proxyEventComponentId]);
+                    console.log(["proxyEventConfig", proxyEventConfig]);
+
+                    //TODO: pre-refactor raising proxied event as local event
+                    ns.EVENT_PROXY($component, componentConfig, data);
+                    // raise proxied event as local event
+                    // eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, proxyEventData,    proxyEventTopic, proxyEventAction);
+                  } else {
+                    // proxy all events
+                    console.log(["raising", action, $component, componentConfig, eventDataConfig, data]);
+                    ns.EVENT_PROXY($component, componentConfig, data);
+                  }
+
                   // proxy all events
-                  console.log(["EVENT_PROXY", $component, componentConfig, eventDataConfig]);
+                  console.log(["raising", ns.ACTION_EVENT_PROXY, $component, componentConfig, eventDataConfig, data]);
                   ns.EVENT_PROXY($component, componentConfig, data);
                 });
               } else if (action === ns.ACTION_DATA_REQUEST) {
@@ -671,148 +711,188 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
 
-    ns.windowListeneriFrameEventBound = false;
+    ns.windowListeneriFrameEventBoundComponent = new Map();
     ns.bindWindowListeneriFrameEvent = function($component) {
-      console.groupCollapsed("bindWindowListeneriFrameEvent");
-      console.log(["bindWindowListeneriFrameEvent", ns.windowListeneriFrameEventBound]);
-      if (ns.windowListeneriFrameEventBound) {
+      const componentId = $component.attr("id");
+      console.groupCollapsed(`bindWindowListeneriFrameEvent on ${window.location}`);
+      console.log(["bindWindowListeneriFrameEvent", $component, ns.windowListeneriFrameEventBoundComponent ]);
+      if (ns.windowListeneriFrameEventBoundComponent.has(componentId)) {
+        console.warn("windowListeneriFrameEvent already bound", componentId);
         console.groupEnd();
         return;
       }
+      console.log(["bindWindowListeneriFrameEvent calling windowListeneriFrameEvent", componentId]);
       ns.windowListeneriFrameEvent($component);
-      ns.windowListeneriFrameEventBound = true;
-      console.log(["bindWindowListeneriFrameEvent", ns.windowListeneriFrameEventBound]);
+      ns.windowListeneriFrameEventBoundComponent.set($component.attr("id"), $component);
+      console.log(["bindWindowListeneriFrameEvent", ns.windowListeneriFrameEventBoundComponent]);
       console.groupEnd();
     }
     
     ns.processWindowListenerEvent = function($component, event, sourceData) {
-      console.groupCollapsed(`processWindowListenerEvent ${sourceData.type}`);
-      console.log(["processWindowListenerEvent", $component, event, sourceData]);
-      const eventType = sourceData.type;
-      const eventAction = sourceData.action;
-      console.log(["eventType", eventType]);
-      console.log(["eventAction", eventAction]);
-      console.log(["sourceData", sourceData]);
-      const countofCallbacks = ns.windowListeneriFrameEventCallBacks.size;
-      console.log(`find matching callbacks for event ${eventAction}:${eventType} in ${countofCallbacks} callbacks`);
+        console.groupCollapsed(`processWindowListenerEvent ${sourceData.topic}`);
+        console.log(["processWindowListenerEvent", $component, event, sourceData]);
+        const eventType = sourceData.type || sourceData.payload?.type;
+        const eventAction = sourceData.action || sourceData.payload?.action;
+        console.log(["eventType", eventType]);
+        console.log(["eventAction", eventAction]);
+        console.log(["sourceData", sourceData]);
+        const countofCallbacks = ns.windowListeneriFrameEventCallBacks.size;
+        console.log(`find matching callbacks for event ${eventAction}:${eventType} in ${countofCallbacks} callbacks`);
 
-      let hasCatchAll = false;
+        let hasCatchAll = false;
 
-      const matchedCallbacksArray = [...ns.windowListeneriFrameEventCallBacks];
+        const matchedCallbacksArray = [...ns.windowListeneriFrameEventCallBacks];
 
-      console.log(["matchedCallbacksArray", matchedCallbacksArray]);
+        console.log(["matchedCallbacksArray", matchedCallbacksArray]);
 
-      //find all callbacks that match the event
-      const matchedCallbacks = [...ns.windowListeneriFrameEventCallBacks].filter(([key, callBack]) => {
-        const callBackAction = callBack.action; //action component supports
-        const callBackTopicName = callBack.topicName; //topic name, should match event type
-        // const eventName = callBack.eventName; //named or custom event name
-        console.groupCollapsed(`callBack action ${callBackAction}:${callBackTopicName}`);
-        console.log(["callBack", callBack]);
-        console.log(["callBackAction", callBackAction]);
-        console.log(["callBackTopicName", callBackTopicName]);
-        // console.log(["eventName", eventName]);
-        const isProxyEvent = (callBackAction === ns.ACTION_EVENT_PROXY);
-        const isActionMatch = (callBackAction === eventAction);
-        const isTopicMatch = (callBackTopicName === eventType);
-        const isCatchAll = (callBack.config ? (callBack.config.catchAll ? callBack.config.catchAll : false) : false);
-        if (isProxyEvent) {
-          console.warn(["isProxyEvent", isProxyEvent]);
-        } else {
-          console.log(["isProxyEvent", isProxyEvent]);
-        }
-        if (isActionMatch) {
-          console.warn(["isActionMatch", isActionMatch]);
-        } else {
-          console.log(["isActionMatch", isActionMatch]);
-        }
-        if (isTopicMatch) {
-          console.warn(["isTopicMatch", isTopicMatch]);
-        } else {
-          console.log(["isTopicMatch", isTopicMatch]);
-        }
-        if (isCatchAll) {
-          console.warn(["isCatchAll", isCatchAll]);
-          hasCatchAll = true;
-        } else {
-          console.log(["isCatchAll", isCatchAll]);
-        }
+        let isTopicMatchFound = null;
 
-        // if event is proxy and is catch all then match all events
-        // if event is proxy then match topic only
-        // if action is match and topic is match then match
-        if ((isProxyEvent && isCatchAll) || (isProxyEvent && isTopicMatch) ||  (isActionMatch && isTopicMatch)) {
-          console.log(["match"]);
-          console.groupEnd();
-          return true;
-          //callBack.callbackFn(sourceData);
+        //find all callbacks that match the event
+        const matchedCallbacks = [...ns.windowListeneriFrameEventCallBacks].filter(([key, callBack]) => {
+            const callBackAction = callBack.action; //action component supports
+            const callBackTopicName = callBack.topicName; //topic name, should match event type
+            // const eventName = callBack.eventName; //named or custom event name
+            console.groupCollapsed(`callBack action ${callBackAction}:${callBackTopicName}`);
+            console.log(["callBack key", key]);
+            console.log(["callBack", callBack]);
+            console.log(["callBackAction", callBackAction]);
+            console.log(["callBackTopicName", callBackTopicName]);
+            // console.log(["eventName", eventName]);
+            const isProxyEvent = (callBackAction === ns.ACTION_EVENT_PROXY);
+            const isActionMatch = (callBackAction === eventAction);
+            const isTopicMatch = (callBackTopicName === eventType);
+            const unwrapMessage = eventNs.getOption(callBack.config, "unwrap", false); // default is to wrap all proxy events
+            const isCatchAll = eventNs.getOption(callBack.config, "catchAll", false); // default is to not catch all, events have to match topic and action to be caught
+
+            var isSkip = false;
+            if (isProxyEvent) {
+                console.warn(["isProxyEvent", isProxyEvent]);
+            } else {
+                console.log(["isProxyEvent", isProxyEvent]);
+            }
+            if (isActionMatch) {
+                console.warn(["isActionMatch", isActionMatch]);
+            } else {
+                console.log(["isActionMatch", isActionMatch]);
+            }
+            if (isTopicMatch) {
+                console.warn(["isTopicMatch", isTopicMatch]);
+            } else {
+                console.log(["isTopicMatch", isTopicMatch]);
+            }
+
+            console.log(["unwrapMessage", unwrapMessage]);
+            console.log(["isCatchAll", isCatchAll]);
+            console.log(["isTopicMatchFound", isTopicMatchFound]);
+
+            // set topic match found if topic match is found
+            if (isTopicMatch) {
+                isTopicMatchFound = true;
+                console.log(["isTopicMatchFound set to true", isTopicMatchFound]);
+            } else {
+                // if topic match is found then skip proxy event if not catch all
+                if (isTopicMatchFound) {
+                    console.log(["isTopicMatchFound is true, skipping proxy event", isTopicMatchFound, isProxyEvent]);
+                    if (isProxyEvent) {
+                        console.warn("topic match found, skipping proxy event", isProxyEvent);
+                        isSkip = true;
+                    }
+                }
+            }
+
+            console.log(["isTopicMatchFound", isTopicMatchFound]);
+
+            if (isCatchAll) {
+                console.warn(["isCatchAll", isCatchAll]);
+                hasCatchAll = true;
+            } else {
+                console.log(["isCatchAll", isCatchAll]);
+            }
+
+            // if event is proxy and is catch all then match all events
+            // if event is proxy then match topic only
+            // if action is match and topic is match then match
+            if (!isSkip && (isProxyEvent && isCatchAll) || (isProxyEvent && isTopicMatch) ||  (isActionMatch && isTopicMatch)) {
+                console.log(["match"]);
+                console.groupEnd();
+                return true;
+            //callBack.callbackFn(sourceData);
+            } else {
+                console.warn("no match");
+            }
+
+            console.groupEnd();
+            return false;
+        });
+
+        console.log(["matchedCallbacks", matchedCallbacks]);
+
+        if (matchedCallbacks.length > 0) {
+            if (matchedCallbacks.length == 1) {
+                console.log(["matchedCallbacks", matchedCallbacks]);
+                const callBackItem = matchedCallbacks[0];
+                const callBack = callBackItem[1];
+                const callBackKey = callBackItem[0];
+                console.log([`callBack exec ${callBackKey}`, callBack]);
+                // if callbackFn is set then call it
+                if (callBack.callbackFn) {
+                    callBack.callbackFn(sourceData, event);
+                    console.log([`callBack done ${callBackKey}`]);
+                } else {
+                    console.error(`no callback function found ${callBackKey}`);
+                }
+            } else {
+                //order the to have the catch all last
+                matchedCallbacks.sort((a, b) => {
+                    if (a.config && a.config.catchAll) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            
+                console.log(["matchedCallbacks", matchedCallbacks]);
+
+                //run callbacks
+                matchedCallbacks.forEach(([key, callBack]) => {
+                    //skip catch all but not if catchAllAlways is set
+                    if (callBack.config && callBack.config.catchAll && !callBack.config.catchAllAlways) {
+                        return;
+                    }          
+
+                    console.log([`callBack exec ${key}`, callBack]);
+                    // if callbackFn is set then call it
+                    if (callBack.callbackFn) {
+                        callBack.callbackFn(sourceData, event);
+                        console.log([`callBack done ${key}`]); 
+                    } else {
+                        console.error(`no callback function found ${key}`);
+                    }
+                });
+            }        
         } else {
-          console.warn("no match");
+            console.warn("no matching callbacks found");
         }
         console.groupEnd();
-        return false;
-      });
-
-      console.log(["matchedCallbacks", matchedCallbacks]);
-
-
-      if (matchedCallbacks.length > 0) {
-        if (matchedCallbacks.length == 1) {
-          console.log(["matchedCallbacks", matchedCallbacks]);
-          const callBackItem = matchedCallbacks[0];
-          const callBack = callBackItem[1];
-          const callBackKey = callBackItem[0];
-          console.log([`callBack exec ${callBackKey}`, callBack]);
-          // if callbackFn is set then call it
-          if (callBack.callbackFn) {
-            callBack.callbackFn(sourceData, event);
-            console.log([`callBack done ${callBackKey}`]);
-          } else {
-            console.error(`no callback function found ${callBackKey}`);
-          }
-        } else {
-          //order the to have the catch all last
-          matchedCallbacks.sort((a, b) => {
-            if (a.config && a.config.catchAll) {
-              return 1;
-            }
-            return 0;
-          });
-      
-          console.log(["matchedCallbacks", matchedCallbacks]);
-
-          //run callbacks
-          matchedCallbacks.forEach(([key, callBack]) => {
-            //skip catch all but not if catchAllAlways is set
-            if (callBack.config && callBack.config.catchAll && !callBack.config.catchAllAlways) {
-              return;
-            }          
-
-            console.log([`callBack exec ${key}`, callBack]);
-            // if callbackFn is set then call it
-            if (callBack.callbackFn) {
-              callBack.callbackFn(sourceData, event);
-              console.log([`callBack done ${key}`]); 
-            } else {
-              console.error(`no callback function found ${key}`);
-            }
-          });
-        }        
-      } else {
-        console.warn("no matching callbacks found");
-      }
-      console.groupEnd();
     };
 
     /* listen for window post messages sent by iframe to this component */
     ns.windowListeneriFrameEvent = function($component) {
-      console.groupCollapsed("windowListeneriFrameEvent embed");
+      console.groupCollapsed(`windowListeneriFrameEvent embed on ${window.location}`);
+      const iFrame = $component.find("iframe");
       const iFrameContentWindow = $component.find("iframe")[0].contentWindow;
-      console.log(["iFrameContentWindow", iFrameContentWindow]);
+      const iframeContentWindowSrc = iFrame.attr("src");
+      let iFrameContentWindowUrl = null;
+      try {
+        iFrameContentWindowUrl = iFrameContentWindow.location.href;
+      } catch (error) {
+        console.error("error getting iFrameContentWindow", error);
+      }
+      console.log(["iFrameContentWindow", iframeContentWindowSrc, iFrameContentWindow]);
       
       //listen for global message events that are emited by iframe
       window.addEventListener('message', function(event) {  
-        console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
+        console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);        
+        console.log(["event", event.data, ns.eventMap, iframeContentWindowSrc, (event.source == iFrameContentWindow), event.source, iFrameContentWindow]);
         if (event.source == iFrameContentWindow) {
           //this message is from component iframe
           console.log(["event", event]);
