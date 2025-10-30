@@ -208,8 +208,11 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     // local actions
     ns.EVENT_PROXY = ($component, componentConfig, data) => {
-        console.group(`embed - ${ns.ACTION_EVENT_PROXY} - ${data.topic}`);
+        console.group(`embed - ${ns.ACTION_EVENT_PROXY} - ${data.topic || data.type}`);
         console.log([ns.ACTION_EVENT_PROXY, $component, componentConfig, data]);
+
+        //TODO: if we wrapping/mapping an event we need to merge out config over theirs.
+
         //ns.emitLocalEvent = ($component, componentConfig, eventMap,    payload, eventName,                  componentAction,        options)
         eventNs.emitLocalEvent(
             $component,
@@ -663,14 +666,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                                     // get possible config from data sent
                                     let dataConfig = data.config || {};
                                     let configDataObject = configData || {};
-                                    let eventDataConfig = {
-                                        ...dataConfig,
-                                        ...configDataObject,
-                                    };
-                                    console.log([
-                                        "eventDataConfig",
-                                        eventDataConfig,
-                                    ]);
+
+                                    console.log([ "dataConfig", dataConfig ]);
+                                    console.log([ "configDataObject", configDataObject ]);
+
+                                    const eventDataConfig = eventNs.mergeTrustedEventConfig(event, dataConfig, configDataObject);
+                                    
+                                    console.log([ "eventDataConfig", eventDataConfig ]);
 
                                     const unwrapMessage = eventNs.getOption(
                                         eventDataConfig,
@@ -705,39 +707,19 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                                         const proxyEventConfig =
                                             proxyEventData.config;
 
-                                        console.log([
-                                            "proxyEventData",
-                                            proxyEventData,
-                                        ]);
-                                        console.log([
-                                            "proxyEventTopic",
-                                            proxyEventTopic,
-                                        ]);
-                                        console.log([
-                                            "proxyEventAction",
-                                            proxyEventAction,
-                                        ]);
-                                        console.log([
-                                            "proxyEventComponentId",
-                                            proxyEventComponentId,
-                                        ]);
-                                        console.log([
-                                            "proxyEventConfig",
-                                            proxyEventConfig,
-                                        ]);
+                                        console.log([ "proxyEventData", proxyEventData ]);
+                                        console.log([ "proxyEventTopic", proxyEventTopic ]);
+                                        console.log([ "proxyEventAction", proxyEventAction ]);
+                                        console.log([ "proxyEventComponentId", proxyEventComponentId ]);
+                                        console.log([ "proxyEventConfig", proxyEventConfig ]);
 
-                                        console.log(
-                                            `call embed with unwrapped event`,
-                                            proxyEventData
-                                        );
+                                        console.log( `call embed with unwrapped event`, proxyEventData );
                                         //TODO: pre-refactor raising proxied event as local event
-                                        //ns.EVENT_PROXY($component, componentConfig, data);
+                                        // ns.EVENT_PROXY($component, componentConfig, data);
                                         // raise proxied event as local event
                                         // eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, proxyEventData,    proxyEventTopic, proxyEventAction);
-                                        eventNs.emitEvent(
-                                            proxyEventTopic,
-                                            proxyEventData
-                                        );
+                                        eventNs.emitEvent( proxyEventTopic, proxyEventData );
+
                                     } else {
                                         console.log(
                                             `call embed with wrapped event`,
@@ -746,18 +728,37 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                                         // proxy all events
                                         console.log([
                                             "raising",
-                                            data.topic,
+                                            data.topic || data.type,
                                             action,
                                             $component,
                                             componentConfig,
                                             eventDataConfig,
                                             data,
                                         ]);
+
+                                        // wrap the data in a new event data object
+                                        // merge current event data with data we are wrapping
+                                        const eventData = {
+                                            ...data,
+                                            topicName: data.topic || data.type,
+                                            eventName: eventName,
+                                            action: action,
+                                            config: eventDataConfig,
+                                        };
+
                                         ns.EVENT_PROXY(
                                             $component,
                                             componentConfig,
-                                            data
+                                            eventData
                                         );
+
+
+
+                                        // console.log([ "emitting event eventData", eventData ]);
+
+                                        // eventNs.emitEvent( data.topic || data.type, eventData );
+
+
                                     }
 
                                     // proxy all events
@@ -1105,7 +1106,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.processWindowListenerEvent = function ($component, event, sourceData) {
         console.groupCollapsed(
-            `processWindowListenerEvent ${sourceData.topic}`
+            `processWindowListenerEvent ${sourceData.topic || sourceData.type}`
         );
         console.log([
             "processWindowListenerEvent",
@@ -1113,8 +1114,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             event,
             sourceData,
         ]);
+        const eventTopic = sourceData.topic || sourceData.payload?.topic;
         const eventType = sourceData.type || sourceData.payload?.type;
         const eventAction = sourceData.action || sourceData.payload?.action;
+        console.log(["eventTopic", eventTopic]);
         console.log(["eventType", eventType]);
         console.log(["eventAction", eventAction]);
         console.log(["sourceData", sourceData]);
@@ -1335,9 +1338,10 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 `embed windowListeneriFrameEvent on ${window.location}`
             );
 
-            const sourceHost = event.source.location?.host;
-            const iframeHost = iFrameContentWindow.location.host;
-
+            // const sourceHost = event.source.location?.host;
+            // const iframeHost = iFrameContentWindow.location.host;
+            // console.log(["sourceHost", sourceHost, "iframeHost", iframeHost]);
+            
             console.log([
                 "event",
                 event.data,
@@ -1347,7 +1351,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 event.source,
                 iFrameContentWindow,
             ]);
-            console.log(["sourceHost", sourceHost, "iframeHost", iframeHost]);
+
             if (event.source == iFrameContentWindow) {
                 //this message is from component iframe
                 console.log(["event", event]);

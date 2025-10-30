@@ -347,7 +347,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log("actionComponents", actionComponents);
           // for each topic in the event name emit event
           actionComponents.forEach(actionComponent => {
-            console.log("actionComponent", actionComponent);
+            console.groupCollapsed("actionComponent", actionComponent);
             const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][componentId][actionComponent];
             console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
@@ -382,13 +382,30 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
                 //only run actions that match event topic and actionComponent if eventType is not set
                 if (topic && (isTopicAndTypeMatch || isTypeMatch || isTopicMatch || isTopicMatchActionComponent || isTypeMatchActionComponent )) {
-                  console.log("emit event for topic", topic);
-                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
-                  console.log("emit event", topic, eventData);
-                  ns.emitEvent(topic, eventData);
-                  console.log("event emitted", topic, eventData);
+                    console.log("emit event for topic", topic);
+                    console.log("actionComponent", actionComponent);
+                    console.log("componentAction", componentAction);
+                    console.log("componentId", componentId);
+                    console.log("config", config);
+                    console.log("payload", payload);
+                    console.log("topic", topic);
+
+                    const eventPayloadConfig = payload.config || {};
+
+                    console.log("eventPayloadConfig", eventPayloadConfig);
+
+                    const combinedConfig = ns.mergeTrustedEventConfig(event, eventPayloadConfig, config);
+
+                    console.log("combinedConfig", combinedConfig);
+
+                    const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, combinedConfig);
+                    console.log("eventData", eventData);
+                    console.group(`emit event ${topic}`);
+                    ns.emitEvent(topic, eventData);
+                    console.groupEnd();
+                    console.log("event emitted", topic, eventData);
                 } else {
-                  console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
+                    console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
                 }
               });
             } else {
@@ -415,6 +432,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.warn("no topic found");
               }
             }
+            console.groupEnd();
           });
           console.groupEnd();
         } else {
@@ -458,7 +476,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * @param {*} event Message event
      * @param {*} defaultConfig default config object
      * @param {*} eventConfig event config object
-     * @returns 
+     * @returns merged config object of defaultConfig and eventConfig, eventConfig overrides defaultConfig
      */
     ns.mergeTrustedEventConfig = function(event, defaultConfig, eventConfig) {
         console.groupCollapsed("mergeTrustedEventConfig");
@@ -471,12 +489,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         if ((typeof defaultConfig === 'object' && Object.keys(defaultConfig).length === 0)
             && (typeof eventConfig === 'object' && Object.keys(eventConfig).length === 0)) {
             console.warn("defaultConfig and eventConfig are empty namespaces");
+            console.groupEnd();
             return defaultConfig;
         }
         
         if (event && defaultConfig && eventConfig) {
             //get config from eventConfig
-            let isEventConfig = false
+            let isEventConfig = false;
             let eventConfigData = eventConfig['config'];
             //if eventConfigData is string parse it as json if not return as is
             if (typeof eventConfigData === 'string') {
@@ -485,9 +504,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     isEventConfig = true;
                 } catch {
                     console.error("eventConfigData is not a valid JSON string, using as is.");
-                }            
+                }
+            } else {
+                if (eventConfig && typeof eventConfig === 'object' && Object.keys(eventConfig).length > 0) {
+                    eventConfigData = eventConfig;
+                    isEventConfig = true;
+                }
             }
-            if (isEventConfig) {
+            if (typeof eventConfigData === 'object' && Object.keys(eventConfigData).length > 0 && isEventConfig) {
                 // get origin from event
                 let eventOrigin = event.origin;
 
@@ -504,12 +528,28 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                             ...eventConfigData
                         }                
                     }
+                } else {
+                    finalConfig = {
+                        ...defaultConfig,
+                        ...eventConfigData
+                    }
                 }
+            } else {
+                // if eventConfig is not an object, use it as is
+                console.log("eventConfig is not an object, using as is", eventConfig);
+                finalConfig = eventConfig;
             }
         } else {
             console.warn("event, defaultConfig or eventConfig is not set");
         }
         console.groupEnd();
+
+        // if finalConfig is empty object, namespace or string return undefined
+        if ( (typeof finalConfig === 'object' && Object.keys(finalConfig).length === 0) || (typeof finalConfig === 'string' && finalConfig === '')) {
+            console.log("finalConfig is empty object, namespace or string, returning undefined");
+            return undefined;
+        }
+
         return finalConfig;
     };
     
