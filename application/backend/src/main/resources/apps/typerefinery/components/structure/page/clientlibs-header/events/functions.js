@@ -314,10 +314,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // const eventData = ns.compileEventData(payload, eventName, componentAction);
       // console.log(["eventData", eventData]);
       console.log(["eventMap", eventMap]);
-      const eventType = payload.type || "";
+
+      //get event topic from payload
+      const eventTopic = payload.topic || "";
+      //get event type from payload, this is alternative to topic for filtering
+      const eventType = payload.payload?.type || "";
       const eventId = payload.id || "";
       const eventAction = payload.action || "";
-      console.log(["eventType", eventType, "eventId", eventId, "eventAction", eventAction]);
+      console.log(["eventTopic", eventTopic, "eventType", eventType, "eventId", eventId, "eventAction", eventAction]);
 
       if (!eventMap) {
         console.error("Event map is missing");
@@ -352,15 +356,32 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               if (actionEvents.length == 0) {
                 console.warn("no topics found");
               }
+              // for each action defined try to match it with event topic or event type
               actionEvents.forEach(topicValue => {
-                const { topic, config, event } = topicValue;
+                const { topic, config, event } = topicValue;                
                 console.log(["topicValue", "topic", topic, "eventType", eventType, "eventId", eventId, "eventAction", eventAction, "event", event, "actionComponent", actionComponent, "config", config]);
+                console.log(["topic == eventTopic", topic == eventTopic]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
                 console.log(["topic == actionComponent", topic == actionComponent]);
 
+                const isTopicMatch = topic == eventTopic; // action topic matches event topic, good match, matches topic of event being raised
+                const isTypeMatch = (!eventType && topic == eventType); // action topic matches event type, good match, matches alternative topic
+                const isTopicAndTypeMatch = isTopicMatch && isTypeMatch; // action topic and type matches event topic and type, closes match, matches both topic and type of event being raised
+                const isTopicMatchActionComponent = (!eventType && topic == actionComponent); // action topic matches action component, good match, matches type of event being raised
+                const isTypeMatchActionComponent = (eventType && eventType == actionComponent); // action type matches action component, good match, matches type of event being raised
+
+                // good matches for picking events
+                console.log(["isTopicMatch, matches topic of event", isTopicMatch]);
+                console.log(["isTypeMatch, matches alternative topic", isTypeMatch]);
+                // primary match for picking events
+                console.log(["isTopicAndTypeMatch, matches both topic and type", isTopicAndTypeMatch]); 
+                // alterantive fallbacks for picking events
+                console.log(["isTopicMatchActionComponent, event type is empty and topic matches type of event", isTopicMatchActionComponent]);
+                console.log(["isTypeMatchActionComponent, event type is set and it matches type of event", isTypeMatchActionComponent]);
+
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (eventType && eventType == actionComponent) )) {
+                if (topic && (isTopicAndTypeMatch || isTypeMatch || isTopicMatch || isTopicMatchActionComponent || isTypeMatchActionComponent )) {
                   console.log("emit event for topic", topic);
                   const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
                   console.log("emit event", topic, eventData);
