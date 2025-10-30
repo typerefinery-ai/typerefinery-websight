@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="VizAndForm Local"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-10-26T22:30:38.701+11:00"
+        ws:lastModified="{Date}2025-10-30T23:37:06.353+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -245,11 +245,19 @@
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
                                     config="\0"
-                                    name="eventproxy"
-                                    nameCustom="\0"
-                                    topic="embed-viz-event-proxy"
+                                    name="\0"
+                                    nameCustom="formcancel"
+                                    topic="formcancel"
                                     type="emit"/>
                                 <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_SOURCE"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/default.html&quot;}"
+                                    name="\0"
+                                    nameCustom="formcancel"
+                                    topic="formcancel"
+                                    type="listen"/>
+                                <_x0032_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_SOURCE"
                                     config="\{&quot;monitorformevents&quot;:true}"
@@ -257,7 +265,7 @@
                                     nameCustom="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     topic="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     type="listen"/>
-                                <_x0032_
+                                <_x0033_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_SOURCE"
                                     config="\{&quot;monitorformevents&quot;:true}"
@@ -265,13 +273,13 @@
                                     nameCustom="embed-viz-event-open-stixorm-forms-object"
                                     topic="embed-viz-event-open-stixorm-forms-object"
                                     type="listen"/>
-                                <_x0033_
+                                <_x0034_
                                     jcr:primaryType="nt:unstructured"
-                                    action="DATA_SOURCE"
-                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/default.html&quot;}"
+                                    action="EVENT_PROXY"
+                                    config="\0"
                                     name="eventproxy"
-                                    nameCustom="formcancel"
-                                    topic="formcancel"
+                                    nameCustom="\0"
+                                    topic="embed-form-event-proxy"
                                     type="emit"/>
                             </_events_>
                         </embed>

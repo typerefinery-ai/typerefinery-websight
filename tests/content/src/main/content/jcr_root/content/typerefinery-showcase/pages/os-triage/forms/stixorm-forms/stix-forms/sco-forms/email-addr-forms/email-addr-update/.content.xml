@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="email-addr-update"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-02-05T15:00:02.281+11:00"
+        ws:lastModified="{Date}2025-10-30T23:33:39.973+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -76,27 +76,67 @@
                         <button
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
                             gap="2"
+                            hideButtonLabel="false"
                             id="button_DAYN3ZH0B"
+                            isOutlinedButton="false"
                             label="Update"
                             lgColSize="5"
                             mdColSize="5"
-                            persistColorWhenThemeSwitches="{Boolean}true"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
                             smColSize="5"
-                            title="Update Identity"/>
+                            title="Update Identity">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="BUTTON_CLICK"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="email-addr-update-save"
+                                    topic="email-addr-update-save"
+                                    type="emit"/>
+                            </_events_>
+                        </button>
                         <button_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
                             buttonStyle="secondary"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
                             gap="2"
+                            hideButtonLabel="false"
                             horizontalAlignment="end"
                             id="button_DAYN3ZH0B"
+                            isOutlinedButton="false"
                             label="Cancel"
                             lgColSize="5"
                             mdColSize="5"
-                            persistColorWhenThemeSwitches="{Boolean}true"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
                             smColSize="5"
-                            title="Cancel"/>
+                            title="Cancel">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="BUTTON_CLICK"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="formcancel"
+                                    topic="formcancel"
+                                    type="emit"/>
+                            </_events_>
+                        </button_1>
                     </container2>
                 </two>
             </header>
@@ -107,9 +147,30 @@
                 <form
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
+                    borderEnabled="false"
+                    classes="\0"
+                    flexEnabled="false"
+                    flowapi_createdon="\0"
+                    flowapi_designtemplate="\0"
+                    flowapi_editurl="\0"
+                    flowapi_enable="false"
+                    flowapi_flowstreamid="\0"
+                    flowapi_group="\0"
+                    flowapi_httproute="\0"
+                    flowapi_iscontainer="\0"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
-                    id="form_UU6AU0YTR">
+                    flowapi_title="\0"
+                    flowapi_topic="\0"
+                    flowapi_updatedon="\0"
+                    id="form_UU6AU0YTR"
+                    marginEnabled="false"
+                    paddingEnabled="false"
+                    persistColorWhenThemeSwitches="false"
+                    readUrl="\0"
+                    roleOther="\0"
+                    title="\0"
+                    writeUrl="\0">
                     <two
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
@@ -823,6 +884,16 @@
                             </composite>
                         </field>
                     </composite_3>
+                    <_events_ jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            action="FORM_SUBMIT"
+                            config="\0"
+                            name="\0"
+                            nameCustom="email-addr-update-save"
+                            topic="email-addr-update-save"
+                            type="listen"/>
+                    </_events_>
                 </form>
             </main>
             <footer

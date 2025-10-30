@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Events"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-10-27T22:26:35.018+11:00"
+        ws:lastModified="{Date}2025-10-30T14:58:14.410+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -37,12 +37,29 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
                         backgroundColor="light"
+                        gap="3"
                         horizontalAlignment="center"
                         id="container_KQ4HB2BSA"
                         lgColSize="6"
                         mdColSize="6"
                         smColSize="6"
                         textAlignment="center">
+                        <container_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/layout/container"
+                            id="container_1_MIXB6GQBV"
+                            textAlignment="left">
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                classes="\0"
+                                id="text_RF0ZC57NS"
+                                markdown="\0"
+                                name="\0"
+                                paragraphMode="false"
+                                text="&lt;ul>&lt;li>&lt;p>Send event from inside an embed to outside components&lt;/p>&lt;ol>&lt;li>&lt;p>Open Item 2&lt;/p>&lt;ol>&lt;li>&lt;p>Button Click action event raises event, there is not internal handler so its sent to embed parent as a messages&lt;/p>&lt;/li>&lt;li>&lt;p>Embed receives the message and find a matching Proxy event which has a config of `catchAll` and `unwrap`, it unwraps it and raise it as an event&lt;/p>&lt;/li>&lt;li>&lt;p>Accordion on the right has event matching the topic or original event&lt;/p>&lt;/li>&lt;/ol>&lt;/li>&lt;li>&lt;p>Open Item 3 sends a wrapped&lt;/p>&lt;ol>&lt;li>&lt;p>Button Click action event raises event, there is not internal handler so its sent to embed parent as a messages&lt;/p>&lt;/li>&lt;li>&lt;p>Embed receives the message and find a matching Proxy event matching the emitted event by Topic, the event is wrapped as payload and send as a new event with new config.&lt;/p>&lt;/li>&lt;li>&lt;p>Accordion on the right has event matching the topic for the new event and its config&lt;/p>&lt;/li>&lt;/ol>&lt;/li>&lt;/ol>&lt;/li>&lt;/ul>"
+                                theme="\0"/>
+                        </container_1>
                         <embed
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/content/embed"
@@ -64,7 +81,7 @@
                                 <_x0030_
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
-                                    config="\0"
+                                    config="accordionitem3_PCJDMW8PO"
                                     name="\0"
                                     nameCustom="open_item3"
                                     topic="open_item3"
@@ -79,14 +96,115 @@
                                     type="emit"/>
                             </_events_>
                         </embed>
+                        <container
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/layout/container"
+                            id="container_EXV8QQTWC"
+                            textAlignment="left">
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                classes="\0"
+                                id="text_GEBR2L5D3"
+                                markdown="\0"
+                                name="\0"
+                                paragraphMode="false"
+                                text="&lt;ul>&lt;li>&lt;p>Send event from inside an embed to outside components&lt;/p>&lt;ol>&lt;li>&lt;p>Change to Page 2 / Change to Page 1&lt;/p>&lt;ol>&lt;li>&lt;p>Button Click action event raises event, there is not internal handler so its sent to embed parent as a messages&lt;/p>&lt;/li>&lt;li>&lt;p>Embed receives the message and find a matching Proxy event, it wraps it and raises it as an event&lt;/p>&lt;/li>&lt;li>&lt;p>The same embed has an event that matches the proxy topic, it receives the event, merges its config with its own config and executes the component action&lt;/p>&lt;/li>&lt;/ol>&lt;/li>&lt;/ol>&lt;/li>&lt;/ul>"/>
+                        </container>
+                        <embed_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/content/embed"
+                            autoResize="false"
+                            borderEnabled="false"
+                            classes="\0"
+                            height="\0"
+                            id="embed_1_QJC0RU71F"
+                            marginEnabled="false"
+                            paddingEnabled="false"
+                            persistColorWhenThemeSwitches="false"
+                            scrolling="no"
+                            url="/content/typerefinery-showcase/pages/components/content/embed/events/page1.html"
+                            variant="iframe">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="EVENT_PROXY"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="change-page1"
+                                    topic="change-page1"
+                                    type="emit"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="EVENT_PROXY"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="change-page2"
+                                    topic="change-page2"
+                                    type="emit"/>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_SOURCE"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/components/content/embed/events/page1.html&quot;}"
+                                    name="\0"
+                                    nameCustom="change-page1"
+                                    topic="change-page1"
+                                    type="listen"/>
+                                <_x0033_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_SOURCE"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/components/content/embed/events/page2.html&quot;}"
+                                    name="\0"
+                                    nameCustom="change-page2"
+                                    topic="change-page2"
+                                    type="listen"/>
+                            </_events_>
+                        </embed_1>
                     </container>
                     <container_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
+                        gap="3"
                         id="container_1_AS8TTPEOM"
                         lgColSize="6"
                         mdColSize="6"
                         smColSize="6">
+                        <container
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/layout/container"
+                            id="container_AIG7ATUDG">
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                classes="\0"
+                                id="text_JOSRLVT0X"
+                                markdown="\0"
+                                name="\0"
+                                paragraphMode="false"
+                                text="&lt;ul>&lt;li>&lt;p>Send event inside same page&lt;/p>&lt;ol>&lt;li>&lt;p>Open Item 1 / Open Item 2 / Open Item 3&lt;/p>&lt;ol>&lt;li>&lt;p>Button Click action event raises event with topic and config with id of accordion item to open&lt;/p>&lt;/li>&lt;li>&lt;p>Accordion has event defined for the topic and it executes the action.&lt;/p>&lt;/li>&lt;/ol>&lt;/li>&lt;/ol>&lt;/li>&lt;/ul>">
+                                <par0
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par1
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par2
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par3
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par4
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par5
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                                <par6
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="typerefinery/components/layout/container"/>
+                            </text>
+                        </container>
                         <button
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"

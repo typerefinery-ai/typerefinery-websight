@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="Page1"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-10-21T12:22:46.209+11:00"
+        ws:lastModified="{Date}2025-10-29T17:00:32.531+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -27,12 +27,43 @@
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/main"
-                id="main_WIZ2B1BJX">
+                id="main_WIZ2B1BJX"
+                textAlignment="center">
                 <text
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/content/text"
                     id="text_QMB7EF2ZT"
                     text="&lt;p>Page 1&lt;/p>"/>
+                <button
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    buttonType="action"
+                    classes="\0"
+                    flexEnabled="false"
+                    hideButtonLabel="false"
+                    id="button_ULYHN17VH"
+                    isOutlinedButton="false"
+                    label="Change to Page 2"
+                    lgColSize="2"
+                    mdColSize="2"
+                    persistColorWhenThemeSwitches="true"
+                    roleOther="\0"
+                    showIcon="false"
+                    showImage="false"
+                    showTextualElementOfButton="false"
+                    smColSize="2"
+                    title="\0">
+                    <_events_ jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            action="BUTTON_CLICK"
+                            config="\0"
+                            name="\0"
+                            nameCustom="change-page2"
+                            topic="change-page2"
+                            type="emit"/>
+                    </_events_>
+                </button>
             </main>
             <footer
                 jcr:primaryType="nt:unstructured"
