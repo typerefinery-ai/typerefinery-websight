@@ -726,7 +726,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     /* listen for window post messages sent by iframe to this component */
     ns.windowListeneriFrameEvent = function($component) {
-        console.groupCollapsed("windowListeneriFrameEvent");
+        console.groupCollapsed("windowListeneriFrameEvent form");
         //check if this page is in iFrame
         if (window.self === window.top) {
             console.warn("this page is not in iFrame, skipping windowListeneriFrameEvent");
@@ -738,7 +738,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
         //listen for global message events that are emited by iframe
         window.addEventListener('message', function(event) {  
-            console.groupCollapsed(`embed windowListeneriFrameEvent on ${window.location}`);
+            console.groupCollapsed(`form windowListeneriFrameEvent on ${window.location}`);
             if (event.source == iFrameContentWindow) {
                 //this message is from component iframe
                 console.log(["event", event]);

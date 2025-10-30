@@ -89,7 +89,21 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { config } = data;
       const id = config;
+
+      if (!id) {
+        console.error(`id not set for openItem to open item '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $item = $component.find(`#${id}`);
+
+      if ($item.length === 0) {
+        console.error(`item not found for id '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $item.find(ns.selectorButton).first();
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
@@ -145,7 +159,21 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { config } = data;
       const id = config;
+
+      if (!id) {
+        console.error(`id not set for openItem to open item '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $item = $component.find(`#${id}`);
+
+      if ($item.length === 0) {
+        console.error(`item not found for id '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
@@ -178,7 +206,21 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { config } = data;
       const id = config;
-      const $item = $component.find(`#${id}`); //find item by id, should be accordion item
+
+      if (!id) {
+        console.error(`id not set for openItem to open item '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
+      const $item = $component.find(`#${id}`);
+
+      if ($item.length === 0) {
+        console.error(`item not found for id '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
@@ -204,7 +246,21 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { config } = data;
       const id = config;
+
+      if (!id) {
+        console.error(`id not set for openItem to open item '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $item = $component.find(`#${id}`);
+
+      if ($item.length === 0) {
+        console.error(`item not found for id '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);
@@ -229,7 +285,21 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       const { config } = data;
       const id = config;
+
+      if (!id) {
+        console.error(`id not set for openItem to open item '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+
       const $item = $component.find(`#${id}`);
+
+      if ($item.length === 0) {
+        console.error(`item not found for id '${id}'.`);
+        console.groupEnd();
+        return;
+      }
+      
       const $itemContainer = $item.closest(ns.selectorAccordionItem);
       const $itemButton = $itemContainer.find(ns.selectorButton);
       const itemButtonTarget = $itemButton.attr(ns.attributeTarget);

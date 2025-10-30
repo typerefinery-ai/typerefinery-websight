@@ -162,7 +162,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         //emmit parent window event
         // if window is a child window, post message to parent
         if (window.parent && window.parent != window) {
-          console.log("window parent found, posting message", window.parent, window.parent == window);
+          console.log("window parent found, posting message", topic, payload, ns.DEFAULT_POST_MESSAGE_ORIGIN, window.parent, window.parent == window);
           window.parent.postMessage({ topic, payload }, ns.DEFAULT_POST_MESSAGE_ORIGIN);
           console.log("message posted");
         } else {
@@ -293,7 +293,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * @returns 
      */
     ns.emitLocalEvent = ($component, componentConfig, eventMap, payload, eventName, componentAction, options) => {
-      console.groupCollapsed('emitLocalEvent');
+      console.groupCollapsed(`emitLocalEvent on ${window.location}`);
       if (!$component) {
         console.warn("event is external, no component found");
       }
@@ -314,10 +314,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       // const eventData = ns.compileEventData(payload, eventName, componentAction);
       // console.log(["eventData", eventData]);
       console.log(["eventMap", eventMap]);
-      const eventType = payload.type || "";
+
+      //get event topic from payload
+      const eventTopic = payload.topic || "";
+      //get event type from payload, this is alternative to topic for filtering
+      const eventType = payload.payload?.type || "";
       const eventId = payload.id || "";
       const eventAction = payload.action || "";
-      console.log(["eventType", eventType, "eventId", eventId, "eventAction", eventAction]);
+      console.log(["eventTopic", eventTopic, "eventType", eventType, "eventId", eventId, "eventAction", eventAction]);
 
       if (!eventMap) {
         console.error("Event map is missing");
@@ -343,7 +347,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
           console.log("actionComponents", actionComponents);
           // for each topic in the event name emit event
           actionComponents.forEach(actionComponent => {
-            console.log("actionComponent", actionComponent);
+            console.groupCollapsed("actionComponent", actionComponent);
             const actionEvents = eventMap[ns.EVENT_TYPE_EMIT][componentAction][componentId][actionComponent];
             console.log("topicValues", actionEvents);
             // if topicValues is array then emit event to all the topics
@@ -352,22 +356,56 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
               if (actionEvents.length == 0) {
                 console.warn("no topics found");
               }
+              // for each action defined try to match it with event topic or event type
               actionEvents.forEach(topicValue => {
-                const { topic, config, event } = topicValue;
+                const { topic, config, event } = topicValue;                
                 console.log(["topicValue", "topic", topic, "eventType", eventType, "eventId", eventId, "eventAction", eventAction, "event", event, "actionComponent", actionComponent, "config", config]);
+                console.log(["topic == eventTopic", topic == eventTopic]);
                 console.log(["topic == eventType", topic == eventType]);
                 console.log(["event == actionComponent", event == actionComponent]);
                 console.log(["topic == actionComponent", topic == actionComponent]);
 
+                const isTopicMatch = topic == eventTopic; // action topic matches event topic, good match, matches topic of event being raised
+                const isTypeMatch = (!eventType && topic == eventType); // action topic matches event type, good match, matches alternative topic
+                const isTopicAndTypeMatch = isTopicMatch && isTypeMatch; // action topic and type matches event topic and type, closes match, matches both topic and type of event being raised
+                const isTopicMatchActionComponent = (!eventType && topic == actionComponent); // action topic matches action component, good match, matches type of event being raised
+                const isTypeMatchActionComponent = (eventType && eventType == actionComponent); // action type matches action component, good match, matches type of event being raised
+
+                // good matches for picking events
+                console.log(["isTopicMatch, matches topic of event", isTopicMatch]);
+                console.log(["isTypeMatch, matches alternative topic", isTypeMatch]);
+                // primary match for picking events
+                console.log(["isTopicAndTypeMatch, matches both topic and type", isTopicAndTypeMatch]); 
+                // alterantive fallbacks for picking events
+                console.log(["isTopicMatchActionComponent, event type is empty and topic matches type of event", isTopicMatchActionComponent]);
+                console.log(["isTypeMatchActionComponent, event type is set and it matches type of event", isTypeMatchActionComponent]);
+
                 //only run actions that match event topic and actionComponent if eventType is not set
-                if (topic && (topic == eventType || (!eventType && topic == actionComponent) || (eventType && eventType == actionComponent) )) {
-                  console.log("emit event for topic", topic);
-                  const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, config);
-                  console.log("emit event", topic, eventData);
-                  ns.emitEvent(topic, eventData);
-                  console.log("event emitted", topic, eventData);
+                if (topic && (isTopicAndTypeMatch || isTypeMatch || isTopicMatch || isTopicMatchActionComponent || isTypeMatchActionComponent )) {
+                    console.log("emit event for topic", topic);
+                    console.log("actionComponent", actionComponent);
+                    console.log("componentAction", componentAction);
+                    console.log("componentId", componentId);
+                    console.log("config", config);
+                    console.log("payload", payload);
+                    console.log("topic", topic);
+
+                    const eventPayloadConfig = payload.config || {};
+
+                    console.log("eventPayloadConfig", eventPayloadConfig);
+
+                    const combinedConfig = ns.mergeTrustedEventConfig(event, eventPayloadConfig, config);
+
+                    console.log("combinedConfig", combinedConfig);
+
+                    const eventData = ns.compileEventData(payload, actionComponent, componentAction, componentId, combinedConfig);
+                    console.log("eventData", eventData);
+                    console.group(`emit event ${topic}`);
+                    ns.emitEvent(topic, eventData);
+                    console.groupEnd();
+                    console.log("event emitted", topic, eventData);
                 } else {
-                  console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
+                    console.warn(`topic ${topic} not matched with eventType ${eventType} and actionComponent ${actionComponent}`);
                 }
               });
             } else {
@@ -394,6 +432,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.warn("no topic found");
               }
             }
+            console.groupEnd();
           });
           console.groupEnd();
         } else {
@@ -437,7 +476,7 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * @param {*} event Message event
      * @param {*} defaultConfig default config object
      * @param {*} eventConfig event config object
-     * @returns 
+     * @returns merged config object of defaultConfig and eventConfig, eventConfig overrides defaultConfig
      */
     ns.mergeTrustedEventConfig = function(event, defaultConfig, eventConfig) {
         console.groupCollapsed("mergeTrustedEventConfig");
@@ -450,12 +489,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         if ((typeof defaultConfig === 'object' && Object.keys(defaultConfig).length === 0)
             && (typeof eventConfig === 'object' && Object.keys(eventConfig).length === 0)) {
             console.warn("defaultConfig and eventConfig are empty namespaces");
+            console.groupEnd();
             return defaultConfig;
         }
         
         if (event && defaultConfig && eventConfig) {
             //get config from eventConfig
-            let isEventConfig = false
+            let isEventConfig = false;
             let eventConfigData = eventConfig['config'];
             //if eventConfigData is string parse it as json if not return as is
             if (typeof eventConfigData === 'string') {
@@ -464,9 +504,14 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     isEventConfig = true;
                 } catch {
                     console.error("eventConfigData is not a valid JSON string, using as is.");
-                }            
+                }
+            } else {
+                if (eventConfig && typeof eventConfig === 'object' && Object.keys(eventConfig).length > 0) {
+                    eventConfigData = eventConfig;
+                    isEventConfig = true;
+                }
             }
-            if (isEventConfig) {
+            if (typeof eventConfigData === 'object' && Object.keys(eventConfigData).length > 0 && isEventConfig) {
                 // get origin from event
                 let eventOrigin = event.origin;
 
@@ -483,12 +528,28 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                             ...eventConfigData
                         }                
                     }
+                } else {
+                    finalConfig = {
+                        ...defaultConfig,
+                        ...eventConfigData
+                    }
                 }
+            } else {
+                // if eventConfig is not an object, use it as is
+                console.log("eventConfig is not an object, using as is", eventConfig);
+                finalConfig = eventConfig;
             }
         } else {
             console.warn("event, defaultConfig or eventConfig is not set");
         }
         console.groupEnd();
+
+        // if finalConfig is empty object, namespace or string return undefined
+        if ( (typeof finalConfig === 'object' && Object.keys(finalConfig).length === 0) || (typeof finalConfig === 'string' && finalConfig === '')) {
+            console.log("finalConfig is empty object, namespace or string, returning undefined");
+            return undefined;
+        }
+
         return finalConfig;
     };
     

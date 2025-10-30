@@ -63,7 +63,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log("adding event listener " + action);
                 if (action === ns.ACTION_BUTTON_CLICK) {
                     $component.on("click", (e) => {
-                        console.group("click");
+                        console.group(`click on ${window.location}`);
                         
                         console.log(["click", e]);
                         
@@ -80,7 +80,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     eventsAdded = true;
                 } else if (action === ns.ACTION_MODAL_OPEN) {
                     $component.on("click", (e) => {
-                        console.group("click");
+                        console.group(`click on ${window.location}`);
                         console.log(["click", e]);
                         e?.preventDefault();
                         ns.MODAL_OPEN($component, componentConfig, { 
@@ -118,7 +118,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.log("adding click listener");
 
         $component.on("click", (e) => {
-            console.group("click");
+            console.group(`click on ${window.location}`);
             console.log(["click", e]);
             e?.preventDefault();
             const componentConfig = componentNs.getComponentConfig(e.currentTarget);

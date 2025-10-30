@@ -2,4 +2,4 @@
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="sling:Mapping"
     sling:internalRedirect="/content/typerefinery-showcase/assets/config/favicon.ico.renditions/original.ico/1758505256997/asset.ico"
-    sling:match="localhost\\.\\d*/favicon.ico"/>
+    sling:match=".*\\.\\d*/favicon.ico"/>

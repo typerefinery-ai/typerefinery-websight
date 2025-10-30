@@ -41,10 +41,12 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_HR8P7UAKU"
                             title="Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                            id="field_60YFX92S2"
                             title="Field"/>
                     </input>
                     <input_1
@@ -54,10 +56,12 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_QKRIHRW2J"
                             title="Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                            id="field_QV0VFX3PL"
                             title="Field"/>
                     </input_1>
                     <button
@@ -73,4 +77,5 @@
                 id="footer_FVXTBGIIZ"/>
         </rootcontainer>
     </jcr:content>
+    <save-event/>
 </jcr:root>

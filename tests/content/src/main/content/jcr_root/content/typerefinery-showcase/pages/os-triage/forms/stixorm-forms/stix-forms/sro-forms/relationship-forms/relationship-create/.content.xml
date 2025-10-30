@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="relationship-create"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-05-22T23:49:22.151+10:00"
+        ws:lastModified="{Date}2025-10-06T17:22:21.858+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -63,7 +63,7 @@
                         borderEnabled="false"
                         classes="\0"
                         flexEnabled="false"
-                        horizontalAlignment="end"
+                        horizontalAlignment="\0"
                         id="container2_T0OC5CVMW"
                         lgColSize="6"
                         marginEnabled="false"
@@ -72,31 +72,70 @@
                         persistColorWhenThemeSwitches="false"
                         roleOther="\0"
                         smColSize="6"
+                        textAlignment="right"
                         title="\0">
                         <button
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
                             gap="2"
+                            hideButtonLabel="false"
                             id="button_DAYN3ZH0B"
-                            label="Create"
-                            lgColSize="5"
-                            mdColSize="5"
-                            persistColorWhenThemeSwitches="{Boolean}true"
-                            smColSize="5"
-                            title="Create Identity"/>
+                            isOutlinedButton="false"
+                            label="Save"
+                            lgColSize="4"
+                            mdColSize="4"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
+                            smColSize="4"
+                            title="\0">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="BUTTON_CLICK"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="formsave"
+                                    topic="formsave"
+                                    type="emit"/>
+                            </_events_>
+                        </button>
                         <button_1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/button"
-                            buttonStyle="secondary"
+                            buttonType="action"
+                            classes="\0"
+                            flexEnabled="false"
                             gap="2"
-                            horizontalAlignment="end"
-                            id="button_DAYN3ZH0B"
+                            hideButtonLabel="false"
+                            id="button_1_LF0WU7BHL"
+                            isOutlinedButton="false"
                             label="Cancel"
-                            lgColSize="5"
-                            mdColSize="5"
-                            persistColorWhenThemeSwitches="{Boolean}true"
-                            smColSize="5"
-                            title="Cancel"/>
+                            lgColSize="4"
+                            mdColSize="4"
+                            persistColorWhenThemeSwitches="true"
+                            roleOther="\0"
+                            showIcon="false"
+                            showImage="false"
+                            showTextualElementOfButton="false"
+                            smColSize="4"
+                            title="Close Form">
+                            <_events_ jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="BUTTON_CLICK"
+                                    config="\0"
+                                    name="eventproxy"
+                                    nameCustom="\0"
+                                    topic="formcancel"
+                                    type="emit"/>
+                            </_events_>
+                        </button_1>
                     </container2>
                 </two>
             </header>
@@ -110,16 +149,16 @@
                     borderEnabled="false"
                     classes="\0"
                     flexEnabled="false"
-                    flowapi_createdon="2025-02-05T10:11:00.057Z"
+                    flowapi_createdon="2025-10-10T00:52:09.161Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1k450001jl51d&amp;components="
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1s4z4001ca51d&amp;components="
                     flowapi_enable="true"
-                    flowapi_error="error executing flowstream import"
-                    flowapi_flowstreamid="f1k450001jl51d"
+                    flowapi_error="null"
+                    flowapi_flowstreamid="f1s4z4001ca51d"
                     flowapi_group="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create/_jcr_content/rootcontainer/main/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create/_jcr_content/rootcontainer/main/form/{{id}}"
                     flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create/_jcr_content/rootcontainer/main/form"
-                    flowapi_iscontainer="false"
+                    flowapi_iscontainer="{Boolean}false"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
@@ -134,6 +173,8 @@
                     readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/sro-forms/relationship-form/_jcr_content/rootcontainer/main/form/{{id}}"
                     roleOther="\0"
                     title="Form flow"
+                    writeMethod="POST"
+                    writePayloadType="application/json"
                     writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/sro-forms/relationship-form/_jcr_content/rootcontainer/main/form/{{id}}">
                     <two
                         jcr:primaryType="nt:unstructured"
@@ -1474,6 +1515,14 @@
                             nameCustom="FORM_SUCCESS"
                             topic="FORM_SUCCESS"
                             type="emit"/>
+                        <_x0032_
+                            jcr:primaryType="nt:unstructured"
+                            action="FORM_SUBMIT"
+                            config="\0"
+                            name="\0"
+                            nameCustom="formsave"
+                            topic="formsave"
+                            type="listen"/>
                     </_events_>
                 </form>
             </main>

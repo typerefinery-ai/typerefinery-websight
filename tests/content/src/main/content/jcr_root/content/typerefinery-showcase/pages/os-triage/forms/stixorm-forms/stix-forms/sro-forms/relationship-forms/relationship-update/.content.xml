@@ -109,7 +109,7 @@
                     sling:resourceType="typerefinery/components/forms/form"
                     flowapi_createdon="2025-02-05T10:11:00.057Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1k450001jl51d&amp;components="
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Fnull&amp;components="
                     flowapi_enable="true"
                     flowapi_error="error executing flowstream import"
                     flowapi_flowstreamid="f1k450001jl51d"
