@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM docker.io/openjdk:17-slim
+FROM docker.io/openjdk:22-ea-17-jdk-slim-bullseye
 
 EXPOSE 8080
 
