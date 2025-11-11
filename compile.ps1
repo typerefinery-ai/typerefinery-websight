@@ -60,6 +60,10 @@ if (Test-Path $tempFolder) {
     New-Item -ItemType Directory -Path $tempFolder | Out-Null
 }
 
+# compile distribution project
+mvn -f distribution/pom.xml clean install
+
+
 # copy cache files into temp/cache dir
 Write-Host "Copying cache files to $cacheDir"
 New-Item -ItemType Directory -Path $cacheDir | Out-Null
