@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="VizAndForm Local"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-10-30T23:37:06.353+11:00"
+        ws:lastModified="{Date}2025-11-11T16:04:56.560+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -215,6 +215,22 @@
                                     name="eventproxy"
                                     nameCustom="\0"
                                     topic="embed-viz-event-proxy"
+                                    type="emit"/>
+                                <_x0031_9
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REQUEST"
+                                    config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-tree/copy-to-unattached&quot;}"
+                                    name="\0"
+                                    nameCustom="embed-tree-copy"
+                                    topic="embed-tree-copy"
+                                    type="emit"/>
+                                <_x0032_0
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REQUEST"
+                                    config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-tree/edit-DAG--to-unattached&quot;}"
+                                    name="\0"
+                                    nameCustom="embed-tree-edit-dag"
+                                    topic="embed-tree-edit-dag"
                                     type="emit"/>
                             </_events_>
                         </embed>
