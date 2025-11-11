@@ -1231,6 +1231,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
                 console.log(["isTopicMatchFound", isTopicMatchFound]);
 
+                if (isSkip) {
+                    console.warn(["isSkip", isSkip]);
+                } else {
+                    console.log(["isSkip", isSkip]);
+                }
+                
+
                 if (isCatchAll) {
                     console.warn(["isCatchAll", isCatchAll]);
                     hasCatchAll = true;
@@ -1244,7 +1251,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 if (
                     (!isSkip && isProxyEvent && isCatchAll) ||
                     (isProxyEvent && isTopicMatch) ||
-                    (isActionMatch && isTopicMatch)
+                    (isActionMatch && isTopicMatch) ||
+                    (isTopicMatch && !isActionMatch)
                 ) {
                     console.log(["match"]);
                     console.groupEnd();
