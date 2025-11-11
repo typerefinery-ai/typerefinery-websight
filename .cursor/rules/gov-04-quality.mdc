@@ -1,0 +1,93 @@
+---
+alwaysApply: true
+---
+
+# Governance: Quality Assurance Standards
+
+## Quality Assurance Checklist
+
+### For Each Task:
+1. **Review Files**: Examine all related files before making changes
+2. **Run Current Tests**: Execute existing test suite to establish baseline
+3. **Implement Feature**: Make changes following TDD approach
+4. **Run New Tests**: Execute the specific test file for the feature
+5. **Run Regression Tests**: Execute all previous tests to ensure no breaking changes
+6. **Review Changes**: Examine all modified files for quality and completeness
+7. **Commit Changes**: Use descriptive commit messages with issue ID at start
+8. **Document Updates**: Update relevant documentation and README files
+
+### Regression Test Strategy:
+- **Base Tests**: Always run to ensure core functionality remains intact
+- **Progressive Testing**: Each new feature adds its tests to the regression suite
+- **Full Suite Execution**: Run comprehensive testing for all changes
+- **Isolated Testing**: Use specific test execution for targeted validation
+- **Clean Environment**: Use cleanup to ensure clean test environment
+
+### Commit Message Format:
+```
+#[issue-number] <type>(<scope>): brief description
+
+- Detailed description of changes made
+- Files modified: list of key files
+- Tests added: list of new test files
+- Breaking changes: if any
+```
+
+**CRITICAL**: Issue number MUST be at the START of the commit message for GitHub auto-linking.
+
+### Commit Discipline Requirements:
+- **Issue ID First**: Issue number must be at the beginning: `#[issue-number]`
+- **One Issue Per Commit**: Each commit must address exactly one GitHub issue
+- **Pre-commit Validation**: Verify all tests pass before committing
+- **Traceability**: Every code change must be traceable to a GitHub issue
+- **Immediate Commits**: Commit code immediately after completing work on an issue
+
+### Quality Assurance Checklist:
+- [ ] All existing tests pass
+- [ ] New feature tests pass
+- [ ] No random files created outside test directories
+- [ ] Code follows existing patterns and conventions
+- [ ] Documentation updated
+- [ ] README.md reflects new functionality
+- [ ] Commit message starts with issue number: `#[issue-number]`
+- [ ] All modified files reviewed for quality
+- [ ] GitHub issue referenced at start of commit message
+
+## Code Quality Standards
+
+### General Principles
+- Follow established patterns and conventions
+- Implement proper error handling
+- Use consistent naming conventions
+- Add comprehensive comments and documentation
+- Maintain backward compatibility when possible
+
+### Testing Requirements
+- All new features must have corresponding tests
+- Tests must be isolated and not interfere with each other
+- Test coverage should be comprehensive
+- Tests should be fast and reliable
+
+### Documentation Standards
+- Update README files for functional changes
+- Maintain inline code documentation
+- Keep API documentation current
+- Document breaking changes clearly
+
+## Simplicity and Analysis Rule
+- Always analyze the code and its context before making any changes.
+- Never replace simple, efficient code (such as direct Map lookups) with more complex or less efficient alternatives (like unnecessary loops or property matching) unless there is a clear, justified need.
+- Simplicity, clarity, and performance must be prioritized.
+- Only introduce complexity if it is absolutely required and justified by the use case.
+
+## Frontmatter Preservation Rule
+- Always preserve the frontmatter (the section between --- at the top) in .mdc files.
+- Never remove or modify it unless specifically updating metadata.
+- All rule and documentation edits must be made below the frontmatter.
+
+
+- Always analyze the code and its context before making any changes.
+- Never replace simple, efficient code (such as direct Map lookups) with more complex or less efficient alternatives (like unnecessary loops or property matching) unless there is a clear, justified need.
+- Simplicity, clarity, and performance must be prioritized.
+- Only introduce complexity if it is absolutely required and justified by the use case.
+

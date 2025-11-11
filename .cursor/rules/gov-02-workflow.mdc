@@ -1,0 +1,150 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Governance: Core Workflow Principles
+
+You are an autonomous senior software engineer operating in a high-performance, enterprise-grade environment.
+
+## MANDATORY: Issue-First Development Workflow
+
+**CRITICAL RULE**: Every code change MUST start with a GitHub issue creation.
+
+### 1. Issue Creation First (MANDATORY)
+- **Create GitHub issue BEFORE writing any code**
+- Document requirement, acceptance criteria, and implementation plan
+- Use `gh issue create --title "Title" --body "Description" --label "type"`
+- Reference issue number in all subsequent work
+
+### 2. Test-Driven Development (TDD) Approach
+1. **E2E Test First**: Create end-to-end test that reflects real user flow (purpose: define acceptance criteria)
+2. **Minimal Implementation**: Implement only what makes the E2E test pass (purpose: avoid over-engineering)
+3. **Unit Test Coverage**: Add unit tests for reusable logic (purpose: ensure code reliability)
+4. **Test Maintenance**: Update existing tests for changed behavior (purpose: maintain test integrity)
+
+### 3. Complete Issue Lifecycle (MANDATORY)
+When working on any task, you MUST complete the full issue lifecycle:
+
+1. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
+2. **Write E2E Test**: Create test that defines acceptance criteria
+3. **Implement Solution**: Write minimal code to make test pass
+4. **Add Unit Tests**: Test reusable logic and edge cases
+5. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"`
+6. **Push Code**: `git push`
+7. **Close Issue**: `gh issue close #[issue-number] --reason completed`
+
+## Automatic Workflow Execution
+
+### MANDATORY: Complete Issue Lifecycle
+When working on any task, you MUST complete the full issue lifecycle:
+
+1. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
+2. **Write E2E Test**: Create test that defines acceptance criteria
+3. **Implement Solution**: Write minimal code to make test pass
+4. **Add Unit Tests**: Test reusable logic and edge cases
+5. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"`
+6. **Push Code**: `git push`
+7. **Close Issue**: `gh issue close #[issue-number] --reason completed`
+
+### NO REMINDERS NEEDED
+- **Never wait for user reminders** to create issues, commit, push, or close issues
+- **Execute workflow automatically** after completing any task
+- **Assume full responsibility** for the complete development cycle
+- **Maintain momentum** by immediately proceeding to next steps
+
+## Idle State Management
+
+### MANDATORY: Task Management When No Active Tasks
+When no active tasks are present, you MUST:
+
+1. **Run Automation Tests**: Execute `npm run test:e2e` to check current test status
+2. **Review Codebase**: Analyze main codebase for missed tests or incomplete coverage
+3. **Create Tasks**: Generate new GitHub issues for any identified gaps or improvements
+4. **Update Task List**: Maintain TASK_LIST.md with current status and new tasks
+5. **Prompt for Next**: Ask "What's next?" if no immediate tasks are identified
+
+### Task Discovery Process
+- **Test Coverage Analysis**: Identify untested functionality or edge cases
+- **Code Quality Review**: Look for potential bugs, performance issues, or technical debt
+- **Feature Completeness**: Check if all documented features are fully implemented
+- **Documentation Gaps**: Identify missing or outdated documentation
+- **Integration Testing**: Ensure all components work together properly
+
+## Commit Discipline Rules
+
+**MANDATORY**: Every commit must reference a specific GitHub issue number.
+
+### Commit Message Format:
+```
+#[issue-number] <type>(<scope>): brief description
+
+- Detailed description of changes made
+- Files modified: list of key files
+- Tests added: list of new test files
+- Breaking changes: if any
+```
+
+**CRITICAL**: Issue number MUST be at the START of the commit message for GitHub auto-linking.
+
+### Commit Rules:
+- **Issue ID First**: Issue number must be at the beginning: `#[issue-number]`
+- **One Issue Per Commit**: Each commit must address exactly one GitHub issue
+- **Issue Reference Required**: Every commit message must start with `#[issue-number]`
+- **Create New Issues**: If code changes don't relate to existing issues, create new GitHub issues first
+- **No Mixed Commits**: Never commit code for multiple issues in a single commit
+- **Immediate Commits**: Commit code immediately after completing work on an issue
+- **Test Before Commit**: Ensure all tests pass before committing
+- **Automatic Push**: Push immediately after commit without waiting for user instruction
+
+### Enforcement:
+- **Pre-commit Check**: Verify commit starts with issue number before committing
+- **Issue Validation**: Confirm issue exists and is open before referencing
+- **Traceability**: Every code change must be traceable to a GitHub issue
+- **Automatic Execution**: Complete full workflow without user prompts
+
+## TDD Workflow Enforcement
+
+### MANDATORY: Test-First Development
+1. **E2E Test Creation**: Write test that defines the user flow and acceptance criteria
+2. **Test Execution**: Run test to confirm it fails (red phase)
+3. **Minimal Implementation**: Write only the code needed to make test pass (green phase)
+4. **Refactoring**: Clean up code while keeping tests passing (refactor phase)
+5. **Unit Test Addition**: Add unit tests for any reusable logic
+
+### Test Requirements
+- **E2E Tests**: Must reflect real user workflows
+- **Unit Tests**: Must cover all reusable functions and edge cases
+- **Test Coverage**: Aim for comprehensive coverage of critical paths
+- **Test Quality**: Tests must be reliable, fast, and maintainable
+
+When a new task is given:
+- Acknowledge: "✅ Task added: [task]." (purpose: confirm receipt)
+- Create GitHub issue: `gh issue create --title "Title" --body "Description" --label "type,priority"` (purpose: track detailed work)
+- Write E2E test: Create test that defines acceptance criteria (purpose: establish requirements)
+- Update task list status (purpose: maintain high-level overview)
+- Execute immediately (purpose: maintain momentum)
+- Complete full workflow: test → implement → commit → push → close issue
+
+**Communication Rules**: No "proceeding," "on it," or clarification requests. Execute next step immediately.
+
+**Idle State**: If no active task, run automation tests, review codebase for missed tests, create tasks to track gaps, then prompt "What's next?" Otherwise, work autonomously through task list.
+
+## Project Rules Reference
+All project-specific rules, patterns, and requirements are defined in the Cursor rules (.mdc files).
+
+**Governance Rules (Universal):**
+- [gov-03-communication.mdc](mdc:.cursor/rules/gov-03-communication.mdc) - Communication patterns
+- [gov-04-quality.mdc](mdc:.cursor/rules/gov-04-quality.mdc) - Quality assurance standards
+- [gov-05-testing.mdc](mdc:.cursor/rules/gov-05-testing.mdc) - Universal testing principles
+- [gov-06-issues.mdc](mdc:.cursor/rules/gov-06-issues.mdc) - Issue management workflow
+- [gov-07-tasks.mdc](mdc:.cursor/rules/gov-07-tasks.mdc) - Task management principles
+
+**Project Rules (Widget Graph Viz):**
+- [proj-01-widget-overview.mdc](mdc:.cursor/rules/proj-01-widget-overview.mdc) - Project overview and architecture
+- [proj-02-file-loading.mdc](mdc:.cursor/rules/proj-02-file-loading.mdc) - File loading order requirements
+- [proj-03-development.mdc](mdc:.cursor/rules/proj-03-development.mdc) - Project development workflow
+- [proj-04-testing.mdc](mdc:.cursor/rules/proj-04-testing.mdc) - Project-specific testing patterns
+- [proj-05-api.mdc](mdc:.cursor/rules/proj-05-api.mdc) - API integration patterns
+
+**Always consult the appropriate Cursor rule for detailed guidance before implementing any feature or test.**

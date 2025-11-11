@@ -1,0 +1,176 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Governance: Task Management Principles
+
+## Task Management Structure
+
+### Core Components
+- Task List - Main project task tracking
+- GitHub Issues - Detailed implementation tracking
+- Project milestones and high-level planning
+
+### Task Organization
+- **Project Status**: Overall project health and progress
+- **Critical Issues**: High-priority bugs and blockers
+- **Development Tasks**: Feature development and improvements
+- **Testing Tasks**: Test suite maintenance and expansion
+- **Documentation Tasks**: Documentation updates and improvements
+
+## Task List vs GitHub Issues
+
+### Task List Responsibilities
+- High-level project milestones
+- Overall project status tracking
+- Critical blocker identification
+- Release planning and coordination
+- Cross-cutting concerns
+
+### GitHub Issues Responsibilities
+- Specific bug reports
+- Detailed feature implementation
+- Individual development tasks
+- Test case creation
+- Code review requests
+
+## Task Management Workflow
+
+### Task Creation
+1. Create GitHub issue for detailed task
+2. Add high-level task to task list if needed
+3. Reference GitHub issue in task list
+4. Update task status as issue progresses
+5. Remove task when issue is closed
+
+### Task Prioritization
+- **Critical**: Blocking project progress
+- **High**: Important for next release
+- **Medium**: Nice to have features
+- **Low**: Future enhancements
+
+### Priority Factors
+- Impact on project goals
+- User value and demand
+- Technical complexity
+- Dependencies and blockers
+- Resource availability
+
+## Task Status Tracking
+
+### Status Categories
+- **Pending**: Not yet started
+- **In Progress**: Currently being worked on
+- **Blocked**: Waiting for dependencies
+- **Done**: Completed successfully
+
+### Status Updates
+- Update task status weekly
+- Remove completed tasks
+- Add new critical issues
+- Review and prioritize tasks
+
+## Task List Patterns
+
+### Task Entry Format
+```markdown
+## Task Category
+
+### Task Title
+- **Status**: Pending/In Progress/Blocked/Done
+- **Priority**: High/Medium/Low
+- **GitHub Issue**: #[issue-number] (if applicable)
+- **Description**: Brief description of the task
+- **Acceptance Criteria**: What constitutes completion
+```
+
+### Status Updates
+```markdown
+- **Status**: In Progress → Done
+- **Updated**: 2024-01-15
+- **Notes**: Completed with PR #[pr-number]
+```
+
+## Integration Patterns
+
+### Development Workflow Integration
+- Link tasks to GitHub issues
+- Reference tasks in commit messages
+- Update task status based on issue progress
+- Coordinate task dependencies
+
+### Release Planning
+- Use task list for release milestone planning
+- Track critical path items
+- Monitor blocker resolution
+- Coordinate cross-team dependencies
+
+### Project Health Monitoring
+- Track overall project status
+- Identify critical blockers
+- Monitor progress against milestones
+- Flag areas needing attention
+
+## Task List Best Practices
+
+### Content Management
+- Keep task list concise and focused
+- Avoid duplicating GitHub issue details
+- Use clear, actionable language
+- Regular cleanup and maintenance
+
+### Communication
+- Use task list for stakeholder updates
+- Reference in project meetings
+- Include in status reports
+- Share with team members
+
+### Automation
+- Consider automated status updates
+- Link with CI/CD pipeline status
+- Integrate with project management tools
+- Generate reports from task list
+
+## Task List Templates
+
+### Project Status Template
+```markdown
+## Project Status
+
+### Overall Health
+- **Status**: Green/Yellow/Red
+- **Last Updated**: YYYY-MM-DD
+- **Next Milestone**: [Milestone Name]
+- **Target Date**: YYYY-MM-DD
+
+### Critical Blockers
+- [ ] Blocker 1 - Description
+- [ ] Blocker 2 - Description
+
+### Recent Progress
+- Completed: [Task/Feature]
+- In Progress: [Task/Feature]
+- Upcoming: [Task/Feature]
+```
+
+### Release Planning Template
+```markdown
+## Release [Version]
+
+### Target Date
+YYYY-MM-DD
+
+### Critical Path
+- [ ] Critical item 1
+- [ ] Critical item 2
+- [ ] Critical item 3
+
+### Dependencies
+- External dependency 1
+- External dependency 2
+
+### Risk Assessment
+- High/Medium/Low risk items
+- Mitigation strategies
+```
