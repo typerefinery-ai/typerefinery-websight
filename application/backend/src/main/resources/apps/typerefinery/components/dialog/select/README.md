@@ -23,7 +23,7 @@ Reference: https://atlassian.design/components/select/examples
 
 ## Goal: Dynamic Option Loading
 
-We want to replicate the pattern used by `dialog/eventactions`, where the dialog widget pulls its selectable values from structured content owned by the component. This enables:
+We want to replicate and extend the pattern used by `dialog/eventactions`, where the dialog widget pulls its selectable values from structured content owned by the component. This enables:
 
 - Single source of truth for reusable lists (colours, icons, etc.).
 - Cleaner dialogs without large inline option structures.
@@ -31,12 +31,12 @@ We want to replicate the pattern used by `dialog/eventactions`, where the dialog
 
 ## Proposed Enhancements
 
-- **New dialog property**: introduce an optional `optionsSource` (name TBD) that points to a relative path under the component definition. When provided, the select component should load options from that path rather than the inline children.
-  - Example value: `./flowcoloroptions` to read `/apps/<component>/flowcoloroptions`.
-- **Sling model / utility**: extend or create a Sling model to fetch child resources from `optionsSource` and adapt them to a common type (`KeyValuePair` for simple lists, possibly a new model for grouped options). Consider sharing logic with `ai.typerefinery.websight.models.dialog.Dialog`.
-- **Backward compatibility**: if `optionsSource` is absent, preserve the current inline behaviour so existing dialogs keep working without migration.
+- **Datasource child**: allow an optional `datasource` subresource beneath the select definition that points to a loader component (for example `typerefinery/components/dialog/datasources/content`) responsible for fetching options.
+  - Example configuration points to `flowColorOptions` under the component.
+- **Loader implementations**: extend or create Sling models/utilities that the datasource components use to assemble options (key/value pairs, grouped items, etc.). Consider sharing logic with `ai.typerefinery.websight.models.dialog.Dialog`.
+- **Backward compatibility**: when no `datasource` is provided, preserve the current inline child behaviour so existing dialogs keep working without migration.
 - **Grouped support**: define how grouped options should be represented in component content. Likely mirror current structure (parent node with children).
-- **Validation**: add guard rails and logging when the configured `optionsSource` cannot be resolved.
+- **Validation**: add guard rails and logging when the configured datasource cannot resolve or produce options.
 
 ## Migration Plan for Flow Container Dialog
 
@@ -48,7 +48,7 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
    - Add optional metadata (e.g. descriptions) if we decide to surface tooltips later.
 2. **Update dialog fields**:
    - Replace existing text fields `flowColor` and `flowIcon` with the dynamic select component.
-   - Set `optionsSource` to reference the new content nodes (for example `"optionsSource": "flowColorOptions"`).
+   - Add a `datasource` child using the content loader to reference the new option nodes (for example `"path": "flowColorOptions"`).
    - Map `name`, `label`, and validation requirements as before.
 3. **Ensure backward compatibility**:
    - During rollout, confirm that the select component gracefully handles existing content values (strings already stored in pages).
@@ -56,16 +56,16 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 ## Testing & Verification Strategy
 
 - **Unit / Integration**:
-  - Add tests for the Sling model that loads options from the specified path, covering happy path, missing path, empty lists, and grouped structures.
+  - Add tests for datasource loaders that fetch options from the specified path, covering happy path, missing path, empty lists, and grouped structures.
 - **E2E**:
-  - Create or extend dialog E2E coverage to ensure options appear in the rendered select when configured via `optionsSource`.
+  - Create or extend dialog E2E coverage to ensure options appear in the rendered select when configured via a datasource.
   - Validate authoring flow: selecting colour/icon updates the stored value; previously saved values remain selected when reopening the dialog.
 - **Regression**:
-  - Run existing dialog select scenarios to confirm inline option behaviour is unchanged when `optionsSource` is not provided.
+  - Run existing dialog select scenarios to confirm inline option behaviour is unchanged when a datasource is not provided.
 
 ## Open Questions / Next Steps
 
-- Finalise naming convention for the new property (optionsSource vs. optionsPath) and whether it should accept absolute, relative, or both paths.
+- Finalise datasource component naming conventions and clarify how relative vs. absolute paths are resolved.
 - Decide whether key/value is sufficient or if we need additional fields (e.g. icon previews, colour swatches) that the React component should render.
 - Determine if grouped options need to be supported in the initial iteration for Flow (likely not, but should be validated).
 - Once an agreement is reached, implement the dynamics, migrate Flow dialog, and document deployment steps.
@@ -81,21 +81,6 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
   // child resources define the options today
 }
 ```
-
-## Example Dynamic Usage (Planned)
-
-```json
-"flowIcon": {
-  "sling:resourceType": "typerefinery/components/dialog/select",
-  "name": "flowapi_icon",
-  "label": "Icon",
-  "description": "Optional icon class",
-  "optionsSource": "flowIconOptions"
-}
-```
-
-- `optionsSource` points to a sibling node on the component definition (e.g. `/apps/.../flowIconOptions`) that stores option items using the same `key`/`value` structure documented above.
-- If `optionsSource` is omitted, the select falls back to reading inline child resources exactly as it does today, maintaining backward compatibility.
 
 ### Datasource Subresource Pattern
 
@@ -114,8 +99,8 @@ To support additional sources (shared content, REST endpoints, Java-backed provi
 ```
 
 - `path` accepts relative (`"flowIconOptions"` or `"../shared/flowIconOptions"`) or absolute (`"/apps/typerefinery/shared/flowIconOptions"`) repository locations.
-- Datasource implementations under `typerefinery/components/dialog/datasources/*` will encapsulate how options are loaded:
+- Datasource implementations under `typerefinery/components/dialog/datasources/*` encapsulate how options are loaded:
   - `datasources/content` – read repository nodes and adapt to `{ key, value }`.
   - `datasources/rest` (future) – invoke a URL/service to populate options.
   - `datasources/java` (future) – call into Sling services or models for computed lists.
-- The select rendering logic will prioritise `datasource` if present, then fall back to `optionsSource`, and finally to inline children for backward compatibility.
+- Rendering logic: if `datasource` exists it is used; otherwise the select falls back to inline child options, preserving current behaviour.
