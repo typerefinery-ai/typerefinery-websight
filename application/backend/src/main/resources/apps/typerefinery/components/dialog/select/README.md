@@ -82,4 +82,17 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 }
 ```
 
-The future implementation will mirror this structure but allow specifying `optionsSource` instead of inline children. Details will be added once development is complete.
+## Example Dynamic Usage (Planned)
+
+```json
+"flowIcon": {
+  "sling:resourceType": "typerefinery/components/dialog/select",
+  "name": "flowapi_icon",
+  "label": "Icon",
+  "description": "Optional icon class",
+  "optionsSource": "flowIconOptions"
+}
+```
+
+- `optionsSource` points to a sibling node on the component definition (e.g. `/apps/.../flowIconOptions`) that stores option items using the same `key`/`value` structure documented above.
+- If `optionsSource` is omitted, the select falls back to reading inline child resources exactly as it does today, maintaining backward compatibility.
