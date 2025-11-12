@@ -82,6 +82,36 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 }
 ```
 
+Example inline configuration (mirrors the `eventName` dialog field):
+
+```json
+"eventName": {
+  "sling:resourceType": "typerefinery/components/dialog/select",
+  "name": "name",
+  "allowCreate": true,
+  "label": "Event Name",
+  "description": "Event Name raised by the component",
+  "default": {
+    "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
+    "label": "Default",
+    "custom": {
+      "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+      "label": "Custom",
+      "value": ""
+    }
+  },
+  "topic": {
+    "sling:resourceType": "typerefinery/components/dialog/select/selectgroup",
+    "label": "Topic",
+    "create": {
+      "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+      "label": "Payload",
+      "value": "topicpayload"
+    }
+  }
+}
+```
+
 Inline options live as child resources under the select node:
 
 ```text
