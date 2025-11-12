@@ -96,3 +96,26 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 
 - `optionsSource` points to a sibling node on the component definition (e.g. `/apps/.../flowIconOptions`) that stores option items using the same `key`/`value` structure documented above.
 - If `optionsSource` is omitted, the select falls back to reading inline child resources exactly as it does today, maintaining backward compatibility.
+
+### Datasource Subresource Pattern
+
+To support additional sources (shared content, REST endpoints, Java-backed providers), we plan to allow a `datasource` child beneath the select definition:
+
+```json
+"flowIcon": {
+  "sling:resourceType": "typerefinery/components/dialog/select",
+  "name": "flowapi_icon",
+  "label": "Icon",
+  "datasource": {
+    "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+    "path": "flowIconOptions"
+  }
+}
+```
+
+- `path` accepts relative (`"flowIconOptions"` or `"../shared/flowIconOptions"`) or absolute (`"/apps/typerefinery/shared/flowIconOptions"`) repository locations.
+- Datasource implementations under `typerefinery/components/dialog/datasources/*` will encapsulate how options are loaded:
+  - `datasources/content` – read repository nodes and adapt to `{ key, value }`.
+  - `datasources/rest` (future) – invoke a URL/service to populate options.
+  - `datasources/java` (future) – call into Sling services or models for computed lists.
+- The select rendering logic will prioritise `datasource` if present, then fall back to `optionsSource`, and finally to inline children for backward compatibility.
