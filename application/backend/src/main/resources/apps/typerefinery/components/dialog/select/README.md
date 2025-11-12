@@ -82,6 +82,22 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 }
 ```
 
+Inline options live as child resources under the select node:
+
+```text
+/flowIcon
+├── default (typerefinery/components/dialog/select/selectgroup)
+│   └── custom (typerefinery/components/dialog/select/selectitem)
+│       ├── label = "Custom"
+│       └── value = ""
+└── topic (typerefinery/components/dialog/select/selectgroup)
+    └── create (typerefinery/components/dialog/select/selectitem)
+        ├── label = "Payload"
+        └── value = "topicpayload"
+```
+
+Each `selectgroup` child wraps nested `selectitem` options; you can also place `selectitem` nodes directly under the select for flat lists.
+
 ### Datasource Subresource Pattern
 
 To support additional sources (shared content, REST endpoints, Java-backed providers), we plan to allow a `datasource` child beneath the select definition:
