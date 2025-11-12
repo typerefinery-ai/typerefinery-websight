@@ -7,13 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
-import org.apache.sling.models.annotations.injectorspecific.RequestAttribute;
 import org.jetbrains.annotations.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
@@ -22,9 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ai.typerefinery.websight.models.components.BaseComponent;
 import ai.typerefinery.websight.services.flow.FlowService;
-import ai.typerefinery.websight.services.flow.registry.FlowComponentRegister;
 import lombok.Getter;
 
 /*
@@ -47,9 +43,6 @@ public class FlowComponent extends BaseComponent {
     public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
 
     private static final Logger LOG = LoggerFactory.getLogger(FlowComponent.class);
-    private static final String DEFAULT_MODULE = "flowComponent";
-    // read properties from resource
-
     // if true will create/update flow
     @Getter
     @Inject
@@ -82,6 +75,48 @@ public class FlowComponent extends BaseComponent {
     @Nullable
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_GROUP)
     public String flowapi_group;    
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_REFERENCE)
+    public String flowapi_reference;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_NAME)
+    public String flowapi_name;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_ICON)
+    public String flowapi_icon;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_COLOR)
+    public String flowapi_color;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_VERSION)
+    public String flowapi_version;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_AUTHOR)
+    public String flowapi_author;
+
+    @Getter
+    @Inject
+    @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_README)
+    public String flowapi_readme;
 
     @Getter
     @Inject

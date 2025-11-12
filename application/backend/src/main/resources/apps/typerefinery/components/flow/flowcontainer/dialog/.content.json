@@ -5,6 +5,58 @@
     "flowTab": {
       "sling:resourceType": "wcm/dialogs/components/tab",
       "label": "Flow",
+      "metadata": {
+        "sling:resourceType": "wcm/dialogs/components/container",
+        "flowName": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_name",
+          "label": "Flow Name",
+          "description": "Optional display name for Flow Designer cards. Defaults to the generated title when blank."
+        },
+        "flowGroup": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_group",
+          "label": "Group",
+          "description": "Optional grouping key to organise flows inside Flow Designer."
+        },
+        "flowReference": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_reference",
+          "label": "Reference",
+          "description": "Optional reference identifier stored with the flow metadata."
+        },
+        "flowIcon": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_icon",
+          "label": "Icon",
+          "description": "Optional icon class (for example Font Awesome) shown in Flow Designer."
+        },
+        "flowColor": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_color",
+          "label": "Color",
+          "description": "Optional colour value (e.g. #RRGGBB) applied to Flow Designer cards."
+        },
+        "flowVersion": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_version",
+          "label": "Version",
+          "description": "Optional version string stored with the flow."
+        },
+        "flowAuthor": {
+          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "name": "flowapi_author",
+          "label": "Author",
+          "description": "Optional author override. Defaults to the service configuration value."
+        },
+        "flowReadme": {
+          "sling:resourceType": "wcm/dialogs/components/textarea",
+          "name": "flowapi_readme",
+          "label": "Additional Information",
+          "description": "Optional markdown content stored as the flow readme.",
+          "rows": 6
+        }
+      },
       "enable": {
         "sling:resourceType": "wcm/dialogs/components/checkbox",
         "name": "flowapi_enable",
@@ -30,13 +82,6 @@
         "name": "flowapi_title",
         "description": "The title to use for this flow. Update this component to change the title of the flow in Flow Designer.",
         "label": "Title",
-        "disabled": true
-      },
-      "group": {
-        "sling:resourceType": "wcm/dialogs/components/textfield",
-        "name": "flowapi_group",
-        "description": "This is the group that the flow belongs to, its used to group relevant flows.",
-        "label": "Group",
         "disabled": true
       },
       "template": {

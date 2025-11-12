@@ -83,7 +83,11 @@ public class FlowService {
     public static final String PROPERTY_SUCCESS = "success";
     public static final String PROPERTY_RESPONSE = "response";
     public static final String PROPERTY_GROUP = "group";
+    public static final String PROPERTY_REFERENCE = "reference";
     public static final String PROPERTY_TITLE = "title";
+    public static final String PROPERTY_ICON = "icon";
+    public static final String PROPERTY_COLOR = "color";
+    public static final String PROPERTY_VERSION = "version";
     public static final String PROPERTY_CREATEDON = "createdon";
     public static final String PROPERTY_UPDATEDON = "updatedon";
     public static final String PROPERTY_EDITURL = "editurl";
@@ -95,6 +99,7 @@ public class FlowService {
     public static final String PROPERTY_HTTPROUTE_NOSFX = "httproutenosfx";
     public static final String PROPERTY_WEBSOCKETURL = "websocketurl";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
+    public static final String PROPERTY_README = "readme";
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
@@ -712,12 +717,10 @@ public class FlowService {
             }
         }
 
-        // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
-        // componentTemplateObject.put("reference", "dashboard-reference");
-        componentTemplateObject.put(PROPERTY_AUTHOR, configuration.flow_meta_author());
-        componentTemplateObject.put(PROPERTY_GROUP, flowGroup);
-        componentTemplateObject.put(PROPERTY_NAME, title);
+
+        FlowComponentMetadata metadata = resolveFlowComponentMetadata(flowComponent, flowGroup, title);
+        applyFlowMetadata(componentTemplateObject, metadata);
         
         // remove id
         if (componentTemplateObject.has(PROPERTY_ID)) {
@@ -757,7 +760,6 @@ public class FlowService {
         String responseFlowId = (String)response.get(prop(PROPERTY_FLOWSTREAMID));
 
         response.put(prop(PROPERTY_TOPIC), flowTopic);
-        response.put(prop(PROPERTY_GROUP), flowGroup);
         response.put(prop(PROPERTY_TITLE), title);
         response.put(prop(PROPERTY_TEMPLATE), templatePath);
         response.put(prop(PROPERTY_TEMPLATE_DESIGN), designTemplatePath);
@@ -767,6 +769,7 @@ public class FlowService {
         response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
+        applyFlowMetadataToResponse(response, metadata);
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -816,9 +819,8 @@ public class FlowService {
         // update component meta
         ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
         componentTemplateObject.put(PROPERTY_ID, flowstreamid);
-        componentTemplateObject.put(PROPERTY_AUTHOR, configuration.flow_meta_author());
-        componentTemplateObject.put(PROPERTY_GROUP, flowGroup);
-        componentTemplateObject.put(PROPERTY_NAME, newTitle);
+        FlowComponentMetadata metadata = resolveFlowComponentMetadata(flowComponent, flowGroup, newTitle);
+        applyFlowMetadata(componentTemplateObject, metadata);
 
         // get json string
         String componentJson = JsonUtil.getJsonString(componentTemplate);
@@ -832,6 +834,7 @@ public class FlowService {
         response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
+        applyFlowMetadataToResponse(response, metadata);
 
         LOGGER.info("flowstreamdata: {}", response);
 
@@ -1323,6 +1326,122 @@ public class FlowService {
         }
         
         return isComponentFlowEnabled;
+    }
+
+    protected FlowComponentMetadata resolveFlowComponentMetadata(@NotNull FlowComponent flowComponent, String defaultGroup, String defaultName) {
+        String resolvedGroup = StringUtils.defaultIfBlank(flowComponent.flowapi_group, defaultGroup);
+        String resolvedName = StringUtils.defaultIfBlank(flowComponent.flowapi_name, defaultName);
+        String resolvedAuthor = StringUtils.defaultIfBlank(flowComponent.flowapi_author,
+                configuration != null ? configuration.flow_meta_author() : FlowServiceConfiguration.FLOW_META_AUTHOR);
+
+        return new FlowComponentMetadata(
+            resolvedGroup,
+            resolvedName,
+            StringUtils.trimToNull(flowComponent.flowapi_reference),
+            StringUtils.trimToNull(flowComponent.flowapi_icon),
+            StringUtils.trimToNull(flowComponent.flowapi_color),
+            StringUtils.trimToNull(flowComponent.flowapi_version),
+            resolvedAuthor,
+            StringUtils.trimToNull(flowComponent.flowapi_readme)
+        );
+    }
+
+    protected void applyFlowMetadata(ObjectNode templateObject, FlowComponentMetadata metadata) {
+        templateObject.put(PROPERTY_GROUP, metadata.getGroup());
+        templateObject.put(PROPERTY_NAME, metadata.getName());
+        templateObject.put(PROPERTY_AUTHOR, metadata.getAuthor());
+
+        if (metadata.getReference() != null) {
+            templateObject.put(PROPERTY_REFERENCE, metadata.getReference());
+        }
+        if (metadata.getIcon() != null) {
+            templateObject.put(PROPERTY_ICON, metadata.getIcon());
+        }
+        if (metadata.getColor() != null) {
+            templateObject.put(PROPERTY_COLOR, metadata.getColor());
+        }
+        if (metadata.getVersion() != null) {
+            templateObject.put(PROPERTY_VERSION, metadata.getVersion());
+        }
+        if (metadata.getReadme() != null) {
+            templateObject.put(PROPERTY_README, metadata.getReadme());
+        }
+    }
+
+    protected void applyFlowMetadataToResponse(Map<String, Object> response, FlowComponentMetadata metadata) {
+        response.put(prop(PROPERTY_GROUP), metadata.getGroup());
+        response.put(prop(PROPERTY_NAME), metadata.getName());
+        response.put(prop(PROPERTY_AUTHOR), metadata.getAuthor());
+
+        if (metadata.getReference() != null) {
+            response.put(prop(PROPERTY_REFERENCE), metadata.getReference());
+        }
+        if (metadata.getIcon() != null) {
+            response.put(prop(PROPERTY_ICON), metadata.getIcon());
+        }
+        if (metadata.getColor() != null) {
+            response.put(prop(PROPERTY_COLOR), metadata.getColor());
+        }
+        if (metadata.getVersion() != null) {
+            response.put(prop(PROPERTY_VERSION), metadata.getVersion());
+        }
+        if (metadata.getReadme() != null) {
+            response.put(prop(PROPERTY_README), metadata.getReadme());
+        }
+    }
+
+    protected static final class FlowComponentMetadata {
+        private final String group;
+        private final String name;
+        private final String reference;
+        private final String icon;
+        private final String color;
+        private final String version;
+        private final String author;
+        private final String readme;
+
+        FlowComponentMetadata(String group, String name, String reference, String icon, String color, String version, String author, String readme) {
+            this.group = group;
+            this.name = name;
+            this.reference = reference;
+            this.icon = icon;
+            this.color = color;
+            this.version = version;
+            this.author = author;
+            this.readme = readme;
+        }
+
+        public String getGroup() {
+            return group;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getReference() {
+            return reference;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public String getAuthor() {
+            return author;
+        }
+
+        public String getReadme() {
+            return readme;
+        }
     }
 
     public class GridTitles {
