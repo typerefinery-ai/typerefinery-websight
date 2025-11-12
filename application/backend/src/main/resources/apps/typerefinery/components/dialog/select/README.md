@@ -70,19 +70,46 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 - Determine if grouped options need to be supported in the initial iteration for Flow (likely not, but should be validated).
 - Once an agreement is reached, implement the dynamics, migrate Flow dialog, and document deployment steps.
 
-## Example Inline Usage (Current State)
+## Inline Usage Patterns
+
+### Simple Flat Options
 
 ```json
-"flowIcon": {
+"flowColor": {
   "sling:resourceType": "typerefinery/components/dialog/select",
-  "name": "flowapi_icon",
-  "label": "Icon",
-  "description": "Optional icon class"
-  // child resources define the options today
+  "name": "flowapi_color",
+  "label": "Card Colour",
+  "description": "Choose the colour applied to Flow Designer cards.",
+  "default": {
+    "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+    "label": "Default",
+    "value": ""
+  },
+  "accent": {
+    "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+    "label": "Accent",
+    "value": "accent"
+  },
+  "highlight": {
+    "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
+    "label": "Highlight",
+    "value": "highlight"
+  }
 }
 ```
 
-Example inline configuration (mirrors the `eventName` dialog field):
+Child structure:
+
+```text
+/flowColor
+├── default (selectitem)  → value ""
+├── accent (selectitem)   → value "accent"
+└── highlight (selectitem)→ value "highlight"
+```
+
+Use this pattern when you need a straightforward list with no grouping.
+
+### Grouped Options with Creation Support
 
 ```json
 "eventName": {
@@ -112,10 +139,10 @@ Example inline configuration (mirrors the `eventName` dialog field):
 }
 ```
 
-Inline options live as child resources under the select node:
+Grouped structure:
 
 ```text
-/flowIcon
+/eventName
 ├── default (typerefinery/components/dialog/select/selectgroup)
 │   └── custom (typerefinery/components/dialog/select/selectitem)
 │       ├── label = "Custom"
@@ -126,7 +153,7 @@ Inline options live as child resources under the select node:
         └── value = "topicpayload"
 ```
 
-Each `selectgroup` child wraps nested `selectitem` options; you can also place `selectitem` nodes directly under the select for flat lists.
+Each `selectgroup` wraps nested `selectitem` options. Set `allowCreate` to let authors add new values at authoring time; ensure your component logic can handle arbitrary entries.
 
 ### Datasource Subresource Pattern
 
