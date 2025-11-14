@@ -87,13 +87,13 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
   },
   "accent": {
     "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-    "label": "Accent",
-    "value": "accent"
+    "label": "Accent Red",
+    "value": "#E73323"
   },
   "highlight": {
     "sling:resourceType": "typerefinery/components/dialog/select/selectitem",
-    "label": "Highlight",
-    "value": "highlight"
+    "label": "Highlight Yellow",
+    "value": "#FFFD54"
   }
 }
 ```
@@ -108,6 +108,8 @@ Child structure:
 ```
 
 Use this pattern when you need a straightforward list with no grouping.
+
+- `value` is saved into content; ensure the component consuming the field supports the chosen format (e.g. hex colour strings).
 
 ### Grouped Options with Creation Support
 
