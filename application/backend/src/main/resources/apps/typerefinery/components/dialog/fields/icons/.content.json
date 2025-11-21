@@ -1,0 +1,7768 @@
+﻿{
+  "icon1005": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pause-circle",
+    "value": "far fa-pause-circle"
+  },
+  "icon1498": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "water",
+    "value": "fa fa-water"
+  },
+  "icon0973": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "odnoklassniki-square",
+    "value": "fab fa-odnoklassniki-square"
+  },
+  "icon0727": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "highlighter",
+    "value": "fa fa-highlighter"
+  },
+  "icon0788": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "itunes-note",
+    "value": "fab fa-itunes-note"
+  },
+  "icon0044": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "app-store",
+    "value": "fab fa-app-store"
+  },
+  "icon0486": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fast-backward",
+    "value": "fa fa-fast-backward"
+  },
+  "icon1464": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "utensil-spoon",
+    "value": "fa fa-utensil-spoon"
+  },
+  "icon0742": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hospital-alt",
+    "value": "fa fa-hospital-alt"
+  },
+  "icon1027": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone-alt",
+    "value": "fa fa-phone-alt"
+  },
+  "icon0010": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "adn",
+    "value": "fab fa-adn"
+  },
+  "icon1538": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "xing",
+    "value": "fab fa-xing"
+  },
+  "icon0190": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-plus",
+    "value": "fa fa-calendar-plus"
+  },
+  "icon1333": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "taxi",
+    "value": "fa fa-taxi"
+  },
+  "icon0745": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hotdog",
+    "value": "fa fa-hotdog"
+  },
+  "icon0167": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "buffer",
+    "value": "fab fa-buffer"
+  },
+  "icon1128": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rocket",
+    "value": "fa fa-rocket"
+  },
+  "icon0366": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crutch",
+    "value": "fa fa-crutch"
+  },
+  "icon0910": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh-rolling-eyes",
+    "value": "far fa-meh-rolling-eyes"
+  },
+  "icon0329": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compress-arrows-alt",
+    "value": "fa fa-compress-arrows-alt"
+  },
+  "icon0733": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hockey-puck",
+    "value": "fa fa-hockey-puck"
+  },
+  "icon1263": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "squarespace",
+    "value": "fab fa-squarespace"
+  },
+  "icon0864": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "long-arrow-alt-down",
+    "value": "fa fa-long-arrow-alt-down"
+  },
+  "icon1120": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "resolving",
+    "value": "fab fa-resolving"
+  },
+  "icon0023": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "amazon",
+    "value": "fab fa-amazon"
+  },
+  "icon0560": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder-open",
+    "value": "far fa-folder-open"
+  },
+  "icon1012": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pen-nib",
+    "value": "fa fa-pen-nib"
+  },
+  "icon1306": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sun",
+    "value": "fa fa-sun"
+  },
+  "icon1225": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snowboarding",
+    "value": "fa fa-snowboarding"
+  },
+  "icon0304": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "code-branch",
+    "value": "fa fa-code-branch"
+  },
+  "icon0026": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "american-sign-language-interpreting",
+    "value": "fa fa-american-sign-language-interpreting"
+  },
+  "icon1100": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rebel",
+    "value": "fab fa-rebel"
+  },
+  "icon1448": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-lock",
+    "value": "fa fa-user-lock"
+  },
+  "icon0441": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "edit",
+    "value": "far fa-edit"
+  },
+  "icon0346": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-nc-eu",
+    "value": "fab fa-creative-commons-nc-eu"
+  },
+  "icon0870": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lyft",
+    "value": "fab fa-lyft"
+  },
+  "icon0461": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ethernet",
+    "value": "fa fa-ethernet"
+  },
+  "icon1314": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "swatchbook",
+    "value": "fa fa-swatchbook"
+  },
+  "icon0234": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-visa",
+    "value": "fab fa-cc-visa"
+  },
+  "icon0456": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envira",
+    "value": "fab fa-envira"
+  },
+  "icon0867": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "long-arrow-alt-up",
+    "value": "fa fa-long-arrow-alt-up"
+  },
+  "icon0076": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "atlas",
+    "value": "fa fa-atlas"
+  },
+  "icon0390": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-d20",
+    "value": "fa fa-dice-d20"
+  },
+  "icon0263": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-circle-left",
+    "value": "fa fa-chevron-circle-left"
+  },
+  "icon1435": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user",
+    "value": "far fa-user"
+  },
+  "icon1015": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pencil-ruler",
+    "value": "fa fa-pencil-ruler"
+  },
+  "icon0995": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paperclip",
+    "value": "fa fa-paperclip"
+  },
+  "icon1284": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sticky-note",
+    "value": "fa fa-sticky-note"
+  },
+  "icon1293": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stream",
+    "value": "fa fa-stream"
+  },
+  "icon1242": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-numeric-down",
+    "value": "fa fa-sort-numeric-down"
+  },
+  "icon0065": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-left",
+    "value": "fa fa-arrow-left"
+  },
+  "icon0697": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-up",
+    "value": "far fa-hand-point-up"
+  },
+  "icon0875": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mailchimp",
+    "value": "fab fa-mailchimp"
+  },
+  "icon1346": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "th",
+    "value": "fa fa-th"
+  },
+  "icon0397": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-two",
+    "value": "fa fa-dice-two"
+  },
+  "icon0625": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-drive",
+    "value": "fab fa-google-drive"
+  },
+  "icon1212": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile",
+    "value": "fa fa-smile"
+  },
+  "icon0615": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "globe",
+    "value": "fa fa-globe"
+  },
+  "icon0879": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map",
+    "value": "far fa-map"
+  },
+  "icon1324": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "table-tennis",
+    "value": "fa fa-table-tennis"
+  },
+  "icon0173": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "burn",
+    "value": "fa fa-burn"
+  },
+  "icon0478": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eye-slash",
+    "value": "fa fa-eye-slash"
+  },
+  "icon1539": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "xing-square",
+    "value": "fab fa-xing-square"
+  },
+  "icon0048": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "apple-alt",
+    "value": "fa fa-apple-alt"
+  },
+  "icon0979": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "opera",
+    "value": "fab fa-opera"
+  },
+  "icon0884": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-pin",
+    "value": "fa fa-map-pin"
+  },
+  "icon1085": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quinscape",
+    "value": "fab fa-quinscape"
+  },
+  "icon0622": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "goodreads",
+    "value": "fab fa-goodreads"
+  },
+  "icon0748": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hourglass",
+    "value": "fa fa-hourglass"
+  },
+  "icon1540": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "y-combinator",
+    "value": "fab fa-y-combinator"
+  },
+  "icon1021": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "periscope",
+    "value": "fab fa-periscope"
+  },
+  "icon0242": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chart-area",
+    "value": "fa fa-chart-area"
+  },
+  "icon0991": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "palfed",
+    "value": "fab fa-palfed"
+  },
+  "icon0196": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "camera-retro",
+    "value": "fa fa-camera-retro"
+  },
+  "icon0961": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "node",
+    "value": "fab fa-node"
+  },
+  "icon1204": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skyatlas",
+    "value": "fab fa-skyatlas"
+  },
+  "icon0054": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-left",
+    "value": "fa fa-arrow-alt-circle-left"
+  },
+  "icon0078": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "atom",
+    "value": "fa fa-atom"
+  },
+  "icon0417": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dot-circle",
+    "value": "fa fa-dot-circle"
+  },
+  "icon0185": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-check",
+    "value": "fa fa-calendar-check"
+  },
+  "icon1001": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paste",
+    "value": "fa fa-paste"
+  },
+  "icon0427": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dropbox",
+    "value": "fab fa-dropbox"
+  },
+  "icon1298": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stroopwafel",
+    "value": "fa fa-stroopwafel"
+  },
+  "icon1428": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "unlock",
+    "value": "fa fa-unlock"
+  },
+  "icon0585": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "galactic-republic",
+    "value": "fab fa-galactic-republic"
+  },
+  "icon1023": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phabricator",
+    "value": "fab fa-phabricator"
+  },
+  "icon1377": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "toolbox",
+    "value": "fa fa-toolbox"
+  },
+  "icon1499": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wave-square",
+    "value": "fa fa-wave-square"
+  },
+  "icon1425": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "universal-access",
+    "value": "fa fa-universal-access"
+  },
+  "icon1067": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pray",
+    "value": "fa fa-pray"
+  },
+  "icon0613": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glide",
+    "value": "fab fa-glide"
+  },
+  "icon0686": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-paper",
+    "value": "fa fa-hand-paper"
+  },
+  "icon0468": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "exclamation-triangle",
+    "value": "fa fa-exclamation-triangle"
+  },
+  "icon1066": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "power-off",
+    "value": "fa fa-power-off"
+  },
+  "icon0527": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-video",
+    "value": "far fa-file-video"
+  },
+  "icon1179": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shirtsinbulk",
+    "value": "fab fa-shirtsinbulk"
+  },
+  "icon0732": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "history",
+    "value": "fa fa-history"
+  },
+  "icon0775": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "indent",
+    "value": "fa fa-indent"
+  },
+  "icon0897": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medal",
+    "value": "fa fa-medal"
+  },
+  "icon0784": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ioxhost",
+    "value": "fab fa-ioxhost"
+  },
+  "icon0259": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-pawn",
+    "value": "fa fa-chess-pawn"
+  },
+  "icon0551": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flickr",
+    "value": "fab fa-flickr"
+  },
+  "icon1317": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "swimming-pool",
+    "value": "fa fa-swimming-pool"
+  },
+  "icon0473": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "external-link-alt",
+    "value": "fa fa-external-link-alt"
+  },
+  "icon0273": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "church",
+    "value": "fa fa-church"
+  },
+  "icon1160": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "search-location",
+    "value": "fa fa-search-location"
+  },
+  "icon0936": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-bill",
+    "value": "fa fa-money-bill"
+  },
+  "icon1467": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vector-square",
+    "value": "fa fa-vector-square"
+  },
+  "icon1358": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer-three-quarters",
+    "value": "fa fa-thermometer-three-quarters"
+  },
+  "icon0589": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gavel",
+    "value": "fa fa-gavel"
+  },
+  "icon0375": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dashcube",
+    "value": "fab fa-dashcube"
+  },
+  "icon0469": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "expand",
+    "value": "fa fa-expand"
+  },
+  "icon0226": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-amex",
+    "value": "fab fa-cc-amex"
+  },
+  "icon1041": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pinterest",
+    "value": "fab fa-pinterest"
+  },
+  "icon1367": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "times-circle",
+    "value": "fa fa-times-circle"
+  },
+  "icon1193": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sim-card",
+    "value": "fa fa-sim-card"
+  },
+  "icon0462": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "etsy",
+    "value": "fab fa-etsy"
+  },
+  "icon1219": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smoking",
+    "value": "fa fa-smoking"
+  },
+  "icon0762": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "id-badge",
+    "value": "fa fa-id-badge"
+  },
+  "icon0126": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bitcoin",
+    "value": "fab fa-bitcoin"
+  },
+  "icon0581": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fulcrum",
+    "value": "fab fa-fulcrum"
+  },
+  "icon1349": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "the-red-yeti",
+    "value": "fab fa-the-red-yeti"
+  },
+  "icon1487": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "volleyball-ball",
+    "value": "fa fa-volleyball-ball"
+  },
+  "icon0916": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microblog",
+    "value": "fab fa-microblog"
+  },
+  "icon1329": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tag",
+    "value": "fa fa-tag"
+  },
+  "icon0969": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "object-group",
+    "value": "far fa-object-group"
+  },
+  "icon0669": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gripfire",
+    "value": "fab fa-gripfire"
+  },
+  "icon1325": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tablet",
+    "value": "fa fa-tablet"
+  },
+  "icon0805": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "keyboard",
+    "value": "fa fa-keyboard"
+  },
+  "icon0699": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-pointer",
+    "value": "far fa-hand-pointer"
+  },
+  "icon0170": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "building",
+    "value": "far fa-building"
+  },
+  "icon0308": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cog",
+    "value": "fa fa-cog"
+  },
+  "icon1036": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pied-piper-hat",
+    "value": "fab fa-pied-piper-hat"
+  },
+  "icon0711": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hard-hat",
+    "value": "fa fa-hard-hat"
+  },
+  "icon0666": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grip-lines",
+    "value": "fa fa-grip-lines"
+  },
+  "icon1423": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "uniregistry",
+    "value": "fab fa-uniregistry"
+  },
+  "icon0219": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-up",
+    "value": "fa fa-caret-up"
+  },
+  "icon1143": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sad-tear",
+    "value": "fa fa-sad-tear"
+  },
+  "icon1147": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sass",
+    "value": "fab fa-sass"
+  },
+  "icon0766": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "id-card-alt",
+    "value": "fa fa-id-card-alt"
+  },
+  "icon0224": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cat",
+    "value": "fa fa-cat"
+  },
+  "icon0693": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-left",
+    "value": "far fa-hand-point-left"
+  },
+  "icon1065": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pound-sign",
+    "value": "fa fa-pound-sign"
+  },
+  "icon1194": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "simplybuilt",
+    "value": "fab fa-simplybuilt"
+  },
+  "icon0992": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pallet",
+    "value": "fa fa-pallet"
+  },
+  "icon1247": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "soundcloud",
+    "value": "fab fa-soundcloud"
+  },
+  "icon1489": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "volume-mute",
+    "value": "fa fa-volume-mute"
+  },
+  "icon1252": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "speaker-deck",
+    "value": "fab fa-speaker-deck"
+  },
+  "icon1279": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "steam-symbol",
+    "value": "fab fa-steam-symbol"
+  },
+  "icon0143": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "book",
+    "value": "fa fa-book"
+  },
+  "icon0931": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mizuni",
+    "value": "fab fa-mizuni"
+  },
+  "icon1187": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sign",
+    "value": "fa fa-sign"
+  },
+  "icon0139": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bolt",
+    "value": "fa fa-bolt"
+  },
+  "icon1161": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "search-minus",
+    "value": "fa fa-search-minus"
+  },
+  "icon0159": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "brain",
+    "value": "fa fa-brain"
+  },
+  "icon0101": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "basketball-ball",
+    "value": "fa fa-basketball-ball"
+  },
+  "icon1020": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "percentage",
+    "value": "fa fa-percentage"
+  },
+  "icon1512": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wind",
+    "value": "fa fa-wind"
+  },
+  "icon1061": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "poo",
+    "value": "fa fa-poo"
+  },
+  "icon0906": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh",
+    "value": "far fa-meh"
+  },
+  "icon1486": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "voicemail",
+    "value": "fa fa-voicemail"
+  },
+  "icon1534": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wpressr",
+    "value": "fab fa-wpressr"
+  },
+  "icon0133": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blog",
+    "value": "fa fa-blog"
+  },
+  "icon1380": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "torah",
+    "value": "fa fa-torah"
+  },
+  "icon0833": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-wink",
+    "value": "fa fa-laugh-wink"
+  },
+  "icon0843": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "level-down-alt",
+    "value": "fa fa-level-down-alt"
+  },
+  "icon0900": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medium-m",
+    "value": "fab fa-medium-m"
+  },
+  "icon0371": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cut",
+    "value": "fa fa-cut"
+  },
+  "icon0975": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "old-republic",
+    "value": "fab fa-old-republic"
+  },
+  "icon0391": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-d6",
+    "value": "fa fa-dice-d6"
+  },
+  "icon0633": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gratipay",
+    "value": "fab fa-gratipay"
+  },
+  "icon1183": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shopping-cart",
+    "value": "fa fa-shopping-cart"
+  },
+  "icon0423": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dragon",
+    "value": "fa fa-dragon"
+  },
+  "icon0682": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-holding-usd",
+    "value": "fa fa-hand-holding-usd"
+  },
+  "icon1093": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rainbow",
+    "value": "fa fa-rainbow"
+  },
+  "icon0114": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bell",
+    "value": "far fa-bell"
+  },
+  "icon1406": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tty",
+    "value": "fa fa-tty"
+  },
+  "icon1237": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-amount-down",
+    "value": "fa fa-sort-amount-down"
+  },
+  "icon0291": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-meatball",
+    "value": "fa fa-cloud-meatball"
+  },
+  "icon0343": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons",
+    "value": "fab fa-creative-commons"
+  },
+  "icon0684": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-lizard",
+    "value": "far fa-hand-lizard"
+  },
+  "icon0110": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "beer",
+    "value": "fa fa-beer"
+  },
+  "icon0982": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "osi",
+    "value": "fab fa-osi"
+  },
+  "icon1251": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "speakap",
+    "value": "fab fa-speakap"
+  },
+  "icon0728": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hiking",
+    "value": "fa fa-hiking"
+  },
+  "icon0609": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glass-martini",
+    "value": "fa fa-glass-martini"
+  },
+  "icon1064": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "portrait",
+    "value": "fa fa-portrait"
+  },
+  "icon1500": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "waze",
+    "value": "fab fa-waze"
+  },
+  "icon0854": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "linux",
+    "value": "fab fa-linux"
+  },
+  "icon1384": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trademark",
+    "value": "fa fa-trademark"
+  },
+  "icon0807": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "keycdn",
+    "value": "fab fa-keycdn"
+  },
+  "icon1439": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-check",
+    "value": "fa fa-user-check"
+  },
+  "icon0231": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-mastercard",
+    "value": "fab fa-cc-mastercard"
+  },
+  "icon1009": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pen",
+    "value": "fa fa-pen"
+  },
+  "icon0761": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "icons",
+    "value": "fa fa-icons"
+  },
+  "icon1481": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vimeo-square",
+    "value": "fab fa-vimeo-square"
+  },
+  "icon1354": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer-empty",
+    "value": "fa fa-thermometer-empty"
+  },
+  "icon1200": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skiing",
+    "value": "fa fa-skiing"
+  },
+  "icon0989": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paint-roller",
+    "value": "fa fa-paint-roller"
+  },
+  "icon1272": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-half",
+    "value": "far fa-star-half"
+  },
+  "icon0450": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope",
+    "value": "fa fa-envelope"
+  },
+  "icon0881": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-marked-alt",
+    "value": "fa fa-map-marked-alt"
+  },
+  "icon1222": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snapchat",
+    "value": "fab fa-snapchat"
+  },
+  "icon0282": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clipboard-list",
+    "value": "fa fa-clipboard-list"
+  },
+  "icon0153": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "border-style",
+    "value": "fa fa-border-style"
+  },
+  "icon1123": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rev",
+    "value": "fab fa-rev"
+  },
+  "icon0281": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clipboard-check",
+    "value": "fa fa-clipboard-check"
+  },
+  "icon1287": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stop-circle",
+    "value": "fa fa-stop-circle"
+  },
+  "icon0993": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paper-plane",
+    "value": "fa fa-paper-plane"
+  },
+  "icon0592": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "genderless",
+    "value": "fa fa-genderless"
+  },
+  "icon0117": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bezier-curve",
+    "value": "fa fa-bezier-curve"
+  },
+  "icon0778": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "info",
+    "value": "fa fa-info"
+  },
+  "icon0776": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "industry",
+    "value": "fa fa-industry"
+  },
+  "icon0575": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "freebsd",
+    "value": "fab fa-freebsd"
+  },
+  "icon1496": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wallet",
+    "value": "fa fa-wallet"
+  },
+  "icon0946": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mortar-pestle",
+    "value": "fa fa-mortar-pestle"
+  },
+  "icon0034": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-double-up",
+    "value": "fa fa-angle-double-up"
+  },
+  "icon1459": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-times",
+    "value": "fa fa-user-times"
+  },
+  "icon0877": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mandalorian",
+    "value": "fab fa-mandalorian"
+  },
+  "icon0149": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bookmark",
+    "value": "far fa-bookmark"
+  },
+  "icon0715": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hat-wizard",
+    "value": "fa fa-hat-wizard"
+  },
+  "icon0522": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-powerpoint",
+    "value": "far fa-file-powerpoint"
+  },
+  "icon1080": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "qrcode",
+    "value": "fa fa-qrcode"
+  },
+  "icon1409": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tv",
+    "value": "fa fa-tv"
+  },
+  "icon0965": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "npm",
+    "value": "fab fa-npm"
+  },
+  "icon0917": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microchip",
+    "value": "fa fa-microchip"
+  },
+  "icon1140": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rupee-sign",
+    "value": "fa fa-rupee-sign"
+  },
+  "icon1142": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sad-cry",
+    "value": "far fa-sad-cry"
+  },
+  "icon0400": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "digital-tachograph",
+    "value": "fa fa-digital-tachograph"
+  },
+  "icon1199": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sketch",
+    "value": "fab fa-sketch"
+  },
+  "icon1417": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "umbraco",
+    "value": "fab fa-umbraco"
+  },
+  "icon1345": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "text-width",
+    "value": "fa fa-text-width"
+  },
+  "icon1116": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reply-all",
+    "value": "fa fa-reply-all"
+  },
+  "icon0223": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cash-register",
+    "value": "fa fa-cash-register"
+  },
+  "icon1335": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "teeth",
+    "value": "fa fa-teeth"
+  },
+  "icon0934": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "modx",
+    "value": "fab fa-modx"
+  },
+  "icon0978": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "openid",
+    "value": "fab fa-openid"
+  },
+  "icon1019": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "percent",
+    "value": "fa fa-percent"
+  },
+  "icon1422": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "undo-alt",
+    "value": "fa fa-undo-alt"
+  },
+  "icon0239": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chalkboard",
+    "value": "fa fa-chalkboard"
+  },
+  "icon0367": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "css3",
+    "value": "fab fa-css3"
+  },
+  "icon1308": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "superpowers",
+    "value": "fab fa-superpowers"
+  },
+  "icon0904": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "megaport",
+    "value": "fab fa-megaport"
+  },
+  "icon0315": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-alt",
+    "value": "far fa-comment-alt"
+  },
+  "icon0244": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chart-bar",
+    "value": "far fa-chart-bar"
+  },
+  "icon0184": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-alt",
+    "value": "far fa-calendar-alt"
+  },
+  "icon1149": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "satellite-dish",
+    "value": "fa fa-satellite-dish"
+  },
+  "icon0651": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-squint-tears",
+    "value": "fa fa-grin-squint-tears"
+  },
+  "icon1394": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trash-restore",
+    "value": "fa fa-trash-restore"
+  },
+  "icon0405": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dizzy",
+    "value": "fa fa-dizzy"
+  },
+  "icon0722": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "heart",
+    "value": "fa fa-heart"
+  },
+  "icon0546": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flag",
+    "value": "fa fa-flag"
+  },
+  "icon0729": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hippo",
+    "value": "fa fa-hippo"
+  },
+  "icon0212": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-down",
+    "value": "far fa-caret-square-down"
+  },
+  "icon0097": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bandcamp",
+    "value": "fab fa-bandcamp"
+  },
+  "icon1440": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-circle",
+    "value": "fa fa-user-circle"
+  },
+  "icon0620": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gofore",
+    "value": "fab fa-gofore"
+  },
+  "icon1450": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-minus",
+    "value": "fa fa-user-minus"
+  },
+  "icon1190": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sign-out-alt",
+    "value": "fa fa-sign-out-alt"
+  },
+  "icon0507": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-csv",
+    "value": "fa fa-file-csv"
+  },
+  "icon1497": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "warehouse",
+    "value": "fa fa-warehouse"
+  },
+  "icon0510": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-excel",
+    "value": "far fa-file-excel"
+  },
+  "icon1509": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "whmcs",
+    "value": "fab fa-whmcs"
+  },
+  "icon0151": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "border-all",
+    "value": "fa fa-border-all"
+  },
+  "icon0257": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-king",
+    "value": "fa fa-chess-king"
+  },
+  "icon0082": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "avianex",
+    "value": "fab fa-avianex"
+  },
+  "icon1336": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "teeth-open",
+    "value": "fa fa-teeth-open"
+  },
+  "icon1429": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "unlock-alt",
+    "value": "fa fa-unlock-alt"
+  },
+  "icon0597": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gift",
+    "value": "fa fa-gift"
+  },
+  "icon0056": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-right",
+    "value": "fa fa-arrow-alt-circle-right"
+  },
+  "icon1431": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "upload",
+    "value": "fa fa-upload"
+  },
+  "icon0604": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "github-square",
+    "value": "fab fa-github-square"
+  },
+  "icon0238": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chair",
+    "value": "fa fa-chair"
+  },
+  "icon0981": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "orcid",
+    "value": "fab fa-orcid"
+  },
+  "icon1531": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wpbeginner",
+    "value": "fab fa-wpbeginner"
+  },
+  "icon1365": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ticket-alt",
+    "value": "fa fa-ticket-alt"
+  },
+  "icon1054": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plus",
+    "value": "fa fa-plus"
+  },
+  "icon1458": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-tie",
+    "value": "fa fa-user-tie"
+  },
+  "icon1463": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ussunnah",
+    "value": "fab fa-ussunnah"
+  },
+  "icon0731": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hire-a-helper",
+    "value": "fab fa-hire-a-helper"
+  },
+  "icon1488": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "volume-down",
+    "value": "fa fa-volume-down"
+  },
+  "icon1166": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sellsy",
+    "value": "fab fa-sellsy"
+  },
+  "icon1156": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "scroll",
+    "value": "fa fa-scroll"
+  },
+  "icon1117": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "replyd",
+    "value": "fab fa-replyd"
+  },
+  "icon0646": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-beam-sweat",
+    "value": "far fa-grin-beam-sweat"
+  },
+  "icon0479": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eye-slash",
+    "value": "far fa-eye-slash"
+  },
+  "icon0878": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map",
+    "value": "fa fa-map"
+  },
+  "icon1162": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "search-plus",
+    "value": "fa fa-search-plus"
+  },
+  "icon1430": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "untappd",
+    "value": "fab fa-untappd"
+  },
+  "icon1053": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plug",
+    "value": "fa fa-plug"
+  },
+  "icon0726": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "helicopter",
+    "value": "fa fa-helicopter"
+  },
+  "icon1331": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tape",
+    "value": "fa fa-tape"
+  },
+  "icon1174": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "share-square",
+    "value": "far fa-share-square"
+  },
+  "icon1542": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yammer",
+    "value": "fab fa-yammer"
+  },
+  "icon1081": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "question",
+    "value": "fa fa-question"
+  },
+  "icon0410": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dog",
+    "value": "fa fa-dog"
+  },
+  "icon1483": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vine",
+    "value": "fab fa-vine"
+  },
+  "icon1316": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "swimmer",
+    "value": "fa fa-swimmer"
+  },
+  "icon0205": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "car-crash",
+    "value": "fa fa-car-crash"
+  },
+  "icon1121": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "restroom",
+    "value": "fa fa-restroom"
+  },
+  "icon0831": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-squint",
+    "value": "fa fa-laugh-squint"
+  },
+  "icon0279": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clipboard",
+    "value": "fa fa-clipboard"
+  },
+  "icon0735": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "home",
+    "value": "fa fa-home"
+  },
+  "icon0705": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-spock",
+    "value": "far fa-hand-spock"
+  },
+  "icon0539": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "firefox-browser",
+    "value": "fab fa-firefox-browser"
+  },
+  "icon1318": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "symfony",
+    "value": "fab fa-symfony"
+  },
+  "icon0436": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dyalog",
+    "value": "fab fa-dyalog"
+  },
+  "icon0709": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "handshake",
+    "value": "far fa-handshake"
+  },
+  "icon0186": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-check",
+    "value": "far fa-calendar-check"
+  },
+  "icon0277": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "city",
+    "value": "fa fa-city"
+  },
+  "icon1071": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "prescription-bottle-alt",
+    "value": "fa fa-prescription-bottle-alt"
+  },
+  "icon0779": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "info-circle",
+    "value": "fa fa-info-circle"
+  },
+  "icon0342": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cpanel",
+    "value": "fab fa-cpanel"
+  },
+  "icon0485": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fantasy-flight-games",
+    "value": "fab fa-fantasy-flight-games"
+  },
+  "icon1172": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "share-alt-square",
+    "value": "fa fa-share-alt-square"
+  },
+  "icon1461": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "users-cog",
+    "value": "fa fa-users-cog"
+  },
+  "icon1347": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "th-large",
+    "value": "fa fa-th-large"
+  },
+  "icon1355": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer-full",
+    "value": "fa fa-thermometer-full"
+  },
+  "icon0104": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battery-full",
+    "value": "fa fa-battery-full"
+  },
+  "icon0825": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lastfm",
+    "value": "fab fa-lastfm"
+  },
+  "icon0914": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mercury",
+    "value": "fa fa-mercury"
+  },
+  "icon0602": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "github",
+    "value": "fab fa-github"
+  },
+  "icon0783": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "invision",
+    "value": "fab fa-invision"
+  },
+  "icon0341": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "couch",
+    "value": "fa fa-couch"
+  },
+  "icon0542": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "first-order-alt",
+    "value": "fab fa-first-order-alt"
+  },
+  "icon0229": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-discover",
+    "value": "fab fa-cc-discover"
+  },
+  "icon0028": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "anchor",
+    "value": "fa fa-anchor"
+  },
+  "icon0548": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flag-checkered",
+    "value": "fa fa-flag-checkered"
+  },
+  "icon0202": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "car",
+    "value": "fa fa-car"
+  },
+  "icon0379": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "democrat",
+    "value": "fa fa-democrat"
+  },
+  "icon0621": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "golf-ball",
+    "value": "fa fa-golf-ball"
+  },
+  "icon0227": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-apple-pay",
+    "value": "fab fa-cc-apple-pay"
+  },
+  "icon1261": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "square-full",
+    "value": "fa fa-square-full"
+  },
+  "icon0080": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "audio-description",
+    "value": "fa fa-audio-description"
+  },
+  "icon0894": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mastodon",
+    "value": "fab fa-mastodon"
+  },
+  "icon0692": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-left",
+    "value": "fa fa-hand-point-left"
+  },
+  "icon1164": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "seedling",
+    "value": "fa fa-seedling"
+  },
+  "icon0314": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-alt",
+    "value": "fa fa-comment-alt"
+  },
+  "icon0794": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "joget",
+    "value": "fab fa-joget"
+  },
+  "icon1209": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sleigh",
+    "value": "fa fa-sleigh"
+  },
+  "icon1202": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skull",
+    "value": "fa fa-skull"
+  },
+  "icon0118": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bible",
+    "value": "fa fa-bible"
+  },
+  "icon1376": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "toilet-paper",
+    "value": "fa fa-toilet-paper"
+  },
+  "icon1359": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "think-peaks",
+    "value": "fab fa-think-peaks"
+  },
+  "icon0594": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gg",
+    "value": "fab fa-gg"
+  },
+  "icon0454": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope-open-text",
+    "value": "fa fa-envelope-open-text"
+  },
+  "icon1528": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "won-sign",
+    "value": "fa fa-won-sign"
+  },
+  "icon1198": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skating",
+    "value": "fa fa-skating"
+  },
+  "icon0899": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medium",
+    "value": "fab fa-medium"
+  },
+  "icon1024": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phoenix-framework",
+    "value": "fab fa-phoenix-framework"
+  },
+  "icon1176": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shield-alt",
+    "value": "fa fa-shield-alt"
+  },
+  "icon1524": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wine-glass-alt",
+    "value": "fa fa-wine-glass-alt"
+  },
+  "icon0298": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-upload-alt",
+    "value": "fa fa-cloud-upload-alt"
+  },
+  "icon1248": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sourcetree",
+    "value": "fab fa-sourcetree"
+  },
+  "icon0325": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compass",
+    "value": "fa fa-compass"
+  },
+  "icon1420": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "underline",
+    "value": "fa fa-underline"
+  },
+  "icon1311": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "surprise",
+    "value": "fa fa-surprise"
+  },
+  "icon0583": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "futbol",
+    "value": "fa fa-futbol"
+  },
+  "icon1220": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smoking-ban",
+    "value": "fa fa-smoking-ban"
+  },
+  "icon0122": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "binoculars",
+    "value": "fa fa-binoculars"
+  },
+  "icon1229": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snowplow",
+    "value": "fa fa-snowplow"
+  },
+  "icon0488": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fax",
+    "value": "fa fa-fax"
+  },
+  "icon0407": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dna",
+    "value": "fa fa-dna"
+  },
+  "icon0087": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "baby-carriage",
+    "value": "fa fa-baby-carriage"
+  },
+  "icon0311": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "columns",
+    "value": "fa fa-columns"
+  },
+  "icon1533": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wpforms",
+    "value": "fab fa-wpforms"
+  },
+  "icon0751": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hourglass-half",
+    "value": "fa fa-hourglass-half"
+  },
+  "icon0665": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grip-horizontal",
+    "value": "fa fa-grip-horizontal"
+  },
+  "icon0519": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-pdf",
+    "value": "fa fa-file-pdf"
+  },
+  "icon0165": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "brush",
+    "value": "fa fa-brush"
+  },
+  "icon0815": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss-wink-heart",
+    "value": "fa fa-kiss-wink-heart"
+  },
+  "icon0439": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "edge",
+    "value": "fab fa-edge"
+  },
+  "icon0759": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ice-cream",
+    "value": "fa fa-ice-cream"
+  },
+  "icon0203": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "car-alt",
+    "value": "fa fa-car-alt"
+  },
+  "icon0632": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "graduation-cap",
+    "value": "fa fa-graduation-cap"
+  },
+  "icon0675": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hacker-news-square",
+    "value": "fab fa-hacker-news-square"
+  },
+  "icon0321": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comments",
+    "value": "fa fa-comments"
+  },
+  "icon1188": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sign-in-alt",
+    "value": "fa fa-sign-in-alt"
+  },
+  "icon0134": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blogger",
+    "value": "fab fa-blogger"
+  },
+  "icon0749": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hourglass",
+    "value": "far fa-hourglass"
+  },
+  "icon1537": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "xbox",
+    "value": "fab fa-xbox"
+  },
+  "icon1033": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "php",
+    "value": "fab fa-php"
+  },
+  "icon0852": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "linkedin-in",
+    "value": "fab fa-linkedin-in"
+  },
+  "icon0636": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "greater-than-equal",
+    "value": "fa fa-greater-than-equal"
+  },
+  "icon0943": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "monument",
+    "value": "fa fa-monument"
+  },
+  "icon1364": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thumbtack",
+    "value": "fa fa-thumbtack"
+  },
+  "icon1075": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "project-diagram",
+    "value": "fa fa-project-diagram"
+  },
+  "icon0300": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloudsmith",
+    "value": "fab fa-cloudsmith"
+  },
+  "icon0155": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "box",
+    "value": "fa fa-box"
+  },
+  "icon1241": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-down",
+    "value": "fa fa-sort-down"
+  },
+  "icon0834": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-wink",
+    "value": "far fa-laugh-wink"
+  },
+  "icon0863": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lock-open",
+    "value": "fa fa-lock-open"
+  },
+  "icon0349": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-pd",
+    "value": "fab fa-creative-commons-pd"
+  },
+  "icon0396": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-three",
+    "value": "fa fa-dice-three"
+  },
+  "icon0810": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kickstarter-k",
+    "value": "fab fa-kickstarter-k"
+  },
+  "icon0121": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bimobject",
+    "value": "fab fa-bimobject"
+  },
+  "icon1138": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ruler-vertical",
+    "value": "fa fa-ruler-vertical"
+  },
+  "icon0533": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "filter",
+    "value": "fa fa-filter"
+  },
+  "icon1386": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trailer",
+    "value": "fa fa-trailer"
+  },
+  "icon1363": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thumbs-up",
+    "value": "far fa-thumbs-up"
+  },
+  "icon0813": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss-beam",
+    "value": "fa fa-kiss-beam"
+  },
+  "icon0662": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue-wink",
+    "value": "far fa-grin-tongue-wink"
+  },
+  "icon1442": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-clock",
+    "value": "fa fa-user-clock"
+  },
+  "icon0930": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mixcloud",
+    "value": "fab fa-mixcloud"
+  },
+  "icon0674": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hacker-news",
+    "value": "fab fa-hacker-news"
+  },
+  "icon0125": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bitbucket",
+    "value": "fab fa-bitbucket"
+  },
+  "icon0055": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-left",
+    "value": "far fa-arrow-alt-circle-left"
+  },
+  "icon0240": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chalkboard-teacher",
+    "value": "fa fa-chalkboard-teacher"
+  },
+  "icon1210": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sliders-h",
+    "value": "fa fa-sliders-h"
+  },
+  "icon0233": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-stripe",
+    "value": "fab fa-cc-stripe"
+  },
+  "icon1275": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-of-life",
+    "value": "fa fa-star-of-life"
+  },
+  "icon0247": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check",
+    "value": "fa fa-check"
+  },
+  "icon1102": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "record-vinyl",
+    "value": "fa fa-record-vinyl"
+  },
+  "icon1388": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tram",
+    "value": "fa fa-tram"
+  },
+  "icon0145": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "book-medical",
+    "value": "fa fa-book-medical"
+  },
+  "icon0962": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "node-js",
+    "value": "fab fa-node-js"
+  },
+  "icon0027": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "amilia",
+    "value": "fab fa-amilia"
+  },
+  "icon0098": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "barcode",
+    "value": "fa fa-barcode"
+  },
+  "icon0892": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mars-stroke-v",
+    "value": "fa fa-mars-stroke-v"
+  },
+  "icon0069": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrows-alt-h",
+    "value": "fa fa-arrows-alt-h"
+  },
+  "icon0327": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compress",
+    "value": "fa fa-compress"
+  },
+  "icon0424": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "draw-polygon",
+    "value": "fa fa-draw-polygon"
+  },
+  "icon1058": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "podcast",
+    "value": "fa fa-podcast"
+  },
+  "icon0706": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hands",
+    "value": "fa fa-hands"
+  },
+  "icon0039": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angry",
+    "value": "fa fa-angry"
+  },
+  "icon0941": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-check",
+    "value": "fa fa-money-check"
+  },
+  "icon1145": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "safari",
+    "value": "fab fa-safari"
+  },
+  "icon0111": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "behance",
+    "value": "fab fa-behance"
+  },
+  "icon1342": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tenge",
+    "value": "fa fa-tenge"
+  },
+  "icon1104": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "red-river",
+    "value": "fab fa-red-river"
+  },
+  "icon0091": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bahai",
+    "value": "fa fa-bahai"
+  },
+  "icon1057": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plus-square",
+    "value": "far fa-plus-square"
+  },
+  "icon0524": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-signature",
+    "value": "fa fa-file-signature"
+  },
+  "icon0146": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "book-open",
+    "value": "fa fa-book-open"
+  },
+  "icon1177": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ship",
+    "value": "fa fa-ship"
+  },
+  "icon0919": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microphone-alt",
+    "value": "fa fa-microphone-alt"
+  },
+  "icon0268": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-right",
+    "value": "fa fa-chevron-right"
+  },
+  "icon1482": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vimeo-v",
+    "value": "fab fa-vimeo-v"
+  },
+  "icon0047": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "apple",
+    "value": "fab fa-apple"
+  },
+  "icon0086": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "baby",
+    "value": "fa fa-baby"
+  },
+  "icon0360": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crop",
+    "value": "fa fa-crop"
+  },
+  "icon1434": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user",
+    "value": "fa fa-user"
+  },
+  "icon0062": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-circle-right",
+    "value": "fa fa-arrow-circle-right"
+  },
+  "icon1114": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "renren",
+    "value": "fab fa-renren"
+  },
+  "icon0451": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope",
+    "value": "far fa-envelope"
+  },
+  "icon0210": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-right",
+    "value": "fa fa-caret-right"
+  },
+  "icon0760": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "icicles",
+    "value": "fa fa-icicles"
+  },
+  "icon1492": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vote-yea",
+    "value": "fa fa-vote-yea"
+  },
+  "icon0626": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-play",
+    "value": "fab fa-google-play"
+  },
+  "icon0330": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "concierge-bell",
+    "value": "fa fa-concierge-bell"
+  },
+  "icon1379": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tooth",
+    "value": "fa fa-tooth"
+  },
+  "icon0324": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compact-disc",
+    "value": "fa fa-compact-disc"
+  },
+  "icon1037": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pied-piper-pp",
+    "value": "fab fa-pied-piper-pp"
+  },
+  "icon0452": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope-open",
+    "value": "fa fa-envelope-open"
+  },
+  "icon0574": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "free-code-camp",
+    "value": "fab fa-free-code-camp"
+  },
+  "icon0089": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "backward",
+    "value": "fa fa-backward"
+  },
+  "icon0295": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-showers-heavy",
+    "value": "fa fa-cloud-showers-heavy"
+  },
+  "icon1131": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "route",
+    "value": "fa fa-route"
+  },
+  "icon1389": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "transgender",
+    "value": "fa fa-transgender"
+  },
+  "icon0842": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "less-than-equal",
+    "value": "fa fa-less-than-equal"
+  },
+  "icon0102": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bath",
+    "value": "fa fa-bath"
+  },
+  "icon0398": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "digg",
+    "value": "fab fa-digg"
+  },
+  "icon0777": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "infinity",
+    "value": "fa fa-infinity"
+  },
+  "icon0845": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "life-ring",
+    "value": "fa fa-life-ring"
+  },
+  "icon1092": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "radiation-alt",
+    "value": "fa fa-radiation-alt"
+  },
+  "icon0606": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gitlab",
+    "value": "fab fa-gitlab"
+  },
+  "icon0596": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ghost",
+    "value": "fa fa-ghost"
+  },
+  "icon0826": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lastfm-square",
+    "value": "fab fa-lastfm-square"
+  },
+  "icon0977": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "opencart",
+    "value": "fab fa-opencart"
+  },
+  "icon0171": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bullhorn",
+    "value": "fa fa-bullhorn"
+  },
+  "icon1022": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "person-booth",
+    "value": "fa fa-person-booth"
+  },
+  "icon0601": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "git-square",
+    "value": "fab fa-git-square"
+  },
+  "icon1479": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vihara",
+    "value": "fa fa-vihara"
+  },
+  "icon1291": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "store-alt",
+    "value": "fa fa-store-alt"
+  },
+  "icon0568": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "football-ball",
+    "value": "fa fa-football-ball"
+  },
+  "icon0511": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-export",
+    "value": "fa fa-file-export"
+  },
+  "icon1515": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-maximize",
+    "value": "fa fa-window-maximize"
+  },
+  "icon0021": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "alipay",
+    "value": "fab fa-alipay"
+  },
+  "icon0297": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-sun-rain",
+    "value": "fa fa-cloud-sun-rain"
+  },
+  "icon1337": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "telegram",
+    "value": "fab fa-telegram"
+  },
+  "icon0073": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "asterisk",
+    "value": "fa fa-asterisk"
+  },
+  "icon1264": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stack-exchange",
+    "value": "fab fa-stack-exchange"
+  },
+  "icon0178": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "buy-n-large",
+    "value": "fab fa-buy-n-large"
+  },
+  "icon0562": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "font",
+    "value": "fa fa-font"
+  },
+  "icon1146": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "salesforce",
+    "value": "fab fa-salesforce"
+  },
+  "icon0738": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "horse",
+    "value": "fa fa-horse"
+  },
+  "icon0933": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mobile-alt",
+    "value": "fa fa-mobile-alt"
+  },
+  "icon0095": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ban",
+    "value": "fa fa-ban"
+  },
+  "icon1074": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "product-hunt",
+    "value": "fab fa-product-hunt"
+  },
+  "icon0246": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chart-pie",
+    "value": "fa fa-chart-pie"
+  },
+  "icon0105": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battery-half",
+    "value": "fa fa-battery-half"
+  },
+  "icon1436": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-alt",
+    "value": "fa fa-user-alt"
+  },
+  "icon0498": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-alt",
+    "value": "fa fa-file-alt"
+  },
+  "icon0380": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "deploydog",
+    "value": "fab fa-deploydog"
+  },
+  "icon1468": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "venus",
+    "value": "fa fa-venus"
+  },
+  "icon1310": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "supple",
+    "value": "fab fa-supple"
+  },
+  "icon0658": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue",
+    "value": "far fa-grin-tongue"
+  },
+  "icon1276": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "staylinked",
+    "value": "fab fa-staylinked"
+  },
+  "icon0951": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mouse-pointer",
+    "value": "fa fa-mouse-pointer"
+  },
+  "icon0537": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fire-extinguisher",
+    "value": "fa fa-fire-extinguisher"
+  },
+  "icon0230": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-jcb",
+    "value": "fab fa-cc-jcb"
+  },
+  "icon0584": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "futbol",
+    "value": "far fa-futbol"
+  },
+  "icon1523": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wine-glass",
+    "value": "fa fa-wine-glass"
+  },
+  "icon0355": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-share",
+    "value": "fab fa-creative-commons-share"
+  },
+  "icon0792": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "jenkins",
+    "value": "fab fa-jenkins"
+  },
+  "icon0772": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "images",
+    "value": "far fa-images"
+  },
+  "icon0846": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "life-ring",
+    "value": "far fa-life-ring"
+  },
+  "icon1457": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-tag",
+    "value": "fa fa-user-tag"
+  },
+  "icon1385": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "traffic-light",
+    "value": "fa fa-traffic-light"
+  },
+  "icon0309": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cogs",
+    "value": "fa fa-cogs"
+  },
+  "icon0561": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder-plus",
+    "value": "fa fa-folder-plus"
+  },
+  "icon0809": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kickstarter",
+    "value": "fab fa-kickstarter"
+  },
+  "icon0746": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hotel",
+    "value": "fa fa-hotel"
+  },
+  "icon0909": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh-rolling-eyes",
+    "value": "fa fa-meh-rolling-eyes"
+  },
+  "icon1105": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reddit",
+    "value": "fab fa-reddit"
+  },
+  "icon0716": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hdd",
+    "value": "fa fa-hdd"
+  },
+  "icon0071": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "artstation",
+    "value": "fab fa-artstation"
+  },
+  "icon1348": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "th-list",
+    "value": "fa fa-th-list"
+  },
+  "icon1078": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "python",
+    "value": "fab fa-python"
+  },
+  "icon0217": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-up",
+    "value": "fa fa-caret-square-up"
+  },
+  "icon0671": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "guitar",
+    "value": "fa fa-guitar"
+  },
+  "icon0502": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-audio",
+    "value": "fa fa-file-audio"
+  },
+  "icon1155": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "scribd",
+    "value": "fab fa-scribd"
+  },
+  "icon1407": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tumblr",
+    "value": "fab fa-tumblr"
+  },
+  "icon0487": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fast-forward",
+    "value": "fa fa-fast-forward"
+  },
+  "icon0874": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mail-bulk",
+    "value": "fa fa-mail-bulk"
+  },
+  "icon0890": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mars-stroke",
+    "value": "fa fa-mars-stroke"
+  },
+  "icon0528": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-word",
+    "value": "fa fa-file-word"
+  },
+  "icon0821": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laptop",
+    "value": "fa fa-laptop"
+  },
+  "icon0953": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "music",
+    "value": "fa fa-music"
+  },
+  "icon0113": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bell",
+    "value": "fa fa-bell"
+  },
+  "icon0458": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eraser",
+    "value": "fa fa-eraser"
+  },
+  "icon0232": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-paypal",
+    "value": "fab fa-cc-paypal"
+  },
+  "icon1154": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "screwdriver",
+    "value": "fa fa-screwdriver"
+  },
+  "icon0703": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-scissors",
+    "value": "far fa-hand-scissors"
+  },
+  "icon1387": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "train",
+    "value": "fa fa-train"
+  },
+  "icon0490": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "feather-alt",
+    "value": "fa fa-feather-alt"
+  },
+  "icon0616": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "globe-africa",
+    "value": "fa fa-globe-africa"
+  },
+  "icon0489": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "feather",
+    "value": "fa fa-feather"
+  },
+  "icon1356": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer-half",
+    "value": "fa fa-thermometer-half"
+  },
+  "icon1096": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ravelry",
+    "value": "fab fa-ravelry"
+  },
+  "icon0192": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-times",
+    "value": "fa fa-calendar-times"
+  },
+  "icon1110": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "redo-alt",
+    "value": "fa fa-redo-alt"
+  },
+  "icon0677": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hamburger",
+    "value": "fa fa-hamburger"
+  },
+  "icon0572": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "forward",
+    "value": "fa fa-forward"
+  },
+  "icon0987": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pager",
+    "value": "fa fa-pager"
+  },
+  "icon0280": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clipboard",
+    "value": "far fa-clipboard"
+  },
+  "icon0364": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crow",
+    "value": "fa fa-crow"
+  },
+  "icon0313": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment",
+    "value": "far fa-comment"
+  },
+  "icon0477": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eye-dropper",
+    "value": "fa fa-eye-dropper"
+  },
+  "icon0593": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "get-pocket",
+    "value": "fab fa-get-pocket"
+  },
+  "icon0369": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cube",
+    "value": "fa fa-cube"
+  },
+  "icon1402": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "truck-monster",
+    "value": "fa fa-truck-monster"
+  },
+  "icon1234": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-alpha-down-alt",
+    "value": "fa fa-sort-alpha-down-alt"
+  },
+  "icon0804": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "keybase",
+    "value": "fab fa-keybase"
+  },
+  "icon0959": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "newspaper",
+    "value": "far fa-newspaper"
+  },
+  "icon1017": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "people-carry",
+    "value": "fa fa-people-carry"
+  },
+  "icon0839": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lemon",
+    "value": "far fa-lemon"
+  },
+  "icon0886": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "markdown",
+    "value": "fab fa-markdown"
+  },
+  "icon0968": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "object-group",
+    "value": "fa fa-object-group"
+  },
+  "icon0860": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "list-ul",
+    "value": "fa fa-list-ul"
+  },
+  "icon0403": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "discourse",
+    "value": "fab fa-discourse"
+  },
+  "icon1546": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yelp",
+    "value": "fab fa-yelp"
+  },
+  "icon0517": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-medical",
+    "value": "fa fa-file-medical"
+  },
+  "icon0579": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "frown-open",
+    "value": "fa fa-frown-open"
+  },
+  "icon1446": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-graduate",
+    "value": "fa fa-user-graduate"
+  },
+  "icon0135": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blogger-b",
+    "value": "fab fa-blogger-b"
+  },
+  "icon0952": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mug-hot",
+    "value": "fa fa-mug-hot"
+  },
+  "icon1472": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "viadeo",
+    "value": "fab fa-viadeo"
+  },
+  "icon0793": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "jira",
+    "value": "fab fa-jira"
+  },
+  "icon1527": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wolf-pack-battalion",
+    "value": "fab fa-wolf-pack-battalion"
+  },
+  "icon0618": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "globe-asia",
+    "value": "fa fa-globe-asia"
+  },
+  "icon1535": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wrench",
+    "value": "fa fa-wrench"
+  },
+  "icon1383": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trade-federation",
+    "value": "fab fa-trade-federation"
+  },
+  "icon0640": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin",
+    "value": "far fa-grin"
+  },
+  "icon0905": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh",
+    "value": "fa fa-meh"
+  },
+  "icon0181": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar",
+    "value": "fa fa-calendar"
+  },
+  "icon0566": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fonticons",
+    "value": "fab fa-fonticons"
+  },
+  "icon1004": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pause-circle",
+    "value": "fa fa-pause-circle"
+  },
+  "icon1283": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sticker-mule",
+    "value": "fab fa-sticker-mule"
+  },
+  "icon0318": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-dots",
+    "value": "far fa-comment-dots"
+  },
+  "icon0453": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope-open",
+    "value": "far fa-envelope-open"
+  },
+  "icon0358": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "credit-card",
+    "value": "far fa-credit-card"
+  },
+  "icon0213": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-left",
+    "value": "fa fa-caret-square-left"
+  },
+  "icon1098": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reacteurope",
+    "value": "fab fa-reacteurope"
+  },
+  "icon0438": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ebay",
+    "value": "fab fa-ebay"
+  },
+  "icon0853": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "linode",
+    "value": "fab fa-linode"
+  },
+  "icon1504": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "weight-hanging",
+    "value": "fa fa-weight-hanging"
+  },
+  "icon1230": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "socks",
+    "value": "fa fa-socks"
+  },
+  "icon0011": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "adobe",
+    "value": "fab fa-adobe"
+  },
+  "icon0444": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "elementor",
+    "value": "fab fa-elementor"
+  },
+  "icon0649": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-squint",
+    "value": "fa fa-grin-squint"
+  },
+  "icon0175": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bus",
+    "value": "fa fa-bus"
+  },
+  "icon0858": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "list-alt",
+    "value": "far fa-list-alt"
+  },
+  "icon1107": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reddit-square",
+    "value": "fab fa-reddit-square"
+  },
+  "icon1375": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "toilet",
+    "value": "fa fa-toilet"
+  },
+  "icon0942": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-check-alt",
+    "value": "fa fa-money-check-alt"
+  },
+  "icon0455": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "envelope-square",
+    "value": "fa fa-envelope-square"
+  },
+  "icon0599": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "git",
+    "value": "fab fa-git"
+  },
+  "icon0690": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-down",
+    "value": "fa fa-hand-point-down"
+  },
+  "icon0272": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chromecast",
+    "value": "fab fa-chromecast"
+  },
+  "icon0385": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dharmachakra",
+    "value": "fa fa-dharmachakra"
+  },
+  "icon1322": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "syringe",
+    "value": "fa fa-syringe"
+  },
+  "icon1256": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "splotch",
+    "value": "fa fa-splotch"
+  },
+  "icon1303": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "subway",
+    "value": "fa fa-subway"
+  },
+  "icon0370": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cubes",
+    "value": "fa fa-cubes"
+  },
+  "icon0090": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bacon",
+    "value": "fa fa-bacon"
+  },
+  "icon1157": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sd-card",
+    "value": "fa fa-sd-card"
+  },
+  "icon0006": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "address-book",
+    "value": "far fa-address-book"
+  },
+  "icon1221": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sms",
+    "value": "fa fa-sms"
+  },
+  "icon1189": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sign-language",
+    "value": "fa fa-sign-language"
+  },
+  "icon0008": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "address-card",
+    "value": "far fa-address-card"
+  },
+  "icon0617": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "globe-americas",
+    "value": "fa fa-globe-americas"
+  },
+  "icon0031": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-double-down",
+    "value": "fa fa-angle-double-down"
+  },
+  "icon0449": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "empire",
+    "value": "fab fa-empire"
+  },
+  "icon0129": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blackberry",
+    "value": "fab fa-blackberry"
+  },
+  "icon1274": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-of-david",
+    "value": "fa fa-star-of-david"
+  },
+  "icon0041": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angrycreative",
+    "value": "fab fa-angrycreative"
+  },
+  "icon0463": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "euro-sign",
+    "value": "fa fa-euro-sign"
+  },
+  "icon0580": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "frown-open",
+    "value": "far fa-frown-open"
+  },
+  "icon0963": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "not-equal",
+    "value": "fa fa-not-equal"
+  },
+  "icon0258": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-knight",
+    "value": "fa fa-chess-knight"
+  },
+  "icon0038": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-up",
+    "value": "fa fa-angle-up"
+  },
+  "icon1395": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trash-restore-alt",
+    "value": "fa fa-trash-restore-alt"
+  },
+  "icon1034": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pied-piper",
+    "value": "fab fa-pied-piper"
+  },
+  "icon1414": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "uber",
+    "value": "fab fa-uber"
+  },
+  "icon0824": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laravel",
+    "value": "fab fa-laravel"
+  },
+  "icon1097": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "react",
+    "value": "fab fa-react"
+  },
+  "icon1529": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wordpress",
+    "value": "fab fa-wordpress"
+  },
+  "icon0838": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lemon",
+    "value": "fa fa-lemon"
+  },
+  "icon1141": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sad-cry",
+    "value": "fa fa-sad-cry"
+  },
+  "icon1232": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort",
+    "value": "fa fa-sort"
+  },
+  "icon1192": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "signature",
+    "value": "fa fa-signature"
+  },
+  "icon1474": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vial",
+    "value": "fa fa-vial"
+  },
+  "icon1186": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shuttle-van",
+    "value": "fa fa-shuttle-van"
+  },
+  "icon1501": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "weebly",
+    "value": "fab fa-weebly"
+  },
+  "icon1201": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skiing-nordic",
+    "value": "fa fa-skiing-nordic"
+  },
+  "icon0591": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gem",
+    "value": "far fa-gem"
+  },
+  "icon1170": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "share",
+    "value": "fa fa-share"
+  },
+  "icon0785": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "italic",
+    "value": "fa fa-italic"
+  },
+  "icon1372": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tired",
+    "value": "far fa-tired"
+  },
+  "icon0156": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "box-open",
+    "value": "fa fa-box-open"
+  },
+  "icon0072": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "assistive-listening-systems",
+    "value": "fa fa-assistive-listening-systems"
+  },
+  "icon1072": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "print",
+    "value": "fa fa-print"
+  },
+  "icon0174": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "buromobelexperte",
+    "value": "fab fa-buromobelexperte"
+  },
+  "icon0848": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lightbulb",
+    "value": "far fa-lightbulb"
+  },
+  "icon0483": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "facebook-square",
+    "value": "fab fa-facebook-square"
+  },
+  "icon0037": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-right",
+    "value": "fa fa-angle-right"
+  },
+  "icon1360": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thumbs-down",
+    "value": "fa fa-thumbs-down"
+  },
+  "icon1503": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "weight",
+    "value": "fa fa-weight"
+  },
+  "icon0256": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-board",
+    "value": "fa fa-chess-board"
+  },
+  "icon0501": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-archive",
+    "value": "far fa-file-archive"
+  },
+  "icon0708": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "handshake",
+    "value": "fa fa-handshake"
+  },
+  "icon0800": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "jsfiddle",
+    "value": "fab fa-jsfiddle"
+  },
+  "icon0359": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "critical-role",
+    "value": "fab fa-critical-role"
+  },
+  "icon0764": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "id-card",
+    "value": "fa fa-id-card"
+  },
+  "icon0350": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-pd-alt",
+    "value": "fab fa-creative-commons-pd-alt"
+  },
+  "icon0505": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-code",
+    "value": "far fa-file-code"
+  },
+  "icon1362": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thumbs-up",
+    "value": "fa fa-thumbs-up"
+  },
+  "icon1205": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skype",
+    "value": "fab fa-skype"
+  },
+  "icon0565": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "font-awesome-flag",
+    "value": "fab fa-font-awesome-flag"
+  },
+  "icon0612": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glasses",
+    "value": "fa fa-glasses"
+  },
+  "icon0132": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blind",
+    "value": "fa fa-blind"
+  },
+  "icon1150": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "save",
+    "value": "fa fa-save"
+  },
+  "icon1548": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yin-yang",
+    "value": "fa fa-yin-yang"
+  },
+  "icon0164": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "broom",
+    "value": "fa fa-broom"
+  },
+  "icon0532": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "film",
+    "value": "fa fa-film"
+  },
+  "icon0976": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "om",
+    "value": "fa fa-om"
+  },
+  "icon0769": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "image",
+    "value": "fa fa-image"
+  },
+  "icon0741": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hospital",
+    "value": "far fa-hospital"
+  },
+  "icon0191": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-plus",
+    "value": "far fa-calendar-plus"
+  },
+  "icon1013": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pen-square",
+    "value": "fa fa-pen-square"
+  },
+  "icon1470": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "venus-mars",
+    "value": "fa fa-venus-mars"
+  },
+  "icon1032": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "photo-video",
+    "value": "fa fa-photo-video"
+  },
+  "icon1038": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pied-piper-square",
+    "value": "fab fa-pied-piper-square"
+  },
+  "icon0480": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "facebook",
+    "value": "fab fa-facebook"
+  },
+  "icon0799": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "js-square",
+    "value": "fab fa-js-square"
+  },
+  "icon0445": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ellipsis-h",
+    "value": "fa fa-ellipsis-h"
+  },
+  "icon0442": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "egg",
+    "value": "fa fa-egg"
+  },
+  "icon1328": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tachometer-alt",
+    "value": "fa fa-tachometer-alt"
+  },
+  "icon0214": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-left",
+    "value": "far fa-caret-square-left"
+  },
+  "icon0176": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bus-alt",
+    "value": "fa fa-bus-alt"
+  },
+  "icon0323": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comments-dollar",
+    "value": "fa fa-comments-dollar"
+  },
+  "icon1550": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "youtube",
+    "value": "fab fa-youtube"
+  },
+  "icon0420": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "download",
+    "value": "fa fa-download"
+  },
+  "icon1454": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-secret",
+    "value": "fa fa-user-secret"
+  },
+  "icon0971": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "object-ungroup",
+    "value": "far fa-object-ungroup"
+  },
+  "icon0306": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "codiepie",
+    "value": "fab fa-codiepie"
+  },
+  "icon0393": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-four",
+    "value": "fa fa-dice-four"
+  },
+  "icon1083": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "question-circle",
+    "value": "far fa-question-circle"
+  },
+  "icon1266": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stackpath",
+    "value": "fab fa-stackpath"
+  },
+  "icon0545": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fist-raised",
+    "value": "fa fa-fist-raised"
+  },
+  "icon0144": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "book-dead",
+    "value": "fa fa-book-dead"
+  },
+  "icon0713": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hat-cowboy",
+    "value": "fa fa-hat-cowboy"
+  },
+  "icon0017": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "align-center",
+    "value": "fa fa-align-center"
+  },
+  "icon1495": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "walking",
+    "value": "fa fa-walking"
+  },
+  "icon0049": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "apple-pay",
+    "value": "fab fa-apple-pay"
+  },
+  "icon0158": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "braille",
+    "value": "fa fa-braille"
+  },
+  "sling:resourceType": "nt:unstructured",
+  "icon0092": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "balance-scale",
+    "value": "fa fa-balance-scale"
+  },
+  "icon0720": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "headphones-alt",
+    "value": "fa fa-headphones-alt"
+  },
+  "icon0255": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-bishop",
+    "value": "fa fa-chess-bishop"
+  },
+  "icon0803": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "key",
+    "value": "fa fa-key"
+  },
+  "icon1206": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "slack",
+    "value": "fab fa-slack"
+  },
+  "icon1493": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vr-cardboard",
+    "value": "fa fa-vr-cardboard"
+  },
+  "icon0448": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ember",
+    "value": "fab fa-ember"
+  },
+  "icon0251": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check-square",
+    "value": "fa fa-check-square"
+  },
+  "icon0221": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cart-arrow-down",
+    "value": "fa fa-cart-arrow-down"
+  },
+  "icon0409": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "docker",
+    "value": "fab fa-docker"
+  },
+  "icon0836": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "leaf",
+    "value": "fa fa-leaf"
+  },
+  "icon1521": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "windows",
+    "value": "fab fa-windows"
+  },
+  "icon0261": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-rook",
+    "value": "fa fa-chess-rook"
+  },
+  "icon1518": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-minimize",
+    "value": "far fa-window-minimize"
+  },
+  "icon0457": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "equals",
+    "value": "fa fa-equals"
+  },
+  "icon1516": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-maximize",
+    "value": "far fa-window-maximize"
+  },
+  "icon0376": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "database",
+    "value": "fa fa-database"
+  },
+  "icon1011": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pen-fancy",
+    "value": "fa fa-pen-fancy"
+  },
+  "icon0107": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battery-three-quarters",
+    "value": "fa fa-battery-three-quarters"
+  },
+  "icon1404": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "truck-pickup",
+    "value": "fa fa-truck-pickup"
+  },
+  "icon0530": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fill",
+    "value": "fa fa-fill"
+  },
+  "icon1122": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "retweet",
+    "value": "fa fa-retweet"
+  },
+  "icon0573": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "foursquare",
+    "value": "fab fa-foursquare"
+  },
+  "icon1233": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-alpha-down",
+    "value": "fa fa-sort-alpha-down"
+  },
+  "icon0553": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flushed",
+    "value": "fa fa-flushed"
+  },
+  "icon0883": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-marker-alt",
+    "value": "fa fa-map-marker-alt"
+  },
+  "icon0753": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "house-damage",
+    "value": "fa fa-house-damage"
+  },
+  "icon0582": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "funnel-dollar",
+    "value": "fa fa-funnel-dollar"
+  },
+  "icon0923": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microsoft",
+    "value": "fab fa-microsoft"
+  },
+  "icon1113": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "remove-format",
+    "value": "fa fa-remove-format"
+  },
+  "icon0459": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "erlang",
+    "value": "fab fa-erlang"
+  },
+  "icon0119": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bicycle",
+    "value": "fa fa-bicycle"
+  },
+  "icon0607": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gitter",
+    "value": "fab fa-gitter"
+  },
+  "icon1392": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trash-alt",
+    "value": "fa fa-trash-alt"
+  },
+  "icon1246": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-up",
+    "value": "fa fa-sort-up"
+  },
+  "icon1350": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "theater-masks",
+    "value": "fa fa-theater-masks"
+  },
+  "icon0830": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-beam",
+    "value": "far fa-laugh-beam"
+  },
+  "icon1086": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quora",
+    "value": "fab fa-quora"
+  },
+  "icon1088": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quote-right",
+    "value": "fa fa-quote-right"
+  },
+  "icon0362": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cross",
+    "value": "fa fa-cross"
+  },
+  "icon0283": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clock",
+    "value": "fa fa-clock"
+  },
+  "icon0587": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gamepad",
+    "value": "fa fa-gamepad"
+  },
+  "icon1254": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spider",
+    "value": "fa fa-spider"
+  },
+  "icon0194": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-week",
+    "value": "fa fa-calendar-week"
+  },
+  "icon0829": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-beam",
+    "value": "fa fa-laugh-beam"
+  },
+  "icon1112": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "registered",
+    "value": "far fa-registered"
+  },
+  "icon0416": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "door-open",
+    "value": "fa fa-door-open"
+  },
+  "icon0888": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mars",
+    "value": "fa fa-mars"
+  },
+  "icon0891": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mars-stroke-h",
+    "value": "fa fa-mars-stroke-h"
+  },
+  "icon1456": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-slash",
+    "value": "fa fa-user-slash"
+  },
+  "icon0763": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "id-badge",
+    "value": "far fa-id-badge"
+  },
+  "icon1520": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-restore",
+    "value": "far fa-window-restore"
+  },
+  "icon0642": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-alt",
+    "value": "far fa-grin-alt"
+  },
+  "icon0382": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "desktop",
+    "value": "fa fa-desktop"
+  },
+  "icon0960": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "nimblr",
+    "value": "fab fa-nimblr"
+  },
+  "icon1082": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "question-circle",
+    "value": "fa fa-question-circle"
+  },
+  "icon1466": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vaadin",
+    "value": "fab fa-vaadin"
+  },
+  "icon1151": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "save",
+    "value": "far fa-save"
+  },
+  "icon1460": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "users",
+    "value": "fa fa-users"
+  },
+  "icon1152": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "schlix",
+    "value": "fab fa-schlix"
+  },
+  "icon1109": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "redo",
+    "value": "fa fa-redo"
+  },
+  "icon0898": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medapps",
+    "value": "fab fa-medapps"
+  },
+  "icon1207": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "slack-hash",
+    "value": "fab fa-slack-hash"
+  },
+  "icon1295": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "strikethrough",
+    "value": "fa fa-strikethrough"
+  },
+  "icon1050": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "play-circle",
+    "value": "fa fa-play-circle"
+  },
+  "icon0882": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-marker",
+    "value": "fa fa-map-marker"
+  },
+  "icon0138": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bold",
+    "value": "fa fa-bold"
+  },
+  "icon0780": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "instagram",
+    "value": "fab fa-instagram"
+  },
+  "icon1381": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "torii-gate",
+    "value": "fa fa-torii-gate"
+  },
+  "icon0394": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-one",
+    "value": "fa fa-dice-one"
+  },
+  "icon1148": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "satellite",
+    "value": "fa fa-satellite"
+  },
+  "icon0901": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medkit",
+    "value": "fa fa-medkit"
+  },
+  "icon1090": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "r-project",
+    "value": "fab fa-r-project"
+  },
+  "icon0018": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "align-justify",
+    "value": "fa fa-align-justify"
+  },
+  "icon0064": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-down",
+    "value": "fa fa-arrow-down"
+  },
+  "icon1462": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "usps",
+    "value": "fab fa-usps"
+  },
+  "icon1416": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "uikit",
+    "value": "fab fa-uikit"
+  },
+  "icon1026": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone",
+    "value": "fa fa-phone"
+  },
+  "icon1173": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "share-square",
+    "value": "fa fa-share-square"
+  },
+  "icon0354": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-sampling-plus",
+    "value": "fab fa-creative-commons-sampling-plus"
+  },
+  "icon0432": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dumbbell",
+    "value": "fa fa-dumbbell"
+  },
+  "icon0356": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-zero",
+    "value": "fab fa-creative-commons-zero"
+  },
+  "icon0925": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "minus-circle",
+    "value": "fa fa-minus-circle"
+  },
+  "icon0136": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bluetooth",
+    "value": "fab fa-bluetooth"
+  },
+  "icon0284": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clock",
+    "value": "far fa-clock"
+  },
+  "icon0262": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-circle-down",
+    "value": "fa fa-chevron-circle-down"
+  },
+  "icon0926": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "minus-square",
+    "value": "fa fa-minus-square"
+  },
+  "icon1401": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "truck-loading",
+    "value": "fa fa-truck-loading"
+  },
+  "icon0430": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "drumstick-bite",
+    "value": "fa fa-drumstick-bite"
+  },
+  "icon0645": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-beam-sweat",
+    "value": "fa fa-grin-beam-sweat"
+  },
+  "icon0353": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-sampling",
+    "value": "fab fa-creative-commons-sampling"
+  },
+  "icon0600": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "git-alt",
+    "value": "fab fa-git-alt"
+  },
+  "icon0467": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "exclamation-circle",
+    "value": "fa fa-exclamation-circle"
+  },
+  "icon0099": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bars",
+    "value": "fa fa-bars"
+  },
+  "icon0871": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "magento",
+    "value": "fab fa-magento"
+  },
+  "icon0335": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cookie-bite",
+    "value": "fa fa-cookie-bite"
+  },
+  "icon1519": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-restore",
+    "value": "fa fa-window-restore"
+  },
+  "icon0470": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "expand-alt",
+    "value": "fa fa-expand-alt"
+  },
+  "icon0033": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-double-right",
+    "value": "fa fa-angle-double-right"
+  },
+  "icon0152": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "border-none",
+    "value": "fa fa-border-none"
+  },
+  "icon1510": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wifi",
+    "value": "fa fa-wifi"
+  },
+  "icon1378": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tools",
+    "value": "fa fa-tools"
+  },
+  "icon0535": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fire",
+    "value": "fa fa-fire"
+  },
+  "icon0552": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flipboard",
+    "value": "fab fa-flipboard"
+  },
+  "icon0001": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "accessible-icon",
+    "value": "fab fa-accessible-icon"
+  },
+  "icon0383": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dev",
+    "value": "fab fa-dev"
+  },
+  "icon0880": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-marked",
+    "value": "fa fa-map-marked"
+  },
+  "icon0939": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-bill-wave",
+    "value": "fa fa-money-bill-wave"
+  },
+  "icon1451": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-ninja",
+    "value": "fa fa-user-ninja"
+  },
+  "icon0326": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compass",
+    "value": "far fa-compass"
+  },
+  "icon0443": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eject",
+    "value": "fa fa-eject"
+  },
+  "icon0207": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caravan",
+    "value": "fa fa-caravan"
+  },
+  "icon1271": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-half",
+    "value": "fa fa-star-half"
+  },
+  "icon0740": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hospital",
+    "value": "fa fa-hospital"
+  },
+  "icon0547": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flag",
+    "value": "far fa-flag"
+  },
+  "icon1551": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "youtube-square",
+    "value": "fab fa-youtube-square"
+  },
+  "icon0808": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "khanda",
+    "value": "fa fa-khanda"
+  },
+  "icon1132": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rss",
+    "value": "fa fa-rss"
+  },
+  "icon0701": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-rock",
+    "value": "far fa-hand-rock"
+  },
+  "icon0115": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bell-slash",
+    "value": "fa fa-bell-slash"
+  },
+  "icon0131": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blender-phone",
+    "value": "fa fa-blender-phone"
+  },
+  "icon1213": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile",
+    "value": "far fa-smile"
+  },
+  "icon1307": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sun",
+    "value": "far fa-sun"
+  },
+  "icon0950": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mouse",
+    "value": "fa fa-mouse"
+  },
+  "icon0643": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-beam",
+    "value": "fa fa-grin-beam"
+  },
+  "icon0750": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hourglass-end",
+    "value": "fa fa-hourglass-end"
+  },
+  "icon0061": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-circle-left",
+    "value": "fa fa-arrow-circle-left"
+  },
+  "icon0847": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lightbulb",
+    "value": "fa fa-lightbulb"
+  },
+  "icon0806": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "keyboard",
+    "value": "far fa-keyboard"
+  },
+  "icon1056": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plus-square",
+    "value": "fa fa-plus-square"
+  },
+  "icon1327": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tablets",
+    "value": "fa fa-tablets"
+  },
+  "icon0237": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "certificate",
+    "value": "fa fa-certificate"
+  },
+  "icon0303": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "code",
+    "value": "fa fa-code"
+  },
+  "icon1332": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tasks",
+    "value": "fa fa-tasks"
+  },
+  "icon0837": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "leanpub",
+    "value": "fab fa-leanpub"
+  },
+  "icon0512": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-image",
+    "value": "fa fa-file-image"
+  },
+  "icon1224": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snapchat-square",
+    "value": "fab fa-snapchat-square"
+  },
+  "icon0628": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-plus-g",
+    "value": "fab fa-google-plus-g"
+  },
+  "icon0236": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "centos",
+    "value": "fab fa-centos"
+  },
+  "icon1255": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spinner",
+    "value": "fa fa-spinner"
+  },
+  "icon1296": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stripe",
+    "value": "fab fa-stripe"
+  },
+  "icon0908": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh-blank",
+    "value": "far fa-meh-blank"
+  },
+  "icon1320": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sync",
+    "value": "fa fa-sync"
+  },
+  "icon1260": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "square",
+    "value": "far fa-square"
+  },
+  "icon1544": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yandex-international",
+    "value": "fab fa-yandex-international"
+  },
+  "icon1357": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer-quarter",
+    "value": "fa fa-thermometer-quarter"
+  },
+  "icon0007": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "address-card",
+    "value": "fa fa-address-card"
+  },
+  "icon0401": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "directions",
+    "value": "fa fa-directions"
+  },
+  "icon0771": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "images",
+    "value": "fa fa-images"
+  },
+  "icon1119": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "researchgate",
+    "value": "fab fa-researchgate"
+  },
+  "icon0667": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grip-lines-vertical",
+    "value": "fa fa-grip-lines-vertical"
+  },
+  "icon0940": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-bill-wave-alt",
+    "value": "fa fa-money-bill-wave-alt"
+  },
+  "icon0774": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "inbox",
+    "value": "fa fa-inbox"
+  },
+  "icon0506": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-contract",
+    "value": "fa fa-file-contract"
+  },
+  "icon0790": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "jedi",
+    "value": "fa fa-jedi"
+  },
+  "icon1030": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone-square-alt",
+    "value": "fa fa-phone-square-alt"
+  },
+  "icon0338": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "copyright",
+    "value": "fa fa-copyright"
+  },
+  "icon1040": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pills",
+    "value": "fa fa-pills"
+  },
+  "icon0302": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cocktail",
+    "value": "fa fa-cocktail"
+  },
+  "icon1326": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tablet-alt",
+    "value": "fa fa-tablet-alt"
+  },
+  "icon0893": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mask",
+    "value": "fa fa-mask"
+  },
+  "icon1484": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vk",
+    "value": "fab fa-vk"
+  },
+  "icon1443": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-cog",
+    "value": "fa fa-user-cog"
+  },
+  "icon0986": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pagelines",
+    "value": "fab fa-pagelines"
+  },
+  "icon0887": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "marker",
+    "value": "fa fa-marker"
+  },
+  "icon0610": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glass-martini-alt",
+    "value": "fa fa-glass-martini-alt"
+  },
+  "icon0377": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "deaf",
+    "value": "fa fa-deaf"
+  },
+  "icon0704": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-spock",
+    "value": "fa fa-hand-spock"
+  },
+  "icon0721": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "headset",
+    "value": "fa fa-headset"
+  },
+  "icon0108": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battle-net",
+    "value": "fab fa-battle-net"
+  },
+  "icon1010": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pen-alt",
+    "value": "fa fa-pen-alt"
+  },
+  "icon0563": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "font-awesome",
+    "value": "fab fa-font-awesome"
+  },
+  "icon0141": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bone",
+    "value": "fa fa-bone"
+  },
+  "icon0085": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "aws",
+    "value": "fab fa-aws"
+  },
+  "icon0035": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-down",
+    "value": "fa fa-angle-down"
+  },
+  "icon1441": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-circle",
+    "value": "far fa-user-circle"
+  },
+  "icon0656": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tears",
+    "value": "far fa-grin-tears"
+  },
+  "icon0278": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clinic-medical",
+    "value": "fa fa-clinic-medical"
+  },
+  "icon0812": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss",
+    "value": "far fa-kiss"
+  },
+  "icon0474": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "external-link-square-alt",
+    "value": "fa fa-external-link-square-alt"
+  },
+  "icon0270": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "child",
+    "value": "fa fa-child"
+  },
+  "icon0754": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "houzz",
+    "value": "fab fa-houzz"
+  },
+  "icon0137": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bluetooth-b",
+    "value": "fab fa-bluetooth-b"
+  },
+  "icon0598": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gifts",
+    "value": "fa fa-gifts"
+  },
+  "icon0142": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bong",
+    "value": "fa fa-bong"
+  },
+  "icon0828": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh",
+    "value": "far fa-laugh"
+  },
+  "icon0791": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "jedi-order",
+    "value": "fab fa-jedi-order"
+  },
+  "icon0773": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "imdb",
+    "value": "fab fa-imdb"
+  },
+  "icon0694": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-right",
+    "value": "fa fa-hand-point-right"
+  },
+  "icon0756": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "html5",
+    "value": "fab fa-html5"
+  },
+  "icon0984": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "outdent",
+    "value": "fa fa-outdent"
+  },
+  "icon0605": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gitkraken",
+    "value": "fab fa-gitkraken"
+  },
+  "icon0320": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-slash",
+    "value": "fa fa-comment-slash"
+  },
+  "icon1444": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-edit",
+    "value": "fa fa-user-edit"
+  },
+  "icon1282": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stethoscope",
+    "value": "fa fa-stethoscope"
+  },
+  "icon1039": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "piggy-bank",
+    "value": "fa fa-piggy-bank"
+  },
+  "icon1070": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "prescription-bottle",
+    "value": "fa fa-prescription-bottle"
+  },
+  "icon0736": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hooli",
+    "value": "fab fa-hooli"
+  },
+  "icon0679": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hamsa",
+    "value": "fa fa-hamsa"
+  },
+  "icon1130": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rockrms",
+    "value": "fab fa-rockrms"
+  },
+  "icon0421": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "draft2digital",
+    "value": "fab fa-draft2digital"
+  },
+  "icon0002": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "accusoft",
+    "value": "fab fa-accusoft"
+  },
+  "icon1343": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "terminal",
+    "value": "fa fa-terminal"
+  },
+  "icon1490": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "volume-off",
+    "value": "fa fa-volume-off"
+  },
+  "icon0770": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "image",
+    "value": "far fa-image"
+  },
+  "icon0966": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ns8",
+    "value": "fab fa-ns8"
+  },
+  "icon1419": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "umbrella-beach",
+    "value": "fa fa-umbrella-beach"
+  },
+  "icon0120": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "biking",
+    "value": "fa fa-biking"
+  },
+  "icon0730": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hips",
+    "value": "fab fa-hips"
+  },
+  "icon0988": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paint-brush",
+    "value": "fa fa-paint-brush"
+  },
+  "icon1543": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yandex",
+    "value": "fab fa-yandex"
+  },
+  "icon1302": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "subscript",
+    "value": "fa fa-subscript"
+  },
+  "icon0967": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "nutritionix",
+    "value": "fab fa-nutritionix"
+  },
+  "icon1127": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "robot",
+    "value": "fa fa-robot"
+  },
+  "icon1536": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "x-ray",
+    "value": "fa fa-x-ray"
+  },
+  "icon1507": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "whatsapp-square",
+    "value": "fab fa-whatsapp-square"
+  },
+  "icon0541": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "first-order",
+    "value": "fab fa-first-order"
+  },
+  "icon1124": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ribbon",
+    "value": "fa fa-ribbon"
+  },
+  "icon1398": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tripadvisor",
+    "value": "fab fa-tripadvisor"
+  },
+  "icon0030": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angellist",
+    "value": "fab fa-angellist"
+  },
+  "icon0797": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "journal-whills",
+    "value": "fa fa-journal-whills"
+  },
+  "icon0200": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cannabis",
+    "value": "fa fa-cannabis"
+  },
+  "icon0629": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-plus-square",
+    "value": "fab fa-google-plus-square"
+  },
+  "icon0663": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-wink",
+    "value": "fa fa-grin-wink"
+  },
+  "icon0577": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "frown",
+    "value": "fa fa-frown"
+  },
+  "icon0789": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "java",
+    "value": "fab fa-java"
+  },
+  "icon0938": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-bill-alt",
+    "value": "far fa-money-bill-alt"
+  },
+  "icon0912": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mendeley",
+    "value": "fab fa-mendeley"
+  },
+  "icon0516": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-invoice-dollar",
+    "value": "fa fa-file-invoice-dollar"
+  },
+  "icon1236": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-alpha-up-alt",
+    "value": "fa fa-sort-alpha-up-alt"
+  },
+  "icon0718": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "heading",
+    "value": "fa fa-heading"
+  },
+  "icon0660": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue-squint",
+    "value": "far fa-grin-tongue-squint"
+  },
+  "icon1547": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yen-sign",
+    "value": "fa fa-yen-sign"
+  },
+  "icon1178": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shipping-fast",
+    "value": "fa fa-shipping-fast"
+  },
+  "icon0418": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dot-circle",
+    "value": "far fa-dot-circle"
+  },
+  "icon0985": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "page4",
+    "value": "fab fa-page4"
+  },
+  "icon0814": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss-beam",
+    "value": "far fa-kiss-beam"
+  },
+  "icon0029": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "android",
+    "value": "fab fa-android"
+  },
+  "icon0972": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "odnoklassniki",
+    "value": "fab fa-odnoklassniki"
+  },
+  "icon0084": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "award",
+    "value": "fa fa-award"
+  },
+  "icon0786": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "itch-io",
+    "value": "fab fa-itch-io"
+  },
+  "icon0014": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "air-freshener",
+    "value": "fa fa-air-freshener"
+  },
+  "icon0332": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "connectdevelop",
+    "value": "fab fa-connectdevelop"
+  },
+  "icon1235": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-alpha-up",
+    "value": "fa fa-sort-alpha-up"
+  },
+  "icon1165": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sellcast",
+    "value": "fab fa-sellcast"
+  },
+  "icon0681": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-holding-heart",
+    "value": "fa fa-hand-holding-heart"
+  },
+  "icon1223": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snapchat-ghost",
+    "value": "fab fa-snapchat-ghost"
+  },
+  "icon1028": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone-slash",
+    "value": "fa fa-phone-slash"
+  },
+  "icon0619": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "globe-europe",
+    "value": "fa fa-globe-europe"
+  },
+  "icon0717": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hdd",
+    "value": "far fa-hdd"
+  },
+  "icon1136": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ruler-combined",
+    "value": "fa fa-ruler-combined"
+  },
+  "icon0588": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gas-pump",
+    "value": "fa fa-gas-pump"
+  },
+  "icon1106": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reddit-alien",
+    "value": "fab fa-reddit-alien"
+  },
+  "icon0472": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "expeditedssl",
+    "value": "fab fa-expeditedssl"
+  },
+  "icon0188": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-minus",
+    "value": "fa fa-calendar-minus"
+  },
+  "icon1253": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spell-check",
+    "value": "fa fa-spell-check"
+  },
+  "icon0811": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss",
+    "value": "fa fa-kiss"
+  },
+  "icon1309": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "superscript",
+    "value": "fa fa-superscript"
+  },
+  "icon0245": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chart-line",
+    "value": "fa fa-chart-line"
+  },
+  "icon0586": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "galactic-senate",
+    "value": "fab fa-galactic-senate"
+  },
+  "icon1084": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quidditch",
+    "value": "fa fa-quidditch"
+  },
+  "icon0603": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "github-alt",
+    "value": "fab fa-github-alt"
+  },
+  "icon1268": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star",
+    "value": "fa fa-star"
+  },
+  "icon0578": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "frown",
+    "value": "far fa-frown"
+  },
+  "icon0503": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-audio",
+    "value": "far fa-file-audio"
+  },
+  "icon1399": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trophy",
+    "value": "fa fa-trophy"
+  },
+  "icon0276": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "circle-notch",
+    "value": "fa fa-circle-notch"
+  },
+  "icon1494": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vuejs",
+    "value": "fab fa-vuejs"
+  },
+  "icon1415": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ubuntu",
+    "value": "fab fa-ubuntu"
+  },
+  "icon0997": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paragraph",
+    "value": "fa fa-paragraph"
+  },
+  "icon0264": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-circle-right",
+    "value": "fa fa-chevron-circle-right"
+  },
+  "icon0433": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dumpster",
+    "value": "fa fa-dumpster"
+  },
+  "icon1338": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "telegram-plane",
+    "value": "fab fa-telegram-plane"
+  },
+  "icon0328": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "compress-alt",
+    "value": "fa fa-compress-alt"
+  },
+  "icon1068": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "praying-hands",
+    "value": "fa fa-praying-hands"
+  },
+  "icon0182": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar",
+    "value": "far fa-calendar"
+  },
+  "icon1069": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "prescription",
+    "value": "fa fa-prescription"
+  },
+  "icon0466": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "exclamation",
+    "value": "fa fa-exclamation"
+  },
+  "icon0206": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "car-side",
+    "value": "fa fa-car-side"
+  },
+  "icon1340": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "temperature-low",
+    "value": "fa fa-temperature-low"
+  },
+  "icon0402": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "discord",
+    "value": "fab fa-discord"
+  },
+  "icon0322": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comments",
+    "value": "far fa-comments"
+  },
+  "icon0714": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hat-cowboy-side",
+    "value": "fa fa-hat-cowboy-side"
+  },
+  "icon0157": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "boxes",
+    "value": "fa fa-boxes"
+  },
+  "icon1319": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "synagogue",
+    "value": "fa fa-synagogue"
+  },
+  "icon1045": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "place-of-worship",
+    "value": "fa fa-place-of-worship"
+  },
+  "icon0685": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-middle-finger",
+    "value": "fa fa-hand-middle-finger"
+  },
+  "icon0484": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fan",
+    "value": "fa fa-fan"
+  },
+  "icon0243": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chart-bar",
+    "value": "fa fa-chart-bar"
+  },
+  "icon0299": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloudscale",
+    "value": "fab fa-cloudscale"
+  },
+  "icon0426": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dribbble-square",
+    "value": "fab fa-dribbble-square"
+  },
+  "icon0216": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-right",
+    "value": "far fa-caret-square-right"
+  },
+  "icon0999": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "passport",
+    "value": "fa fa-passport"
+  },
+  "icon1353": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thermometer",
+    "value": "fa fa-thermometer"
+  },
+  "icon0000": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "500px",
+    "value": "fab fa-500px"
+  },
+  "icon0475": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eye",
+    "value": "fa fa-eye"
+  },
+  "icon0199": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "candy-cane",
+    "value": "fa fa-candy-cane"
+  },
+  "icon1530": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wordpress-simple",
+    "value": "fab fa-wordpress-simple"
+  },
+  "icon0235": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "centercode",
+    "value": "fab fa-centercode"
+  },
+  "icon1214": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile-beam",
+    "value": "fa fa-smile-beam"
+  },
+  "icon1062": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "poo-storm",
+    "value": "fa fa-poo-storm"
+  },
+  "icon1541": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yahoo",
+    "value": "fab fa-yahoo"
+  },
+  "icon0664": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-wink",
+    "value": "far fa-grin-wink"
+  },
+  "icon0168": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bug",
+    "value": "fa fa-bug"
+  },
+  "icon0363": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crosshairs",
+    "value": "fa fa-crosshairs"
+  },
+  "icon1216": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile-wink",
+    "value": "fa fa-smile-wink"
+  },
+  "icon1008": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "peace",
+    "value": "fa fa-peace"
+  },
+  "icon0639": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin",
+    "value": "fa fa-grin"
+  },
+  "icon0956": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "network-wired",
+    "value": "fa fa-network-wired"
+  },
+  "icon0425": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dribbble",
+    "value": "fab fa-dribbble"
+  },
+  "icon0743": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hospital-symbol",
+    "value": "fa fa-hospital-symbol"
+  },
+  "icon1014": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pencil-alt",
+    "value": "fa fa-pencil-alt"
+  },
+  "icon1334": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "teamspeak",
+    "value": "fab fa-teamspeak"
+  },
+  "icon0955": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "neos",
+    "value": "fab fa-neos"
+  },
+  "icon0378": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "delicious",
+    "value": "fab fa-delicious"
+  },
+  "icon0494": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fighter-jet",
+    "value": "fa fa-fighter-jet"
+  },
+  "icon1094": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "random",
+    "value": "fa fa-random"
+  },
+  "icon1485": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vnv",
+    "value": "fab fa-vnv"
+  },
+  "icon0211": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-down",
+    "value": "fa fa-caret-square-down"
+  },
+  "icon1267": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stamp",
+    "value": "fa fa-stamp"
+  },
+  "icon0395": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-six",
+    "value": "fa fa-dice-six"
+  },
+  "icon0333": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "contao",
+    "value": "fab fa-contao"
+  },
+  "icon0183": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-alt",
+    "value": "fa fa-calendar-alt"
+  },
+  "icon1522": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wine-bottle",
+    "value": "fa fa-wine-bottle"
+  },
+  "icon0077": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "atlassian",
+    "value": "fab fa-atlassian"
+  },
+  "icon0508": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-download",
+    "value": "fa fa-file-download"
+  },
+  "icon0437": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "earlybirds",
+    "value": "fab fa-earlybirds"
+  },
+  "icon0225": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-amazon-pay",
+    "value": "fab fa-cc-amazon-pay"
+  },
+  "icon1432": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ups",
+    "value": "fab fa-ups"
+  },
+  "icon0046": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "apper",
+    "value": "fab fa-apper"
+  },
+  "icon0627": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-plus",
+    "value": "fab fa-google-plus"
+  },
+  "icon0514": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-import",
+    "value": "fa fa-file-import"
+  },
+  "icon1059": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "poll",
+    "value": "fa fa-poll"
+  },
+  "icon1195": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sistrix",
+    "value": "fab fa-sistrix"
+  },
+  "icon0241": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "charging-station",
+    "value": "fa fa-charging-station"
+  },
+  "icon0683": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-lizard",
+    "value": "fa fa-hand-lizard"
+  },
+  "icon0419": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dove",
+    "value": "fa fa-dove"
+  },
+  "icon1545": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yarn",
+    "value": "fab fa-yarn"
+  },
+  "icon1393": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trash-alt",
+    "value": "far fa-trash-alt"
+  },
+  "icon0307": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "coffee",
+    "value": "fa fa-coffee"
+  },
+  "icon0179": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "buysellads",
+    "value": "fab fa-buysellads"
+  },
+  "icon1182": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shopping-basket",
+    "value": "fa fa-shopping-basket"
+  },
+  "icon0347": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-nc-jp",
+    "value": "fab fa-creative-commons-nc-jp"
+  },
+  "icon0208": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-down",
+    "value": "fa fa-caret-down"
+  },
+  "icon1438": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-astronaut",
+    "value": "fa fa-user-astronaut"
+  },
+  "icon0823": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laptop-medical",
+    "value": "fa fa-laptop-medical"
+  },
+  "icon0070": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrows-alt-v",
+    "value": "fa fa-arrows-alt-v"
+  },
+  "icon0434": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dumpster-fire",
+    "value": "fa fa-dumpster-fire"
+  },
+  "icon0373": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "d-and-d",
+    "value": "fab fa-d-and-d"
+  },
+  "icon1108": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "redhat",
+    "value": "fab fa-redhat"
+  },
+  "icon0634": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grav",
+    "value": "fab fa-grav"
+  },
+  "icon1426": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "university",
+    "value": "fa fa-university"
+  },
+  "icon0271": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chrome",
+    "value": "fab fa-chrome"
+  },
+  "icon0859": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "list-ol",
+    "value": "fa fa-list-ol"
+  },
+  "icon1418": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "umbrella",
+    "value": "fa fa-umbrella"
+  },
+  "icon1046": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plane",
+    "value": "fa fa-plane"
+  },
+  "icon0739": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "horse-head",
+    "value": "fa fa-horse-head"
+  },
+  "icon0103": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battery-empty",
+    "value": "fa fa-battery-empty"
+  },
+  "icon1505": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "weixin",
+    "value": "fab fa-weixin"
+  },
+  "icon1167": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "server",
+    "value": "fa fa-server"
+  },
+  "icon0274": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "circle",
+    "value": "fa fa-circle"
+  },
+  "icon0590": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gem",
+    "value": "fa fa-gem"
+  },
+  "icon1018": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pepper-hot",
+    "value": "fa fa-pepper-hot"
+  },
+  "icon1475": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vials",
+    "value": "fa fa-vials"
+  },
+  "icon1410": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "twitch",
+    "value": "fab fa-twitch"
+  },
+  "icon0927": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "minus-square",
+    "value": "far fa-minus-square"
+  },
+  "icon0088": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "backspace",
+    "value": "fa fa-backspace"
+  },
+  "icon0915": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meteor",
+    "value": "fa fa-meteor"
+  },
+  "icon0557": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder",
+    "value": "far fa-folder"
+  },
+  "icon1299": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "studiovinari",
+    "value": "fab fa-studiovinari"
+  },
+  "icon0412": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dolly",
+    "value": "fa fa-dolly"
+  },
+  "icon0025": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ambulance",
+    "value": "fa fa-ambulance"
+  },
+  "icon0316": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-dollar",
+    "value": "fa fa-comment-dollar"
+  },
+  "icon0787": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "itunes",
+    "value": "fab fa-itunes"
+  },
+  "icon1089": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quran",
+    "value": "fa fa-quran"
+  },
+  "icon0066": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-right",
+    "value": "fa fa-arrow-right"
+  },
+  "icon1373": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "toggle-off",
+    "value": "fa fa-toggle-off"
+  },
+  "icon0406": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dizzy",
+    "value": "far fa-dizzy"
+  },
+  "icon0866": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "long-arrow-alt-right",
+    "value": "fa fa-long-arrow-alt-right"
+  },
+  "icon0676": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hackerrank",
+    "value": "fab fa-hackerrank"
+  },
+  "icon1025": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phoenix-squadron",
+    "value": "fab fa-phoenix-squadron"
+  },
+  "icon1180": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shoe-prints",
+    "value": "fa fa-shoe-prints"
+  },
+  "icon1217": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile-wink",
+    "value": "far fa-smile-wink"
+  },
+  "icon1397": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trello",
+    "value": "fab fa-trello"
+  },
+  "icon1007": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paypal",
+    "value": "fab fa-paypal"
+  },
+  "icon0351": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-remix",
+    "value": "fab fa-creative-commons-remix"
+  },
+  "icon1301": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stumbleupon-circle",
+    "value": "fab fa-stumbleupon-circle"
+  },
+  "icon0644": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-beam",
+    "value": "far fa-grin-beam"
+  },
+  "icon0053": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-down",
+    "value": "far fa-arrow-alt-circle-down"
+  },
+  "icon0630": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google-wallet",
+    "value": "fab fa-google-wallet"
+  },
+  "icon1091": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "radiation",
+    "value": "fa fa-radiation"
+  },
+  "icon0386": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dhl",
+    "value": "fab fa-dhl"
+  },
+  "icon1265": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stack-overflow",
+    "value": "fab fa-stack-overflow"
+  },
+  "icon1126": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "road",
+    "value": "fa fa-road"
+  },
+  "icon1351": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "themeco",
+    "value": "fab fa-themeco"
+  },
+  "icon0556": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder",
+    "value": "fa fa-folder"
+  },
+  "icon0712": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hashtag",
+    "value": "fa fa-hashtag"
+  },
+  "icon0081": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "autoprefixer",
+    "value": "fab fa-autoprefixer"
+  },
+  "icon0337": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "copy",
+    "value": "far fa-copy"
+  },
+  "icon0647": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-hearts",
+    "value": "fa fa-grin-hearts"
+  },
+  "icon1369": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tint",
+    "value": "fa fa-tint"
+  },
+  "icon0608": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glass-cheers",
+    "value": "fa fa-glass-cheers"
+  },
+  "icon1427": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "unlink",
+    "value": "fa fa-unlink"
+  },
+  "icon1552": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "zhihu",
+    "value": "fab fa-zhihu"
+  },
+  "icon1400": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "truck",
+    "value": "fa fa-truck"
+  },
+  "icon0334": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cookie",
+    "value": "fa fa-cookie"
+  },
+  "icon0885": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "map-signs",
+    "value": "fa fa-map-signs"
+  },
+  "icon1077": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "puzzle-piece",
+    "value": "fa fa-puzzle-piece"
+  },
+  "icon0074": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "asymmetrik",
+    "value": "fab fa-asymmetrik"
+  },
+  "icon1184": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shopware",
+    "value": "fab fa-shopware"
+  },
+  "icon1158": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "search",
+    "value": "fa fa-search"
+  },
+  "icon0980": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "optin-monster",
+    "value": "fab fa-optin-monster"
+  },
+  "icon0147": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "book-reader",
+    "value": "fa fa-book-reader"
+  },
+  "icon1408": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tumblr-square",
+    "value": "fab fa-tumblr-square"
+  },
+  "icon1549": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "yoast",
+    "value": "fab fa-yoast"
+  },
+  "icon0564": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "font-awesome-alt",
+    "value": "fab fa-font-awesome-alt"
+  },
+  "icon1281": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "step-forward",
+    "value": "fa fa-step-forward"
+  },
+  "icon1280": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "step-backward",
+    "value": "fa fa-step-backward"
+  },
+  "icon0310": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "coins",
+    "value": "fa fa-coins"
+  },
+  "icon0043": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ankh",
+    "value": "fa fa-ankh"
+  },
+  "icon0657": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue",
+    "value": "fa fa-grin-tongue"
+  },
+  "icon1196": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sitemap",
+    "value": "fa fa-sitemap"
+  },
+  "icon1159": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "search-dollar",
+    "value": "fa fa-search-dollar"
+  },
+  "icon1371": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tired",
+    "value": "fa fa-tired"
+  },
+  "icon0250": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check-double",
+    "value": "fa fa-check-double"
+  },
+  "icon1181": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shopping-bag",
+    "value": "fa fa-shopping-bag"
+  },
+  "icon0801": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kaaba",
+    "value": "fa fa-kaaba"
+  },
+  "icon1506": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "whatsapp",
+    "value": "fab fa-whatsapp"
+  },
+  "icon0372": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cuttlefish",
+    "value": "fab fa-cuttlefish"
+  },
+  "icon0990": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "palette",
+    "value": "fa fa-palette"
+  },
+  "icon0130": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "blender",
+    "value": "fa fa-blender"
+  },
+  "icon0248": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check-circle",
+    "value": "fa fa-check-circle"
+  },
+  "icon0083": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "aviato",
+    "value": "fab fa-aviato"
+  },
+  "icon1197": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sith",
+    "value": "fab fa-sith"
+  },
+  "icon0924": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "minus",
+    "value": "fa fa-minus"
+  },
+  "icon0996": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "parachute-box",
+    "value": "fa fa-parachute-box"
+  },
+  "icon0907": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meh-blank",
+    "value": "fa fa-meh-blank"
+  },
+  "icon0822": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laptop-code",
+    "value": "fa fa-laptop-code"
+  },
+  "icon0365": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crown",
+    "value": "fa fa-crown"
+  },
+  "icon0920": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microphone-alt-slash",
+    "value": "fa fa-microphone-alt-slash"
+  },
+  "icon1163": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "searchengin",
+    "value": "fab fa-searchengin"
+  },
+  "icon1175": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shekel-sign",
+    "value": "fa fa-shekel-sign"
+  },
+  "icon0289": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud",
+    "value": "fa fa-cloud"
+  },
+  "icon0744": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hot-tub",
+    "value": "fa fa-hot-tub"
+  },
+  "icon0724": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "heart-broken",
+    "value": "fa fa-heart-broken"
+  },
+  "icon0389": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice",
+    "value": "fa fa-dice"
+  },
+  "icon0209": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-left",
+    "value": "fa fa-caret-left"
+  },
+  "icon0220": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "carrot",
+    "value": "fa fa-carrot"
+  },
+  "icon0862": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lock",
+    "value": "fa fa-lock"
+  },
+  "icon0059": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-up",
+    "value": "far fa-arrow-alt-circle-up"
+  },
+  "icon1330": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tags",
+    "value": "fa fa-tags"
+  },
+  "icon0781": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "intercom",
+    "value": "fab fa-intercom"
+  },
+  "icon1513": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-close",
+    "value": "fa fa-window-close"
+  },
+  "icon1047": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plane-arrival",
+    "value": "fa fa-plane-arrival"
+  },
+  "icon1250": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "space-shuttle",
+    "value": "fa fa-space-shuttle"
+  },
+  "icon0254": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess",
+    "value": "fa fa-chess"
+  },
+  "icon0795": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "joint",
+    "value": "fa fa-joint"
+  },
+  "icon1231": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "solar-panel",
+    "value": "fa fa-solar-panel"
+  },
+  "icon0595": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gg-circle",
+    "value": "fab fa-gg-circle"
+  },
+  "icon0928": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mitten",
+    "value": "fa fa-mitten"
+  },
+  "icon0429": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "drum-steelpan",
+    "value": "fa fa-drum-steelpan"
+  },
+  "icon0755": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hryvnia",
+    "value": "fa fa-hryvnia"
+  },
+  "icon0154": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bowling-ball",
+    "value": "fa fa-bowling-ball"
+  },
+  "icon0947": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mosque",
+    "value": "fa fa-mosque"
+  },
+  "icon0003": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "acquisitions-incorporated",
+    "value": "fab fa-acquisitions-incorporated"
+  },
+  "icon0889": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mars-double",
+    "value": "fa fa-mars-double"
+  },
+  "icon0945": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "moon",
+    "value": "far fa-moon"
+  },
+  "icon1239": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-amount-up",
+    "value": "fa fa-sort-amount-up"
+  },
+  "icon0856": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "list",
+    "value": "fa fa-list"
+  },
+  "icon1269": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star",
+    "value": "far fa-star"
+  },
+  "icon0312": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment",
+    "value": "fa fa-comment"
+  },
+  "icon0040": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angry",
+    "value": "far fa-angry"
+  },
+  "icon1203": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "skull-crossbones",
+    "value": "fa fa-skull-crossbones"
+  },
+  "icon0544": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fish",
+    "value": "fa fa-fish"
+  },
+  "icon1137": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ruler-horizontal",
+    "value": "fa fa-ruler-horizontal"
+  },
+  "icon0849": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "line",
+    "value": "fab fa-line"
+  },
+  "icon1043": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pinterest-square",
+    "value": "fab fa-pinterest-square"
+  },
+  "icon0109": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bed",
+    "value": "fa fa-bed"
+  },
+  "icon0518": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-medical-alt",
+    "value": "fa fa-file-medical-alt"
+  },
+  "icon0695": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-right",
+    "value": "far fa-hand-point-right"
+  },
+  "icon1052": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "playstation",
+    "value": "fab fa-playstation"
+  },
+  "icon0935": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "monero",
+    "value": "fab fa-monero"
+  },
+  "icon1447": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-injured",
+    "value": "fa fa-user-injured"
+  },
+  "icon0520": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-pdf",
+    "value": "far fa-file-pdf"
+  },
+  "icon0937": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "money-bill-alt",
+    "value": "fa fa-money-bill-alt"
+  },
+  "icon1134": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ruble-sign",
+    "value": "fa fa-ruble-sign"
+  },
+  "icon1453": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-plus",
+    "value": "fa fa-user-plus"
+  },
+  "icon0725": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "heartbeat",
+    "value": "fa fa-heartbeat"
+  },
+  "icon0285": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clone",
+    "value": "fa fa-clone"
+  },
+  "icon1469": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "venus-double",
+    "value": "fa fa-venus-double"
+  },
+  "icon0060": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-circle-down",
+    "value": "fa fa-arrow-circle-down"
+  },
+  "icon0009": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "adjust",
+    "value": "fa fa-adjust"
+  },
+  "icon0294": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-rain",
+    "value": "fa fa-cloud-rain"
+  },
+  "icon1285": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sticky-note",
+    "value": "far fa-sticky-note"
+  },
+  "icon1244": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-numeric-up",
+    "value": "fa fa-sort-numeric-up"
+  },
+  "icon1292": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "strava",
+    "value": "fab fa-strava"
+  },
+  "icon0215": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-right",
+    "value": "fa fa-caret-square-right"
+  },
+  "icon1289": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stopwatch",
+    "value": "fa fa-stopwatch"
+  },
+  "icon1433": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "usb",
+    "value": "fab fa-usb"
+  },
+  "icon1095": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "raspberry-pi",
+    "value": "fab fa-raspberry-pi"
+  },
+  "icon0267": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-left",
+    "value": "fa fa-chevron-left"
+  },
+  "icon1169": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shapes",
+    "value": "fa fa-shapes"
+  },
+  "icon0340": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cotton-bureau",
+    "value": "fab fa-cotton-bureau"
+  },
+  "icon1413": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "typo3",
+    "value": "fab fa-typo3"
+  },
+  "icon0983": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "otter",
+    "value": "fa fa-otter"
+  },
+  "icon1396": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tree",
+    "value": "fa fa-tree"
+  },
+  "icon0428": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "drum",
+    "value": "fa fa-drum"
+  },
+  "icon1424": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "unity",
+    "value": "fab fa-unity"
+  },
+  "icon0802": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kaggle",
+    "value": "fab fa-kaggle"
+  },
+  "icon0411": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dollar-sign",
+    "value": "fa fa-dollar-sign"
+  },
+  "icon1000": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pastafarianism",
+    "value": "fa fa-pastafarianism"
+  },
+  "icon1390": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "transgender-alt",
+    "value": "fa fa-transgender-alt"
+  },
+  "icon1286": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stop",
+    "value": "fa fa-stop"
+  },
+  "icon0471": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "expand-arrows-alt",
+    "value": "fa fa-expand-arrows-alt"
+  },
+  "icon0855": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "lira-sign",
+    "value": "fa fa-lira-sign"
+  },
+  "icon0624": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "google",
+    "value": "fab fa-google"
+  },
+  "icon1374": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "toggle-on",
+    "value": "fa fa-toggle-on"
+  },
+  "icon1227": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snowflake",
+    "value": "far fa-snowflake"
+  },
+  "icon0896": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mdb",
+    "value": "fab fa-mdb"
+  },
+  "icon0868": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "low-vision",
+    "value": "fa fa-low-vision"
+  },
+  "icon1063": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "poop",
+    "value": "fa fa-poop"
+  },
+  "icon0958": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "newspaper",
+    "value": "fa fa-newspaper"
+  },
+  "icon1452": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-nurse",
+    "value": "fa fa-user-nurse"
+  },
+  "icon0857": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "list-alt",
+    "value": "fa fa-list-alt"
+  },
+  "icon1208": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "slash",
+    "value": "fa fa-slash"
+  },
+  "icon0796": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "joomla",
+    "value": "fab fa-joomla"
+  },
+  "icon1511": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wikipedia-w",
+    "value": "fab fa-wikipedia-w"
+  },
+  "icon1168": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "servicestack",
+    "value": "fab fa-servicestack"
+  },
+  "icon0352": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-sa",
+    "value": "fab fa-creative-commons-sa"
+  },
+  "icon0381": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "deskpro",
+    "value": "fab fa-deskpro"
+  },
+  "icon0124": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "birthday-cake",
+    "value": "fa fa-birthday-cake"
+  },
+  "icon0668": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grip-vertical",
+    "value": "fa fa-grip-vertical"
+  },
+  "icon0293": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-moon-rain",
+    "value": "fa fa-cloud-moon-rain"
+  },
+  "icon0198": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "canadian-maple-leaf",
+    "value": "fab fa-canadian-maple-leaf"
+  },
+  "icon0045": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "app-store-ios",
+    "value": "fab fa-app-store-ios"
+  },
+  "icon0957": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "neuter",
+    "value": "fa fa-neuter"
+  },
+  "icon0094": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "balance-scale-right",
+    "value": "fa fa-balance-scale-right"
+  },
+  "icon1079": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "qq",
+    "value": "fab fa-qq"
+  },
+  "icon0798": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "js",
+    "value": "fab fa-js"
+  },
+  "icon1315": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "swift",
+    "value": "fab fa-swift"
+  },
+  "icon1465": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "utensils",
+    "value": "fa fa-utensils"
+  },
+  "icon0710": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hanukiah",
+    "value": "fa fa-hanukiah"
+  },
+  "icon0631": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gopuram",
+    "value": "fa fa-gopuram"
+  },
+  "icon0851": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "linkedin",
+    "value": "fab fa-linkedin"
+  },
+  "icon1313": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "suse",
+    "value": "fab fa-suse"
+  },
+  "icon1226": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snowflake",
+    "value": "fa fa-snowflake"
+  },
+  "icon0228": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cc-diners-club",
+    "value": "fab fa-cc-diners-club"
+  },
+  "icon0413": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dolly-flatbed",
+    "value": "fa fa-dolly-flatbed"
+  },
+  "icon0538": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "firefox",
+    "value": "fab fa-firefox"
+  },
+  "icon0526": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-video",
+    "value": "fa fa-file-video"
+  },
+  "icon0169": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "building",
+    "value": "fa fa-building"
+  },
+  "icon0680": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-holding",
+    "value": "fa fa-hand-holding"
+  },
+  "icon0948": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "motorcycle",
+    "value": "fa fa-motorcycle"
+  },
+  "icon1312": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "surprise",
+    "value": "far fa-surprise"
+  },
+  "icon0067": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-up",
+    "value": "fa fa-arrow-up"
+  },
+  "icon0623": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "goodreads-g",
+    "value": "fab fa-goodreads-g"
+  },
+  "icon0032": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-double-left",
+    "value": "fa fa-angle-double-left"
+  },
+  "icon0435": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dungeon",
+    "value": "fa fa-dungeon"
+  },
+  "icon0460": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ethereum",
+    "value": "fab fa-ethereum"
+  },
+  "icon0336": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "copy",
+    "value": "fa fa-copy"
+  },
+  "icon0148": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bookmark",
+    "value": "fa fa-bookmark"
+  },
+  "icon0840": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "less",
+    "value": "fab fa-less"
+  },
+  "icon0414": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "donate",
+    "value": "fa fa-donate"
+  },
+  "icon0515": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-invoice",
+    "value": "fa fa-file-invoice"
+  },
+  "icon0100": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "baseball-ball",
+    "value": "fa fa-baseball-ball"
+  },
+  "icon1243": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-numeric-down-alt",
+    "value": "fa fa-sort-numeric-down-alt"
+  },
+  "icon0827": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh",
+    "value": "fa fa-laugh"
+  },
+  "icon0637": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grimace",
+    "value": "fa fa-grimace"
+  },
+  "icon1449": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-md",
+    "value": "fa fa-user-md"
+  },
+  "icon0688": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-peace",
+    "value": "fa fa-hand-peace"
+  },
+  "icon0672": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "gulp",
+    "value": "fab fa-gulp"
+  },
+  "icon0339": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "copyright",
+    "value": "far fa-copyright"
+  },
+  "icon1478": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "video-slash",
+    "value": "fa fa-video-slash"
+  },
+  "icon0387": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "diagnoses",
+    "value": "fa fa-diagnoses"
+  },
+  "icon1215": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smile-beam",
+    "value": "far fa-smile-beam"
+  },
+  "icon0974": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "oil-can",
+    "value": "fa fa-oil-can"
+  },
+  "icon0861": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "location-arrow",
+    "value": "fa fa-location-arrow"
+  },
+  "icon0415": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "door-closed",
+    "value": "fa fa-door-closed"
+  },
+  "icon0127": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bity",
+    "value": "fab fa-bity"
+  },
+  "icon1262": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "square-root-alt",
+    "value": "fa fa-square-root-alt"
+  },
+  "icon0024": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "amazon-pay",
+    "value": "fab fa-amazon-pay"
+  },
+  "icon0543": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "firstdraft",
+    "value": "fab fa-firstdraft"
+  },
+  "icon0521": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-powerpoint",
+    "value": "fa fa-file-powerpoint"
+  },
+  "icon0020": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "align-right",
+    "value": "fa fa-align-right"
+  },
+  "icon0558": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder-minus",
+    "value": "fa fa-folder-minus"
+  },
+  "icon1103": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "recycle",
+    "value": "fa fa-recycle"
+  },
+  "icon0265": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-circle-up",
+    "value": "fa fa-chevron-circle-up"
+  },
+  "icon1437": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-alt-slash",
+    "value": "fa fa-user-alt-slash"
+  },
+  "icon0177": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "business-time",
+    "value": "fa fa-business-time"
+  },
+  "icon0691": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-down",
+    "value": "far fa-hand-point-down"
+  },
+  "icon0187": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-day",
+    "value": "fa fa-calendar-day"
+  },
+  "icon0112": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "behance-square",
+    "value": "fab fa-behance-square"
+  },
+  "icon0051": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "archway",
+    "value": "fa fa-archway"
+  },
+  "icon0768": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "igloo",
+    "value": "fa fa-igloo"
+  },
+  "icon1171": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "share-alt",
+    "value": "fa fa-share-alt"
+  },
+  "icon1405": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tshirt",
+    "value": "fa fa-tshirt"
+  },
+  "icon0949": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mountain",
+    "value": "fa fa-mountain"
+  },
+  "icon0096": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "band-aid",
+    "value": "fa fa-band-aid"
+  },
+  "icon0549": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flag-usa",
+    "value": "fa fa-flag-usa"
+  },
+  "icon0534": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fingerprint",
+    "value": "fa fa-fingerprint"
+  },
+  "icon0954": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "napster",
+    "value": "fab fa-napster"
+  },
+  "icon1305": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "suitcase-rolling",
+    "value": "fa fa-suitcase-rolling"
+  },
+  "icon1525": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wix",
+    "value": "fab fa-wix"
+  },
+  "icon0392": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dice-five",
+    "value": "fa fa-dice-five"
+  },
+  "icon0944": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "moon",
+    "value": "fa fa-moon"
+  },
+  "icon0844": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "level-up-alt",
+    "value": "fa fa-level-up-alt"
+  },
+  "icon1270": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-and-crescent",
+    "value": "fa fa-star-and-crescent"
+  },
+  "icon0404": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "divide",
+    "value": "fa fa-divide"
+  },
+  "icon0496": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file",
+    "value": "fa fa-file"
+  },
+  "icon0529": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-word",
+    "value": "far fa-file-word"
+  },
+  "icon0058": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-up",
+    "value": "fa fa-arrow-alt-circle-up"
+  },
+  "icon1016": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "penny-arcade",
+    "value": "fab fa-penny-arcade"
+  },
+  "icon0150": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bootstrap",
+    "value": "fab fa-bootstrap"
+  },
+  "icon0922": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microscope",
+    "value": "fa fa-microscope"
+  },
+  "icon0160": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bread-slice",
+    "value": "fa fa-bread-slice"
+  },
+  "icon0431": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "drupal",
+    "value": "fab fa-drupal"
+  },
+  "icon1051": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "play-circle",
+    "value": "far fa-play-circle"
+  },
+  "icon0911": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "memory",
+    "value": "fa fa-memory"
+  },
+  "icon0655": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tears",
+    "value": "fa fa-grin-tears"
+  },
+  "icon1035": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pied-piper-alt",
+    "value": "fab fa-pied-piper-alt"
+  },
+  "icon0052": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-down",
+    "value": "fa fa-arrow-alt-circle-down"
+  },
+  "icon0841": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "less-than",
+    "value": "fa fa-less-than"
+  },
+  "icon0696": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-point-up",
+    "value": "fa fa-hand-point-up"
+  },
+  "icon0440": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "edit",
+    "value": "fa fa-edit"
+  },
+  "icon0698": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-pointer",
+    "value": "fa fa-hand-pointer"
+  },
+  "icon0500": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-archive",
+    "value": "fa fa-file-archive"
+  },
+  "icon0782": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "internet-explorer",
+    "value": "fab fa-internet-explorer"
+  },
+  "icon0554": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flushed",
+    "value": "far fa-flushed"
+  },
+  "icon1218": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "smog",
+    "value": "fa fa-smog"
+  },
+  "icon1339": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "temperature-high",
+    "value": "fa fa-temperature-high"
+  },
+  "icon0447": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ello",
+    "value": "fab fa-ello"
+  },
+  "icon0005": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "address-book",
+    "value": "fa fa-address-book"
+  },
+  "icon0495": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "figma",
+    "value": "fab fa-figma"
+  },
+  "icon1300": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stumbleupon",
+    "value": "fab fa-stumbleupon"
+  },
+  "icon1361": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "thumbs-down",
+    "value": "far fa-thumbs-down"
+  },
+  "icon1278": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "steam-square",
+    "value": "fab fa-steam-square"
+  },
+  "icon1115": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "reply",
+    "value": "fa fa-reply"
+  },
+  "icon0465": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "exchange-alt",
+    "value": "fa fa-exchange-alt"
+  },
+  "icon0116": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bell-slash",
+    "value": "far fa-bell-slash"
+  },
+  "icon0689": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-peace",
+    "value": "far fa-hand-peace"
+  },
+  "icon1049": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "play",
+    "value": "fa fa-play"
+  },
+  "icon0932": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mobile",
+    "value": "fa fa-mobile"
+  },
+  "icon0641": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-alt",
+    "value": "fa fa-grin-alt"
+  },
+  "icon0260": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chess-queen",
+    "value": "fa fa-chess-queen"
+  },
+  "icon0491": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fedex",
+    "value": "fab fa-fedex"
+  },
+  "icon0016": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "algolia",
+    "value": "fab fa-algolia"
+  },
+  "icon1491": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "volume-up",
+    "value": "fa fa-volume-up"
+  },
+  "icon1294": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "street-view",
+    "value": "fa fa-street-view"
+  },
+  "icon0162": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "briefcase-medical",
+    "value": "fa fa-briefcase-medical"
+  },
+  "icon0004": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ad",
+    "value": "fa fa-ad"
+  },
+  "icon1048": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plane-departure",
+    "value": "fa fa-plane-departure"
+  },
+  "icon1111": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "registered",
+    "value": "fa fa-registered"
+  },
+  "icon0288": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "closed-captioning",
+    "value": "far fa-closed-captioning"
+  },
+  "icon0723": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "heart",
+    "value": "far fa-heart"
+  },
+  "icon1087": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "quote-left",
+    "value": "fa fa-quote-left"
+  },
+  "icon0384": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "deviantart",
+    "value": "fab fa-deviantart"
+  },
+  "icon1290": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "store",
+    "value": "fa fa-store"
+  },
+  "icon0481": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "facebook-f",
+    "value": "fab fa-facebook-f"
+  },
+  "icon0531": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fill-drip",
+    "value": "fa fa-fill-drip"
+  },
+  "icon0921": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microphone-slash",
+    "value": "fa fa-microphone-slash"
+  },
+  "icon0357": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "credit-card",
+    "value": "fa fa-credit-card"
+  },
+  "icon0869": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "luggage-cart",
+    "value": "fa fa-luggage-cart"
+  },
+  "icon1249": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spa",
+    "value": "fa fa-spa"
+  },
+  "icon0818": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "korvue",
+    "value": "fab fa-korvue"
+  },
+  "icon1532": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wpexplorer",
+    "value": "fab fa-wpexplorer"
+  },
+  "icon0611": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glass-whiskey",
+    "value": "fa fa-glass-whiskey"
+  },
+  "icon0504": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-code",
+    "value": "fa fa-file-code"
+  },
+  "icon1073": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "procedures",
+    "value": "fa fa-procedures"
+  },
+  "icon0513": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-image",
+    "value": "far fa-file-image"
+  },
+  "icon1382": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tractor",
+    "value": "fa fa-tractor"
+  },
+  "icon0204": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "car-battery",
+    "value": "fa fa-car-battery"
+  },
+  "icon0816": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiss-wink-heart",
+    "value": "far fa-kiss-wink-heart"
+  },
+  "icon1228": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "snowman",
+    "value": "fa fa-snowman"
+  },
+  "icon1297": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stripe-s",
+    "value": "fab fa-stripe-s"
+  },
+  "icon0317": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-dots",
+    "value": "fa fa-comment-dots"
+  },
+  "icon0292": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-moon",
+    "value": "fa fa-cloud-moon"
+  },
+  "icon0525": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-upload",
+    "value": "fa fa-file-upload"
+  },
+  "icon0670": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grunt",
+    "value": "fab fa-grunt"
+  },
+  "icon1323": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "table",
+    "value": "fa fa-table"
+  },
+  "icon0290": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-download-alt",
+    "value": "fa fa-cloud-download-alt"
+  },
+  "icon0540": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "first-aid",
+    "value": "fa fa-first-aid"
+  },
+  "icon0567": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fonticons-fi",
+    "value": "fab fa-fonticons-fi"
+  },
+  "icon0348": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-nd",
+    "value": "fab fa-creative-commons-nd"
+  },
+  "icon0673": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "h-square",
+    "value": "fa fa-h-square"
+  },
+  "icon1471": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "viacoin",
+    "value": "fab fa-viacoin"
+  },
+  "icon1139": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "running",
+    "value": "fa fa-running"
+  },
+  "icon1259": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "square",
+    "value": "fa fa-square"
+  },
+  "icon0758": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "i-cursor",
+    "value": "fa fa-i-cursor"
+  },
+  "icon1344": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "text-height",
+    "value": "fa fa-text-height"
+  },
+  "icon0497": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file",
+    "value": "far fa-file"
+  },
+  "icon1003": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pause",
+    "value": "fa fa-pause"
+  },
+  "icon0576": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "frog",
+    "value": "fa fa-frog"
+  },
+  "icon1076": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pushed",
+    "value": "fab fa-pushed"
+  },
+  "icon0195": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "camera",
+    "value": "fa fa-camera"
+  },
+  "icon0509": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-excel",
+    "value": "fa fa-file-excel"
+  },
+  "icon0654": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-stars",
+    "value": "far fa-grin-stars"
+  },
+  "icon0820": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "language",
+    "value": "fa fa-language"
+  },
+  "icon0374": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "d-and-d-beyond",
+    "value": "fab fa-d-and-d-beyond"
+  },
+  "icon1031": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone-volume",
+    "value": "fa fa-phone-volume"
+  },
+  "icon0719": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "headphones",
+    "value": "fa fa-headphones"
+  },
+  "icon1352": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "themeisle",
+    "value": "fab fa-themeisle"
+  },
+  "icon0994": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paper-plane",
+    "value": "far fa-paper-plane"
+  },
+  "icon0305": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "codepen",
+    "value": "fab fa-codepen"
+  },
+  "icon0638": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grimace",
+    "value": "far fa-grimace"
+  },
+  "icon0970": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "object-ungroup",
+    "value": "fa fa-object-ungroup"
+  },
+  "icon0903": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "meetup",
+    "value": "fab fa-meetup"
+  },
+  "icon0850": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "link",
+    "value": "fa fa-link"
+  },
+  "icon0331": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "confluence",
+    "value": "fab fa-confluence"
+  },
+  "icon0399": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "digital-ocean",
+    "value": "fab fa-digital-ocean"
+  },
+  "icon1370": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tint-slash",
+    "value": "fa fa-tint-slash"
+  },
+  "icon0702": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-scissors",
+    "value": "fa fa-hand-scissors"
+  },
+  "icon0344": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-by",
+    "value": "fab fa-creative-commons-by"
+  },
+  "icon1368": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "times-circle",
+    "value": "far fa-times-circle"
+  },
+  "icon0964": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "notes-medical",
+    "value": "fa fa-notes-medical"
+  },
+  "icon0172": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bullseye",
+    "value": "fa fa-bullseye"
+  },
+  "icon1118": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "republican",
+    "value": "fa fa-republican"
+  },
+  "icon1240": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-amount-up-alt",
+    "value": "fa fa-sort-amount-up-alt"
+  },
+  "icon0493": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "female",
+    "value": "fa fa-female"
+  },
+  "icon0201": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "capsules",
+    "value": "fa fa-capsules"
+  },
+  "icon0222": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cart-plus",
+    "value": "fa fa-cart-plus"
+  },
+  "icon0559": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "folder-open",
+    "value": "fa fa-folder-open"
+  },
+  "icon0422": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "drafting-compass",
+    "value": "fa fa-drafting-compass"
+  },
+  "icon0570": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fort-awesome-alt",
+    "value": "fab fa-fort-awesome-alt"
+  },
+  "icon0446": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ellipsis-v",
+    "value": "fa fa-ellipsis-v"
+  },
+  "icon1502": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "weibo",
+    "value": "fab fa-weibo"
+  },
+  "icon1514": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-close",
+    "value": "far fa-window-close"
+  },
+  "icon1391": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "trash",
+    "value": "fa fa-trash"
+  },
+  "icon0872": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "magic",
+    "value": "fa fa-magic"
+  },
+  "icon0895": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "maxcdn",
+    "value": "fab fa-maxcdn"
+  },
+  "icon0287": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "closed-captioning",
+    "value": "fa fa-closed-captioning"
+  },
+  "icon0765": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "id-card",
+    "value": "far fa-id-card"
+  },
+  "icon0752": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hourglass-start",
+    "value": "fa fa-hourglass-start"
+  },
+  "icon1421": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "undo",
+    "value": "fa fa-undo"
+  },
+  "icon1044": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pizza-slice",
+    "value": "fa fa-pizza-slice"
+  },
+  "icon1238": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-amount-down-alt",
+    "value": "fa fa-sort-amount-down-alt"
+  },
+  "icon1517": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "window-minimize",
+    "value": "fa fa-window-minimize"
+  },
+  "icon0747": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hotjar",
+    "value": "fab fa-hotjar"
+  },
+  "icon0286": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "clone",
+    "value": "far fa-clone"
+  },
+  "icon0499": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-alt",
+    "value": "far fa-file-alt"
+  },
+  "icon0275": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "circle",
+    "value": "far fa-circle"
+  },
+  "icon0652": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-squint-tears",
+    "value": "far fa-grin-squint-tears"
+  },
+  "icon0106": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "battery-quarter",
+    "value": "fa fa-battery-quarter"
+  },
+  "icon0757": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hubspot",
+    "value": "fab fa-hubspot"
+  },
+  "icon1006": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "paw",
+    "value": "fa fa-paw"
+  },
+  "icon0832": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "laugh-squint",
+    "value": "far fa-laugh-squint"
+  },
+  "icon0734": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "holly-berry",
+    "value": "fa fa-holly-berry"
+  },
+  "icon1002": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "patreon",
+    "value": "fab fa-patreon"
+  },
+  "icon0019": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "align-left",
+    "value": "fa fa-align-left"
+  },
+  "icon0555": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fly",
+    "value": "fab fa-fly"
+  },
+  "icon1526": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wizards-of-the-coast",
+    "value": "fab fa-wizards-of-the-coast"
+  },
+  "icon0063": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-circle-up",
+    "value": "fa fa-arrow-circle-up"
+  },
+  "icon1455": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-shield",
+    "value": "fa fa-user-shield"
+  },
+  "icon0012": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "adversal",
+    "value": "fab fa-adversal"
+  },
+  "icon0929": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "mix",
+    "value": "fab fa-mix"
+  },
+  "icon0036": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angle-left",
+    "value": "fa fa-angle-left"
+  },
+  "icon0166": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "btc",
+    "value": "fab fa-btc"
+  },
+  "icon1477": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "video",
+    "value": "fa fa-video"
+  },
+  "icon0476": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "eye",
+    "value": "far fa-eye"
+  },
+  "icon0253": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cheese",
+    "value": "fa fa-cheese"
+  },
+  "icon0296": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloud-sun",
+    "value": "fa fa-cloud-sun"
+  },
+  "icon1185": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "shower",
+    "value": "fa fa-shower"
+  },
+  "icon1129": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rocketchat",
+    "value": "fab fa-rocketchat"
+  },
+  "icon0661": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue-wink",
+    "value": "fa fa-grin-tongue-wink"
+  },
+  "icon1135": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ruler",
+    "value": "fa fa-ruler"
+  },
+  "icon1029": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "phone-square",
+    "value": "fa fa-phone-square"
+  },
+  "icon1445": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "user-friends",
+    "value": "fa fa-user-friends"
+  },
+  "icon0368": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "css3-alt",
+    "value": "fab fa-css3-alt"
+  },
+  "icon0819": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "landmark",
+    "value": "fa fa-landmark"
+  },
+  "icon0269": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-up",
+    "value": "fa fa-chevron-up"
+  },
+  "icon0659": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-tongue-squint",
+    "value": "fa fa-grin-tongue-squint"
+  },
+  "icon1411": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "twitter",
+    "value": "fab fa-twitter"
+  },
+  "icon0189": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-minus",
+    "value": "far fa-calendar-minus"
+  },
+  "icon0913": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "menorah",
+    "value": "fa fa-menorah"
+  },
+  "icon0536": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fire-alt",
+    "value": "fa fa-fire-alt"
+  },
+  "icon1476": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "viber",
+    "value": "fab fa-viber"
+  },
+  "icon1508": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "wheelchair",
+    "value": "fa fa-wheelchair"
+  },
+  "icon1341": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "tencent-weibo",
+    "value": "fab fa-tencent-weibo"
+  },
+  "icon1153": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "school",
+    "value": "fa fa-school"
+  },
+  "icon1144": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sad-tear",
+    "value": "far fa-sad-tear"
+  },
+  "icon0492": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fedora",
+    "value": "fab fa-fedora"
+  },
+  "icon1321": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sync-alt",
+    "value": "fa fa-sync-alt"
+  },
+  "icon0050": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "archive",
+    "value": "fa fa-archive"
+  },
+  "icon0193": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calendar-times",
+    "value": "far fa-calendar-times"
+  },
+  "icon0015": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "airbnb",
+    "value": "fab fa-airbnb"
+  },
+  "icon0550": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "flask",
+    "value": "fa fa-flask"
+  },
+  "icon0873": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "magnet",
+    "value": "fa fa-magnet"
+  },
+  "icon0301": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "cloudversify",
+    "value": "fab fa-cloudversify"
+  },
+  "icon0614": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "glide-g",
+    "value": "fab fa-glide-g"
+  },
+  "icon0079": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "audible",
+    "value": "fab fa-audible"
+  },
+  "icon0075": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "at",
+    "value": "fa fa-at"
+  },
+  "icon0319": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "comment-medical",
+    "value": "fa fa-comment-medical"
+  },
+  "icon1133": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "rss-square",
+    "value": "fa fa-rss-square"
+  },
+  "icon1403": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "truck-moving",
+    "value": "fa fa-truck-moving"
+  },
+  "icon0835": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "layer-group",
+    "value": "fa fa-layer-group"
+  },
+  "icon0650": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-squint",
+    "value": "far fa-grin-squint"
+  },
+  "icon0408": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "dochub",
+    "value": "fab fa-dochub"
+  },
+  "icon0523": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "file-prescription",
+    "value": "fa fa-file-prescription"
+  },
+  "icon0123": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "biohazard",
+    "value": "fa fa-biohazard"
+  },
+  "icon0161": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "briefcase",
+    "value": "fa fa-briefcase"
+  },
+  "icon0218": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "caret-square-up",
+    "value": "far fa-caret-square-up"
+  },
+  "icon0767": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ideal",
+    "value": "fab fa-ideal"
+  },
+  "icon0635": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "greater-than",
+    "value": "fa fa-greater-than"
+  },
+  "icon0464": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "evernote",
+    "value": "fab fa-evernote"
+  },
+  "icon1273": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "star-half-alt",
+    "value": "fa fa-star-half-alt"
+  },
+  "icon0817": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "kiwi-bird",
+    "value": "fa fa-kiwi-bird"
+  },
+  "icon0042": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "angular",
+    "value": "fab fa-angular"
+  },
+  "icon1211": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "slideshare",
+    "value": "fab fa-slideshare"
+  },
+  "icon0022": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "allergies",
+    "value": "fa fa-allergies"
+  },
+  "icon1473": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "viadeo-square",
+    "value": "fab fa-viadeo-square"
+  },
+  "icon0388": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "diaspora",
+    "value": "fab fa-diaspora"
+  },
+  "icon0648": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-hearts",
+    "value": "far fa-grin-hearts"
+  },
+  "icon0252": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check-square",
+    "value": "far fa-check-square"
+  },
+  "icon0068": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrows-alt",
+    "value": "fa fa-arrows-alt"
+  },
+  "icon0197": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "campground",
+    "value": "fa fa-campground"
+  },
+  "icon1099": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "readme",
+    "value": "fab fa-readme"
+  },
+  "icon0918": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "microphone",
+    "value": "fa fa-microphone"
+  },
+  "icon0687": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-paper",
+    "value": "far fa-hand-paper"
+  },
+  "icon0865": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "long-arrow-alt-left",
+    "value": "fa fa-long-arrow-alt-left"
+  },
+  "icon1366": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "times",
+    "value": "fa fa-times"
+  },
+  "icon1060": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "poll-h",
+    "value": "fa fa-poll-h"
+  },
+  "icon0678": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hammer",
+    "value": "fa fa-hammer"
+  },
+  "icon0249": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "check-circle",
+    "value": "far fa-check-circle"
+  },
+  "icon1055": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "plus-circle",
+    "value": "fa fa-plus-circle"
+  },
+  "icon1125": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "ring",
+    "value": "fa fa-ring"
+  },
+  "icon0571": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "forumbee",
+    "value": "fab fa-forumbee"
+  },
+  "icon0737": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hornbill",
+    "value": "fab fa-hornbill"
+  },
+  "icon1257": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spotify",
+    "value": "fab fa-spotify"
+  },
+  "icon0266": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "chevron-down",
+    "value": "fa fa-chevron-down"
+  },
+  "icon1245": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "sort-numeric-up-alt",
+    "value": "fa fa-sort-numeric-up-alt"
+  },
+  "icon1258": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "spray-can",
+    "value": "fa fa-spray-can"
+  },
+  "icon0653": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "grin-stars",
+    "value": "fa fa-grin-stars"
+  },
+  "icon1042": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "pinterest-p",
+    "value": "fab fa-pinterest-p"
+  },
+  "icon0013": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "affiliatetheme",
+    "value": "fab fa-affiliatetheme"
+  },
+  "icon0180": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "calculator",
+    "value": "fa fa-calculator"
+  },
+  "icon0876": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "male",
+    "value": "fa fa-male"
+  },
+  "icon0998": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "parking",
+    "value": "fa fa-parking"
+  },
+  "icon1288": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "stop-circle",
+    "value": "far fa-stop-circle"
+  },
+  "icon1304": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "suitcase",
+    "value": "fa fa-suitcase"
+  },
+  "icon1277": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "steam",
+    "value": "fab fa-steam"
+  },
+  "icon0902": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "medrt",
+    "value": "fab fa-medrt"
+  },
+  "icon0057": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "arrow-alt-circle-right",
+    "value": "far fa-arrow-alt-circle-right"
+  },
+  "icon0128": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "black-tie",
+    "value": "fab fa-black-tie"
+  },
+  "icon1191": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "signal",
+    "value": "fa fa-signal"
+  },
+  "icon1412": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "twitter-square",
+    "value": "fab fa-twitter-square"
+  },
+  "icon0345": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "creative-commons-nc",
+    "value": "fab fa-creative-commons-nc"
+  },
+  "icon0163": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "broadcast-tower",
+    "value": "fa fa-broadcast-tower"
+  },
+  "icon0140": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "bomb",
+    "value": "fa fa-bomb"
+  },
+  "icon0569": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "fort-awesome",
+    "value": "fab fa-fort-awesome"
+  },
+  "icon0482": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "facebook-messenger",
+    "value": "fab fa-facebook-messenger"
+  },
+  "icon0700": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hand-rock",
+    "value": "fa fa-hand-rock"
+  },
+  "icon1101": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "receipt",
+    "value": "fa fa-receipt"
+  },
+  "icon0707": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "hands-helping",
+    "value": "fa fa-hands-helping"
+  },
+  "icon0361": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "crop-alt",
+    "value": "fa fa-crop-alt"
+  },
+  "icon0093": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "balance-scale-left",
+    "value": "fa fa-balance-scale-left"
+  },
+  "icon1480": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "vimeo",
+    "value": "fab fa-vimeo"
+  }
+}

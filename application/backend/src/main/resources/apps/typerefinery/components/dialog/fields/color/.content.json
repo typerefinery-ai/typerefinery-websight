@@ -1,0 +1,518 @@
+{
+  "sling:resourceType": "nt:unstructured",
+  "color000": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "",
+    "value": "Default"
+  },
+  "color001": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E73323",
+    "value": "#E73323"
+  },
+  "color002": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EC8632",
+    "value": "#EC8632"
+  },
+  "color003": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FFFD54",
+    "value": "#FFFD54"
+  },
+  "color004": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#68B25B",
+    "value": "#68B25B"
+  },
+  "color005": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#7CFBFD",
+    "value": "#7CFBFD"
+  },
+  "color006": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#4285F4",
+    "value": "#4285F4"
+  },
+  "color007": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E73CF7",
+    "value": "#E73CF7"
+  },
+  "color008": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E8357E",
+    "value": "#E8357E"
+  },
+  "color009": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#73197B",
+    "value": "#73197B"
+  },
+  "color010": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#91683C",
+    "value": "#91683C"
+  },
+  "color011": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#808080",
+    "value": "#808080"
+  },
+  "color012": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FFFFFF",
+    "value": "#FFFFFF"
+  },
+  "color013": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E8E8E8",
+    "value": "#E8E8E8"
+  },
+  "color014": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#D1D1D1",
+    "value": "#D1D1D1"
+  },
+  "color015": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#B9B9B9",
+    "value": "#B9B9B9"
+  },
+  "color016": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#A2A2A2",
+    "value": "#A2A2A2"
+  },
+  "color017": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8B8B8B",
+    "value": "#8B8B8B"
+  },
+  "color018": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#747474",
+    "value": "#747474"
+  },
+  "color019": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5D5D5D",
+    "value": "#5D5D5D"
+  },
+  "color020": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#464646",
+    "value": "#464646"
+  },
+  "color021": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2E2E2E",
+    "value": "#2E2E2E"
+  },
+  "color022": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#171717",
+    "value": "#171717"
+  },
+  "color023": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#000000",
+    "value": "#000000"
+  },
+  "color024": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5C0E07",
+    "value": "#5C0E07"
+  },
+  "color025": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5E350F",
+    "value": "#5E350F"
+  },
+  "color026": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#66651C",
+    "value": "#66651C"
+  },
+  "color027": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#41641A",
+    "value": "#41641A"
+  },
+  "color028": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2D6419",
+    "value": "#2D6419"
+  },
+  "color029": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2D6438",
+    "value": "#2D6438"
+  },
+  "color030": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2D6465",
+    "value": "#2D6465"
+  },
+  "color031": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#133363",
+    "value": "#133363"
+  },
+  "color032": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#000662",
+    "value": "#000662"
+  },
+  "color033": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2D0962",
+    "value": "#2D0962"
+  },
+  "color034": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5C1262",
+    "value": "#5C1262"
+  },
+  "color035": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5C0F32",
+    "value": "#5C0F32"
+  },
+  "color036": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8A1A11",
+    "value": "#8A1A11"
+  },
+  "color037": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8E501B",
+    "value": "#8E501B"
+  },
+  "color038": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#99982F",
+    "value": "#99982F"
+  },
+  "color039": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#62962B",
+    "value": "#62962B"
+  },
+  "color040": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#47962A",
+    "value": "#47962A"
+  },
+  "color041": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#479654",
+    "value": "#479654"
+  },
+  "color042": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#479798",
+    "value": "#479798"
+  },
+  "color043": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#214D94",
+    "value": "#214D94"
+  },
+  "color044": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#010E93",
+    "value": "#010E93"
+  },
+  "color045": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#451393",
+    "value": "#451393"
+  },
+  "color046": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8A2094",
+    "value": "#8A2094"
+  },
+  "color047": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8A1C4C",
+    "value": "#8A1C4C"
+  },
+  "color048": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#B9261A",
+    "value": "#B9261A"
+  },
+  "color049": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#BD6B27",
+    "value": "#BD6B27"
+  },
+  "color050": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#CCCB41",
+    "value": "#CCCB41"
+  },
+  "color051": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#83C83C",
+    "value": "#83C83C"
+  },
+  "color052": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#61C83B",
+    "value": "#61C83B"
+  },
+  "color053": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#61C871",
+    "value": "#61C871"
+  },
+  "color054": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#62C9CA",
+    "value": "#62C9CA"
+  },
+  "color055": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#2E67C5",
+    "value": "#2E67C5"
+  },
+  "color056": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#0216C4",
+    "value": "#0216C4"
+  },
+  "color057": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5C1DC4",
+    "value": "#5C1DC4"
+  },
+  "color058": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#B92EC5",
+    "value": "#B92EC5"
+  },
+  "color059": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#B92865",
+    "value": "#B92865"
+  },
+  "color060": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#A4FB4E",
+    "value": "#A4FB4E"
+  },
+  "color061": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#7BFA4C",
+    "value": "#7BFA4C"
+  },
+  "color062": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#7BFA8D",
+    "value": "#7BFA8D"
+  },
+  "color063": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#3B80F7",
+    "value": "#3B80F7"
+  },
+  "color064": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#041EF5",
+    "value": "#041EF5"
+  },
+  "color065": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#7327F5",
+    "value": "#7327F5"
+  },
+  "color066": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E7357F",
+    "value": "#E7357F"
+  },
+  "color067": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E8483F",
+    "value": "#E8483F"
+  },
+  "color068": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EF9D4B",
+    "value": "#EF9D4B"
+  },
+  "color069": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FFFE61",
+    "value": "#FFFE61"
+  },
+  "color070": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#B4FB5C",
+    "value": "#B4FB5C"
+  },
+  "color071": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#83FA5A",
+    "value": "#83FA5A"
+  },
+  "color072": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#83FAA2",
+    "value": "#83FAA2"
+  },
+  "color073": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#83FBFD",
+    "value": "#83FBFD"
+  },
+  "color074": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#5599F8",
+    "value": "#5599F8"
+  },
+  "color075": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#343CF5",
+    "value": "#343CF5"
+  },
+  "color076": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#8C42F6",
+    "value": "#8C42F6"
+  },
+  "color077": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E84FF7",
+    "value": "#E84FF7"
+  },
+  "color078": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E84A97",
+    "value": "#E84A97"
+  },
+  "color079": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EA706B",
+    "value": "#EA706B"
+  },
+  "color080": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#F2B573",
+    "value": "#F2B573"
+  },
+  "color081": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FFFE7E",
+    "value": "#FFFE7E"
+  },
+  "color082": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#C5FC7C",
+    "value": "#C5FC7C"
+  },
+  "color083": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#96FA7A",
+    "value": "#96FA7A"
+  },
+  "color084": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#96FBB9",
+    "value": "#96FBB9"
+  },
+  "color085": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#96FCFD",
+    "value": "#96FCFD"
+  },
+  "color086": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#7BB2F9",
+    "value": "#7BB2F9"
+  },
+  "color087": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#666AF6",
+    "value": "#666AF6"
+  },
+  "color088": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#A76EF7",
+    "value": "#A76EF7"
+  },
+  "color089": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EB73F8",
+    "value": "#EB73F8"
+  },
+  "color090": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EA71B0",
+    "value": "#EA71B0"
+  },
+  "color091": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#F6CECD",
+    "value": "#F6CECD"
+  },
+  "color092": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FAE6CF",
+    "value": "#FAE6CF"
+  },
+  "color093": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#FFFED1",
+    "value": "#FFFED1"
+  },
+  "color094": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#EBFED1",
+    "value": "#EBFED1"
+  },
+  "color095": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#D7FDD0",
+    "value": "#D7FDD0"
+  },
+  "color096": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#D7FDE7",
+    "value": "#D7FDE7"
+  },
+  "color097": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#D8FEFE",
+    "value": "#D8FEFE"
+  },
+  "color098": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#D1E5FD",
+    "value": "#D1E5FD"
+  },
+  "color099": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#CCCDFB",
+    "value": "#CCCDFB"
+  },
+  "color100": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#E1CEFB",
+    "value": "#E1CEFB"
+  },
+  "color101": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#F6CFFC",
+    "value": "#F6CFFC"
+  },
+  "color102": {
+    "sling:resourceType": "nt:unstructured",
+    "key": "#F6CEE4",
+    "value": "#F6CEE4"
+  }
+}
