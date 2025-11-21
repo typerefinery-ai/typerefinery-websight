@@ -100,6 +100,7 @@ public class FlowService {
     public static final String PROPERTY_WEBSOCKETURL = "websocketurl";
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
     public static final String PROPERTY_README = "readme";
+    public static final String PROPERTY_PAUSED = "paused";
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
@@ -179,12 +180,22 @@ public class FlowService {
         return url;
     }
 
+    public String getFlowStreamPauseAPIURL(String flowstreamid, boolean pauseRequested) {
+        String pauseFlag = pauseRequested ? "1" : "0";
+        String url = String.format(configuration.host_url_client() + configuration.endpoint_streams_pause(), flowstreamid, pauseFlag);
+        return url;
+    }
+
+    public String getFlowStreamSaveAPIURL(String flowstreamid) {
+        String url = String.format(configuration.host_url_client() + configuration.endpoint_streams_save(), flowstreamid);
+        return url;
+    }
+
     public boolean doProcessFlowResource(@NotNull Resource resource, @NotNull ResourceChange.ChangeType changeType) {
         ResourceResolver resourceResolver = resource.getResourceResolver();
         if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
             return false;
         }
-        ValueMap properties = resource.getValueMap();
         String resourcePath = resource.getPath();
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
@@ -192,61 +203,329 @@ public class FlowService {
             return false;
         }
 
-        String flowapi_template = flowComponent.flowapi_template;
-        boolean flowapi_enable = flowComponent.flowapi_enable == null ? false : flowComponent.flowapi_enable;
-        
-        if (flowapi_enable && StringUtils.isNotBlank(flowapi_template)) {
+        boolean flowapiEnable = Boolean.TRUE.equals(flowComponent.flowapi_enable);
+        String flowapiTemplate = flowComponent.flowapi_template;
 
-            // String authored_title = flowComponent.title;
-            // Boolean flowapi_iscontainer = flowComponent.flowapi_iscontainer;
-            // String flowapi_flowstreamid = flowComponent.flowapi_flowstreamid;
-            // String flowapi_topic = properties.get(prop(PROPERTY_TOPIC), String.class);
-            // String flowapi_title = properties.get(prop(PROPERTY_TITLE), String.class);
-            // String flowapi_group = properties.get(prop(PROPERTY_GROUP), String.class);
-            // String flowapi_designtemplate = properties.get(prop(PROPERTY_TEMPLATE_DESIGN), String.class);
-            // String flowapi_editurl = properties.get(prop(PROPERTY_EDITURL), String.class);
-            // String flowapi_sampledata = properties.get(prop(PROPERTY_SAMPLEDATA), String.class);
-    
-            boolean isFlowExists = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid) ? isFlowExists(flowComponent.flowapi_flowstreamid) : false;
-
-            //pick templates
-
-            boolean isTemplateExists = PageUtil.isResourceExists(flowapi_template, resourceResolver);
-            if (!isTemplateExists) {
-                LOGGER.info("nothing to do, template not found: {}", flowapi_template);
-                return false;
+        if (!flowapiEnable) {
+            if (StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid)) {
+                processPauseChange(resource, flowComponent.flowapi_flowstreamid, true);
             }
-            // create new flow or update existing flow
-            if (isFlowExists == false && isTemplateExists) {
-                // use topic from resource as priority
-                String flowapi_flowstreamid = createFlowFromTemplate(flowComponent);
-                if (StringUtils.isNotBlank(flowapi_flowstreamid)) {
-                    //get flow component again
-                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
-                    isFlowExists = isFlowExists(flowapi_flowstreamid);
-                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
-                        updateFlowDesignFromTemplate(flowComponent);
-                    } 
-                } else {
-                    LOGGER.info("could not create flow from template: {}", flowapi_template);
-                }
-            } else if (isFlowExists && isTemplateExists) {
+            return true;
+        }
 
-                // if flowapi_title and title are different then update flowstream
-                if (flowComponent.flowapi_title.equals(flowComponent.title) || StringUtils.isBlank(flowComponent.title)) {
-                    LOGGER.info("nothing to update.");
-                    return true;
-                } else {
-                    updateFlowFromTemplate(flowComponent);
-                    //get flow component again
-                    flowComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
-                    if (flowComponent.isContainer() & StringUtils.isNotBlank(flowComponent.flowapi_designtemplate)) {
-                        updateFlowDesignFromTemplate(flowComponent);
+        if (StringUtils.isBlank(flowapiTemplate)) {
+            LOGGER.info("nothing to do, template not found: {}", flowapiTemplate);
+            return false;
+        }
+
+        boolean templateExists = PageUtil.isResourceExists(flowapiTemplate, resourceResolver);
+        if (!templateExists) {
+            LOGGER.info("nothing to do, template not found: {}", flowapiTemplate);
+            return false;
+        }
+
+        boolean hasStoredFlowId = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid);
+        boolean flowExists = false;
+        if (hasStoredFlowId) {
+            try {
+                flowExists = isFlowExists(flowComponent.flowapi_flowstreamid);
+            } catch (Exception exception) {
+                LOGGER.warn("Could not verify flow existence for {}: {}", flowComponent.flowapi_flowstreamid, exception.getMessage());
+                flowExists = true;
+            }
+        }
+
+        if (!hasStoredFlowId) {
+            String newFlowId = createFlowFromTemplate(flowComponent);
+            if (StringUtils.isNotBlank(newFlowId)) {
+                Resource updatedResource = resourceResolver.getResource(resourcePath);
+                if (updatedResource != null) {
+                    FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
+                    processPauseChange(updatedResource, newFlowId, false);
+                    if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
+                        updateFlowDesignFromTemplate(updatedComponent);
                     }
                 }
-            } 
+            } else {
+                LOGGER.info("could not create flow from template: {}", flowapiTemplate);
+            }
+            return true;
         }
+
+        processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
+
+        if (!flowExists) {
+            LOGGER.info("Flow {} stored on resource {} but remote flow could not be found. Recreating flow from template.", flowComponent.flowapi_flowstreamid, resourcePath);
+            String newFlowId = createFlowFromTemplate(flowComponent);
+            if (StringUtils.isNotBlank(newFlowId)) {
+                Resource updatedResource = resourceResolver.getResource(resourcePath);
+                if (updatedResource != null) {
+                    FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
+                    processPauseChange(updatedResource, newFlowId, false);
+                    if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
+                        updateFlowDesignFromTemplate(updatedComponent);
+                    }
+                }
+            } else {
+                LOGGER.info("could not recreate flow from template: {}", flowapiTemplate);
+            }
+            return true;
+        }
+
+        // Check if metadata has actually changed by comparing with Flow service
+        boolean metadataChanged = hasMetadataChanged(flowComponent, flowComponent.flowapi_flowstreamid);
+        if (!metadataChanged) {
+            LOGGER.info("No metadata changes detected for flowstreamid={}, skipping update", flowComponent.flowapi_flowstreamid);
+            return true;
+        }
+
+        LOGGER.info("Flow metadata update triggered for resource={}, flowstreamid={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid);
+        updateFlowFromTemplate(flowComponent);
+        FlowComponent refreshedComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
+        if (refreshedComponent != null && refreshedComponent.isContainer() && StringUtils.isNotBlank(refreshedComponent.flowapi_designtemplate)) {
+            updateFlowDesignFromTemplate(refreshedComponent);
+        }
+
         return true; // pass ok to running job     
+    }
+
+    protected HttpResponse<String> executeFlowPauseRequest(HttpRequest request) throws IOException, InterruptedException {
+        return sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public FlowPauseResult toggleFlowStreamPause(@NotNull String flowstreamid, boolean pauseRequested) {
+        if (StringUtils.isBlank(flowstreamid)) {
+            throw new IllegalArgumentException("flowstreamid must not be blank when toggling pause state.");
+        }
+
+        String url = getFlowStreamPauseAPIURL(flowstreamid, pauseRequested);
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .POST(HttpRequest.BodyPublishers.noBody())
+            .build();
+
+        try {
+            HttpResponse<String> response = executeFlowPauseRequest(request);
+            int statusCode = response.statusCode();
+            if (statusCode >= 200 && statusCode < 300) {
+                LOGGER.info("Flow pause state updated successfully for {}, pauseRequested={}, status={}", flowstreamid, pauseRequested, statusCode);
+                return FlowPauseResult.success(statusCode, pauseRequested);
+            }
+            String body = response.body();
+            LOGGER.error("Flow pause state update failed for {}, pauseRequested={}, status={}, body={}", flowstreamid, pauseRequested, statusCode, body);
+            return FlowPauseResult.failure(statusCode, pauseRequested, body);
+        } catch (IOException ioException) {
+            LOGGER.error("Flow pause request failed for {}, pauseRequested={} due to IO error: {}", flowstreamid, pauseRequested, ioException.getMessage());
+            return FlowPauseResult.failure(0, pauseRequested, ioException.getMessage());
+        } catch (InterruptedException interruptedException) {
+            Thread.currentThread().interrupt();
+            LOGGER.error("Flow pause request interrupted for {}, pauseRequested={}: {}", flowstreamid, pauseRequested, interruptedException.getMessage());
+            return FlowPauseResult.failure(0, pauseRequested, interruptedException.getMessage());
+        }
+    }
+
+    /**
+     * Save metadata to Flow service using /fapi/stream_save/{flowstreamid}
+     * @param metadata Flow metadata to save
+     * @param flowstreamid Flow stream ID
+     * @return true if successful, false otherwise
+     */
+    public boolean saveMetadataToFlow(FlowComponentMetadata metadata, String flowstreamid) {
+        if (metadata == null || StringUtils.isBlank(flowstreamid)) {
+            LOGGER.error("Cannot save metadata to Flow: metadata or flowstreamid is null/blank. flowstreamid={}", flowstreamid);
+            return false;
+        }
+
+        LOGGER.info("Saving metadata to Flow for flowstreamid={}, name={}, group={}, author={}", 
+            flowstreamid, metadata.getName(), metadata.getGroup(), metadata.getAuthor());
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode metadataJson = mapper.createObjectNode();
+            
+            // Required fields
+            metadataJson.put(PROPERTY_GROUP, metadata.getGroup());
+            metadataJson.put(PROPERTY_NAME, metadata.getName());
+            metadataJson.put(PROPERTY_AUTHOR, metadata.getAuthor());
+            
+            // Optional fields (only include if not null)
+            if (metadata.getReference() != null) {
+                metadataJson.put(PROPERTY_REFERENCE, metadata.getReference());
+                LOGGER.debug("Including reference in metadata: {}", metadata.getReference());
+            }
+            if (metadata.getIcon() != null) {
+                metadataJson.put(PROPERTY_ICON, metadata.getIcon());
+                LOGGER.debug("Including icon in metadata: {}", metadata.getIcon());
+            }
+            if (metadata.getColor() != null) {
+                metadataJson.put(PROPERTY_COLOR, metadata.getColor());
+                LOGGER.debug("Including color in metadata: {}", metadata.getColor());
+            }
+            if (metadata.getVersion() != null) {
+                metadataJson.put(PROPERTY_VERSION, metadata.getVersion());
+                LOGGER.debug("Including version in metadata: {}", metadata.getVersion());
+            }
+            if (metadata.getReadme() != null) {
+                metadataJson.put(PROPERTY_README, metadata.getReadme());
+                LOGGER.debug("Including readme in metadata (length={})", metadata.getReadme().length());
+            }
+
+            String metadataJsonString = mapper.writeValueAsString(metadataJson);
+            LOGGER.info("Metadata JSON to save: {}", metadataJsonString);
+
+            String url = getFlowStreamSaveAPIURL(flowstreamid);
+            LOGGER.info("POSTing metadata to Flow API: {}", url);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(metadataJsonString))
+                .build();
+
+            HttpResponse<String> response = sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
+            int statusCode = response.statusCode();
+
+            if (statusCode >= 200 && statusCode < 300) {
+                LOGGER.info("Metadata saved successfully to Flow for flowstreamid={}, status={}, response={}", 
+                    flowstreamid, statusCode, response.body());
+                return true;
+            } else {
+                LOGGER.error("Failed to save metadata to Flow for flowstreamid={}, status={}, response={}", 
+                    flowstreamid, statusCode, response.body());
+                return false;
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error saving metadata to Flow for flowstreamid={}: {}", flowstreamid, e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private void processPauseChange(Resource resource, String flowstreamid, boolean pauseRequested) {
+        if (resource == null || StringUtils.isBlank(flowstreamid)) {
+            return;
+        }
+        FlowPauseResult pauseResult = toggleFlowStreamPause(flowstreamid, pauseRequested);
+        if (!pauseResult.isSuccess()) {
+            LOGGER.warn("Could not update pause state for flow {} on resource {}. Status={}, message={}", flowstreamid, resource.getPath(), pauseResult.getStatusCode(), pauseResult.getMessage());
+        }
+        persistPauseState(resource, pauseRequested);
+    }
+
+    private void persistPauseState(Resource resource, boolean pauseRequested) {
+        HashMap<String, Object> props = new HashMap<String, Object>();
+        props.put(prop(PROPERTY_PAUSED), pauseRequested);
+        PageUtil.updatResourceProperties(resource, props);
+    }
+
+    /**
+     * Check if flow metadata has changed by comparing local metadata with Flow service metadata
+     * @param flowComponent Local flow component with metadata
+     * @param flowstreamid Flow stream ID
+     * @return true if metadata has changed, false if it's the same
+     */
+    private boolean hasMetadataChanged(@NotNull FlowComponent flowComponent, String flowstreamid) {
+        if (StringUtils.isBlank(flowstreamid)) {
+            LOGGER.error("Cannot check metadata changes: flowstreamid is blank");
+            return true; // Assume changed if we can't check
+        }
+
+        try {
+            // Get current metadata from Flow service
+            String exportData = getFlowStreamExportData(flowstreamid);
+            if (StringUtils.isBlank(exportData)) {
+                LOGGER.error("Cannot check metadata changes: could not get flow data from Flow service for flowstreamid={}", flowstreamid);
+                return true; // Assume changed if we can't get Flow data
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            // Parse outer JSON response: {"success": true, "value": "..."}
+            JsonNode responseNode = mapper.readTree(exportData);
+            
+            // Extract the "value" field which contains the actual flow data as a JSON string
+            if (!responseNode.has("value") || !responseNode.get("value").isTextual()) {
+                LOGGER.error("Cannot check metadata changes: export response does not contain 'value' field or it's not a string for flowstreamid={}", flowstreamid);
+                return true; // Assume changed if we can't parse
+            }
+            
+            String valueJsonString = responseNode.get("value").asText();
+            if (StringUtils.isBlank(valueJsonString)) {
+                LOGGER.error("Cannot check metadata changes: 'value' field is empty for flowstreamid={}", flowstreamid);
+                return true; // Assume changed if we can't parse
+            }
+            
+            // Parse the inner JSON string to get the actual flow data
+            JsonNode flowData = mapper.readTree(valueJsonString);
+            
+            // Extract metadata from Flow service
+            String flowGroup = flowData.has(PROPERTY_GROUP) ? flowData.get(PROPERTY_GROUP).asText() : null;
+            String flowName = flowData.has(PROPERTY_NAME) ? flowData.get(PROPERTY_NAME).asText() : null;
+            String flowAuthor = flowData.has(PROPERTY_AUTHOR) ? flowData.get(PROPERTY_AUTHOR).asText() : null;
+            String flowReference = flowData.has(PROPERTY_REFERENCE) ? flowData.get(PROPERTY_REFERENCE).asText() : null;
+            String flowIcon = flowData.has(PROPERTY_ICON) ? flowData.get(PROPERTY_ICON).asText() : null;
+            String flowColor = flowData.has(PROPERTY_COLOR) ? flowData.get(PROPERTY_COLOR).asText() : null;
+            String flowVersion = flowData.has(PROPERTY_VERSION) ? flowData.get(PROPERTY_VERSION).asText() : null;
+            String flowReadme = flowData.has(PROPERTY_README) ? flowData.get(PROPERTY_README).asText() : null;
+
+            // Get local metadata
+            String httpRoutePath = compileHttpRoutePath(flowComponent.path);
+            Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
+            String flowGroupLocal = httpRoutePath;
+            if (currentFlowContainerResource != null) {
+                String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
+                if (StringUtils.isNotBlank(parentFlowstreamuid)) {
+                    HashMap<String,Object> parentMetadata = getFlowStreamData(parentFlowstreamuid);
+                    flowGroupLocal = (String)parentMetadata.get(PROPERTY_GROUP);
+                }
+            }
+
+            String newTitle = compileFlowTitle(flowComponent.title, flowComponent.componentTitle);
+            FlowComponentMetadata localMetadata = resolveFlowComponentMetadata(flowComponent, flowGroupLocal, newTitle);
+
+            // Compare all metadata fields
+            boolean changed = false;
+            if (!StringUtils.equals(flowGroup, localMetadata.getGroup())) {
+                LOGGER.info("Metadata changed: group (Flow={}, Local={})", flowGroup, localMetadata.getGroup());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowName, localMetadata.getName())) {
+                LOGGER.info("Metadata changed: name (Flow={}, Local={})", flowName, localMetadata.getName());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowAuthor, localMetadata.getAuthor())) {
+                LOGGER.info("Metadata changed: author (Flow={}, Local={})", flowAuthor, localMetadata.getAuthor());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowReference, localMetadata.getReference())) {
+                LOGGER.info("Metadata changed: reference (Flow={}, Local={})", flowReference, localMetadata.getReference());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowIcon, localMetadata.getIcon())) {
+                LOGGER.info("Metadata changed: icon (Flow={}, Local={})", flowIcon, localMetadata.getIcon());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowColor, localMetadata.getColor())) {
+                LOGGER.info("Metadata changed: color (Flow={}, Local={})", flowColor, localMetadata.getColor());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowVersion, localMetadata.getVersion())) {
+                LOGGER.info("Metadata changed: version (Flow={}, Local={})", flowVersion, localMetadata.getVersion());
+                changed = true;
+            }
+            if (!StringUtils.equals(flowReadme, localMetadata.getReadme())) {
+                LOGGER.info("Metadata changed: readme (Flow={}, Local={})", flowReadme, localMetadata.getReadme());
+                changed = true;
+            }
+
+            if (!changed) {
+                LOGGER.info("No metadata changes detected for flowstreamid={}", flowstreamid);
+            }
+            return changed;
+
+        } catch (Exception e) {
+            LOGGER.error("Error checking metadata changes for flowstreamid={}: {}", flowstreamid, e.getMessage(), e);
+            return true; // Assume changed if we can't check
+        }
     }
 
     // function to send http request using client with retry
@@ -339,6 +618,44 @@ public class FlowService {
         }
 
         return flowResponse;
+    }
+
+    public static final class FlowPauseResult {
+        private final boolean success;
+        private final int statusCode;
+        private final boolean pauseRequested;
+        private final String message;
+
+        private FlowPauseResult(boolean success, int statusCode, boolean pauseRequested, String message) {
+            this.success = success;
+            this.statusCode = statusCode;
+            this.pauseRequested = pauseRequested;
+            this.message = message;
+        }
+
+        public static FlowPauseResult success(int statusCode, boolean pauseRequested) {
+            return new FlowPauseResult(true, statusCode, pauseRequested, "");
+        }
+
+        public static FlowPauseResult failure(int statusCode, boolean pauseRequested, String message) {
+            return new FlowPauseResult(false, statusCode, pauseRequested, message == null ? "" : message);
+        }
+
+        public boolean isSuccess() {
+            return this.success;
+        }
+
+        public int getStatusCode() {
+            return this.statusCode;
+        }
+
+        public boolean isPauseRequested() {
+            return this.pauseRequested;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
     }
 
     public String compileClientHttpRouteUrl(String routerPath) {
@@ -790,16 +1107,22 @@ public class FlowService {
      */
     public void updateFlowFromTemplate(@NotNull FlowComponent flowComponent) {
 
-        String templatePath = flowComponent.flowapi_template;
         Resource componentResource = flowComponent.resource;
         String newTitle = compileFlowTitle(flowComponent.title, flowComponent.componentTitle);
         String flowstreamid = flowComponent.flowapi_flowstreamid;
-        String sampleDataPath = flowComponent.flowapi_sampledata;
         
         ResourceResolver resourceResolver = componentResource.getResourceResolver();
 
-        // get template json
-        JsonNode componentTemplate = getTemplateTree(templatePath, resourceResolver);
+        if (StringUtils.isBlank(flowstreamid)) {
+            LOGGER.warn("Skipping flow update for {} because flowstream id is missing.", componentResource.getPath());
+            return;
+        }
+
+        ObjectNode componentTemplateObject = loadExportOrTemplate(flowComponent, resourceResolver);
+        if (componentTemplateObject == null) {
+            LOGGER.warn("Could not load flow definition for {}. Skipping update.", componentResource.getPath());
+            return;
+        }
 
         String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource, RESOURCE_TYPE);
@@ -816,14 +1139,21 @@ public class FlowService {
             }
         }
 
-        // update component meta
-        ObjectNode componentTemplateObject = (ObjectNode)componentTemplate;
         componentTemplateObject.put(PROPERTY_ID, flowstreamid);
         FlowComponentMetadata metadata = resolveFlowComponentMetadata(flowComponent, flowGroup, newTitle);
         applyFlowMetadata(componentTemplateObject, metadata);
 
+        // Save metadata to Flow using /fapi/stream_save/{flowstreamid}
+        LOGGER.info("Updating metadata in Flow for flowstreamid={} on resource={}", flowstreamid, componentResource.getPath());
+        boolean metadataSaved = saveMetadataToFlow(metadata, flowstreamid);
+        if (metadataSaved) {
+            LOGGER.info("Metadata successfully saved to Flow for flowstreamid={}", flowstreamid);
+        } else {
+            LOGGER.error("Failed to save metadata to Flow for flowstreamid={}, continuing with full flow update", flowstreamid);
+        }
+
         // get json string
-        String componentJson = JsonUtil.getJsonString(componentTemplate);
+        String componentJson = JsonUtil.getJsonString(componentTemplateObject);
 
         // send to flowstream
         HashMap<String, Object> response = doFlowStreamUpdateData(componentJson, flowstreamid);
@@ -841,6 +1171,51 @@ public class FlowService {
         // go through response object and remove all null value
         // update component with response
         PageUtil.updatResourceProperties(componentResource, response, true);
+    }
+
+    private ObjectNode loadExportOrTemplate(@NotNull FlowComponent flowComponent, ResourceResolver resourceResolver) {
+        ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        String flowstreamid = flowComponent.flowapi_flowstreamid;
+        if (StringUtils.isNotBlank(flowstreamid)) {
+            String exportData = getFlowStreamExportData(flowstreamid);
+            if (StringUtils.isNotBlank(exportData)) {
+                try {
+                    // Parse outer JSON response: {"success": true, "value": "..."}
+                    JsonNode responseNode = mapper.readTree(exportData);
+                    
+                    // Extract the "value" field which contains the actual flow data as a JSON string
+                    if (responseNode.has("value") && responseNode.get("value").isTextual()) {
+                        String valueJsonString = responseNode.get("value").asText();
+                        if (StringUtils.isNotBlank(valueJsonString)) {
+                            // Parse the inner JSON string to get the actual flow data
+                            JsonNode exportNode = mapper.readTree(valueJsonString);
+                            if (exportNode instanceof ObjectNode) {
+                                return (ObjectNode) exportNode;
+                            }
+                        }
+                    } else {
+                        // Fallback: try parsing directly (for backward compatibility)
+                        JsonNode exportNode = mapper.readTree(exportData);
+                        if (exportNode instanceof ObjectNode) {
+                            return (ObjectNode) exportNode;
+                        }
+                    }
+                } catch (Exception exception) {
+                    LOGGER.warn("Could not parse flow export for {}: {}", flowstreamid, exception.getMessage());
+                }
+            }
+        }
+
+        String templatePath = flowComponent.flowapi_template;
+        if (StringUtils.isBlank(templatePath)) {
+            return null;
+        }
+
+        JsonNode templateNode = getTemplateTree(templatePath, resourceResolver);
+        if (templateNode instanceof ObjectNode) {
+            return (ObjectNode) templateNode;
+        }
+        return null;
     }
 
 
@@ -1617,6 +1992,8 @@ public class FlowService {
         public final static String FLOW_DESIGNER_URL = "https://flow.typerefinery.localhost:8101/designer/?darkmode=%s&socket=%s&components=%s";
         public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
         public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
+        public final static String FLOW_ENDPOINT_STREAMS_PAUSE = "/fapi/streams_pause/%s?is=%s";
+        public final static String FLOW_ENDPOINT_STREAMS_SAVE = "/fapi/stream_save/%s";
         
         @AttributeDefinition(
             name = "Host URL",
@@ -1628,7 +2005,7 @@ public class FlowService {
         @AttributeDefinition(
             name = "Host URL Client",
             description = "Host url of the external service accessible by client.",
-            defaultValue = FLOW_HOST
+            defaultValue = FLOW_HOST_CLIENT
         )
         String host_url_client() default FLOW_HOST_CLIENT;
 
@@ -1680,6 +2057,20 @@ public class FlowService {
                 defaultValue = FLOW_ENDPOINT_CLIENT
         )
         String endpoint_client() default FLOW_ENDPOINT_CLIENT;
+
+        @AttributeDefinition(
+                name = "Endpoint Streams Pause",
+                description = "URL template for pausing or resuming Flow streams.",
+                defaultValue = FLOW_ENDPOINT_STREAMS_PAUSE
+        )
+        String endpoint_streams_pause() default FLOW_ENDPOINT_STREAMS_PAUSE;
+
+        @AttributeDefinition(
+                name = "Endpoint Streams Save",
+                description = "URL template for saving Flow stream metadata.",
+                defaultValue = FLOW_ENDPOINT_STREAMS_SAVE
+        )
+        String endpoint_streams_save() default FLOW_ENDPOINT_STREAMS_SAVE;
 
         @AttributeDefinition(
             name = "Flow WS URL",
