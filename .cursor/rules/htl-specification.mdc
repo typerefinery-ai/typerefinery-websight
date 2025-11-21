@@ -1,0 +1,846 @@
+---
+alwaysApply: true
+---
+
+# HTL (HTML Template Language) Specification Reference
+
+**Version:** 1.4  
+**Authors:** Radu Cotescu, Marius Dănilă, Peeter Piegaze, Senol Tas, Gabriel Walt, Honwai Wong  
+**License:** [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)  
+**Status:** Final release  
+**Release:** 18 June 2018  
+**Source:** [Official HTL Specification](https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md)
+
+## Overview
+
+This document provides the complete HTL (HTML Template Language) specification as authoritative reference. All HTL implementations must conform to this specification.
+
+## Rules for HTL Expression Language
+
+### Expression Grammar Rules
+
+**MANDATORY**: All HTL expressions MUST conform to the following grammar:
+
+```ebnf
+expression = '${' , [exprNode] , [ , '@' , optionList] , '}' ;
+optionList = option {',' , option} ;
+option = id [ , '=' , optionValues] ; 
+optionValues = exprNode | '[' , valueList , ']' ;
+valueList = exprNode {',' exprNode} ;
+exprNode = orBinaryOp , '?' , orBinaryOp , ws , ':' , ws , orBinaryOp | orBinaryOp ;
+orBinaryOp = andBinaryOp {, '||', andBinaryOp};
+andBinaryOp = inBinaryOp {, '&&', inBinaryOp};
+inBinaryOp = comparisonOp [, 'in', comparisonOp];
+comparisonOp = factor [, comparisonOperator, factor];
+comparisonOperator = '<' | '<=' | '==' | '>=' | '>' | '!=' ;
+factor = term | '!' , term ;
+term = propertyAccess | '(' , exprNode  , ')' | '[', valueList, ']' ;
+propertyAccess = atom {'.' id} | atom {'[' , exprNode , ']'};
+atom = string | id | int | float | bool ;
+bool = 'true' | 'false' ;
+id = ('a'..'z'|'A'..'Z'|'_') {'a'..'z'|'A'..'Z'|'0'..'9'|'_'|':'} ;
+int = ['-']('1'..'9'){'0'..'9'} | '0' ;
+float = ['-']('1'..'9'){'0'..'9'} '.' {'0'..'9'} [exponent] | ['-']'0.' ('0'..'9') {'0'..'9'} [exponent] | ['-']('1'..'9'){'0'..'9'} exponent ;
+string = '"' {escSeq | -('\\' | '"')} '"' | '\'' {escSeq | -('\\'|'\'')} '\'' ;
+```
+
+**Grammar Conventions:**
+- `foo` - Rule names
+- `' '` - Terminals (literal characters)
+- `|` - OR
+- `[]` - Optional (zero or one)
+- `{}` - Repetition (zero or more)
+- `-` - "any character/sequence except"
+- `..` - Range between terminals
+- `,` - Optional whitespace
+
+### Expression Syntax Rules
+
+**REQUIRED**: Use the following expression syntax:
+
+```html
+<!-- Identifiers -->
+${myVar}
+
+<!-- Object member access -->
+${myObject.key}
+${myObject['key']}
+${myObject[keyVar]}
+
+<!-- Array index access -->
+${myArray[1]}
+${myArray[indexVar]}
+
+<!-- Literals -->
+${true}
+${42}
+${'string'}
+${"string"}
+${[1, 2, 3, true, 'string']}
+```
+
+**String Escaping Rules:**
+- **REQUIRED**: Escape quotes: `\'` or `\"`
+- **REQUIRED**: Escape backslash: `\\`
+- **REQUIRED**: Escape expression start: `\${` to output literal `${`
+- **Single character escapes**: `\t \b \n \r \f \' \" \\`
+- **Unicode escapes**: `\u` followed by 4 hex digits (e.g., `\u0022` for `"`)
+
+### Context-Sensitive Expression Rules
+
+**MANDATORY**: HTL automatically applies context-aware XSS protection based on expression location.
+
+```html
+<tag>Some text ${myText}</tag>
+<tag attr="Some text ${myAttrValue}"></tag>
+<tag href="${myHrefValue}"></tag>
+```
+
+**Automatic URI Context Rules:**
+- **REQUIRED**: The following attributes automatically use `uri` context:
+  - `action` (`<form>`)
+  - `cite` (`<blockquote>`, `<del>`, `<ins>`, `<q>`)
+  - `data` (`<object>`)
+  - `formaction` (`<button>`, `<input>`)
+  - `href` (`<a>`, `<area>`, `<link>`, `<base>`)
+  - `manifest` (`<html>`)
+  - `poster` (`<video>`)
+  - `src` (`<audio>`, `<embed>`, `<iframe>`, `<img>`, `<input>`, `<script>`, `<source>`, `<track>`, `<video>`)
+
+**MANDATORY for Script/Style Contexts:**
+- **REQUIRED**: Explicit context MUST be set for script and style contexts
+- **REQUIRED**: If context is not set, expression outputs nothing
+
+```html
+<!-- Scripts -->
+<a href="#whatever" onclick="${myFunctionName @ context='scriptToken'}()">Link</a>
+<script>var ${myVarName @ context="scriptToken"}="Bar";</script>
+<script>var bar='${someText @ context="scriptString"}';</script>
+
+<!-- Styles -->
+<a href="#whatever" style="color: ${colorName @ context='styleToken'};">Link</a>
+<style>
+    a.${className @ context="styleToken"} {
+        font-family: '${fontFamily @ context="styleString"}', sans-serif;
+        color: #${colorHashValue @ context="styleToken"};
+        margin-${side @ context="styleToken"}: 1em;
+    }
+</style>
+```
+
+### Operator Rules
+
+#### Logical Operators (Precedence Order)
+**MANDATORY**: Operators evaluated in this order:
+
+1. Grouping parenthesis: `()`
+2. Logical NOT: `!`
+3. Logical AND: `&&`
+4. Logical OR: `||`
+5. Conditional (ternary): `? :` (**REQUIRED**: `:` must have spaces around it)
+
+```html
+${varOne && !(varTwo || varThree)}  <!-- Precedence: 1 -->
+${!myVar}                            <!-- Precedence: 2 -->
+${varOne && varTwo}                  <!-- Precedence: 3 -->
+${varOne || varTwo}                  <!-- Precedence: 4 -->
+${varChoice ? varOne : varTwo}       <!-- Precedence: 5 - note spaces around ':' -->
+```
+
+**Rules:**
+- `&&` and `||` return operand values (like JavaScript), not just boolean
+- **REQUIRED**: Use `||` for default values: `${properties.pageTitle || properties.jcr:title || resource.name}`
+- **REQUIRED**: Ternary operator `:` separator MUST be surrounded by spaces
+
+#### Comparison Operators (Strict, No Type Conversion)
+**REQUIRED**: All comparison operators are strict (like JavaScript `===` and `!==`)
+
+```html
+${nullValueOne == nullValueTwo}        <!-- Null comparison -->
+${stringValueOne == stringValueTwo}    <!-- String comparison (strict) -->
+${stringValueOne != stringValueTwo}    <!-- String comparison (strict) -->
+${numberValueOne < numberValueTwo}     <!-- Number comparison -->
+${numberValueOne <= numberValueTwo}    <!-- Number comparison -->
+${numberValueOne == numberValueTwo}    <!-- Number comparison -->
+${numberValueOne >= numberValueTwo}    <!-- Number comparison -->
+${numberValueOne > numberValueTwo}     <!-- Number comparison -->
+${booleanValueOne == booleanValueTwo}  <!-- Boolean comparison -->
+${enumConstant == 'CONSTANT_NAME'}     <!-- Java Enum comparison -->
+```
+
+**Rules:**
+- **REQUIRED**: `==` and `!=` are strict (no type conversion)
+- **REQUIRED**: Operands MUST be same type for valid comparison
+
+#### Relational Operator: `in`
+**REQUIRED**: Use `in` operator for containment checks:
+
+1. **String containment** (case-sensitive):
+```html
+${'a' in 'abc'}    <!-- returns true -->
+${'ab' in 'abc'}   <!-- returns true -->
+${'d' in 'abc'}    <!-- returns false -->
+```
+
+2. **Array/List containment**:
+```html
+${100 in myArray}  <!-- returns true if 100 in array -->
+```
+
+3. **Object/Map property/key check**:
+```html
+${'a' in logic}    <!-- returns true if object has property 'a' -->
+```
+
+### Type Casting Rules
+
+#### Boolean Casting
+**REQUIRED**: These values evaluate to `false`:
+- `false`
+- `0` (zero)
+- `''` or `""` (empty string)
+- `[]` (empty iterable)
+
+**REQUIRED**: These values evaluate to `true`:
+- `"false"` (non-empty string, even if content is "false")
+- `[0]` (non-empty iterable)
+
+#### String Casting
+**REQUIRED**: Type conversion rules:
+
+```html
+${0}              <!-- outputs: 0 -->
+${true}           <!-- outputs: true -->
+${false}          <!-- outputs: false -->
+${[1, 2, 3]}      <!-- outputs: 1,2,3 -->
+${[true, false]}  <!-- outputs: true,false -->
+${['foo', 'bar']} <!-- outputs: foo,bar -->
+${['foo', '']}    <!-- outputs: foo, -->
+```
+
+### Expression Options Rules
+
+**REQUIRED**: Options modify expressions using `@ optionName` or `@ optionName=value` syntax:
+
+```html
+<!-- Option without value -->
+${myVar @ optName}
+
+<!-- Option with identifier or literal -->
+${myVar @ optName=myVar}
+${myVar @ optName=true}
+${myVar @ optName=42}
+${myVar @ optName='string'}
+${myVar @ optName="string"}
+${myVar @ optName=[myVar, 'string']}
+
+<!-- Multiple options -->
+${myVar @ optOne, optTwo=myVar, optThree='string'}
+```
+
+### Parametric Expressions Rules
+
+**REQUIRED**: Use parametric expressions (only options) for passing parameters to block elements:
+
+```html
+<tag data-sly-BLOCK="${@ paramOne, paramTwo=myVar, paramThree='string'}">element content</tag>
+```
+
+### Whitespace Rules
+
+**REQUIRED**: Whitespace allowed between any part of expression:
+
+```html
+<!-- Recommended spacing style -->
+${myVar @ argOne, argTwo=myVar, argThree='string'}
+
+<!-- Spaces everywhere (also valid) -->
+${ myVar @ argOne , argTwo = myVar , argThree = 'string' }
+```
+
+**Rules:**
+- **RECOMMENDED**: No spaces around `@`, spaces after commas
+- Whitespace is optional but recommended for readability
+
+### Comments Rules
+
+**HTL Comments:**
+```html
+<!--/* HTL comments are removed from output */-->
+```
+- **REQUIRED**: Syntax: `<!--/* */-->`
+- **REQUIRED**: Cannot contain `*/-->` sequence
+- **REQUIRED**: Completely removed from output
+
+**HTML Comments with Expressions:**
+```html
+<!-- Page title: ${currentPage.jcr:title} -->
+```
+- **REQUIRED**: Expressions evaluated
+- **REQUIRED**: Block statements ignored
+- **REQUIRED**: Use for debugging output
+
+## Display Context Rules
+
+**MANDATORY**: All expressions MUST use appropriate display context for XSS protection.
+
+| Context | When to use | What it does |
+|---------|-------------|--------------|
+| `attribute` | Default for attribute values | Encodes all HTML special characters |
+| `attributeName` | Default for data-sly-attribute when setting attribute names | Validates attribute name, outputs nothing if validation fails |
+| `elementName` | Default for data-sly-element | Validates element name, outputs nothing if validation fails |
+| `html` | To safely output markup | Filters HTML to remove dangerous tags |
+| `number` | To display numbers | Validates value is a number, outputs nothing if validation fails |
+| `scriptComment` | Within JavaScript comments | Validates JavaScript comment, outputs nothing if validation fails |
+| `scriptString` | Within JavaScript strings | Encodes characters that would break out of string |
+| `scriptToken` | For JavaScript identifiers, literal numbers, or literal strings | Validates JavaScript token, outputs nothing if validation fails |
+| `styleComment` | Within CSS comments | Validates CSS comment, outputs nothing if validation fails |
+| `styleString` | Within CSS strings | Encodes characters that would break out of string |
+| `styleToken` | For CSS identifiers, numbers, dimensions, strings, hex colours or functions | Validates CSS token, outputs nothing if validation fails |
+| `text` | Default for content inside HTML Text Nodes | Encodes all HTML special characters |
+| `unsafe` | When all other contexts are too restrictive | **Disables escaping and XSS protection completely** - USE WITH EXTREME CAUTION |
+| `uri` | Default for `action`, `cite`, `data`, `formaction`, `href`, `manifest`, `poster`, `src` attributes | Validates URI, outputs nothing if validation fails |
+
+**REQUIRED**: `elementName` context only allows these HTML5 semantic elements:
+
+```
+section, nav, article, aside, h1, h2, h3, h4, h5, h6, header, footer, address, main, 
+p, pre, blockquote, ol, li, dl, dt, dd, figure, figcaption, div, a, em, strong, small, 
+s, cite, q, dfn, abbr, data, time, code, var, samp, kbd, sub, sup, i, b, u, mark, ruby, 
+rt, rp, bdi, bdo, span, br, wbr, ins, del, table, caption, colgroup, col, tbody, thead, 
+tfoot, tr, td, th
+```
+
+**REQUIRED for HTML Comments**: Set explicit context:
+
+```html
+<!--[if IE]><link rel="shortcut icon" href="${site.root @ context='uri'}/images/favicon/favicon.ico?v2"><![endif]-->
+```
+
+## Format Option Rules
+
+**REQUIRED**: Format option formats `Strings`, `Dates`, and `Numbers`.
+
+**Format Type Detection:**
+1. `type` option if present (`string`, `date`, `number`)
+2. Placeholders (e.g., `{0}`) in pattern → string formatting
+3. Type of `format` option object (`Date` or `Number`)
+4. Default → string formatting
+
+### String Formatting Rules
+
+```html
+${'Asset {0}' @ format=properties.assetName}
+${'Asset {0}' @ format=[properties.assetName]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total], i18n, locale='de'}
+```
+
+**REQUIRED**: Numbered parameters: `{0}`, `{1}`, etc.
+
+### Date Formatting Rules
+
+```html
+${'yyyy-MM-dd' @ format=myDate}
+${'yyyy-MM-dd' @ format=myDate, type='date'}
+${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'}
+${'EEEE, dd MMMM yyyy' @ format=obj.date, locale='de'}
+```
+
+**REQUIRED Date Pattern Letters:**
+- `y` (yy, yyyy) - Year
+- `M` (MM, MMM, MMMM) - Month in year
+- `w` (ww) - Week in year
+- `D` (DD, DDD) - Day in year
+- `d` (dd) - Day in month
+- `E` (EEEE) - Day name in week
+- `a` - Am/pm marker
+- `H` (HH) - Hour in day (0-23)
+- `h` (hh) - Hour in am/pm
+- `m` (mm) - Minute in hour
+- `s` (ss) - Second in minute
+- `S` (SSS) - Millisecond
+- `z` - General time zone
+- `Z` - RFC 822 time zone
+- `X` (XX, XXX) - ISO 8601 time zone
+
+**REQUIRED**: Escape reserved letters with single quotes; escape single quotes as two in a row.
+
+### Number Formatting Rules
+
+```html
+${'#.00' @ format=42}
+${'#.00' @ format=myNumber, type='number'}
+${'#,###.00' @ format=1000}
+${'#.###;-#.###' @ format=obj.number}
+${'#%' @ format=obj.number}
+```
+
+**REQUIRED Number Pattern Characters:**
+- `0` - digit, shows as 0 if absent
+- `#` - digit, does not show if absent
+- `.` - decimal separator
+- `-` - minus sign
+- `,` - grouping separator
+- `E` - separator between mantissa and exponent
+- `;` - sub-pattern boundary (positive;negative)
+- `%` - multiply by 100 and show as percentage
+
+## i18n Option Rules
+
+**REQUIRED**: Use `i18n` option for internationalization:
+
+```html
+${'Assets' @ i18n}  <!-- Translates to resource language -->
+${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}  <!-- Override locale with hint -->
+```
+
+**REQUIRED**: Special options when using `i18n`:
+- `locale`: Overrides resource language (e.g., `en_US`, `fr_CH`)
+- `hint`: Provides context for translators
+
+## Array Join Option Rules
+
+**REQUIRED**: Use `join` option to control array output:
+
+```html
+${['one', 'two'] @ join='; '}  <!-- outputs: one; two -->
+<span class="${myListOfClassNames @ join=' '}"></span>
+${'test' @ join=', '}  <!-- outputs: test (no change for strings) -->
+```
+
+## URI Manipulation Option Rules
+
+**REQUIRED**: URI manipulation options:
+
+### Scheme
+```html
+${'//example.com/path/page.html' @ scheme='http'}      <!-- outputs: http://example.com/path/page.html -->
+${'http://example.com/path/page.html' @ scheme='https'} <!-- outputs: https://example.com/path/page.html -->
+```
+
+### Domain
+```html
+${'///path/page.html' @ domain='example.org'}  <!-- outputs: //example.org/path/page.html -->
+${'http://www.example.com/path/page.html' @ domain='www.example.org'}  <!-- outputs: http://www.example.org/path/page.html -->
+```
+
+### Path Manipulation
+```html
+${'one' @ appendPath='two'}        <!-- outputs: one/two -->
+${'path' @ prependPath='..'}       <!-- outputs: ../path -->
+${'path/page.html' @ path='that/two'}  <!-- outputs: that/two.html -->
+```
+
+### Selectors
+```html
+${'path/page.woo.foo.html' @ selectors='foo.bar'}      <!-- outputs: path/page.foo.bar.html -->
+${'path/page.woo.foo.html' @ addSelectors='foo.bar'}   <!-- outputs: path/page.woo.foo.foo.bar.html -->
+${'path/page.woo.foo.html' @ removeSelectors='foo.bar'} <!-- outputs: path/page.woo.html -->
+```
+
+### Extension
+```html
+${'path/page' @ extension='html'}      <!-- outputs: path/page.html -->
+${'path/page.json' @ extension='html'} <!-- outputs: path/page.html -->
+```
+
+### Suffix
+```html
+${'path/page.html' @ suffix='my/suffix'}  <!-- outputs: path/page.html/my/suffix -->
+```
+
+### Query
+```html
+${'http://www.example.org/search' @ query=jsuse.query, context='uri'}
+${'http://www.example.org/search?s=1' @ addQuery=jsuse.query, context='uri'}
+${'http://www.example.org/search?s=1&q=htl' @ removeQuery='q', context='uri'}
+```
+
+### Fragment
+```html
+${'path/page' @ fragment='fragment'}  <!-- outputs: path/page#fragment -->
+```
+
+## Block Statement Rules
+
+### Block Statement Syntax Rules
+
+**REQUIRED**: Block statements use `data-sly-*` attributes:
+
+```html
+<tag data-sly-BLOCK></tag>
+<tag data-sly-BLOCK/>
+<tag data-sly-BLOCK="string value"/>
+<tag data-sly-BLOCK="${expression}"/>
+<tag data-sly-BLOCK="${@ myArg='foo'}"/>
+<tag data-sly-BLOCKONE="value" data-sly-BLOCKTWO="value"/>
+```
+
+**REQUIRED**: All evaluated `data-sly-*` attributes are removed from generated markup.
+
+### Identifier Rules
+
+**REQUIRED**: Block statements can use identifiers:
+
+```html
+<tag data-sly-BLOCK.IDENTIFIER="value"></tag>
+```
+
+**Rules:**
+- **REQUIRED**: Top-level identifiers are case-insensitive (HTML attributes are case-insensitive)
+- **REQUIRED**: Properties are case-sensitive
+
+### data-sly-use Rules
+
+**REQUIRED**: Use `data-sly-use` to expose logic:
+
+```html
+<div data-sly-use.page="customPage.js">${page.foo}</div>
+<div data-sly-use.nav="${'Navigation' @ depth=1, showVisible=!wcmmode.edit}">${nav.foo}</div>
+```
+
+**Specification:**
+- **Element**: always shown
+- **Attribute value**: required; evaluates to `String`; object to instantiate
+- **Attribute identifier**: optional; custom identifier name; if omitted, uses `useBean` identifier
+- **Scope**: Global to script, available anywhere after declaration
+
+**REQUIRED**: Element and content rendered (attribute removed from output).
+
+**REQUIRED**: Parameters passed via expression options: `@ param1=value1, param2=value2`
+
+### data-sly-text Rules
+
+**REQUIRED**: Use `data-sly-text` to set element content:
+
+```html
+<p data-sly-text="${properties.jcr:title}">This text would never be shown.</p>
+<p data-sly-text="${'<strong>Bold</strong>' @ context='html'}"></p>
+```
+
+**Specification:**
+- **Element**: always shown
+- **Content**: replaced with evaluated result
+- **Attribute value**: required; evaluates to `String`
+- **Auto XSS protection**: uses `text` context unless overridden
+- **Falsy values**: Cast to strings (empty string/array output empty; `0` outputs "0", `false` outputs "false")
+
+### data-sly-attribute Rules
+
+**REQUIRED**: Use `data-sly-attribute` to set attributes:
+
+```html
+<tag class="className" data-sly-attribute.class="${myVar}"></tag>
+<tag data-sly-attribute="${foobar}"></tag>  <!-- Multiple attributes from Map -->
+```
+
+**Specification:**
+- **Element**: always shown
+- **Content**: always shown
+- **Attribute value**: optional; `String` for content, `Boolean` for boolean attributes, `Object` (Map) for multiple attributes
+- **Attribute identifier**: optional; attribute name; must be omitted if value is `Object`
+- **Processing order**: Left-to-right (later attributes override earlier)
+- **Empty values**: Empty string removes attribute
+- **XSS protection**: Attribute name and content automatically protected
+- **RESTRICTIONS**: Cannot generate `on*` event handlers or `style` attribute (no safe context)
+
+**REQUIRED**: Boolean values control boolean attributes:
+```html
+<input checked="${true}"/>    <!-- outputs: <input checked/> -->
+<input checked="${false}"/>   <!-- outputs: <input/> -->
+```
+
+**REQUIRED**: Arrays cast to strings:
+```html
+<div title="${['one', 'two']}"></div>  <!-- outputs: <div title="one,two"></div> -->
+<div title="${[]}"></div>               <!-- outputs: <div></div> (empty array removes attribute) -->
+```
+
+### data-sly-element Rules
+
+**REQUIRED**: Use `data-sly-element` to replace element tag name:
+
+```html
+<div data-sly-element="${'h1'}">Blah</div>  <!-- outputs: <h1>Blah</h1> -->
+```
+
+**Specification:**
+- **Element**: always shown
+- **Content**: always shown
+- **Attribute value**: required; `String`; element tag name
+- **XSS protection**: `elementName` context (only allows specific HTML5 semantic elements)
+
+### data-sly-test Rules
+
+**REQUIRED**: Use `data-sly-test` for conditional rendering:
+
+```html
+<p data-sly-test="${wcmmode.edit}">You are in edit mode</p>
+<p data-sly-test.editOrDesign="${wcmmode.edit || wcmmode.design}">displays when in edit or design mode</p>
+<p data-sly-test>This paragraph will never display</p>
+```
+
+**Specification:**
+- **Element**: shown if test evaluates to `true`
+- **Content**: shown if test evaluates to `true`
+- **Attribute value**: optional; evaluated as `Boolean` (not type-casted when exposed in variable); defaults to `false` if omitted
+- **Attribute identifier**: optional; identifier name to access test result
+- **Scope**: Global to script, available anywhere after declaration
+
+**REQUIRED**: Identifier contains value as-is (not cast to Boolean).
+
+### data-sly-list Rules
+
+**REQUIRED**: Use `data-sly-list` to iterate:
+
+```html
+<ul data-sly-list="${currentPage.listChildren}">
+    <li>${item.title}</li>
+</ul>
+<ul data-sly-list.childPage="${currentPage.listChildren}">
+    <li>${childPage.title}</li>
+</ul>
+<ul data-sly-list="${currentPage.listChildren @ begin=0, end=9}">
+    <li>${item.title}</li>
+</ul>
+```
+
+**Specification:**
+- **Element**: shown only if items > 0, or if value is string or number
+- **Content**: repeated for each item
+- **Attribute value**: optional; item to iterate over
+- **Attribute identifier**: optional; iteration variable name; if omitted, uses `item`
+- **Scope**: Available only in element's content scope; overrides outer scope but values restored after
+- **Iteration options**: `begin`, `step`, `end` (all indices inclusive)
+
+**REQUIRED**: Status object `itemList` (or `<variable>List`) available with:
+- `index`: zero-based counter (0..length-1)
+- `count`: one-based counter (1..length)
+- `first`: `true` for first element
+- `middle`: `true` if neither first nor last
+- `last`: `true` for last element
+- `odd`: `true` if count is odd
+- `even`: `true` if count is even
+
+**REQUIRED**: When iterating over `Map`, item variable contains key:
+
+```html
+<dl data-sly-list="${myMap}">
+    <dt>key: ${item}</dt>
+    <dd>value: ${myMap[item]}</dd>
+</dl>
+```
+
+### data-sly-repeat Rules
+
+**REQUIRED**: Use `data-sly-repeat` to repeat element (element shown once, content repeated):
+
+```html
+<p data-sly-repeat="${resource.listChildren}">${item.text}</p>
+<p data-sly-repeat.childResource="${resource.listChildren}">${childResource.text}</p>
+<div data-sly-repeat.article="${articlesCollection}" id="${article.id}">${article.excerpt}</div>
+```
+
+**Specification:**
+- **Element**: shown only if items > 0, or if value is string or number
+- **Content**: repeated for each item
+- **Attribute value**: optional; item to iterate over
+- **Attribute identifier**: optional; iteration variable name; if omitted, uses `item`
+- **Scope**: Available only in element's scope
+- **Iteration options**: `begin`, `step`, `end` (all indices inclusive)
+
+**REQUIRED**: Same status object as `data-sly-list` available.
+
+### data-sly-include Rules
+
+**REQUIRED**: Use `data-sly-include` to include rendering script output:
+
+```html
+<div data-sly-include="template.html"></div>
+<div data-sly-include="${'partials' @ appendPath='template.html'}"></div>
+```
+
+**Specification:**
+- **Element**: always shown (but ignored, not displayed)
+- **Content**: replaced with included script content
+- **Attribute value**: required; file to include
+- **Path options**: `appendPath`, `prependPath`
+- **Scope**: Not passed to included template
+
+**REQUIRED**: Comparable to JSP `<%@ include file="" %>`.
+
+### data-sly-resource Rules
+
+**REQUIRED**: Use `data-sly-resource` to include rendered resource:
+
+```html
+<section data-sly-resource="./path"></section>
+<section data-sly-resource="${'./path' @ resourceType='my/resource/type'}"></section>
+```
+
+**Specification:**
+- **Element**: always shown
+- **Content**: replaced with resource content
+- **Attribute value**: required; path to include (absolute or relative)
+- **Options**: `appendPath`, `prependPath`, `selectors`, `addSelectors`, `removeSelectors`, `resourceType`
+- **Scope**: Not passed to included resource
+
+**REQUIRED**: Comparable to JSP `<jsp:include page="" />`.
+
+### data-sly-template and data-sly-call Rules
+
+**REQUIRED**: Use `data-sly-template` to declare templates:
+
+```html
+<template data-sly-template.one>blah</template>
+<template data-sly-template.two="${@ title, resource='The resource of the parent node'}">
+    <h1>${title}</h1>
+    <p>Parent: ${resource.name}</p>
+</template>
+```
+
+**Specification for `data-sly-template`:**
+- **Element**: never shown
+- **Content**: shown upon calling with `data-sly-call`
+- **Attribute value**: optional; expression with only options, defining parameters
+- **Attribute identifier**: required; template identifier to declare
+- **Scope**: Global, available before or after definition
+
+**REQUIRED**: Use `data-sly-call` to call templates:
+
+```html
+<div data-sly-call="${one}"></div>
+<div data-sly-call="${two @ title=properties.jcr:title, resource=resource.parent}"></div>
+<div data-sly-use.lib="templateLib.html" data-sly-call="${lib.one}"></div>
+```
+
+**Specification for `data-sly-call`:**
+- **Element**: always shown
+- **Content**: replaced with called template content
+- **Attribute value**: required; expression defining template identifier and parameters
+- **Scope**: Not inherited by template (must pass as parameters)
+
+**REQUIRED**: Missing parameters initialize to empty string.
+
+### data-sly-unwrap Rules
+
+**REQUIRED**: Use `data-sly-unwrap` to hide element, show only content:
+
+```html
+<div data-sly-test="${myTest}" data-sly-unwrap>Foo</div>  <!-- Shows "Foo" if test is true -->
+<div data-sly-unwrap="${myTest}">Foo</div>  <!-- Shows <div>Foo</div> if test is false -->
+```
+
+**Specification:**
+- **Element**: shown if expression evaluates to `false`
+- **Content**: always shown
+- **Attribute value**: optional; evaluated as `Boolean`; defaults to `true` if omitted
+- **Attribute identifier**: optional; identifier name to access result
+- **Scope**: Global to script
+
+### data-sly-set Rules
+
+**REQUIRED**: Use `data-sly-set` to define identifiers:
+
+```html
+<span data-sly-set.profile="${user.profile}">Hello, ${profile.firstName}!</span>
+<a href="${profile.url}">Edit profile</a>
+```
+
+**Specification:**
+- **Element**: always shown
+- **Content**: always shown
+- **Attribute value**: optional; value to store
+- **Attribute identifier**: required; identifier name to access stored value
+- **Scope**: Global to script
+
+## Block Statement Priority Rules
+
+**MANDATORY**: When used on same element, block statements evaluated in this order:
+
+1. `data-sly-template`
+2. `data-sly-set`, `data-sly-test`, `data-sly-use`
+3. `data-sly-call`
+4. `data-sly-text`
+5. `data-sly-element`, `data-sly-include`, `data-sly-resource`
+6. `data-sly-unwrap`
+7. `data-sly-list`, `data-sly-repeat`
+8. `data-sly-attribute`
+
+**REQUIRED**: When two block statements have same priority, evaluation is left-to-right.
+
+## Special HTML Tags Rules
+
+### `<sly>` Tag Rules
+
+**REQUIRED**: Use `<sly>` tag to remove element, show only children:
+
+```html
+<sly data-sly-resource="./header"></sly>  <!-- Displays only header output, no <sly> tag -->
+```
+
+**REQUIRED**: Not a valid HTML5 tag but supported by HTL.
+
+**REQUIRED**: To display `<sly>` tag in output:
+
+```html
+<sly data-sly-unwrap="${false}"></sly>  <!-- outputs: <sly></sly> -->
+```
+
+## Use-API Rules
+
+**REQUIRED**: Business logic implemented through Use-API (separation of concerns).
+
+### Java Use-API Rules
+
+**REQUIRED**: Java Use-API objects:
+
+1. **POJO with default constructor**:
+```java
+public class MyModel {
+    private String title;
+    // getters/setters
+}
+```
+
+2. **POJO with `init` method**:
+```java
+public void init(javax.script.Bindings bindings);
+```
+
+**REQUIRED**: `bindings` map contains context objects for HTL script.
+
+### JavaScript Use-API Rules
+
+**DEPRECATED**: JavaScript Use-API deprecated for AEM Cloud Service. **REQUIRED**: Use Java Use-API instead.
+
+**Legacy syntax** (for reference only):
+```javascript
+use(['dep1.js', 'dep2.js'], function (Dep1, Dep2) {
+    return {
+        propertyName: propertyValue,
+        functionName: function () {}
+    }
+});
+```
+
+### Object Resolution Rules
+
+**MANDATORY**: Property/method resolution follows this algorithm:
+
+1. `expression.identifier` is equivalent to `expression["identifier"]` and `expression['identifier']`
+2. Resolution algorithm:
+   1. Try to resolve as publicly accessible field; if found, return
+   2. Try to resolve as publicly accessible method without parameters:
+      - Method named `identifier`; if found, call and return
+      - Getter `getIdentifier` (camelCase); if found, call and return
+      - Boolean getter `isIdentifier` (camelCase); if found, call and return
+   3. Return `null` if not found
+
+## References
+
+- **Official HTL Specification:** https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md
+- **AEM HTL Documentation:** https://experienceleague.adobe.com/docs/experience-manager-htl/content/overview.html
+- **Sling Models:** https://sling.apache.org/documentation/bundles/models.html
+- **Java Use-API:** https://experienceleague.adobe.com/en/docs/experience-manager-htl/content/java-use-api
