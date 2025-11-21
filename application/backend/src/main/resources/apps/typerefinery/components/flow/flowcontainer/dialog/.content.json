@@ -26,16 +26,26 @@
           "description": "Optional reference identifier stored with the flow metadata."
         },
         "flowIcon": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "sling:resourceType": "typerefinery/components/dialog/select",
           "name": "flowapi_icon",
           "label": "Icon",
-          "description": "Optional icon class (for example Font Awesome) shown in Flow Designer."
+          "description": "Optional icon class (for example Font Awesome) shown in Flow Designer.",
+          "isIcon": true,
+          "datasource": {
+            "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+            "path": "/apps/typerefinery/components/dialog/fields/icons"
+          }
         },
         "flowColor": {
-          "sling:resourceType": "wcm/dialogs/components/textfield",
+          "sling:resourceType": "typerefinery/components/dialog/select",
           "name": "flowapi_color",
           "label": "Color",
-          "description": "Optional colour value (e.g. #RRGGBB) applied to Flow Designer cards."
+          "description": "Optional colour value (e.g. #RRGGBB) applied to Flow Designer cards.",
+          "isColour": true,
+          "datasource": {
+            "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+            "path": "/apps/typerefinery/components/dialog/fields/color"
+          }
         },
         "flowVersion": {
           "sling:resourceType": "wcm/dialogs/components/textfield",
@@ -146,6 +156,13 @@
             "name": "flowapi_updatedon",
             "description": "This is the date and time that the flow was last updated.",
             "label": "Updated On",
+            "disabled": true
+        },
+        "paused": {
+            "sling:resourceType": "wcm/dialogs/components/textfield",
+            "name": "flowapi_paused",
+            "description": "Indicates whether the backing Flow stream is currently paused.",
+            "label": "Paused",
             "disabled": true
         }
       }

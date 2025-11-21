@@ -133,6 +133,12 @@ public class FlowComponent extends BaseComponent {
     @Getter
     @Inject
     @Nullable
+    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_PAUSED)
+    public Boolean flowapi_paused;
+    
+    @Getter
+    @Inject
+    @Nullable
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_TEMPLATE)
     public String flowapi_template;
     
