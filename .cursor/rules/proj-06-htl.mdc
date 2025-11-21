@@ -1,0 +1,754 @@
+---
+alwaysApply: true
+---
+
+# Project: HTL (HTML Template Language) Development Standards
+
+## HTL Overview
+
+HTL (HTML Template Language), formerly known as Sightly, is Adobe's server-side template system for HTML. It separates logic from markup to improve security and maintainability.
+
+**Specification Version:** 1.4 (Final release, 18 June 2018)  
+**Full Specification:** See `.cursor/rules/htl-specification.md` for complete HTL specification reference  
+**Online Reference:** https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md
+
+## Core HTL Principles
+
+### 1. Security First
+- **Context-aware output**: Always use appropriate context attributes (`@ context="html"`, `@ context="unsafe"`, etc.)
+- **No inline JavaScript**: Never embed JavaScript directly in HTL templates
+- **Expression escaping**: HTL automatically escapes output based on context
+
+### 2. Separation of Concerns
+- **Logic in Java**: Business logic belongs in Sling Models, not templates
+- **Templates for presentation**: HTL templates should only handle rendering
+- **Use Sling Models**: Access data through `data-sly-use` with Sling Models
+
+### 3. Expression Syntax
+- **EL expressions**: Use `${expression}` for output
+- **Attribute expressions**: Use `${expression}` in HTML attributes
+- **Block expressions**: Use `data-sly-*` attributes for control flow
+- **Expression grammar**: `expression = '${' , [exprNode] , [ , '@' , optionList] , '}'`
+- **Escaping**: Prefix `${` with backslash (`\${`) to escape expressions in output
+
+## HTL Block Statements
+
+### data-sly-use (Variable Declaration / Use-API)
+```html
+<!-- Load Sling Model (Java Use-API) -->
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.MyModel">
+
+<!-- Load template file -->
+<sly data-sly-use.template="./template.html">
+
+<!-- Load with parameters -->
+<sly data-sly-use.item="${resource.adaptTo(MyModel.class)}">
+<div data-sly-use.nav="${'Navigation' @ depth=1, showVisible=!wcmmode.edit}">${nav.foo}</div>
+```
+
+**Specification Details:**
+- **Element:** always shown (attribute removed from output)
+- **Attribute value:** required; evaluates to `String`; the object to instantiate
+- **Attribute identifier:** optional; custom identifier name; if omitted, uses `useBean` identifier
+- **Scope:** Identifier is global to the script, available anywhere after declaration
+- **Parameters:** Pass via expression options: `@ param1=value1, param2=value2`
+
+**Use-API Object Resolution:**
+1. Try to resolve as publicly accessible field
+2. Try to resolve as method without parameters:
+   - Method named `identifier`
+   - Getter `getIdentifier` (camelCase)
+   - Boolean getter `isIdentifier` (camelCase)
+3. Return `null` if not found
+
+**Rules:**
+- Always use fully qualified class names for Sling Models
+- Use relative paths for template includes (e.g., `./template.html`)
+- Store loaded objects in descriptive variable names (`model`, `template`, `item`)
+- Top-level identifiers are case-insensitive; properties are case-sensitive
+- Java Use-API: POJO with default constructor or `init(Bindings bindings)` method
+- JavaScript Use-API is deprecated in AEM Cloud Service - use Java Use-API
+
+### data-sly-test (Conditional Rendering)
+```html
+<!-- Simple condition -->
+<sly data-sly-test="${model.hasContent}">
+  <div>Content exists</div>
+</sly>
+
+<!-- Store result in variable -->
+<sly data-sly-test.hasContent="${model.items && model.items.size > 0}">
+  <sly data-sly-test="${hasContent}">
+    <!-- Use stored variable -->
+  </sly>
+</sly>
+
+<!-- Negation -->
+<sly data-sly-test="${!model.isEmpty}">
+  <!-- Render when NOT empty -->
+</sly>
+```
+
+**Rules:**
+- Use `data-sly-test` to conditionally render blocks
+- Store boolean results in variables for reuse: `data-sly-test.varName="${expression}"`
+- Prefer explicit conditions over implicit truthiness
+- Use `!` operator for negation, not `== false`
+
+### data-sly-list (Iteration)
+```html
+<!-- Basic iteration -->
+<sly data-sly-list.item="${model.items}">
+  <div>${item.name}</div>
+</sly>
+
+<!-- With index and status -->
+<sly data-sly-list.item="${model.items}">
+  <sly data-sly-test="${itemList.first}">
+    <!-- First item -->
+  </sly>
+  <sly data-sly-test="${itemList.last}">
+    <!-- Last item -->
+  </sly>
+  <sly data-sly-test="${!itemList.last}">,</sly>
+</sly>
+
+<!-- Iterate with begin/end -->
+<sly data-sly-list="${model.items @ begin=0, end=5}">
+  <!-- First 6 items (begin inclusive, end inclusive) -->
+</sly>
+```
+
+**Specification Details:**
+- **Element:** shown for each iteration
+- **Attribute value:** required; iterable object
+- **Attribute identifier:** optional; iteration variable name; creates `itemList` status object
+- **Status object properties:** `itemList.first`, `itemList.last`, `itemList.index`, `itemList.count`
+- **Options:** `@ begin=number, end=number` for slicing (both inclusive)
+
+**Rules:**
+- Always specify iteration variable name: `data-sly-list.itemName`
+- Use `itemList.first`, `itemList.last`, `itemList.index`, `itemList.count` for iteration status
+- Use `itemList.last` check for comma-separated lists in JSON
+- Use `@ begin` and `@ end` for pagination/slicing (both indices are inclusive)
+- Element is rendered for each iteration
+
+### data-sly-repeat (Alternative Iteration)
+```html
+<!-- Similar to data-sly-list but element shown only once, content repeated -->
+<div data-sly-repeat.item="${model.items}">
+  ${item.name}
+</div>
+```
+
+**Rules:**
+- Use when you want the element wrapper shown once, content repeated
+- Less commonly used than `data-sly-list`
+
+### data-sly-call (Template Call)
+```html
+<!-- Call template with parameters -->
+<sly data-sly-call="${template.myTemplate @ param1=value1, param2=value2}">
+
+<!-- Call with current context -->
+<sly data-sly-call="${template.item @ item=item}">
+```
+
+**Rules:**
+- Define templates with `data-sly-template` before calling
+- Pass parameters explicitly using `@ param=value` syntax
+- Use descriptive template names matching their purpose
+
+### data-sly-template (Template Definition)
+```html
+<template data-sly-template.item="${ @ item, model}">
+  <div class="${item.className}">
+    ${item.content @ context="html"}
+  </div>
+</template>
+```
+
+**Rules:**
+- Define templates at the top of files or in separate template files
+- Use `@` to indicate parameter list
+- List all parameters explicitly: `${ @ param1, param2}`
+- Use descriptive template names
+
+### data-sly-resource (Resource Inclusion)
+```html
+<!-- Include child resource -->
+<sly data-sly-resource="${child.path}"></sly>
+
+<!-- Include with specific resource type -->
+<sly data-sly-resource="${child.path @ resourceType='my/component'}"></sly>
+
+<!-- Include with decoration -->
+<sly data-sly-resource="${child.path @ decorationTagName='section'}"></sly>
+```
+
+**Rules:**
+- Use for including child components/resources
+- Specify `resourceType` when overriding component type
+- Use `decorationTagName` for semantic HTML wrapping
+
+### data-sly-set (Variable Assignment)
+```html
+<!-- Set simple variable -->
+<sly data-sly-set.title="${model.title || 'Default Title'}">
+
+<!-- Set with expression -->
+<sly data-sly-set.fullName="${[model.firstName, model.lastName] @ join=' '}">
+
+<!-- Use variable -->
+<div>${title}</div>
+```
+
+**Rules:**
+- Use for complex expressions that are reused multiple times
+- Prefer descriptive variable names
+- Use `@ join` for array concatenation
+
+### data-sly-include (File Include)
+```html
+<!-- Include another HTL file -->
+<sly data-sly-include="./partial.html"></sly>
+
+<!-- Include with context -->
+<sly data-sly-include="${template.path}"></sly>
+```
+
+**Rules:**
+- Use relative paths for includes
+- Prefer `data-sly-use` + `data-sly-call` over `data-sly-include` for templates
+- Use `data-sly-include` for static file includes
+
+### data-sly-element (Dynamic Element)
+```html
+<!-- Render different HTML elements -->
+<div data-sly-element="${model.tagName}">
+  Content
+</div>
+```
+
+**Rules:**
+- Use when element type is determined at runtime
+- Ensure model provides valid HTML element names
+- Validate element names to prevent XSS
+
+### data-sly-text (Text Content)
+```html
+<!-- Replace element content -->
+<p data-sly-text="${properties.jcr:title}">This text would never be shown.</p>
+<p data-sly-text="${'<strong>Bold</strong>' @ context='html'}"></p>
+```
+
+**Specification Details:**
+- **Element:** always shown
+- **Content:** replaced with evaluated result
+- **Attribute value:** required; evaluates to `String`
+- **Auto XSS protection:** uses `text` context unless overridden
+- **Falsy values:** Cast to strings (empty string, empty array output empty; `0` outputs "0", `false` outputs "false")
+
+**Rules:**
+- Use to annotate designer HTML without modifying mock content
+- Content is automatically XSS-protected with `text` context
+
+### data-sly-attribute (Dynamic Attributes)
+```html
+<!-- Single attribute -->
+<div class="className" data-sly-attribute.class="${myVar}">  <!-- Overwrites class -->
+
+<!-- Multiple attributes from Map -->
+<div data-sly-attribute="${model.attributes}">
+<!-- Assuming model.attributes = {'id': 'foo', 'class': 'bar'} -->
+<!-- outputs: <div id="foo" class="bar"> -->
+```
+
+**Specification Details:**
+- **Element:** always shown
+- **Content:** always shown
+- **Attribute value:** optional; `String` for content, `Boolean` for boolean attributes, `Object` (Map) for multiple attributes
+- **Attribute identifier:** optional; attribute name; must be omitted if value is `Object`
+- **Processing order:** Left-to-right (later attributes override earlier)
+- **Empty values:** Empty string removes the attribute
+- **XSS protection:** Attribute name and content automatically protected
+- **Restrictions:** Cannot generate `on*` event handlers or `style` attribute (no safe context)
+
+**Rules:**
+- Use for conditional or dynamic attributes
+- Can accept Map of attributes for multiple at once
+- Empty string values remove attributes
+- Attributes processed left-to-right
+- Cannot use for event handlers (`onclick`, etc.) or `style` attribute
+
+## Expression Language Details
+
+### Operators
+
+#### Logical Operators (Precedence Order)
+```html
+${varOne && !(varTwo || varThree)}  <!-- 1. Grouping parenthesis -->
+${!myVar}                            <!-- 2. Logical NOT -->
+${varOne && varTwo}                  <!-- 3. Logical AND -->
+${varOne || varTwo}                  <!-- 4. Logical OR -->
+${varChoice ? varOne : varTwo}       <!-- 5. Conditional (ternary) - ':' must have spaces -->
+```
+
+**Rules:**
+- `&&` and `||` work like JavaScript: return operand value, not just boolean
+- Use `||` for default values: `${properties.title || 'Default'}`
+- Ternary operator `:` separator must be surrounded by spaces
+
+#### Comparison Operators (Strict, No Type Conversion)
+```html
+${stringValueOne == stringValueTwo}    <!-- String comparison (like JS ===) -->
+${stringValueOne != stringValueTwo}    <!-- String comparison (like JS !==) -->
+${numberValueOne < numberValueTwo}     <!-- Number comparison -->
+${numberValueOne <= numberValueTwo}    <!-- Number comparison -->
+${numberValueOne == numberValueTwo}    <!-- Number comparison -->
+${numberValueOne >= numberValueTwo}    <!-- Number comparison -->
+${numberValueOne > numberValueTwo}     <!-- Number comparison -->
+${booleanValueOne == booleanValueTwo}  <!-- Boolean comparison -->
+${nullValueOne == nullValueTwo}        <!-- Null comparison -->
+${enumConstant == 'CONSTANT_NAME'}     <!-- Java Enum comparison -->
+```
+
+**Rules:**
+- `==` and `!=` are strict (like JavaScript `===` and `!==`)
+- No automatic type conversion between operands
+- Use same type for both operands
+
+#### Relational Operator: `in`
+```html
+<!-- Check if string contains substring (case-sensitive) -->
+${'a' in 'abc'}        <!-- returns true -->
+${'ab' in 'abc'}       <!-- returns true -->
+${'d' in 'abc'}        <!-- returns false -->
+
+<!-- Check if array/list contains value -->
+${100 in myArray}      <!-- returns true if 100 in array -->
+
+<!-- Check if object/Map has property/key -->
+${'a' in logic}        <!-- returns true if object has property 'a' -->
+```
+
+### Type Casting
+
+#### Boolean Casting
+These evaluate to **false**:
+- `false`
+- `0` (zero)
+- `''` or `""` (empty string)
+- `[]` (empty iterable)
+
+These evaluate to **true**:
+- `"false"` (non-empty string, even if content is "false")
+- `[0]` (non-empty iterable)
+
+#### String Casting
+```html
+${0}              <!-- outputs: 0 -->
+${true}           <!-- outputs: true -->
+${false}          <!-- outputs: false -->
+${[1, 2, 3]}      <!-- outputs: 1,2,3 -->
+${[true, false]}  <!-- outputs: true,false -->
+${['foo', 'bar']} <!-- outputs: foo,bar -->
+${['foo', '']}    <!-- outputs: foo, -->
+```
+
+### Expression Options
+
+Options modify expression behavior using `@ optionName` or `@ optionName=value` syntax:
+
+```html
+<!-- Option without value -->
+${myVar @ optName}
+
+<!-- Option with identifier or literal value -->
+${myVar @ optName=myVar}
+${myVar @ optName=true}
+${myVar @ optName=42}
+${myVar @ optName='string'}
+${myVar @ optName="string"}
+${myVar @ optName=[myVar, 'string']}
+
+<!-- Multiple options -->
+${myVar @ optOne, optTwo=myVar, optThree='string'}
+```
+
+## Expression Context and Escaping
+
+### Context Types (Complete List)
+
+| Context | When to use | What it does |
+|---------|-------------|--------------|
+| `text` | Default for content inside HTML Text Nodes | Encodes all HTML special characters |
+| `html` | To safely output markup | Filters HTML to remove dangerous tags |
+| `attribute` | Default for attribute values | Encodes all HTML special characters |
+| `attributeName` | Default for data-sly-attribute when setting attribute names | Validates attribute name, outputs nothing if validation fails |
+| `elementName` | Default for data-sly-element | Validates element name, outputs nothing if validation fails |
+| `uri` | Default for `action`, `cite`, `data`, `formaction`, `href`, `manifest`, `poster`, `src` attributes | Validates URI, outputs nothing if validation fails |
+| `scriptToken` | For JavaScript identifiers, literal numbers, or literal strings | Validates JavaScript token, outputs nothing if validation fails |
+| `scriptString` | Within JavaScript strings | Encodes characters that would break out of string |
+| `scriptComment` | Within JavaScript comments | Validates JavaScript comment, outputs nothing if validation fails |
+| `styleToken` | For CSS identifiers, numbers, dimensions, strings, hex colours or functions | Validates CSS token, outputs nothing if validation fails |
+| `styleString` | Within CSS strings | Encodes characters that would break out of string |
+| `styleComment` | Within CSS comments | Validates CSS comment, outputs nothing if validation fails |
+| `number` | To display numbers | Validates value is a number, outputs nothing if validation fails |
+| `unsafe` | When all other contexts are too restrictive | **Disables escaping and XSS protection completely** |
+
+**Automatic Context Detection:**
+- HTML attributes like `href`, `src`, `action` automatically use `uri` context
+- Script and style contexts **require explicit context** - expression won't output if context isn't set
+
+**Rules:**
+- **Always specify context** for non-HTML output (JSON, attributes, scripts, styles)
+- Use `@ context="unsafe"` only when content is already sanitized and verified safe
+- Use `@ context="json"` when generating JSON in `.json.html` files
+- Default context is `text` for content, `attribute` for attributes
+- `elementName` context only allows specific HTML5 semantic elements (see spec)
+
+### Format Option
+
+#### String Formatting
+```html
+${'Asset {0}' @ format=properties.assetName}
+${'Asset {0}' @ format=[properties.assetName]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total]}
+${'Asset {0} out of {1}' @ format=[properties.current, properties.total], i18n, locale='de'}
+```
+
+#### Date Formatting
+```html
+${'yyyy-MM-dd' @ format=myDate}
+${'yyyy-MM-dd' @ format=myDate, type='date'}
+${'yyyy-MM-dd HH:mm' @ format=myDate, timezone='GMT+00:30'}
+${'EEEE, dd MMMM yyyy' @ format=obj.date, locale='de'}
+```
+
+**Date Pattern Letters:**
+- `y` (yy, yyyy) - Year
+- `M` (MM, MMM, MMMM) - Month
+- `d` (dd) - Day in month
+- `E` (EEEE) - Day name in week
+- `H` (HH) - Hour in day (0-23)
+- `h` (hh) - Hour in am/pm
+- `m` (mm) - Minute
+- `s` (ss) - Second
+- `S` (SSS) - Millisecond
+- `z`, `Z`, `X` - Time zones
+
+#### Number Formatting
+```html
+${'#.00' @ format=42}
+${'#.00' @ format=myNumber, type='number'}
+${'#,###.00' @ format=1000}
+${'#.###;-#.###' @ format=obj.number}
+${'#%' @ format=obj.number}
+```
+
+**Number Pattern Characters:**
+- `0` - digit, shows as 0 if absent
+- `#` - digit, does not show if absent
+- `.` - decimal separator
+- `,` - grouping separator
+- `;` - sub-pattern boundary (positive;negative)
+- `%` - multiply by 100 and show as percentage
+- `E` - separator between mantissa and exponent
+
+### i18n Option
+```html
+${'Assets' @ i18n}                                    <!-- Translates to resource language -->
+${'Assets' @ i18n, locale='en-US', hint='Translation Hint'}  <!-- Override locale with hint -->
+```
+
+**Rules:**
+- Use for all user-facing strings
+- `locale` overrides resource language (e.g., `en_US`, `fr_CH`)
+- `hint` provides context for translators
+
+### Array Join Option
+```html
+${['one', 'two'] @ join='; '}              <!-- outputs: one; two -->
+<span class="${myListOfClassNames @ join=' '}"></span>
+${'test' @ join=', '}                       <!-- outputs: test (no change for strings) -->
+```
+
+### URI Manipulation Options
+
+```html
+<!-- Scheme -->
+${'//example.com/path' @ scheme='http'}     <!-- outputs: http://example.com/path -->
+${'http://example.com' @ scheme='https'}     <!-- outputs: https://example.com -->
+
+<!-- Domain -->
+${'///path/page.html' @ domain='example.org'}  <!-- outputs: //example.org/path/page.html -->
+
+<!-- Path manipulation -->
+${'one' @ appendPath='two'}                  <!-- outputs: one/two -->
+${'path' @ prependPath='..'}                 <!-- outputs: ../path -->
+${'path/page.html' @ path='that/two'}        <!-- outputs: that/two.html -->
+
+<!-- Selectors -->
+${'path/page.woo.foo.html' @ selectors='foo.bar'}      <!-- outputs: path/page.foo.bar.html -->
+${'path/page.woo.foo.html' @ addSelectors='foo.bar'}   <!-- outputs: path/page.woo.foo.foo.bar.html -->
+${'path/page.woo.foo.html' @ removeSelectors='foo.bar'} <!-- outputs: path/page.woo.html -->
+
+<!-- Extension -->
+${'path/page' @ extension='html'}           <!-- outputs: path/page.html -->
+${'path/page.json' @ extension='html'}       <!-- outputs: path/page.html -->
+
+<!-- Suffix -->
+${'path/page.html' @ suffix='my/suffix'}    <!-- outputs: path/page.html/my/suffix -->
+
+<!-- Query -->
+${'http://example.org/search' @ query=jsuse.query, context='uri'}
+${'http://example.org/search?s=1' @ addQuery=jsuse.query, context='uri'}
+${'http://example.org/search?s=1&q=htl' @ removeQuery='q', context='uri'}
+
+<!-- Fragment -->
+${'path/page' @ fragment='fragment'}         <!-- outputs: path/page#fragment -->
+```
+
+## JSON-HTL Templates (.json.html)
+
+### Structure
+```html
+<sly data-sly-use.model="ai.typerefinery.websight.models.MyModel">
+{
+  "type": "${properties.type}",
+  "props": {
+    "name": "${properties.name}",
+    "value": ${model.value @ context="json"},
+    "items": [
+      <sly data-sly-list.item="${model.items}">
+        {
+          "key": "${item.key}",
+          "value": ${item.value @ context="json"}
+        }<sly data-sly-test="${!itemList.last}">,</sly>
+      </sly>
+    ]
+  }
+}
+</sly>
+```
+
+**Rules:**
+- Use `@ context="json"` for all JSON values
+- Handle comma separation manually with `itemList.last` checks
+- Keep JSON structure valid (proper commas, brackets, quotes)
+- Use `<sly>` tags for control flow, not HTML elements
+- Boolean and numeric values don't need quotes in JSON
+
+## Common Patterns
+
+### Conditional Rendering with Fallback
+```html
+<!-- Find child resource by iterating (HTL doesn't support method calls with parameters) -->
+<sly data-sly-list.child="${resource.children}">
+  <sly data-sly-test="${child.name == 'datasource'}">
+    <!-- Use datasource child -->
+    <sly data-sly-use.datasource="${child}">
+      <!-- Process datasource -->
+    </sly>
+  </sly>
+</sly>
+<!-- Fallback if no datasource found -->
+<sly data-sly-test="${!datasource}">
+  <!-- Fallback path -->
+</sly>
+```
+
+### Resource Type Checking
+```html
+<sly data-sly-test="${item['sling:resourceType'] == 'my/component'}">
+  <!-- Handle specific resource type -->
+</sly>
+```
+
+### Null-Safe Property Access
+```html
+<!-- Use || operator for defaults -->
+${properties.name || 'default'}
+
+<!-- Check existence before access -->
+<sly data-sly-test="${properties.name}">
+  ${properties.name}
+</sly>
+```
+
+### Array Operations
+```html
+<!-- Join array -->
+${[item1, item2, item3] @ join=', '}
+
+<!-- Format string -->
+${'Hello {0}' @ format=model.name}
+```
+
+## Best Practices
+
+### 1. Template Organization
+- **Separate templates**: Put reusable templates in separate files
+- **Template naming**: Use descriptive names: `item`, `list`, `card`, etc.
+- **File structure**: Keep templates close to components that use them
+
+### 2. Variable Naming
+- **Model variables**: Use `model` for Sling Models
+- **Template variables**: Use `template` for loaded templates
+- **Item variables**: Use descriptive names: `item`, `child`, `paragraph`
+- **Boolean flags**: Use descriptive names: `hasContent`, `isActive`, `isEmpty`
+
+### 3. Performance
+- **Minimize model calls**: Load models once, reuse variables
+- **Avoid nested loops**: Flatten data structures in models when possible
+- **Cache expensive operations**: Use `data-sly-set` for repeated calculations
+
+### 4. Readability
+- **Indentation**: Maintain consistent indentation (2 spaces)
+- **Comments**: Add comments for complex logic
+- **Line breaks**: Break long expressions across lines
+- **Group related blocks**: Keep related HTL blocks together
+
+### 5. Error Handling
+- **Null checks**: Always check for null/empty before accessing properties
+- **Default values**: Use `||` operator for defaults
+- **Graceful degradation**: Provide fallback content when data is missing
+
+## Anti-Patterns to Avoid
+
+### ❌ Don't: Inline Logic
+```html
+<!-- BAD: Complex logic in template -->
+<sly data-sly-test="${model.items.size() > 0 && model.items.get(0).isActive}">
+```
+
+### ✅ Do: Logic in Model
+```java
+// In Sling Model
+public boolean hasActiveItems() {
+  return items != null && !items.isEmpty() && items.get(0).isActive();
+}
+```
+```html
+<!-- GOOD: Simple check in template -->
+<sly data-sly-test="${model.hasActiveItems}">
+```
+
+### ❌ Don't: Missing Context
+```html
+<!-- BAD: Missing context for JSON -->
+{
+  "value": ${model.value}
+}
+```
+
+### ✅ Do: Specify Context
+```html
+<!-- GOOD: Explicit context -->
+{
+  "value": ${model.value @ context="json"}
+}
+```
+
+### ❌ Don't: Hardcoded Paths
+```html
+<!-- BAD: Hardcoded absolute path -->
+<sly data-sly-use.template="/apps/myapp/components/template.html">
+```
+
+### ✅ Do: Relative Paths
+```html
+<!-- GOOD: Relative path -->
+<sly data-sly-use.template="./template.html">
+```
+
+## Code Review Checklist
+
+- [ ] All expressions use appropriate context (`@ context="..."`)
+- [ ] No business logic in templates (moved to Sling Models)
+- [ ] Variables use descriptive names
+- [ ] Null checks present for property access
+- [ ] JSON templates use `@ context="json"` for values
+- [ ] Comma separation handled correctly in JSON arrays
+- [ ] Template calls use explicit parameter passing
+- [ ] No hardcoded absolute paths
+- [ ] Consistent indentation and formatting
+- [ ] Comments added for complex logic
+
+## Block Statement Priority
+
+Block statements are evaluated in this order (highest to lowest priority):
+
+1. `data-sly-include`
+2. `data-sly-set`, `data-sly-test`, `data-sly-use`
+3. `data-sly-call`
+4. `data-sly-text`
+5. `data-sly-element`, `data-sly-resource`
+6. `data-sly-unwrap`
+7. `data-sly-list`, `data-sly-repeat`
+8. `data-sly-attribute`
+
+When two block statements have the same priority, evaluation is left-to-right.
+
+## Special HTML Tags
+
+### `<sly>` Tag
+```html
+<!-- Remove element, show only children -->
+<sly data-sly-resource="./header"></sly>
+
+<!-- Display <sly> tag in output (not recommended) -->
+<sly data-sly-unwrap="${false}"></sly>  <!-- outputs: <sly></sly> -->
+```
+
+**Rules:**
+- `<sly>` is not a valid HTML5 tag but is supported by HTL
+- Use to remove wrapper element, display only children
+- Similar functionality to `data-sly-unwrap`
+- Prefer `<sly>` over `data-sly-unwrap` for cleaner syntax
+
+## Comments
+
+### HTL Comments
+```html
+<!--/* HTL comments are removed from output */-->
+<!--/* Can contain any characters except '*/-->' */-->
+```
+
+### HTML Comments with Expressions
+```html
+<!-- Page title: ${currentPage.jcr:title} -->
+<!-- Expressions in HTML comments are evaluated, block statements are not -->
+```
+
+**Rules:**
+- HTL comments: `<!--/* */-->` - completely removed from output
+- HTML comments: `<!-- -->` - expressions evaluated, block statements ignored
+- Use HTML comments for debugging output
+- Use HTL comments for template documentation
+
+## Whitespace
+
+Whitespace is allowed between any part of an expression:
+
+```html
+<!-- Recommended spacing style -->
+${myVar @ argOne, argTwo=myVar, argThree='string'}
+
+<!-- Spaces everywhere (also valid) -->
+${ myVar @ argOne , argTwo = myVar , argThree = 'string' }
+```
+
+**Rules:**
+- Use consistent spacing style
+- Recommended: no spaces around `@`, spaces after commas
+- Spaces around `=` are optional but recommended for readability
+
+## References
+
+- **Full HTL Specification:** `.cursor/rules/htl-specification.md` (local copy)
+- **HTL Specification (Online):** https://github.com/adobe/htl-spec/blob/master/SPECIFICATION.md
+- **AEM HTL Documentation:** https://experienceleague.adobe.com/docs/experience-manager-htl/content/overview.html
+- **Sling Models:** https://sling.apache.org/documentation/bundles/models.html
+- **Java Use-API:** https://experienceleague.adobe.com/en/docs/experience-manager-htl/content/java-use-api
