@@ -55,12 +55,12 @@ To expose options to this dialog field, a component must define the following re
 With the dialog registration:
 
 ```json
-"eventactions": {
-  "sling:resourceType": "typerefinery/components/dialog/eventactions",
+      "eventactions": {
+        "sling:resourceType": "typerefinery/components/dialog/eventactions",
   "name": "./eventAction",
   "label": "Event action",
   "description": "Select how this component responds to events",
-  "required": true
+        "required": true
 }
 ```
 
