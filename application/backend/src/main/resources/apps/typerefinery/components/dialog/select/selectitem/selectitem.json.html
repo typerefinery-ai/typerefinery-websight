@@ -1,6 +1,6 @@
 <template data-sly-template.item="${ @ item}">
   {
-      "label": "${item.label}",
+      "label": "${item.label || item.key || item.value}",
       "value": "${item.value}"
       <sly data-sly-test="${item.selected}">,
           "selected": ${item.selected}

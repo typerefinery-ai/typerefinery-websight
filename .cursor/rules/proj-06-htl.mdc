@@ -540,6 +540,70 @@ ${'path/page' @ fragment='fragment'}         <!-- outputs: path/page#fragment --
 - Use `<sly>` tags for control flow, not HTML elements
 - Boolean and numeric values don't need quotes in JSON
 
+### Passing Configuration from .content.json to JS Components
+
+**CRITICAL RULE**: When creating dialog components that render React/JS components, you MUST pass ALL configuration properties from `.content.json` to the JS component props, including optional flags.
+
+**Pattern:**
+```html
+{
+  "type": "/apps/typerefinery/components/dialog/select/Select.js",
+  "props": {
+    "name": "${properties.name}",
+    "label": "${properties.label}",
+    "description": "${properties.description}",
+    "allowCreate": ${properties.allowCreate || false},
+    "required": ${properties.required || false},
+    "isColour": ${properties.isColour || false},
+    "isIcon": ${properties.isIcon || false},
+    "options": [...]
+  }
+}
+```
+
+**Rules:**
+- **Always pass all properties**: Include ALL properties from `.content.json` that the JS component might use
+- **Use fallback values**: Use `|| false` for booleans, `|| ''` for strings, `|| 0` for numbers
+- **Consistent across branches**: If you have conditional rendering (e.g., datasource vs inline), pass the same props in ALL branches
+- **Boolean handling**: Use `${properties.flag || false}` not `"${properties.flag}"` (no quotes for booleans in JSON)
+- **Document props**: Document which properties are supported in component README
+
+**Example with Conditional Branches:**
+```html
+<!--/* Datasource branch */-->
+<sly data-sly-test="${datasourceChild}">
+  {
+    "type": "/apps/typerefinery/components/dialog/select/Select.js",
+    "props": {
+      "name": "${properties.name}",
+      "label": "${properties.label}",
+      "isColour": ${properties.isColour || false},
+      "isIcon": ${properties.isIcon || false},
+      "options": <sly data-sly-resource="${datasourceChild.path}"></sly>
+    }
+  }
+</sly>
+<!--/* Fallback branch - MUST include same props */-->
+<sly data-sly-test="${!datasourceChild}">
+  {
+    "type": "/apps/typerefinery/components/dialog/select/Select.js",
+    "props": {
+      "name": "${properties.name}",
+      "label": "${properties.label}",
+      "isColour": ${properties.isColour || false},
+      "isIcon": ${properties.isIcon || false},
+      "options": [...]
+    }
+  }
+</sly>
+```
+
+**Common Mistakes to Avoid:**
+- ❌ Forgetting to pass optional flags in one branch but not the other
+- ❌ Using quotes around boolean values: `"isColour": "${properties.isColour}"` (wrong)
+- ❌ Missing fallback values: `"isColour": ${properties.isColour}` (will be `null` if undefined)
+- ✅ Correct: `"isColour": ${properties.isColour || false}`
+
 ## Common Patterns
 
 ### Conditional Rendering with Fallback
@@ -744,6 +808,257 @@ ${ myVar @ argOne , argTwo = myVar , argThree = 'string' }
 - Use consistent spacing style
 - Recommended: no spaces around `@`, spaces after commas
 - Spaces around `=` are optional but recommended for readability
+
+## Clientlibs in HTL
+
+### Including Clientlibs in HTL Templates
+
+**REQUIRED**: Use `ClientLibsModel` Sling Model to include clientlibs (CSS and JS) in HTL templates.
+
+**Pattern:**
+```html
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='category-name',
+    debug=true,
+    crossorigin='anonymous'}">
+  ${clientlibs.cssIncludes @ context="unsafe"}
+  ${clientlibs.jsIncludes @ context="unsafe"}
+</sly>
+```
+
+**Available Methods:**
+- `cssIncludes`: Returns HTML `<link>` tags for CSS files
+- `jsIncludes`: Returns HTML `<script>` tags for JS files
+- `jsAndCssIncludes`: Returns both CSS and JS includes
+- `cssInline`: Returns inline CSS content
+- `jsInline`: Returns inline JS content
+
+**Options:**
+- `categories`: Required; comma-separated list of clientlib categories (e.g., `'ai.typerefinery.websight.components-vendor'`)
+- `debug`: Optional boolean; adds debug comments and cache-busting query strings
+- `crossorigin`: Optional string; sets `crossorigin` attribute (e.g., `'anonymous'`)
+- `async`: Optional boolean; adds `async` attribute to script tags
+- `defer`: Optional boolean; adds `defer` attribute to script tags
+- `media`: Optional string; sets `media` attribute for CSS links
+- `onload`: Optional string; sets `onload` attribute for script tags
+
+**Rules:**
+- **Always use `@ context="unsafe"`**: Clientlib includes return HTML strings that must be output unescaped
+- **CSS in `<head>`**: Include CSS files in the page `<head>` section
+- **JS in `<body>`**: Include JS files at the end of `<body>` or in appropriate sections
+- **Category naming**: Use consistent category names following the pattern `ai.typerefinery.websight.components-*`
+- **Debug mode**: Use `debug=true` during development to see which clientlibs are loaded
+
+**Example: Including CSS in Head**
+```html
+<head>
+  <!-- Vendor CSS (Bootstrap, Font Awesome, etc.) -->
+  <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+      categories='ai.typerefinery.websight.components-vendor',
+      debug=true,
+      crossorigin='anonymous'}">
+    ${clientlibs.cssIncludes @ context="unsafe"}
+  </sly>
+  
+  <!-- Component-specific CSS -->
+  <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+      categories='ai.typerefinery.websight.components',
+      debug=true}">
+    ${clientlibs.cssIncludes @ context="unsafe"}
+  </sly>
+</head>
+```
+
+**Example: Including JS in Body**
+```html
+<body>
+  <!-- Page content -->
+  
+  <!-- Vendor JS -->
+  <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+      categories='ai.typerefinery.websight.components-vendor',
+      debug=true,
+      crossorigin='anonymous'}">
+    ${clientlibs.jsIncludes @ context="unsafe"}
+  </sly>
+  
+  <!-- Component-specific JS -->
+  <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+      categories='ai.typerefinery.websight.components',
+      debug=true}">
+    ${clientlibs.jsIncludes @ context="unsafe"}
+  </sly>
+</body>
+```
+
+**Example: Including Both CSS and JS**
+```html
+<sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+    categories='ai.typerefinery.websight.components-editor',
+    debug=true}">
+  ${clientlibs.jsAndCssIncludes @ context="unsafe"}
+</sly>
+```
+
+### Standard Clientlib Categories
+
+**Vendor Libraries** (`ai.typerefinery.websight.components-vendor`):
+- Bootstrap CSS/JS
+- Font Awesome CSS
+- jQuery
+- Other third-party libraries
+- **Location**: `/apps/typerefinery/components/clientlibs/clientlibs-vendor/`
+
+**Header Libraries** (`ai.typerefinery.websight.components-header`):
+- Libraries needed in page header
+- **Location**: `/apps/typerefinery/components/clientlibs/clientlibs-header/`
+
+**Footer Libraries** (`ai.typerefinery.websight.components-footer`):
+- Libraries loaded at end of body
+- **Location**: `/apps/typerefinery/components/clientlibs/clientlibs-footer/`
+
+**Component Libraries** (`ai.typerefinery.websight.components`):
+- Component-specific CSS/JS
+- Auto-discovered from component `clientlibs/` folders
+- **Location**: `/apps/typerefinery/components/*/clientlibs/`
+
+**Editor Libraries** (`ai.typerefinery.websight.components-editor`):
+- Editor-specific libraries
+- **Location**: `/apps/typerefinery/components/clientlibs/clientlibs-editor/`
+
+### Creating Clientlib Definitions
+
+**Structure:**
+```
+/apps/typerefinery/components/clientlibs/my-clientlib/
+├── .content.json
+└── README.md (optional)
+```
+
+**`.content.json` format:**
+```json
+{
+  "title": "My Client Library",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components-mycategory"],
+  "css": [
+    "/apps/typerefinery/clientlibs/my-lib/style.css"
+  ],
+  "js": [
+    "/apps/typerefinery/clientlibs/my-lib/script.js"
+  ]
+}
+```
+
+**Rules:**
+- Use `sling:resourceType`: `"io/typerefinery/websight/clientlibs"`
+- Define `categories` array with at least one category
+- Use absolute paths starting with `/apps/` for CSS and JS files
+- Paths should point to actual files in the repository
+
+### Page Structure Integration
+
+**Standard page structure includes clientlibs automatically:**
+
+1. **`head.html`** includes `head-libs.html`:
+   ```html
+   <head>
+     <!-- ... meta tags ... -->
+     <sly data-sly-include="head-libs.html"></sly>
+   </head>
+   ```
+
+2. **`head-libs.html`** includes vendor, header, and component CSS:
+   ```html
+   <!-- Vendor CSS -->
+   <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+       categories='ai.typerefinery.websight.components-vendor',
+       debug=true,
+       crossorigin='anonymous'}">
+     ${clientlibs.cssIncludes @ context="unsafe"}
+   </sly>
+   <!-- ... other categories ... -->
+   ```
+
+3. **`body.html`** includes `body-end.html`:
+   ```html
+   <body>
+     <sly data-sly-include="body-content.html"></sly>
+     <sly data-sly-include="body-end.html"></sly>
+   </body>
+   ```
+
+4. **`body-end.html`** includes vendor, header, footer, and component JS:
+   ```html
+   <!-- Vendor JS -->
+   <sly data-sly-use.clientlibs="${'ai.typerefinery.websight.clientlibs.ClientLibsModel' @
+       categories='ai.typerefinery.websight.components-vendor',
+       debug=true,
+       crossorigin='anonymous'}">
+     ${clientlibs.jsIncludes @ context="unsafe"}
+   </sly>
+   <!-- ... other categories ... -->
+   ```
+
+**Rules:**
+- Pages using the standard page structure automatically get clientlibs
+- Custom pages must manually include clientlibs using the pattern above
+- Always include CSS in `<head>` and JS at end of `<body>`
+
+### Component-Specific Clientlibs
+
+**Pattern**: Component clientlibs are auto-discovered if placed in:
+```
+/apps/typerefinery/components/my-component/
+└── clientlibs/
+    ├── .content.json
+    ├── style.css
+    └── script.js
+```
+
+**`.content.json` format:**
+```json
+{
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components"],
+  "css": [
+    "/apps/typerefinery/components/my-component/clientlibs/style.css"
+  ],
+  "js": [
+    "/apps/typerefinery/components/my-component/clientlibs/script.js"
+  ]
+}
+```
+
+**Rules:**
+- Use category `ai.typerefinery.websight.components` for auto-discovery
+- Component clientlibs are automatically included when the page includes component category
+- Keep component clientlibs scoped to the component to avoid conflicts
+
+### Debugging Clientlibs
+
+**Enable debug mode:**
+- Add `debug=true` to `ClientLibsModel` options
+- Or add `?debug=true` to page URL query string
+- Debug mode adds HTML comments showing which clientlibs are loaded
+
+**Verify clientlibs are loaded:**
+```javascript
+// Check if CSS is loaded
+const cssLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+console.log('CSS files:', cssLinks.map(l => l.href));
+
+// Check if JS is loaded
+const jsScripts = Array.from(document.querySelectorAll('script[src]'));
+console.log('JS files:', jsScripts.map(s => s.src));
+```
+
+**Common Issues:**
+- **Clientlibs not loading**: Check category name matches exactly
+- **CSS not applying**: Verify CSS file path is correct and file exists
+- **JS errors**: Check JS file path and browser console for errors
+- **Missing dependencies**: Ensure vendor libraries load before component libraries
 
 ## References
 

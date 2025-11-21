@@ -1,22 +1,50 @@
-{
-  "type": "/apps/typerefinery/components/dialog/select/Select.js",
-  "props": {
-      "name": "${properties.name}",
-      "label": "${properties.label}",
-      "description": "${properties.description}",
-      "allowCreate": "${properties.allowCreate || false}",
-      "required": ${properties.required || false},
-      "options": [
-          <sly data-sly-list.item="${resource.children}"
-              data-sly-use.selectitem="./selectitem/selectitem.json.html"
-              data-sly-use.selectgroup="./selectgroup/selectgroup.json.html">
-            <sly data-sly-test="${item['sling:resourceType']=='typerefinery/components/dialog/select/selectitem'}">
-              <sly data-sly-call="${selectitem.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+<sly data-sly-use.selectitem="./selectitem/selectitem.json.html"
+     data-sly-use.selectgroup="./selectgroup/selectgroup.json.html">
+  <!--/* Find datasource child by iterating */-->
+  <sly data-sly-list.child="${resource.children}">
+    <sly data-sly-test="${child.name == 'datasource' && child['sling:resourceType'] == 'typerefinery/components/dialog/datasources/content'}"
+         data-sly-set.datasourceChild="${child}">
+    </sly>
+  </sly>
+  <!--/* Use datasource if found */-->
+  <sly data-sly-test="${datasourceChild}">
+    {
+      "type": "/apps/typerefinery/components/dialog/select/Select.js",
+      "props": {
+          "name": "${properties.name}",
+          "label": "${properties.label}",
+          "description": "${properties.description}",
+          "allowCreate": "${properties.allowCreate || false}",
+          "required": ${properties.required || false},
+          "isColour": ${properties.isColour || false},
+          "isIcon": ${properties.isIcon || false},
+          "options": <sly data-sly-resource="${datasourceChild.path @ resourceType='typerefinery/components/dialog/datasources/content'}"></sly>
+      }
+    }
+  </sly>
+  <!--/* Fallback to inline children if no datasource found */-->
+  <sly data-sly-test="${!datasourceChild}">
+    {
+      "type": "/apps/typerefinery/components/dialog/select/Select.js",
+      "props": {
+          "name": "${properties.name}",
+          "label": "${properties.label}",
+          "description": "${properties.description}",
+          "allowCreate": "${properties.allowCreate || false}",
+          "required": ${properties.required || false},
+          "isColour": ${properties.isColour || false},
+          "isIcon": ${properties.isIcon || false},
+          "options": [
+            <sly data-sly-list.item="${resource.children}">
+              <sly data-sly-test="${item.name != 'datasource' && item['sling:resourceType']=='typerefinery/components/dialog/select/selectitem'}">
+                <sly data-sly-call="${selectitem.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+              </sly>
+              <sly data-sly-test="${item.name != 'datasource' && item['sling:resourceType']=='typerefinery/components/dialog/select/selectgroup'}">
+                <sly data-sly-call="${selectgroup.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
+              </sly>
             </sly>
-            <sly data-sly-test="${item['sling:resourceType']=='typerefinery/components/dialog/select/selectgroup'}">
-              <sly data-sly-call="${selectgroup.item @ item=item}"></sly><sly data-sly-test="${!itemList.last}">,</sly>
-            </sly>
-          </sly>
-      ]
-  }
-}
+          ]
+      }
+    }
+  </sly>
+</sly>
