@@ -1,0 +1,9 @@
+{
+  "title": "Client Libs - Editor",
+  "jcr:primaryType": "sling:Folder",
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.editor"],
+  "css": [
+    "/apps/typerefinery/clientlibs/vendor/fontawesome/css/all.min.css"
+  ]
+}
