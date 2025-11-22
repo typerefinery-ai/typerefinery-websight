@@ -63,36 +63,71 @@ public class FlowJobConsumer implements JobConsumer {
 
     @Override
     public JobResult process(final Job job) {
+        LOGGER.error("FlowJobConsumer.process: Job received. jobId={}, enabled={}", 
+            job != null ? job.getId() : "null", enabled);
 
         this.enabled = flowService.configuration.flow_page_change_listener_enabled();
-        if (enabled) {
-            HashMap<String, ResourceChange.ChangeType> changeMap = job.getProperty("changes", HashMap.class);
+        LOGGER.error("FlowJobConsumer.process: Listener enabled state. enabled={}", enabled);
+        
+        if (!enabled) {
+            LOGGER.error("FlowJobConsumer.process: Listener is disabled, skipping job processing");
+            return JobResult.OK;
+        }
 
-            try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
+        HashMap<String, ResourceChange.ChangeType> changeMap = job.getProperty("changes", HashMap.class);
+        if (changeMap == null || changeMap.isEmpty()) {
+            LOGGER.error("FlowJobConsumer.process: No changes in job. jobId={}", 
+                job != null ? job.getId() : "null");
+            return JobResult.OK;
+        }
 
-                changeMap.forEach((path, changeType) -> {
-                    
-                    Resource resource = resourceResolver.getResource(path);
-                    if (!ResourceUtil.isNonExistingResource(resource)) {
-                        // run resource processing
-                        if(flowService.doProcessFlowResource(resource, changeType) == false)
-                        {
-                            returnProcessFlowError = true;
-                        }
-                    } else {
-                        LOGGER.warn("Could not have access to resource {}.", path);
-                    }
-                });
-                if(returnProcessFlowError == true){
-                    return JobResult.FAILED;
-                }
-                
-            } catch (Exception e) {
-                LOGGER.error("Could not process paths.", e);
+        LOGGER.error("FlowJobConsumer.process: Processing {} resource change(s). jobId={}, changes={}", 
+            changeMap.size(), job != null ? job.getId() : "null", changeMap);
+
+        try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
+            if (resourceResolver == null) {
+                LOGGER.error("FlowJobConsumer.process: Could not get resource resolver");
                 return JobResult.FAILED;
             }
 
+            returnProcessFlowError = false;
+            changeMap.forEach((path, changeType) -> {
+                LOGGER.error("FlowJobConsumer.process: Processing resource change. path={}, changeType={}", 
+                    path, changeType);
+                
+                Resource resource = resourceResolver.getResource(path);
+                if (resource == null) {
+                    LOGGER.error("FlowJobConsumer.process: Resource is null. path={}", path);
+                } else if (ResourceUtil.isNonExistingResource(resource)) {
+                    LOGGER.error("FlowJobConsumer.process: Resource does not exist. path={}", path);
+                } else {
+                    LOGGER.error("FlowJobConsumer.process: Calling doProcessFlowResource. path={}, changeType={}", 
+                        path, changeType);
+                    boolean result = flowService.doProcessFlowResource(resource, changeType);
+                    LOGGER.error("FlowJobConsumer.process: doProcessFlowResource result. path={}, result={}", 
+                        path, result);
+                    if (!result) {
+                        LOGGER.error("FlowJobConsumer.process: doProcessFlowResource returned false. path={}", path);
+                        returnProcessFlowError = true;
+                    }
+                }
+            });
+            
+            if (returnProcessFlowError) {
+                LOGGER.error("FlowJobConsumer.process: Job processing failed. jobId={}", 
+                    job != null ? job.getId() : "null");
+                return JobResult.FAILED;
+            }
+            
+            LOGGER.error("FlowJobConsumer.process: Job processing completed successfully. jobId={}", 
+                job != null ? job.getId() : "null");
+            
+        } catch (Exception e) {
+            LOGGER.error("FlowJobConsumer.process: Exception processing job. jobId={}", 
+                job != null ? job.getId() : "null", e);
+            return JobResult.FAILED;
         }
+
         return JobResult.OK;
     }
 }

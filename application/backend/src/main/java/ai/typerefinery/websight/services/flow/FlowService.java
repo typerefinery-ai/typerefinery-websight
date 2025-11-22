@@ -194,96 +194,152 @@ public class FlowService {
     public boolean doProcessFlowResource(@NotNull Resource resource, @NotNull ResourceChange.ChangeType changeType) {
         ResourceResolver resourceResolver = resource.getResourceResolver();
         if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
+            LOGGER.error("doProcessFlowResource: Resource is non-existing or resolver is null. path={}, changeType={}", 
+                resource != null ? resource.getPath() : "null", changeType);
             return false;
         }
         String resourcePath = resource.getPath();
+        
+        LOGGER.error("doProcessFlowResource: Processing resource. path={}, changeType={}", resourcePath, changeType);
+        
         FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
-            LOGGER.error("Could not adapt resource to FlowComponent: {}", resource.getPath());
+            LOGGER.error("doProcessFlowResource: Could not adapt resource to FlowComponent. path={}", resourcePath);
             return false;
         }
 
         boolean flowapiEnable = Boolean.TRUE.equals(flowComponent.flowapi_enable);
         String flowapiTemplate = flowComponent.flowapi_template;
+        String flowapiFlowstreamid = flowComponent.flowapi_flowstreamid;
+
+        LOGGER.error("doProcessFlowResource: Flow component state. path={}, flowapi_enable={}, flowapi_template={}, flowapi_flowstreamid={}", 
+            resourcePath, flowapiEnable, flowapiTemplate, flowapiFlowstreamid);
 
         if (!flowapiEnable) {
-            if (StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid)) {
-                processPauseChange(resource, flowComponent.flowapi_flowstreamid, true);
+            LOGGER.error("doProcessFlowResource: Flow is disabled. Attempting to pause flow. path={}, flowstreamid={}", 
+                resourcePath, flowapiFlowstreamid);
+            if (StringUtils.isNotBlank(flowapiFlowstreamid)) {
+                boolean pauseResult = processPauseChange(resource, flowapiFlowstreamid, true);
+                LOGGER.error("doProcessFlowResource: Pause result. path={}, flowstreamid={}, pauseResult={}", 
+                    resourcePath, flowapiFlowstreamid, pauseResult);
+            } else {
+                LOGGER.error("doProcessFlowResource: Flow is disabled but no flowstreamid exists. path={}", resourcePath);
             }
             return true;
         }
 
         if (StringUtils.isBlank(flowapiTemplate)) {
-            LOGGER.info("nothing to do, template not found: {}", flowapiTemplate);
+            LOGGER.error("doProcessFlowResource: Flow is enabled but template is blank. path={}, flowapi_enable={}", 
+                resourcePath, flowapiEnable);
             return false;
         }
 
         boolean templateExists = PageUtil.isResourceExists(flowapiTemplate, resourceResolver);
         if (!templateExists) {
-            LOGGER.info("nothing to do, template not found: {}", flowapiTemplate);
+            LOGGER.error("doProcessFlowResource: Flow is enabled but template does not exist. path={}, template={}", 
+                resourcePath, flowapiTemplate);
             return false;
         }
+
+        LOGGER.error("doProcessFlowResource: Template exists. path={}, template={}", resourcePath, flowapiTemplate);
 
         boolean hasStoredFlowId = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid);
         boolean flowExists = false;
         if (hasStoredFlowId) {
+            LOGGER.error("doProcessFlowResource: Checking if flow exists remotely. path={}, flowstreamid={}", 
+                resourcePath, flowComponent.flowapi_flowstreamid);
             try {
                 flowExists = isFlowExists(flowComponent.flowapi_flowstreamid);
+                LOGGER.error("doProcessFlowResource: Flow existence check result. path={}, flowstreamid={}, exists={}", 
+                    resourcePath, flowComponent.flowapi_flowstreamid, flowExists);
             } catch (Exception exception) {
-                LOGGER.warn("Could not verify flow existence for {}: {}", flowComponent.flowapi_flowstreamid, exception.getMessage());
-                flowExists = true;
+                LOGGER.error("doProcessFlowResource: Exception checking flow existence. path={}, flowstreamid={}, error={}", 
+                    resourcePath, flowComponent.flowapi_flowstreamid, exception.getMessage(), exception);
+                flowExists = true; // Assume exists on error to avoid recreation
             }
+        } else {
+            LOGGER.error("doProcessFlowResource: No stored flow ID. Will create new flow. path={}", resourcePath);
         }
 
         if (!hasStoredFlowId) {
+            LOGGER.error("doProcessFlowResource: Creating new flow from template. path={}, template={}", 
+                resourcePath, flowapiTemplate);
             String newFlowId = createFlowFromTemplate(flowComponent);
             if (StringUtils.isNotBlank(newFlowId)) {
+                LOGGER.error("doProcessFlowResource: Flow created successfully. path={}, newFlowId={}", 
+                    resourcePath, newFlowId);
                 Resource updatedResource = resourceResolver.getResource(resourcePath);
                 if (updatedResource != null) {
                     FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
-                    processPauseChange(updatedResource, newFlowId, false);
+                    boolean unpauseResult = processPauseChange(updatedResource, newFlowId, false);
+                    LOGGER.error("doProcessFlowResource: Unpause after creation. path={}, flowstreamid={}, unpauseResult={}", 
+                        resourcePath, newFlowId, unpauseResult);
                     if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
+                        LOGGER.error("doProcessFlowResource: Updating flow design from template. path={}, flowstreamid={}", 
+                            resourcePath, newFlowId);
                         updateFlowDesignFromTemplate(updatedComponent);
                     }
+                } else {
+                    LOGGER.error("doProcessFlowResource: Could not get updated resource after flow creation. path={}, newFlowId={}", 
+                        resourcePath, newFlowId);
                 }
             } else {
-                LOGGER.info("could not create flow from template: {}", flowapiTemplate);
+                LOGGER.error("doProcessFlowResource: Failed to create flow from template. path={}, template={}", 
+                    resourcePath, flowapiTemplate);
             }
             return true;
         }
 
-        processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
+        LOGGER.error("doProcessFlowResource: Flow ID exists, ensuring flow is unpaused. path={}, flowstreamid={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid);
+        boolean unpauseResult = processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
+        LOGGER.error("doProcessFlowResource: Unpause result. path={}, flowstreamid={}, unpauseResult={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid, unpauseResult);
 
         if (!flowExists) {
-            LOGGER.info("Flow {} stored on resource {} but remote flow could not be found. Recreating flow from template.", flowComponent.flowapi_flowstreamid, resourcePath);
+            LOGGER.error("doProcessFlowResource: Flow ID stored but remote flow not found. Recreating. path={}, flowstreamid={}", 
+                resourcePath, flowComponent.flowapi_flowstreamid);
             String newFlowId = createFlowFromTemplate(flowComponent);
             if (StringUtils.isNotBlank(newFlowId)) {
+                LOGGER.error("doProcessFlowResource: Flow recreated successfully. path={}, oldFlowId={}, newFlowId={}", 
+                    resourcePath, flowComponent.flowapi_flowstreamid, newFlowId);
                 Resource updatedResource = resourceResolver.getResource(resourcePath);
                 if (updatedResource != null) {
                     FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
-                    processPauseChange(updatedResource, newFlowId, false);
+                    boolean unpauseResult2 = processPauseChange(updatedResource, newFlowId, false);
+                    LOGGER.error("doProcessFlowResource: Unpause after recreation. path={}, flowstreamid={}, unpauseResult={}", 
+                        resourcePath, newFlowId, unpauseResult2);
                     if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(updatedComponent);
                     }
                 }
             } else {
-                LOGGER.info("could not recreate flow from template: {}", flowapiTemplate);
+                LOGGER.error("doProcessFlowResource: Failed to recreate flow from template. path={}, template={}", 
+                    resourcePath, flowapiTemplate);
             }
             return true;
         }
 
         // Check if metadata has actually changed by comparing with Flow service
+        LOGGER.error("doProcessFlowResource: Checking metadata changes. path={}, flowstreamid={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid);
         boolean metadataChanged = hasMetadataChanged(flowComponent, flowComponent.flowapi_flowstreamid);
+        LOGGER.error("doProcessFlowResource: Metadata change check result. path={}, flowstreamid={}, metadataChanged={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid, metadataChanged);
+        
         if (!metadataChanged) {
-            LOGGER.info("No metadata changes detected for flowstreamid={}, skipping update", flowComponent.flowapi_flowstreamid);
+            LOGGER.error("doProcessFlowResource: No metadata changes detected, skipping update. path={}, flowstreamid={}", 
+                resourcePath, flowComponent.flowapi_flowstreamid);
             return true;
         }
 
-        LOGGER.info("Flow metadata update triggered for resource={}, flowstreamid={}", 
+        LOGGER.error("doProcessFlowResource: Metadata changes detected, updating flow. path={}, flowstreamid={}", 
             resourcePath, flowComponent.flowapi_flowstreamid);
         updateFlowFromTemplate(flowComponent);
         FlowComponent refreshedComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
         if (refreshedComponent != null && refreshedComponent.isContainer() && StringUtils.isNotBlank(refreshedComponent.flowapi_designtemplate)) {
+            LOGGER.error("doProcessFlowResource: Updating flow design after metadata update. path={}, flowstreamid={}", 
+                resourcePath, flowComponent.flowapi_flowstreamid);
             updateFlowDesignFromTemplate(refreshedComponent);
         }
 
@@ -401,15 +457,37 @@ public class FlowService {
         }
     }
 
-    private void processPauseChange(Resource resource, String flowstreamid, boolean pauseRequested) {
-        if (resource == null || StringUtils.isBlank(flowstreamid)) {
-            return;
+    private boolean processPauseChange(Resource resource, String flowstreamid, boolean pauseRequested) {
+        if (resource == null) {
+            LOGGER.error("processPauseChange: Resource is null. flowstreamid={}, pauseRequested={}", 
+                flowstreamid, pauseRequested);
+            return false;
         }
+        if (StringUtils.isBlank(flowstreamid)) {
+            LOGGER.error("processPauseChange: Flowstreamid is blank. resource={}, pauseRequested={}", 
+                resource.getPath(), pauseRequested);
+            return false;
+        }
+        
+        String resourcePath = resource.getPath();
+        LOGGER.error("processPauseChange: Starting pause change. resource={}, flowstreamid={}, pauseRequested={}", 
+            resourcePath, flowstreamid, pauseRequested);
+        
         FlowPauseResult pauseResult = toggleFlowStreamPause(flowstreamid, pauseRequested);
         if (!pauseResult.isSuccess()) {
-            LOGGER.warn("Could not update pause state for flow {} on resource {}. Status={}, message={}", flowstreamid, resource.getPath(), pauseResult.getStatusCode(), pauseResult.getMessage());
+            LOGGER.error("processPauseChange: Failed to update pause state. resource={}, flowstreamid={}, pauseRequested={}, status={}, message={}", 
+                resourcePath, flowstreamid, pauseRequested, pauseResult.getStatusCode(), pauseResult.getMessage());
+            return false;
         }
+        
+        LOGGER.error("processPauseChange: Pause state updated successfully. resource={}, flowstreamid={}, pauseRequested={}", 
+            resourcePath, flowstreamid, pauseRequested);
+        
         persistPauseState(resource, pauseRequested);
+        LOGGER.error("processPauseChange: Pause state persisted to resource. resource={}, flowstreamid={}, pauseRequested={}", 
+            resourcePath, flowstreamid, pauseRequested);
+        
+        return true;
     }
 
     private void persistPauseState(Resource resource, boolean pauseRequested) {

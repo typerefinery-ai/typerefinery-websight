@@ -87,34 +87,64 @@ public class FlowResourceChangeListener implements ResourceChangeListener {
 
         @Override
         public void onChange(List<ResourceChange> changes) {
-            if (enabled) {
+            LOGGER.error("FlowResourceChangeListener.onChange: Received {} change(s). enabled={}", 
+                changes != null ? changes.size() : 0, enabled);
+            
+            if (!enabled) {
+                LOGGER.error("FlowResourceChangeListener.onChange: Listener is disabled, ignoring changes");
+                return;
+            }
 
-                try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
-                    processChanges(changes, resourceResolver);
-                } catch (Exception e) {
-                  LOGGER.error("Could not get resource resolver", e);
-                }
-                
+            if (changes == null || changes.isEmpty()) {
+                LOGGER.error("FlowResourceChangeListener.onChange: No changes to process");
+                return;
+            }
+
+            for (ResourceChange change : changes) {
+                LOGGER.error("FlowResourceChangeListener.onChange: Change detected. path={}, type={}", 
+                    change.getPath(), change.getType());
+            }
+
+            try (ResourceResolver resourceResolver = contentAccess.getAdminResourceResolver()) {
+                processChanges(changes, resourceResolver);
+            } catch (Exception e) {
+                LOGGER.error("FlowResourceChangeListener.onChange: Could not get resource resolver", e);
             }
         }
 
         public void processChanges(List<ResourceChange> changes, ResourceResolver resourceResolver) {
+            LOGGER.error("FlowResourceChangeListener.processChanges: Processing {} change(s)", 
+                changes != null ? changes.size() : 0);
+            
             final Map<String, Object> props = new HashMap<>();
             HashMap<String, ResourceChange.ChangeType> changeMap = new HashMap<>();
+            
             for (ResourceChange change : changes) {
                 String path = change.getPath();
                 Resource resource = resourceResolver.getResource(path);
 
+                LOGGER.error("FlowResourceChangeListener.processChanges: Checking resource. path={}, resourceExists={}", 
+                    path, resource != null);
+
                 if (flowService.isFlowEnabledResource(resource)) {
+                    LOGGER.error("FlowResourceChangeListener.processChanges: Resource is flow-enabled. path={}, changeType={}", 
+                        path, change.getType());
                     changeMap.put(path, change.getType());
+                } else {
+                    LOGGER.error("FlowResourceChangeListener.processChanges: Resource is NOT flow-enabled. path={}", path);
                 }
             }
 
             if (!changeMap.isEmpty()) {
+                LOGGER.error("FlowResourceChangeListener.processChanges: Creating job for {} flow-enabled resource(s). changes={}", 
+                    changeMap.size(), changeMap);
                 props.put("changes", changeMap);
                 jobManager.addJob(JOB_TOPIC, props);
+                LOGGER.error("FlowResourceChangeListener.processChanges: Job created successfully. topic={}, changes={}", 
+                    JOB_TOPIC, changeMap);
+            } else {
+                LOGGER.error("FlowResourceChangeListener.processChanges: No flow-enabled resources found in changes");
             }
-
         }
       
 }
