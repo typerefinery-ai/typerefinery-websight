@@ -334,13 +334,26 @@ public class Form extends FlowComponent implements FlowComponentRegister {
 
 ## Configuration
 
-`FlowServiceConfiguration` centralizes host URLs, endpoint templates, default authorship, and the flag toggling the listener + job pipeline. Endpoints include:
+`FlowServiceConfiguration` centralizes host URLs, endpoint templates, default authorship, and the flag toggling the listener + job pipeline. 
 
+### Host URL Configuration
+
+- **`host_url()`** – Internal host URL used for service-to-service calls (backend to Flow API). Used for all API operations like pause/unpause, save metadata, import, update, export, etc.
+- **`host_url_client()`** – Client-facing host URL used for URLs displayed in the UI (e.g., HTTP routes, edit URLs). This is what users see in dialogs and what browsers will access.
+
+**Important**: Service-to-service calls must use `host_url()` (internal), while URLs sent to the client/UI must use `host_url_client()`.
+
+### Endpoints
+
+Service-to-service endpoints (use `host_url()`):
 - `/fapi/streams_pause/{id}?is=0|1` – Pause/unpause flows (default: `"/fapi/streams_pause/%s?is=%s"`)
 - `/fapi/stream_save/{id}` – Save flow metadata (default: `"/fapi/stream_save/%s"`)
 - `/fapi/streams_export/{id}/` – Export flow definition
 - `/flow/import` – Create new flows
 - `/flow/update` – Update existing flows
+
+Client-facing endpoints (use `host_url_client()`):
+- `/fapi/client/{path}` – HTTP route URLs displayed in dialogs
 
 Updating OSGi config allows point-and-click retargeting of the external Flow service.  
 ```1481:1598:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java

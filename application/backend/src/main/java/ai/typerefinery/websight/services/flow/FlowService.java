@@ -182,12 +182,12 @@ public class FlowService {
 
     public String getFlowStreamPauseAPIURL(String flowstreamid, boolean pauseRequested) {
         String pauseFlag = pauseRequested ? "1" : "0";
-        String url = String.format(configuration.host_url_client() + configuration.endpoint_streams_pause(), flowstreamid, pauseFlag);
+        String url = String.format(configuration.host_url() + configuration.endpoint_streams_pause(), flowstreamid, pauseFlag);
         return url;
     }
 
     public String getFlowStreamSaveAPIURL(String flowstreamid) {
-        String url = String.format(configuration.host_url_client() + configuration.endpoint_streams_save(), flowstreamid);
+        String url = String.format(configuration.host_url() + configuration.endpoint_streams_save(), flowstreamid);
         return url;
     }
 

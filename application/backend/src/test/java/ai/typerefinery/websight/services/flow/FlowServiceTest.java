@@ -314,8 +314,8 @@ class FlowServiceTest {
         PauseTestFlowService service = new PauseTestFlowService();
         service.initialise(new TestFlowConfiguration());
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("https://flow.typerefinery.localhost:8101/fapi/streams_pause/flow-123?is=1"))
-            .POST(HttpRequest.BodyPublishers.noBody())
+            .uri(URI.create("http://localhost:8000/fapi/streams_pause/flow-123?is=1"))
+            .GET()
             .build();
         service.setResponse(new TestHttpResponse(200, "", request));
 
@@ -323,7 +323,7 @@ class FlowServiceTest {
 
         assertThat(result.isSuccess()).isTrue();
         assertThat(result.isPauseRequested()).isTrue();
-        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("https://flow.typerefinery.localhost:8101/fapi/streams_pause/flow-123?is=1");
+        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/fapi/streams_pause/flow-123?is=1");
         assertThat(service.getCapturedRequest().method()).isEqualTo("GET");
     }
 
