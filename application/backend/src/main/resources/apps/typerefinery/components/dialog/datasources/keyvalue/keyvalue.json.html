@@ -1,0 +1,18 @@
+<sly data-sly-use.model="ai.typerefinery.websight.models.datasource.KeyValue">
+  <sly data-sly-set.labelProp="${properties.labelProp || 'label'}">
+  <sly data-sly-set.valueProp="${properties.valueProp || 'value'}">
+  [
+    <sly data-sly-list.item="${model.options}">
+      {
+          "${labelProp}": "${item[labelProp] || item.label || item.key || item.value}",
+          "${valueProp}": "${item[valueProp] || item.value}"
+          <sly data-sly-test="${item.selected}">,
+              "selected": ${item.selected}
+          </sly>
+      }<sly data-sly-test="${!itemList.last}">,</sly>
+    </sly>
+  ]
+</sly>
+</sly>
+</sly>
+

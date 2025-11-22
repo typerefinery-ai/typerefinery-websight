@@ -31,8 +31,8 @@ We want to replicate and extend the pattern used by `dialog/eventactions`, where
 
 ## Implemented Enhancements
 
-- **Datasource child**: The select component now supports an optional `datasource` subresource beneath the select definition that points to a loader component (e.g. `typerefinery/components/dialog/datasources/content`) responsible for fetching options.
-- **Content datasource**: The `typerefinery/components/dialog/datasources/content` component uses the `DatasourceContent` Sling model to resolve paths (absolute or relative to component) and load `KeyValuePair` options from repository nodes.
+- **Datasource child**: The select component now supports an optional `datasource` subresource beneath the select definition that points to a loader component (e.g. `typerefinery/components/dialog/datasources/keyvalue`) responsible for fetching options.
+- **Key-Value datasource**: The `typerefinery/components/dialog/datasources/keyvalue` component uses the `KeyValue` Sling model to resolve paths (absolute or relative to component) and load `KeyValuePair` options from repository nodes.
 - **Backward compatibility**: When no `datasource` is provided, the component preserves the current inline child behaviour so existing dialogs continue working without migration.
 - **Shared content**: Reusable option lists are available under `/apps/typerefinery/components/dialog/fields/` (e.g. `color` and `icons`).
 - **Visual enhancements**: The component supports `isColour` and `isIcon` props for enhanced option rendering:
@@ -60,7 +60,7 @@ Target file: `/apps/typerefinery/components/flow/flowcontainer/dialog/.content.j
 
 ## Implementation Details
 
-- **Path resolution**: The `DatasourceContent` model supports both absolute paths (starting with `/`) and relative paths (resolved from the component resource).
+- **Path resolution**: The `KeyValue` model supports both absolute paths (starting with `/`) and relative paths (resolved from the component resource).
 - **Option format**: Options are loaded as `KeyValuePair` objects with `key` (stored value) and `value` (display label) properties.
 - **Future enhancements**: Additional datasource types (REST endpoints, Java-backed providers) can be added by creating new datasource components following the same pattern.
 
@@ -289,7 +289,7 @@ When extending the component:
      "label": "Color",
      "isColour": true,
      "datasource": {
-       "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+       "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
        "path": "/apps/typerefinery/components/dialog/fields/color"
      }
    }
@@ -304,7 +304,7 @@ When extending the component:
      "label": "Icon",
      "isIcon": true,
      "datasource": {
-       "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+       "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
        "path": "/apps/typerefinery/components/dialog/fields/icons"
      }
    }
@@ -331,7 +331,7 @@ When extending the component:
 2. Reference in dialog:
    ```json
    "datasource": {
-     "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
      "path": "/apps/typerefinery/components/dialog/fields/myoptions"
    }
    ```
@@ -459,7 +459,7 @@ The select component supports a `datasource` child beneath the select definition
   "description": "Optional icon class shown in Flow Designer.",
   "isIcon": true,
   "datasource": {
-    "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
     "path": "/apps/typerefinery/components/dialog/fields/icons"
   }
 }
@@ -474,14 +474,14 @@ The select component supports a `datasource` child beneath the select definition
   "description": "Optional colour value applied to Flow Designer cards.",
   "isColour": true,
   "datasource": {
-    "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
     "path": "/apps/typerefinery/components/dialog/fields/color"
   }
 }
 ```
 
 - `path` accepts relative (`"flowIconOptions"` resolved from component) or absolute (`"/apps/typerefinery/components/dialog/fields/icons"`) repository locations.
-- The `datasources/content` component reads child nodes from the specified path and adapts them to `KeyValuePair` format.
+- The `datasources/keyvalue` component reads child nodes from the specified path and adapts them to `KeyValuePair` format.
 - **Visual props**: Use `isColour: true` for color swatches, `isIcon: true` for icon rendering.
 - Future datasource types can be added under `typerefinery/components/dialog/datasources/*`:
   - `datasources/rest` (future) – invoke a URL/service to populate options.

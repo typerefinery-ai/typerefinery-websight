@@ -2,7 +2,7 @@
      data-sly-use.selectgroup="./selectgroup/selectgroup.json.html">
   <!--/* Find datasource child by iterating */-->
   <sly data-sly-list.child="${resource.children}">
-    <sly data-sly-test="${child.name == 'datasource' && child['sling:resourceType'] == 'typerefinery/components/dialog/datasources/content'}"
+    <sly data-sly-test="${child.name == 'datasource' && child['sling:resourceType'] == 'typerefinery/components/dialog/datasources/keyvalue'}"
          data-sly-set.datasourceChild="${child}">
     </sly>
   </sly>
@@ -18,7 +18,7 @@
           "required": ${properties.required || false},
           "isColour": ${properties.isColour || false},
           "isIcon": ${properties.isIcon || false},
-          "options": <sly data-sly-resource="${datasourceChild.path @ resourceType='typerefinery/components/dialog/datasources/content'}"></sly>
+          "options": <sly data-sly-resource="${datasourceChild.path @ resourceType='typerefinery/components/dialog/datasources/keyvalue'}"></sly>
       }
     }
   </sly>

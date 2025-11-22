@@ -32,7 +32,7 @@
           "description": "Optional icon class (for example Font Awesome) shown in Flow Designer.",
           "isIcon": true,
           "datasource": {
-            "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+            "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
             "path": "/apps/typerefinery/components/dialog/fields/icons"
           }
         },
@@ -43,7 +43,7 @@
           "description": "Optional colour value (e.g. #RRGGBB) applied to Flow Designer cards.",
           "isColour": true,
           "datasource": {
-            "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+            "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
             "path": "/apps/typerefinery/components/dialog/fields/color"
           }
         },

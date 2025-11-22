@@ -84,23 +84,23 @@ Reusable content fields enable:
 
 ## How It Works
 
-### Integration with Content Datasource
+### Integration with Key-Value Datasource
 
-Reusable content fields are accessed through the **Content Datasource** component:
+Reusable content fields are accessed through the **Key-Value Datasource** component:
 
 ```
 Dialog Field
   └── datasource (child resource)
-      ├── sling:resourceType: "typerefinery/components/dialog/datasources/content"
+      ├── sling:resourceType: "typerefinery/components/dialog/datasources/keyvalue"
       └── path: "/apps/typerefinery/components/dialog/fields/color"
             │
-            └── DatasourceContent.java (Sling Model)
+            └── KeyValue.java (Sling Model)
                   │
                   ├── Loads child resources from path
                   ├── Adapts each child to KeyValuePair
                   └── Returns options list
                         │
-                        └── content.json.html (HTL Template)
+                        └── keyvalue.json.html (HTL Template)
                               │
                               └── Renders JSON array of options
 ```
@@ -108,7 +108,7 @@ Dialog Field
 ### Data Flow
 
 1. **Dialog Definition** references reusable content via datasource
-2. **Content Datasource** (`DatasourceContent.java`) loads options from specified path
+2. **Key-Value Datasource** (`KeyValue.java`) loads options from specified path
 3. **HTL Template** (`content.json.html`) renders options as JSON array
 4. **Select Component** receives options and displays them with visual enhancements (if configured)
 
@@ -127,7 +127,7 @@ Dialog Field
     "description": "Optional colour value applied to Flow Designer cards.",
     "isColour": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/color"
     }
   }
@@ -149,7 +149,7 @@ Dialog Field
     "description": "Optional icon class (for example Font Awesome) shown in Flow Designer.",
     "isIcon": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/icons"
     }
   }
@@ -170,7 +170,7 @@ Dialog Field
     "label": "Icon",
     "isIcon": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/icons"
     }
   },
@@ -180,7 +180,7 @@ Dialog Field
     "label": "Color",
     "isColour": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/color"
     }
   }
@@ -235,7 +235,7 @@ Reference the new reusable content in dialog definitions:
     "name": "myField",
     "label": "My Field",
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/myoptions"
     }
   }
@@ -270,7 +270,7 @@ When `true`, displays color swatches next to option labels.
     "sling:resourceType": "typerefinery/components/dialog/select",
     "isColour": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/color"
     }
   }
@@ -292,7 +292,7 @@ When `true`, displays Font Awesome icons next to option labels.
     "sling:resourceType": "typerefinery/components/dialog/select",
     "isIcon": true,
     "datasource": {
-      "sling:resourceType": "typerefinery/components/dialog/datasources/content",
+      "sling:resourceType": "typerefinery/components/dialog/datasources/keyvalue",
       "path": "/apps/typerefinery/components/dialog/fields/icons"
     }
   }
@@ -403,7 +403,7 @@ When `true`, displays Font Awesome icons next to option labels.
 
 ## Related Documentation
 
-- **Content Datasource**: See `/apps/typerefinery/components/dialog/datasources/content/README.md`
+- **Key-Value Datasource**: See `/apps/typerefinery/components/dialog/datasources/keyvalue/README.md`
 - **Select Component**: See `/apps/typerefinery/components/dialog/select/README.md`
 - **KeyValuePair Model**: See Java model `ai.typerefinery.websight.models.components.KeyValuePair`
 
@@ -446,7 +446,7 @@ Potential additions to reusable content fields:
 
 ## Summary
 
-Reusable content fields provide a powerful way to centralize and manage option lists used across multiple dialog fields. By storing options in `/apps/typerefinery/components/dialog/fields/` and referencing them via the content datasource, you can:
+Reusable content fields provide a powerful way to centralize and manage option lists used across multiple dialog fields. By storing options in `/apps/typerefinery/components/dialog/fields/` and referencing them via the key-value datasource, you can:
 
 - Maintain consistency across components
 - Update options in one place
