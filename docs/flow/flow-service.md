@@ -180,7 +180,11 @@ Container components also trigger design syncs.
 
 ### Flow Pause/Unpause
 
-- **Pause control** – `toggleFlowStreamPause` sends GET requests to `/flow/pause/{flowstreamid}?is=0|1` (FastAPI proxy), where `is=0` resumes and `is=1` pauses the flow. The FastAPI proxy forwards the request to the Flow service. The pause state is persisted to the resource as `flowapi_paused` property.  
+- **Pause control** – `toggleFlowStreamPause` sends GET requests to `/flow/pause/{flowstreamid}?is=0|1` (FastAPI proxy), where:
+  - `is=0` means **not paused** (active/resumed)
+  - `is=1` means **paused**
+  
+  The FastAPI proxy forwards the request to the Flow service. The pause state is persisted to the resource as `flowapi_paused` property.  
 ```353:382:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
     public FlowPauseResult toggleFlowStreamPause(@NotNull String flowstreamid, boolean pauseRequested) {
         String url = getFlowStreamPauseAPIURL(flowstreamid, pauseRequested);
