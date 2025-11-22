@@ -324,7 +324,7 @@ class FlowServiceTest {
         assertThat(result.isSuccess()).isTrue();
         assertThat(result.isPauseRequested()).isTrue();
         assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("https://flow.typerefinery.localhost:8101/fapi/streams_pause/flow-123?is=1");
-        assertThat(service.getCapturedRequest().method()).isEqualTo("POST");
+        assertThat(service.getCapturedRequest().method()).isEqualTo("GET");
     }
 
     @Test

@@ -358,7 +358,7 @@ public class FlowService {
         String url = getFlowStreamPauseAPIURL(flowstreamid, pauseRequested);
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(url))
-            .POST(HttpRequest.BodyPublishers.noBody())
+            .GET()
             .build();
 
         try {

@@ -180,14 +180,17 @@ Container components also trigger design syncs.
 
 ### Flow Pause/Unpause
 
-- **Pause control** – `toggleFlowStreamPause` sends POST requests to `/fapi/streams_pause/{flowstreamid}?is=0|1`, where `is=0` resumes and `is=1` pauses the flow. The pause state is persisted to the resource as `flowapi_paused` property.  
-```289:330:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
-    public boolean toggleFlowStreamPause(@NotNull String flowstreamid, boolean pauseRequested) {
+- **Pause control** – `toggleFlowStreamPause` sends GET requests to `/fapi/streams_pause/{flowstreamid}?is=0|1`, where `is=0` resumes and `is=1` pauses the flow. The pause state is persisted to the resource as `flowapi_paused` property.  
+```353:382:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
+    public FlowPauseResult toggleFlowStreamPause(@NotNull String flowstreamid, boolean pauseRequested) {
         String url = getFlowStreamPauseAPIURL(flowstreamid, pauseRequested);
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(url))
+            .GET()
+            .build();
         // ... HTTP request with retry logic ...
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            persistPauseState(resource, pauseRequested);
-            return true;
+            return FlowPauseResult.success(statusCode, pauseRequested);
         }
     }
 ```
