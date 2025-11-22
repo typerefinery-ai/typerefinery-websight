@@ -82,11 +82,11 @@ This guide covers the full Flow feature set: how change events trigger work, how
 
 `doProcessFlowResource` determines whether to create, update, or pause/unpause flows. It rejects non Flow components, ensures the JSON template exists, then branches based on `flowapi_enable` state:
 
-- **When `flowapi_enable` is `false`**: If a flow ID exists, the flow is paused via `/fapi/streams_pause/{id}?is=1`.
+- **When `flowapi_enable` is `false`**: If a flow ID exists, the flow is paused via `/flow/pause/{id}?is=1` (FastAPI proxy).
 - **When `flowapi_enable` is `true`**:
   - If no flow ID exists and a template exists, a new flow is created.
   - If a flow ID exists but the remote flow is missing (deleted), the flow is recreated.
-  - If a flow ID exists and the remote flow exists, metadata is compared. If metadata has changed, the flow is updated via `/fapi/stream_save/` (metadata) and `/flow/update` (content).
+  - If a flow ID exists and the remote flow exists, metadata is compared. If metadata has changed, the flow is updated via `/flow/save/` (metadata, FastAPI proxy) and `/flow/update` (content, FastAPI proxy).
 
 Container components also trigger design syncs.  
 ```275:330:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
@@ -137,9 +137,9 @@ Container components also trigger design syncs.
 
 ### Flow Updates
 
-- **Metadata updates** – `updateFlowFromTemplate` first saves metadata changes via `/fapi/stream_save/{id}` endpoint, then loads the existing flow definition from `/fapi/streams_export/{id}/`, applies metadata changes, and posts the full update to `/flow/update`. This ensures the Flow service remains the source of truth for flow content while metadata is synchronized from the CMS. Updated timestamps, edit URL, and client routes are written back.  
+- **Metadata updates** – `updateFlowFromTemplate` first saves metadata changes via `/flow/save/{id}` endpoint (FastAPI proxy), then loads the existing flow definition from `/flow/export/{id}` (FastAPI proxy), applies metadata changes, and posts the full update to `/flow/update` (FastAPI proxy). This ensures the Flow service remains the source of truth for flow content while metadata is synchronized from the CMS. Updated timestamps, edit URL, and client routes are written back.  
 ```1034:1041:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
-        // First, save metadata changes via /fapi/stream_save/
+        // First, save metadata changes via /flow/save/ (FastAPI proxy)
         FlowComponentMetadata metadata = new FlowComponentMetadata(flowComponent);
         saveMetadataToFlow(metadata, flowstreamid);
         
@@ -180,7 +180,7 @@ Container components also trigger design syncs.
 
 ### Flow Pause/Unpause
 
-- **Pause control** – `toggleFlowStreamPause` sends GET requests to `/fapi/streams_pause/{flowstreamid}?is=0|1`, where `is=0` resumes and `is=1` pauses the flow. The pause state is persisted to the resource as `flowapi_paused` property.  
+- **Pause control** – `toggleFlowStreamPause` sends GET requests to `/flow/pause/{flowstreamid}?is=0|1` (FastAPI proxy), where `is=0` resumes and `is=1` pauses the flow. The FastAPI proxy forwards the request to the Flow service. The pause state is persisted to the resource as `flowapi_paused` property.  
 ```353:382:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
     public FlowPauseResult toggleFlowStreamPause(@NotNull String flowstreamid, boolean pauseRequested) {
         String url = getFlowStreamPauseAPIURL(flowstreamid, pauseRequested);
@@ -200,7 +200,7 @@ Container components also trigger design syncs.
 
 ### Flow Metadata Management
 
-- **Metadata save** – `saveMetadataToFlow` sends POST requests to `/fapi/stream_save/{flowstreamid}` with a JSON payload containing metadata fields: `group`, `name`, `author`, `reference`, `icon`, `color`, `version`, and `readme`. This endpoint updates only metadata without affecting flow content, allowing CMS-driven metadata changes to be synchronized to the Flow service.  
+- **Metadata save** – `saveMetadataToFlow` sends POST requests to `/flow/save/{flowstreamid}` (FastAPI proxy) with a JSON payload containing metadata fields: `group`, `name`, `author`, `reference`, `icon`, `color`, `version`, and `readme`. The FastAPI proxy forwards the request to the Flow service. This endpoint updates only metadata without affecting flow content, allowing CMS-driven metadata changes to be synchronized to the Flow service.  
 ```332:400:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
     private boolean saveMetadataToFlow(FlowComponentMetadata metadata, String flowstreamid) {
         String url = getFlowStreamSaveAPIURL(flowstreamid);
@@ -213,7 +213,7 @@ Container components also trigger design syncs.
         // ... HTTP POST request ...
     }
 ```
-- **Metadata synchronization** – When a flow is updated, metadata is first saved via `/fapi/stream_save/`, then the full flow definition (including content) is updated via `/flow/update`. This ensures metadata changes are reflected immediately while preserving flow content managed in Flow Designer.
+- **Metadata synchronization** – When a flow is updated, metadata is first saved via `/flow/save/` (FastAPI proxy), then the full flow definition (including content) is updated via `/flow/update` (FastAPI proxy). This ensures metadata changes are reflected immediately while preserving flow content managed in Flow Designer.
 - **Source of truth** – After initial flow creation, the Flow service becomes the source of truth for flow content. Updates from the CMS merge metadata changes into the existing flow definition fetched from `/fapi/streams_export/{id}/`, preserving any manual changes made in Flow Designer.
 
 ### HTTP and Retry Helpers
@@ -338,17 +338,17 @@ public class Form extends FlowComponent implements FlowComponentRegister {
 
 ### Host URL Configuration
 
-- **`host_url()`** – Internal host URL used for service-to-service calls (backend to Flow API). Used for all API operations like pause/unpause, save metadata, import, update, export, etc.
-- **`host_url_client()`** – Client-facing host URL used for URLs displayed in the UI (e.g., HTTP routes, edit URLs). This is what users see in dialogs and what browsers will access.
+- **`host_url()`** – Internal host URL for the FastAPI proxy service (default: `http://localhost:8000`). The FastAPI service acts as a proxy/gateway that forwards requests to the actual Flow service. Used for all service-to-service API operations like pause/unpause, save metadata, import, update, export, etc.
+- **`host_url_client()`** – Client-facing host URL used for URLs displayed in the UI (default: `https://flow.typerefinery.localhost:8101`). This is what users see in dialogs and what browsers will access.
 
-**Important**: Service-to-service calls must use `host_url()` (internal), while URLs sent to the client/UI must use `host_url_client()`.
+**Important**: Service-to-service calls must use `host_url()` (FastAPI proxy), while URLs sent to the client/UI must use `host_url_client()`.
 
 ### Endpoints
 
-Service-to-service endpoints (use `host_url()`):
-- `/fapi/streams_pause/{id}?is=0|1` – Pause/unpause flows (default: `"/fapi/streams_pause/%s?is=%s"`)
-- `/fapi/stream_save/{id}` – Save flow metadata (default: `"/fapi/stream_save/%s"`)
-- `/fapi/streams_export/{id}/` – Export flow definition
+Service-to-service endpoints via FastAPI proxy (use `host_url()`):
+- `/flow/pause/{id}?is=0|1` – Pause/unpause flows (default: `"/flow/pause/%s?is=%s"`). FastAPI proxies this to the Flow service.
+- `/flow/save/{id}` – Save flow metadata (default: `"/flow/save/%s"`). FastAPI proxies this to the Flow service.
+- `/flow/export/{id}` – Export flow definition
 - `/flow/import` – Create new flows
 - `/flow/update` – Update existing flows
 
@@ -372,14 +372,14 @@ Updating OSGi config allows point-and-click retargeting of the external Flow ser
             description = "Endpoint template for pausing/unpausing flows",
             type = AttributeType.STRING
         )
-        String endpoint_streams_pause() default "/fapi/streams_pause/%s?is=%s";
+        String endpoint_streams_pause() default "/flow/pause/%s?is=%s";
         
         @AttributeDefinition(
             name = "Flow Stream Save Endpoint",
-            description = "Endpoint template for saving flow metadata",
+            description = "Endpoint template for saving flow metadata (FastAPI proxy endpoint)",
             type = AttributeType.STRING
         )
-        String endpoint_streams_save() default "/fapi/stream_save/%s";
+        String endpoint_streams_save() default "/flow/save/%s";
 ```
 
 ## Summary
