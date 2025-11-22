@@ -314,7 +314,7 @@ class FlowServiceTest {
         PauseTestFlowService service = new PauseTestFlowService();
         service.initialise(new TestFlowConfiguration());
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:8000/fapi/streams_pause/flow-123?is=1"))
+            .uri(URI.create("http://localhost:8000/flow/pause/flow-123?is=1"))
             .GET()
             .build();
         service.setResponse(new TestHttpResponse(200, "", request));
@@ -323,7 +323,7 @@ class FlowServiceTest {
 
         assertThat(result.isSuccess()).isTrue();
         assertThat(result.isPauseRequested()).isTrue();
-        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/fapi/streams_pause/flow-123?is=1");
+        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/flow/pause/flow-123?is=1");
         assertThat(service.getCapturedRequest().method()).isEqualTo("GET");
     }
 
@@ -338,7 +338,7 @@ class FlowServiceTest {
         assertThat(result.isSuccess()).isFalse();
         assertThat(result.isPauseRequested()).isFalse();
         assertThat(result.getMessage()).contains("network failure");
-        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/fapi/streams_pause/flow-987?is=0");
+        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/flow/pause/flow-987?is=0");
     }
 }
 
