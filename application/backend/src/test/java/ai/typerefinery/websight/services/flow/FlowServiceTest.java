@@ -338,7 +338,7 @@ class FlowServiceTest {
         assertThat(result.isSuccess()).isFalse();
         assertThat(result.isPauseRequested()).isFalse();
         assertThat(result.getMessage()).contains("network failure");
-        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("https://flow.typerefinery.localhost:8101/fapi/streams_pause/flow-987?is=0");
+        assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/fapi/streams_pause/flow-987?is=0");
     }
 }
 
