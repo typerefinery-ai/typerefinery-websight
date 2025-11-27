@@ -40,8 +40,9 @@
 - Templates: `forms/field/field.html`, `forms/field/variant.html`
 - Shared fragment: `forms/form/common/.content.json`
 
-## Related Readme
-- Composite (`docs/forms/composite.md`)
-- Checkbox, input, select, etc. (see sibling documentation)
-- Key-Value Datasource (`docs/dialog/datasource-keyvalue.md`) - For select fields with dynamic options
+## Related Documentation
+- **Composite Field**: `docs/forms/composite.md` - Container field for grouping multiple inputs
+- **Checkbox Field**: `docs/forms/checkbox.md` - Boolean and multi-select checkbox field
+- **Input, Select, etc.**: See sibling documentation
+- **Key-Value Datasource**: `docs/dialog/datasource-keyvalue.md` - For select fields with dynamic options
 

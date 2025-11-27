@@ -2,9 +2,86 @@
 
 This guide covers the full Flow feature set: how change events trigger work, how flows are created and maintained, and how related registries and components participate. Core implementation lives in `application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java` with supporting listeners, jobs, and component models.
 
+## Processing State Machine
+
+Flow resources maintain a processing state machine to track the lifecycle of flow creation and updates. The state is persisted on the resource itself using the `flowapi_processing_state` property, allowing coordination between the change listener and job consumer.
+
+### State Values
+
+- **`IDLE`** – Initial state. Resource is ready for processing. No active jobs.
+- **`QUEUED`** – Job has been created and is waiting to be processed. Set by `FlowResourceChangeListener` before adding a job to the queue.
+- **`PROCESSING`** – Job is actively processing the resource. Set by `FlowJobConsumer` when job execution begins.
+- **`COMPLETED`** – Processing completed successfully. Set by `FlowService` after successful flow creation or update.
+- **`ERROR`** – Processing failed. Set when an error occurs during processing or when retry limits are exceeded.
+- **`SKIPPED`** – Processing was skipped (no changes needed, resource doesn't exist, or resource is on HOLD). Set when processing is intentionally skipped.
+- **`HOLD`** – Manual hold state. User has manually stopped all processing for this resource. When set, the listener will not create new jobs and the consumer will skip processing. To resume, set the state back to `IDLE` or another appropriate state.
+
+### State Properties
+
+The state machine uses three resource properties:
+
+- **`flowapi_processing_state`** – Current state value (one of the states above)
+- **`flowapi_processing_state_timestamp`** – ISO8601 timestamp of when the state was last updated
+- **`flowapi_processing_error`** – Error message (only set when state is `ERROR`)
+
+### State Transitions
+
+**Normal Flow:**
+```
+IDLE → QUEUED → PROCESSING → COMPLETED
+```
+
+**With Errors:**
+```
+IDLE → QUEUED → PROCESSING → ERROR
+```
+
+**Skipped Processing:**
+```
+IDLE → QUEUED → PROCESSING → SKIPPED
+```
+
+**Manual Hold:**
+```
+Any State → HOLD (user sets manually)
+HOLD → IDLE (user releases hold)
+```
+
+**Job Deduplication:**
+- When a resource is in `QUEUED` or `PROCESSING` state, `FlowResourceChangeListener` will skip creating new jobs for that resource.
+- When a job starts and finds a resource in `QUEUED` or `PROCESSING` state (from another job), it will retry later (up to 10 times) before giving up and setting state to `ERROR`.
+
+**Hold Behavior:**
+- `FlowResourceChangeListener` checks for `HOLD` state before creating jobs. If `HOLD`, no job is created.
+- `FlowJobConsumer` checks for `HOLD` state before processing. If `HOLD`, the resource is marked as `SKIPPED` and processing is skipped.
+
+### Implementation
+
+State management is implemented in:
+
+- **`FlowService.setResourceState()`** – Helper method to update state properties on a resource
+- **`FlowResourceChangeListener.shouldSkipResourceByState()`** – Checks state before creating jobs
+- **`FlowJobConsumer.process()`** – Checks state before processing and updates state during processing
+
+```java
+// Example: Setting resource state
+FlowService.setResourceState(resource, FlowService.STATE_PROCESSING, null);
+FlowService.setResourceState(resource, FlowService.STATE_ERROR, "Failed to create flow");
+```
+
+### Property Name Helper
+
+Property names are generated using the `FlowService.prop()` helper method:
+
+```java
+// Instead of: FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_PROCESSING_STATE
+// Use: FlowService.prop(FlowService.PROPERTY_PROCESSING_STATE)
+// Returns: "flowapi_processing_state"
+```
+
 ## Event Pipeline
 
-- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and filters changes to flow-enabled resources using `flowService.isFlowEnabledResource`. Matching paths are batched into a Sling Job payload so the heavy work runs outside the listener thread.  
+- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and filters changes to flow-enabled resources using `flowService.isFlowEnabledResource`. The listener uses `PROPERTY_NAMES_HINT` to only trigger on user-controlled property changes (`flowapi_enable`, `flowapi_template`, `flowapi_title`, etc.), preventing loops from internal FlowService updates. Matching paths are batched into a Sling Job payload so the heavy work runs outside the listener thread. Before creating a job, the listener checks the resource state and skips if the resource is `HOLD`, `QUEUED`, or `PROCESSING`.  
 ```101:117:application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java
         for (ResourceChange change : changes) {
             String path = change.getPath();
@@ -15,7 +92,7 @@ This guide covers the full Flow feature set: how change events trigger work, how
             }
         }
 ```
-- **Job execution** – `FlowJobConsumer` re-fetches each resource with system credentials, then delegates to `flowService.doProcessFlowResource`. Failures flag the job as `FAILED` so Sling will retry.  
+- **Job execution** – `FlowJobConsumer` re-fetches each resource with system credentials. Before processing, it checks if any resource is in `QUEUED` or `PROCESSING` state (from another job) and retries the job if so (up to 10 times). Resources in `HOLD` state are skipped and marked as `SKIPPED`. The consumer sets resources to `PROCESSING` state at the start, then delegates to `flowService.doProcessFlowResource`. Failures flag the job as `FAILED` so Sling will retry. On completion, resources are set to `COMPLETED`, `ERROR`, or `SKIPPED` based on the result.  
 ```73:88:application/backend/src/main/java/ai/typerefinery/websight/jobs/flow/FlowJobConsumer.java
                 changeMap.forEach((path, changeType) -> {
                     
