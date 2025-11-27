@@ -101,6 +101,19 @@ public class FlowService {
     public static final String PROPERTY_SAMPLEDATA = "sampledata"; // path to json to be used to seed flow with sample data
     public static final String PROPERTY_README = "readme";
     public static final String PROPERTY_PAUSED = "paused";
+    public static final String PROPERTY_PROCESSING_STATE = "processing_state"; // State machine state: IDLE, PENDING, PROCESSING, COMPLETED, ERROR, SKIPPED
+    public static final String PROPERTY_PROCESSING_STATE_TIMESTAMP = "processing_state_timestamp"; // When state was last changed
+    public static final String PROPERTY_PROCESSING_ERROR = "processing_error"; // Error message if state is ERROR
+    public static final String PROPERTY_PROCESSING_JOB_ID = "processing_job_id"; // Job ID that is processing this resource
+    
+    // State machine states
+    public static final String STATE_IDLE = "IDLE";
+    public static final String STATE_QUEUED = "QUEUED"; // Job created, waiting to be processed
+    public static final String STATE_PROCESSING = "PROCESSING"; // Job is actively processing
+    public static final String STATE_COMPLETED = "COMPLETED"; // Processing completed successfully
+    public static final String STATE_ERROR = "ERROR"; // Processing failed
+    public static final String STATE_SKIPPED = "SKIPPED"; // Processing was skipped
+    public static final String STATE_HOLD = "HOLD"; // Manual hold - stops all processing until released
 
     public static final String FLOW_COMPONENT_SAMPLE_DATA_FILE_PATH = "templates/flowsample.json";
     public static final String FLOW_SPI_KEY = "ai.typerefinery.flow.spi.extension";
@@ -261,6 +274,7 @@ public class FlowService {
             LOGGER.error("doProcessFlowResource: No stored flow ID. Will create new flow. path={}", resourcePath);
         }
 
+        // Path 1: Create new flow if no flow ID exists
         if (!hasStoredFlowId) {
             LOGGER.error("doProcessFlowResource: Creating new flow from template. path={}, template={}", 
                 resourcePath, flowapiTemplate);
@@ -271,31 +285,31 @@ public class FlowService {
                 Resource updatedResource = resourceResolver.getResource(resourcePath);
                 if (updatedResource != null) {
                     FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
+                    // Unpause new flow to ensure it's active
                     boolean unpauseResult = processPauseChange(updatedResource, newFlowId, false);
                     LOGGER.error("doProcessFlowResource: Unpause after creation. path={}, flowstreamid={}, unpauseResult={}", 
                         resourcePath, newFlowId, unpauseResult);
+                    // Update design if container
                     if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
                         LOGGER.error("doProcessFlowResource: Updating flow design from template. path={}, flowstreamid={}", 
                             resourcePath, newFlowId);
                         updateFlowDesignFromTemplate(updatedComponent);
                     }
+                    setResourceState(updatedResource, STATE_COMPLETED, null);
                 } else {
                     LOGGER.error("doProcessFlowResource: Could not get updated resource after flow creation. path={}, newFlowId={}", 
                         resourcePath, newFlowId);
+                    setResourceState(resource, STATE_ERROR, "Could not get updated resource after flow creation");
                 }
             } else {
                 LOGGER.error("doProcessFlowResource: Failed to create flow from template. path={}, template={}", 
                     resourcePath, flowapiTemplate);
+                setResourceState(resource, STATE_ERROR, "Failed to create flow from template");
             }
             return true;
         }
 
-        LOGGER.error("doProcessFlowResource: Flow ID exists, ensuring flow is unpaused. path={}, flowstreamid={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid);
-        boolean unpauseResult = processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
-        LOGGER.error("doProcessFlowResource: Unpause result. path={}, flowstreamid={}, unpauseResult={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid, unpauseResult);
-
+        // Path 2: Recreate flow if it doesn't exist remotely
         if (!flowExists) {
             LOGGER.error("doProcessFlowResource: Flow ID stored but remote flow not found. Recreating. path={}, flowstreamid={}", 
                 resourcePath, flowComponent.flowapi_flowstreamid);
@@ -306,43 +320,58 @@ public class FlowService {
                 Resource updatedResource = resourceResolver.getResource(resourcePath);
                 if (updatedResource != null) {
                     FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
-                    boolean unpauseResult2 = processPauseChange(updatedResource, newFlowId, false);
+                    // Unpause recreated flow to ensure it's active
+                    boolean unpauseResult = processPauseChange(updatedResource, newFlowId, false);
                     LOGGER.error("doProcessFlowResource: Unpause after recreation. path={}, flowstreamid={}, unpauseResult={}", 
-                        resourcePath, newFlowId, unpauseResult2);
+                        resourcePath, newFlowId, unpauseResult);
+                    // Update design if container
                     if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
                         updateFlowDesignFromTemplate(updatedComponent);
                     }
+                    setResourceState(updatedResource, STATE_COMPLETED, null);
+                } else {
+                    setResourceState(resource, STATE_ERROR, "Could not get updated resource after flow recreation");
                 }
             } else {
                 LOGGER.error("doProcessFlowResource: Failed to recreate flow from template. path={}, template={}", 
                     resourcePath, flowapiTemplate);
+                setResourceState(resource, STATE_ERROR, "Failed to recreate flow from template");
             }
             return true;
         }
 
-        // Check if metadata has actually changed by comparing with Flow service
+        // Path 3: Check if metadata has changed (flow exists locally and remotely)
         LOGGER.error("doProcessFlowResource: Checking metadata changes. path={}, flowstreamid={}", 
             resourcePath, flowComponent.flowapi_flowstreamid);
         boolean metadataChanged = hasMetadataChanged(flowComponent, flowComponent.flowapi_flowstreamid);
         LOGGER.error("doProcessFlowResource: Metadata change check result. path={}, flowstreamid={}, metadataChanged={}", 
             resourcePath, flowComponent.flowapi_flowstreamid, metadataChanged);
         
+        // Path 3a: Skip if no metadata changes
         if (!metadataChanged) {
             LOGGER.error("doProcessFlowResource: No metadata changes detected, skipping update. path={}, flowstreamid={}", 
                 resourcePath, flowComponent.flowapi_flowstreamid);
+            setResourceState(resource, STATE_SKIPPED, "No metadata changes detected");
             return true;
         }
 
+        // Path 3b: Update flow if metadata changed
         LOGGER.error("doProcessFlowResource: Metadata changes detected, updating flow. path={}, flowstreamid={}", 
             resourcePath, flowComponent.flowapi_flowstreamid);
         updateFlowFromTemplate(flowComponent);
         FlowComponent refreshedComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
+        // Update design if container
         if (refreshedComponent != null && refreshedComponent.isContainer() && StringUtils.isNotBlank(refreshedComponent.flowapi_designtemplate)) {
             LOGGER.error("doProcessFlowResource: Updating flow design after metadata update. path={}, flowstreamid={}", 
                 resourcePath, flowComponent.flowapi_flowstreamid);
             updateFlowDesignFromTemplate(refreshedComponent);
         }
-
+        // Unpause updated flow to ensure it's active
+        boolean unpauseResult = processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
+        LOGGER.error("doProcessFlowResource: Unpause after update. path={}, flowstreamid={}, unpauseResult={}", 
+            resourcePath, flowComponent.flowapi_flowstreamid, unpauseResult);
+        
+        setResourceState(resource, STATE_COMPLETED, null);
         return true; // pass ok to running job     
     }
 
@@ -493,7 +522,64 @@ public class FlowService {
     private void persistPauseState(Resource resource, boolean pauseRequested) {
         HashMap<String, Object> props = new HashMap<String, Object>();
         props.put(prop(PROPERTY_PAUSED), pauseRequested);
+        LOGGER.error("FlowService.persistPauseState: Updating resource properties. path={}, pauseRequested={}, props={}", 
+            resource != null ? resource.getPath() : "null", pauseRequested, props);
         PageUtil.updatResourceProperties(resource, props);
+        LOGGER.error("FlowService.persistPauseState: Updated pause state. path={}, pauseRequested={}", 
+            resource != null ? resource.getPath() : "null", pauseRequested);
+    }
+
+    /**
+     * Sets the processing state on a resource with timestamp and optional job ID.
+     * Used by state machine to track processing lifecycle.
+     * 
+     * @param resource The resource to update
+     * @param state The new state (IDLE, PENDING, PROCESSING, COMPLETED, ERROR, SKIPPED)
+     * @param errorMessage Optional error message if state is ERROR
+     * @param jobId Optional job ID that is processing this resource (null to clear)
+     */
+    private void setResourceState(Resource resource, String state, String errorMessage, String jobId) {
+        try {
+            HashMap<String, Object> props = new HashMap<>();
+            props.put(prop(PROPERTY_PROCESSING_STATE), state);
+            String timestamp = DateUtil.getIsoDate(new java.util.Date());
+            props.put(prop(PROPERTY_PROCESSING_STATE_TIMESTAMP), timestamp);
+            
+            // Store or clear job ID
+            if (jobId != null && !jobId.isEmpty()) {
+                props.put(prop(PROPERTY_PROCESSING_JOB_ID), jobId);
+            } else {
+                // Clear job ID when state is IDLE, COMPLETED, ERROR, SKIPPED, or HOLD
+                props.put(prop(PROPERTY_PROCESSING_JOB_ID), "");
+            }
+            
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+                props.put(prop(PROPERTY_PROCESSING_ERROR), errorMessage);
+            } else {
+                // Clear error message if not in ERROR state
+                props.put(prop(PROPERTY_PROCESSING_ERROR), "");
+            }
+            
+            LOGGER.error("FlowService.setResourceState: Updating resource properties. path={}, state={}, jobId={}, timestamp={}, props={}", 
+                resource != null ? resource.getPath() : "null", state, jobId, timestamp, props);
+            PageUtil.updatResourceProperties(resource, props);
+            LOGGER.error("FlowService.setResourceState: Set resource state. path={}, state={}, jobId={}, timestamp={}", 
+                resource != null ? resource.getPath() : "null", state, jobId, timestamp);
+        } catch (Exception e) {
+            LOGGER.error("FlowService.setResourceState: Error setting state. path={}, state={}", 
+                resource != null ? resource.getPath() : "null", state, e);
+        }
+    }
+
+    /**
+     * Sets the processing state on a resource with timestamp (backward compatibility).
+     * 
+     * @param resource The resource to update
+     * @param state The new state (IDLE, PENDING, PROCESSING, COMPLETED, ERROR, SKIPPED)
+     * @param errorMessage Optional error message if state is ERROR
+     */
+    private void setResourceState(Resource resource, String state, String errorMessage) {
+        setResourceState(resource, state, errorMessage, null);
     }
 
     /**
@@ -1169,7 +1255,11 @@ public class FlowService {
         LOGGER.info("flowstreamdata: {}", response);
 
         // update component with response
+        LOGGER.error("FlowService.createFlowFromTemplate: Updating resource properties. path={}, props={}", 
+            flowComponent.resource != null ? flowComponent.resource.getPath() : "null", response);
         PageUtil.updatResourceProperties(flowComponent.resource, response, true);
+        LOGGER.error("FlowService.createFlowFromTemplate: Updated resource properties. path={}", 
+            flowComponent.resource != null ? flowComponent.resource.getPath() : "null");
 
         //return flowstreamid
         return responseFlowId;
@@ -1248,7 +1338,11 @@ public class FlowService {
 
         // go through response object and remove all null value
         // update component with response
+        LOGGER.error("FlowService.updateFlowFromTemplate: Updating resource properties. path={}, props={}", 
+            componentResource != null ? componentResource.getPath() : "null", response);
         PageUtil.updatResourceProperties(componentResource, response, true);
+        LOGGER.error("FlowService.updateFlowFromTemplate: Updated resource properties. path={}", 
+            componentResource != null ? componentResource.getPath() : "null");
     }
 
     private ObjectNode loadExportOrTemplate(@NotNull FlowComponent flowComponent, ResourceResolver resourceResolver) {
@@ -2070,8 +2164,8 @@ public class FlowService {
         public final static String FLOW_DESIGNER_URL = "https://flow.typerefinery.localhost:8101/designer/?darkmode=%s&socket=%s&components=%s";
         public final static boolean FLOW_PAGE_CHNAGE_LISTENER_ENABLE = true;
         public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
-        public final static String FLOW_ENDPOINT_STREAMS_PAUSE = "/fapi/streams_pause/%s?is=%s";
-        public final static String FLOW_ENDPOINT_STREAMS_SAVE = "/fapi/stream_save/%s";
+        public final static String FLOW_ENDPOINT_STREAMS_PAUSE = "/flow/pause/%s?is=%s";
+        public final static String FLOW_ENDPOINT_STREAMS_SAVE = "/flow/save/%s";
         
         @AttributeDefinition(
             name = "Host URL",
