@@ -5,9 +5,9 @@
         jcr:lastModified="{Date}2024-07-12T14:19:27.106+10:00"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="VizAndForm Local"
+        jcr:title="Composer - Local"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-11-11T16:04:56.560+11:00"
+        ws:lastModified="{Date}2025-11-18T13:46:44.240+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -61,7 +61,7 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             scrolling="no"
-                            url="https://widgetdev.typerefinery.localhost:8101"
+                            url="https://widgetdevcomposer.typerefinery.localhost:8101"
                             variant="iframe">
                             <_events_ jcr:primaryType="nt:unstructured">
                                 <_x0030_

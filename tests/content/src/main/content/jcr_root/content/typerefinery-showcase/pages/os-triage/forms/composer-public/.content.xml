@@ -5,9 +5,9 @@
         jcr:lastModified="{Date}2024-07-12T14:19:27.106+10:00"
         jcr:lastModifiedBy="wsadmin"
         jcr:primaryType="ws:PageContent"
-        jcr:title="VizAndForm Local"
+        jcr:title="Composer - Public"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2025-09-22T14:22:56.701+10:00"
+        ws:lastModified="{Date}2025-11-18T13:46:22.403+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -61,18 +61,10 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             scrolling="no"
-                            url="https://typerefinery-ai.github.io/widget-graph-viz/"
+                            url="https://typerefinery-ai.github.io/widget-graph-viz-composer/"
                             variant="iframe">
                             <_events_ jcr:primaryType="nt:unstructured">
                                 <_x0030_
-                                    jcr:primaryType="nt:unstructured"
-                                    action="EVENT_PROXY"
-                                    config="\0"
-                                    name="eventproxy"
-                                    nameCustom="\0"
-                                    topic="embed-viz-event-proxy"
-                                    type="emit"/>
-                                <_x0031_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/unattached-force-graph&quot;}"
@@ -80,7 +72,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-unattached-force-graph"
                                     type="emit"/>
-                                <_x0032_
+                                <_x0031_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-sighting&quot;}"
@@ -88,7 +80,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-sighting"
                                     type="emit"/>
-                                <_x0033_
+                                <_x0032_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-task&quot;}"
@@ -96,7 +88,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-task"
                                     type="emit"/>
-                                <_x0034_
+                                <_x0033_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-impact&quot;}"
@@ -104,7 +96,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-impact"
                                     type="emit"/>
-                                <_x0035_
+                                <_x0034_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-event&quot;}"
@@ -112,7 +104,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-event"
                                     type="emit"/>
-                                <_x0036_
+                                <_x0035_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-user&quot;}"
@@ -120,7 +112,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-user"
                                     type="emit"/>
-                                <_x0037_
+                                <_x0036_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-company&quot;}"
@@ -128,7 +120,7 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-company"
                                     type="emit"/>
-                                <_x0038_
+                                <_x0037_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REFRESH"
                                     config="\0"
@@ -136,7 +128,7 @@
                                     nameCustom="notifydatarefresh"
                                     topic="notifydatarefresh"
                                     type="listen"/>
-                                <_x0039_
+                                <_x0038_
                                     jcr:primaryType="nt:unstructured"
                                     action="OPEN_FORM_MODAL"
                                     config="\{&quot;url&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints.html&quot;}"
@@ -144,7 +136,7 @@
                                     nameCustom="viz-open-form-create-force-sro"
                                     topic="viz-open-form-create-force-sro"
                                     type="emit"/>
-                                <_x0031_0
+                                <_x0039_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-force/get-relationship-types&quot;}"
@@ -152,7 +144,7 @@
                                     nameCustom="\0"
                                     topic="embed-force-rmb-get-relationship-types"
                                     type="emit"/>
-                                <_x0031_1
+                                <_x0031_0
                                     jcr:primaryType="nt:unstructured"
                                     action="OPEN_FORM_MODAL"
                                     config="\{&quot;url&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints.html&quot;}"
@@ -160,31 +152,31 @@
                                     nameCustom="viz-open-form-create-force-connection"
                                     topic="viz-open-form-create-force-connection"
                                     type="emit"/>
-                                <_x0031_2
+                                <_x0031_1
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
-                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create.html&quot;}"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create.html&quot;,&quot;unwrap&quot;:false}"
                                     name="eventproxy"
                                     nameCustom="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     topic="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     type="emit"/>
-                                <_x0031_3
+                                <_x0031_2
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
-                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/{{config.object_family}}/{{config.object_group}}/{{config.object_form}}/{{config.object_form}}-update.html&quot;}"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/{{config.object_family}}/{{config.object_group}}/{{config.object_form}}-forms/{{config.object_form}}-update.html&quot;,&quot;unwrap&quot;:false}"
                                     name="eventproxy"
                                     nameCustom="embed-viz-event-open-stixorm-forms-object"
                                     topic="embed-viz-event-open-stixorm-forms-object"
                                     type="emit"/>
-                                <_x0031_4
+                                <_x0031_3
                                     jcr:primaryType="nt:unstructured"
                                     action="EVENT_PROXY"
-                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/{family}/{group}/{form}/{form}-update.html&quot;}"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/{family}/{group}/{form}-forms/{form}-update.html&quot;,&quot;unwrap&quot;:false}"
                                     name="eventproxy"
                                     nameCustom="embed-viz-event-open-stixorm-forms-sro-forms-connection-form"
                                     topic="embed-viz-event-open-stixorm-forms-sro-forms-connection-form"
                                     type="emit"/>
-                                <_x0031_5
+                                <_x0031_4
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-force/get-connection-types&quot;}"
@@ -192,7 +184,7 @@
                                     nameCustom="embed-force-rmb-get-connection-types"
                                     topic="embed-force-rmb-get-connection-types"
                                     type="emit"/>
-                                <_x0031_6
+                                <_x0031_5
                                     jcr:primaryType="nt:unstructured"
                                     action="OPEN_FORM_MODAL"
                                     config="\{&quot;url&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/foreign-key-connections.html&quot;}"
@@ -200,7 +192,7 @@
                                     nameCustom="viz-open-form-create-force-connection"
                                     topic="viz-open-form-create-force-connection"
                                     type="emit"/>
-                                <_x0031_7
+                                <_x0031_6
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-attack-flow&quot;}"
@@ -208,13 +200,37 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-attack-flow"
                                     type="emit"/>
-                                <_x0031_8
+                                <_x0031_7
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/tree-behavior&quot;}"
                                     name="readaction"
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-tree-behavior"
+                                    type="emit"/>
+                                <_x0031_8
+                                    jcr:primaryType="nt:unstructured"
+                                    action="EVENT_PROXY"
+                                    config="\0"
+                                    name="eventproxy"
+                                    nameCustom="\0"
+                                    topic="embed-viz-event-proxy"
+                                    type="emit"/>
+                                <_x0031_9
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REQUEST"
+                                    config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-tree/copy-to-unattached&quot;}"
+                                    name="\0"
+                                    nameCustom="embed-tree-copy"
+                                    topic="embed-tree-copy"
+                                    type="emit"/>
+                                <_x0032_0
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REQUEST"
+                                    config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-tree/edit-DAG--to-unattached&quot;}"
+                                    name="\0"
+                                    nameCustom="embed-tree-edit-dag"
+                                    topic="embed-tree-edit-dag"
                                     type="emit"/>
                             </_events_>
                         </embed>
@@ -243,13 +259,29 @@
                             <_events_ jcr:primaryType="nt:unstructured">
                                 <_x0030_
                                     jcr:primaryType="nt:unstructured"
+                                    action="EVENT_PROXY"
+                                    config="\0"
+                                    name="\0"
+                                    nameCustom="formcancel"
+                                    topic="formcancel"
+                                    type="emit"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_SOURCE"
+                                    config="\{&quot;source&quot;:&quot;/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/default.html&quot;}"
+                                    name="\0"
+                                    nameCustom="formcancel"
+                                    topic="formcancel"
+                                    type="listen"/>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
                                     action="DATA_SOURCE"
                                     config="\{&quot;monitorformevents&quot;:true}"
                                     name="\0"
                                     nameCustom="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     topic="embed-viz-event-open-stixorm-forms-sro-forms-relationship-form"
                                     type="listen"/>
-                                <_x0031_
+                                <_x0033_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_SOURCE"
                                     config="\{&quot;monitorformevents&quot;:true}"
@@ -257,6 +289,14 @@
                                     nameCustom="embed-viz-event-open-stixorm-forms-object"
                                     topic="embed-viz-event-open-stixorm-forms-object"
                                     type="listen"/>
+                                <_x0034_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="EVENT_PROXY"
+                                    config="\0"
+                                    name="eventproxy"
+                                    nameCustom="\0"
+                                    topic="embed-form-event-proxy"
+                                    type="emit"/>
                             </_events_>
                         </embed>
                     </container_1>

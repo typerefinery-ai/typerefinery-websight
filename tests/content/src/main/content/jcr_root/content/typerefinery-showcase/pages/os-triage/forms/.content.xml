@@ -23,9 +23,11 @@
     <add-email-address/>
     <identity/>
     <identity1/>
-    <vizandform-local/>
     <stix/>
     <stixorm-forms/>
-    <vizandform-public/>
     <form-flow-metadata/>
+    <composer-public/>
+    <composer-local/>
+    <overview-local/>
+    <overview-public/>
 </jcr:root>

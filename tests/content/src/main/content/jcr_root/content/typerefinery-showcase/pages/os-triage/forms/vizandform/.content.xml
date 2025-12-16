@@ -7,7 +7,7 @@
         jcr:primaryType="ws:PageContent"
         jcr:title="VizAndForm"
         sling:resourceType="typerefinery/components/structure/page"
-        ws:lastModified="{Date}2024-07-15T10:56:02.806+10:00"
+        ws:lastModified="{Date}2025-11-18T13:40:48.694+11:00"
         ws:lastModifiedBy="wsadmin"
         ws:template="/apps/typerefinery/templates/page"
         description="\0"
@@ -61,7 +61,7 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             scrolling="no"
-                            url="https://typerefinery-ai.github.io/widget-graph-viz/"
+                            url="https://typerefinery-ai.github.io/widget-graph-viz-composer/"
                             variant="iframe"/>
                     </container>
                     <container_1
