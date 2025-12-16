@@ -82,4 +82,5 @@
         </rootcontainer>
     </jcr:content>
     <flowform/>
+    <form-flow-metadata/>
 </jcr:root>

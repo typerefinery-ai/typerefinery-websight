@@ -38,16 +38,18 @@
                 <form
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
-                    flowapi_createdon="2025-02-03T11:25:06.107Z"
+                    flowapi_author="TypeRefinery.io"
+                    flowapi_createdon="2025-12-16T10:08:33.262Z"
                     flowapi_designtemplate="\0"
-                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1kgsp001mi51d&amp;components="
+                    flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Fnull&amp;components="
                     flowapi_enable="true"
                     flowapi_error="null"
-                    flowapi_flowstreamid="f1kgsp001mi51d"
+                    flowapi_flowstreamid="f1u7uk001lx51d"
                     flowapi_group="/content/typerefinery-showcase/pages/components/forms/forms-test/_jcr_content/rootcontainer/main/form"
                     flowapi_httproute="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/forms-test/_jcr_content/rootcontainer/main/form/{{id}}"
                     flowapi_httproutenosfx="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/forms-test/_jcr_content/rootcontainer/main/form"
                     flowapi_iscontainer="{Boolean}false"
+                    flowapi_name="Form flow"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_success="true"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
@@ -67,6 +69,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_VWQKLNKGO"
                             label="Input Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -83,6 +86,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             display="none"
+                            id="label_UXTQOII5I"
                             label="Textarea Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -109,6 +113,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_EXQCZSVHZ"
                             label="Select Label"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -138,10 +143,12 @@
                             <label
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_DMWERCYWQ"
                                 label="Input Label"/>
                             <field
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_YEHJ2MXEU"
                                 label="Input"/>
                         </input>
                         <input_1
@@ -155,10 +162,12 @@
                             <label
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_L0WC0UZXN"
                                 label="Input Label"/>
                             <field
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_ZNT5FQV6K"
                                 label="Input"/>
                         </input_1>
                         <input_2
@@ -172,10 +181,12 @@
                             <label
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_SNYQSTCRD"
                                 label="Input Label"/>
                             <field
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_JUIFJ3E94"
                                 label="Input"/>
                         </input_2>
                         <input_3
@@ -189,10 +200,12 @@
                             <label
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_C9KDBK8HL"
                                 label="Input Label"/>
                             <field
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/fields/input"
+                                id="field_IPMNR9HUE"
                                 label="Input"/>
                         </input_3>
                     </container>
@@ -213,6 +226,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_ZXPZNMDOC"
                             label="Composite"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -230,6 +244,7 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_2JH0LSHQE"
                                     label="Input Label"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
@@ -245,6 +260,7 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_PIJ0FIVEL"
                                     label="Input Label"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
@@ -260,6 +276,7 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_ACWTPG5LQ"
                                     label="Composite"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
@@ -274,6 +291,7 @@
                                         <label
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
+                                            id="label_HD3HCPA58"
                                             label="Input Label"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
@@ -289,6 +307,7 @@
                                         <label
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
+                                            id="label_JKPIQVE5J"
                                             label="Input Label"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
@@ -308,10 +327,12 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_9KMY7F503"
                             label="Embedded Object"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                            id="field_Y6QZXH14X"
                             inputType="embeddedobject"
                             label="Embedded Object"/>
                     </embeddedobject>
@@ -322,10 +343,12 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_7NGVJYARL"
                             label="Float"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                            id="field_8VUJYVKNO"
                             inputType="float"
                             label="Float"/>
                     </float>
@@ -336,6 +359,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_ZKYBKDGEI"
                             label="Kill Chain Phase"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -345,28 +369,34 @@
                             label="Kill Chain Phase Field">
                             <kill_chain_name
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="kill_chain_name_Q08VTEFIK">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_DDNJ6QRDO"
                                     label="kill_chain_name"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_N60NFZH4E"
                                     inputType="string"
                                     label="kill_chain_name"
                                     name="kill_chain_name"/>
                             </kill_chain_name>
                             <phase_name
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="phase_name_HOL389HWT">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_K3V2UT9OR"
                                     label="phase_name"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_LZTR7QTVT"
                                     inputType="string"
                                     label="phase_name"
                                     name="phase_name"/>
@@ -380,6 +410,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_1TKZHFIL0"
                             label="Granular Marking"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -389,42 +420,51 @@
                             label="Granular Marking Field">
                             <lang
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="lang_KRTA6VHVG">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_BP8X2PSG7"
                                     label="lang"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_IAAX3F0HL"
                                     inputType="string"
                                     label="lang"
                                     name="lang"/>
                             </lang>
                             <marking_ref
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="marking_ref_6B1NJHOXD">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_VMMBHN4RA"
                                     label="marking_ref"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_KS7SOD9NA"
                                     inputType="string"
                                     label="marking_ref"
                                     name="marking_ref"/>
                             </marking_ref>
                             <selectors
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="selectors_LRXMTTFDU">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_PZTDIWCA3"
                                     label="selectors"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_SWGG04Q0G"
                                     inputType="string"
                                     label="selectors"
                                     name="selectors"/>
@@ -438,6 +478,7 @@
                         <label
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_CH1JZ5BQY"
                             label="External Reference"/>
                         <field
                             jcr:primaryType="nt:unstructured"
@@ -447,70 +488,85 @@
                             label="External Reference Field">
                             <source_name
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="source_name_IEVCXNAHV">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_FBMLTTFN5"
                                     label="source_name"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_0IGXLOJBW"
                                     inputType="string"
                                     label="source_name"
                                     name="source_name"/>
                             </source_name>
                             <description
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="description_KZRB05NHU">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_IH78JWTTX"
                                     label="description"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_QAFCAMGXI"
                                     inputType="string"
                                     label="description"
                                     name="description"/>
                             </description>
                             <url
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="url_JB6ZC6WOG">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_GNOZLQYOA"
                                     label="url"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_YPYSI8FJH"
                                     inputType="string"
                                     label="url"
                                     name="url"/>
                             </url>
                             <hashes
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="hashes_WU9KYMQE4">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_7BHDDKEXX"
                                     label="hashes"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_W6UFLLBMJ"
                                     inputType="string"
                                     label="hashes"
                                     name="hashes"/>
                             </hashes>
                             <external_id
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="typerefinery/components/forms/input">
+                                sling:resourceType="typerefinery/components/forms/input"
+                                id="external_id_IRXDCCE59">
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_IVMNZLCDL"
                                     label="external_id"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
+                                    id="field_FDS52HSYX"
                                     inputType="string"
                                     label="external_id"
                                     name="external_id"/>
@@ -544,10 +600,12 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_JCXAFDIKL"
                                     label="Input Label"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/input"
+                                    id="field_6TSYOXU8O"
                                     label="Input"/>
                             </input>
                         </accordionitem1>
@@ -562,10 +620,12 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_H5BC7BWSI"
                                     label="Input Label"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/input"
+                                    id="field_6BQPXOZUZ"
                                     label="Input"/>
                             </input>
                         </accordionitem2>
@@ -580,10 +640,12 @@
                                 <label
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/label"
+                                    id="label_RHAYVLN0O"
                                     label="Input Label"/>
                                 <field
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/input"
+                                    id="field_GORS93RO1"
                                     label="Input"/>
                             </input>
                         </accordionitem3>
