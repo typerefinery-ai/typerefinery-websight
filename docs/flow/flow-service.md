@@ -2,6 +2,12 @@
 
 This guide covers the full Flow feature set: how change events trigger work, how flows are created and maintained, and how related registries and components participate. Core implementation lives in `application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java` with supporting listeners, jobs, and component models.
 
+## Related Documentation
+
+- **[Flow Execution Flow](flow-execution-flow.md)** - Detailed execution flow diagrams from listener to job consumer
+- **[Flow Synchronization Flow](flow-sync-flow.md)** - Data synchronization flow between `/content`, `/var`, and Flow API
+- **[Flow Var Storage Plan](flow-var-storage-plan.md)** - Architecture for `/var` storage to prevent listener loops
+
 ## Processing State Machine
 
 Flow resources maintain a processing state machine to track the lifecycle of flow creation and updates. The state is persisted on the `/var/typerefinery/flow/` resource (not the component resource) using the `flowapi_processing_state` property, allowing coordination between the change listener and job consumer without triggering listener loops.
@@ -81,8 +87,8 @@ Property names are generated using the `FlowService.prop()` helper method:
 
 ## Event Pipeline
 
-- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and filters changes to flow-enabled resources using `flowService.isFlowEnabledResource`. The listener uses `PROPERTY_NAMES_HINT` to only trigger on user-controlled property changes (`flowapi_enable`, `flowapi_template`, `flowapi_title`, etc.), preventing loops from internal FlowService updates. The listener is simplified to only create jobs with `componentPath` and `changeType` - all business logic is handled by `FlowSyncJobConsumer`.  
-```125:150:application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java
+- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and uses `PROPERTY_NAMES_HINT` to only trigger on user-controlled property changes (`flowapi_enable`, `flowapi_template`, `flowapi_title`, etc.), preventing loops from internal FlowService updates. The listener is simplified to **only create jobs** with `componentPath` and `changeType` - **all business logic is handled by `FlowSyncJobConsumer`**. This follows the architectural principle that change listeners should only create jobs, not perform business logic.  
+```120:143:application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java
     public void processChanges(List<ResourceChange> changes, ResourceResolver resourceResolver) {
         LOGGER.info("FlowResourceChangeListener.processChanges: Processing {} change(s)", 
             changes != null ? changes.size() : 0);
@@ -91,32 +97,48 @@ Property names are generated using the `FlowService.prop()` helper method:
             String componentPath = change.getPath();
             ResourceChange.ChangeType changeType = change.getType();
             
-            // Check if resource exists and is flow-enabled
-            Resource resource = resourceResolver.getResource(componentPath);
-            if (resource == null || !flowService.isFlowEnabledResource(resource)) {
-                continue;
-            }
+            LOGGER.info("FlowResourceChangeListener.processChanges: Creating job for change. path={}, type={}", 
+                componentPath, changeType);
             
             // Create job with component path and change type
-            // FlowSyncJobConsumer will handle all business logic
+            // FlowSyncJobConsumer will handle all business logic (flow-enabled check, cleanup, etc.)
             Map<String, Object> props = new HashMap<>();
             props.put("componentPath", componentPath);
             props.put("changeType", changeType.toString());
             
             Job job = jobManager.addJob(JOB_TOPIC, props);
+            String jobId = job != null ? job.getId() : null;
+            
+            LOGGER.info("FlowResourceChangeListener.processChanges: Created job. path={}, changeType={}, jobId={}", 
+                componentPath, changeType, jobId);
         }
     }
 ```
-- **Job execution** – `FlowSyncJobConsumer` processes jobs created by the listener. It:
-  1. Checks if resource is flow-enabled
-  2. Gets or creates `/var/typerefinery/flow/{componentPath}` resource
-  3. Checks state (HOLD, QUEUED, PROCESSING) and handles retries/stuck state detection
-  4. Syncs component metadata from `/content` to `/var` via `FlowSyncStorageService`
-  5. Sets state to `PROCESSING`
-  6. Calls `FlowService.doProcessFlowResource` with the `/var` resource
-  7. Sets final state (`COMPLETED`, `ERROR`, or `SKIPPED`)
+
+- **Job execution** – `FlowSyncJobConsumer` processes jobs created by the listener. The execution flow is refactored into separate methods for clarity:
+
+  **For REMOVED changes** (`processRemovedChange`):
+  1. Get `/var` resource (component is already deleted)
+  2. If `/var` resource exists and has a valid `flowstreamid`, pause the flow via Flow API
+  3. Delete `/var` resource
+  4. Return `OK` or `FAILED`
+
+  **For ADDED/CHANGED updates** (`processUpdateChange`):
+  1. **Check flow-enabled FIRST** - Verify component resource exists and is flow-enabled. If not flow-enabled, return `OK` immediately (no state reservation needed).
+  2. Get or create `/var/typerefinery/flow/{componentPath}` resource (only for flow-enabled resources)
+  3. **Check and reserve state** (`checkAndReserveState`):
+     - Handle `HOLD` state (skip processing)
+     - Handle `QUEUED`/`PROCESSING` state (check if stuck, retry if owned by another job)
+     - Reserve state to `PROCESSING` with job ID
+  4. **Sync component metadata to var** - Copy user-controlled properties from `/content` to `/var` via `FlowSyncStorageService.syncComponentToVar()`
+  5. **Handle enable/disable transitions** (`handleEnableDisableTransitions`):
+     - If disabled + valid flow ID → Pause flow
+     - If enabled (was disabled) + valid flow ID → Unpause flow
+     - If enabled → Sync `/var` to Flow API via `FlowSyncStorageService.syncVarToFlow()`
+     - If disabled + no flow ID → Nothing to do
+  6. Set final state (`COMPLETED`, `ERROR`, or `SKIPPED`)
   
-  The consumer uses a configurable retry mechanism (default: 10 retries) and detects stuck resources (timeout or missing job ID) for automatic recovery. No jobs are cancelled - the state machine and JobManager retries ensure sequential processing.
+  The consumer uses a configurable retry mechanism (default: 10 retries) and detects stuck resources (timeout or missing job ID) for automatic recovery. The flow-enabled check happens **before** state reservation to prevent unnecessary job queuing for non-flow-enabled resources.
 
 ## Component Registration and Defaults
 

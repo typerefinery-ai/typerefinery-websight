@@ -107,22 +107,49 @@ All Flow service data is now stored in `/var/typerefinery/flow/` to prevent list
 
 ## Event Flow
 
+### ADDED/CHANGED Flow
+
 ```
 User Updates Component in Dialog
   → Save Properties to /content Resource
   → FlowResourceChangeListener Detects Change
   → Create Job (componentPath + changeType)
-  → FlowSyncJobConsumer Processes Job
-    → Check if Flow-Enabled
-    → Get/Create Var Resource
-    → Check State (HOLD, QUEUED, PROCESSING)
-    → Sync Component Metadata to Var
-    → Set State to PROCESSING
-    → Call FlowService (with var resource)
-    → FlowService Updates Flow API
-    → Write Response to Var Resource
-    → Set State to COMPLETED/ERROR/SKIPPED
+  → FlowSyncJobConsumer.process()
+    → Validate Job Properties
+    → processUpdateChange()
+      → STEP 1: Check if Flow-Enabled FIRST
+        → If not flow-enabled → Return OK (skip)
+      → STEP 2: Get/Create Var Resource (only for flow-enabled)
+      → STEP 3: Check and Reserve State
+        → Check HOLD → Skip if HOLD
+        → Check QUEUED/PROCESSING → Retry if owned by other job
+        → Reserve State to PROCESSING
+      → STEP 4: Sync Component Metadata to Var
+        → Copy user properties from /content to /var
+      → STEP 5: Handle Enable/Disable Transitions
+        → If disabled + has flow ID → Pause flow
+        → If enabled (was disabled) + has flow ID → Unpause flow
+        → If enabled → Sync var to Flow API
+      → STEP 6: Set Final State (COMPLETED/ERROR/SKIPPED)
 ```
+
+### REMOVED Flow
+
+```
+User Deletes Component
+  → Component Removed from /content
+  → FlowResourceChangeListener Detects Change
+  → Create Job (componentPath + REMOVED)
+  → FlowSyncJobConsumer.process()
+    → Validate Job Properties
+    → processRemovedChange()
+      → Get /var Resource
+      → If /var exists and has flow ID → Pause flow via Flow API
+      → Delete /var Resource
+      → Return OK
+```
+
+See [flow-execution-flow.md](flow-execution-flow.md) and [flow-sync-flow.md](flow-sync-flow.md) for detailed diagrams.
 
 ## Benefits
 
