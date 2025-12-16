@@ -18,11 +18,9 @@ All project-specific rules, patterns, and requirements are defined in the Cursor
 - [gov-06-issues.mdc](mdc:.cursor/rules/gov-06-issues.mdc) - Issue management workflow
 - [gov-07-tasks.mdc](mdc:.cursor/rules/gov-07-tasks.mdc) - Task management principles
 
-**Project Rules (Widget Graph Viz):**
-- [proj-01-widget-overview.mdc](mdc:.cursor/rules/proj-01-widget-overview.mdc) - Project overview and architecture
-- [proj-02-file-loading.mdc](mdc:.cursor/rules/proj-02-file-loading.mdc) - File loading order requirements
-- [proj-03-development.mdc](mdc:.cursor/rules/proj-03-development.mdc) - Project development workflow
-- [proj-04-testing.mdc](mdc:.cursor/rules/proj-04-testing.mdc) - Project-specific testing patterns
-- [proj-05-api.mdc](mdc:.cursor/rules/proj-05-api.mdc) - API integration patterns
+**Project Rules:**
+- [proj-01-htl-overview.mdc](mdc:.cursor/rules/proj-01-htl-overview.mdc) - HTL development standards
+- [proj-02-htl-specification.mdc](mdc:.cursor/rules/proj-02-htl-specification.mdc) - HTL specification reference
+- [proj-03-change-listeners.mdc](mdc:.cursor/rules/proj-03-change-listeners.mdc) - Change listener architecture pattern
 
 **Always consult the appropriate Cursor rule for detailed guidance before implementing any feature or test.**

@@ -1,0 +1,238 @@
+---
+description: Project rule for change listener architecture and job creation pattern
+globs: 
+alwaysApply: true
+---
+# Project: Change Listener Architecture
+
+## CRITICAL RULE: Change Listeners Only Create Jobs
+
+**MANDATORY**: Change listeners (ResourceChangeListener implementations) MUST ONLY create jobs. They MUST NOT perform any business logic, resource checks, filtering, or processing decisions. Primary reason that these need to be fast. Secondary as these do not have any failsafe and retry framework so doing anything with repository will break without safety.
+
+### Architecture Principle
+
+Change listeners are responsible for:
+1. **Receiving change events** from Sling
+2. **Creating jobs** with minimal context (path, change type)
+3. **NO business logic** - no resource checks, no filtering, no decisions
+
+All business logic, resource checks, filtering, and processing decisions MUST be performed by the JobConsumer that processes the jobs.
+
+### Why This Pattern?
+
+1. **Separation of Concerns**: Listeners detect events, consumers process them
+2. **Reliability**: Listeners execute synchronously and must be fast; async job processing handles complex logic
+3. **Retry Logic**: Jobs can be retried; listener logic cannot
+4. **State Management**: Jobs can check state and handle race conditions; listeners cannot
+5. **Testing**: Jobs are easier to test than event listeners
+
+### Implementation Pattern
+
+#### ✅ CORRECT: Change Listener (Simple Job Creation)
+
+```java
+@Component(
+  service = ResourceChangeListener.class,
+  property = {
+    ResourceChangeListener.PATHS + "=/content",
+    ResourceChangeListener.CHANGES + "=ADDED",
+    ResourceChangeListener.CHANGES + "=CHANGED",
+    ResourceChangeListener.CHANGES + "=REMOVED"
+  }
+)
+public class MyResourceChangeListener implements ResourceChangeListener {
+    
+    @Reference
+    private JobManager jobManager;
+    
+    @Override
+    public void onChange(List<ResourceChange> changes) {
+        for (ResourceChange change : changes) {
+            Map<String, Object> props = new HashMap<>();
+            props.put("componentPath", change.getPath());
+            props.put("changeType", change.getType().toString());
+            
+            jobManager.addJob(JOB_TOPIC, props);
+        }
+    }
+}
+```
+
+**What the listener CAN do:**
+- Check if listener is enabled (configuration check)
+- Create jobs for all received changes
+- Log that jobs were created
+- Handle exceptions when creating jobs
+
+**What the listener CANNOT do:**
+- ❌ Check if resource exists
+- ❌ Check if resource is flow-enabled or meets business criteria
+- ❌ Check state machine states
+- ❌ Filter changes based on business logic
+- ❌ Perform any resource operations (read, write, delete)
+- ❌ Make decisions about whether to process a change
+
+#### ✅ CORRECT: Job Consumer (All Business Logic)
+
+```java
+@Component(
+  service = JobConsumer.class,
+  property = {
+    JobConsumer.PROPERTY_TOPICS + "=" + JOB_TOPIC
+  }
+)
+public class MyJobConsumer implements JobConsumer {
+    
+    @Reference
+    private FlowService flowService;
+    
+    @Reference
+    private FlowSyncStorageService flowSyncStorage;
+    
+    @Override
+    public JobResult process(Job job) {
+        String componentPath = job.getProperty("componentPath", String.class);
+        String changeTypeStr = job.getProperty("changeType", String.class);
+        ResourceChange.ChangeType changeType = ResourceChange.ChangeType.valueOf(changeTypeStr);
+        
+        // ALL business logic happens here:
+        // - Check if resource exists
+        // - Check if flow-enabled
+        // - Check state machine
+        // - Handle REMOVED cleanup
+        // - Sync metadata
+        // - Call FlowService
+        // - Manage retries and state
+        
+        // Handle REMOVED changes
+        if (changeType == ResourceChange.ChangeType.REMOVED) {
+            // Cleanup logic here
+            return JobResult.OK;
+        }
+        
+        // Handle ADDED/CHANGED
+        Resource resource = resolver.getResource(componentPath);
+        if (resource == null) {
+            return JobResult.FAILED;
+        }
+        
+        if (!flowService.isFlowEnabledResource(resource)) {
+            return JobResult.OK; // Skip, not an error
+        }
+        
+        // Process the change...
+        return JobResult.OK;
+    }
+}
+```
+
+### Examples
+
+#### ❌ WRONG: Listener with Business Logic
+
+```java
+@Override
+public void onChange(List<ResourceChange> changes) {
+    for (ResourceChange change : changes) {
+        Resource resource = resolver.getResource(change.getPath());
+        
+        // ❌ WRONG: Checking if resource exists in listener
+        if (resource == null) {
+            continue;
+        }
+        
+        // ❌ WRONG: Checking business criteria in listener
+        if (!flowService.isFlowEnabledResource(resource)) {
+            continue;
+        }
+        
+        // ❌ WRONG: Checking state in listener
+        String state = getState(resource);
+        if ("PROCESSING".equals(state)) {
+            continue;
+        }
+        
+        // Only now create job
+        jobManager.addJob(JOB_TOPIC, props);
+    }
+}
+```
+
+**Problems:**
+- Listener does business logic (checks resource, checks flow-enabled, checks state)
+- No retry mechanism if checks fail
+- Cannot handle race conditions
+- Synchronous execution blocks event processing
+
+#### ✅ CORRECT: Listener Creates All Jobs
+
+```java
+@Override
+public void onChange(List<ResourceChange> changes) {
+    for (ResourceChange change : changes) {
+        // ✅ CORRECT: Just create job, let consumer decide
+        Map<String, Object> props = new HashMap<>();
+        props.put("componentPath", change.getPath());
+        props.put("changeType", change.getType().toString());
+        
+        jobManager.addJob(JOB_TOPIC, props);
+    }
+}
+```
+
+**Benefits:**
+- Simple, fast listener execution
+- All logic in consumer (testable, retryable)
+- Consumer handles state, race conditions, filtering
+
+### Configuration Checks
+
+Listeners MAY check configuration to determine if they should create jobs:
+
+```java
+private boolean enabled;
+
+@Activate
+protected void activate() {
+    this.enabled = flowService.configuration.flow_page_change_listener_enabled();
+}
+
+@Override
+public void onChange(List<ResourceChange> changes) {
+    if (!enabled) {
+        return; // Configuration check is OK
+    }
+    
+    // Create jobs...
+}
+```
+
+**Note**: Configuration checks are acceptable because they're not business logic - they're feature flags that control whether the listener should operate at all.
+
+### FlowResourceChangeListener Pattern
+
+The `FlowResourceChangeListener` follows this pattern:
+
+1. **Listens** to `/content` path changes (ADDED, CHANGED, REMOVED)
+2. **Filters by property names** via `PROPERTY_NAMES_HINT` (OSGi configuration, not business logic)
+3. **Creates jobs** with `componentPath` and `changeType` for ALL received changes
+4. **No business logic** - no resource checks, no flow-enabled checks, no state checks
+
+All business logic is handled by `FlowSyncJobConsumer`:
+- Checking if component resource exists
+- Checking if resource is flow-enabled
+- Handling REMOVED changes (cleanup /var resources, pause flows)
+- Managing state machine transitions
+- Syncing metadata
+- Calling FlowService
+
+### Enforcement
+
+When reviewing change listener code:
+- [ ] Does the listener only create jobs?
+- [ ] Is all business logic in the JobConsumer?
+- [ ] Are there any resource checks in the listener?
+- [ ] Are there any filtering decisions based on business criteria?
+- [ ] Are there any state checks in the listener?
+
+If any business logic exists in a listener, it MUST be moved to the JobConsumer.
