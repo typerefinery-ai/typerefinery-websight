@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ai.typerefinery.websight.services.flow.FlowService;
+import ai.typerefinery.websight.services.flow.FlowSyncStorageService;
 import lombok.Getter;
 
 /*
@@ -51,10 +52,8 @@ public class FlowComponent extends BaseComponent {
     public Boolean flowapi_enable;
 
     // if blank will create new flow, if not blank will be used to update existing flow
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_FLOWSTREAMID)
     public String flowapi_flowstreamid;
 
     // will be used to test if update of flow should happen
@@ -118,22 +117,16 @@ public class FlowComponent extends BaseComponent {
     @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_README)
     public String flowapi_readme;
 
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_CREATEDON)
     public String flowapi_createdon;
     
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_UPDATEDON)
     public String flowapi_updatedon;
     
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_PAUSED)
     public Boolean flowapi_paused;
     
     @Getter
@@ -165,39 +158,88 @@ public class FlowComponent extends BaseComponent {
     @Inject
     public String title;
 
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_EDITURL)
     public String flowapi_editurl;
 
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_HTTPROUTE)
     public String flowapi_httproute;
 
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_HTTPROUTE_NOSFX)
     public String flowapi_httproutenosfx;
 
+    // Read from /var resource (Flow service managed)
     @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_WEBSOCKETURL)
     public String flowapi_websocketurl;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OSGiService
     FlowService flowService;
+    
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OSGiService
+    FlowSyncStorageService flowSyncStorage;
 
     @Override
     @PostConstruct
     protected void init() {
         super.init();
+        
+        // Read Flow service properties from /var resource
+        // User-controlled properties are already injected from component resource
+        if (this.resource != null && this.resourceResolver != null && flowSyncStorage != null) {
+            try {
+                Resource varResource = flowSyncStorage.getOrCreateVarResource(
+                    this.resource.getPath(),
+                    this.resourceResolver
+                );
+                
+                if (varResource != null) {
+                    org.apache.sling.api.resource.ValueMap varProps = varResource.getValueMap();
+                    
+                    // Read Flow service managed properties from var resource
+                    this.flowapi_flowstreamid = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_FLOWSTREAMID),
+                        String.class
+                    );
+                    this.flowapi_createdon = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_CREATEDON),
+                        String.class
+                    );
+                    this.flowapi_updatedon = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_UPDATEDON),
+                        String.class
+                    );
+                    this.flowapi_paused = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_PAUSED),
+                        Boolean.class
+                    );
+                    this.flowapi_editurl = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_EDITURL),
+                        String.class
+                    );
+                    this.flowapi_httproute = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_HTTPROUTE),
+                        String.class
+                    );
+                    this.flowapi_httproutenosfx = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_HTTPROUTE_NOSFX),
+                        String.class
+                    );
+                    this.flowapi_websocketurl = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_WEBSOCKETURL),
+                        String.class
+                    );
+                }
+            } catch (Exception e) {
+                LOG.warn("FlowComponent.init: Error reading Flow service properties from var resource. path={}", 
+                    this.resource != null ? this.resource.getPath() : "null", e);
+            }
+        }
     }
 
     public Boolean isContainer() {

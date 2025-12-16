@@ -538,7 +538,7 @@ public class FlowService {
      * @param errorMessage Optional error message if state is ERROR
      * @param jobId Optional job ID that is processing this resource (null to clear)
      */
-    private void setResourceState(Resource resource, String state, String errorMessage, String jobId) {
+    public void setResourceState(Resource resource, String state, String errorMessage, String jobId) {
         try {
             HashMap<String, Object> props = new HashMap<>();
             props.put(prop(PROPERTY_PROCESSING_STATE), state);
@@ -578,7 +578,7 @@ public class FlowService {
      * @param state The new state (IDLE, PENDING, PROCESSING, COMPLETED, ERROR, SKIPPED)
      * @param errorMessage Optional error message if state is ERROR
      */
-    private void setResourceState(Resource resource, String state, String errorMessage) {
+    public void setResourceState(Resource resource, String state, String errorMessage) {
         setResourceState(resource, state, errorMessage, null);
     }
 
