@@ -1,351 +1,139 @@
-# Flow Component Var Storage Architecture Plan
+# Flow Component Var Storage Architecture
+
+This document describes the architecture for storing Flow service data in `/var/typerefinery/flow/` to prevent listener loops.
 
 ## Problem Statement
 
-Currently, Flow component properties are stored directly on the component resource in `/content`, which causes the `FlowResourceChangeListener` to trigger on every FlowService update, creating infinite loops.
+Flow component properties were previously stored directly on the component resource in `/content`, which caused the `FlowResourceChangeListener` to trigger on every FlowService update, creating infinite loops.
 
 ## Solution: Store Flow Data in `/var` with FlowSyncStorageService
 
-Move all Flow service data to `/var/typerefinery/flow/` to prevent listener loops while keeping metadata in the component dialog.
+All Flow service data is now stored in `/var/typerefinery/flow/` to prevent listener loops while keeping user-editable metadata in the component dialog.
 
 ## Architecture Overview
 
 ### Path Mapping
 
-**Component Path** → **Var Path** (simply prepend `/var/typerefinery/flow`)
+**Component Path** → **Var Path** (prepend `/var/typerefinery/flow`)
 
 ```
 /content/pages/home/jcr:content/rootcontainer/form
   → /var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/form
-
-/content/typerefinery-showcase/pages/components/form/jcr:content/rootcontainer/main/form
-  → /var/typerefinery/flow/content/typerefinery-showcase/pages/components/form/jcr:content/rootcontainer/main/form
-
-/content/os-triage/pages/dashboard/jcr:content/rootcontainer/header
-  → /var/typerefinery/flow/content/os-triage/pages/dashboard/jcr:content/rootcontainer/header
 ```
 
 ### Data Storage
 
 **Component Resource** (`/content/...`):
-```
-/content/pages/home/jcr:content/rootcontainer/form
-  ├── flowapi_enable (user-controlled)
-  ├── flowapi_template (user-controlled)
-  ├── flowapi_title (user-controlled)
-  ├── flowapi_icon (user-controlled)
-  ├── flowapi_color (user-controlled)
-  └── ... (other user-controlled metadata)
-```
+- User-editable metadata: `flowapi_enable`, `flowapi_template`, `flowapi_title`, `flowapi_icon`, `flowapi_color`, `flowapi_name`, `flowapi_group`, `flowapi_reference`, `flowapi_version`, `flowapi_readme`, `flowapi_sampledata`
 
 **Var Resource** (`/var/typerefinery/flow/...`):
-```
-/var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/form
-  ├── flowapi_flowstreamid (from Flow service)
-  ├── flowapi_processing_state (state machine)
-  ├── flowapi_processing_job_id (job tracking)
-  ├── flowapi_processing_state_timestamp
-  ├── flowapi_processing_error
-  ├── flowapi_paused (from Flow service)
-  ├── flowapi_httproute (from Flow service)
-  ├── flowapi_httproutenosfx (from Flow service)
-  ├── flowapi_websocketurl (from Flow service)
-  ├── flowapi_editurl (from Flow service)
-  └── ... (all Flow service response data)
-```
+- Flow service data: `flowapi_flowstreamid`, `flowapi_paused`, `flowapi_httproute`, `flowapi_editurl`, `flowapi_websocketurl`, etc.
+- State machine: `flowapi_processing_state`, `flowapi_processing_job_id`, `flowapi_processing_state_timestamp`, `flowapi_processing_error`
 
-### Path Examples for Different Page Structures
+## Implementation Details
 
-**Simple Page with Form**:
-- Component: `/content/pages/home/jcr:content/rootcontainer/form`
-- Var: `/var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/form`
-
-**Nested Page Structure**:
-- Component: `/content/typerefinery-showcase/pages/components/form/jcr:content/rootcontainer/main/form`
-- Var: `/var/typerefinery/flow/content/typerefinery-showcase/pages/components/form/jcr:content/rootcontainer/main/form`
-
-**Deep Component Nesting**:
-- Component: `/content/pages/home/jcr:content/rootcontainer/main/container/section/form`
-- Var: `/var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/main/container/section/form`
-
-**Flow Container Component**:
-- Component: `/content/pages/home/jcr:content/rootcontainer/flowcontainer`
-- Var: `/var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/flowcontainer`
-
-## Task List
-
-### 1. Create FlowSyncStorageService
+### 1. FlowSyncStorageService
 
 **File**: `application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowSyncStorageService.java`
 
-**Methods**:
-- `getVarPath(String contentPath)` → `/var/typerefinery/flow{contentPath}`
-- `getOrCreateVarResource(String contentPath, ResourceResolver resolver)` → Gets or creates var resource
-- `syncComponentToVar(Resource componentResource)` → Copies component metadata to var resource
-- `syncVarToFlow(Resource varResource)` → Syncs var data to Flow service (called by job)
-- `syncFlowToVar(Resource varResource, Map<String, Object> flowResponse)` → Writes Flow service response to var
+**Responsibilities**:
+- Maps `/content` paths to `/var` paths
+- Creates `/var` resources when needed
+- Syncs component metadata to `/var`
+- Calls FlowService to sync `/var` data to Flow API
+- Writes Flow API responses back to `/var`
 
-**Code Structure**:
-```java
-@Component(service = FlowSyncStorageService.class)
-public class FlowSyncStorageService {
-    private static final String VAR_ROOT = "/var/typerefinery/flow";
-    
-    @Reference
-    private FlowService flowService;
-    
-    public String getVarPath(String contentPath) {
-        return VAR_ROOT + contentPath;
-    }
-    
-    public Resource getOrCreateVarResource(String contentPath, ResourceResolver resolver) {
-        String varPath = getVarPath(contentPath);
-        Resource varResource = resolver.getResource(varPath);
-        if (varResource == null) {
-            varResource = createVarResource(varPath, resolver);
-        }
-        return varResource;
-    }
-    
-    public void syncComponentToVar(Resource componentResource) {
-        // Copy user metadata to var resource
-    }
-    
-    public boolean syncVarToFlow(Resource varResource) {
-        // Call FlowService to update/create flow
-        return flowService.doProcessFlowResource(varResource, ResourceChange.ChangeType.CHANGED);
-    }
-    
-    public void syncFlowToVar(Resource varResource, Map<String, Object> flowResponse) {
-        PageUtil.updatResourceProperties(varResource, flowResponse, true);
-    }
-}
-```
+### 2. FlowSyncJobConsumer
 
-### 2. Update FlowService to Use Var Resources
+**File**: `application/backend/src/main/java/ai/typerefinery/websight/jobs/flow/FlowSyncJobConsumer.java`
 
-**File**: `application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java`
+**Responsibilities**:
+- Processes jobs created by `FlowResourceChangeListener`
+- Checks if resource is flow-enabled
+- Gets or creates `/var` resource
+- Checks state (HOLD, QUEUED, PROCESSING) and handles retries
+- Detects and recovers from stuck states
+- Syncs component metadata to `/var`
+- Calls FlowService with `/var` resource
+- Manages state transitions
 
-**Changes**:
-- Inject `FlowSyncStorageService`
-- Update `doProcessFlowResource()` to accept var resource (not component resource)
-- Update `setResourceState()` to write to var resource
-- Update `persistPauseState()` to write to var resource
-- Update `createFlowFromTemplate()` to write response via `flowSyncStorage.syncFlowToVar()`
-- Update `updateFlowFromTemplate()` to write response via `flowSyncStorage.syncFlowToVar()`
+**Configuration**:
+- `maxRetryCount`: Maximum retries before giving up (default: 10)
+- `processingTimeoutSeconds`: Timeout for stuck state detection (default: 300 seconds)
 
-**Key Change**: FlowService now operates on var resources, not component resources.
-
-### 3. Update FlowComponent Model to Read from Both
-
-**File**: `application/backend/src/main/java/ai/typerefinery/websight/models/components/FlowComponent.java`
-
-**Changes**:
-- Inject `FlowSyncStorageService`
-- User-controlled properties: Read from component resource (injected)
-- Flow service properties: Read from var resource in `@PostConstruct`
-- If var resource doesn't exist, create it (means it needs sync)
-
-**Code Structure**:
-```java
-@Model(adaptables = {SlingHttpServletRequest.class, Resource.class})
-public class FlowComponent {
-    @Inject
-    private Resource resource;  // Component resource from /content
-    
-    @Inject
-    private FlowSyncStorageService flowSyncStorage;
-    
-    // User metadata (from component resource)
-    @Inject
-    @Named(FlowService.prop(FlowService.PROPERTY_ENABLE))
-    public Boolean flowapi_enable;
-    
-    // Flow service data (from var resource)
-    public String flowapi_flowstreamid;
-    public Boolean flowapi_paused;
-    
-    @PostConstruct
-    protected void init() {
-        Resource varResource = flowSyncStorage.getOrCreateVarResource(
-            resource.getPath(), 
-            resource.getResourceResolver()
-        );
-        // Read Flow service properties from varResource
-    }
-}
-```
-
-### 4. Update FlowResourceChangeListener
+### 3. FlowResourceChangeListener (Simplified)
 
 **File**: `application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java`
 
 **Changes**:
-- Inject `FlowSyncStorageService`
-- When component changes:
-  1. Sync component metadata to var resource
-  2. Create job with var resource path
-  3. Job tells FlowSyncService to update flow
-- Remove complex property filtering (no longer needed)
-- Only watch `/content` (var changes won't trigger)
+- **Simplified**: Only creates jobs, no business logic
+- Creates jobs with `componentPath` and `changeType`
+- All business logic moved to `FlowSyncJobConsumer`
 
-**Code Structure**:
-```java
-public void processChanges(List<ResourceChange> changes, ResourceResolver resourceResolver) {
-    for (ResourceChange change : changes) {
-        Resource componentResource = resourceResolver.getResource(change.getPath());
-        
-        if (flowService.isFlowEnabledResource(componentResource)) {
-            // Sync component metadata to var
-            flowSyncStorage.syncComponentToVar(componentResource);
-            
-            // Get var path and create job
-            String varPath = flowSyncStorage.getVarPath(componentResource.getPath());
-            Map<String, Object> props = new HashMap<>();
-            props.put("varPath", varPath);
-            jobManager.addJob(FLOW_SYNC_JOB_TOPIC, props);
-        }
-    }
-}
-```
+### 4. FlowComponent Model
 
-### 5. Create FlowSyncJobConsumer
+**File**: `application/backend/src/main/java/ai/typerefinery/websight/models/components/FlowComponent.java`
 
-**File**: `application/backend/src/main/java/ai/typerefinery/websight/jobs/flow/FlowSyncJobConsumer.java`
+**Changes**:
+- User-controlled properties: Read from component resource (injected)
+- Flow service properties: Read from `/var` resource in `@PostConstruct`
+- Uses `FlowSyncStorageService` to get var resource
 
-**Purpose**: Process jobs to sync var resources to Flow service
+### 5. FlowService
 
-**Code Structure**:
-```java
-@Component(
-  property = {
-    JobConsumer.PROPERTY_TOPICS + "=io/typerefinery/websight/flow/sync"
-  }
-)
-public class FlowSyncJobConsumer implements JobConsumer {
-    
-    @Reference
-    private FlowSyncStorageService flowSyncStorage;
-    
-    @Override
-    public JobResult process(Job job) {
-        String varPath = job.getProperty("varPath", String.class);
-        
-        try (ResourceResolver resolver = contentAccess.getAdminResourceResolver()) {
-            Resource varResource = resolver.getResource(varPath);
-            if (varResource == null) {
-                return JobResult.FAILED;
-            }
-            
-            // Sync var resource to Flow service
-            boolean success = flowSyncStorage.syncVarToFlow(varResource);
-            return success ? JobResult.OK : JobResult.FAILED;
-        }
-    }
-}
-```
+**File**: `application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java`
 
-### 6. Update Flow Dialog
+**Changes**:
+- `setResourceState()` is now public (used by `FlowSyncJobConsumer`)
+- Operates on `/var` resources (passed from `FlowSyncJobConsumer`)
+
+### 6. OpenUrl Dialog Component
+
+**Files**:
+- `application/backend/src/main/resources/apps/typerefinery/components/dialog/flow/openurl/.content.json`
+- `application/backend/src/main/resources/apps/typerefinery/components/dialog/flow/openurl/openurl.json.html`
+- `application/backend/src/main/java/ai/typerefinery/websight/models/dialog/FlowOpenUrlModel.java`
+
+**Purpose**: Display read-only Flow URLs from `/var` resource in dialogs
+
+### 7. Flow Dialog
 
 **File**: `application/backend/src/main/resources/apps/typerefinery/components/flow/flowcontainer/dialog/.content.json`
 
 **Changes**:
-- Remove read-only Flow service fields (flowstreamid, httproute, editurl, websocketurl, etc.)
-- Keep only user-editable metadata fields:
-  - `flowapi_enable`
-  - `flowapi_template`
-  - `flowapi_title`
-  - `flowapi_icon`
-  - `flowapi_color`
-  - `flowapi_name`
-  - `flowapi_group`
-  - `flowapi_reference`
-  - `flowapi_version`
-  - `flowapi_readme`
-  - `flowapi_sampledata`
+- Removed read-only Flow service fields (moved to OpenUrl components)
+- Added OpenUrl components for `editurl`, `httproute`, `websocketurl`
+- Kept only user-editable metadata fields
 
-### 7. Create Flow OpenUrl Dialog Component
-
-**File**: `application/backend/src/main/resources/apps/typerefinery/components/dialog/flow/openurl/.content.json`
-
-**Purpose**: Display Flow URLs (read-only) from var resource
-
-**Based On**: Copy `typerefinery/components/dialog/url` component
-
-**Component Path**: `typerefinery/components/dialog/flow/openurl`
-
-**Code Structure**:
-```javascript
-// OpenUrl.js
-export default class OpenUrl extends URL {
-  getValue() {
-    const componentPath = this.getComponentPath();
-    const varPath = `/var/typerefinery/flow${componentPath}`;
-    const varResource = this.getResource(varPath);
-    return varResource?.getValueMap()?.get(this.propertyName, '');
-  }
-}
-```
-
-**Dialog Usage**:
-```json
-{
-  "httproute": {
-    "sling:resourceType": "typerefinery/components/dialog/flow/openurl",
-    "propertyName": "flowapi_httproute",
-    "fieldLabel": "HTTP Route",
-    "readOnly": true
-  },
-  "editurl": {
-    "sling:resourceType": "typerefinery/components/dialog/flow/openurl",
-    "propertyName": "flowapi_editurl",
-    "fieldLabel": "Edit URL",
-    "readOnly": true
-  }
-}
-```
-
-## Data Flow
+## Event Flow
 
 ```
-User changes component metadata
-  → FlowResourceChangeListener detects change
-  → syncComponentToVar() copies metadata to /var
-  → Creates job with var path
-  → FlowSyncJobConsumer processes job
-  → syncVarToFlow() calls FlowService
-  → FlowService updates Flow service
-  → syncFlowToVar() writes response to /var
-  → /var changes don't trigger /content listener (no loop!)
+User Updates Component in Dialog
+  → Save Properties to /content Resource
+  → FlowResourceChangeListener Detects Change
+  → Create Job (componentPath + changeType)
+  → FlowSyncJobConsumer Processes Job
+    → Check if Flow-Enabled
+    → Get/Create Var Resource
+    → Check State (HOLD, QUEUED, PROCESSING)
+    → Sync Component Metadata to Var
+    → Set State to PROCESSING
+    → Call FlowService (with var resource)
+    → FlowService Updates Flow API
+    → Write Response to Var Resource
+    → Set State to COMPLETED/ERROR/SKIPPED
 ```
 
 ## Benefits
 
-1. **No More Loops**: `/var` changes don't trigger `/content` listener
-2. **Clean Separation**: User data vs. service data
-3. **Simpler Dialog**: Only user-editable fields
-4. **Better Performance**: Less property filtering needed
-5. **Easier Debugging**: Clear data location
+1. **No Listener Loops**: Flow service updates to `/var` don't trigger `/content` listener
+2. **Clean Separation**: User data in `/content`, Flow service data in `/var`
+3. **State Machine**: Prevents duplicate processing with retry mechanism
+4. **Stuck State Recovery**: Automatic detection and recovery from stuck jobs
+5. **Simplified Listener**: Listener only creates jobs, all logic in consumer
 
-## Testing
+## Future Enhancements
 
-1. Enable flow → check `/var` resource created
-2. Update title → check only component resource updated
-3. Check dialog shows URLs from var resource
-4. Verify no listener loops
-5. Test job retry mechanism
-
-## Files to Create/Modify
-
-**New Files**:
-- `FlowSyncStorageService.java`
-- `FlowSyncJobConsumer.java`
-- `typerefinery/components/dialog/flow/openurl/.content.json`
-- `typerefinery/components/dialog/flow/openurl/README.md`
-- `typerefinery/components/dialog/flow/openurl/clientlibs/OpenUrl.js`
-
-**Modified Files**:
-- `FlowService.java` (operates on var resources)
-- `FlowComponent.java` (reads from both)
-- `FlowResourceChangeListener.java` (simplified - just raises jobs)
-- `flowcontainer/dialog/.content.json` (only user metadata fields)
+- Consider adding metrics for var resource operations
+- Monitor var resource storage usage
+- Consider cleanup of old var resources for deleted components

@@ -4,7 +4,7 @@ This guide covers the full Flow feature set: how change events trigger work, how
 
 ## Processing State Machine
 
-Flow resources maintain a processing state machine to track the lifecycle of flow creation and updates. The state is persisted on the resource itself using the `flowapi_processing_state` property, allowing coordination between the change listener and job consumer.
+Flow resources maintain a processing state machine to track the lifecycle of flow creation and updates. The state is persisted on the `/var/typerefinery/flow/` resource (not the component resource) using the `flowapi_processing_state` property, allowing coordination between the change listener and job consumer without triggering listener loops.
 
 ### State Values
 
@@ -59,9 +59,9 @@ HOLD → IDLE (user releases hold)
 
 State management is implemented in:
 
-- **`FlowService.setResourceState()`** – Helper method to update state properties on a resource
-- **`FlowResourceChangeListener.shouldSkipResourceByState()`** – Checks state before creating jobs
-- **`FlowJobConsumer.process()`** – Checks state before processing and updates state during processing
+- **`FlowService.setResourceState()`** – Helper method to update state properties on a resource (operates on `/var` resources)
+- **`FlowSyncJobConsumer.process()`** – Checks state before processing and updates state during processing
+- **`FlowSyncJobConsumer.isResourceStuck()`** – Detects and recovers from stuck states (timeout or missing job ID)
 
 ```java
 // Example: Setting resource state
@@ -81,53 +81,82 @@ Property names are generated using the `FlowService.prop()` helper method:
 
 ## Event Pipeline
 
-- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and filters changes to flow-enabled resources using `flowService.isFlowEnabledResource`. The listener uses `PROPERTY_NAMES_HINT` to only trigger on user-controlled property changes (`flowapi_enable`, `flowapi_template`, `flowapi_title`, etc.), preventing loops from internal FlowService updates. Matching paths are batched into a Sling Job payload so the heavy work runs outside the listener thread. Before creating a job, the listener checks the resource state and skips if the resource is `HOLD`, `QUEUED`, or `PROCESSING`.  
-```101:117:application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java
+- **Change detection** – `FlowResourceChangeListener` watches `/content` paths and filters changes to flow-enabled resources using `flowService.isFlowEnabledResource`. The listener uses `PROPERTY_NAMES_HINT` to only trigger on user-controlled property changes (`flowapi_enable`, `flowapi_template`, `flowapi_title`, etc.), preventing loops from internal FlowService updates. The listener is simplified to only create jobs with `componentPath` and `changeType` - all business logic is handled by `FlowSyncJobConsumer`.  
+```125:150:application/backend/src/main/java/ai/typerefinery/websight/events/flow/FlowResourceChangeListener.java
+    public void processChanges(List<ResourceChange> changes, ResourceResolver resourceResolver) {
+        LOGGER.info("FlowResourceChangeListener.processChanges: Processing {} change(s)", 
+            changes != null ? changes.size() : 0);
+        
         for (ResourceChange change : changes) {
-            String path = change.getPath();
-            Resource resource = resourceResolver.getResource(path);
-
-            if (flowService.isFlowEnabledResource(resource)) {
-                changeMap.put(path, change.getType());
+            String componentPath = change.getPath();
+            ResourceChange.ChangeType changeType = change.getType();
+            
+            // Check if resource exists and is flow-enabled
+            Resource resource = resourceResolver.getResource(componentPath);
+            if (resource == null || !flowService.isFlowEnabledResource(resource)) {
+                continue;
             }
+            
+            // Create job with component path and change type
+            // FlowSyncJobConsumer will handle all business logic
+            Map<String, Object> props = new HashMap<>();
+            props.put("componentPath", componentPath);
+            props.put("changeType", changeType.toString());
+            
+            Job job = jobManager.addJob(JOB_TOPIC, props);
         }
+    }
 ```
-- **Job execution** – `FlowJobConsumer` re-fetches each resource with system credentials. Before processing, it checks if any resource is in `QUEUED` or `PROCESSING` state (from another job) and retries the job if so (up to 10 times). Resources in `HOLD` state are skipped and marked as `SKIPPED`. The consumer sets resources to `PROCESSING` state at the start, then delegates to `flowService.doProcessFlowResource`. Failures flag the job as `FAILED` so Sling will retry. On completion, resources are set to `COMPLETED`, `ERROR`, or `SKIPPED` based on the result.  
-```73:88:application/backend/src/main/java/ai/typerefinery/websight/jobs/flow/FlowJobConsumer.java
-                changeMap.forEach((path, changeType) -> {
-                    
-                    Resource resource = resourceResolver.getResource(path);
-                    if (!ResourceUtil.isNonExistingResource(resource)) {
-                        if(flowService.doProcessFlowResource(resource, changeType) == false)
-                        {
-                            returnProcessFlowError = true;
-                        }
-                    }
-                });
-```
+- **Job execution** – `FlowSyncJobConsumer` processes jobs created by the listener. It:
+  1. Checks if resource is flow-enabled
+  2. Gets or creates `/var/typerefinery/flow/{componentPath}` resource
+  3. Checks state (HOLD, QUEUED, PROCESSING) and handles retries/stuck state detection
+  4. Syncs component metadata from `/content` to `/var` via `FlowSyncStorageService`
+  5. Sets state to `PROCESSING`
+  6. Calls `FlowService.doProcessFlowResource` with the `/var` resource
+  7. Sets final state (`COMPLETED`, `ERROR`, or `SKIPPED`)
+  
+  The consumer uses a configurable retry mechanism (default: 10 retries) and detects stuck resources (timeout or missing job ID) for automatic recovery. No jobs are cancelled - the state machine and JobManager retries ensure sequential processing.
 
 ## Component Registration and Defaults
 
-- **Flow components** – `FlowComponent` exposes persisted Flow metadata via Sling Models, ensures container detection, and can lazily recreate flows if they disappear. Properties include `flowapi_enable`, `flowapi_flowstreamid`, `flowapi_paused`, and metadata fields (name, group, author, reference, icon, color, version, readme).  
-```54:135:application/backend/src/main/java/ai/typerefinery/websight/models/components/FlowComponent.java
-    @Getter
-    @Inject
-    @Default(booleanValues = false)
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_ENABLE)
-    public Boolean flowapi_enable;
-    
-    @Getter
-    @Inject
-    @Nullable
-    @Named(FlowService.PROPERTY_PREFIX + FlowService.PROPERTY_PAUSED)
-    public Boolean flowapi_paused;
-    ...
-    public Boolean isContainer() {
-        boolean isContainer = flowapi_iscontainer != null ? flowapi_iscontainer : false;
-        if (this.resource != null) {
-            isContainer = this.resource.isResourceType(FlowComponent.RESOURCE_TYPE);
+- **Flow components** – `FlowComponent` exposes persisted Flow metadata via Sling Models, ensures container detection, and can lazily recreate flows if they disappear. The model reads user-controlled properties from the `/content` component resource (injected) and Flow service-managed properties from the corresponding `/var/typerefinery/flow/` resource (loaded in `@PostConstruct` via `FlowSyncStorageService`). This separation prevents listener loops while maintaining a unified model interface.
+  
+  **User-controlled properties** (from `/content`):
+  - `flowapi_enable`, `flowapi_template`, `flowapi_title`, `flowapi_icon`, `flowapi_color`, `flowapi_name`, `flowapi_group`, `flowapi_reference`, `flowapi_version`, `flowapi_readme`, `flowapi_sampledata`
+  
+  **Flow service properties** (from `/var`):
+  - `flowapi_flowstreamid`, `flowapi_paused`, `flowapi_editurl`, `flowapi_httproute`, `flowapi_httproutenosfx`, `flowapi_websocketurl`, `flowapi_createdon`, `flowapi_updatedon`
+  
+```197:250:application/backend/src/main/java/ai/typerefinery/websight/models/components/FlowComponent.java
+    @Override
+    @PostConstruct
+    protected void init() {
+        super.init();
+        
+        // Read Flow service properties from /var resource
+        // User-controlled properties are already injected from component resource
+        if (this.resource != null && this.resourceResolver != null && flowSyncStorage != null) {
+            try {
+                Resource varResource = flowSyncStorage.getOrCreateVarResource(
+                    this.resource.getPath(),
+                    this.resourceResolver
+                );
+                
+                if (varResource != null) {
+                    org.apache.sling.api.resource.ValueMap varProps = varResource.getValueMap();
+                    
+                    // Read Flow service managed properties from var resource
+                    this.flowapi_flowstreamid = varProps.get(
+                        FlowService.prop(FlowService.PROPERTY_FLOWSTREAMID),
+                        String.class
+                    );
+                    // ... other Flow service properties
+                }
+            } catch (Exception e) {
+                LOG.warn("FlowComponent.init: Error reading Flow service properties from var resource", e);
+            }
         }
-        return isContainer;
     }
 ```
 - **Container defaults** – `FlowContainer` seeds missing template paths, sample data, and container flags, then registers itself with the Flow registry so discovery works.  
@@ -157,7 +186,7 @@ Property names are generated using the `FlowService.prop()` helper method:
 
 ### Resource Processing
 
-`doProcessFlowResource` determines whether to create, update, or pause/unpause flows. It rejects non Flow components, ensures the JSON template exists, then branches based on `flowapi_enable` state:
+`doProcessFlowResource` determines whether to create, update, or pause/unpause flows. It now operates on `/var/typerefinery/flow/` resources (passed from `FlowSyncJobConsumer` via `FlowSyncStorageService`), which prevents listener loops. The method rejects non Flow components, ensures the JSON template exists, then branches based on `flowapi_enable` state:
 
 - **When `flowapi_enable` is `false`**: If a flow ID exists, the flow is paused via `/flow/pause/{id}?is=1` (FastAPI proxy).
 - **When `flowapi_enable` is `true`**:
@@ -407,11 +436,11 @@ public class Form extends FlowComponent implements FlowComponentRegister {
 ```
 - **Authoring steps**
   1. Open the form component dialog (`apps/typerefinery/components/forms/form/dialog`) and select the **Flow** tab.
-  2. Enable the **Flow API** checkbox (`flowapi_enable`). The dialog surfaces generated values for topic, title, flow ID, and designer URL; these become read-only once the flow exists.
-  3. Activate or publish the component change. The change listener enqueues a job that invokes `createFlowFromTemplate`, storing the new `flowapi_flowstreamid` plus HTTP routes (`flowapi_httproute`, `flowapi_httproutenosfx`) and WebSocket URL.
+  2. Enable the **Flow API** checkbox (`flowapi_enable`). The dialog shows user-editable metadata fields (name, group, icon, color, etc.) and read-only Flow URLs (editurl, httproute, websocketurl) from the `/var` resource.
+  3. Activate or publish the component change. The change listener creates a job that `FlowSyncJobConsumer` processes, syncing metadata to `/var` and calling `FlowService` to create/update the flow.
   4. The Form model mirrors those routes into `readUrl`/`writeUrl`, so form submissions automatically target the Flow proxy.
 
-- **Verification** – Reopen the dialog to confirm the designer link works and the `readUrl`/`writeUrl` fields now match the generated Flow routes. Use Flow Designer to adjust downstream behavior as needed.
+- **Verification** – Reopen the dialog to confirm the Flow URLs (editurl, httproute) are displayed correctly. These values are read from the `/var/typerefinery/flow/` resource and updated after successful Flow API calls. Use Flow Designer to adjust downstream behavior as needed.
 
 ## Configuration
 
@@ -463,7 +492,43 @@ Updating OSGi config allows point-and-click retargeting of the external Flow ser
         String endpoint_streams_save() default "/flow/save/%s";
 ```
 
+## Architecture: /var Storage for Flow Service Data
+
+To prevent listener loops, Flow service data is stored in `/var/typerefinery/flow/` instead of `/content`. This architectural change ensures that FlowService updates don't trigger the `FlowResourceChangeListener` which only watches `/content` paths.
+
+### Path Mapping
+
+Component paths in `/content` are mapped to `/var` paths by prepending `/var/typerefinery/flow`:
+
+```
+/content/pages/home/jcr:content/rootcontainer/form
+  → /var/typerefinery/flow/content/pages/home/jcr:content/rootcontainer/form
+```
+
+### FlowSyncStorageService
+
+The `FlowSyncStorageService` manages the `/var` storage and synchronization:
+
+- **`getVarPath(componentPath)`** – Maps component path to var path
+- **`getOrCreateVarResource(componentPath, resolver)`** – Gets or creates var resource
+- **`syncComponentToVar(componentResource)`** – Syncs user metadata from `/content` to `/var`
+- **`syncVarToFlow(varResource, changeType)`** – Calls FlowService to sync `/var` data to Flow API
+- **`syncFlowToVar(varResource, flowResponseData)`** – Writes Flow API responses back to `/var`
+
+### Data Separation
+
+**Component Resource** (`/content/...`):
+- User-editable metadata: `flowapi_enable`, `flowapi_template`, `flowapi_title`, `flowapi_icon`, etc.
+
+**Var Resource** (`/var/typerefinery/flow/...`):
+- Flow service data: `flowapi_flowstreamid`, `flowapi_httproute`, `flowapi_editurl`, etc.
+- State machine: `flowapi_processing_state`, `flowapi_processing_job_id`, etc.
+
+### Dialog Components
+
+The Flow dialog uses `typerefinery/components/dialog/flow/openurl` to display read-only Flow URLs (editurl, httproute, websocketurl) from the `/var` resource. This component uses `FlowOpenUrlModel` to read values from the var resource.
+
 ## Summary
 
-The Flow subsystem combines Sling listeners, jobs, registries, and comprehensive service utilities to keep authored components synchronized with the external Flow runtime. Templates plus metadata drive both initial flow creation and ongoing design synchronization, while configuration and registries keep the system adaptable and extensible.
+The Flow subsystem combines Sling listeners, jobs, registries, and comprehensive service utilities to keep authored components synchronized with the external Flow runtime. Templates plus metadata drive both initial flow creation and ongoing design synchronization, while configuration and registries keep the system adaptable and extensible. The `/var` storage architecture prevents listener loops by separating user-editable data (in `/content`) from Flow service-managed data (in `/var`).
 
