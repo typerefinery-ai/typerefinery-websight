@@ -1,0 +1,13 @@
+<sly data-sly-use.model="ai.typerefinery.websight.models.dialog.FlowOpenUrlModel">
+  {
+    "type": "/apps/typerefinery/components/dialog/url/Url.js",
+    "props": {
+      "name": "${properties.name}",
+      "label": "${properties.label}",
+      "description": "${properties.description}",
+      "title": "${properties.title || properties.label}",
+      "value": "${model.value @ context='text'}"
+    }
+  }
+</sly>
+
