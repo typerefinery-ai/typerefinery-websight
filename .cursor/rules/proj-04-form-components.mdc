@@ -1,0 +1,512 @@
+---
+alwaysApply: true
+---
+
+# Project: Form Component Development Standards
+
+## Form Component Overview
+
+Form components in Typerefinery follow a standardized architecture pattern that ensures consistency, maintainability, and integration with the form system, Flow API, and client-side data collection.
+
+**Base Component**: `typerefinery/components/forms/field`  
+**Location**: `/apps/typerefinery/components/forms/fields/`  
+**Reference**: See `docs/forms/developer-guide.md` for comprehensive development guide
+
+## Core Architecture Principles
+
+### 1. Inheritance via Resource Super Type
+
+**MANDATORY**: All form field components MUST extend `typerefinery/components/forms/field` via `sling:resourceSuperType`.
+
+```json
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "typerefinery/components/forms/field",
+  "description": "Component description",
+  "title": "Component Title"
+}
+```
+
+**Rules:**
+- **REQUIRED**: `sling:resourceSuperType` must be `"typerefinery/components/forms/field"`
+- **REQUIRED**: `group` must be `"Typerefinery - Forms"` to appear in form component palette
+- **REQUIRED**: `isContainer` should be `false` unless component needs to contain children
+- Component definitions go in `/apps/typerefinery/components/forms/fields/{component}/.content.json`
+
+### 2. Sling Model Pattern
+
+**MANDATORY**: All form field components MUST have a Sling Model that extends `BaseFormComponent`.
+
+```java
+@Model(adaptables = {
+    Resource.class,
+    SlingHttpServletRequest.class
+}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json", options = {
+    @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
+})
+public class YourComponent extends BaseFormComponent {
+    
+    protected static final String DEFAULT_MODULE = "yourcomponent";
+    protected static final String DEFAULT_LABEL = "Your Label";
+    protected static final String DEFAULT_PLACEHOLDER = "Your placeholder";
+    
+    @Inject
+    @Getter
+    @Default(values = "defaultValue")
+    public String yourProperty;
+    
+    @Override
+    @PostConstruct
+    protected void init() {
+        this.module = DEFAULT_MODULE;
+        super.init();
+        
+        if (StringUtils.isBlank(label)) {
+            this.label = DEFAULT_LABEL;
+        }
+        
+        if (StringUtils.isBlank(placeholder)) {
+            this.placeholder = DEFAULT_PLACEHOLDER;
+        }
+        
+        style.addClasses("form-control");
+    }
+}
+```
+
+**Rules:**
+- **REQUIRED**: Extend `ai.typerefinery.websight.models.components.forms.BaseFormComponent`
+- **REQUIRED**: Use `@Model` with `Resource.class` and `SlingHttpServletRequest.class` as adaptables
+- **REQUIRED**: Use `@Exporter` with `"jackson"` name and `"json"` extension
+- **REQUIRED**: Override `init()` method, call `super.init()` first
+- **REQUIRED**: Set `this.module` to component-specific module name
+- **REQUIRED**: Use `@Inject`, `@Getter` (Lombok), and `@Default` for properties
+- Package: `ai.typerefinery.websight.models.components.forms`
+
+### 3. Template Structure
+
+**MANDATORY**: Form field components MUST follow the standard template structure.
+
+#### Main Template (`{component}.html`)
+
+```html
+<!--/* Copyright header */-->
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.YourComponent">
+  <div class="${model.componentClassNames}"> 
+    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+    </sly>
+  </div>
+</sly>
+```
+
+**Rules:**
+- **REQUIRED**: Adapt the component-specific Sling Model
+- **REQUIRED**: Use `model.componentClassNames` for CSS classes
+- **REQUIRED**: Include `variant.html` template via `data-sly-call`
+- The base `field/variant.html` handles label wrapper - your variant provides the input element
+
+#### Variant Template (`variant.html`)
+
+```html
+<template data-sly-template.variant="${ @ model }">
+  <input 
+    component="${model.componentName}"
+    id="${model.id}" 
+    name="${model.name}"
+    value="${model.value}"
+    data-fieldId="${model.parentFieldId}" 
+    placeholder="${model.placeholder}" 
+    class="${model.variantClassNames}"
+    data-model="${model.jsonString}"
+  />
+</template>
+```
+
+**Rules:**
+- **REQUIRED**: Use `data-sly-template.variant` pattern
+- **REQUIRED**: Include `component`, `id`, `name`, `data-fieldId`, `data-model` attributes
+- **REQUIRED**: Use model properties for attribute values
+- **REQUIRED**: Include `data-model` with `model.jsonString` for client-side data access
+- The base field component's variant handles label wrapper automatically
+
+### 4. Dialog Configuration
+
+**MANDATORY**: Dialog configurations MUST use shared fragments from `forms/form/common/`.
+
+```json
+{
+  "sling:resourceType": "wcm/dialogs/dialog",
+  "tabs": {
+    "sling:resourceType": "wcm/dialogs/components/tabs",
+    "generalTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "General",
+      "fieldName": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldName"
+      },
+      "placeholder": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/placeholder"
+      },
+      "fieldValue": {
+        "sling:resourceType": "wcm/dialogs/components/include",
+        "path": "/apps/typerefinery/components/forms/form/common/fieldValue"
+      }
+    },
+    "eventTab": {
+      "sling:resourceType": "wcm/dialogs/components/tab",
+      "label": "Events",
+      "event": {
+        "sling:resourceType": "wcm/dialogs/components/multifield",
+        "name": "_events_",
+        "label": "Events",
+        "topic": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/topic"
+        },
+        "type": {
+          "sling:resourceType": "wcm/dialogs/components/include",
+          "path": "/apps/typerefinery/components/dialog/tabs/event/event/type"
+        },
+        "eventAction": {
+          "sling:resourceType": "typerefinery/components/dialog/eventactions",
+          "name": "action",
+          "label": "Component Action"
+        }
+      }
+    },
+    "validationTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/validation"
+    },
+    "gridTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/grid"
+    },
+    "styleTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/style"
+    },
+    "ariaTab": {
+      "sling:resourceType": "wcm/dialogs/components/include",
+      "path": "/apps/typerefinery/components/dialog/tabs/aria"
+    }
+  }
+}
+```
+
+**Rules:**
+- **REQUIRED**: Use shared fragments from `/apps/typerefinery/components/forms/form/common/`
+- **REQUIRED**: Include standard tabs: General, Events, Validation, Grid, Style, Aria
+- **REQUIRED**: Include common fields: `fieldName`, `placeholder`, `fieldValue` (and others as needed)
+- **REQUIRED**: Use includes for shared dialog components to ensure consistency
+- Add component-specific fields in `generalTab` as needed
+
+### 5. Client Libraries (Optional)
+
+**OPTIONAL**: Client libraries are only needed if component requires JavaScript or CSS.
+
+#### Structure
+
+```
+/clientlibs/
+├── .content.json
+├── behaviour.js
+├── functions.js
+└── style.css
+```
+
+#### `.content.json`
+
+```json
+{
+  "sling:resourceType": "io/typerefinery/websight/clientlibs",
+  "categories": ["ai.typerefinery.websight.components"],
+  "css": [
+    "/apps/typerefinery/components/forms/fields/{component}/clientlibs/style.css"
+  ],
+  "js": [
+    "/apps/typerefinery/components/forms/fields/{component}/clientlibs/behaviour.js",
+    "/apps/typerefinery/components/forms/fields/{component}/clientlibs/functions.js"
+  ]
+}
+```
+
+**Rules:**
+- **OPTIONAL**: Only include if component needs JavaScript or CSS
+- **REQUIRED**: Use category `"ai.typerefinery.websight.components"` for auto-discovery
+- **REQUIRED**: Use absolute paths starting with `/apps/`
+- **REQUIRED**: `behaviour.js` should call `watchDOMForComponent` for DOM initialization
+- Component clientlibs are automatically included when page includes component category
+
+## Component Structure
+
+### Required Files
+
+```
+/apps/typerefinery/components/forms/fields/{component}/
+├── .content.json              # Component definition (REQUIRED)
+├── {component}.html           # Main template (REQUIRED)
+├── variant.html               # Field variant template (REQUIRED)
+└── dialog/
+    └── .content.json          # Dialog configuration (REQUIRED)
+```
+
+### Optional Files
+
+```
+/apps/typerefinery/components/forms/fields/{component}/
+├── clientlibs/                # Optional: JavaScript/CSS
+│   ├── .content.json
+│   ├── behaviour.js
+│   ├── functions.js
+│   └── style.css
+├── eventactions/              # Optional: Event action definitions
+│   └── .content.json
+└── README.md                  # REQUIRED: Component documentation
+```
+
+**MANDATORY**: All form components MUST have a `README.md` file.
+
+### Java Sling Model
+
+```
+/application/backend/src/main/java/ai/typerefinery/websight/models/components/forms/
+└── {YourComponent}.java       # Sling Model class (REQUIRED)
+```
+
+## Integration Points
+
+### 1. Form Data Collection
+
+**AUTOMATIC**: All form field components are automatically collected by the form's `getFormData()` function.
+
+**Rules:**
+- Component must have `name` attribute on input element
+- Component must include `data-model` attribute with `model.jsonString`
+- Field values are collected based on `name` attribute
+- Array values (checkboxes, multi-select) are handled automatically
+
+### 2. Flow API Integration
+
+**AUTOMATIC**: Field components are automatically included in Flow payloads when form has Flow enabled.
+
+**Rules:**
+- No special configuration needed for basic fields
+- Flow metadata (enablement, templates) is configured on parent form
+- Field values are included in Flow payload automatically
+- Composite fields can output as objects or arrays based on variant
+
+### 3. Event System
+
+**OPTIONAL**: Components can emit and listen to events via `Typerefinery.Page.Events`.
+
+**Rules:**
+- Use `eventactions/.content.json` to define component-specific actions
+- Wire events in dialog's `eventTab`
+- Events are handled by form client library (`functions.js`)
+- Standard events: `FORM_SUCCESS`, `FORM_ERROR`, `FORM_SUBMIT`, `FORM_CANCEL`, `FORM_LOAD`
+
+## BaseFormComponent Properties
+
+All form components inherit these properties from `BaseFormComponent`:
+
+- `id` - Unique field ID
+- `name` - Field name (used in form submission)
+- `label` - Field label
+- `value` - Field value
+- `placeholder` - Placeholder text
+- `disabled` - Disabled state
+- `required` - Required validation
+- `module` - Client module name
+- `componentClassNames` - CSS classes for component wrapper
+- `variantClassNames` - CSS classes for field element
+- `jsonString` - JSON representation of model (for `data-model` attribute)
+
+## Example Reference Components
+
+**Simple Component**: `/apps/typerefinery/components/forms/fields/input/`
+- Basic text input with multiple HTML5 types
+- Minimal clientlibs
+- Standard dialog pattern
+
+**Complex Component**: `/apps/typerefinery/components/forms/fields/button/`
+- Multiple variants (submit, navigate, action, hamburger)
+- Complex clientlibs (behaviour.js, functions.js, style.css)
+- Event action definitions
+- Variant template selection
+
+**Container Component**: `/apps/typerefinery/components/forms/fields/composite/`
+- `isContainer: true`
+- Multiple variants (field, list)
+- Parsys integration for child components
+- JSON output compilation
+
+## Best Practices
+
+### 1. Reuse Shared Fragments
+
+**REQUIRED**: Always use shared dialog fragments from `forms/form/common/` for consistency.
+
+### 2. Follow Naming Conventions
+
+- Component directory: lowercase, descriptive (e.g., `input`, `textarea`, `fileupload`)
+- Sling Model class: PascalCase, matches component name (e.g., `Input`, `Textarea`, `FileUpload`)
+- Module name: lowercase, matches component directory
+
+### 3. CSS Classes
+
+- Use Bootstrap classes where possible (`form-control`, `form-group`, etc.)
+- Add component-specific classes via `style.addClasses()` in Sling Model
+- Use `componentClassNames` for wrapper, `variantClassNames` for input element
+
+### 4. Default Values
+
+- Always provide sensible defaults for required fields
+- Use `@Default` annotation with appropriate default values
+- Set defaults in `init()` method if conditional logic is needed
+
+### 5. Documentation
+
+**MANDATORY**: All form components MUST have a `README.md` file with:
+
+1. **Component Overview** - Brief description of component purpose
+2. **Information Section** - Component metadata including:
+   - Component group, resourceType, title, description
+   - **Showcase path** - Link to showcase page
+   - Local code path
+   - Source repository link
+   - Readme link
+3. **Authoring Section** - Dialog tabs and fields documentation
+4. **Variants Section** - Component variants (if applicable)
+
+**Showcase Path Format:**
+```markdown
+- **Showcase**: [/typerefinery/components/forms/{component}](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor)
+```
+
+**Example README Structure:**
+```markdown
+# Component
+
+{Component Name} component
+
+# Overview
+
+Component description and purpose
+
+## Information
+
+- **group**: Typerefinery - Forms
+- **sling:resourceType**: ws:Component
+- **description**: Component description
+- **title**: Component Title
+- **sling:resourceSuperType**: typerefinery/components/forms/field
+- **Vendor**: Typerefinery
+- **Version**: 1.0
+- **Compatibility**: CMS
+- **Status**: Ready
+- **Showcase**: [/typerefinery/components/forms/{component}](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor)
+- **Local Code**: [/apps/typerefinery/components/forms/fields/{component}]
+- **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/{component})
+- **Readme**: [/typerefinery/components/forms/{component}/readme](https://github.com/typerefinery-ai/typerefinery-websight/blob/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/{component}/README.md)
+
+# Authoring
+
+Document dialog tabs and fields available for authors
+
+## Dialog Tabs
+
+Table of available dialog fields
+
+# Variants
+
+Document component variants (if applicable)
+```
+
+## Common Patterns
+
+### Pattern 1: Simple Input Field
+
+Extend base field, add type-specific properties, minimal customization.
+
+**Example**: Input, Textarea, Radio
+
+### Pattern 2: Complex Input Field
+
+Extend base field, add clientlibs, event actions, variants.
+
+**Example**: Button, FileUpload
+
+### Pattern 3: Container Field
+
+Extend base field, set `isContainer: true`, handle child components.
+
+**Example**: Composite
+
+## Showcase Examples
+
+**MANDATORY**: When creating a new form component, you MUST also create showcase examples.
+
+### Showcase Location
+
+```
+tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/forms/{component}/
+└── .content.xml
+```
+
+### Showcase Requirements
+
+**REQUIRED**: Showcase pages MUST include:
+
+1. **Basic Usage Example** - Simple, default component usage
+2. **Variants** - If component has variants, show each variant
+3. **Configuration Options** - Show different configuration options
+4. **Integration Examples** - Show component working within forms
+5. **Edge Cases** - Show validation, error states (if applicable)
+
+### Updating Main Forms Showcase
+
+**MANDATORY**: Update the main forms showcase page:
+- `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/forms/.content.xml`
+- Add your component examples to demonstrate usage
+- Include variants and different configurations
+
+### Showcase Best Practices
+
+- Use clear, descriptive examples that demonstrate one feature each
+- Organize examples with title components into logical sections
+- Include complete form examples, not just isolated components
+- Show Flow integration when applicable
+- Test all showcase examples before committing
+
+## Validation Checklist
+
+Before submitting a new form component:
+
+- [ ] Component extends `typerefinery/components/forms/field` via `sling:resourceSuperType`
+- [ ] Sling Model extends `BaseFormComponent`
+- [ ] Template uses standard pattern (`{component}.html` + `variant.html`)
+- [ ] Dialog uses shared fragments from `forms/form/common/`
+- [ ] Component appears in "Typerefinery - Forms" group
+- [ ] Component works with form's `getFormData()` function
+- [ ] Component integrates with Flow API (when form has Flow enabled)
+- [ ] Component follows naming conventions
+- [ ] Component includes appropriate default values
+- [ ] **README.md created** with component documentation
+- [ ] **README.md includes showcase path** to component showcase page
+- [ ] **README.md includes component details** (overview, authoring, variants)
+- [ ] **Showcase page created** at `tests/content/.../forms/{component}/.content.xml`
+- [ ] **Main showcase page updated** with component examples
+- [ ] All showcase examples tested and working
+
+## Related Documentation
+
+- **Base Field Component**: `docs/forms/field.md`
+- **Developer Guide**: `docs/forms/developer-guide.md`
+- **Form Container**: `application/backend/src/main/resources/apps/typerefinery/components/forms/form/README.md`
+- **HTL Standards**: `.cursor/rules/proj-01-htl-overview.mdc`

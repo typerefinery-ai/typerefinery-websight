@@ -40,7 +40,142 @@
 - Templates: `forms/field/field.html`, `forms/field/variant.html`
 - Shared fragment: `forms/form/common/.content.json`
 
+## Developer Guide
+
+### Creating New Form Field Components
+
+When creating a new form field component, follow these patterns:
+
+#### 1. Component Definition
+
+Create `.content.json` in `/apps/typerefinery/components/forms/fields/{component}/`:
+
+```json
+{
+  "isContainer": false,
+  "group": "Typerefinery - Forms",
+  "sling:resourceType": "ws:Component",
+  "sling:resourceSuperType": "typerefinery/components/forms/field",
+  "description": "Component description",
+  "title": "Component Title"
+}
+```
+
+**Key Requirements:**
+- `sling:resourceSuperType` MUST be `"typerefinery/components/forms/field"`
+- `group` MUST be `"Typerefinery - Forms"` to appear in form palette
+
+#### 2. Sling Model
+
+Create Java class extending `BaseFormComponent`:
+
+```java
+@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = OPTIONAL)
+@Exporter(name = "jackson", extensions = "json")
+public class YourComponent extends BaseFormComponent {
+    
+    protected static final String DEFAULT_MODULE = "yourcomponent";
+    
+    @Override
+    @PostConstruct
+    protected void init() {
+        this.module = DEFAULT_MODULE;
+        super.init();
+        style.addClasses("form-control");
+    }
+}
+```
+
+**Key Requirements:**
+- Extend `ai.typerefinery.websight.models.components.forms.BaseFormComponent`
+- Override `init()`, call `super.init()` first
+- Set `this.module` to component-specific module name
+
+#### 3. Templates
+
+**Main template (`{component}.html`):**
+```html
+<sly data-sly-use.model="ai.typerefinery.websight.models.components.forms.YourComponent">
+  <div class="${model.componentClassNames}"> 
+    <sly data-sly-use.template="./variant.html" data-sly-call="${template.variant @ model=model}">
+    </sly>
+  </div>
+</sly>
+```
+
+**Variant template (`variant.html`):**
+```html
+<template data-sly-template.variant="${ @ model }">
+  <input 
+    component="${model.componentName}"
+    id="${model.id}" 
+    name="${model.name}"
+    value="${model.value}"
+    data-fieldId="${model.parentFieldId}" 
+    class="${model.variantClassNames}"
+    data-model="${model.jsonString}"
+  />
+</template>
+```
+
+#### 4. Dialog Configuration
+
+Use shared fragments from `/apps/typerefinery/components/forms/form/common/`:
+
+- `fieldName` - Field name input
+- `placeholder` - Placeholder text
+- `fieldValue` - Default value
+- `label` - Label text
+
+Include standard tabs: General, Events, Validation, Grid, Style, Aria
+
+#### 5. Integration
+
+- **Form Data Collection**: Automatic via `name` attribute and `data-model` attribute
+- **Flow API**: Automatic when parent form has Flow enabled
+- **Event System**: Configure in dialog's `eventTab`
+
+#### 6. Component README
+
+**MANDATORY**: Create `README.md` file in component directory:
+
+**Location**: `/apps/typerefinery/components/forms/fields/{component}/README.md`
+
+**Required Content:**
+- Component overview and description
+- **Showcase path** - Link to component showcase page (REQUIRED)
+- Component metadata (group, resourceType, etc.)
+- Authoring documentation (dialog tabs and fields)
+- Variants documentation (if applicable)
+
+**Showcase Path Format:**
+```markdown
+- **Showcase**: [/typerefinery/components/forms/{component}](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor)
+```
+
+See `/apps/typerefinery/components/forms/fields/button/README.md` for a complete example.
+
+### Showcase Examples
+
+**REQUIRED**: When creating a new form component, create showcase examples:
+
+1. **Component Showcase Page**: `tests/content/.../forms/{component}/.content.xml`
+   - Demonstrates component features, variants, and configurations
+   - Shows integration with forms
+   - Includes real-world usage examples
+
+2. **Main Forms Showcase**: Update `tests/content/.../forms/.content.xml`
+   - Add component examples to main showcase page
+   - Include in comprehensive form demonstrations
+
+### Complete Documentation
+
+For comprehensive developer guide with detailed examples, see:
+- **Developer Guide**: `docs/forms/developer-guide.md` - Complete step-by-step guide including showcase examples
+- **Component Rules**: `.cursor/rules/proj-04-form-components.mdc` - Development standards
+
 ## Related Documentation
+- **Developer Guide**: `docs/forms/developer-guide.md` - Complete guide for creating new form components
 - **Composite Field**: `docs/forms/composite.md` - Container field for grouping multiple inputs
 - **Checkbox Field**: `docs/forms/checkbox.md` - Boolean and multi-select checkbox field
 - **Input, Select, etc.**: See sibling documentation
