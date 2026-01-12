@@ -8,19 +8,19 @@ Component for adding button to pages
 
 ## Information
 
-- **group**:Typerefinery - Forms
+- **group**: Typerefinery - Forms
 - **sling:resourceType**: ws:Component
-- **description**: Button component
-- **title**: Button
-- **sling:resourceSuperType**:
+- **description**: Form Button component
+- **title**: Button Field
+- **sling:resourceSuperType**: typerefinery/components/forms/field
 - **Vendor**: Typerefinery
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
 - **Showcase**: [/typerefinery/components/forms/button](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/button::editor)
-- **Local Code**: [/apps/typerefinery/components/forms/button]
-- **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/feature/add-readme-file-for-button-component/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/button)
-- **Readme**: [/typerefinery/components/forms/button/readme](https://github.com/typerefinery-ai/typerefinery-websight/blob/feature/add-readme-file-for-button-component/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/button/README.md)
+- **Local Code**: [/apps/typerefinery/components/forms/fields/button]
+- **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/button)
+- **Readme**: [/typerefinery/components/forms/button/readme](https://github.com/typerefinery-ai/typerefinery-websight/blob/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/button/README.md)
 
 # Authoring
 
