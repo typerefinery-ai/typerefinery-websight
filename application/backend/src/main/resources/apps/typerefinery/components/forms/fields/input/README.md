@@ -59,7 +59,54 @@ These fields are available for input by the authors. These fields are used in te
         <tr>
             <td>Type</td>
             <td>Text</td>
-            <td>HTML5 input type. Options: Text, Password, Email, Mobile Number, Number, Date, Time, Range, Hidden (visible in edit mode).</td>
+            <td>HTML5 input type. Options: Text, Password, Email, Mobile Number, Number, Date, Time, Range, Colour Picker, Rating, Hidden (visible in edit mode).</td>
+        </tr>
+        <tr>
+            <td rowspan="3">General (Range only)</td>
+            <td>Range Minimum</td>
+            <td>0</td>
+            <td>Minimum value for range input slider.</td>
+        </tr>
+        <tr>
+            <td>Range Maximum</td>
+            <td>100</td>
+            <td>Maximum value for range input slider.</td>
+        </tr>
+        <tr>
+            <td>Range Step</td>
+            <td>1</td>
+            <td>Step increment for range input slider.</td>
+        </tr>
+        <tr>
+            <td rowspan="5">General (Rating only)</td>
+            <td>Maximum Stars</td>
+            <td>5</td>
+            <td>Maximum number of stars for rating input (1-10).</td>
+        </tr>
+        <tr>
+            <td>Allow Half Stars</td>
+            <td>true</td>
+            <td>Enable half-star selection for rating input.</td>
+        </tr>
+        <tr>
+            <td>Filled Icon Class</td>
+            <td>fas fa-star</td>
+            <td>Font Awesome icon class for filled stars (e.g., "fas fa-star", "fas fa-heart").</td>
+        </tr>
+        <tr>
+            <td>Empty Icon Class</td>
+            <td>far fa-star</td>
+            <td>Font Awesome icon class for empty stars (e.g., "far fa-star", "far fa-heart").</td>
+        </tr>
+        <tr>
+            <td>Half Icon Class</td>
+            <td>fas fa-star-half-alt</td>
+            <td>Font Awesome icon class for half stars (e.g., "fas fa-star-half-alt", "fas fa-heart-half-alt").</td>
+        </tr>
+        <tr>
+            <td>Icon Color</td>
+            <td>#ffc107</td>
+            <td>Color for rating icons in hex format (e.g., "#ffc107" for yellow, "#ff0000" for red, "#0066ff" for blue). Default is "#ffc107" (yellow).</td>
         </tr>
         <tr>
             <td rowspan="2">Validation</td>
@@ -180,7 +227,17 @@ This component supports multiple HTML5 input types:
         <tr>
             <td>Range</td>
             <td>range</td>
-            <td>Range slider input for selecting numeric values within a range.</td>
+            <td>Range slider input for selecting numeric values within a range. Uses Bootstrap form-range class. Configure min, max, and step values in dialog.</td>
+        </tr>
+        <tr>
+            <td>Colour Picker</td>
+            <td>colourpicker</td>
+            <td>Native HTML5 color picker input. Allows selecting colors from a color wheel/picker interface and typing hex values directly. Uses native browser color picker UI.</td>
+        </tr>
+        <tr>
+            <td>Rating</td>
+            <td>rating</td>
+            <td>Star rating input with Font Awesome icons. Supports full and half-star selection. Configurable number of stars (1-10), half-star support, customizable icon classes, and icon color. Icons have fixed width (1.5rem) to prevent container growth when switching between empty and filled states. The input is hidden with CSS (`input[type="rating"]`), and a visual rating interface is created dynamically by JavaScript. Uses namespaced CSS classes (`.input-rating-items`, `.input-rating-item`) with uniform 2px spacing between items. Uses fixed width reference for accurate half-star detection.</td>
         </tr>
         <tr>
             <td>Hidden</td>
@@ -204,4 +261,4 @@ Uses Inputmask library format. See Inputmask documentation for complete mask syn
 
 ## Flow Integration
 
-Input field values are automatically included in Flow payloads when the form has Flow enabled. The input value is submitted as a string (for text, email, tel) or number (for number, range).
+Input field values are automatically included in Flow payloads when the form has Flow enabled. The input value is submitted as a string (for text, email, tel, colourpicker) or number (for number, range, rating). Colour picker values are submitted as hex color strings (e.g., "#ff0000"). Rating values are submitted as numbers (e.g., 3.5 for three and a half stars).

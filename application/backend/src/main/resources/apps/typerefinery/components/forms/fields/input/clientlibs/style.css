@@ -1,0 +1,161 @@
+/* Input Component Styles */
+
+/* Native color input styling - scoped to input component */
+[component="input"] input[type="color"].form-control-color {
+  width: 3rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem;
+  cursor: pointer;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+[component="input"] input[type="color"].form-control-color:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+[component="input"] input[type="color"].form-control-color:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #e9ecef;
+}
+
+/* Optional: Make color input larger for better UX on larger screens */
+@media (min-width: 768px) {
+  [component="input"] input[type="color"].form-control-color {
+    min-width: 3.5rem;
+  }
+}
+
+/* Rating component styling - scoped to input component */
+/* The `component="input"` attribute is on the INPUT element itself. */
+input[component="input"][type="rating"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: hidden;
+}
+
+/* Rating items container - sibling of input element */
+input[component="input"][type="rating"] ~ .input-rating-items,
+/* (Note: do NOT scope to `[component="input"]` here; `[component="input"]` is on the <input> itself.) */
+input[component="input"][type="rating"] ~ .input-rating-items {
+  display: grid !important;
+  grid-auto-flow: column !important;
+  grid-auto-columns: max-content !important;
+  gap: 2px !important; /* Uniform 2px spacing between each rating item */
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* Rating items - can be sibling or child */
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item,
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+  margin: 0 !important; /* No margins - spacing handled by grid gap */
+  padding: 0;
+  width: 1.5rem; /* Fixed width to prevent container growth */
+  height: 1.5rem; /* Fixed height for consistency */
+  min-width: 1.5rem; /* Ensure minimum width */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent shrinking */
+  position: relative; /* For layered icon positioning */
+}
+
+/* Ensure Font Awesome pseudo-elements always display */
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item::before {
+  display: inline-block !important;
+}
+
+/* Layered structure ONLY for hearts (when half-icon class doesn't exist) */
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item--layered {
+  /* Wrapper contains both empty and filled icons */
+  position: relative !important; /* Ensure positioning context for absolutely positioned children */
+  display: inline-block !important; /* Override inline-flex - needed for absolute positioning */
+  overflow: visible; /* Allow children to be positioned */
+}
+
+/* Both icons in layered structure are absolutely positioned and stacked perfectly */
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-icon-empty {
+  position: absolute !important; /* CRITICAL: Must be absolute to stack */
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  /* Avoid flex here: it can keep FA glyph centered and defeat width-based clipping on the filled layer */
+  display: block !important;
+  text-align: center;
+  pointer-events: none; /* Events handled by parent .input-rating-item */
+  font-size: inherit; /* Inherit from parent */
+  line-height: 1; /* Prevent line-height spacing issues */
+  margin: 0 !important; /* No margins */
+  padding: 0 !important; /* No padding */
+  box-sizing: border-box; /* Include padding/border in width/height */
+  z-index: 1; /* Behind filled icon */
+  overflow: visible; /* Always visible - shows empty outline */
+}
+
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-icon-filled {
+  position: absolute !important; /* CRITICAL: Must be absolute to stack */
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  /* Must be block + nowrap so width/overflow hidden clips the FA ::before glyph reliably */
+  display: block !important;
+  text-align: left;
+  white-space: nowrap;
+  pointer-events: none; /* Events handled by parent .input-rating-item */
+  font-size: inherit; /* Inherit from parent */
+  line-height: 1; /* Prevent line-height spacing issues */
+  margin: 0 !important; /* No margins */
+  padding: 0 !important; /* No padding */
+  box-sizing: border-box; /* Include padding/border in width/height */
+  z-index: 2; /* Above empty icon */
+  /* We reveal the filled icon using a mask gradient (more reliable with Font Awesome ::before glyphs). */
+  --tr-rating-fill: 0%;
+  -webkit-mask-image: linear-gradient(90deg, #000 var(--tr-rating-fill), transparent 0);
+  mask-image: linear-gradient(90deg, #000 var(--tr-rating-fill), transparent 0);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+
+/* Ensure Font Awesome pseudo-elements always display for layered icons */
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-icon-empty::before,
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-icon-filled::before {
+  display: inline-block !important;
+}
+
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item:hover {
+  transform: scale(1.1);
+}
+
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item.disabled,
+input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="true"] .input-rating-item {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item.disabled:hover,
+input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="true"] .input-rating-item:hover {
+  transform: scale(1);
+}

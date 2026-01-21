@@ -132,13 +132,96 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       console.groupEnd();
     }
 
+    ns.initInputmask = ($component, componentConfig) => {
+      console.group("initInputmask");
+      const { validationInputMask, id, name } = componentConfig;
+      console.log("componentConfig:", { id, name, validationInputMask });
+      
+      if (!validationInputMask) {
+        console.log("No validationInputMask provided - skipping");
+        console.groupEnd();
+        return;
+      }
+
+      console.log("Searching for input with data-inputmask attribute");
+      const $input = $component.find('input[data-inputmask]');
+      console.log("Found inputs:", $input.length);
+      
+      if ($input.length === 0) {
+        console.warn("No input element with data-inputmask attribute found");
+        console.groupEnd();
+        return;
+      }
+
+      try {
+        // Check if inputmask jQuery plugin is available
+        if ($.fn.inputmask) {
+          console.log("Inputmask library available, applying mask:", validationInputMask);
+          // Use jQuery plugin syntax: $input.inputmask(mask)
+          // The mask pattern is stored directly in data-inputmask attribute
+          $input.inputmask(validationInputMask);
+          console.log("Inputmask initialized successfully");
+        } else {
+          console.warn('Inputmask library not loaded - $.fn.inputmask is undefined');
+        }
+      } catch (e) {
+        console.error('Failed to initialize inputmask:', e);
+        console.error('Error stack:', e.stack);
+      }
+      console.groupEnd();
+    };
+
     ns.init = async ($component) => {
       const componentConfig = componentNs.getComponentConfig($component);
-      const { id, actionType } = componentConfig;
+      const { id, actionType, inputType, validationInputMask, name } = componentConfig;
       console.groupCollapsed("input init " + id);
       console.log("$component", $component);
       console.log("componentConfig", componentConfig);
+      console.log("inputType:", inputType);
+      console.log("name:", name);
+      console.log("validationInputMask:", validationInputMask);
 
+      // Type-based initialization
+      console.log("Starting type-based initialization for:", inputType);
+      switch (inputType) {
+        case 'rating':
+          console.log("Initializing rating input");
+          ns.initRating($component, componentConfig);
+          break;
+        case 'text':
+        case 'tel':
+        case 'email':
+        case 'password':
+          console.log("Initializing text-based input type:", inputType);
+          // Initialize inputmask if mask is provided
+          if (validationInputMask) {
+            console.log("Initializing inputmask with mask:", validationInputMask);
+            ns.initInputmask($component, componentConfig);
+          } else {
+            console.log("No inputmask configured for", inputType);
+          }
+          break;
+        case 'range':
+        case 'colourpicker':
+        case 'number':
+        case 'date':
+        case 'time':
+        case 'hidden':
+          console.log("Native HTML5 input type:", inputType, "- no special initialization needed");
+          break;
+        default:
+          console.log("Unknown input type:", inputType);
+          // Unknown type - try inputmask if mask provided
+          if (validationInputMask) {
+            console.log("Attempting inputmask initialization for unknown type:", inputType);
+            ns.initInputmask($component, componentConfig);
+          } else {
+            console.log("No inputmask and unknown type - no initialization");
+          }
+          break;
+      }
+
+      console.log("Type-based initialization complete");
       console.log("adding event listeners");
       ns.addEventListener($component, componentConfig);
       console.log(["ns.eventMap", ns.eventMap]);

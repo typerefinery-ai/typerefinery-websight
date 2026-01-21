@@ -17,7 +17,7 @@ Standalone label component for form fields. Provides label text that can be asso
 - **Version**: 1.0
 - **Compatibility**: CMS
 - **Status**: Ready
-- **Showcase**: [/typerefinery/components/forms/forms-test](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/forms-test::editor)
+- **Showcase**: [/typerefinery/components/forms/label](https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/label::editor)
 - **Local Code**: [/apps/typerefinery/components/forms/fields/label]
 - **Source**: [github/typerefinery-websight](https://github.com/typerefinery-ai/typerefinery-websight/tree/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/label)
 - **Readme**: [/typerefinery/components/forms/label/readme](https://github.com/typerefinery-ai/typerefinery-websight/blob/main/application/backend/src/main/resources/apps/typerefinery/components/forms/fields/label/README.md)

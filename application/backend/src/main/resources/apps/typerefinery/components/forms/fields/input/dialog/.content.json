@@ -36,11 +36,6 @@
           "label": "Email",
           "value": "email"
         },
-        "range": {
-          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
-          "label": "Range",
-          "value": "range"
-        },
         "tel": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Mobile Number",
@@ -51,20 +46,146 @@
           "label": "Number",
           "value": "number"
         },
+        "range": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Range",
+          "value": "range"
+        },
+        "colourpicker": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Colour Picker",
+          "value": "colourpicker"
+        },
+        "rating": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Rating",
+          "value": "rating"
+        },
         "date": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Date",
           "value": "date"
         },
-        "hidden": {
+        "time": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Time",
           "value": "time"
         },
-        "time": {
+        "hidden": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Hidden (but, visible in edit mode)",
           "value": "hidden"
+        }
+      },
+      "rangeMin": {
+        "sling:resourceType": "wcm/dialogs/components/numberfield",
+        "name": "rangeMin",
+        "label": "Range Minimum",
+        "default": 0,
+        "min": 0,
+        "max": 1000,
+        "step": 1,
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "range"
+        }
+      },
+      "rangeMax": {
+        "sling:resourceType": "wcm/dialogs/components/numberfield",
+        "name": "rangeMax",
+        "label": "Range Maximum",
+        "default": 100,
+        "min": 0,
+        "max": 1000,
+        "step": 1,
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "range"
+        }
+      },
+      "rangeStep": {
+        "sling:resourceType": "wcm/dialogs/components/numberfield",
+        "name": "rangeStep",
+        "label": "Range Step",
+        "default": 1,
+        "min": 0,
+        "max": 100,
+        "step": 0.1,
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "range"
+        }
+      },
+      "ratingMaxStars": {
+        "sling:resourceType": "wcm/dialogs/components/numberfield",
+        "name": "ratingMaxStars",
+        "label": "Maximum Stars",
+        "default": 5,
+        "min": 1,
+        "max": 10,
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
+        }
+      },
+      "ratingAllowHalf": {
+        "sling:resourceType": "wcm/dialogs/components/checkbox",
+        "name": "ratingAllowHalf",
+        "label": "Allow Half Stars",
+        "default": true,
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
+        }
+      },
+      "ratingIconClass": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "ratingIconClass",
+        "label": "Filled Icon Class",
+        "default": "fas fa-star",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
+        }
+      },
+      "ratingIconClassEmpty": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "ratingIconClassEmpty",
+        "label": "Empty Icon Class",
+        "default": "far fa-star",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
+        }
+      },
+      "ratingIconClassHalf": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "ratingIconClassHalf",
+        "label": "Half Icon Class",
+        "default": "fas fa-star-half-alt",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
+        }
+      },
+      "ratingIconColor": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "ratingIconColor",
+        "label": "Icon Color",
+        "default": "#ffc107",
+        "description": "Color for rating icons (hex format, e.g., #ffc107)",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "equals",
+          "rhs": "rating"
         }
       }
     },
