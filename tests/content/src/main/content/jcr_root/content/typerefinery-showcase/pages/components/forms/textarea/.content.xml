@@ -25,88 +25,194 @@
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     id="form1_YAW9XSGQN">
-                    <title
+                    <container_1
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        headingSize=" XL"
-                        id="title_2M6P3JVND"
-                        textAlignment="center"
-                        title="Textarea"/>
-                    <textarea_1
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_1_TEXTAREA_BASIC"
+                        title="Basic Textarea Examples"
+                        variant="sectionwithtitle">
+                        <textarea_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_1_2RDPVIOUX">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_1WYDCK082"
+                                label="Enter User Temporary Address"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_P5YDIJ0V2"
+                                placeholder="Address"/>
+                        </textarea_1>
+                        <textarea_2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_2_0DYUT8QXQ">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_UXNQNLSGA"
+                                label="Enter User Permanent Address"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_DH6TAZOZ7"
+                                placeholder="Address"/>
+                        </textarea_2>
+                        <textarea_3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_3_AQUSQRKVJ">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_IFDUW0MNL"
+                                label="Enter User College Details"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_30BMVOMW6"
+                                placeholder="College Details"/>
+                        </textarea_3>
+                        <textarea_4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_4_GX8KM8U96">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_7GGVSFGIA"
+                                label="Enter User Occupation"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_BRGVHP96W"
+                                placeholder="Occupation"/>
+                        </textarea_4>
+                        <textarea_5
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_5_5WCW8FINR">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_OSJOWYNTD"
+                                label="Enter Hobbies"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_B9BL5TRGS"
+                                placeholder="Hobbies"/>
+                        </textarea_5>
+                    </container_1>
+                    <container_2
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/textarea"
-                        id="textarea_1_2RDPVIOUX">
-                        <label
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_2_TEXTAREA_ROWS"
+                        title="Textarea with Different Row Sizes"
+                        variant="sectionwithtitle">
+                        <textarea_6
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            id="label_1WYDCK082"
-                            label="Enter User Temporary Address"/>
-                        <field
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_6_ROWS">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_SMALL"
+                                label="Small Textarea (3 rows)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_SMALL"
+                                numOfRows="3"
+                                placeholder="Short message"/>
+                        </textarea_6>
+                        <textarea_7
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/textarea"
-                            id="field_P5YDIJ0V2"
-                            placeholder="Address"/>
-                    </textarea_1>
-                    <textarea_2
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_7_ROWS">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_MEDIUM"
+                                label="Medium Textarea (5 rows)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_MEDIUM"
+                                numOfRows="5"
+                                placeholder="Medium message"/>
+                        </textarea_7>
+                        <textarea_8
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_8_ROWS">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_LARGE"
+                                label="Large Textarea (10 rows)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_LARGE"
+                                numOfRows="10"
+                                placeholder="Long message or detailed description"/>
+                        </textarea_8>
+                    </container_2>
+                    <container_3
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/textarea"
-                        id="textarea_2_0DYUT8QXQ">
-                        <label
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_3_TEXTAREA_VALIDATION"
+                        title="Textarea with Validation"
+                        variant="sectionwithtitle">
+                        <textarea_9
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            id="label_UXNQNLSGA"
-                            label="Enter User Permanent Address"/>
-                        <field
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/textarea"
-                            id="field_DH6TAZOZ7"
-                            placeholder="Address"/>
-                    </textarea_2>
-                    <textarea_3
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_9_REQUIRED">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_REQUIRED"
+                                label="Required Comments"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_REQUIRED"
+                                validationRequired="true"
+                                placeholder="This field is required"/>
+                        </textarea_9>
+                    </container_3>
+                    <container_4
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/textarea"
-                        id="textarea_3_AQUSQRKVJ">
-                        <label
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_4_TEXTAREA_DISABLED"
+                        title="Disabled Textarea"
+                        variant="sectionwithtitle">
+                        <textarea_10
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            id="label_IFDUW0MNL"
-                            label="Enter User College Details"/>
-                        <field
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/textarea"
-                            id="field_30BMVOMW6"
-                            placeholder="College Details"/>
-                    </textarea_3>
-                    <textarea_4
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/textarea"
-                        id="textarea_4_GX8KM8U96">
-                        <label
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            id="label_7GGVSFGIA"
-                            label="Enter User Occupation"/>
-                        <field
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/textarea"
-                            id="field_BRGVHP96W"
-                            placeholder="Occupation"/>
-                    </textarea_4>
-                    <textarea_5
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/forms/textarea"
-                        id="textarea_5_5WCW8FINR">
-                        <label
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/label"
-                            id="label_OSJOWYNTD"
-                            label="Enter Hobbies"/>
-                        <field
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="typerefinery/components/forms/fields/textarea"
-                            id="field_B9BL5TRGS"
-                            placeholder="Hobbies"/>
-                    </textarea_5>
+                            sling:resourceType="typerefinery/components/forms/textarea"
+                            id="textarea_10_DISABLED">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_DISABLED"
+                                label="Disabled Textarea"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/textarea"
+                                id="field_DISABLED"
+                                disabled="true"
+                                value="This textarea is disabled and cannot be edited."
+                                placeholder="Cannot edit this field"/>
+                        </textarea_10>
+                    </container_4>
                 </form1>
             </container>
         </rootcontainer>

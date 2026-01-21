@@ -61,16 +61,14 @@
                     writeMethod="POST"
                     writePayloadType="application/json"
                     writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/input-widget/461">
-                    <title
+                    <container_1
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        classes="text-center"
-                        gap="0"
-                        headingLevel="h4"
-                        headingSize="h5"
-                        id="title_AIPKGEY2S"
-                        title="File Upload Widget"/>
-                    <fileupload_1
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_1_FILEUPLOAD_DRAGDROP"
+                        title="File Upload Widget (Drag and Drop)"
+                        variant="sectionwithtitle">
+                        <fileupload_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/fileupload"
                         id="fileupload_1_SPVZ11ROE">
@@ -118,6 +116,131 @@
                         id="button_G5BZ9UOCC"
                         isOutlinedButton="true"
                         label="Submit "
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    </container_1>
+                    <container_2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_2_FILEUPLOAD_SINGLE"
+                        title="Single File Upload"
+                        variant="sectionwithtitle">
+                        <fileupload_2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fileupload"
+                        id="fileupload_2_SINGLE">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_SINGLE"
+                                label="Upload Profile Picture"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                accept="image/*"
+                                id="field_SINGLE"
+                                multiple="false"
+                                name="profile_picture"
+                                validationRequired="false"/>
+                        </fileupload_2>
+                    </container_2>
+                    <container_3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_3_FILEUPLOAD_TYPES"
+                        title="File Upload with Type Restrictions"
+                        variant="sectionwithtitle">
+                        <fileupload_3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fileupload"
+                        id="fileupload_3_IMAGES">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_IMAGES"
+                                label="Upload Images Only"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                accept="image/png, image/jpeg, image/jpg, image/gif"
+                                id="field_IMAGES"
+                                multiple="true"
+                                name="images"
+                                validationRequired="false"/>
+                        </fileupload_3>
+                        <fileupload_4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fileupload"
+                            id="fileupload_4_PDF">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_PDF"
+                                label="Upload PDF Documents"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                accept=".pdf, application/pdf"
+                                id="field_PDF"
+                                multiple="true"
+                                name="documents"
+                                validationRequired="false"/>
+                        </fileupload_4>
+                        <fileupload_5
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fileupload"
+                            id="fileupload_5_DOCS">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_DOCS"
+                                label="Upload Word Documents"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                accept=".doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                id="field_DOCS"
+                                multiple="false"
+                                name="word_doc"
+                                validationRequired="false"/>
+                        </fileupload_5>
+                    </container_3>
+                    <container_4
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_4_FILEUPLOAD_REQUIRED"
+                        title="Required File Upload"
+                        variant="sectionwithtitle">
+                        <fileupload_6
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fileupload"
+                        id="fileupload_6_REQUIRED">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                id="label_REQUIRED"
+                                label="Upload Resume (Required)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/fileupload"
+                                accept=".pdf, .doc, .docx"
+                                id="field_REQUIRED"
+                                multiple="false"
+                                name="resume"
+                                validationRequired="true"/>
+                        </fileupload_6>
+                    </container_4>
+                    <button2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        buttonStyle="primary"
+                        buttonType="submit"
+                        classes="\0"
+                        id="button_SUBMIT2"
+                        isOutlinedButton="true"
+                        label="Submit All Files"
                         persistColorWhenThemeSwitches="{Boolean}true"/>
                 </form>
             </main>

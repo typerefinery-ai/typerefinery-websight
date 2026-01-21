@@ -127,6 +127,157 @@
                             id="field_YP7LTAPCK"
                             placeholder="Roll Number"/>
                     </select_5>
+                    <title2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/title"
+                        headingSize="h4"
+                        id="title_MULTISELECT"
+                        title="Multiple Selection"/>
+                    <select_multiple
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/select"
+                        id="select_multiple_1">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            label="Select Multiple Skills"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/select"
+                            id="field_multiple_1"
+                            multipleSelection="true"
+                            placeholder="Select multiple options">
+                            <selectOptions jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="JavaScript"
+                                    value="javascript"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Python"
+                                    value="python"/>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Java"
+                                    value="java"/>
+                                <_x0033_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="React"
+                                    value="react"/>
+                                <_x0034_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Node.js"
+                                    value="nodejs"/>
+                            </selectOptions>
+                        </field>
+                    </select_multiple>
+                    <select_multiple_max
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/select"
+                        id="select_multiple_max">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            label="Select Up to 3 Languages (Max Selection)"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/select"
+                            id="field_multiple_max"
+                            multipleSelection="true"
+                            maxSelection="3"
+                            placeholder="Select up to 3 languages">
+                            <selectOptions jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="English"
+                                    value="en"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Spanish"
+                                    value="es"/>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="French"
+                                    value="fr"/>
+                                <_x0033_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="German"
+                                    value="de"/>
+                                <_x0034_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Italian"
+                                    value="it"/>
+                                <_x0035_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Portuguese"
+                                    value="pt"/>
+                            </selectOptions>
+                        </field>
+                    </select_multiple_max>
+                    <title3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/title"
+                        headingSize="h4"
+                        id="title_DATASOURCE"
+                        title="Select with Datasource (Example)"/>
+                    <select_datasource
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/select"
+                        id="select_datasource_1">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            label="Select from Datasource"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/select"
+                            id="field_datasource_1"
+                            placeholder="Options loaded from datasource"
+                            readOptionsFromDataSource="/content/typerefinery-showcase/pages/components/forms/select/datasource-example.json"
+                            keyNameInOptionList="value"
+                            labelNameInOptionList="label"/>
+                    </select_datasource>
+                    <title4
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/content/title"
+                        headingSize="h4"
+                        id="title_DEFAULT"
+                        title="Select with Default Selected Options"/>
+                    <select_default
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/select"
+                        id="select_default_1">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            label="Select with Pre-selected Options"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/select"
+                            id="field_default_1"
+                            multipleSelection="true"
+                            defaultSelectedOptions="option1,option3"
+                            placeholder="Some options pre-selected">
+                            <selectOptions jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Option 1"
+                                    value="option1"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Option 2"
+                                    value="option2"/>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Option 3"
+                                    value="option3"/>
+                                <_x0033_
+                                    jcr:primaryType="nt:unstructured"
+                                    label="Option 4"
+                                    value="option4"/>
+                            </selectOptions>
+                        </field>
+                    </select_default>
                 </form1>
             </container>
         </rootcontainer>

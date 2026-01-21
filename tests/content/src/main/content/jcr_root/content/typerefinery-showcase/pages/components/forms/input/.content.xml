@@ -21,11 +21,13 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
                     id="form1_ILMQCNVCH">
-                    <title
+                    <container_1
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        headingSize="h4"
-                        title="Type of Input Field"/>
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_1_INPUT_TYPES"
+                        title="Basic Input Types"
+                        variant="sectionwithtitle">
                     <input_1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/input">
@@ -36,6 +38,7 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_email"
                             inputType="email"
                             placeholder="Eg. test@example.com"/>
                     </input_1>
@@ -49,6 +52,7 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_name"
                             inputType="text"
                             placeholder="Eg. John Henry"/>
                     </input_2>
@@ -62,6 +66,7 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_phone"
                             inputType="tel"
                             placeholder="Eg. 65412441245"/>
                     </input_3>
@@ -75,6 +80,7 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                            name="input_date"
                             inputType="date"/>
                     </input_4>
                     <input_5
@@ -87,15 +93,265 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                            name="input_password"
                             inputType="password"
                             placeholder="Eg. 123456"/>
                     </input_5>
-                    <title1
+                    </container_1>
+                    <container_2
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        headingSize="h4"
-                        title="Input Field With hidden Label"/>
-                    <input_6
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_2_ADDITIONAL_TYPES"
+                        title="Additional Input Types"
+                        variant="sectionwithtitle">
+                        <input_7
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Enter Number"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_number"
+                                inputType="number"
+                                placeholder="Enter a number"/>
+                        </input_7>
+                        <input_8
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Select Time"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_time"
+                                inputType="time"
+                                placeholder="Select time"/>
+                        </input_8>
+                        <input_9
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Volume (Range Slider - Default 0-100)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_range_volume"
+                                inputType="range"
+                                rangeMin="0"
+                                rangeMax="100"
+                                rangeStep="1"
+                                placeholder="Adjust volume"/>
+                        </input_9>
+                        <input_9b
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Percentage (Range 0-100, Step 5)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_range_percentage"
+                                inputType="range"
+                                rangeMin="0"
+                                rangeMax="100"
+                                rangeStep="5"
+                                value="50"/>
+                        </input_9b>
+                        <input_9c
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Temperature (Range -10 to 40, Step 1)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_range_temperature"
+                                inputType="range"
+                                rangeMin="-10"
+                                rangeMax="40"
+                                rangeStep="1"
+                                value="20"/>
+                        </input_9c>
+                        <input_9a
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Select Color"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                inputType="colourpicker"
+                                value="#ff0000"/>
+                        </input_9a>
+                        <input_10
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Hidden Field (Visible in Edit Mode)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_hidden"
+                                inputType="hidden"
+                                value="hidden-value"
+                                placeholder="This field is hidden in published mode"/>
+                        </input_10>
+                    </container_2>
+                    <container_3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_3_VALIDATION"
+                        title="Input with Validation"
+                        variant="sectionwithtitle">
+                        <input_11
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Required Email Field"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_email_required"
+                                inputType="email"
+                                validationRequired="true"
+                                placeholder="email@example.com"/>
+                        </input_11>
+                        <input_12
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Required Text Field"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_text_required"
+                                inputType="text"
+                                validationRequired="true"
+                                placeholder="This field is required"/>
+                        </input_12>
+                    </container_3>
+                    <container_4
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_4_MASKING"
+                        title="Input with Masking"
+                        variant="sectionwithtitle">
+                        <input_13
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Phone Number (Masked)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_phone_masked"
+                                inputType="tel"
+                                validationInputMask="(999) 999-9999"
+                                placeholder="(123) 456-7890"/>
+                        </input_13>
+                        <input_14
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Date (Masked)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_date_masked"
+                                inputType="text"
+                                validationInputMask="99/99/9999"
+                                placeholder="MM/DD/YYYY"/>
+                        </input_14>
+                        <input_15
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Credit Card (Masked)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_creditcard_masked"
+                                inputType="text"
+                                validationInputMask="9999-9999-9999-9999"
+                                placeholder="1234-5678-9012-3456"/>
+                        </input_15>
+                    </container_4>
+                    <container_5
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_5_DISABLED"
+                        title="Disabled Input Fields"
+                        variant="sectionwithtitle">
+                        <input_16
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Disabled Text Field"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_text_disabled"
+                                inputType="text"
+                                disabled="true"
+                                value="This field is disabled"
+                                placeholder="Cannot edit this field"/>
+                        </input_16>
+                        <input_17
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Disabled Email Field"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_email_disabled"
+                                inputType="email"
+                                disabled="true"
+                                value="disabled@example.com"
+                                placeholder="Cannot edit this field"/>
+                        </input_17>
+                    </container_5>
+                    <container_6
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_6_HIDDEN_LABEL"
+                        title="Input Field With Hidden Label"
+                        variant="sectionwithtitle">
+                        <input_6
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/input">
                         <label
@@ -106,9 +362,417 @@
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_hidden_label"
                             inputType="text"
                             placeholder="Click on edit -> toggle hide Label to show/hide label"/>
                     </input_6>
+                    </container_6>
+                    <container_7
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_7_COLOUR_PICKER"
+                        title="Colour Picker Examples"
+                        variant="sectionwithtitle">
+                        <input_18
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Basic Colour Picker"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_color_basic"
+                                inputType="colourpicker"
+                                value="#4285f4"/>
+                        </input_18>
+                        <input_19
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Colour Picker with Default Value"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_color_default"
+                                inputType="colourpicker"
+                                value="#ff0000"/>
+                        </input_19>
+                        <input_20
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Required Colour Picker"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_color_required"
+                                inputType="colourpicker"
+                                validationRequired="true"
+                                value="#00ff00"/>
+                        </input_20>
+                        <input_21
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Disabled Colour Picker"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="input_color_disabled"
+                                inputType="colourpicker"
+                                disabled="true"
+                                value="#0000ff"/>
+                        </input_21>
+                    </container_7>
+                    <container_8
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_8_RATING"
+                        title="Rating Examples - Star Counts (1-5, No Half Stars)"
+                        variant="sectionwithtitle">
+                        <input_rating_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="1/5 Star Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_1_star"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                value="1"/>
+                        </input_rating_1>
+                        <input_rating_2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="2/5 Star Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_2_star"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                value="2"/>
+                        </input_rating_2>
+                        <input_rating_3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="3/5 Star Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_3_star"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                value="3"/>
+                        </input_rating_3>
+                        <input_rating_4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="4/5 Star Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_4_star"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                value="4"/>
+                        </input_rating_4>
+                        <input_rating_5
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="5/5 Star Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_5_star"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                value="5"/>
+                        </input_rating_5>
+                    </container_8>
+                    <container_8b
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_8b_RATING_HALF"
+                        title="Rating Examples - Star Counts (1-5, With Half Stars)"
+                        variant="sectionwithtitle">
+                        <input_rating_1h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="1/5 Star Rating (With Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_1_star_half"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="0.5"/>
+                        </input_rating_1h>
+                        <input_rating_2h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="2/5 Star Rating (With Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_2_star_half"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="1.5"/>
+                        </input_rating_2h>
+                        <input_rating_3h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="3/5 Star Rating (With Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_3_star_half"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="2.5"/>
+                        </input_rating_3h>
+                        <input_rating_4h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="4/5 Star Rating (With Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_4_star_half"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="3.5"/>
+                        </input_rating_4h>
+                        <input_rating_5h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="5/5 Star Rating (With Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_5_star_half"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="4.5"/>
+                        </input_rating_5h>
+                    </container_8b>
+                    <container_9
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_9_RATING_FEATURES"
+                        title="Rating Examples - Features"
+                        variant="sectionwithtitle">
+                        <input_22
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="5 Star Rating with Half Stars"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_5_star_half_demo"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                value="3.5"/>
+                        </input_22>
+                        <input_24
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="10 Star Rating (No Half Stars)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_10_star"
+                                inputType="rating"
+                                ratingMaxStars="10"
+                                ratingAllowHalf="false"
+                                value="7"/>
+                        </input_24>
+                        <input_24b
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Heart Rating (Custom Icons)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_hearts"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                ratingIconClass="fas fa-heart"
+                                ratingIconClassEmpty="far fa-heart"
+                                ratingIconClassHalf="fas fa-heart-half-alt"
+                                value="3.5"/>
+                        </input_24b>
+                        <input_24c
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Thumbs Up Rating (Custom Icons)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_thumbs"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                ratingIconClass="fas fa-thumbs-up"
+                                ratingIconClassEmpty="far fa-thumbs-up"
+                                ratingIconClassHalf="fas fa-thumbs-up"
+                                value="4"/>
+                        </input_24c>
+                        <input_24d
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Smiley Rating (Custom Icons)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_smiley"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="false"
+                                ratingIconClass="fas fa-smile"
+                                ratingIconClassEmpty="far fa-smile"
+                                ratingIconClassHalf="fas fa-smile"
+                                value="4"/>
+                        </input_24d>
+                        <input_24e
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Blue Star Rating (Custom Color)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_blue"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                ratingIconColor="#0066ff"
+                                value="3.5"/>
+                        </input_24e>
+                        <input_24f
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Red Heart Rating (Custom Color)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_red_hearts"
+                                inputType="rating"
+                                ratingMaxStars="5"
+                                ratingAllowHalf="true"
+                                ratingIconClass="fas fa-heart"
+                                ratingIconClassEmpty="far fa-heart"
+                                ratingIconClassHalf="fas fa-heart-half-alt"
+                                ratingIconColor="#ff0000"
+                                value="4"/>
+                        </input_24f>
+                        <input_25
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Required Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_required"
+                                inputType="rating"
+                                validationRequired="true"
+                                value="0"/>
+                        </input_25>
+                        <input_26
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Disabled Rating"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="rating_disabled"
+                                inputType="rating"
+                                disabled="true"
+                                value="4"/>
+                        </input_26>
+                    </container_9>
                 </form1>
             </container>
         </rootcontainer>

@@ -27,13 +27,14 @@
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     id="form1_BG703DQMV">
-                    <title
+                    <container_1
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="typerefinery/components/content/title"
-                        headingLevel="XL"
-                        id="title_6XPMOSROG"
-                        title="Radio"/>
-                    <label1
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_1_RADIO_BASIC"
+                        title="Basic Radio Groups"
+                        variant="sectionwithtitle">
+                        <label1
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/fields/label"
                         id="label1_EMSRJJLVT"
@@ -160,6 +161,195 @@
                             name="group3"
                             value="value2"/>
                     </radio_7>
+                    </container_1>
+                    <container_2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_2_RADIO_REQUIRED"
+                        title="Required Radio Group"
+                        variant="sectionwithtitle">
+                        <label4
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fields/label"
+                        id="label4_REQUIRED"
+                        label="Select Payment Method (Required)"/>
+                    <radio_8
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_8_REQUIRED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_CREDIT"
+                            label="Credit Card"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_CREDIT"
+                            name="payment"
+                            value="credit"
+                            validationRequired="true"/>
+                    </radio_8>
+                    <radio_9
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_9_REQUIRED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_DEBIT"
+                            label="Debit Card"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_DEBIT"
+                            name="payment"
+                            value="debit"
+                            validationRequired="true"/>
+                    </radio_9>
+                    <radio_10
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_10_REQUIRED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_PAYPAL"
+                            label="PayPal"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_PAYPAL"
+                            name="payment"
+                            value="paypal"
+                            validationRequired="true"/>
+                    </radio_10>
+                    </container_2>
+                    <container_3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_3_RADIO_DISABLED"
+                        title="Disabled Radio Options"
+                        variant="sectionwithtitle">
+                        <label5
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fields/label"
+                        id="label5_DISABLED"
+                        label="Select Option (Some Disabled)"/>
+                    <radio_11
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_11_DISABLED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_OPTION1"
+                            label="Option 1 (Enabled)"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_OPTION1"
+                            name="options"
+                            value="option1"/>
+                    </radio_11>
+                    <radio_12
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_12_DISABLED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_OPTION2"
+                            label="Option 2 (Disabled)"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_OPTION2"
+                            name="options"
+                            value="option2"
+                            disabled="true"/>
+                    </radio_12>
+                    <radio_13
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_13_DISABLED">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_OPTION3"
+                            label="Option 3 (Enabled)"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_OPTION3"
+                            name="options"
+                            value="option3"/>
+                    </radio_13>
+                    </container_3>
+                    <container_4
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_4_RADIO_DEFAULT"
+                        title="Radio Group with Default Selected Value"
+                        variant="sectionwithtitle">
+                        <label6
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/fields/label"
+                        id="label6_DEFAULT"
+                        label="Select Priority (Default: Medium)"/>
+                    <radio_14
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_14_DEFAULT">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_LOW"
+                            label="Low"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_LOW"
+                            name="priority"
+                            value="low"/>
+                    </radio_14>
+                    <radio_15
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_15_DEFAULT">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_MEDIUM"
+                            label="Medium"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_MEDIUM"
+                            name="priority"
+                            value="medium"
+                            defaultValue="medium"/>
+                    </radio_15>
+                    <radio_16
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/forms/radio"
+                        id="radio_16_DEFAULT">
+                        <label
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/label"
+                            id="label_HIGH"
+                            label="High"/>
+                        <field
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/fields/radio"
+                            id="field_HIGH"
+                            name="priority"
+                            value="high"/>
+                    </radio_16>
+                    </container_4>
                 </form1>
             </container>
         </rootcontainer>
