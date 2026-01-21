@@ -425,6 +425,60 @@ public String yourProperty;
 - `@Getter` - Lombok generates getter method
 - `@Default` - Provides default value if not set
 
+### Computed Properties Pattern
+
+**MANDATORY**: For any HTML attribute that needs conditional logic, defaults, or type mapping, create a computed property in the model.
+
+**Pattern**: `{AttributeName}Attr` suffix for computed HTML attribute values.
+
+```java
+/**
+ * Computed: HTML type attribute value.
+ * Maps inputType to HTML type with special handling.
+ */
+@Getter
+private String typeAttr;
+
+/**
+ * Computed: HTML value attribute with defaults.
+ * Sets default value for specific types if not provided.
+ */
+@Getter
+private String valueAttr;
+
+/**
+ * Computed: HTML placeholder attribute (null if not applicable).
+ */
+@Getter
+private String placeholderAttr;
+
+@PostConstruct
+protected void init() {
+    super.init();
+    
+    // Compute all conditional attributes in init()
+    this.typeAttr = computeTypeAttr();
+    this.valueAttr = computeValueAttr();
+    this.placeholderAttr = computePlaceholderAttr();
+}
+
+private String computeTypeAttr() {
+    // All logic here, not in template
+    if (isEditMode && "hidden".equals(inputType)) {
+        return "text";
+    } else if ("colourpicker".equals(inputType)) {
+        return "color";
+    }
+    return inputType != null ? inputType : "text";
+}
+```
+
+**Rules:**
+- **REQUIRED**: Compute all conditionals in `init()` method
+- **REQUIRED**: Return `null` if attribute should not be rendered
+- **REQUIRED**: Use `data-sly-attribute.{attr}="${model.{attr}Attr}"` in template
+- **FORBIDDEN**: Conditionals, defaults, or logic in template expressions
+
 ## Template Implementation
 
 ### Main Template Pattern
@@ -442,30 +496,58 @@ The main template adapts the Sling Model and calls the variant template:
 
 ### Variant Template Pattern
 
-The variant template contains the actual input element:
+**CRITICAL: VERY LEAN HTML SIGNATURE**
+
+The variant template MUST have the absolute minimum HTML signature. All logic, defaults, and conditionals MUST be computed in the Sling Model.
 
 ```html
 <template data-sly-template.variant="${ @ model }">
   <input 
     component="${model.componentName}"
+    isInput="true"
     id="${model.id}" 
+    type="${model.typeAttr}"
     name="${model.name}"
-    value="${model.value}"
+    value="${model.valueAttr}"
     data-fieldId="${model.parentFieldId}" 
-    placeholder="${model.placeholder}" 
-    class="${model.variantClassNames}"
     data-model="${model.jsonString}"
+    class="${model.variantClassNames}"
+    data-sly-attribute.placeholder="${model.placeholderAttr}"
+    data-sly-attribute.required="${model.requiredAttr}"
+    data-sly-attribute.min="${model.minAttr}"
+    data-sly-attribute.max="${model.maxAttr}"
+    data-sly-attribute.step="${model.stepAttr}"
+    data-sly-attribute.data-inputmask="${model.inputmaskAttr}"
+    data-sly-attribute.disabled="${model.disabledAttr}"
   />
 </template>
 ```
+
+**MANDATORY Rules:**
+
+1. **NO CONDITIONALS IN TEMPLATES**: Compute in model, use computed property
+   - ❌ `${model.inputType == 'rating' ? null : model.placeholder}`
+   - ✅ `model.placeholderAttr` (computed in model)
+
+2. **NO DEFAULTS IN TEMPLATES**: Compute defaults in model
+   - ❌ `${model.value || '#000000'}`
+   - ✅ `model.valueAttr` (includes defaults in model)
+
+3. **NO LOGIC IN TEMPLATES**: All logic in model's `init()` method
+   - ❌ `${model.inputType != 'rating' && model.validationRequired}`
+   - ✅ `model.requiredAttr` (computed in model)
+
+4. **USE COMPUTED PROPERTIES**: Create `{AttributeName}Attr` properties in model
+5. **USE DATA-MODEL**: Client-side reads from `data-model`, not DOM queries
 
 **Required Attributes:**
 - `component` - Component name for client-side identification
 - `id` - Unique field ID
 - `name` - Field name (used in form submission)
 - `data-fieldId` - Parent field ID for label association
-- `data-model` - JSON representation for client-side access
-- `class` - CSS classes from model
+- `data-model` - JSON representation for client-side access (REQUIRED for JS)
+- `class` - CSS classes from model (computed in model)
+- All conditional attributes via `data-sly-attribute` with computed `{attr}Attr` properties
 
 **Note:** The base field component's `variant.html` handles the label wrapper automatically. Your variant template only needs to provide the input element itself.
 
@@ -518,6 +600,10 @@ Add component-specific fields in `generalTab`:
 ## Client Libraries (Optional)
 
 Only add client libraries if your component requires JavaScript or CSS.
+
+**MANDATORY: CSS Namespacing**
+
+All CSS selectors in component `style.css` files MUST be properly namespaced using `[component="{componentName}"]` to prevent global conflicts. See "CSS Namespacing" section in Best Practices for details.
 
 ### Structure
 
@@ -579,6 +665,44 @@ Only add client libraries if your component requires JavaScript or CSS.
 - Component must include `data-model` attribute with `model.jsonString`
 - Field values are collected based on `name` attribute
 
+**MANDATORY: Use Data-Model for Client-Side Configuration**
+
+**CRITICAL RULE**: Client-side JavaScript MUST read all configuration from the `data-model` attribute, NOT from DOM queries, data attributes, or element classes.
+
+**Forbidden Patterns:**
+```javascript
+// ❌ FORBIDDEN: Querying DOM for configuration
+const type = $component.find('input').attr('type');
+const placeholder = $component.find('input').attr('placeholder');
+const isRequired = $component.find('input').hasClass('required');
+
+// ❌ FORBIDDEN: Reading from data attributes for config
+const maxStars = $component.data('max-stars');
+const allowHalf = $component.data('allow-half');
+```
+
+**Required Pattern:**
+```javascript
+// ✅ REQUIRED: Read from data-model attribute
+const componentConfig = componentNs.getComponentConfig($component);
+const { inputType, placeholder, validationRequired, ratingMaxStars, ratingAllowHalf } = componentConfig;
+
+// ✅ REQUIRED: Use componentConfig for all initialization and configuration
+ns.initRating($component, componentConfig);
+```
+
+**Implementation:**
+1. **Include `data-model`**: Template must include `data-model="${model.jsonString}"`
+2. **Parse in JavaScript**: Use `componentNs.getComponentConfig($component)` to parse
+3. **Pass to Functions**: Pass `componentConfig` object to all initialization functions
+4. **No DOM Queries**: Never query DOM for configuration values
+
+This ensures:
+- Configuration is centralized in the model
+- Client-side code is independent of HTML structure
+- Changes to HTML don't break JavaScript
+- Single source of truth for component configuration
+
 ### Flow API Integration
 
 **AUTOMATIC**: Components are automatically included in Flow payloads when form has Flow enabled.
@@ -634,6 +758,46 @@ See: `/apps/typerefinery/components/forms/fields/composite/`
 
 ## Showcase Examples
 
+### MANDATORY: Showcase Updates for Component Changes
+
+**CRITICAL RULE**: Whenever ANY change is made to a component (new features, new properties, new variants, bug fixes, refactoring, CSS changes, JavaScript changes, etc.), the showcase page MUST be updated to demonstrate and validate those changes.
+
+**MANDATORY Update Triggers:**
+- ✅ **New features** added to component
+- ✅ **New properties** added to dialog
+- ✅ **New variants** created
+- ✅ **Behavioral changes** (how component works)
+- ✅ **CSS/styling changes** (visual appearance, namespacing)
+- ✅ **JavaScript changes** (client-side behavior)
+- ✅ **Bug fixes** that affect functionality or appearance
+- ✅ **Refactoring** that changes component structure
+- ✅ **New input types** or field types
+- ✅ **Configuration changes** (new dialog fields, options)
+- ✅ **Documentation updates** in README
+
+**Showcase Update Requirements:**
+1. **MANDATORY**: Add examples demonstrating the new/changed feature
+2. **MANDATORY**: Test all showcase examples after changes
+3. **MANDATORY**: Update README if component documentation changed
+4. **MANDATORY**: Use container components to group related examples
+5. **MANDATORY**: Include edge cases and different configurations
+6. **MANDATORY**: Verify all existing examples still work correctly
+
+**Examples:**
+- Added new `rating` input type → Must add rating examples to showcase
+- Added `rangeMin`, `rangeMax`, `rangeStep` properties → Must add range examples with different configurations
+- Changed CSS namespacing → Must verify all showcase examples still work correctly
+- Added custom icon classes for rating → Must add example showing custom icons
+- Fixed bug in component behavior → Must verify fix works in showcase
+- Refactored template → Must test all showcase examples still render correctly
+
+**NO EXCEPTIONS**: Every component change MUST include showcase updates. This ensures:
+- Features are properly demonstrated
+- Changes are validated and tested
+- Documentation stays current
+- Users can see all available features
+- Regression testing is performed
+
 ### Creating Showcase Pages
 
 When creating a new form component, you MUST also create showcase examples to demonstrate the component's functionality.
@@ -650,6 +814,8 @@ tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/comp
 ```
 
 ### Showcase Page Template
+
+**MANDATORY**: Use container components to group related examples. Each container should have a descriptive title and use the `sectionwithtitle` variant.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -673,7 +839,34 @@ tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/comp
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/forms/form"
                     id="form_{ID}">
-                    <!-- Add component examples here -->
+                    <!-- Group examples using container components -->
+                    <container_1
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_1_BASIC"
+                        title="Basic Examples"
+                        variant="sectionwithtitle">
+                        <!-- Component examples here -->
+                    </container_1>
+                    <container_2
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_2_VALIDATION"
+                        title="Validation Examples"
+                        variant="sectionwithtitle">
+                        <!-- Validation examples here -->
+                    </container_2>
+                    <container_3
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_3_STATES"
+                        title="Component States"
+                        variant="sectionwithtitle">
+                        <!-- State examples (disabled, etc.) here -->
+                    </container_3>
                 </form>
             </container>
         </rootcontainer>
@@ -717,28 +910,64 @@ Add your component examples to the main form:
         <field
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/forms/fields/{component}"
-            name="exampleField"/>
+            name="example_field_unique"
+            inputType="text"/>
+```
+
+**CRITICAL**: Notice the `name="example_field_unique"` attribute - **ALWAYS use `name` (NOT `fieldName`)** and ensure each field has a unique, descriptive name.
     </{component}>
 </form>
 ```
 
 ### Showcase Best Practices
 
-1. **Clear Examples**: Each example should demonstrate one feature clearly
-2. **Descriptive Labels**: Use descriptive labels that explain what the example shows
-3. **Title Sections**: Use title components to organize examples into sections
-4. **Complete Forms**: Include complete form examples, not just isolated components
-5. **Flow Integration**: Show Flow integration when applicable
-6. **Real-World Scenarios**: Include examples that reflect real-world usage patterns
+**MANDATORY**: Use container components to group related examples.
+
+1. **Container Grouping**: Always use `typerefinery/components/layout/container` with `variant="sectionwithtitle"` to group related examples
+2. **Container Titles**: Use descriptive titles that clearly indicate what the grouped examples demonstrate (e.g., "Basic Input Types", "Input with Validation", "Disabled States")
+3. **Container Properties**: Set `flexEnabled="true"` for responsive layout
+4. **Logical Grouping**: Group examples by feature/capability:
+   - Basic usage examples
+   - Variant examples (if applicable)
+   - Validation examples
+   - State examples (disabled, required, etc.)
+   - Advanced features
+5. **Clear Examples**: Each example should demonstrate one feature clearly
+6. **Descriptive Labels**: Use descriptive labels that explain what the example shows
+7. **Complete Forms**: Include complete form examples, not just isolated components
+8. **Flow Integration**: Show Flow integration when applicable
+9. **Real-World Scenarios**: Include examples that reflect real-world usage patterns
+10. **CRITICAL: Unique Field Names**: **MANDATORY** - Each form field MUST have a unique `name` attribute
+    - **REQUIRED**: Use `name="..."` (NOT `fieldName="..."`) in showcase XML
+    - **REQUIRED**: All showcase field examples must include `name="unique_field_name"` to ensure proper form submission
+    - **REQUIRED**: Use descriptive, unique names (e.g., `name="input_email"`, `name="rating_1_star"`, `name="input_color_basic"`)
+    - **FORBIDDEN**: Duplicate `name` values across showcase examples
+
+**Container Pattern:**
+```xml
+<container_X
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="typerefinery/components/layout/container"
+    flexEnabled="true"
+    id="container_X_DESCRIPTIVE_NAME"
+    title="Descriptive Section Title"
+    variant="sectionwithtitle">
+    <!-- Related component examples here -->
+</container_X>
+```
 
 ### Updating Existing Showcases
 
-When updating a component:
+**MANDATORY**: When updating a component:
 
-1. **Update Component Showcase**: Update the dedicated component showcase page
-2. **Update Main Showcase**: Add/update examples in main forms showcase page
-3. **Test Examples**: Verify all examples work correctly
-4. **Document Changes**: Note any breaking changes in showcase examples
+1. **MANDATORY: Update Component Showcase**: Update the dedicated component showcase page with examples demonstrating the changes
+2. **MANDATORY: Update Main Showcase**: Add/update examples in main forms showcase page
+3. **MANDATORY: Test Examples**: Verify all examples work correctly after changes
+4. **MANDATORY: Document Changes**: Update README if component documentation changed
+5. **MANDATORY: Verify Existing Examples**: Test all existing showcase examples still work correctly
+6. **MANDATORY: Add New Examples**: Add examples for any new features, properties, or variants
+
+**NO EXCEPTIONS**: Every component change MUST include showcase updates. See "MANDATORY: Showcase Updates for Component Changes" section above for details.
 
 ## Best Practices
 
@@ -759,6 +988,44 @@ When updating a component:
 - Use Bootstrap classes where possible
 - Add component-specific classes via `style.addClasses()`
 - Use `componentClassNames` for wrapper, `variantClassNames` for input
+
+### 3.1. CSS Namespacing (MANDATORY)
+
+**CRITICAL**: All CSS selectors in component `style.css` files MUST be properly namespaced to prevent global conflicts.
+
+**Rules:**
+- **REQUIRED**: Scope all selectors to the component using `[component="{componentName}"]` attribute selector
+- **REQUIRED**: Use component-prefixed class names (e.g., `.input-rating-items`, not `.rating-items`)
+- **REQUIRED**: Namespace both custom classes and element selectors
+- **FORBIDDEN**: Global selectors without component scope
+
+**Pattern:**
+```css
+/* ✅ CORRECT: Namespaced */
+[component="input"] input[type="color"].form-control-color {
+  width: 3rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  /* ... */
+}
+
+[component="input"] .input-rating-items {
+  display: inline-flex;
+  /* ... */
+}
+
+/* ❌ WRONG: Global selector */
+input[type="color"].form-control-color {
+  /* Can conflict with other components */
+}
+
+.rating-items {
+  /* Global class name can conflict */
+}
+```
+
+**Component Name:**
+- Use the component name from `model.componentName` (e.g., `"input"`, `"button"`, `"select"`)
+- This matches the `component` attribute in the HTML template
 
 ### 4. Default Values
 
@@ -849,9 +1116,12 @@ See `/apps/typerefinery/components/forms/fields/button/README.md` for a complete
 ### 6. Showcase Examples
 
 - Create dedicated showcase page for each component
+- **MANDATORY**: Use container components to group examples by feature/capability
 - Update main forms showcase page with examples
 - Include variants, configurations, and integration examples
 - Test all showcase examples before committing
+- **CRITICAL: Each form field MUST have a unique `name` attribute** - Use `name="..."` (NOT `fieldName="..."`) in showcase XML
+- **REQUIRED**: All showcase field examples must include unique `name` attributes to ensure proper form submission
 
 ## Troubleshooting
 
