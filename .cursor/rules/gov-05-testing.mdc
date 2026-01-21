@@ -119,6 +119,33 @@ alwaysApply: true
 
 ## Test Maintenance
 
+### MANDATORY: Test Updates for Feature Changes
+
+**CRITICAL RULE**: Tests MUST be updated whenever features are added, modified, or enhanced.
+
+#### When to Update Tests (MANDATORY)
+- ✅ **New features added** - Add E2E tests covering the new functionality
+- ✅ **Feature enhancements** - Update existing tests to cover new behavior
+- ✅ **Behavior changes** - Update tests to reflect new behavior
+- ✅ **UI/UX improvements** - Add tests for new interactions (hover, preview, animations)
+- ✅ **Bug fixes** - Add tests to prevent regression
+- ✅ **Performance improvements** - Update tests if behavior changes
+- ✅ **Accessibility improvements** - Add tests for new accessibility features
+
+#### Test Update Requirements
+1. **E2E Tests First**: Always add/update E2E tests for user-facing features
+2. **Coverage**: Ensure all new functionality is covered by tests
+3. **Regression**: Update existing tests if behavior changes
+4. **Documentation**: Update test descriptions to reflect new functionality
+5. **Showcase Integration**: Use showcase examples in tests (not mock data)
+
+#### Test Update Workflow
+1. **Identify Changes**: List all features/behaviors that changed
+2. **Update Tests**: Add new tests or modify existing ones
+3. **Run Tests**: Verify all tests pass with new functionality
+4. **Review Coverage**: Ensure no functionality is untested
+5. **Commit Together**: Commit test updates with feature code
+
 ### Test Updates
 - Update tests when functionality changes
 - Maintain test relevance and accuracy
@@ -156,3 +183,268 @@ alwaysApply: true
 - Run full test suite after any changes
 - Maintain test coverage metrics
 - Review test quality regularly
+
+## CMS Access and Deployment
+
+### CMS Login Credentials
+
+**MANDATORY**: When accessing the CMS and encountering a login form, use the default credentials:
+
+- **Username**: `wsadmin`
+- **Password**: `wsadmin`
+
+**Usage:**
+- Browser access: Navigate to CMS URL and login with above credentials
+- E2E Tests: Credentials are configured in `tests/end-to-end/cypress.env.json` or environment variables
+- Manual Testing: Use these credentials when manually verifying showcase pages
+
+### Deployment Workflow
+
+**CRITICAL**: Different deployment commands for different content types.
+
+#### 1. Application Code Deployment
+
+**When to use**: After modifying application code (Java, HTL templates, JavaScript, CSS, clientlibs)
+
+**Command:**
+```powershell
+.\deploy-app.ps1
+```
+
+**What it deploys:**
+- Java Sling Models and services
+- HTL templates (`.html` files)
+- JavaScript files (`clientlibs/`)
+- CSS files (`clientlibs/`)
+- Client library configurations
+- Component definitions (`.content.json`)
+
+**Location**: `application/backend/src/main/resources/`
+
+#### 2. Content/Showcase Deployment
+
+**When to use**: After modifying showcase content (`.content.xml` files in `tests/content/`)
+
+**Command:**
+```powershell
+.\deploy-content-tests.ps1
+```
+
+**What it deploys:**
+- Showcase page content (`.content.xml` files)
+- Test content structure
+- Component examples and configurations
+
+**Location**: `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/`
+
+**MANDATORY**: Always deploy showcase content after updating showcase examples to ensure E2E tests run against latest content.
+
+### Deployment Workflow for Component Changes
+
+**Complete workflow when updating components:**
+
+1. **Update Application Code** (if needed):
+   - Modify Sling Models, templates, JavaScript, CSS
+   - Run `.\deploy-app.ps1` to deploy application changes
+
+2. **Update Showcase Content** (if needed):
+   - Modify showcase `.content.xml` files
+   - Run `.\deploy-content-tests.ps1` to deploy showcase changes
+
+3. **Verify Changes**:
+   - Navigate to showcase page in browser
+   - Login with `wsadmin` / `wsadmin` if prompted
+   - Verify component displays correctly
+
+4. **Run E2E Tests**:
+   - Tests should run against deployed showcase pages
+   - Ensure both preview and author tests pass
+
+## E2E Testing with Showcase Pages
+
+### Showcase Page Structure
+
+**Location**: `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/pages/components/forms/{component}/`
+
+### URL Construction for Showcase Pages
+
+**CRITICAL**: Understanding how to construct full URLs for preview and author modes.
+
+#### Base URLs
+
+**For Cypress E2E Tests:**
+- Base URL: `http://localhost:8113` (configured in `cypress.config.ts`)
+- Cypress automatically prepends baseUrl to relative paths in `cy.visit()`
+
+**For Browser/Manual Access:**
+- Base URL: `https://cms.typerefinery.localhost:8101`
+- Use full URL construction in browser address bar
+
+#### URL Patterns
+
+**Preview Mode (User-facing):**
+- **Pattern**: `{baseUrl}/content/typerefinery-showcase/pages/components/forms/{component}.html`
+- **Cypress**: `cy.visit('/content/typerefinery-showcase/pages/components/forms/{component}.html')`
+- **Browser**: `https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/{component}.html`
+
+**Author Mode (Editing):**
+- **Pattern**: `{baseUrl}/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor`
+- **Cypress**: `cy.visit('/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor')`
+- **Browser**: `https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor`
+
+**Key Components:**
+- `/content/` - Content repository path
+- `/apps/websight/index.html` - WebSight editor application
+- `::editor` - Editor mode suffix (only for author mode)
+- `{component}` - Component name (e.g., `input`, `button`, `checkbox`)
+
+#### Examples
+
+**Input Component:**
+- Preview (Cypress): `cy.visit('/content/typerefinery-showcase/pages/components/forms/input.html')`
+- Preview (Browser): `https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/input.html`
+- Author (Cypress): `cy.visit('/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/input::editor')`
+- Author (Browser): `https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/input::editor`
+
+**Button Component:**
+- Preview (Cypress): `cy.visit('/content/typerefinery-showcase/pages/components/forms/button.html')`
+- Preview (Browser): `https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/button.html`
+
+### Writing E2E Tests for Showcase Pages
+
+**MANDATORY**: All form components MUST have E2E tests that validate showcase page functionality.
+
+#### Test File Structure
+
+**Location**: `tests/end-to-end/tests/components/forms/{component}/`
+
+**Required Test Files:**
+1. **`{component}-preview.cy.ts`** - Preview mode tests (user-facing functionality)
+2. **`{component}-author.cy.ts`** - Author mode tests (editing/dialog functionality)
+
+**Example Structure:**
+```
+tests/end-to-end/tests/components/forms/input/
+├── rating-preview.cy.ts    # Preview mode tests
+└── rating-author.cy.ts     # Author mode tests
+```
+
+#### Preview Mode Tests
+
+**Purpose**: Test user-facing functionality on showcase pages.
+
+**Test Pattern:**
+```typescript
+describe('Component - Preview', () => {
+  beforeEach(() => {
+    cy.login(); // Uses wsadmin/wsadmin credentials
+  });
+
+  it('renders component correctly in preview mode', () => {
+    cy.visit('/content/typerefinery-showcase/pages/components/forms/{component}.html');
+    // Test assertions
+  });
+});
+```
+
+**What to Test:**
+- Component renders correctly
+- Visual elements display properly
+- User interactions work (clicks, inputs, etc.)
+- Component behavior matches specifications
+- Edge cases and different configurations
+- Integration with form system
+
+#### Author Mode Tests
+
+**Purpose**: Test editing functionality and dialog configuration.
+
+**Test Pattern:**
+```typescript
+describe('Component - Author', () => {
+  beforeEach(() => {
+    cy.login();
+  });
+
+  it('has editable dialog in author mode', () => {
+    cy.visit('/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor');
+    // Test dialog interactions
+  });
+});
+```
+
+**What to Test:**
+- Component overlay appears
+- Dialog opens correctly
+- All dialog tabs are accessible
+- Configuration fields work
+- Changes save correctly
+- Conditional fields show/hide appropriately
+
+### Test Commands and Utilities
+
+**Available Cypress Commands:**
+- `cy.login()` - Authenticates with CMS (uses `wsadmin`/`wsadmin`)
+- `cy.getByTestId(testId)` - Find element by `data-testid` attribute
+- `cy.findByTestId(testId)` - Find element within subject by `data-testid`
+- `cy.percySnapshotPreview(name)` - Take visual snapshot in preview mode
+- `cy.percySnapshotPageEditor(name)` - Take visual snapshot in editor mode
+- `cy.percySnapshotDialog(name)` - Take visual snapshot of dialog
+
+**Test Constants:**
+- Import from `support/const.ts`:
+  - `selectors` - Common CSS selectors
+  - `testIds` - Common test ID constants
+
+### Verifying Pages Work
+
+**Manual Verification Process:**
+
+1. **Deploy Content** (if showcase was updated):
+   ```powershell
+   .\deploy-content-tests.ps1
+   ```
+
+2. **Deploy Application** (if code was updated):
+   ```powershell
+   .\deploy-app.ps1
+   ```
+
+3. **Navigate to Showcase Page**:
+   - **Preview Mode**: `https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/{component}.html`
+     - Pattern: `{baseUrl}/content/typerefinery-showcase/pages/components/forms/{component}.html`
+   - **Author Mode**: `https://cms.typerefinery.localhost:8101/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor`
+     - Pattern: `{baseUrl}/apps/websight/index.html/content/typerefinery-showcase/pages/components/forms/{component}::editor`
+
+4. **Login if Prompted**:
+   - Username: `wsadmin`
+   - Password: `wsadmin`
+
+5. **Verify Component**:
+   - Check visual rendering
+   - Test interactions
+   - Verify console for errors
+   - Check network requests
+
+6. **Run E2E Tests**:
+   ```bash
+   cd tests/end-to-end
+   npm run dev  # Interactive mode
+   # or
+   npm run test # Headless mode
+   ```
+
+### Testing Checklist
+
+**Before Committing Component Changes:**
+
+- [ ] Application code deployed (`.\deploy-app.ps1`)
+- [ ] Showcase content deployed (`.\deploy-content-tests.ps1`)
+- [ ] Preview page verified manually
+- [ ] Author page verified manually
+- [ ] E2E preview tests written and passing
+- [ ] E2E author tests written and passing
+- [ ] All test cases cover component functionality
+- [ ] Edge cases tested
+- [ ] Console shows no errors
+- [ ] Component works in different configurations
