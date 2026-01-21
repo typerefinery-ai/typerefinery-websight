@@ -262,3 +262,79 @@ Uses Inputmask library format. See Inputmask documentation for complete mask syn
 ## Flow Integration
 
 Input field values are automatically included in Flow payloads when the form has Flow enabled. The input value is submitted as a string (for text, email, tel, colourpicker) or number (for number, range, rating). Colour picker values are submitted as hex color strings (e.g., "#ff0000"). Rating values are submitted as numbers (e.g., 3.5 for three and a half stars).
+
+## Technical Implementation Details
+
+### Rating Input Type
+
+The rating input type uses a sophisticated layered icon rendering approach to support half-star selection for any Font Awesome icon, including icons that don't have a native half-icon class (e.g., hearts).
+
+**Architecture:**
+- **Hidden Input**: The actual `<input type="rating">` element is hidden with CSS (`position: absolute`, `opacity: 0`, `width: 0`, `height: 0`)
+- **Visual Interface**: JavaScript dynamically creates a `.input-rating-items` container with rating icons as siblings to the hidden input
+- **Layered Rendering**: For icons without a valid half-icon class (e.g., hearts), a layered structure is used:
+  - Empty icon (outline) - always visible, behind (z-index: 1)
+  - Filled icon (solid) - on top, width controlled by CSS mask (z-index: 2)
+- **Simple Rendering**: For icons with valid half-icon classes (e.g., stars with `fa-star-half-alt`), a single icon element switches classes
+
+**Half-Star Detection:**
+- Uses fixed item width (1.5rem) for accurate calculations
+- Mouse position within icon determines left (half) vs right (full) selection
+- Hover preview updates dynamically as mouse moves within icon
+- Click commits the preview value to the hidden input
+
+**CSS Mask Technique:**
+- For layered icons, uses CSS `mask-image` with a linear gradient controlled by `--tr-rating-fill` CSS variable
+- JavaScript sets `--tr-rating-fill` to `0%` (empty), `50%` (half), or `100%` (full)
+- This approach reliably clips Font Awesome `::before` pseudo-elements
+
+**Spacing:**
+- Uses CSS Grid with `gap: 2px` for uniform spacing between icons
+- Fixed width (`1.5rem`) and height prevent container growth when switching states
+
+**Icon Color:**
+- Configurable via `ratingIconColor` dialog field (default: `#ffc107`)
+- Applied to both empty and filled icons via CSS `color` property
+
+### Range Input Type
+
+The range input type uses native HTML5 `<input type="range">` with Bootstrap's `form-range` class.
+
+**Configuration:**
+- **Min Value**: `rangeMin` (default: 0)
+- **Max Value**: `rangeMax` (default: 100)
+- **Step**: `rangeStep` (default: 1)
+
+**Implementation:**
+- Template converts `inputType="range"` to `type="range"` in HTML
+- Bootstrap `form-range` class replaces `form-control` for range inputs
+- Min, max, and step attributes are conditionally added when `inputType == 'range'`
+- No JavaScript required - native HTML5 range input works automatically
+
+**Form Submission:**
+- Value is submitted as a number (not string)
+- Works with form data collection via `isInput="true"` attribute
+
+### Colour Picker Input Type
+
+The colour picker input type uses native HTML5 `<input type="color">` for simplicity and browser compatibility.
+
+**Implementation:**
+- Template converts `inputType="colourpicker"` to `type="color"` in HTML
+- Uses Bootstrap `form-control-color` class for styling
+- Default value: `#000000` if no value is set
+- No JavaScript required - native HTML5 color input works automatically
+
+**Features:**
+- Native browser color picker UI (varies by browser)
+- Direct hex value input (browser-dependent)
+- No external libraries required
+
+**Form Submission:**
+- Value is submitted as hex color string (e.g., "#ff0000")
+- Works with form data collection via `isInput="true"` attribute
+
+**Browser Support:**
+- Modern browsers: Full support with native color picker
+- Older browsers: Graceful degradation to text input
+- Mobile: Native color picker on mobile devices
