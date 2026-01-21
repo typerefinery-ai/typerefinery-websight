@@ -59,48 +59,31 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
     };
 
     ns.initRating = ($component, componentConfig) => {
-      console.group("initRating");
-      console.log("$component:", $component);
-      console.log("componentConfig:", componentConfig);
-      
       // $component is the element with [component="input"] attribute
       // This is the INPUT element itself (not a wrapper)
       let $hiddenInput = $component;
-      console.log("Initial $component is input?", $component.is('input'));
       
       // If $component is not an input, find the input within it
       if (!$component.is('input')) {
-        console.log("$component is not an input, searching for input element");
         $hiddenInput = $component.find(`input[type="rating"]`);
-        console.log("Found input[type='rating']:", $hiddenInput.length);
         
         if ($hiddenInput.length === 0) {
           $hiddenInput = $component.find(`input[id="${componentConfig.id}"]`);
-          console.log("Found input by ID:", $hiddenInput.length);
         }
         if ($hiddenInput.length === 0) {
           $hiddenInput = $component.find('input').first();
-          console.log("Found first input:", $hiddenInput.length);
         }
       }
       
       // If still not found, try finding by component attribute and ID globally
       if ($hiddenInput.length === 0 || !$hiddenInput.is('input')) {
-        console.log("Searching globally for input[component='input'][id='" + componentConfig.id + "']");
         $hiddenInput = $(`input[component="input"][id="${componentConfig.id}"]`);
-        console.log("Found globally:", $hiddenInput.length);
       }
       
       if ($hiddenInput.length === 0 || !$hiddenInput.is('input')) {
         console.error('Rating input not found for component:', componentConfig.id);
-        console.error('$component:', $component);
-        console.error('$hiddenInput:', $hiddenInput);
-        console.groupEnd();
         return;
       }
-
-      console.log("Rating input found:", $hiddenInput);
-      console.log("Input element:", $hiddenInput[0]);
 
       // Read all config from componentConfig (from data-model)
       const maxItems = componentConfig.ratingMaxStars || 5;
@@ -112,53 +95,29 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       const isDisabled = componentConfig.disabled === true;
       const currentValue = parseNumber(componentConfig.value, 0);
       const canUseHalfIconClass = allowHalf && hasRenderableHalfIcon(iconHalf);
-      
-      console.log("Rating configuration:", {
-        maxItems,
-        allowHalf,
-        iconFilled,
-        iconEmpty,
-        iconHalf,
-        canUseHalfIconClass,
-        iconColor,
-        isDisabled,
-        currentValue
-      });
 
       // Get the wrapper (parent div) to search for existing rating items
       // The input is inside a wrapper div from input.html
-      console.log("Finding wrapper div");
       let $wrapper = $hiddenInput.parent();
-      console.log("Parent wrapper:", $wrapper.length, $wrapper.is('div'));
       
       if ($wrapper.length === 0 || !$wrapper.is('div')) {
         $wrapper = $hiddenInput.closest('div');
-        console.log("Closest div wrapper:", $wrapper.length);
       }
 
       // Create rating items container if it doesn't exist
       // Search in wrapper first, then create after the input
-      console.log("Searching for existing .input-rating-items");
       let $ratingItems = $wrapper.length > 0 ? $wrapper.find('.input-rating-items') : $();
-      console.log("Found in wrapper:", $ratingItems.length);
       
       if ($ratingItems.length === 0) {
         // Check if rating items already exist as sibling of input
-        console.log("Searching for sibling .input-rating-items");
         $ratingItems = $hiddenInput.siblings('.input-rating-items');
-        console.log("Found as sibling:", $ratingItems.length);
       }
       if ($ratingItems.length === 0) {
-        console.log("Creating new .input-rating-items container");
         $ratingItems = $('<div>').addClass('input-rating-items');
         $hiddenInput.after($ratingItems);
-        console.log("Rating items container created and inserted");
-      } else {
-        console.log("Using existing .input-rating-items container");
       }
 
       // Generate rating items - ensure exactly maxItems items are created
-      console.log("Generating", maxItems, "rating items");
       $ratingItems.empty();
       
       // Clear any existing items first to prevent duplicates
@@ -217,11 +176,9 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       // Use first item's width or fallback to CSS width (1.5rem = 24px typically)
       const firstItem = $ratingItems.find('.input-rating-item').first();
       const fixedItemWidth = firstItem.length > 0 ? firstItem.outerWidth() : 24; // 1.5rem typically = 24px
-      console.log("Fixed item width for calculations:", fixedItemWidth);
       
       // Verify correct number of items were created
       const itemCount = $ratingItems.find('.input-rating-item').length;
-      console.log("Generated", itemCount, "rating items (expected", maxItems, ")");
       if (itemCount !== maxItems) {
         console.error("MISMATCH: Expected", maxItems, "items but found", itemCount);
       }
@@ -230,7 +187,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       const getActualValue = () => parseNumber($hiddenInput.val(), 0);
       
       // Update visual state
-      console.log("Updating rating display with value:", currentValue);
       ns.updateRatingDisplay(
         $ratingItems,
         currentValue,
@@ -243,8 +199,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       );
 
       if (!isDisabled) {
-        console.log("Adding click and hover preview handlers to rating items");
-        
         // Add mouseenter handler for hover preview (scale effect only)
         $ratingItems.find('.input-rating-item').on('mouseenter', function(e) {
           const $item = $(this);
@@ -282,7 +236,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
             
             // Only update if preview value changed (prevents unnecessary class changes that break :before)
             if (currentPreviewValue !== previewValue) {
-              console.log("Hover preview (mousemove) - rating:", rating, "mouseX:", mouseX, "fixedItemWidth:", fixedItemWidth, "midPoint:", midPoint, "previewValue:", previewValue);
               currentPreviewValue = previewValue;
               // Update preview dynamically as mouse moves within icon
               ns.updateRatingDisplay(
@@ -300,7 +253,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
             // If half-stars disabled, just show full star for this rating
             previewValue = rating;
             if (currentPreviewValue !== previewValue) {
-              console.log("Hover preview (mousemove) - rating:", rating, "previewValue:", previewValue);
               currentPreviewValue = previewValue;
               ns.updateRatingDisplay(
                 $ratingItems,
@@ -318,7 +270,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         
         // Add mouseleave handler to revert to actual value
         $ratingItems.on('mouseleave', function() {
-          console.log("Mouse left rating items - reverting to actual value");
           currentPreviewValue = null; // Reset preview value
           const actualValue = getActualValue();
           ns.updateRatingDisplay(
@@ -340,10 +291,8 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         
         // Add click handlers
         $ratingItems.find('.input-rating-item').on('click', function(e) {
-          console.log("Rating item clicked");
           const $item = $(this);
           const rating = parseInt($item.data('rating'));
-          console.log("Clicked rating:", rating, "allowHalf:", allowHalf);
           
           if (allowHalf) {
             // Check if click is on left or right half of item
@@ -364,8 +313,6 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
               finalRating = rating;
             }
             
-            console.log("Half-star click - fixedItemWidth:", fixedItemWidth, "clickX:", clickX, "midPoint:", midPoint, "finalRating:", finalRating);
-            
             $hiddenInput.val(finalRating);
             ns.updateRatingDisplay(
               $ratingItems,
@@ -378,9 +325,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
               canUseHalfIconClass
             );
             $hiddenInput.trigger('change');
-            console.log("Rating updated to:", finalRating);
           } else {
-            console.log("Full-star click - rating:", rating);
             $hiddenInput.val(rating);
             ns.updateRatingDisplay(
               $ratingItems,
@@ -393,15 +338,9 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
               canUseHalfIconClass
             );
             $hiddenInput.trigger('change');
-            console.log("Rating updated to:", rating);
           }
         });
-      } else {
-        console.log("Rating is disabled - skipping event handlers");
       }
-      
-      console.log("Rating initialization complete");
-      console.groupEnd();
     };
 
     /**
@@ -425,19 +364,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       iconColor,
       canUseHalfIconClass
     ) => {
-      console.log(
-        "updateRatingDisplay - value:",
-        value,
-        "allowHalf:",
-        allowHalf,
-        "iconColor:",
-        iconColor,
-        "canUseHalfIconClass:",
-        canUseHalfIconClass
-      );
-
       const items = $ratingItems.find(".input-rating-item");
-      console.log("Updating", items.length, "rating items");
 
       // Get icon color from first item if not provided
       // For layered structure, check filled icon; for simple, check the item itself
@@ -479,12 +406,8 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           let fillPercent = "0%";
           if (value >= rating) {
             fillPercent = "100%";
-            console.log("Item", rating, "- filled (100%)");
           } else if (allowHalf && value >= halfRating) {
             fillPercent = "50%";
-            console.log("Item", rating, "- half (50%)");
-          } else {
-            console.log("Item", rating, "- empty (0%)");
           }
           $filledIcon.css("--tr-rating-fill", fillPercent);
         } else {
@@ -505,20 +428,15 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           if (value >= rating) {
             // Full icon - use filled classes
             $item.addClass(iconFilled);
-            console.log("Item", rating, "- filled (classes:", iconFilled, ")");
           } else if (allowHalf && value >= halfRating) {
             // Half icon - use half class (stars have this)
             $item.addClass(iconHalf);
-            console.log("Item", rating, "- half (classes:", iconHalf, ")");
           } else {
             // Empty icon
             $item.addClass(iconEmpty);
-            console.log("Item", rating, "- empty (classes:", iconEmpty, ")");
           }
         }
       });
-
-      console.log("Rating display update complete");
     };
 
 })(jQuery, window.Typerefinery.Components.Forms.Input);
