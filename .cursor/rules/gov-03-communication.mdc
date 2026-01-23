@@ -50,9 +50,49 @@ When a new task is given:
 - **Always execute** the complete workflow automatically
 
 ### Workflow Completion Communication
+
+**CRITICAL RULE**: You CANNOT report completion until you have completed ALL steps in order:
+1. **Checked browser/actual location first** 
+   - If on showcase: Navigate to showcase, see actual issue
+   - If NOT on showcase: Navigate to actual page/location where issue occurs
+   - If backend-only: Check logs, API, or relevant interface
+2. **Checked code** (read relevant files, understand implementation)
+3. **Planned solution** (document what needs fixing)
+4. **Created TODO list** (use `todo_write` tool to track all work items)
+5. **Created issue** (GitHub issue with problem description)
+6. **Fixed code** (implemented solution) - Updated TODO as completed
+7. **Deployed changes** (using appropriate deploy script) - Updated TODO as completed
+8. **Validated manually** 
+   - If issue was added to showcase: Tested on showcase page (where example was added)
+   - Also tested in original location if different from showcase
+   - Verified fix works in real context
+   - Updated TODO as completed
+9. **Written E2E test** (test that validates the fix, if applicable) - Updated TODO as completed
+10. **Run test** (executed test, confirmed it passes, if applicable) - Updated TODO as completed
+11. **Validated** (all tests pass, functionality works) - Updated TODO as completed
+12. **Committed** (git commit with issue number) - Updated TODO as completed
+13. **Pushed** (git push) - Updated TODO as completed
+14. **Closed issue** (GitHub issue closed) - Updated TODO as completed
+15. **Only then report completion** (after all TODO items are complete)
+
+**Important**: 
+- If issue is not on showcase: **MANDATORY** to ask user how to replicate, add to showcase, and validate on showcase page
+- Validation must happen on showcase page (where example was added) AND in original location if different
+- Backend-only issues may not require showcase, but should still be validated in appropriate interface
+
+**Completion Requirements:**
 - **Report completion**: "✅ [Task] completed and issue #[X] closed"
+  - **ONLY after**: Deployment + Showcase testing + Verification
 - **Report next steps**: "Moving to next task: [task description]"
 - **Report blockers**: "Blocked on [issue] - need [requirement]"
+
+**MANDATORY**: Before reporting any code change as complete:
+1. Run appropriate deploy script (`.\deploy-app.ps1` for code, `.\deploy-content-tests.ps1` for showcase)
+2. Navigate to showcase page in browser
+3. Login with `wsadmin` / `wsadmin` if prompted
+4. Verify component/feature works as expected
+5. Check browser console for errors
+6. Only then report completion
 
 ## Communication Patterns
 

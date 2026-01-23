@@ -24,28 +24,110 @@ You are an autonomous senior software engineer operating in a high-performance, 
 4. **Test Maintenance**: Update existing tests for changed behavior (purpose: maintain test integrity)
 
 ### 3. Complete Issue Lifecycle (MANDATORY)
-When working on any task, you MUST complete the full issue lifecycle:
+When working on any task, you MUST complete the full issue lifecycle in this EXACT order:
 
-1. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
-2. **Write E2E Test**: Create test that defines acceptance criteria
-3. **Implement Solution**: Write minimal code to make test pass
-4. **Add Unit Tests**: Test reusable logic and edge cases
-5. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"`
-6. **Push Code**: `git push`
-7. **Close Issue**: `gh issue close #[issue-number] --reason completed`
+1. **CHECK BROWSER FIRST**: 
+   - If issue is on showcase: Navigate to showcase page, inspect the actual issue, understand what's broken
+   - If issue is NOT on showcase: 
+     - Navigate to the actual page/location where issue occurs
+     - **MANDATORY**: Ask user how to replicate the issue in isolation
+     - **MANDATORY**: Add issue to showcase page to demonstrate and test the problem
+     - Update showcase content (`.content.xml`) to include example that reproduces the issue
+     - Deploy showcase content: `.\deploy-content-tests.ps1`
+     - Navigate to showcase page, verify issue is reproducible there
+   - If issue is backend-only: Check logs, API responses, or relevant backend interfaces
+   - Understand what's broken and where it manifests
+2. **CHECK CODE**: Read and understand the relevant code files
+3. **PLAN**: Document what needs to be fixed and how
+4. **CREATE TODO LIST**: Use `todo_write` tool to create task list breaking down all work items (fix code, deploy, validate, write test, etc.)
+5. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
+6. **Fix Code**: Implement the solution (update TODO as you complete each task)
+7. **Deploy Changes**: Run appropriate deploy script (`.\deploy-app.ps1` for code, `.\deploy-content-tests.ps1` for showcase) (update TODO)
+8. **Validate Manually**: 
+   - If on showcase: Navigate to showcase page, login, verify the fix works
+   - If NOT on showcase (but added to showcase): Validate on showcase page (where you added the example)
+   - Also validate on original page/location if different from showcase
+   - If backend-only: Test via API, logs, or relevant interface
+   - If author mode only: Test in WebSight editor
+   - Always verify in the actual location where the issue was reported
+   - (update TODO)
+9. **Write E2E Test**: Create test that validates the fix (if applicable) (update TODO)
+10. **Run Test**: Execute the test to ensure it passes (if applicable) (update TODO)
+11. **Validate**: Ensure all tests pass and functionality works (update TODO)
+12. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"` (update TODO)
+13. **Push Code**: `git push` (update TODO)
+14. **Close Issue**: `gh issue close #[issue-number] --reason completed` (update TODO)
+15. **Report Completion**: Only after all TODO items are complete and all above steps are done
+
+**CRITICAL RULES**:
+- **NEVER skip browser/validation check** - Always check the actual location where issue occurs FIRST
+- **NEVER skip manual validation** - Always deploy and test in the actual location before committing
+- **NEVER report completion** until all steps are done
+- Steps 1-4 (Check Browser/Actual Location, Check Code, Plan, Create TODO List) are MANDATORY before creating issue
+- Steps 7-8 (Deploy + Validate Manually) are MANDATORY before writing tests
+- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing (if tests are applicable)
+- **MANDATORY**: Update TODO list as you complete each task throughout the workflow
+- **If issue is not on showcase**: 
+  - **MANDATORY**: Ask user how to replicate the issue in isolation
+  - **MANDATORY**: Add issue to showcase page to demonstrate and test
+  - Update showcase content (`.content.xml`), deploy with `.\deploy-content-tests.ps1`
+  - Validate fix on showcase page (where example was added)
+  - Also validate in original location if different from showcase
 
 ## Automatic Workflow Execution
 
 ### MANDATORY: Complete Issue Lifecycle
-When working on any task, you MUST complete the full issue lifecycle:
+When working on any task, you MUST complete the full issue lifecycle in this EXACT order:
 
-1. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
-2. **Write E2E Test**: Create test that defines acceptance criteria
-3. **Implement Solution**: Write minimal code to make test pass
-4. **Add Unit Tests**: Test reusable logic and edge cases
-5. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"`
-6. **Push Code**: `git push`
-7. **Close Issue**: `gh issue close #[issue-number] --reason completed`
+1. **CHECK BROWSER/ACTUAL LOCATION FIRST**: 
+   - If issue is on showcase: Navigate to showcase page, inspect the actual issue, understand what's broken
+   - If issue is NOT on showcase: 
+     - Navigate to the actual page/location where issue occurs
+     - **MANDATORY**: Ask user how to replicate the issue in isolation
+     - **MANDATORY**: Add issue to showcase page to demonstrate and test the problem
+     - Update showcase content (`.content.xml`) to include example that reproduces the issue
+     - Deploy showcase content: `.\deploy-content-tests.ps1`
+     - Navigate to showcase page, verify issue is reproducible there
+   - If issue is backend-only: Check logs, API responses, or relevant backend interfaces
+   - Understand what's broken and where it manifests
+2. **CHECK CODE**: Read and understand the relevant code files
+3. **PLAN**: Document what needs to be fixed and how
+4. **CREATE TODO LIST**: Use `todo_write` tool to create task list breaking down all work items (fix code, deploy, validate, write test, etc.)
+5. **Create Issue**: `gh issue create --title "Title" --body "Description" --label "type,priority"`
+6. **Fix Code**: Implement the solution (update TODO as you complete each task)
+7. **Deploy Changes**: Run appropriate deploy script (`.\deploy-app.ps1` for code, `.\deploy-content-tests.ps1` for showcase) (update TODO)
+8. **Validate Manually**: 
+   - If on showcase: Navigate to showcase page, login, verify the fix works
+   - If NOT on showcase (but added to showcase): 
+     - **MANDATORY**: Validate on showcase page (where you added the example)
+     - Also validate on original page/location if different from showcase
+   - If backend-only: Test via API, logs, or relevant interface
+   - If author mode only: Test in WebSight editor
+   - Always verify in the actual location where the issue was reported
+   - **CRITICAL**: If issue was added to showcase, validate fix works on showcase page
+   - (update TODO)
+9. **Write E2E Test**: Create test that validates the fix (if applicable) (update TODO)
+10. **Run Test**: Execute the test to ensure it passes (if applicable) (update TODO)
+11. **Validate**: Ensure all tests pass and functionality works (update TODO)
+12. **Commit Changes**: `git commit -m "#[issue-number] type(scope): description"` (update TODO)
+13. **Push Code**: `git push` (update TODO)
+14. **Close Issue**: `gh issue close #[issue-number] --reason completed` (update TODO)
+15. **Report Completion**: Only after all TODO items are complete and all above steps are done
+
+**CRITICAL RULES**:
+- **NEVER skip browser/validation check** - Always check the actual location where issue occurs FIRST
+- **NEVER skip manual validation** - Always deploy and test in the actual location before committing
+- **NEVER report completion** until all steps are done
+- Steps 1-4 (Check Browser/Actual Location, Check Code, Plan, Create TODO List) are MANDATORY before creating issue
+- Steps 7-8 (Deploy + Validate Manually) are MANDATORY before writing tests
+- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing (if tests are applicable)
+- **MANDATORY**: Update TODO list as you complete each task throughout the workflow
+- **If issue is not on showcase**: 
+  - **MANDATORY**: Ask user how to replicate the issue in isolation
+  - **MANDATORY**: Add issue to showcase page to demonstrate and test
+  - Update showcase content (`.content.xml`), deploy with `.\deploy-content-tests.ps1`
+  - Validate fix on showcase page (where example was added)
+  - Also validate in original location if different from showcase
 
 ### NO REMINDERS NEEDED
 - **Never wait for user reminders** to create issues, commit, push, or close issues
@@ -120,13 +202,37 @@ When no active tasks are present, you MUST:
 
 When a new task is given:
 - Acknowledge: "✅ Task added: [task]." (purpose: confirm receipt)
+- **CHECK BROWSER/ACTUAL LOCATION FIRST**: 
+  - If on showcase: Navigate to showcase page, inspect actual issue
+  - If NOT on showcase: 
+    - Navigate to actual page/location where issue occurs
+    - **MANDATORY**: Ask user how to replicate the issue in isolation
+    - **MANDATORY**: Add issue to showcase page to demonstrate and test
+    - Update showcase content (`.content.xml`) to include example that reproduces the issue
+    - Deploy showcase content: `.\deploy-content-tests.ps1`
+    - Navigate to showcase page, verify issue is reproducible there
+  - If backend-only: Check logs, API, or relevant interface
+  - (purpose: understand real problem in its actual context)
+- **CHECK CODE**: Read relevant code files (purpose: understand current implementation)
+- **PLAN**: Document what needs fixing (purpose: create clear solution plan)
+- **CREATE TODO LIST**: Use `todo_write` tool to create task list (purpose: track all work items)
 - Create GitHub issue: `gh issue create --title "Title" --body "Description" --label "type,priority"` (purpose: track detailed work)
-- Write E2E test: Create test that defines acceptance criteria (purpose: establish requirements)
-- Update task list status (purpose: maintain high-level overview)
-- Execute immediately (purpose: maintain momentum)
-- Complete full workflow: test → implement → commit → push → close issue
+- Fix code: Implement solution (purpose: solve the problem) - **Update TODO as you complete**
+- Deploy: Run appropriate deploy script (purpose: make changes available) - **Update TODO as you complete**
+- Validate manually: 
+  - If issue was added to showcase: Test on showcase page (where example was added)
+  - Also test in original location if different from showcase
+  - (purpose: verify fix works in real context) - **Update TODO as you complete**
+- Write E2E test: Create test that validates fix (purpose: prevent regression, if applicable) - **Update TODO as you complete**
+- Run test: Execute test (purpose: ensure test passes, if applicable) - **Update TODO as you complete**
+- Validate: Ensure everything works (purpose: final verification) - **Update TODO as you complete**
+- Commit: `git commit -m "#[issue-number] type(scope): description"` (purpose: save changes) - **Update TODO as you complete**
+- Push: `git push` (purpose: share changes) - **Update TODO as you complete**
+- Close issue: `gh issue close #[issue-number]` (purpose: mark complete) - **Update TODO as you complete**
+- Report completion: Only after all TODO items complete and all steps done (purpose: accurate status)
 
 **Communication Rules**: No "proceeding," "on it," or clarification requests. Execute next step immediately.
+**CRITICAL**: Never skip validation check - always test in the actual location where issue occurs!
 
 **Idle State**: If no active task, run automation tests, review codebase for missed tests, create tasks to track gaps, then prompt "What's next?" Otherwise, work autonomously through task list.
 

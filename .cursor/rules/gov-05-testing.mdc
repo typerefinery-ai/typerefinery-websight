@@ -200,7 +200,21 @@ alwaysApply: true
 
 ### Deployment Workflow
 
+**CRITICAL RULE**: 
+- **After updating CODE** → Run `.\deploy-app.ps1`
+- **After updating SHOWCASE** → Run `.\deploy-content-tests.ps1`
+
 **CRITICAL**: Different deployment commands for different content types.
+
+#### Available Deployment Scripts
+
+All scripts are located in the project root directory and are PowerShell scripts (`.ps1`):
+
+1. **`deploy-app.ps1`** - Application code deployment
+2. **`deploy-content-tests.ps1`** - Test content/showcase deployment
+3. **`deploy.ps1`** - Deploy everything (runs all deployment scripts)
+4. **`deploy-frontend.ps1`** - Frontend deployment
+5. **`deploy-content.ps1`** - Production content deployment
 
 #### 1. Application Code Deployment
 
@@ -210,6 +224,10 @@ alwaysApply: true
 ```powershell
 .\deploy-app.ps1
 ```
+
+**What it does:**
+- Runs: `./mvnw -f application/backend/pom.xml clean install -P autoInstallBundle`
+- Deploys from: `application/backend/src/main/resources/`
 
 **What it deploys:**
 - Java Sling Models and services
@@ -223,12 +241,18 @@ alwaysApply: true
 
 #### 2. Content/Showcase Deployment
 
+**CRITICAL**: Run this script **AFTER updating showcase content**.
+
 **When to use**: After modifying showcase content (`.content.xml` files in `tests/content/`)
 
 **Command:**
 ```powershell
 .\deploy-content-tests.ps1
 ```
+
+**What it does:**
+- Runs: `./mvnw -f tests/content/pom.xml clean install -P autoInstallPackage`
+- Deploys from: `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/`
 
 **What it deploys:**
 - Showcase page content (`.content.xml` files)
@@ -239,17 +263,35 @@ alwaysApply: true
 
 **MANDATORY**: Always deploy showcase content after updating showcase examples to ensure E2E tests run against latest content.
 
+#### 3. Deploy Everything
+
+**When to use**: When you need to deploy all components at once
+
+**Command:**
+```powershell
+.\deploy.ps1
+```
+
+**What it does:**
+- Runs all deployment scripts in sequence:
+  1. `./deploy-app.ps1`
+  2. `./deploy-frontend.ps1`
+  3. `./deploy-content.ps1`
+  4. `./deploy-content-tests.ps1`
+
 ### Deployment Workflow for Component Changes
 
 **Complete workflow when updating components:**
 
 1. **Update Application Code** (if needed):
-   - Modify Sling Models, templates, JavaScript, CSS
+   - Modify Sling Models, templates, JavaScript, CSS in `application/backend/src/main/resources/`
    - Run `.\deploy-app.ps1` to deploy application changes
+   - Script executes: `./mvnw -f application/backend/pom.xml clean install -P autoInstallBundle`
 
 2. **Update Showcase Content** (if needed):
-   - Modify showcase `.content.xml` files
+   - Modify showcase `.content.xml` files in `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/`
    - Run `.\deploy-content-tests.ps1` to deploy showcase changes
+   - Script executes: `./mvnw -f tests/content/pom.xml clean install -P autoInstallPackage`
 
 3. **Verify Changes**:
    - Navigate to showcase page in browser
@@ -259,6 +301,12 @@ alwaysApply: true
 4. **Run E2E Tests**:
    - Tests should run against deployed showcase pages
    - Ensure both preview and author tests pass
+
+**Important Notes:**
+- All scripts must be run from the project root directory
+- CMS instance must be running before deploying
+- Deploy app first, then content if both are modified
+- Scripts are PowerShell (`.ps1`) files
 
 ## E2E Testing with Showcase Pages
 
@@ -400,15 +448,19 @@ describe('Component - Author', () => {
 
 **Manual Verification Process:**
 
-1. **Deploy Content** (if showcase was updated):
-   ```powershell
-   .\deploy-content-tests.ps1
-   ```
-
-2. **Deploy Application** (if code was updated):
+1. **Deploy Application** (if code was updated):
    ```powershell
    .\deploy-app.ps1
    ```
+   - Executes: `./mvnw -f application/backend/pom.xml clean install -P autoInstallBundle`
+   - Deploys from: `application/backend/src/main/resources/`
+
+2. **Deploy Content** (if showcase was updated):
+   ```powershell
+   .\deploy-content-tests.ps1
+   ```
+   - Executes: `./mvnw -f tests/content/pom.xml clean install -P autoInstallPackage`
+   - Deploys from: `tests/content/src/main/content/jcr_root/content/typerefinery-showcase/`
 
 3. **Navigate to Showcase Page**:
    - **Preview Mode**: `https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/components/forms/{component}.html`
@@ -436,15 +488,22 @@ describe('Component - Author', () => {
 
 ### Testing Checklist
 
-**Before Committing Component Changes:**
+**CRITICAL RULE**: You CANNOT report completion or commit until ALL of these are done:
 
-- [ ] Application code deployed (`.\deploy-app.ps1`)
-- [ ] Showcase content deployed (`.\deploy-content-tests.ps1`)
-- [ ] Preview page verified manually
-- [ ] Author page verified manually
+**Before Reporting Completion or Committing Component Changes:**
+
+- [ ] Application code deployed (`.\deploy-app.ps1`) - **MANDATORY**
+- [ ] Showcase content deployed (`.\deploy-content-tests.ps1`) - **MANDATORY if showcase was updated**
+- [ ] Preview page verified manually in browser - **MANDATORY**
+- [ ] Author page verified manually in browser - **MANDATORY**
+- [ ] Login successful (`wsadmin` / `wsadmin`)
+- [ ] Component displays correctly on showcase page
+- [ ] Component functionality works as expected
+- [ ] Browser console shows no errors
 - [ ] E2E preview tests written and passing
 - [ ] E2E author tests written and passing
 - [ ] All test cases cover component functionality
 - [ ] Edge cases tested
-- [ ] Console shows no errors
 - [ ] Component works in different configurations
+
+**MANDATORY**: Deploy + Showcase testing must be completed before reporting any task as done.
