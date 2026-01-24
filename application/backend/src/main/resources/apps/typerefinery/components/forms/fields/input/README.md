@@ -59,7 +59,7 @@ These fields are available for input by the authors. These fields are used in te
         <tr>
             <td>Type</td>
             <td>Text</td>
-            <td>HTML5 input type. Options: Text, Password, Email, Mobile Number, Number, Date, Time, Range, Colour Picker, Rating, Hidden (visible in edit mode).</td>
+            <td>HTML5 input type. Options: Text, Password, Email, Mobile Number, Number, Date, Date and Time, Time, Range, Colour Picker, Rating, Hidden (visible in edit mode).</td>
         </tr>
         <tr>
             <td rowspan="3">General (Range only)</td>
@@ -107,6 +107,32 @@ These fields are available for input by the authors. These fields are used in te
             <td>Icon Color</td>
             <td>#ffc107</td>
             <td>Color for rating icons in hex format (e.g., "#ffc107" for yellow, "#ff0000" for red, "#0066ff" for blue). Default is "#ffc107" (yellow).</td>
+        </tr>
+        <tr>
+            <td rowspan="5">General (Date/Time/Datetime only)</td>
+            <td>Output Format</td>
+            <td>-</td>
+            <td>How the date/time value is formatted when submitted. Options: ISO 8601, ISO Date, ISO Time, US Date (MM/DD/YYYY), European Date (DD/MM/YYYY), Long Date (January 15, 2024), Unix Timestamp, RFC 3339, Custom. Only shown when Type is Date, Time, or Date and Time.</td>
+        </tr>
+        <tr>
+            <td>Custom Format Pattern</td>
+            <td>-</td>
+            <td>Custom format pattern (e.g., YYYY-MM-DD HH:mm:ss). Only used when Output Format is 'Custom'. Pattern supports: YYYY (year), MM (month), DD (day), HH (24-hour), hh (12-hour), mm (minutes), ss (seconds), A (AM/PM).</td>
+        </tr>
+        <tr>
+            <td>Input Timezone</td>
+            <td>Browser Local</td>
+            <td>Timezone for the input value. Options: Browser Local, UTC, Custom. Only shown when Type is Date, Time, or Date and Time.</td>
+        </tr>
+        <tr>
+            <td>Custom Timezone</td>
+            <td>-</td>
+            <td>IANA timezone identifier (e.g., America/New_York, Europe/London). Only shown when Input Timezone is 'Custom'. Options: America/New_York, America/Los_Angeles, Europe/London, Europe/Paris, Asia/Tokyo.</td>
+        </tr>
+        <tr>
+            <td>Output Timezone</td>
+            <td>Preserve Input</td>
+            <td>Timezone for the output value when form is submitted. Options: Preserve Input, UTC, Custom. Only shown when Type is Date, Time, or Date and Time.</td>
         </tr>
         <tr>
             <td rowspan="2">Validation</td>
@@ -218,6 +244,11 @@ This component supports multiple HTML5 input types:
             <td>Date</td>
             <td>date</td>
             <td>Date picker input. Shows native date picker on supported browsers.</td>
+        </tr>
+        <tr>
+            <td>Date and Time</td>
+            <td>datetime-local</td>
+            <td>Date and time picker input. Shows native date/time picker on supported browsers. Supports custom output formats and timezone conversion. See "Date and Time Input Type" section for details.</td>
         </tr>
         <tr>
             <td>Time</td>
@@ -338,3 +369,55 @@ The colour picker input type uses native HTML5 `<input type="color">` for simpli
 - Modern browsers: Full support with native color picker
 - Older browsers: Graceful degradation to text input
 - Mobile: Native color picker on mobile devices
+
+### Date and Time Input Type
+
+The date and time input type (`datetime-local`) provides native date/time picker functionality with custom output formatting and timezone conversion capabilities.
+
+**Architecture:**
+- **Native Input**: Uses HTML5 `<input type="datetime-local">` for the picker UI
+- **Hidden Input**: When formatting/timezone conversion is configured, a hidden input stores the formatted value
+- **Display Element**: A formatted display element shows the formatted value to the user
+- **Immediate Formatting**: Formatting and timezone conversion happen immediately when the user selects a value
+
+**Output Formats:**
+- **ISO 8601**: Standard ISO format (YYYY-MM-DDTHH:mm for datetime-local)
+- **ISO Date**: Date only (YYYY-MM-DD)
+- **ISO Time**: Time only (HH:mm:ss)
+- **US Date**: MM/DD/YYYY format
+- **European Date**: DD/MM/YYYY format
+- **Long Date**: "January 15, 2024" format
+- **Unix Timestamp**: Seconds since epoch
+- **RFC 3339**: Full RFC 3339 format
+- **Custom**: User-defined pattern (e.g., YYYY-MM-DD HH:mm:ss)
+
+**Timezone Handling:**
+- **Input Timezone**: Specifies the timezone for the input value (Browser Local, UTC, or Custom IANA timezone)
+- **Output Timezone**: Specifies the timezone for the output value (Preserve Input, UTC, or Custom IANA timezone)
+- **Conversion**: Uses `Intl.DateTimeFormat` API for reliable timezone conversion
+- **IANA Timezones**: Supports standard IANA timezone identifiers (e.g., America/New_York, Europe/London)
+
+**User Experience:**
+- User selects date/time using native browser picker
+- Formatted value is displayed immediately in the input field
+- User can click the formatted display to edit (shows native picker again)
+- `$component.val()` returns the formatted value directly
+- Hidden input (if formatting is active) contains the formatted value for form submission
+
+**Implementation:**
+- JavaScript file: `type-datetime.js`
+- Initialized in `functions.js` for `date`, `time`, and `datetime-local` input types
+- Only activates when format or timezone conversion is configured
+- If no formatting/timezone is configured, uses native HTML5 behavior
+
+**Common Format Patterns:**
+- `YYYY-MM-DD HH:mm:ss` - Standard datetime format
+- `MM/DD/YYYY HH:mm A` - US format with 12-hour time
+- `DD/MM/YYYY HH:mm` - European format with 24-hour time
+- `YYYY-MM-DD` - Date only
+- `HH:mm:ss` - Time only
+
+**Form Submission:**
+- If formatting is active: Hidden input value (formatted) is submitted
+- If no formatting: Native input value (ISO format) is submitted
+- Value is always a string (formatted according to configuration)

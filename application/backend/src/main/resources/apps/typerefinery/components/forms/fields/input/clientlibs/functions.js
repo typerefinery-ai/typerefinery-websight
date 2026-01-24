@@ -201,11 +201,18 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
             console.log("No inputmask configured for", inputType);
           }
           break;
+        case 'datetime-local':
+          console.log("Initializing datetime-local input");
+          ns.initDateTime($component, componentConfig);
+          break;
+        case 'date':
+        case 'time':
+          console.log("Initializing date/time input");
+          ns.initDateTime($component, componentConfig);
+          break;
         case 'range':
         case 'colourpicker':
         case 'number':
-        case 'date':
-        case 'time':
         case 'hidden':
           console.log("Native HTML5 input type:", inputType, "- no special initialization needed");
           break;

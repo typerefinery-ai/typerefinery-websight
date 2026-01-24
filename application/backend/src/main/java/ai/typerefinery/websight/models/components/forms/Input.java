@@ -110,6 +110,26 @@ public class Input extends BaseFormComponent {
     @Default(values = "#ffc107")
     public String ratingIconColor;
 
+    @Inject
+    @Getter
+    public String dateOutputFormat;
+
+    @Inject
+    @Getter
+    public String dateCustomFormat;
+
+    @Inject
+    @Getter
+    public String dateTimezone;
+
+    @Inject
+    @Getter
+    public String dateTimezoneCustom;
+
+    @Inject
+    @Getter
+    public String dateOutputTimezone;
+
     @SlingObject
     private SlingHttpServletRequest request;
 

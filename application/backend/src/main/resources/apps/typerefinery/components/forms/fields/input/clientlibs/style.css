@@ -159,3 +159,67 @@ input[component="input"][type="rating"] ~ .input-rating-items .input-rating-item
 input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="true"] .input-rating-item:hover {
   transform: scale(1);
 }
+
+/* Datetime display element - shows formatted value */
+/* Hidden by default, shown only when JavaScript explicitly shows it via .show() */
+[component="input"] input[type="date"] ~ .input-datetime-display,
+[component="input"] input[type="time"] ~ .input-datetime-display,
+[component="input"] input[type="datetime-local"] ~ .input-datetime-display {
+  display: none;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+/* Hide native input when display is active - use absolute positioning to prevent layout shift */
+/* Note: Keep width/height non-zero to ensure .val() can read the value */
+[component="input"] input[type="date"].input-datetime-hidden,
+[component="input"] input[type="time"].input-datetime-hidden,
+[component="input"] input[type="datetime-local"].input-datetime-hidden {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+}
+
+[component="input"] input[type="date"] ~ .input-datetime-display:hover,
+[component="input"] input[type="time"] ~ .input-datetime-display:hover,
+[component="input"] input[type="datetime-local"] ~ .input-datetime-display:hover {
+  border-color: #80bdff;
+}
+
+[component="input"] input[type="date"] ~ .input-datetime-display:focus,
+[component="input"] input[type="time"] ~ .input-datetime-display:focus,
+[component="input"] input[type="datetime-local"] ~ .input-datetime-display:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Prevent layout shift when native input is shown */
+[component="input"] input[type="date"].input-datetime-hidden,
+[component="input"] input[type="time"].input-datetime-hidden,
+[component="input"] input[type="datetime-local"].input-datetime-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}

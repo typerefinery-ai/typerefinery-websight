@@ -773,6 +773,413 @@
                                 value="4"/>
                         </input_26>
                     </container_9>
+                    <container_10
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_10_DATETIME_BASIC"
+                        title="Date and Time Examples - Basic"
+                        variant="sectionwithtitle">
+                        <input_datetime_1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Date and Time (Default)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_basic"
+                                inputType="datetime-local"/>
+                        </input_datetime_1>
+                        <input_datetime_2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Date and Time (With Default Value)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_with_value"
+                                inputType="datetime-local"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_2>
+                        <input_datetime_3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Required Date and Time"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_required"
+                                inputType="datetime-local"
+                                validationRequired="true"/>
+                        </input_datetime_3>
+                        <input_datetime_4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Disabled Date and Time"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_disabled"
+                                inputType="datetime-local"
+                                disabled="true"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_4>
+                    </container_10>
+                    <container_11
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_11_DATETIME_FORMATS"
+                        title="Date and Time Examples - Output Formats"
+                        variant="sectionwithtitle">
+                        <input_datetime_5
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="US Date Format (MM/DD/YYYY)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_us_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="us-date"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_5>
+                        <input_datetime_6
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="European Date Format (DD/MM/YYYY)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_european_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="european-date"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_6>
+                        <input_datetime_7
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Long Date Format (January 15, 2024)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_long_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="long-date"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_7>
+                        <input_datetime_8
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Custom Format (YYYY-MM-DD HH:mm:ss)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_custom_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="YYYY-MM-DD HH:mm:ss"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8>
+                        <input_datetime_8a
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="12-Hour Format with AM/PM (MM/DD/YYYY hh:mm A)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_12hour_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="MM/DD/YYYY hh:mm A"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8a>
+                        <input_datetime_8b
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="24-Hour Format (YYYY-MM-DD HH:mm)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_24hour_format"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="YYYY-MM-DD HH:mm"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8b>
+                        <input_datetime_8c
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Unix Timestamp"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_unix_timestamp"
+                                inputType="datetime-local"
+                                dateOutputFormat="unix-timestamp"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8c>
+                        <input_datetime_8d
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="RFC 3339 (ISO 8601 with Timezone)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_rfc3339"
+                                inputType="datetime-local"
+                                dateOutputFormat="rfc-3339"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8d>
+                        <input_datetime_8e
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="ISO 8601 with Z (UTC)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_iso8601_utc"
+                                inputType="datetime-local"
+                                dateOutputFormat="iso-8601-utc"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8e>
+                        <input_datetime_8f
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="ISO 8601 with Offset (+05:00)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_iso8601_offset"
+                                inputType="datetime-local"
+                                dateOutputFormat="iso-8601-offset"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8f>
+                        <input_datetime_8g
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Java/ICU Pattern (yyyy.MM.dd 'at' HH:mm:ss zzz)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_java_icu"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="yyyy.MM.DD 'at' HH:mm:ss zzz"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8g>
+                        <input_datetime_8h
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Java/ICU Pattern (MM/dd/yyyy HH:mm:ss ZZZZ)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_java_icu_long"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="MM/dd/yyyy HH:mm:ss ZZZZ"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8h>
+                        <input_datetime_8i
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Linux date (%Y-%m-%d %H:%M:%S %Z)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_linux_tz"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="YYYY-MM-DD HH:mm:ss %Z"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8i>
+                        <input_datetime_8j
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Linux date (%Y-%m-%d:%H:%M:%S:%z)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_linux_offset"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="YYYY-MM-DD:HH:mm:ss:%z"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8j>
+                        <input_datetime_8k
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Linux date (%Y-%m-%d %H:%M:%S %:z)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_linux_offset_colon"
+                                inputType="datetime-local"
+                                dateOutputFormat="custom"
+                                dateCustomFormat="YYYY-MM-DD HH:mm:ss %:z"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_8k>
+                    </container_11>
+                    <container_12
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="typerefinery/components/layout/container"
+                        flexEnabled="true"
+                        id="container_12_DATETIME_TIMEZONES"
+                        title="Date and Time Examples - Timezones"
+                        variant="sectionwithtitle">
+                        <input_datetime_9
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="UTC Output Timezone"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_utc"
+                                inputType="datetime-local"
+                                dateOutputTimezone="utc"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_9>
+                        <input_datetime_10
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Custom Timezone (America/New_York)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_custom_tz"
+                                inputType="datetime-local"
+                                dateTimezone="custom"
+                                dateTimezoneCustom="America/New_York"
+                                dateOutputTimezone="preserve-input"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_10>
+                        <input_datetime_11
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Format + Timezone (US Date + UTC)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_format_tz"
+                                inputType="datetime-local"
+                                dateOutputFormat="us-date"
+                                dateOutputTimezone="utc"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_11>
+                        <input_datetime_12
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Europe/London Timezone (Output)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_london_tz"
+                                inputType="datetime-local"
+                                dateOutputTimezone="Europe/London"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_12>
+                        <input_datetime_13
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Asia/Tokyo Timezone (Output)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_tokyo_tz"
+                                inputType="datetime-local"
+                                dateOutputTimezone="Asia/Tokyo"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_13>
+                        <input_datetime_14
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="typerefinery/components/forms/input">
+                            <label
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/label"
+                                label="Format + UTC (European Date + UTC)"/>
+                            <field
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/forms/fields/input"
+                                name="datetime_format_utc_eu"
+                                inputType="datetime-local"
+                                dateOutputFormat="european-date"
+                                dateOutputTimezone="utc"
+                                value="2024-01-15T14:30"/>
+                        </input_datetime_14>
+                    </container_12>
                 </form1>
             </container>
         </rootcontainer>

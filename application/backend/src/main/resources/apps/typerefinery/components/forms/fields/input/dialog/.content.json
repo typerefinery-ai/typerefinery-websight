@@ -66,6 +66,11 @@
           "label": "Date",
           "value": "date"
         },
+        "datetime-local": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Date and Time",
+          "value": "datetime-local"
+        },
         "time": {
           "sling:resourceType": "wcm/dialogs/components/select/selectitem",
           "label": "Time",
@@ -186,6 +191,174 @@
           "lhs": "inputType",
           "op": "equals",
           "rhs": "rating"
+        }
+      },
+      "dateOutputFormat": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "dateOutputFormat",
+        "label": "Output Format",
+        "description": "How the date/time value is formatted when submitted",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "in",
+          "rhs": ["date", "time", "datetime-local"]
+        },
+        "iso-8601": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ISO 8601",
+          "value": "iso-8601"
+        },
+        "iso-date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ISO Date",
+          "value": "iso-date"
+        },
+        "iso-time": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ISO Time",
+          "value": "iso-time"
+        },
+        "us-date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "US Date (MM/DD/YYYY)",
+          "value": "us-date"
+        },
+        "european-date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "European Date (DD/MM/YYYY)",
+          "value": "european-date"
+        },
+        "long-date": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Long Date (January 15, 2024)",
+          "value": "long-date"
+        },
+        "unix-timestamp": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Unix Timestamp",
+          "value": "unix-timestamp"
+        },
+        "rfc-3339": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "RFC 3339",
+          "value": "rfc-3339"
+        },
+        "iso-8601-utc": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ISO 8601 with Z (UTC)",
+          "value": "iso-8601-utc"
+        },
+        "iso-8601-offset": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "ISO 8601 with Offset (+05:00)",
+          "value": "iso-8601-offset"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Custom",
+          "value": "custom"
+        }
+      },
+      "dateCustomFormat": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "dateCustomFormat",
+        "label": "Custom Format Pattern",
+        "description": "Custom format pattern (e.g., YYYY-MM-DD HH:mm:ss). Only used when Output Format is 'Custom'.",
+        "placeholder": "YYYY-MM-DD HH:mm:ss",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "in",
+          "rhs": ["date", "time", "datetime-local"]
+        }
+      },
+      "dateTimezone": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "dateTimezone",
+        "label": "Input Timezone",
+        "description": "Timezone for the input value",
+        "default": "browser-local",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "in",
+          "rhs": ["date", "time", "datetime-local"]
+        },
+        "browser-local": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Browser Local",
+          "value": "browser-local"
+        },
+        "utc": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "UTC",
+          "value": "utc"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Custom",
+          "value": "custom"
+        }
+      },
+      "dateTimezoneCustom": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "dateTimezoneCustom",
+        "label": "Custom Timezone",
+        "description": "IANA timezone (e.g., America/New_York, Europe/London)",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "in",
+          "rhs": ["date", "time", "datetime-local"]
+        },
+        "america-new-york": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "America/New_York (Eastern Time)",
+          "value": "America/New_York"
+        },
+        "america-los-angeles": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "America/Los_Angeles (Pacific Time)",
+          "value": "America/Los_Angeles"
+        },
+        "europe-london": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Europe/London (British Time)",
+          "value": "Europe/London"
+        },
+        "europe-paris": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Europe/Paris (Central European Time)",
+          "value": "Europe/Paris"
+        },
+        "asia-tokyo": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Asia/Tokyo (Japan Standard Time)",
+          "value": "Asia/Tokyo"
+        }
+      },
+      "dateOutputTimezone": {
+        "sling:resourceType": "wcm/dialogs/components/select",
+        "name": "dateOutputTimezone",
+        "label": "Output Timezone",
+        "description": "Timezone for the output value when form is submitted",
+        "default": "preserve-input",
+        "showIf": {
+          "lhs": "inputType",
+          "op": "in",
+          "rhs": ["date", "time", "datetime-local"]
+        },
+        "preserve-input": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Preserve Input",
+          "value": "preserve-input"
+        },
+        "utc": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "UTC",
+          "value": "utc"
+        },
+        "custom": {
+          "sling:resourceType": "wcm/dialogs/components/select/selectitem",
+          "label": "Custom",
+          "value": "custom"
         }
       }
     },

@@ -12,6 +12,7 @@
     "/apps/typerefinery/clientlibs/vendor/inputmask/inputmask.min.js",
     "functions.js",
     "type-rating.js",
+    "type-datetime.js",
     "behaviour.js"
   ] 
 }
