@@ -65,7 +65,8 @@ When working on any task, you MUST complete the full issue lifecycle in this EXA
 - **NEVER report completion** until all steps are done
 - Steps 1-4 (Check Browser/Actual Location, Check Code, Plan, Create TODO List) are MANDATORY before creating issue
 - Steps 7-8 (Deploy + Validate Manually) are MANDATORY before writing tests
-- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing (if tests are applicable)
+- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing
+- **CRITICAL**: Every manual validation MUST have corresponding automation test
 - **MANDATORY**: Update TODO list as you complete each task throughout the workflow
 - **If issue is not on showcase**: 
   - **MANDATORY**: Ask user how to replicate the issue in isolation
@@ -120,7 +121,8 @@ When working on any task, you MUST complete the full issue lifecycle in this EXA
 - **NEVER report completion** until all steps are done
 - Steps 1-4 (Check Browser/Actual Location, Check Code, Plan, Create TODO List) are MANDATORY before creating issue
 - Steps 7-8 (Deploy + Validate Manually) are MANDATORY before writing tests
-- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing (if tests are applicable)
+- Steps 9-11 (Write Test, Run Test, Validate) are MANDATORY before committing
+- **CRITICAL**: Every manual validation MUST have corresponding automation test
 - **MANDATORY**: Update TODO list as you complete each task throughout the workflow
 - **If issue is not on showcase**: 
   - **MANDATORY**: Ask user how to replicate the issue in isolation
@@ -223,7 +225,11 @@ When a new task is given:
   - If issue was added to showcase: Test on showcase page (where example was added)
   - Also test in original location if different from showcase
   - (purpose: verify fix works in real context) - **Update TODO as you complete**
-- Write E2E test: Create test that validates fix (purpose: prevent regression, if applicable) - **Update TODO as you complete**
+- Write E2E test: 
+  - **MANDATORY**: Create automation test replicating manual validation
+  - If showcase doesn't demonstrate issue: create new showcase example first
+  - Test must prevent regression of exact issue validated manually
+  - (purpose: prevent regression) - **Update TODO as you complete**
 - Run test: Execute test (purpose: ensure test passes, if applicable) - **Update TODO as you complete**
 - Validate: Ensure everything works (purpose: final verification) - **Update TODO as you complete**
 - Commit: `git commit -m "#[issue-number] type(scope): description"` (purpose: save changes) - **Update TODO as you complete**

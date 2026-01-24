@@ -537,6 +537,8 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         isoValue = $nativeInput.data("iso-value");
         if (isoValue) {
           $nativeInput.val(isoValue);
+          // CRITICAL: Store this as the baseline for comparison on blur
+          $nativeInput.data("baseline-iso-value", isoValue);
         }
         
         // Match display dimensions exactly to prevent layout shift
@@ -567,22 +569,39 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
 
       // On blur, format again (user finished editing)
       $nativeInput.on("blur", function() {
-        // Store ISO value from native input
         const newIsoValue = $nativeInput.val();
-        const currentIsoValue = $nativeInput.data("iso-value");
+        const baselineIsoValue = $nativeInput.data("baseline-iso-value");
+        const existingFormatted = $nativeInput.data("formatted-value");
         
-        // Only update if value actually changed (prevents unnecessary reprocessing)
-        if (newIsoValue !== currentIsoValue) {
-          if (newIsoValue) {
-            $nativeInput.data("iso-value", newIsoValue);
-          } else {
-            // Clear ISO value if input is empty
-            $nativeInput.removeData("iso-value");
-          }
-          // Only call updateDisplay() if value changed
-          updateDisplay();
+        // Check if user actually changed the value (compare with baseline set on click)
+        const userChangedValue = newIsoValue !== baselineIsoValue;
+        
+        // Always store the current value
+        if (newIsoValue) {
+          $nativeInput.data("iso-value", newIsoValue);
+        } else {
+          $nativeInput.removeData("iso-value");
         }
-        // If value didn't change, do nothing (prevents timezone shifts and value increases)
+        
+        // Clear baseline after use
+        $nativeInput.removeData("baseline-iso-value");
+        
+        if (!userChangedValue && existingFormatted && newIsoValue) {
+          // User didn't change value - restore display WITHOUT timezone reprocessing
+          $nativeInput.val(existingFormatted);
+          $display.text(existingFormatted);
+          $nativeInput.addClass("input-datetime-hidden");
+          $nativeInput.css({
+            "position": "absolute", "opacity": "0", "pointer-events": "none",
+            "width": "1px", "height": "1px", "padding": "0", "margin": "0",
+            "border": "0", "overflow": "hidden"
+          });
+          $display.css("display", "inline-block");
+          return; // Skip timezone reprocessing completely
+        }
+        
+        // User changed value or no cached display - do full timezone processing
+        updateDisplay();
       });
 
       // Initialize display if value already exists

@@ -348,4 +348,67 @@ describe("Input Component - Date and Time Type (Preview)", () => {
       }
     });
   });
+
+  it("focus and unfocus does NOT change val() - prevents value increase", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    // Test with US format field that has a value
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        // Get initial value
+        cy.get('input[name="datetime_us_format"]')
+          .invoke('val')
+          .then((initialValue) => {
+            // Click display to focus (edit mode)
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .click();
+            
+            // Don't change anything, just blur (click away)
+            cy.get('input[name="datetime_basic"]')
+              .click();
+            
+            // Value should be exactly the same (no increase/change)
+            cy.get('input[name="datetime_us_format"]')
+              .should('have.value', initialValue);
+            
+            // Display should be restored and visible
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .should('be.visible');
+          });
+      }
+    });
+  });
+
+  it("focus and unfocus restores display values - no disappearing", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    // Test with European format field
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_european_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        // Get initial display text
+        cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+          .invoke('text')
+          .then((initialDisplayText) => {
+            // Click display to focus (edit mode)
+            cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+              .click();
+            
+            // Don't change anything, just blur (click away)
+            cy.get('input[name="datetime_basic"]')
+              .click();
+            
+            // Display should be visible again with same text
+            cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+              .should('be.visible')
+              .should('contain.text', initialDisplayText);
+          });
+      }
+    });
+  });
 });
