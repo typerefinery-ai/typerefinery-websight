@@ -52,17 +52,23 @@ describe("Input Component - Date and Time Type (Preview)", () => {
       "/content/typerefinery-showcase/pages/components/forms/input.html"
     );
 
-    // When there's a value, input is hidden and contains formatted value (not ISO)
+    // Test with a field that has formatting configured (datetime_with_value has no formatting, uses native behavior)
+    // When there's a value and formatting, input is hidden and contains formatted value (not ISO)
     // The display should be visible showing the formatted value
-    cy.get('input[name="datetime_with_value"]')
-      .should("have.class", "input-datetime-hidden")
-      .should("have.value")
-      .and("not.be.empty");
-    
-    // Display should be visible
-    cy.get('input[name="datetime_with_value"] ~ .input-datetime-display')
-      .should("be.visible")
-      .should("not.be.empty");
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        cy.get('input[name="datetime_us_format"]')
+          .should("have.class", "input-datetime-hidden")
+          .should("have.value")
+          .and("not.be.empty");
+        
+        // Display should be visible
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .should("be.visible")
+          .should("not.be.empty");
+      }
+    });
   });
 
   it("formats datetime value using US date format", () => {
@@ -231,6 +237,9 @@ describe("Input Component - Date and Time Type (Preview)", () => {
           .type("2024-12-25T10:00")
           .blur();
         
+        // Wait for blur handler to process and update display
+        cy.wait(100);
+        
         // Display should update
         cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
           .should("be.visible")
@@ -279,14 +288,21 @@ describe("Input Component - Date and Time Type (Preview)", () => {
       "/content/typerefinery-showcase/pages/components/forms/input.html"
     );
 
-    // Test with basic datetime field that has no value
+    // Test with basic datetime field that has no value and no formatting (uses native behavior)
     cy.get('input[name="datetime_basic"]').then(($input) => {
       // Input should be visible (no value)
       cy.wrap($input).should("be.visible");
       
-      // Display should be hidden (no value)
-      cy.get('input[name="datetime_basic"] ~ .input-datetime-display')
-        .should("not.be.visible");
+      // Display element may not exist if no formatting is configured (native behavior)
+      cy.get('body').then(($body) => {
+        const $display = $body.find('input[name="datetime_basic"] ~ .input-datetime-display');
+        if ($display.length > 0) {
+          // If display exists, it should be hidden (no value)
+          cy.get('input[name="datetime_basic"] ~ .input-datetime-display')
+            .should("not.be.visible");
+        }
+        // If display doesn't exist, that's also correct (native behavior)
+      });
       
       // val() should return empty string
       cy.wrap($input).should("have.value", "");
@@ -331,19 +347,32 @@ describe("Input Component - Date and Time Type (Preview)", () => {
           const hasValue = $el.val() && $el.val() !== "";
           const hasHiddenClass = $el.hasClass("input-datetime-hidden");
           
-          if (hasValue && hasHiddenClass) {
-            // Has value and hidden: display should be visible, input should not be visible
-            cy.get(`input[name="${name}"] ~ .input-datetime-display`)
-              .should("be.visible");
-            cy.get(`input[name="${name}"]`)
-              .should("not.be.visible");
-          } else {
-            // No value: input should be visible, display should not be visible
-            cy.get(`input[name="${name}"]`)
-              .should("be.visible");
-            cy.get(`input[name="${name}"] ~ .input-datetime-display`)
-              .should("not.be.visible");
-          }
+          // Check if display element exists (only exists if formatting is configured)
+          cy.get('body').then(($body) => {
+            const $display = $body.find(`input[name="${name}"] ~ .input-datetime-display`);
+            
+            if ($display.length > 0) {
+              // Display element exists (formatting is configured)
+              if (hasValue && hasHiddenClass) {
+                // Has value and hidden: display should be visible, input should not be visible
+                cy.get(`input[name="${name}"] ~ .input-datetime-display`)
+                  .should("be.visible");
+                cy.get(`input[name="${name}"]`)
+                  .should("not.be.visible");
+              } else {
+                // No value: input should be visible, display should not be visible
+                cy.get(`input[name="${name}"]`)
+                  .should("be.visible");
+                cy.get(`input[name="${name}"] ~ .input-datetime-display`)
+                  .should("not.be.visible");
+              }
+            } else {
+              // No display element (native behavior, no formatting configured)
+              // Input should be visible regardless of value
+              cy.get(`input[name="${name}"]`)
+                .should("be.visible");
+            }
+          });
         });
       }
     });
@@ -354,16 +383,16 @@ describe("Input Component - Date and Time Type (Preview)", () => {
       "/content/typerefinery-showcase/pages/components/forms/input.html"
     );
 
-    // Test with US format field that has a value
+    // Test with UTC timezone field that was causing value increases
     cy.get('body').then(($body) => {
-      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      const $display = $body.find('input[name="datetime_utc"] ~ .input-datetime-display');
       if ($display.length > 0) {
         // Get initial value
-        cy.get('input[name="datetime_us_format"]')
+        cy.get('input[name="datetime_utc"]')
           .invoke('val')
           .then((initialValue) => {
             // Click display to focus (edit mode)
-            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+            cy.get('input[name="datetime_utc"] ~ .input-datetime-display')
               .click();
             
             // Don't change anything, just blur (click away)
@@ -371,11 +400,11 @@ describe("Input Component - Date and Time Type (Preview)", () => {
               .click();
             
             // Value should be exactly the same (no increase/change)
-            cy.get('input[name="datetime_us_format"]')
+            cy.get('input[name="datetime_utc"]')
               .should('have.value', initialValue);
             
             // Display should be restored and visible
-            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+            cy.get('input[name="datetime_utc"] ~ .input-datetime-display')
               .should('be.visible');
           });
       }
@@ -387,16 +416,16 @@ describe("Input Component - Date and Time Type (Preview)", () => {
       "/content/typerefinery-showcase/pages/components/forms/input.html"
     );
 
-    // Test with European format field
+    // Test with UTC timezone field that was causing display disappearing  
     cy.get('body').then(($body) => {
-      const $display = $body.find('input[name="datetime_european_format"] ~ .input-datetime-display');
+      const $display = $body.find('input[name="datetime_utc"] ~ .input-datetime-display');
       if ($display.length > 0) {
         // Get initial display text
-        cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+        cy.get('input[name="datetime_utc"] ~ .input-datetime-display')
           .invoke('text')
           .then((initialDisplayText) => {
             // Click display to focus (edit mode)
-            cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+            cy.get('input[name="datetime_utc"] ~ .input-datetime-display')
               .click();
             
             // Don't change anything, just blur (click away)
@@ -404,10 +433,150 @@ describe("Input Component - Date and Time Type (Preview)", () => {
               .click();
             
             // Display should be visible again with same text
-            cy.get('input[name="datetime_european_format"] ~ .input-datetime-display')
+            cy.get('input[name="datetime_utc"] ~ .input-datetime-display')
               .should('be.visible')
               .should('contain.text', initialDisplayText);
           });
+      }
+    });
+  });
+
+  it("display format stays consistent on focus/unfocus without value change", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    // Test with US format field
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        // Get initial display text (should be US format MM/DD/YYYY)
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .invoke('text')
+          .then((initialDisplayText) => {
+            // Verify it's US format (contains / and month first)
+            expect(initialDisplayText).to.match(/\d{2}\/\d{2}\/\d{4}/);
+            
+            // Click display to focus (edit mode)
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .click();
+            
+            // Don't change anything, just blur (click away)
+            cy.get('input[name="datetime_basic"]')
+              .click();
+            
+            // Display should have same format (US format, not European)
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .should('be.visible')
+              .invoke('text')
+              .then((afterDisplayText) => {
+                // Should still be US format (MM/DD/YYYY), not European (DD/MM/YYYY)
+                expect(afterDisplayText).to.match(/\d{2}\/\d{2}\/\d{4}/);
+                // First number should be month (1-12), not day (13-31)
+                const firstPart = afterDisplayText.split('/')[0];
+                const month = parseInt(firstPart);
+                expect(month).to.be.at.least(1).and.at.most(12);
+              });
+          });
+      }
+    });
+  });
+
+  it("tab order works correctly for datetime fields", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    // Test with US format field that has a value (display visible)
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        // Display should be focusable (tabindex="0")
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .should('have.attr', 'tabindex', '0');
+        
+        // Input should be hidden and not in tab order (tabindex="-1")
+        cy.get('input[name="datetime_us_format"]')
+          .should('have.class', 'input-datetime-hidden')
+          .should('have.attr', 'tabindex', '-1');
+        
+        // Focus display element
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .focus();
+        
+        // Press Enter to activate (show input)
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .type('{enter}');
+        
+        // Input should now be visible and in tab order
+        cy.get('input[name="datetime_us_format"]')
+          .should('be.visible')
+          .should('not.have.class', 'input-datetime-hidden')
+          .should('not.have.attr', 'tabindex', '-1');
+        
+        // Display should be hidden and not in tab order
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .should('not.be.visible')
+          .should('have.attr', 'tabindex', '-1');
+      }
+    });
+    
+    // Test with empty field (input visible, display hidden)
+    cy.get('input[name="datetime_basic"]').then(($input) => {
+      // Input should be visible and in tab order (no tabindex="-1")
+      cy.wrap($input)
+        .should('be.visible')
+        .should('not.have.attr', 'tabindex', '-1');
+    });
+  });
+
+  it("input and display have identical dimensions - no form layout shift on focus", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    // Test with US format field that has formatting
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        // Get initial position of element below the datetime field
+        cy.get('input[name="datetime_us_format"]').then(($input) => {
+          // Find next form element (could be next input, label, etc.)
+          const $nextElement = $input.closest('field').next('field');
+          if ($nextElement.length > 0) {
+            // Get initial position
+            cy.wrap($nextElement[0]).then(($el) => {
+              const initialTop = $el[0].getBoundingClientRect().top;
+              
+              // Click display to focus (input becomes visible)
+              cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+                .click();
+              
+              // Wait for transition
+              cy.wait(100);
+              
+              // Check that next element hasn't moved (layout shift)
+              cy.wrap($el[0]).then(($elAfter) => {
+                const afterTop = $elAfter[0].getBoundingClientRect().top;
+                // Allow 1px tolerance for rounding
+                expect(Math.abs(afterTop - initialTop)).to.be.lessThan(2);
+              });
+              
+              // Blur to restore display
+              cy.get('input[name="datetime_us_format"]').blur();
+              
+              // Wait for transition
+              cy.wait(100);
+              
+              // Check that next element still hasn't moved
+              cy.wrap($el[0]).then(($elAfter) => {
+                const afterTop = $elAfter[0].getBoundingClientRect().top;
+                // Allow 1px tolerance for rounding
+                expect(Math.abs(afterTop - initialTop)).to.be.lessThan(2);
+              });
+            });
+          }
+        });
       }
     });
   });

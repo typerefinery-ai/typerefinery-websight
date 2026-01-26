@@ -386,6 +386,12 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
 
       // Use default format if not specified
       const effectiveFormat = format || (inputType === "date" ? "iso-date" : inputType === "time" ? "iso-time" : "iso-8601");
+      
+      // CRITICAL: Store format config in data attributes to preserve it across focus/blur cycles
+      $nativeInput.data("date-output-format", effectiveFormat);
+      $nativeInput.data("date-custom-format", customFormat);
+      $nativeInput.data("date-output-timezone", outputTimezone);
+      $nativeInput.data("date-input-timezone", inputTimezone);
 
       // Initialize ISO value - prefer componentConfig.value (from data-model), then DOM value, then data attribute
       // This follows the pattern: read initial value from config, but allow DOM updates for dynamic changes
@@ -409,33 +415,51 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       // Create formatted display element - ALWAYS ensure it's hidden initially
       let $display = $nativeInput.siblings(".input-datetime-display");
       if ($display.length === 0) {
-        // Get native input dimensions to match display
-        const inputWidth = $nativeInput.outerWidth();
-        const inputHeight = $nativeInput.outerHeight();
+        // Get native input computed styles to match display exactly
+        const inputStyles = window.getComputedStyle($nativeInput[0]);
+        const inputWidth = inputStyles.width;
+        const inputHeight = inputStyles.height;
+        const inputPadding = inputStyles.padding;
+        const inputBorder = inputStyles.border;
+        const inputMargin = inputStyles.margin;
+        const inputBoxSizing = inputStyles.boxSizing;
         
         $display = $("<span>")
           .addClass("input-datetime-display")
           .addClass("form-control")
+          .attr("tabindex", "0") // Make focusable for tab navigation
+          .attr("role", "textbox") // Accessibility: indicate it's an input
+          .attr("aria-readonly", "true") // Accessibility: display is read-only
           .css({
             "cursor": "pointer",
             "display": "none", // Hidden by default, shown only when there's a value
             "width": inputWidth || "100%",
+            "height": inputHeight || "auto",
             "min-height": inputHeight || "calc(1.5em + 0.75rem + 2px)",
-            "box-sizing": "border-box"
+            "padding": inputPadding,
+            "border": inputBorder,
+            "margin": inputMargin,
+            "box-sizing": inputBoxSizing || "border-box"
           });
         $nativeInput.after($display);
       }
       
       // CRITICAL: Always ensure display is hidden initially (will be shown by updateDisplay if there's a value)
-      $display.css("display", "none").hide();
+      $display.css("display", "none").hide().attr("tabindex", "-1"); // Remove from tab order when hidden
       
       // CRITICAL: Ensure input is in correct initial state BEFORE calling updateDisplay
       if (isoValue) {
         // Has value: hide input IMMEDIATELY to prevent both being visible
         $nativeInput.addClass("input-datetime-hidden");
+        $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
       } else {
         // No value: ensure input is visible and display is hidden
         $nativeInput.removeClass("input-datetime-hidden");
+        // Ensure input is in tab order (remove tabindex or set to natural order)
+        const originalTabIndex = $nativeInput.attr("tabindex");
+        if (originalTabIndex === "-1") {
+          $nativeInput.removeAttr("tabindex"); // Use natural tab order
+        }
         $nativeInput.css({
           "position": "",
           "opacity": "",
@@ -459,8 +483,13 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         isoValue = $nativeInput.data("iso-value");
         if (!isoValue) {
           // No value: hide display, show native input
-          $display.hide();
+          $display.hide().attr("tabindex", "-1"); // Remove from tab order when hidden
           $nativeInput.removeClass("input-datetime-hidden");
+          // Ensure input is in tab order
+          const originalTabIndex = $nativeInput.attr("tabindex");
+          if (originalTabIndex === "-1") {
+            $nativeInput.removeAttr("tabindex"); // Use natural tab order
+          }
           $nativeInput.css({
             "position": "",
             "opacity": "",
@@ -481,11 +510,18 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           return;
         }
 
+        // CRITICAL: Retrieve format config from data attributes (preserved across focus/blur)
+        // This ensures format never changes even if closure variables are lost
+        const storedFormat = $nativeInput.data("date-output-format") || effectiveFormat;
+        const storedCustomFormat = $nativeInput.data("date-custom-format") || customFormat;
+        const storedOutputTimezone = $nativeInput.data("date-output-timezone") || outputTimezone;
+        const storedInputTimezone = $nativeInput.data("date-input-timezone") || inputTimezone;
+
         // Convert timezone if needed
-        const convertedValue = ns.convertTimezone(isoValue, inputTimezone, outputTimezone, inputType);
+        const convertedValue = ns.convertTimezone(isoValue, storedInputTimezone, storedOutputTimezone, inputType);
         
-        // Format the value
-        const formatted = ns.formatDateTime(convertedValue, effectiveFormat, customFormat, inputType);
+        // Format the value using stored format config
+        const formatted = ns.formatDateTime(convertedValue, storedFormat, storedCustomFormat, inputType);
         
         // Store formatted value as data attribute
         $nativeInput.data("formatted-value", formatted);
@@ -498,9 +534,19 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         // Update display element
         $display.text(formatted);
         
+        // Get input computed dimensions before hiding (to match display exactly)
+        const inputStyles = window.getComputedStyle($nativeInput[0]);
+        const inputWidth = inputStyles.width;
+        const inputHeight = inputStyles.height;
+        const inputPadding = inputStyles.padding;
+        const inputBorder = inputStyles.border;
+        const inputMargin = inputStyles.margin;
+        const inputBoxSizing = inputStyles.boxSizing;
+        
         // CRITICAL: Hide native input FIRST using both class and inline styles (synchronously, before showing display)
         // This ensures input is hidden immediately, preventing both elements from being visible simultaneously
         $nativeInput.addClass("input-datetime-hidden");
+        $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
         $nativeInput.css({
           "position": "absolute",
           "opacity": "0",
@@ -513,8 +559,19 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           "overflow": "hidden"
         });
         
-        // CRITICAL: Show display AFTER input is hidden (synchronously in same execution)
-        $display.css("display", "inline-block");
+        // CRITICAL: Match display dimensions to input exactly (prevent layout shift)
+        // Show display AFTER input is hidden (synchronously in same execution)
+        $display.attr("tabindex", "0"); // Make display focusable for tab navigation
+        $display.css({
+          "width": inputWidth,
+          "height": inputHeight,
+          "min-height": inputHeight,
+          "padding": inputPadding,
+          "border": inputBorder,
+          "margin": inputMargin,
+          "box-sizing": inputBoxSizing || "border-box",
+          "display": "inline-block"
+        });
       };
 
       // On change, store ISO and format
@@ -532,7 +589,8 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       });
 
       // On display click, show native input for editing (restore ISO temporarily)
-      $display.on("click", function() {
+      // Function to show input for editing (used by both click and keyboard)
+      const showInputForEditing = function() {
         // Restore ISO value for date picker
         isoValue = $nativeInput.data("iso-value");
         if (isoValue) {
@@ -541,30 +599,53 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           $nativeInput.data("baseline-iso-value", isoValue);
         }
         
-        // Match display dimensions exactly to prevent layout shift
-        const displayWidth = $display.outerWidth();
-        const displayHeight = $display.outerHeight();
+        // Get display computed styles to match input exactly (prevent layout shift)
+        const displayStyles = window.getComputedStyle($display[0]);
+        const displayWidth = displayStyles.width;
+        const displayHeight = displayStyles.height;
+        const displayPadding = displayStyles.padding;
+        const displayBorder = displayStyles.border;
+        const displayMargin = displayStyles.margin;
+        const displayBoxSizing = displayStyles.boxSizing;
         
         // Hide display first
-        $display.hide();
+        $display.hide().attr("tabindex", "-1"); // Remove from tab order when hidden
         
-        // Restore normal positioning and match dimensions
+        // Restore normal positioning and match dimensions EXACTLY (including padding/border/margin)
         $nativeInput.css({
           "position": "",
           "opacity": "",
           "pointer-events": "",
-          "width": displayWidth ? displayWidth + "px" : "",
-          "min-width": displayWidth ? displayWidth + "px" : "",
-          "max-width": displayWidth ? displayWidth + "px" : "",
-          "min-height": displayHeight ? displayHeight + "px" : "",
-          "height": displayHeight ? displayHeight + "px" : "",
-          "padding": "",
-          "margin": "",
-          "border": "",
+          "width": displayWidth,
+          "height": displayHeight,
+          "min-width": displayWidth,
+          "max-width": displayWidth,
+          "min-height": displayHeight,
+          "padding": displayPadding,
+          "border": displayBorder,
+          "margin": displayMargin,
+          "box-sizing": displayBoxSizing || "border-box",
           "overflow": ""
         });
         
+        // Ensure input is in tab order and focusable
+        const originalTabIndex = $nativeInput.attr("tabindex");
+        if (originalTabIndex === undefined || originalTabIndex === null) {
+          $nativeInput.removeAttr("tabindex"); // Use natural tab order
+        }
+        
         $nativeInput.removeClass("input-datetime-hidden").show().focus();
+      };
+      
+      // Click handler
+      $display.on("click", showInputForEditing);
+      
+      // Keyboard handler for tab navigation (Enter/Space to activate)
+      $display.on("keydown", function(e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          showInputForEditing();
+        }
       });
 
       // On blur, format again (user finished editing)
@@ -574,7 +655,7 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         const existingFormatted = $nativeInput.data("formatted-value");
         
         // Check if user actually changed the value (compare with baseline set on click)
-        const userChangedValue = newIsoValue !== baselineIsoValue;
+        const userChangedValue = baselineIsoValue ? (newIsoValue !== baselineIsoValue) : true;
         
         // Always store the current value
         if (newIsoValue) {
@@ -586,21 +667,43 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         // Clear baseline after use
         $nativeInput.removeData("baseline-iso-value");
         
+        // OPTIMIZATION: If user didn't change value AND we have cached formatted value, skip reprocessing
         if (!userChangedValue && existingFormatted && newIsoValue) {
           // User didn't change value - restore display WITHOUT timezone reprocessing
+          // Get input computed dimensions before hiding (to match display exactly)
+          const inputStyles = window.getComputedStyle($nativeInput[0]);
+          const inputWidth = inputStyles.width;
+          const inputHeight = inputStyles.height;
+          const inputPadding = inputStyles.padding;
+          const inputBorder = inputStyles.border;
+          const inputMargin = inputStyles.margin;
+          const inputBoxSizing = inputStyles.boxSizing;
+          
           $nativeInput.val(existingFormatted);
           $display.text(existingFormatted);
           $nativeInput.addClass("input-datetime-hidden");
+          $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
           $nativeInput.css({
             "position": "absolute", "opacity": "0", "pointer-events": "none",
             "width": "1px", "height": "1px", "padding": "0", "margin": "0",
             "border": "0", "overflow": "hidden"
           });
-          $display.css("display", "inline-block");
+          // Match display dimensions to input exactly (prevent layout shift)
+          $display.attr("tabindex", "0"); // Make display focusable for tab navigation
+          $display.css({
+            "width": inputWidth,
+            "height": inputHeight,
+            "min-height": inputHeight,
+            "padding": inputPadding,
+            "border": inputBorder,
+            "margin": inputMargin,
+            "box-sizing": inputBoxSizing || "border-box",
+            "display": "inline-block"
+          });
           return; // Skip timezone reprocessing completely
         }
         
-        // User changed value or no cached display - do full timezone processing
+        // User changed value, no baseline, or no cached display - do full timezone processing
         updateDisplay();
       });
 
