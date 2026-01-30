@@ -218,6 +218,44 @@ describe("Input Component - Date and Time Type (Preview)", () => {
     });
   });
 
+  it("display and value preserved when datetime field is clicked multiple times", () => {
+    cy.visit(
+      "/content/typerefinery-showcase/pages/components/forms/input.html"
+    );
+
+    cy.get('body').then(($body) => {
+      const $display = $body.find('input[name="datetime_us_format"] ~ .input-datetime-display');
+      if ($display.length > 0) {
+        cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+          .should('be.visible');
+        cy.get('input[name="datetime_us_format"]')
+          .invoke('val')
+          .then((initialVal) => {
+            expect(initialVal).not.to.be.empty;
+            // Click display to show input
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .click();
+            // "Press the field a few times" - click the now-visible input multiple times
+            cy.get('input[name="datetime_us_format"]')
+              .should('be.visible')
+              .click()
+              .click()
+              .click()
+              .click();
+            // Blur by clicking elsewhere
+            cy.get('input[name="datetime_basic"]').click();
+            cy.wait(150);
+            // Display should still be visible and value must not be cleared
+            cy.get('input[name="datetime_us_format"] ~ .input-datetime-display')
+              .should('be.visible');
+            cy.get('input[name="datetime_us_format"]')
+              .invoke('val')
+              .should('not.be.empty');
+          });
+      }
+    });
+  });
+
   it("updates formatted display when value changes", () => {
     cy.visit(
       "/content/typerefinery-showcase/pages/components/forms/input.html"

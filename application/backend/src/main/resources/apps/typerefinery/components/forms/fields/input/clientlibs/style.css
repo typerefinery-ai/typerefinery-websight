@@ -161,11 +161,13 @@ input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="tru
 }
 
 /* Datetime display element - shows formatted value */
-/* Hidden by default, shown only when JavaScript explicitly shows it via .show() */
-[component="input"] input[type="date"] ~ .input-datetime-display,
-[component="input"] input[type="time"] ~ .input-datetime-display,
-[component="input"] input[type="datetime-local"] ~ .input-datetime-display {
-  display: none;
+/* component="input" is on the INPUT itself; span is following sibling. Hidden by default. */
+/* !important so .form-control (Bootstrap) and other rules don't override visibility. */
+input[component="input"][type="date"] ~ .input-datetime-display,
+input[component="input"][type="time"] ~ .input-datetime-display,
+input[component="input"][type="datetime-local"] ~ .input-datetime-display {
+  display: none !important;
+  width: 100%;
   min-height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
@@ -177,13 +179,20 @@ input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="tru
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   box-sizing: border-box;
   vertical-align: top;
+  cursor: pointer;
 }
 
-/* Hide native input when display is active - use absolute positioning to prevent layout shift */
-/* Note: Keep width/height non-zero to ensure .val() can read the value */
-[component="input"] input[type="date"].input-datetime-hidden,
-[component="input"] input[type="time"].input-datetime-hidden,
-[component="input"] input[type="datetime-local"].input-datetime-hidden {
+/* When visible, span fills container */
+input[component="input"][type="date"] ~ .input-datetime-display.input-datetime-display--visible,
+input[component="input"][type="time"] ~ .input-datetime-display.input-datetime-display--visible,
+input[component="input"][type="datetime-local"] ~ .input-datetime-display.input-datetime-display--visible {
+  display: inline-block !important;
+}
+
+/* Hide native input when display is active */
+input[component="input"][type="date"].input-datetime-hidden,
+input[component="input"][type="time"].input-datetime-hidden,
+input[component="input"][type="datetime-local"].input-datetime-hidden {
   position: absolute !important;
   opacity: 0 !important;
   pointer-events: none !important;
@@ -196,30 +205,16 @@ input[component="input"][type="rating"] ~ .input-rating-items[data-disabled="tru
   clip: rect(0, 0, 0, 0) !important;
 }
 
-[component="input"] input[type="date"] ~ .input-datetime-display:hover,
-[component="input"] input[type="time"] ~ .input-datetime-display:hover,
-[component="input"] input[type="datetime-local"] ~ .input-datetime-display:hover {
+input[component="input"][type="date"] ~ .input-datetime-display:hover,
+input[component="input"][type="time"] ~ .input-datetime-display:hover,
+input[component="input"][type="datetime-local"] ~ .input-datetime-display:hover {
   border-color: #80bdff;
 }
 
-[component="input"] input[type="date"] ~ .input-datetime-display:focus,
-[component="input"] input[type="time"] ~ .input-datetime-display:focus,
-[component="input"] input[type="datetime-local"] ~ .input-datetime-display:focus {
+input[component="input"][type="date"] ~ .input-datetime-display:focus,
+input[component="input"][type="time"] ~ .input-datetime-display:focus,
+input[component="input"][type="datetime-local"] ~ .input-datetime-display:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Prevent layout shift when native input is shown */
-[component="input"] input[type="date"].input-datetime-hidden,
-[component="input"] input[type="time"].input-datetime-hidden,
-[component="input"] input[type="datetime-local"].input-datetime-hidden {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
 }

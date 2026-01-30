@@ -329,11 +329,86 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
     };
 
     /**
+     * Normalize a stored date/time string to HTML5 input value format so the browser
+     * accepts it (and .val() returns it). Handles e.g. "2024-01-15:14:30:00:+1100" -> "2024-01-15T14:30:00".
+     * @param {string} raw - Stored value (may use colon or timezone)
+     * @param {string} inputType - "date", "time", or "datetime-local"
+     * @returns {string|null} HTML5 format string, or null if not parseable
+     */
+    ns.normalizeDateTimeForHtml5 = (raw, inputType) => {
+      if (!raw || typeof raw !== "string") {
+        return null;
+      }
+      const s = raw.trim();
+      if (!s) {
+        return null;
+      }
+      try {
+        if (inputType === "date") {
+          const match = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+          if (match) {
+            return match[1] + "-" + match[2] + "-" + match[3];
+          }
+          return null;
+        }
+        if (inputType === "time") {
+          const match = s.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+          if (match) {
+            const h = match[1].padStart(2, "0");
+            const m = match[2].padStart(2, "0");
+            const sec = match[3] ? match[3].padStart(2, "0") : "00";
+            return `${h}:${m}:${sec}`;
+          }
+          return null;
+        }
+        if (inputType === "datetime-local") {
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/.test(s)) {
+            return s;
+          }
+          const colonDateTime = s.match(/^(\d{4})-(\d{2})-(\d{2}):(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+          if (colonDateTime) {
+            const [, y, mo, d, h, mi, sec] = colonDateTime;
+            const ss = (sec && sec.length === 2) ? ":" + sec : ":00";
+            return `${y}-${mo}-${d}T${h.padStart(2, "0")}:${mi.padStart(2, "0")}${ss}`;
+          }
+          const d = new Date(s);
+          if (!isNaN(d.getTime())) {
+            const pad = (n) => String(n).padStart(2, "0");
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+          }
+          return null;
+        }
+      } catch (e) {
+        return null;
+      }
+      return null;
+    };
+
+    /**
+     * String prototype: normalize this date/time string to HTML5 input value format.
+     * Enables calls like "2024-01-15:14:30:00:+1100".normalizeDateTimeForHtml5("datetime-local").
+     * Non-enumerable to avoid breaking for-in over strings.
+     */
+    if (typeof String.prototype.normalizeDateTimeForHtml5 === "undefined") {
+      Object.defineProperty(String.prototype, "normalizeDateTimeForHtml5", {
+        value: function (inputType) {
+          return ns.normalizeDateTimeForHtml5(String(this), inputType);
+        },
+        writable: true,
+        configurable: true,
+        enumerable: false
+      });
+    }
+
+    /**
      * Initialize datetime formatting for date/time/datetime-local inputs.
      * @param {jQuery} $component - Component element
      * @param {Object} componentConfig - Component configuration from data-model
      */
     ns.initDateTime = ($component, componentConfig) => {
+      const fieldId = (componentConfig && componentConfig.id) || "unknown";
+      const log = (...args) => console.log("[datetime]", fieldId, ...args);
+
       // $component is the element with [component="input"] attribute
       // This might be the INPUT element itself (not a wrapper) or a wrapper
       let $nativeInput = $component;
@@ -397,9 +472,12 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       // This follows the pattern: read initial value from config, but allow DOM updates for dynamic changes
       // If input has a value, it might be ISO (from picker) or formatted (from previous load) - treat as ISO if it matches ISO pattern
       let initialInputValue = $nativeInput.val();
-      let isoValue = componentConfig.value || $nativeInput.data("iso-value") || null;
-      
-      // If we have an input value but no ISO value, check if it's ISO format
+      let rawConfigValue = componentConfig.value || null;
+      // Normalize non-HTML5 datetime strings (e.g. "2024-01-15:14:30:00:+1100") so the browser and formatters get valid ISO
+      let isoValue = rawConfigValue ? ns.normalizeDateTimeForHtml5(rawConfigValue, inputType) : null;
+      if (!isoValue) {
+        isoValue = $nativeInput.data("iso-value") || null;
+      }
       if (!isoValue && initialInputValue) {
         // Check if value looks like ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:mm)
         const isoPattern = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$/;
@@ -412,103 +490,46 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         $nativeInput.data("iso-value", isoValue);
       }
 
-      // Create formatted display element - ALWAYS ensure it's hidden initially
+      // Create formatted display element - CSS controls visibility (no inline styles)
       let $display = $nativeInput.siblings(".input-datetime-display");
       if ($display.length === 0) {
-        // Get native input computed styles to match display exactly
-        const inputStyles = window.getComputedStyle($nativeInput[0]);
-        const inputWidth = inputStyles.width;
-        const inputHeight = inputStyles.height;
-        const inputPadding = inputStyles.padding;
-        const inputBorder = inputStyles.border;
-        const inputMargin = inputStyles.margin;
-        const inputBoxSizing = inputStyles.boxSizing;
-        
         $display = $("<span>")
           .addClass("input-datetime-display")
           .addClass("form-control")
-          .attr("tabindex", "0") // Make focusable for tab navigation
-          .attr("role", "textbox") // Accessibility: indicate it's an input
-          .attr("aria-readonly", "true") // Accessibility: display is read-only
-          .css({
-            "cursor": "pointer",
-            "display": "none", // Hidden by default, shown only when there's a value
-            "width": inputWidth || "100%",
-            "height": inputHeight || "auto",
-            "min-height": inputHeight || "calc(1.5em + 0.75rem + 2px)",
-            "padding": inputPadding,
-            "border": inputBorder,
-            "margin": inputMargin,
-            "box-sizing": inputBoxSizing || "border-box"
-          });
+          .attr("tabindex", "0")
+          .attr("role", "textbox")
+          .attr("aria-readonly", "true");
         $nativeInput.after($display);
       }
+      $display.removeClass("input-datetime-display--visible").attr("tabindex", "-1");
       
-      // CRITICAL: Always ensure display is hidden initially (will be shown by updateDisplay if there's a value)
-      $display.css("display", "none").hide().attr("tabindex", "-1"); // Remove from tab order when hidden
-      
-      // CRITICAL: Ensure input is in correct initial state BEFORE calling updateDisplay
-      if (isoValue) {
-        // Has value: hide input IMMEDIATELY to prevent both being visible
-        $nativeInput.addClass("input-datetime-hidden");
-        $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
-      } else {
-        // No value: ensure input is visible and display is hidden
+      if (!isoValue) {
         $nativeInput.removeClass("input-datetime-hidden");
-        // Ensure input is in tab order (remove tabindex or set to natural order)
-        const originalTabIndex = $nativeInput.attr("tabindex");
-        if (originalTabIndex === "-1") {
-          $nativeInput.removeAttr("tabindex"); // Use natural tab order
+        if ($nativeInput.attr("tabindex") === "-1") {
+          $nativeInput.removeAttr("tabindex");
         }
-        $nativeInput.css({
-          "position": "",
-          "opacity": "",
-          "pointer-events": "",
-          "width": "",
-          "min-width": "",
-          "max-width": "",
-          "min-height": "",
-          "height": "",
-          "padding": "",
-          "margin": "",
-          "border": "",
-          "overflow": "",
-          "display": ""
-        });
         $nativeInput.val("");
       }
 
       // Format and update native input value and display
       const updateDisplay = () => {
         isoValue = $nativeInput.data("iso-value");
+        log("updateDisplay()", "isoValue=", isoValue || "(empty)");
         if (!isoValue) {
-          // No value: hide display, show native input
-          $display.hide().attr("tabindex", "-1"); // Remove from tab order when hidden
+          log("updateDisplay()", "path: no value → hide display, show input, clear value");
+          $display.removeClass("input-datetime-display--visible").attr("tabindex", "-1");
           $nativeInput.removeClass("input-datetime-hidden");
-          // Ensure input is in tab order
-          const originalTabIndex = $nativeInput.attr("tabindex");
-          if (originalTabIndex === "-1") {
-            $nativeInput.removeAttr("tabindex"); // Use natural tab order
+          if ($nativeInput.attr("tabindex") === "-1") {
+            $nativeInput.removeAttr("tabindex");
           }
-          $nativeInput.css({
-            "position": "",
-            "opacity": "",
-            "pointer-events": "",
-            "width": "",
-            "min-width": "",
-            "max-width": "",
-            "min-height": "",
-            "height": "",
-            "padding": "",
-            "margin": "",
-            "border": "",
-            "overflow": ""
-          });
           $nativeInput.val("");
           $nativeInput.removeData("iso-value");
           $nativeInput.removeData("formatted-value");
+          $nativeInput.removeData("html5-value");
           return;
         }
+
+        log("updateDisplay()", "path: has value → format, hide input, show display");
 
         // CRITICAL: Retrieve format config from data attributes (preserved across focus/blur)
         // This ensures format never changes even if closure variables are lost
@@ -520,64 +541,34 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         // Convert timezone if needed
         const convertedValue = ns.convertTimezone(isoValue, storedInputTimezone, storedOutputTimezone, inputType);
         
-        // Format the value using stored format config
+        // Format the value for display (may be custom e.g. "2024-01-15:14:30:00:+1100")
         const formatted = ns.formatDateTime(convertedValue, storedFormat, storedCustomFormat, inputType);
         
-        // Store formatted value as data attribute
+        // Store formatted value as data attribute (for display and blur restore)
         $nativeInput.data("formatted-value", formatted);
         
-        // Update native input with formatted value (this is what gets submitted)
-        // Set both value attribute and jQuery val() to ensure it's always readable
-        $nativeInput.val(formatted);
-        $nativeInput.attr("value", formatted);
+        // CRITICAL: Input value/attribute MUST be HTML5 format so the browser accepts it and .val() works.
+        // The formatted string (e.g. "2024-01-15:14:30:00:+1100") is invalid for datetime-local and causes .val() to return "".
+        const html5Value = ns.normalizeDateTimeForHtml5(convertedValue, inputType) || convertedValue;
+        $nativeInput.data("html5-value", html5Value);
+        $nativeInput.val(html5Value);
+        $nativeInput.attr("value", html5Value);
         
-        // Update display element
+        // Update display element with formatted (human-readable) value
         $display.text(formatted);
         
-        // Get input computed dimensions before hiding (to match display exactly)
-        const inputStyles = window.getComputedStyle($nativeInput[0]);
-        const inputWidth = inputStyles.width;
-        const inputHeight = inputStyles.height;
-        const inputPadding = inputStyles.padding;
-        const inputBorder = inputStyles.border;
-        const inputMargin = inputStyles.margin;
-        const inputBoxSizing = inputStyles.boxSizing;
-        
-        // CRITICAL: Hide native input FIRST using both class and inline styles (synchronously, before showing display)
-        // This ensures input is hidden immediately, preventing both elements from being visible simultaneously
+        // Hide input and show display via CSS classes only (no inline styles - avoids border/layout going out of whack)
         $nativeInput.addClass("input-datetime-hidden");
-        $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
-        $nativeInput.css({
-          "position": "absolute",
-          "opacity": "0",
-          "pointer-events": "none",
-          "width": "1px",
-          "height": "1px",
-          "padding": "0",
-          "margin": "0",
-          "border": "0",
-          "overflow": "hidden"
-        });
-        
-        // CRITICAL: Match display dimensions to input exactly (prevent layout shift)
-        // Show display AFTER input is hidden (synchronously in same execution)
-        $display.attr("tabindex", "0"); // Make display focusable for tab navigation
-        $display.css({
-          "width": inputWidth,
-          "height": inputHeight,
-          "min-height": inputHeight,
-          "padding": inputPadding,
-          "border": inputBorder,
-          "margin": inputMargin,
-          "box-sizing": inputBoxSizing || "border-box",
-          "display": "inline-block"
-        });
+        $nativeInput.attr("tabindex", "-1");
+        $display.addClass("input-datetime-display--visible");
+        $display.attr("tabindex", "0");
       };
 
       // On change, store ISO and format
       $nativeInput.on("change", function() {
-        // Store ISO value from native input (date picker returns ISO)
         const newIsoValue = $nativeInput.val();
+        log("change", "newIsoValue=", newIsoValue || "(empty)");
+        // Store ISO value from native input (date picker returns ISO)
         if (newIsoValue) {
           $nativeInput.data("iso-value", newIsoValue);
         } else {
@@ -590,61 +581,36 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
 
       // On display click, show native input for editing (restore ISO temporarily)
       // Function to show input for editing (used by both click and keyboard)
-      const showInputForEditing = function() {
-        // Restore ISO value for date picker
+      const showInputForEditing = function(source) {
+        log("showInputForEditing", source || "called", "isoValue(data)=", $nativeInput.data("iso-value") || "(empty)");
         isoValue = $nativeInput.data("iso-value");
         if (isoValue) {
           $nativeInput.val(isoValue);
-          // CRITICAL: Store this as the baseline for comparison on blur
           $nativeInput.data("baseline-iso-value", isoValue);
+          log("showInputForEditing", "set input.val to iso, baseline=", isoValue);
+        } else {
+          log("showInputForEditing", "no iso value, input.val stays empty");
         }
-        
-        // Get display computed styles to match input exactly (prevent layout shift)
-        const displayStyles = window.getComputedStyle($display[0]);
-        const displayWidth = displayStyles.width;
-        const displayHeight = displayStyles.height;
-        const displayPadding = displayStyles.padding;
-        const displayBorder = displayStyles.border;
-        const displayMargin = displayStyles.margin;
-        const displayBoxSizing = displayStyles.boxSizing;
-        
-        // Hide display first
-        $display.hide().attr("tabindex", "-1"); // Remove from tab order when hidden
-        
-        // Restore normal positioning and match dimensions EXACTLY (including padding/border/margin)
-        $nativeInput.css({
-          "position": "",
-          "opacity": "",
-          "pointer-events": "",
-          "width": displayWidth,
-          "height": displayHeight,
-          "min-width": displayWidth,
-          "max-width": displayWidth,
-          "min-height": displayHeight,
-          "padding": displayPadding,
-          "border": displayBorder,
-          "margin": displayMargin,
-          "box-sizing": displayBoxSizing || "border-box",
-          "overflow": ""
-        });
-        
-        // Ensure input is in tab order and focusable
-        const originalTabIndex = $nativeInput.attr("tabindex");
-        if (originalTabIndex === undefined || originalTabIndex === null) {
-          $nativeInput.removeAttr("tabindex"); // Use natural tab order
+        $display.removeClass("input-datetime-display--visible").attr("tabindex", "-1");
+        if ($nativeInput.attr("tabindex") === "-1") {
+          $nativeInput.removeAttr("tabindex");
         }
-        
-        $nativeInput.removeClass("input-datetime-hidden").show().focus();
+        $nativeInput.removeClass("input-datetime-hidden").focus();
+        log("showInputForEditing", "done: display hidden, input visible and focused");
       };
-      
+
       // Click handler
-      $display.on("click", showInputForEditing);
-      
+      $display.on("click", function() {
+        log("display click");
+        showInputForEditing("display click");
+      });
+
       // Keyboard handler for tab navigation (Enter/Space to activate)
       $display.on("keydown", function(e) {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          showInputForEditing();
+          log("display keydown", e.key);
+          showInputForEditing("keydown " + e.key);
         }
       });
 
@@ -653,57 +619,96 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
         const newIsoValue = $nativeInput.val();
         const baselineIsoValue = $nativeInput.data("baseline-iso-value");
         const existingFormatted = $nativeInput.data("formatted-value");
-        
+
+        // Offset/UTC fields: after "restore from cache" we set input.val(existingFormatted). A spurious
+        // blur can then run with newIsoValue = that formatted/UTC string, and we'd persist it and shift
+        // the value. Treat that as no change and don't persist.
+        if ($nativeInput.data("just-restored-from-cache")) {
+          $nativeInput.removeData("just-restored-from-cache");
+          if (baselineIsoValue && newIsoValue !== baselineIsoValue) {
+            log("blur", "path: just-restored, newIsoValue !== baseline → ignore spurious blur, keep canonical");
+            $nativeInput.data("iso-value", baselineIsoValue);
+            $nativeInput.removeData("baseline-iso-value");
+            return;
+          }
+        }
+
         // Check if user actually changed the value (compare with baseline set on click)
         const userChangedValue = baselineIsoValue ? (newIsoValue !== baselineIsoValue) : true;
-        
-        // Always store the current value
-        if (newIsoValue) {
-          $nativeInput.data("iso-value", newIsoValue);
-        } else {
-          $nativeInput.removeData("iso-value");
+
+        log("blur", "newIsoValue=", newIsoValue || "(empty)", "baseline=", baselineIsoValue || "(none)", "userChangedValue=", userChangedValue, "existingFormatted=", (existingFormatted ? "yes" : "no"));
+
+        // FIX: When input shows empty on blur but we have a baseline (user just opened edit and didn't change),
+        // treat as "no change" and restore from baseline. Prevents repeated clicks from clearing value and
+        // leaving only the empty input visible (browsers can report val() empty during blur in some cases).
+        if (!newIsoValue && baselineIsoValue) {
+          log("blur", "path: input empty but baseline set → treat as no change, restore from baseline");
+          $nativeInput.data("iso-value", baselineIsoValue);
+          $nativeInput.removeData("baseline-iso-value");
+          if (existingFormatted) {
+            $nativeInput.val(baselineIsoValue);
+            $display.text(existingFormatted);
+            $nativeInput.addClass("input-datetime-hidden");
+            $nativeInput.attr("tabindex", "-1");
+            $display.addClass("input-datetime-display--visible");
+            $display.attr("tabindex", "0");
+          } else {
+            updateDisplay();
+          }
+          return;
         }
-        
-        // Clear baseline after use
-        $nativeInput.removeData("baseline-iso-value");
-        
-        // OPTIMIZATION: If user didn't change value AND we have cached formatted value, skip reprocessing
-        if (!userChangedValue && existingFormatted && newIsoValue) {
-          // User didn't change value - restore display WITHOUT timezone reprocessing
-          // Get input computed dimensions before hiding (to match display exactly)
-          const inputStyles = window.getComputedStyle($nativeInput[0]);
-          const inputWidth = inputStyles.width;
-          const inputHeight = inputStyles.height;
-          const inputPadding = inputStyles.padding;
-          const inputBorder = inputStyles.border;
-          const inputMargin = inputStyles.margin;
-          const inputBoxSizing = inputStyles.boxSizing;
-          
-          $nativeInput.val(existingFormatted);
+
+        // Input reports empty but we have stored value and formatted text (focus came via tab/script, not display click).
+        // Don't clear - restore display and keep the stored value.
+        const storedIsoValue = $nativeInput.data("iso-value");
+        if (!newIsoValue && !baselineIsoValue && existingFormatted && storedIsoValue) {
+          log("blur", "path: input empty, no baseline, but have stored iso-value and formatted → restore display, keep value");
+          $nativeInput.val($nativeInput.data("html5-value") || existingFormatted);
           $display.text(existingFormatted);
           $nativeInput.addClass("input-datetime-hidden");
-          $nativeInput.attr("tabindex", "-1"); // Remove from tab order when hidden
-          $nativeInput.css({
-            "position": "absolute", "opacity": "0", "pointer-events": "none",
-            "width": "1px", "height": "1px", "padding": "0", "margin": "0",
-            "border": "0", "overflow": "hidden"
-          });
-          // Match display dimensions to input exactly (prevent layout shift)
-          $display.attr("tabindex", "0"); // Make display focusable for tab navigation
-          $display.css({
-            "width": inputWidth,
-            "height": inputHeight,
-            "min-height": inputHeight,
-            "padding": inputPadding,
-            "border": inputBorder,
-            "margin": inputMargin,
-            "box-sizing": inputBoxSizing || "border-box",
-            "display": "inline-block"
-          });
-          return; // Skip timezone reprocessing completely
+          $nativeInput.attr("tabindex", "-1");
+          $display.addClass("input-datetime-display--visible");
+          $display.attr("tabindex", "0");
+          return;
         }
-        
-        // User changed value, no baseline, or no cached display - do full timezone processing
+
+        // CRITICAL: Check "no user change" and "nested blur" BEFORE "Always store" / "Clear baseline".
+        // Otherwise we clear baseline first; then hiding the input during restore triggers a nested blur
+        // that sees baseline=(none) and runs updateDisplay() → clear.
+
+        // OPTIMIZATION: If user didn't change value AND we have cached formatted value, skip reprocessing
+        if (!userChangedValue && existingFormatted && newIsoValue) {
+          log("blur", "path: no user change → restore display from cache");
+          $nativeInput.val($nativeInput.data("html5-value") || existingFormatted);
+          $display.text(existingFormatted);
+          $nativeInput.data("just-restored-from-cache", true);
+          $nativeInput.addClass("input-datetime-hidden");
+          $nativeInput.attr("tabindex", "-1");
+          $display.addClass("input-datetime-display--visible");
+          $display.attr("tabindex", "0");
+          return;
+        }
+
+        // Nested blur: we just set input.val(existingFormatted) and hid the input; hiding fired blur again.
+        if (baselineIsoValue && existingFormatted && newIsoValue === existingFormatted) {
+          log("blur", "path: nested blur (val === existingFormatted) → no-op");
+          $nativeInput.removeData("baseline-iso-value");
+          return;
+        }
+
+        // CRITICAL: Only persist iso-value when the user actually changed the value (picker).
+        // Never overwrite with our own html5-value or formatted display string, or the value
+        // will shift (e.g. convert, persist, next blur convert again → time keeps increasing).
+        const storedHtml5 = $nativeInput.data("html5-value");
+        const isOurOutput = (storedHtml5 && newIsoValue === storedHtml5) || (existingFormatted && newIsoValue === existingFormatted);
+        if (userChangedValue && newIsoValue && !isOurOutput) {
+          $nativeInput.data("iso-value", newIsoValue);
+        } else if (!newIsoValue) {
+          $nativeInput.removeData("iso-value");
+        }
+        $nativeInput.removeData("baseline-iso-value");
+
+        log("blur", "path: user change or no cache → updateDisplay()");
         updateDisplay();
       });
 
@@ -711,16 +716,22 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       // CRITICAL: Call updateDisplay() to format value and set up display properly
       // This ensures the input has the formatted value set (so .val() works) and visibility is correct
       if (isoValue) {
+        log("init", "has value → updateDisplay()");
         // Has value: updateDisplay() will format it, set input value, hide input, show display
         updateDisplay();
       } else {
-        // No value: ensure display is hidden and input is visible (already done above, but be explicit)
-        $display.css("display", "none").hide();
+        log("init", "no value → display hidden, input visible");
+        $display.removeClass("input-datetime-display--visible");
         $nativeInput.removeClass("input-datetime-hidden");
         $nativeInput.val("");
         $nativeInput.removeData("iso-value");
         $nativeInput.removeData("formatted-value");
+        $nativeInput.removeData("html5-value");
       }
+
+      $nativeInput.on("focus", function() {
+        log("input focus", "val=", $nativeInput.val() || "(empty)");
+      });
     };
 
 })(jQuery, window.Typerefinery.Components.Forms.Input);

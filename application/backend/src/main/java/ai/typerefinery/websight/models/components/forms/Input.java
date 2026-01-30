@@ -36,6 +36,14 @@ import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.sling.api.SlingHttpServletRequest;
 import pl.ds.websight.pages.foundation.WcmMode;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 @Model(adaptables = {
     Resource.class,
     SlingHttpServletRequest.class
@@ -229,9 +237,15 @@ public class Input extends BaseFormComponent {
             this.typeAttr = inputType != null ? inputType : "text";
         }
 
-        // Compute HTML value attribute with default for colourpicker
+        // Compute HTML value attribute with default for colourpicker.
+        // For date/time/datetime-local, normalize to HTML5 format so the browser sets the
+        // input's current value (DOM property); otherwise .val() is empty while .attr("value") shows the attribute.
         if (StringUtils.isNotBlank(value)) {
-            this.valueAttr = value;
+            if ("date".equals(inputType) || "time".equals(inputType) || "datetime-local".equals(inputType)) {
+                this.valueAttr = normalizeDateTimeValueForHtml5(value, inputType);
+            } else {
+                this.valueAttr = value;
+            }
         } else if ("colourpicker".equals(inputType)) {
             this.valueAttr = "#000000";
         } else {
@@ -266,6 +280,136 @@ public class Input extends BaseFormComponent {
 
         // Compute disabled attribute (null if not disabled)
         this.disabledAttr = Boolean.TRUE.equals(disabled) ? true : null;
+    }
+
+    /**
+     * Normalizes a stored date/time string to the format required by HTML5
+     * &lt;input type="date"&gt;, &lt;input type="time"&gt;, and &lt;input type="datetime-local"&gt;.
+     * Browsers only set the input's current value (so .val() works) when the value attribute
+     * is in the correct format; otherwise .attr("value") shows the string but .val() returns "".
+     *
+     * @param rawValue stored value (e.g. "2024-01-15:14:30:00:+1100" or "2024-01-15T14:30:00")
+     * @param type     inputType: "date", "time", or "datetime-local"
+     * @return HTML5 format string, or rawValue if parsing fails
+     */
+    private static String normalizeDateTimeValueForHtml5(String rawValue, String type) {
+        if (rawValue == null || rawValue.isEmpty()) {
+            return rawValue;
+        }
+        String trimmed = rawValue.trim();
+        try {
+            if ("date".equals(type)) {
+                LocalDate d = tryParseDate(trimmed);
+                return d != null ? d.format(DateTimeFormatter.ISO_LOCAL_DATE) : trimmed;
+            }
+            if ("time".equals(type)) {
+                LocalTime t = tryParseTime(trimmed);
+                return t != null ? t.format(DateTimeFormatter.ISO_LOCAL_TIME) : trimmed;
+            }
+            if ("datetime-local".equals(type)) {
+                LocalDateTime dt = tryParseDateTimeLocal(trimmed);
+                return dt != null ? dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : trimmed;
+            }
+        } catch (DateTimeParseException e) {
+            // Fall through to return trimmed
+        }
+        return trimmed;
+    }
+
+    private static LocalDate tryParseDate(String v) {
+        try {
+            return LocalDate.parse(v, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            // Try extracting date part from datetime-like strings (e.g. "2024-01-15:14:30:00:+1100")
+            if (v.length() >= 10 && v.charAt(4) == '-' && v.charAt(7) == '-') {
+                return LocalDate.parse(v.substring(0, 10), DateTimeFormatter.ISO_LOCAL_DATE);
+            }
+        }
+        return null;
+    }
+
+    private static LocalTime tryParseTime(String v) {
+        try {
+            return LocalTime.parse(v, DateTimeFormatter.ISO_LOCAL_TIME);
+        } catch (DateTimeParseException e) {
+            // Try HH:mm or HH:mm:ss when followed by more content
+            int end = v.indexOf('+');
+            if (end < 0) {
+                end = v.indexOf('-', 1);
+            }
+            if (end < 0) {
+                end = v.length();
+            }
+            String timePart = v.substring(0, end).trim();
+            if (timePart.length() >= 5) {
+                return LocalTime.parse(timePart, DateTimeFormatter.ISO_LOCAL_TIME);
+            }
+        }
+        return null;
+    }
+
+    private static LocalDateTime tryParseDateTimeLocal(String v) {
+        // Already HTML5 format: YYYY-MM-DDTHH:mm or YYYY-MM-DDTHH:mm:ss
+        try {
+            return LocalDateTime.parse(v, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+        // With seconds
+        try {
+            return LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+        // Colon between date and time + optional timezone: 2024-01-15:14:30:00 or 2024-01-15:14:30:00:+1100
+        if (v.length() >= 19 && v.charAt(4) == '-' && v.charAt(7) == '-' && v.charAt(10) == ':') {
+            String dateTimePart = v.substring(0, 19); // 2024-01-15:14:30:00
+            try {
+                return LocalDateTime.parse(dateTimePart, DateTimeFormatter.ofPattern("yyyy-MM-dd:HH:mm:ss"));
+            } catch (DateTimeParseException e) {
+                // ignore
+            }
+            if (v.length() >= 16) {
+                try {
+                    return LocalDateTime.parse(v.substring(0, 16), DateTimeFormatter.ofPattern("yyyy-MM-dd:HH:mm"));
+                } catch (DateTimeParseException e) {
+                    // ignore
+                }
+            }
+        }
+        // Offset format: parse and convert to local date-time (use offset then drop zone for HTML5 value)
+        try {
+            OffsetDateTime odt = OffsetDateTime.parse(v, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            return odt.toLocalDateTime();
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+        try {
+            ZonedDateTime zdt = ZonedDateTime.parse(v, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+            return zdt.toLocalDateTime();
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+        // Custom pattern with colon and offset like 2024-01-15:14:30:00:+1100
+        try {
+            int tzStart = v.indexOf('+', 10);
+            if (tzStart < 0) {
+                tzStart = v.indexOf('-', 11);
+            }
+            String dateTimePart = tzStart > 0 ? v.substring(0, tzStart).trim() : v;
+            if (dateTimePart.endsWith(":")) {
+                dateTimePart = dateTimePart.substring(0, dateTimePart.length() - 1);
+            }
+            if (dateTimePart.length() >= 19) {
+                return LocalDateTime.parse(dateTimePart.substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd:HH:mm:ss"));
+            }
+            if (dateTimePart.length() >= 16) {
+                return LocalDateTime.parse(dateTimePart.substring(0, 16), DateTimeFormatter.ofPattern("yyyy-MM-dd:HH:mm"));
+            }
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+        return null;
     }
 
 }

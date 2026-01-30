@@ -421,3 +421,76 @@ The date and time input type (`datetime-local`) provides native date/time picker
 - If formatting is active: Hidden input value (formatted) is submitted
 - If no formatting: Native input value (ISO format) is submitted
 - Value is always a string (formatted according to configuration)
+
+#### DateTime Processing Logic
+
+When formatting or timezone conversion is configured, the datetime field switches between a **display span** (formatted value, read-only) and the **native input** (picker). The diagram and paths below describe how visibility, value, and baseline are updated.
+
+**Flow diagram (Mermaid):**
+
+```mermaid
+flowchart TB
+    subgraph init["Init"]
+        A[initDateTime] --> B{isoValue?}
+        B -->|yes| C[updateDisplay: format, hide input, show display]
+        B -->|no| D[display hidden, input visible, val cleared]
+    end
+
+    subgraph display["Display span active"]
+        E[User clicks display or Enter/Space] --> F[showInputForEditing]
+        F --> G[Set baseline = iso-value]
+        F --> H[input.val = iso, hide display, show input, focus]
+    end
+
+    subgraph blur["Input blur"]
+        I[blur: newIsoValue, baseline, existingFormatted] --> J{!newIsoValue && baseline?}
+        J -->|yes| K["Restore from baseline (or updateDisplay)"]
+        K --> K1[return]
+        J -->|no| L{!userChanged && existingFormatted && newIsoValue?}
+        L -->|yes| M["Restore from cache (no reprocess)"]
+        M --> M1[return]
+        L -->|no| N{baseline && newIsoValue === existingFormatted?}
+        N -->|yes| O["Nested blur (no-op, clear baseline)"]
+        O --> O1[return]
+        N -->|no| P[Store value, clear baseline]
+        P --> Q[updateDisplay]
+    end
+
+    subgraph update["updateDisplay()"]
+        R[Read iso-value from data] --> S{iso-value?}
+        S -->|no| T[Hide display, show input, clear val & data]
+        S -->|yes| U[Format, set formatted-value, input.val = formatted]
+        U --> V[Hide input, show display]
+    end
+
+    subgraph change["Input change"]
+        W[User changed value in picker] --> X[Store iso-value from input.val]
+        X --> Q
+    end
+
+    H -.-> I
+    Q --> R
+```
+
+**Path summary:**
+
+| Trigger | Condition | Action |
+|--------|-----------|--------|
+| **Init** | Has `iso-value` | `updateDisplay()` → format, hide input, show display |
+| **Init** | No value | Display hidden, input visible, val cleared |
+| **Display click / keydown** | — | `showInputForEditing`: set baseline from `iso-value`, `input.val(iso)`, hide display, show input, focus |
+| **Blur** | `val` empty and baseline set | Treat as no change: restore from baseline (or `existingFormatted`), show display, return |
+| **Blur** | No user change and has cached formatted | Restore from cache (no timezone reprocess), show display, return |
+| **Blur** | Nested blur: `val === existingFormatted` and baseline set | No-op (hiding input fired blur again), clear baseline, return |
+| **Blur** | User changed or no cache | Store value, clear baseline, call `updateDisplay()` |
+| **Change** | User picked new value | Store `iso-value` from `input.val()`, call `updateDisplay()` |
+| **updateDisplay()** | No `iso-value` | Hide display, show input, clear val and data |
+| **updateDisplay()** | Has `iso-value` | Format, set `formatted-value` and `input.val(formatted)`, hide input, show display |
+
+**Data stored on the input element:**
+
+- `iso-value`: canonical value (ISO string) used for formatting and comparison
+- `formatted-value`: last formatted string (used for “restore from cache”)
+- `baseline-iso-value`: value when edit started (set in `showInputForEditing`, cleared after blur)
+
+**Logging:** All datetime actions are logged with the prefix `[datetime]` and the field id. Filter the browser console by `[datetime]` to trace display click, showInputForEditing, focus/blur, change, and updateDisplay paths.
