@@ -81,6 +81,37 @@ public class FlowSyncStorageService {
             componentPath, varPath);
         return varPath;
     }
+
+    /**
+     * Maps a /var flow resource path back to its corresponding component path.
+     *
+     * Example: /var/typerefinery/flow/content/site/page/jcr:content/root/container/component
+     *          -> /content/site/page/jcr:content/root/container/component
+     *
+     * If the path is not under {@link #VAR_BASE_PATH}, it is returned as-is.
+     *
+     * @param resourcePath The /var path (or already a component path)
+     * @return The component path
+     */
+    public String getComponentPath(@NotNull String resourcePath) {
+        if (resourcePath == null || resourcePath.isEmpty()) {
+            LOGGER.error("FlowSyncStorageService.getComponentPath: resourcePath is null or empty");
+            return null;
+        }
+
+        if (!resourcePath.startsWith(VAR_BASE_PATH)) {
+            return resourcePath;
+        }
+
+        String componentPath = resourcePath.substring(VAR_BASE_PATH.length());
+        if (componentPath.isEmpty()) {
+            componentPath = "/";
+        }
+
+        LOGGER.debug("FlowSyncStorageService.getComponentPath: Mapped var path to component path. varPath={}, componentPath={}",
+            resourcePath, componentPath);
+        return componentPath;
+    }
     
     /**
      * Gets or creates the /var resource for a component path.
@@ -215,7 +246,9 @@ public class FlowSyncStorageService {
     
     /**
      * Syncs /var resource data to Flow API via FlowService.
-     * This calls FlowService.doProcessFlowResource with the var resource.
+     * The /var resource is only the persistence layer for computed Flow metadata, so this method
+     * resolves the original component resource before invoking FlowService. That preserves the
+     * authored /content path for route and group/category generation while still storing results in /var.
      * 
      * @param varResource The /var resource containing Flow data
      * @param changeType The type of change (ADDED, CHANGED, REMOVED)
@@ -232,19 +265,41 @@ public class FlowSyncStorageService {
             return false;
         }
         
-        LOGGER.info("FlowSyncStorageService.syncVarToFlow: Syncing var resource to Flow API. varPath={}, changeType={}", 
-            varResource.getPath(), changeType);
+        String componentPath = getComponentPath(varResource.getPath());
+        if (componentPath == null) {
+            LOGGER.error("FlowSyncStorageService.syncVarToFlow: Could not map var path to component path. varPath={}",
+                varResource.getPath());
+            return false;
+        }
+
+        ResourceResolver resolver = varResource.getResourceResolver();
+        if (resolver == null) {
+            LOGGER.error("FlowSyncStorageService.syncVarToFlow: resourceResolver is null. varPath={}",
+                varResource.getPath());
+            return false;
+        }
+
+        Resource componentResource = resolver.getResource(componentPath);
+        if (componentResource == null) {
+            LOGGER.error("FlowSyncStorageService.syncVarToFlow: Component resource not found for var resource. varPath={}, componentPath={}",
+                varResource.getPath(), componentPath);
+            return false;
+        }
+
+        LOGGER.info("FlowSyncStorageService.syncVarToFlow: Syncing var resource to Flow API. varPath={}, componentPath={}, changeType={}",
+            varResource.getPath(), componentPath, changeType);
         
-        // Call FlowService.doProcessFlowResource with var resource
-        // FlowService will read from var resource and update Flow API
-        boolean result = flowService.doProcessFlowResource(varResource, changeType);
+        // Call FlowService.doProcessFlowResource with the original component resource so route generation
+        // and default Flow group/category resolution always use the authored /content path rather than
+        // the /var mirror path.
+        boolean result = flowService.doProcessFlowResource(componentResource, changeType);
         
         if (result) {
-            LOGGER.info("FlowSyncStorageService.syncVarToFlow: Successfully synced var resource to Flow API. varPath={}", 
-                varResource.getPath());
+            LOGGER.info("FlowSyncStorageService.syncVarToFlow: Successfully synced var resource to Flow API. varPath={}, componentPath={}",
+                varResource.getPath(), componentPath);
         } else {
-            LOGGER.error("FlowSyncStorageService.syncVarToFlow: Failed to sync var resource to Flow API. varPath={}", 
-                varResource.getPath());
+            LOGGER.error("FlowSyncStorageService.syncVarToFlow: Failed to sync var resource to Flow API. varPath={}, componentPath={}",
+                varResource.getPath(), componentPath);
         }
         
         return result;
@@ -348,4 +403,3 @@ public class FlowSyncStorageService {
         }
     }
 }
-

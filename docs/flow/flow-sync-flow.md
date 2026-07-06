@@ -95,7 +95,7 @@ flowchart LR
 1. FlowService receives response from Flow API
 2. Extract Flow service properties from response:
    - `flowapi_flowstreamid` - Flow ID
-   - `flowapi_httproute` - HTTP route URL
+   - `flowapi_httproute` - Client-facing HTTP route URL
    - `flowapi_editurl` - Flow Designer URL
    - `flowapi_websocketurl` - WebSocket URL
    - `flowapi_createdon` - Creation timestamp
@@ -104,7 +104,7 @@ flowchart LR
 3. Write properties to `/var` resource
 4. Commit changes to repository
 
-**Purpose**: Store Flow API response data in `/var` for display in dialogs
+**Purpose**: Store Flow API response data in `/var` for display in dialogs. `/var` is only the persistence location for the generated metadata. Saved route values such as `flowapi_httproute` and `flowapi_httproutenosfx` must remain actual client-facing Flow URLs.
 
 **Code**: `FlowService` → `FlowSyncStorageService.syncFlowToVar()`
 
@@ -121,7 +121,7 @@ These properties are edited by users in component dialogs:
 - `flowapi_icon` - Icon identifier
 - `flowapi_color` - Color identifier
 - `flowapi_name` - Flow name
-- `flowapi_group` - Flow group
+- `flowapi_group` - Flow group/category override. If blank, FlowService derives the default group/category from the normalized component path for the page.
 - `flowapi_reference` - Reference identifier
 - `flowapi_version` - Version string
 - `flowapi_readme` - README content
@@ -133,7 +133,7 @@ These properties are managed by FlowService and Flow API:
 
 - `flowapi_flowstreamid` - Flow ID from API
 - `flowapi_paused` - Pause state
-- `flowapi_httproute` - HTTP route URL
+- `flowapi_httproute` - Client-facing HTTP route URL persisted in `/var`
 - `flowapi_editurl` - Flow Designer URL
 - `flowapi_websocketurl` - WebSocket URL
 - `flowapi_createdon` - Creation timestamp

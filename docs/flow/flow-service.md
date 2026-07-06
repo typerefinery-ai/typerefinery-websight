@@ -142,7 +142,7 @@ Property names are generated using the `FlowService.prop()` helper method:
 
 ## Component Registration and Defaults
 
-- **Flow components** – `FlowComponent` exposes persisted Flow metadata via Sling Models, ensures container detection, and can lazily recreate flows if they disappear. The model reads user-controlled properties from the `/content` component resource (injected) and Flow service-managed properties from the corresponding `/var/typerefinery/flow/` resource (loaded in `@PostConstruct` via `FlowSyncStorageService`). This separation prevents listener loops while maintaining a unified model interface.
+- **Flow components** – `FlowComponent` exposes persisted Flow metadata via Sling Models, ensures container detection, and can lazily recreate flows if they disappear. The model reads user-controlled properties from the `/content` component resource (injected) and Flow service-managed properties from the corresponding `/var/typerefinery/flow/` resource (loaded in `@PostConstruct` via `FlowSyncStorageService`). This separation prevents listener loops while maintaining a unified model interface. The important distinction is that `/var` is only the storage location for these computed values. URLs such as `flowapi_httproute` remain client-facing Flow endpoints, not JCR repository paths.
   
   **User-controlled properties** (from `/content`):
   - `flowapi_enable`, `flowapi_template`, `flowapi_title`, `flowapi_icon`, `flowapi_color`, `flowapi_name`, `flowapi_group`, `flowapi_reference`, `flowapi_version`, `flowapi_readme`, `flowapi_sampledata`
@@ -428,7 +428,7 @@ The nested `GridTitles` and `GridTile` classes compute non-overlapping regions f
 
 ### URLs and Formatting
 
-`compileClientHttpRouteUrl`, `compileEditUrl`, and `compileHttpRoutePath` ensure route strings are encoded, include dynamic IDs, and point to client-accessible hosts from configuration.  
+`compileClientHttpRouteUrl`, `compileEditUrl`, and `compileHttpRoutePath` ensure route strings are encoded, include dynamic IDs, and point to client-accessible hosts from configuration. The normalized component path produced by `compileHttpRoutePath` is also reused as the default Flow group/category for a page when no authored `flowapi_group` override exists.  
 ```339:351:application/backend/src/main/java/ai/typerefinery/websight/services/flow/FlowService.java
         String flowapi_httproute =  String.format(configuration.host_url_client() + configuration.endpoint_client(), routerPath.startsWith("/") ? routerPath.substring(1) : routerPath);
         return flowapi_httproute;
@@ -459,10 +459,10 @@ public class Form extends FlowComponent implements FlowComponentRegister {
 - **Authoring steps**
   1. Open the form component dialog (`apps/typerefinery/components/forms/form/dialog`) and select the **Flow** tab.
   2. Enable the **Flow API** checkbox (`flowapi_enable`). The dialog shows user-editable metadata fields (name, group, icon, color, etc.) and read-only Flow URLs (editurl, httproute, websocketurl) from the `/var` resource.
-  3. Activate or publish the component change. The change listener creates a job that `FlowSyncJobConsumer` processes, syncing metadata to `/var` and calling `FlowService` to create/update the flow.
-  4. The Form model mirrors those routes into `readUrl`/`writeUrl`, so form submissions automatically target the Flow proxy.
+  3. Activate or publish the component change. The change listener creates a job that `FlowSyncJobConsumer` processes, syncing metadata to `/var` and calling `FlowService` to create/update the flow. The generated HTTP route that gets saved is the real client-facing Flow endpoint, even though the value itself is persisted under `/var`.
+  4. The Form model mirrors those routes into `readUrl`/`writeUrl`, so form submissions automatically target the Flow proxy. For the default form template, those form endpoints should use the client-facing no-suffix route variant, while the suffixed route remains available for templates that need `{{id}}`.
 
-- **Verification** – Reopen the dialog to confirm the Flow URLs (editurl, httproute) are displayed correctly. These values are read from the `/var/typerefinery/flow/` resource and updated after successful Flow API calls. Use Flow Designer to adjust downstream behavior as needed.
+- **Verification** – Reopen the dialog to confirm the Flow URLs (editurl, httproute) are displayed correctly. These values are read from the `/var/typerefinery/flow/` resource and updated after successful Flow API calls, but the URLs themselves should point at the client-facing Flow host rather than any `/var/...` repository path. Use Flow Designer to adjust downstream behavior as needed.
 
 ## Configuration
 
@@ -553,4 +553,3 @@ The Flow dialog uses `typerefinery/components/dialog/flow/openurl` to display re
 ## Summary
 
 The Flow subsystem combines Sling listeners, jobs, registries, and comprehensive service utilities to keep authored components synchronized with the external Flow runtime. Templates plus metadata drive both initial flow creation and ongoing design synchronization, while configuration and registries keep the system adaptable and extensible. The `/var` storage architecture prevents listener loops by separating user-editable data (in `/content`) from Flow service-managed data (in `/var`).
-

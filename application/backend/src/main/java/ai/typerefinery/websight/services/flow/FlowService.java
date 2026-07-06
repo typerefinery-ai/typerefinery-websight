@@ -128,9 +128,9 @@ public class FlowService {
     public static final String FLOW_TEMPLATE_FIELD_PUBLISH_ID = "<publish-id>"; // flow step publish id, updates publish step in a flow
     public static final String FLOW_TEMPLATE_FIELD_TMS_TOPIC = "<tms-topic>"; // flow step tms topic, used for filtering and wrapping payloads for TMS Payload messages
 
-    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // used to specify which http route flow will use if any, eg form get url to be used /form/* will be updated to the {page URL}/*
-    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/{{id}}"; // used to prefix http route url, eg form get url to be used /form/{{id}} will be updated to the {page URL}/{{id}}, this will allow client to substitiute the id in the url
-    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_NOSFX = "<http-route-url-nosfx>"; // used to specify which http route flow will use if any, will be url without suffix
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL = "<http-route-url>"; // client-facing Flow route placeholder, typically the dynamic {page route}/{{id}} variant
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX = "/{{id}}"; // suffix added to the client-facing route when templates need an id placeholder the browser can substitute
+    public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_NOSFX = "<http-route-url-nosfx>"; // client-facing Flow route placeholder without the id suffix
     public static final String FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_NOSFX_VALUE = "/*"; // used to specify which http route flow will use if any, will be url without suffix
 
     public static final String FLOW_DEFAULT_TITLE_SUFFIX = " flow"; // used to generate flow title if not specified, flow title will be {page title} flow
@@ -1169,7 +1169,7 @@ public class FlowService {
         }
 
         String componentSampleData = getComponentSampleJson(sampleDataPath, flowComponent.resourceResolver);
-        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
+        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // client-facing route path and default Flow group/category seed derived from the authored component path
         String designTemplateString = getResourceInputStreamAsString(templatePath, flowComponent.resourceResolver);
 
         // setup a list of replace strings, as this is new flowId, flowStreamId and childPathId will be blank
@@ -1188,7 +1188,7 @@ public class FlowService {
 
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
 
-        String flowGroup = httpRoutePath;
+        String flowGroup = httpRoutePath; // default Flow group/category for this page unless the author overrides flowapi_group
         if (currentFlowContainerResource != null) {
             //get flow group from parent flow container
             String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
@@ -1292,10 +1292,10 @@ public class FlowService {
             return;
         }
 
-        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
+        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // client-facing route path and default Flow group/category seed derived from the authored component path
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource, RESOURCE_TYPE);
         
-        String flowGroup = httpRoutePath;
+        String flowGroup = httpRoutePath; // default Flow group/category for this page unless the author overrides flowapi_group
         if (currentFlowContainerResource != null) {
             if (currentFlowContainerResource != null) {
                 //get flow group from parent flow container

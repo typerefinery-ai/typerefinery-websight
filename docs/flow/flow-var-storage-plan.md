@@ -28,6 +28,8 @@ All Flow service data is now stored in `/var/typerefinery/flow/` to prevent list
 
 **Var Resource** (`/var/typerefinery/flow/...`):
 - Flow service data: `flowapi_flowstreamid`, `flowapi_paused`, `flowapi_httproute`, `flowapi_editurl`, `flowapi_websocketurl`, etc.
+- These values are stored under `/var`, but URL properties such as `flowapi_httproute` must still point to the real client-facing Flow host, not to `/var/...` repository paths.
+- The normalized client-facing route path is also reused as the default Flow group/category for a page unless an authored `flowapi_group` overrides it.
 - State machine: `flowapi_processing_state`, `flowapi_processing_job_id`, `flowapi_processing_state_timestamp`, `flowapi_processing_error`
 
 ## Implementation Details
@@ -41,6 +43,7 @@ All Flow service data is now stored in `/var/typerefinery/flow/` to prevent list
 - Creates `/var` resources when needed
 - Syncs component metadata to `/var`
 - Calls FlowService to sync `/var` data to Flow API
+- Resolves the original component resource before invoking FlowService so route generation continues to use the authored `/content` path while `/var` remains only the storage layer
 - Writes Flow API responses back to `/var`
 
 ### 2. FlowSyncJobConsumer
