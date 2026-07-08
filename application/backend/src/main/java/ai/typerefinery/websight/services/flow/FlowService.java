@@ -183,7 +183,15 @@ public class FlowService {
 
     // get flow data from flowstreamid
     public String getFlowStreamDesignSaveAPIURL(String flowstreamid) {
-        String url = String.format(configuration.host_url() + configuration.endpoint_design_save(), flowstreamid);
+        String endpoint = configuration.endpoint_design_save();
+        if (FlowServiceConfiguration.FLOW_ENDPOINT_STREAMS_SAVE.equals(endpoint)) {
+            LOGGER.warn(
+                "FlowService.getFlowStreamDesignSaveAPIURL: endpoint_design_save is configured as stream-save endpoint; using design-save endpoint instead. flowstreamid={}",
+                flowstreamid
+            );
+            endpoint = FlowServiceConfiguration.FLOW_ENDPOINT_DESIGN_SAVE;
+        }
+        String url = String.format(configuration.host_url() + endpoint, flowstreamid);
         return url;
     }
 
@@ -205,19 +213,57 @@ public class FlowService {
     }
 
     public boolean doProcessFlowResource(@NotNull Resource resource, @NotNull ResourceChange.ChangeType changeType) {
-        ResourceResolver resourceResolver = resource.getResourceResolver();
-        if (ResourceUtil.isNonExistingResource(resource) && resourceResolver == null) {
-            LOGGER.error("doProcessFlowResource: Resource is non-existing or resolver is null. path={}, changeType={}", 
-                resource != null ? resource.getPath() : "null", changeType);
+        return doProcessFlowResource(resource, resource, changeType);
+    }
+
+    /**
+     * Process a Flow resource using a split read/write model.
+     *
+     * storageResource is the resource where Flow API state and computed properties are persisted.
+     * In the sync job this should be the /var/typerefinery/flow/... resource.
+     *
+     * sourceResource is the authored component resource used only for context such as the original
+     * /content path, route generation, template lookup context, and container ancestry.
+     */
+    public boolean doProcessFlowResource(
+            @NotNull Resource storageResource,
+            @NotNull Resource sourceResource,
+            @NotNull ResourceChange.ChangeType changeType) {
+
+        if (storageResource == null || sourceResource == null) {
+            LOGGER.error(
+                "doProcessFlowResource: storageResource or sourceResource is null. storagePath={}, sourcePath={}, changeType={}",
+                storageResource != null ? storageResource.getPath() : "null",
+                sourceResource != null ? sourceResource.getPath() : "null",
+                changeType
+            );
             return false;
         }
-        String resourcePath = resource.getPath();
-        
-        LOGGER.error("doProcessFlowResource: Processing resource. path={}, changeType={}", resourcePath, changeType);
-        
-        FlowComponent flowComponent = resource.adaptTo(FlowComponent.class);
+
+        ResourceResolver resourceResolver = sourceResource.getResourceResolver();
+        if (ResourceUtil.isNonExistingResource(sourceResource) || resourceResolver == null) {
+            LOGGER.error(
+                "doProcessFlowResource: Source resource is non-existing or resolver is null. storagePath={}, sourcePath={}, changeType={}",
+                storageResource.getPath(),
+                sourceResource.getPath(),
+                changeType
+            );
+            return false;
+        }
+
+        String storagePath = storageResource.getPath();
+        String sourcePath = sourceResource.getPath();
+
+        LOGGER.info(
+            "doProcessFlowResource: Processing flow resource. storagePath={}, sourcePath={}, changeType={}",
+            storagePath,
+            sourcePath,
+            changeType
+        );
+
+        FlowComponent flowComponent = storageResource.adaptTo(FlowComponent.class);
         if (flowComponent == null) {
-            LOGGER.error("doProcessFlowResource: Could not adapt resource to FlowComponent. path={}", resourcePath);
+            LOGGER.error("doProcessFlowResource: Could not adapt storage resource to FlowComponent. storagePath={}", storagePath);
             return false;
         }
 
@@ -225,155 +271,142 @@ public class FlowService {
         String flowapiTemplate = flowComponent.flowapi_template;
         String flowapiFlowstreamid = flowComponent.flowapi_flowstreamid;
 
-        LOGGER.error("doProcessFlowResource: Flow component state. path={}, flowapi_enable={}, flowapi_template={}, flowapi_flowstreamid={}", 
-            resourcePath, flowapiEnable, flowapiTemplate, flowapiFlowstreamid);
+        LOGGER.info(
+            "doProcessFlowResource: Flow component state. storagePath={}, sourcePath={}, flowapi_enable={}, flowapi_template={}, flowapi_flowstreamid={}",
+            storagePath,
+            sourcePath,
+            flowapiEnable,
+            flowapiTemplate,
+            flowapiFlowstreamid
+        );
 
         if (!flowapiEnable) {
-            LOGGER.error("doProcessFlowResource: Flow is disabled. Attempting to pause flow. path={}, flowstreamid={}", 
-                resourcePath, flowapiFlowstreamid);
             if (StringUtils.isNotBlank(flowapiFlowstreamid)) {
-                boolean pauseResult = processPauseChange(resource, flowapiFlowstreamid, true);
-                LOGGER.error("doProcessFlowResource: Pause result. path={}, flowstreamid={}, pauseResult={}", 
-                    resourcePath, flowapiFlowstreamid, pauseResult);
-            } else {
-                LOGGER.error("doProcessFlowResource: Flow is disabled but no flowstreamid exists. path={}", resourcePath);
+                boolean pauseResult = processPauseChange(storageResource, flowapiFlowstreamid, true);
+                LOGGER.info(
+                    "doProcessFlowResource: Flow disabled, pause result. storagePath={}, sourcePath={}, flowstreamid={}, pauseResult={}",
+                    storagePath,
+                    sourcePath,
+                    flowapiFlowstreamid,
+                    pauseResult
+                );
+                return pauseResult;
             }
+
+            LOGGER.info("doProcessFlowResource: Flow disabled and no flowstreamid exists. storagePath={}, sourcePath={}", storagePath, sourcePath);
             return true;
         }
 
         if (StringUtils.isBlank(flowapiTemplate)) {
-            LOGGER.error("doProcessFlowResource: Flow is enabled but template is blank. path={}, flowapi_enable={}", 
-                resourcePath, flowapiEnable);
+            LOGGER.error("doProcessFlowResource: Flow is enabled but template is blank. storagePath={}, sourcePath={}", storagePath, sourcePath);
             return false;
         }
 
         boolean templateExists = PageUtil.isResourceExists(flowapiTemplate, resourceResolver);
         if (!templateExists) {
-            LOGGER.error("doProcessFlowResource: Flow is enabled but template does not exist. path={}, template={}", 
-                resourcePath, flowapiTemplate);
+            LOGGER.error(
+                "doProcessFlowResource: Flow is enabled but template does not exist. storagePath={}, sourcePath={}, template={}",
+                storagePath,
+                sourcePath,
+                flowapiTemplate
+            );
             return false;
         }
 
-        LOGGER.error("doProcessFlowResource: Template exists. path={}, template={}", resourcePath, flowapiTemplate);
-
-        boolean hasStoredFlowId = StringUtils.isNotBlank(flowComponent.flowapi_flowstreamid);
+        boolean hasStoredFlowId = StringUtils.isNotBlank(flowapiFlowstreamid);
         boolean flowExists = false;
+
         if (hasStoredFlowId) {
-            LOGGER.error("doProcessFlowResource: Checking if flow exists remotely. path={}, flowstreamid={}", 
-                resourcePath, flowComponent.flowapi_flowstreamid);
             try {
-                flowExists = isFlowExists(flowComponent.flowapi_flowstreamid);
-                LOGGER.error("doProcessFlowResource: Flow existence check result. path={}, flowstreamid={}, exists={}", 
-                    resourcePath, flowComponent.flowapi_flowstreamid, flowExists);
+                flowExists = isFlowExists(flowapiFlowstreamid);
             } catch (Exception exception) {
-                LOGGER.error("doProcessFlowResource: Exception checking flow existence. path={}, flowstreamid={}, error={}", 
-                    resourcePath, flowComponent.flowapi_flowstreamid, exception.getMessage(), exception);
-                flowExists = true; // Assume exists on error to avoid recreation
+                LOGGER.error(
+                    "doProcessFlowResource: Exception checking flow existence. storagePath={}, sourcePath={}, flowstreamid={}, error={}",
+                    storagePath,
+                    sourcePath,
+                    flowapiFlowstreamid,
+                    exception.getMessage(),
+                    exception
+                );
+                flowExists = true; // Avoid accidental recreation if the existence check itself failed.
             }
-        } else {
-            LOGGER.error("doProcessFlowResource: No stored flow ID. Will create new flow. path={}", resourcePath);
         }
 
-        // Path 1: Create new flow if no flow ID exists
         if (!hasStoredFlowId) {
-            LOGGER.error("doProcessFlowResource: Creating new flow from template. path={}, template={}", 
-                resourcePath, flowapiTemplate);
-            String newFlowId = createFlowFromTemplate(flowComponent);
-            if (StringUtils.isNotBlank(newFlowId)) {
-                LOGGER.error("doProcessFlowResource: Flow created successfully. path={}, newFlowId={}", 
-                    resourcePath, newFlowId);
-                Resource updatedResource = resourceResolver.getResource(resourcePath);
-                if (updatedResource != null) {
-                    FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
-                    // Unpause new flow to ensure it's active
-                    boolean unpauseResult = processPauseChange(updatedResource, newFlowId, false);
-                    LOGGER.error("doProcessFlowResource: Unpause after creation. path={}, flowstreamid={}, unpauseResult={}", 
-                        resourcePath, newFlowId, unpauseResult);
-                    // Update design if container
-                    if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
-                        LOGGER.error("doProcessFlowResource: Updating flow design from template. path={}, flowstreamid={}", 
-                            resourcePath, newFlowId);
-                        updateFlowDesignFromTemplate(updatedComponent);
-                    }
-                    setResourceState(updatedResource, STATE_COMPLETED, null);
-                } else {
-                    LOGGER.error("doProcessFlowResource: Could not get updated resource after flow creation. path={}, newFlowId={}", 
-                        resourcePath, newFlowId);
-                    setResourceState(resource, STATE_ERROR, "Could not get updated resource after flow creation");
-                }
-            } else {
-                LOGGER.error("doProcessFlowResource: Failed to create flow from template. path={}, template={}", 
-                    resourcePath, flowapiTemplate);
-                setResourceState(resource, STATE_ERROR, "Failed to create flow from template");
+            LOGGER.info("doProcessFlowResource: No stored Flow ID, creating new flow. storagePath={}, sourcePath={}", storagePath, sourcePath);
+            String newFlowId = createFlowFromTemplate(flowComponent, storageResource, sourceResource);
+            if (StringUtils.isBlank(newFlowId)) {
+                LOGGER.error("doProcessFlowResource: Failed to create flow from template. storagePath={}, sourcePath={}, template={}", storagePath, sourcePath, flowapiTemplate);
+                return false;
+            }
+
+            boolean unpauseResult = processPauseChange(storageResource, newFlowId, false);
+            LOGGER.info("doProcessFlowResource: Unpause after creation. storagePath={}, sourcePath={}, flowstreamid={}, unpauseResult={}", storagePath, sourcePath, newFlowId, unpauseResult);
+
+            Resource refreshedStorageResource = storageResource.getResourceResolver().getResource(storagePath);
+            FlowComponent refreshedStorageComponent = refreshedStorageResource != null ? refreshedStorageResource.adaptTo(FlowComponent.class) : null;
+            if (refreshedStorageComponent != null && refreshedStorageComponent.isContainer() && StringUtils.isNotBlank(refreshedStorageComponent.flowapi_designtemplate)) {
+                updateFlowDesignFromTemplate(refreshedStorageComponent, refreshedStorageResource, sourceResource);
             }
             return true;
         }
 
-        // Path 2: Recreate flow if it doesn't exist remotely
         if (!flowExists) {
-            LOGGER.error("doProcessFlowResource: Flow ID stored but remote flow not found. Recreating. path={}, flowstreamid={}", 
-                resourcePath, flowComponent.flowapi_flowstreamid);
-            String newFlowId = createFlowFromTemplate(flowComponent);
-            if (StringUtils.isNotBlank(newFlowId)) {
-                LOGGER.error("doProcessFlowResource: Flow recreated successfully. path={}, oldFlowId={}, newFlowId={}", 
-                    resourcePath, flowComponent.flowapi_flowstreamid, newFlowId);
-                Resource updatedResource = resourceResolver.getResource(resourcePath);
-                if (updatedResource != null) {
-                    FlowComponent updatedComponent = updatedResource.adaptTo(FlowComponent.class);
-                    // Unpause recreated flow to ensure it's active
-                    boolean unpauseResult = processPauseChange(updatedResource, newFlowId, false);
-                    LOGGER.error("doProcessFlowResource: Unpause after recreation. path={}, flowstreamid={}, unpauseResult={}", 
-                        resourcePath, newFlowId, unpauseResult);
-                    // Update design if container
-                    if (updatedComponent != null && updatedComponent.isContainer() && StringUtils.isNotBlank(updatedComponent.flowapi_designtemplate)) {
-                        updateFlowDesignFromTemplate(updatedComponent);
-                    }
-                    setResourceState(updatedResource, STATE_COMPLETED, null);
-                } else {
-                    setResourceState(resource, STATE_ERROR, "Could not get updated resource after flow recreation");
-                }
-            } else {
-                LOGGER.error("doProcessFlowResource: Failed to recreate flow from template. path={}, template={}", 
-                    resourcePath, flowapiTemplate);
-                setResourceState(resource, STATE_ERROR, "Failed to recreate flow from template");
+            LOGGER.info(
+                "doProcessFlowResource: Stored Flow ID not found remotely, recreating. storagePath={}, sourcePath={}, oldFlowId={}",
+                storagePath,
+                sourcePath,
+                flowapiFlowstreamid
+            );
+            String newFlowId = createFlowFromTemplate(flowComponent, storageResource, sourceResource);
+            if (StringUtils.isBlank(newFlowId)) {
+                LOGGER.error("doProcessFlowResource: Failed to recreate flow from template. storagePath={}, sourcePath={}, template={}", storagePath, sourcePath, flowapiTemplate);
+                return false;
+            }
+
+            boolean unpauseResult = processPauseChange(storageResource, newFlowId, false);
+            LOGGER.info("doProcessFlowResource: Unpause after recreation. storagePath={}, sourcePath={}, flowstreamid={}, unpauseResult={}", storagePath, sourcePath, newFlowId, unpauseResult);
+
+            Resource refreshedStorageResource = storageResource.getResourceResolver().getResource(storagePath);
+            FlowComponent refreshedStorageComponent = refreshedStorageResource != null ? refreshedStorageResource.adaptTo(FlowComponent.class) : null;
+            if (refreshedStorageComponent != null && refreshedStorageComponent.isContainer() && StringUtils.isNotBlank(refreshedStorageComponent.flowapi_designtemplate)) {
+                updateFlowDesignFromTemplate(refreshedStorageComponent, refreshedStorageResource, sourceResource);
             }
             return true;
         }
 
-        // Path 3: Check if metadata has changed (flow exists locally and remotely)
-        LOGGER.error("doProcessFlowResource: Checking metadata changes. path={}, flowstreamid={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid);
-        boolean metadataChanged = hasMetadataChanged(flowComponent, flowComponent.flowapi_flowstreamid);
-        LOGGER.error("doProcessFlowResource: Metadata change check result. path={}, flowstreamid={}, metadataChanged={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid, metadataChanged);
-        
-        // Path 3a: Skip if no metadata changes
+        boolean metadataChanged = hasMetadataChanged(flowComponent, flowapiFlowstreamid, sourceResource);
         if (!metadataChanged) {
-            LOGGER.error("doProcessFlowResource: No metadata changes detected, skipping update. path={}, flowstreamid={}", 
-                resourcePath, flowComponent.flowapi_flowstreamid);
-            setResourceState(resource, STATE_SKIPPED, "No metadata changes detected");
+            LOGGER.info(
+                "doProcessFlowResource: No metadata changes detected, skipping Flow update. storagePath={}, sourcePath={}, flowstreamid={}",
+                storagePath,
+                sourcePath,
+                flowapiFlowstreamid
+            );
             return true;
         }
 
-        // Path 3b: Update flow if metadata changed
-        LOGGER.error("doProcessFlowResource: Metadata changes detected, updating flow. path={}, flowstreamid={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid);
-        updateFlowFromTemplate(flowComponent);
-        FlowComponent refreshedComponent = resourceResolver.getResource(resourcePath).adaptTo(FlowComponent.class);
-        // Update design if container
-        if (refreshedComponent != null && refreshedComponent.isContainer() && StringUtils.isNotBlank(refreshedComponent.flowapi_designtemplate)) {
-            LOGGER.error("doProcessFlowResource: Updating flow design after metadata update. path={}, flowstreamid={}", 
-                resourcePath, flowComponent.flowapi_flowstreamid);
-            updateFlowDesignFromTemplate(refreshedComponent);
+        LOGGER.info(
+            "doProcessFlowResource: Metadata changes detected, updating Flow. storagePath={}, sourcePath={}, flowstreamid={}",
+            storagePath,
+            sourcePath,
+            flowapiFlowstreamid
+        );
+
+        updateFlowFromTemplate(flowComponent, storageResource, sourceResource);
+
+        Resource refreshedStorageResource = storageResource.getResourceResolver().getResource(storagePath);
+        FlowComponent refreshedStorageComponent = refreshedStorageResource != null ? refreshedStorageResource.adaptTo(FlowComponent.class) : null;
+        if (refreshedStorageComponent != null && refreshedStorageComponent.isContainer() && StringUtils.isNotBlank(refreshedStorageComponent.flowapi_designtemplate)) {
+            updateFlowDesignFromTemplate(refreshedStorageComponent, refreshedStorageResource, sourceResource);
         }
-        // Unpause updated flow to ensure it's active
-        boolean unpauseResult = processPauseChange(resource, flowComponent.flowapi_flowstreamid, false);
-        LOGGER.error("doProcessFlowResource: Unpause after update. path={}, flowstreamid={}, unpauseResult={}", 
-            resourcePath, flowComponent.flowapi_flowstreamid, unpauseResult);
-        
-        setResourceState(resource, STATE_COMPLETED, null);
-        return true; // pass ok to running job     
+
+        boolean unpauseResult = processPauseChange(storageResource, flowapiFlowstreamid, false);
+        LOGGER.info("doProcessFlowResource: Unpause after update. storagePath={}, sourcePath={}, flowstreamid={}, unpauseResult={}", storagePath, sourcePath, flowapiFlowstreamid, unpauseResult);
+
+        return true;
     }
+
 
     protected HttpResponse<String> executeFlowPauseRequest(HttpRequest request) throws IOException, InterruptedException {
         return sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
@@ -589,6 +622,10 @@ public class FlowService {
      * @return true if metadata has changed, false if it's the same
      */
     private boolean hasMetadataChanged(@NotNull FlowComponent flowComponent, String flowstreamid) {
+        return hasMetadataChanged(flowComponent, flowstreamid, flowComponent.resource);
+    }
+
+    private boolean hasMetadataChanged(@NotNull FlowComponent flowComponent, String flowstreamid, Resource sourceResource) {
         if (StringUtils.isBlank(flowstreamid)) {
             LOGGER.error("Cannot check metadata changes: flowstreamid is blank");
             return true; // Assume changed if we can't check
@@ -631,9 +668,10 @@ public class FlowService {
             String flowVersion = flowData.has(PROPERTY_VERSION) ? flowData.get(PROPERTY_VERSION).asText() : null;
             String flowReadme = flowData.has(PROPERTY_README) ? flowData.get(PROPERTY_README).asText() : null;
 
-            // Get local metadata
-            String httpRoutePath = compileHttpRoutePath(flowComponent.path);
-            Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
+            // Get local metadata. Use the authored /content resource for route/context, not the /var storage resource.
+            Resource sourceContextResource = sourceResource != null ? sourceResource : flowComponent.resource;
+            String httpRoutePath = compileHttpRoutePath(sourceContextResource.getPath());
+            Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(sourceContextResource, RESOURCE_TYPE);
             String flowGroupLocal = httpRoutePath;
             if (currentFlowContainerResource != null) {
                 String parentFlowstreamuid = currentFlowContainerResource.getValueMap().get(PROPERTY_FLOWSTREAMID, "");
@@ -748,13 +786,27 @@ public class FlowService {
             LOGGER.info("flowstream response: {}", response);
 
             String responseAsString = response.body();
+            int statusCode = response.statusCode();
 
             if (StringUtils.isNotBlank(responseAsString)) {
+                if (statusCode < 200 || statusCode >= 300) {
+                    LOGGER.error("flowstream could not create new flow. status={}, body={}", statusCode, responseAsString);
+                    flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
+                    return flowResponse;
+                }
+
+                String trimmedResponse = responseAsString.trim();
+                if (!trimmedResponse.startsWith("{") && !trimmedResponse.startsWith("[")) {
+                    LOGGER.error("flowstream returned non-JSON response. status={}, body={}", statusCode, responseAsString);
+                    flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
+                    return flowResponse;
+                }
+
                 // convert response to json
                 ObjectMapper mapper = new ObjectMapper();
-                JsonNode json = mapper.readTree(responseAsString);
-                if (response.statusCode() != 200) {
-                    LOGGER.error("flowstream could not create new flow: {}", responseAsString);
+                JsonNode json = mapper.readTree(trimmedResponse);
+                if (!json.has("value") || json.get("value").isNull()) {
+                    LOGGER.error("flowstream response did not contain a value field. status={}, body={}", statusCode, responseAsString);
                     flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
                     return flowResponse;
                 }
@@ -882,8 +934,9 @@ public class FlowService {
             
             // send request
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            int statusCode = response.statusCode();
 
-            if (response.statusCode() != 200) {
+            if (statusCode != 200) {
                 LOGGER.error("flowstream could not update flow: {}", response.body());
                 flowResponse.put(prop(PROPERTY_ERROR), "flow does not exist.");
                 return flowResponse;
@@ -894,14 +947,16 @@ public class FlowService {
             String responseAsString = response.body();
 
             if (StringUtils.isNotBlank(responseAsString)) {
-                // convert response to json
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode json = mapper.readTree(responseAsString);
-                if (response.statusCode() != 200) {
-                    LOGGER.error("flowstream could not update flow: {}", responseAsString);
+                String trimmedResponse = responseAsString.trim();
+                if (!trimmedResponse.startsWith("{") && !trimmedResponse.startsWith("[")) {
+                    LOGGER.error("flowstream returned non-JSON update response. status={}, body={}", statusCode, responseAsString);
                     flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
                     return flowResponse;
                 }
+
+                // convert response to json
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode json = mapper.readTree(trimmedResponse);
 
                 String flowapi_editurl = compileEditUrl(flowstreamid);
                 flowResponse.put(prop(PROPERTY_EDITURL), flowapi_editurl);
@@ -956,12 +1011,21 @@ public class FlowService {
             flowResponse.put(prop(PROPERTY_RESPONSE), responseAsString);
 
             if (StringUtils.isNotBlank(responseAsString)) {
+                String trimmedResponse = responseAsString.trim();
+                if (!trimmedResponse.startsWith("{") && !trimmedResponse.startsWith("[")) {
+                    LOGGER.error("flowstream returned non-JSON design save response. body={}", responseAsString);
+                    flowResponse.put(prop(PROPERTY_ERROR), responseAsString);
+                    return flowResponse;
+                }
+
                 // convert response to json
                 ObjectMapper mapper = new ObjectMapper();
-                JsonNode json = mapper.readTree(responseAsString);
+                JsonNode json = mapper.readTree(trimmedResponse);
 
-                if (json != null) {
+                if (json != null && json.has("wserror")) {
                     flowResponse.put(prop(PROPERTY_ERROR), json.get("wserror").asText());
+                } else if (json != null) {
+                    flowResponse.put(prop(PROPERTY_ERROR), "");
                 } else {
                     flowResponse.put(prop(PROPERTY_ERROR), "could not parse response");
                 }
@@ -1153,6 +1217,13 @@ public class FlowService {
      * @param isContainer if true then create a flow container
      */
     public String createFlowFromTemplate(@NotNull FlowComponent flowComponent) {
+        return createFlowFromTemplate(flowComponent, flowComponent.resource, flowComponent.resource);
+    }
+
+    public String createFlowFromTemplate(
+            @NotNull FlowComponent flowComponent,
+            @NotNull Resource storageResource,
+            @NotNull Resource sourceResource) {
         String templatePath = flowComponent.flowapi_template;
         String title = compileFlowTitle(flowComponent.flowapi_title,flowComponent.componentTitle);
         String flowTopic = flowComponent.flowapi_topic;
@@ -1169,7 +1240,7 @@ public class FlowService {
         }
 
         String componentSampleData = getComponentSampleJson(sampleDataPath, flowComponent.resourceResolver);
-        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // client-facing route path and default Flow group/category seed derived from the authored component path
+        String httpRoutePath = compileHttpRoutePath(sourceResource.getPath()); // client-facing route path and default Flow group/category seed derived from the authored component path
         String designTemplateString = getResourceInputStreamAsString(templatePath, flowComponent.resourceResolver);
 
         // setup a list of replace strings, as this is new flowId, flowStreamId and childPathId will be blank
@@ -1186,7 +1257,7 @@ public class FlowService {
             return "";
         }
 
-        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(flowComponent.resource, RESOURCE_TYPE);
+        Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(sourceResource, RESOURCE_TYPE);
 
         String flowGroup = httpRoutePath; // default Flow group/category for this page unless the author overrides flowapi_group
         if (currentFlowContainerResource != null) {
@@ -1254,12 +1325,15 @@ public class FlowService {
 
         LOGGER.info("flowstreamdata: {}", response);
 
-        // update component with response
-        LOGGER.error("FlowService.createFlowFromTemplate: Updating resource properties. path={}, props={}", 
-            flowComponent.resource != null ? flowComponent.resource.getPath() : "null", response);
-        PageUtil.updatResourceProperties(flowComponent.resource, response, true);
-        LOGGER.error("FlowService.createFlowFromTemplate: Updated resource properties. path={}", 
-            flowComponent.resource != null ? flowComponent.resource.getPath() : "null");
+        // Persist Flow API response to the storage resource (/var during sync jobs), not the authored /content resource.
+        LOGGER.info("FlowService.createFlowFromTemplate: Updating storage resource properties. storagePath={}, sourcePath={}, props={}", 
+            storageResource != null ? storageResource.getPath() : "null",
+            sourceResource != null ? sourceResource.getPath() : "null",
+            response);
+        PageUtil.updatResourceProperties(storageResource, response, true);
+        LOGGER.info("FlowService.createFlowFromTemplate: Updated storage resource properties. storagePath={}, sourcePath={}", 
+            storageResource != null ? storageResource.getPath() : "null",
+            sourceResource != null ? sourceResource.getPath() : "null");
 
         //return flowstreamid
         return responseFlowId;
@@ -1274,8 +1348,15 @@ public class FlowService {
      * @param flowstreamid flowstream id to update
      */
     public void updateFlowFromTemplate(@NotNull FlowComponent flowComponent) {
+        updateFlowFromTemplate(flowComponent, flowComponent.resource, flowComponent.resource);
+    }
 
-        Resource componentResource = flowComponent.resource;
+    public void updateFlowFromTemplate(
+            @NotNull FlowComponent flowComponent,
+            @NotNull Resource storageResource,
+            @NotNull Resource sourceResource) {
+
+        Resource componentResource = sourceResource;
         String newTitle = compileFlowTitle(flowComponent.title, flowComponent.componentTitle);
         String flowstreamid = flowComponent.flowapi_flowstreamid;
         
@@ -1292,7 +1373,7 @@ public class FlowService {
             return;
         }
 
-        String httpRoutePath = compileHttpRoutePath(flowComponent.path); // client-facing route path and default Flow group/category seed derived from the authored component path
+        String httpRoutePath = compileHttpRoutePath(sourceResource.getPath()); // client-facing route path and default Flow group/category seed derived from the authored component path
         Resource currentFlowContainerResource = PageUtil.getResourceParentByResourceType(componentResource, RESOURCE_TYPE);
         
         String flowGroup = httpRoutePath; // default Flow group/category for this page unless the author overrides flowapi_group
@@ -1336,13 +1417,15 @@ public class FlowService {
 
         LOGGER.info("flowstreamdata: {}", response);
 
-        // go through response object and remove all null value
-        // update component with response
-        LOGGER.error("FlowService.updateFlowFromTemplate: Updating resource properties. path={}, props={}", 
-            componentResource != null ? componentResource.getPath() : "null", response);
-        PageUtil.updatResourceProperties(componentResource, response, true);
-        LOGGER.error("FlowService.updateFlowFromTemplate: Updated resource properties. path={}", 
-            componentResource != null ? componentResource.getPath() : "null");
+        // Persist Flow API response to the storage resource (/var during sync jobs), not the authored /content resource.
+        LOGGER.info("FlowService.updateFlowFromTemplate: Updating storage resource properties. storagePath={}, sourcePath={}, props={}", 
+            storageResource != null ? storageResource.getPath() : "null",
+            sourceResource != null ? sourceResource.getPath() : "null",
+            response);
+        PageUtil.updatResourceProperties(storageResource, response, true);
+        LOGGER.info("FlowService.updateFlowFromTemplate: Updated storage resource properties. storagePath={}, sourcePath={}", 
+            storageResource != null ? storageResource.getPath() : "null",
+            sourceResource != null ? sourceResource.getPath() : "null");
     }
 
     private ObjectNode loadExportOrTemplate(@NotNull FlowComponent flowComponent, ResourceResolver resourceResolver) {
@@ -1459,8 +1542,16 @@ public class FlowService {
      * @param isContainer if true then create a flow container
      */
     public void updateFlowDesignFromTemplate(@NotNull FlowComponent flowComponent) {
+        updateFlowDesignFromTemplate(flowComponent, flowComponent.resource, flowComponent.resource);
+    }
+
+    public void updateFlowDesignFromTemplate(
+            @NotNull FlowComponent flowComponent,
+            @NotNull Resource storageResource,
+            @NotNull Resource sourceResource) {
         String designTemplate = flowComponent.flowapi_designtemplate;
-        Resource componentResource = flowComponent.resource;
+        Resource componentResource = storageResource;
+        Resource sourceContextResource = sourceResource != null ? sourceResource : storageResource;
         String flowstreamid = flowComponent.flowapi_flowstreamid;
         String sampleDataPath = flowComponent.flowapi_sampledata;
         String newTitle = flowComponent.title;
@@ -1600,7 +1691,7 @@ public class FlowService {
 
                     // get path to child flow relative to parent
                     String childPathId = formatResourcePathToId(flowResource.getPath().replace(parentPath, ""));
-                    String httpRoutePath = compileHttpRoutePath(flowComponent.path); // will be used as endpoint for incoming HTTP request
+                    String httpRoutePath = compileHttpRoutePath(sourceContextResource.getPath()); // will be used as endpoint for incoming HTTP request
                     String componentSampleData = getComponentSampleJson(sampleDataPath, resourceResolver);
 
                     // setup a list of replace strings

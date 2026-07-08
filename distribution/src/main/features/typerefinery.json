@@ -84,6 +84,18 @@
       "login.page": "/apps/websight-authentication/login.html",
       "cookie.name": "websight.auth",
       "cookie.samesite": "none"
+    },
+    "org.apache.sling.event.jobs.QueueConfiguration~typerefinery-flow-sync": {
+      "queue.name": "Typerefinery Flow Sync Queue",
+      "queue.topics": [
+        "io/typerefinery/websight/flow/sync"
+      ],
+      "queue.type": "ORDERED",
+      "queue.maxparallel:Integer": 1,
+      "queue.retries:Integer": 3,
+      "queue.retrydelay:Long": 5000,
+      "queue.priority": "NORM",
+      "service.ranking:Integer": 10000
     }
   }
 }

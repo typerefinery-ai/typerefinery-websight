@@ -35,6 +35,24 @@ import ai.typerefinery.websight.services.ContentAccess;
 public class FlowSyncStorageService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowSyncStorageService.class);
+
+    private static final String[] FLOW_MANAGED_PROPS = {
+        FlowService.prop(FlowService.PROPERTY_FLOWSTREAMID),
+        FlowService.prop(FlowService.PROPERTY_CREATEDON),
+        FlowService.prop(FlowService.PROPERTY_UPDATEDON),
+        FlowService.prop(FlowService.PROPERTY_PAUSED),
+        FlowService.prop(FlowService.PROPERTY_EDITURL),
+        FlowService.prop(FlowService.PROPERTY_HTTPROUTE),
+        FlowService.prop(FlowService.PROPERTY_HTTPROUTE_NOSFX),
+        FlowService.prop(FlowService.PROPERTY_WEBSOCKETURL),
+        FlowService.prop(FlowService.PROPERTY_TOPIC),
+        FlowService.prop(FlowService.PROPERTY_SUCCESS),
+        FlowService.prop(FlowService.PROPERTY_ERROR),
+        FlowService.prop(FlowService.PROPERTY_PROCESSING_STATE),
+        FlowService.prop(FlowService.PROPERTY_PROCESSING_STATE_TIMESTAMP),
+        FlowService.prop(FlowService.PROPERTY_PROCESSING_ERROR),
+        FlowService.prop(FlowService.PROPERTY_PROCESSING_JOB_ID)
+    };
     
     /**
      * Base path for Flow service data in /var
@@ -192,6 +210,7 @@ public class FlowSyncStorageService {
         try {
             ValueMap componentProps = componentResource.getValueMap();
             ModifiableValueMap varProps = varResource.adaptTo(ModifiableValueMap.class);
+            ModifiableValueMap componentModifiableProps = componentResource.adaptTo(ModifiableValueMap.class);
             
             if (varProps == null) {
                 LOGGER.error("FlowSyncStorageService.syncComponentToVar: Cannot adapt var resource to ModifiableValueMap. path={}", 
@@ -225,16 +244,31 @@ public class FlowSyncStorageService {
                     propsToSync.put(propName, value);
                 }
             }
+
+            // The /var node must adapt to the same Sling Model as the original component.
+            // Without this, FlowService cannot process /var as the storage resource.
+            Object resourceType = componentProps.get("sling:resourceType");
+            if (resourceType != null) {
+                propsToSync.put("sling:resourceType", resourceType);
+            }
+
+            Object resourceTitle = componentProps.get("jcr:title");
+            if (resourceTitle != null) {
+                propsToSync.put("jcr:title", resourceTitle);
+            }
             
             // Update var resource properties
             for (Map.Entry<String, Object> entry : propsToSync.entrySet()) {
                 varProps.put(entry.getKey(), entry.getValue());
             }
+
+            int migratedManagedProps = migrateFlowManagedProps(componentProps, varProps);
+            int removedManagedProps = removeFlowManagedPropsFromComponent(componentModifiableProps);
             
             resolver.commit();
             
-            LOGGER.info("FlowSyncStorageService.syncComponentToVar: Synced {} properties from component to var. componentPath={}, varPath={}", 
-                propsToSync.size(), componentPath, varResource.getPath());
+            LOGGER.info("FlowSyncStorageService.syncComponentToVar: Synced {} properties from component to var. migratedManagedProps={}, removedManagedProps={}, componentPath={}, varPath={}", 
+                propsToSync.size(), migratedManagedProps, removedManagedProps, componentPath, varResource.getPath());
             
             return true;
         } catch (PersistenceException e) {
@@ -242,6 +276,34 @@ public class FlowSyncStorageService {
                 componentPath, e);
             return false;
         }
+    }
+
+    private int migrateFlowManagedProps(ValueMap componentProps, ModifiableValueMap varProps) {
+        int migrated = 0;
+        for (String propName : FLOW_MANAGED_PROPS) {
+            Object componentValue = componentProps.get(propName);
+            Object varValue = varProps.get(propName);
+            if (componentValue != null && varValue == null) {
+                varProps.put(propName, componentValue);
+                migrated++;
+            }
+        }
+        return migrated;
+    }
+
+    private int removeFlowManagedPropsFromComponent(ModifiableValueMap componentProps) {
+        if (componentProps == null) {
+            return 0;
+        }
+
+        int removed = 0;
+        for (String propName : FLOW_MANAGED_PROPS) {
+            if (componentProps.containsKey(propName)) {
+                componentProps.remove(propName);
+                removed++;
+            }
+        }
+        return removed;
     }
     
     /**
@@ -289,10 +351,9 @@ public class FlowSyncStorageService {
         LOGGER.info("FlowSyncStorageService.syncVarToFlow: Syncing var resource to Flow API. varPath={}, componentPath={}, changeType={}",
             varResource.getPath(), componentPath, changeType);
         
-        // Call FlowService.doProcessFlowResource with the original component resource so route generation
-        // and default Flow group/category resolution always use the authored /content path rather than
-        // the /var mirror path.
-        boolean result = flowService.doProcessFlowResource(componentResource, changeType);
+        // Use /var as storage and the original component as the source context so route generation
+        // and default Flow group/category resolution use the authored /content path.
+        boolean result = flowService.doProcessFlowResource(varResource, componentResource, changeType);
         
         if (result) {
             LOGGER.info("FlowSyncStorageService.syncVarToFlow: Successfully synced var resource to Flow API. varPath={}, componentPath={}",

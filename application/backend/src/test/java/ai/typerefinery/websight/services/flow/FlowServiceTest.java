@@ -13,9 +13,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Executor;
+import java.util.concurrent.CompletableFuture;
+import java.time.Duration;
+import java.net.ProxySelector;
+import java.net.CookieHandler;
+import java.net.Authenticator;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSession;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -24,6 +33,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ai.typerefinery.websight.models.components.FlowComponent;
 
 class FlowServiceTest {
+
+    @AfterEach
+    void resetFlowClient() {
+        FlowService.client = null;
+    }
 
     private static class TestableFlowService extends FlowService {
         FlowService.FlowComponentMetadata callResolve(FlowComponent component, String defaultGroup, String defaultName) {
@@ -76,6 +90,97 @@ class FlowServiceTest {
                 throw this.interruptedException;
             }
             return this.responseToReturn;
+        }
+    }
+
+    private static class ImportTestFlowService extends FlowService {
+        void initialise(FlowServiceConfiguration configuration) {
+            activate(configuration);
+        }
+    }
+
+    private static class FakeHttpClient extends HttpClient {
+        private HttpRequest capturedRequest;
+        private HttpResponse<String> responseToReturn;
+
+        void setResponse(HttpResponse<String> response) {
+            this.responseToReturn = response;
+        }
+
+        HttpRequest getCapturedRequest() {
+            return this.capturedRequest;
+        }
+
+        @Override
+        public Optional<CookieHandler> cookieHandler() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Duration> connectTimeout() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Redirect followRedirects() {
+            return Redirect.NEVER;
+        }
+
+        @Override
+        public Optional<ProxySelector> proxy() {
+            return Optional.empty();
+        }
+
+        @Override
+        public SSLContext sslContext() {
+            return null;
+        }
+
+        @Override
+        public SSLParameters sslParameters() {
+            return null;
+        }
+
+        @Override
+        public Optional<Authenticator> authenticator() {
+            return Optional.empty();
+        }
+
+        @Override
+        public Version version() {
+            return Version.HTTP_1_1;
+        }
+
+        @Override
+        public Optional<Executor> executor() {
+            return Optional.empty();
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public <T> HttpResponse<T> send(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler)
+                throws IOException, InterruptedException {
+            this.capturedRequest = request;
+            return (HttpResponse<T>) this.responseToReturn;
+        }
+
+        @Override
+        public <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler) {
+            try {
+                return CompletableFuture.completedFuture(send(request, responseBodyHandler));
+            } catch (IOException | InterruptedException e) {
+                CompletableFuture<HttpResponse<T>> future = new CompletableFuture<>();
+                future.completeExceptionally(e);
+                return future;
+            }
+        }
+
+        @Override
+        public <T> CompletableFuture<HttpResponse<T>> sendAsync(
+                HttpRequest request,
+                HttpResponse.BodyHandler<T> responseBodyHandler,
+                HttpResponse.PushPromiseHandler<T> pushPromiseHandler) {
+            return sendAsync(request, responseBodyHandler);
         }
     }
 
@@ -340,5 +445,62 @@ class FlowServiceTest {
         assertThat(result.getMessage()).contains("network failure");
         assertThat(service.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/flow/pause/flow-987?is=0");
     }
-}
+    @Test
+    void doFlowStreamImportData_handlesNonJsonErrorBodyWithoutThrowing() {
+        ImportTestFlowService service = new ImportTestFlowService();
+        service.initialise(new TestFlowConfiguration());
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8000/flow/import"))
+            .POST(HttpRequest.BodyPublishers.ofString("{}"))
+            .build();
+        FakeHttpClient fakeClient = new FakeHttpClient();
+        fakeClient.setResponse(new TestHttpResponse(500, "Internal Server Error", request));
+        FlowService.client = fakeClient;
 
+        HashMap<String, Object> result = service.doFlowStreamImportData("{}");
+
+        assertThat(fakeClient.getCapturedRequest()).isNotNull();
+        assertThat(fakeClient.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/flow/import");
+        assertThat(result).containsEntry(FlowService.prop(FlowService.PROPERTY_ERROR), "Internal Server Error");
+        assertThat(result).doesNotContainKey(FlowService.prop(FlowService.PROPERTY_FLOWSTREAMID));
+    }
+
+    @Test
+    void doFlowStreamImportData_parsesSuccessfulJsonResponse() {
+        ImportTestFlowService service = new ImportTestFlowService();
+        service.initialise(new TestFlowConfiguration());
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:8000/flow/import"))
+            .POST(HttpRequest.BodyPublishers.ofString("{}"))
+            .build();
+        FakeHttpClient fakeClient = new FakeHttpClient();
+        fakeClient.setResponse(new TestHttpResponse(200, "{\"success\":true,\"value\":\"flow-123\",\"error\":\"\"}", request));
+        FlowService.client = fakeClient;
+
+        HashMap<String, Object> result = service.doFlowStreamImportData("{}");
+
+        assertThat(fakeClient.getCapturedRequest()).isNotNull();
+        assertThat(fakeClient.getCapturedRequest().uri().toString()).isEqualTo("http://localhost:8000/flow/import");
+        assertThat(result)
+            .containsEntry(FlowService.prop(FlowService.PROPERTY_FLOWSTREAMID), "flow-123")
+            .containsEntry(FlowService.prop(FlowService.PROPERTY_SUCCESS), "true")
+            .containsEntry(FlowService.prop(FlowService.PROPERTY_ERROR), "");
+        assertThat(result.get(FlowService.prop(FlowService.PROPERTY_EDITURL))).asString().contains("flow-123");
+    }
+
+    @Test
+    void getFlowStreamDesignSaveAPIURL_usesDesignEndpointWhenConfigurationContainsStreamSaveEndpoint() {
+        ImportTestFlowService service = new ImportTestFlowService();
+        service.initialise(new TestFlowConfiguration() {
+            @Override
+            public String endpoint_design_save() {
+                return FlowService.FlowServiceConfiguration.FLOW_ENDPOINT_STREAMS_SAVE;
+            }
+        });
+
+        String result = service.getFlowStreamDesignSaveAPIURL("flow-123");
+
+        assertThat(result).isEqualTo("http://localhost:8000/flow/flow-123/design/save");
+    }
+
+}

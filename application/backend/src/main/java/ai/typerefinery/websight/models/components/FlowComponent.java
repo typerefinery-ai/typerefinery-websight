@@ -251,15 +251,15 @@ public class FlowComponent extends BaseComponent {
     }
 
     /**
-     * if flow is enabled but it does not exist then create it
+     * Flow creation is handled asynchronously by FlowSyncJobConsumer.
+     *
+     * Sling Models can be adapted multiple times during rendering/editor/export requests, so this
+     * method must not call the Flow API or persist Flow-managed state.
      */
     public void ensureFlowExists() {
-        if (this.flowapi_enable) {        
-            boolean isFlowExists = this.flowService.isFlowExists(this.flowapi_flowstreamid);
-            if (!isFlowExists) {
-                LOG.info("flow does not exist, creating it: {}", this.flowapi_flowstreamid);
-                this.flowService.createFlowFromTemplate(this);                
-            }
+        if (Boolean.TRUE.equals(this.flowapi_enable) && this.flowapi_flowstreamid == null) {
+            LOG.debug("Flow is enabled and no flow id is stored yet. Creation is handled by the Flow sync job. path={}",
+                this.resource != null ? this.resource.getPath() : "null");
         }
     }
 
