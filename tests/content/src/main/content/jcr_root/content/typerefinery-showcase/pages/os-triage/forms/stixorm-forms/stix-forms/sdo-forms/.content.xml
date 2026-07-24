@@ -20,10 +20,10 @@
             sling:resourceType="typerefinery/components/layout/rootcontainer"
             decorationTagName="main"/>
     </jcr:content>
-    <identity/>
-    <task/>
-    <observed-data/>
-    <indicator/>
-    <event/>
-    <sequence/>
+    <identity-forms/>
+    <task-forms/>
+    <observed-data-forms/>
+    <indicator-forms/>
+    <event-forms/>
+    <sequence-forms/>
 </jcr:root>
