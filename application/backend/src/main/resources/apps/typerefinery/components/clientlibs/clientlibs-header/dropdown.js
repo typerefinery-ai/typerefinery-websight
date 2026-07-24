@@ -50,7 +50,10 @@ Typerefinery.Modal = Typerefinery.Modal || {};
           
         }
         
-        $component.add($newDropdownContainer);
+        // .after(), not .add(): jQuery add() only builds a new collection and never touches
+        // the DOM, so the menu was never attached and the dropdown opened nothing. Bootstrap
+        // resolves the menu as the toggle's next sibling.
+        $component.after($newDropdownContainer);
 
         console.groupEnd();
 
@@ -68,13 +71,15 @@ Typerefinery.Modal = Typerefinery.Modal || {};
                 showFooter = true;
             }
             if(action === "modal") {
-                let $component = $(e.target);
+                // Anchor the modal on <body>, not on the clicked item: a modal appended
+                // inside the dropdown menu collapses to 0x0 as soon as the menu closes
+                // (display:none ancestor), leaving only the backdrop visible.
                 let options = {
-                  modalTitle: label || name, 
-                  iframeURL: link, 
+                  modalTitle: label || name,
+                  iframeURL: link,
                   hideFooter: hideFooter
                 };
-                modalNs.createModalAndOpen($component, options);
+                modalNs.createModalAndOpen($("body"), options);
             }
             else if(action === "navigate") {
                 // navigate to the link.
