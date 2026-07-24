@@ -19,6 +19,13 @@ public class ActionButton extends BaseFormComponent{
 
     @Inject
     public String actionButtonModalContentURL;
+
+    // Optional pre-navigation action: the widget POSTs the row object here and only follows
+    // actionButtonNavigateToPath on success (alpha-launch docs/decisions/0002). Served verbatim -
+    // this is a service URL, not a content link, so no LinkUtil handling.
+    @Getter
+    @Inject
+    public String actionButtonPostUrl;
     
 
     @Getter
