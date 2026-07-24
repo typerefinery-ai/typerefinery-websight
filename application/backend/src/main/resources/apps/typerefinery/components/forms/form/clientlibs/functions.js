@@ -306,7 +306,12 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
     // json form post
     ns.jsonRequest = async (url, componentConfig, payload, $component) => {
-        const { writePayloadType, writeMethod } = componentConfig;
+        // Default here as well as in formSubmitHandler: reading the raw config meant an unset
+        // writePayloadType fell through to ns.submit's urlencoded default while the body was
+        // JSON.stringify'd - the flow route then failed to parse the body and forms arrived
+        // empty server-side (alpha-launch docs/issues/0005).
+        const writePayloadType = componentConfig.writePayloadType || "application/json";
+        const writeMethod = componentConfig.writeMethod || "POST";
         ns.FORM_SUBMIT($component, componentConfig, payload);
         await ns.submit($component, componentConfig, url, writeMethod, writePayloadType, JSON.stringify(payload), ns.FORM_SUCCESS, ns.FORM_ERROR);
     };

@@ -140,7 +140,9 @@
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceType="typerefinery/components/forms/fields/radio"
                                     id="field_IERNHYTLS"
-                                    title="Field"/>
+                                    name="severity"
+                                    title="Field"
+                                    value="low"/>
                             </radio>
                         </container>
                         <container_1
