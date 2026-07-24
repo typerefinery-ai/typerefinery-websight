@@ -32,6 +32,7 @@
                     sling:resourceType="typerefinery/components/forms/form"
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
+                    flowapi_title="Create Incident Form"
                     id="form_YEMAERK4R">
                     <input
                         jcr:primaryType="nt:unstructured"
