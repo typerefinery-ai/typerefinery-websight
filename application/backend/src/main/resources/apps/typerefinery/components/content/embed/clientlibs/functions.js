@@ -145,6 +145,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             return;
         }
 
+        // Label the message with the action being sent.
+        // A reply is built by spreading the widget's own inbound event
+        // (`{ ...eventData, data: responseJson }`), so without this it still carries the
+        // request's action - DATA_REQUEST - and the widget never recognises it as the
+        // DATA_PAYLOAD response. It keeps waiting and times out with "Parent application
+        // is taking longer than expected to respond or may not support this event type",
+        // even though the fetched data is sitting in the message.
+        if (action) {
+            parsedEventData = { ...parsedEventData, action: action };
+        }
+
         // console.log(["sendMessageToiFrame", data]);
         var $iframe = $component.find("iframe");
         var iframe = $iframe[0];
