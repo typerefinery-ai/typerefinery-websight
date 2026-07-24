@@ -33,7 +33,7 @@
     <jackson.version>2.14.1</jackson.version>
     <commonmark.version>0.20.0</commonmark.version>
     <jgit.version>6.5.0.202303070854-r</jgit.version>
-    <slf4j.version>2.0.7</slf4j.version>
+    <slf4j.version>1.7.36</slf4j.version> <!-- must match the container (Sling Commons Log wires slf4j-api 1.7.36); see docs/issues/0020 -->
     <log4j.version>2.20.0</log4j.version>
     <JavaEWAH.version>1.2.3</JavaEWAH.version>
   </properties>
@@ -241,10 +241,6 @@
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-    </dependency>
 
     <!-- add dependency to google gson -->
     <dependency>
@@ -408,7 +404,7 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
-        <scope>compile</scope>
+        <scope>provided</scope> <!-- container-provided; never embed (docs/issues/0020) -->
     </dependency>
     <dependency>
       <groupId>org.apache.sling</groupId>

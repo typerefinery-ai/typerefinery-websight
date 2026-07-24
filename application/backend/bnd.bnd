@@ -7,8 +7,13 @@ lib/jackson-annotations-${jackson.version}.jar=jackson-annotations-${jackson.ver
 lib/commonmark-${commonmark.version}.jar=commonmark-${commonmark.version}.jar;lib:=true,\
 lib/jgit-${jgit.version}.jar=org.eclipse.jgit-${jgit.version}.jar;lib:=true,\
 lib/jgit-lfs-${jgit.version}.jar=org.eclipse.jgit.lfs-${jgit.version}.jar;lib:=true,\
-lib/slf4j-api-${slf4j.version}.jar=slf4j-api-${slf4j.version}.jar;lib:=true,\
 lib/JavaEWAH-${JavaEWAH.version}.jar=JavaEWAH-${JavaEWAH.version}.jar;lib:=true
+# slf4j-api is deliberately NOT embedded. Embedding it (presumably brought in alongside jgit's
+# dependencies) put a private SLF4J API on the Bundle-ClassPath with no provider bound to it, so
+# every LoggerFactory.getLogger(...) in this bundle was a silent no-op - nothing this application
+# logged ever reached Sling's log files (logs/typerefinery.log sat at 0 bytes). org.slf4j must be
+# imported from the container, where Apache Sling Commons Log provides the wired implementation.
+# The embedded jgit resolves org.slf4j through the same import. See alpha-launch docs/issues/0020.
 Export-Package: sun.net.www.protocol.http,sun.security.jgss
 Embed-Transitive: true
 -fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
