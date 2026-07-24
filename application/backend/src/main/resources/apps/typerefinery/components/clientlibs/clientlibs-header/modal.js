@@ -65,7 +65,7 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ns.modalListeners = new Map();
 
     // Inner HTML for the modal window.
-    ns.getModalInnerHTML = (options) => {
+    ns.getModalInnerHTML = (options = {}) => {
       let modalTitle = options.modalTitle || "";
       let iframeURL = options.iframeURL || "";
       let hideFooter = options.hideFooter || false;

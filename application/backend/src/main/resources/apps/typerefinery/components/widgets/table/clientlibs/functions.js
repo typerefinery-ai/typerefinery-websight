@@ -45,7 +45,10 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         }).join('');
 
 
-        if(hasModalContent){
+        if(hasModalContent && !$component.find('#tableModalContent').length){
+            // Guard: this runs inside a per-row column formatter, so without the length check a
+            // table with N rows appended N modal containers per render and re-wired their
+            // listeners each time. One shared modal per component is the intent (fixed id).
             const newModalDivContainer = document.createElement("div");
             newModalDivContainer.setAttribute("class", "modal fade");
             newModalDivContainer.setAttribute("id", "tableModalContent");
@@ -55,7 +58,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             modalNs.addModalSubmitListener(newModalDivContainer);
             modalNs.addModalMaximiseListener(newModalDivContainer);
             $(newModalDivContainer).on('click', '.closeButtonInModal', function (e) {
-              $component.find("#tableModalContent iframe").setAttribute("src", "");
+              $component.find("#tableModalContent iframe").attr("src", ""); // was setAttribute on a jQuery object - always threw
               $(newModalDivContainer).find("#loader").show();
             });
 
