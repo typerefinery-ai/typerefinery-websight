@@ -1352,7 +1352,9 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         ]);
 
         //listen for global message events that are emited by iframe
-        window.addEventListener("message", function (event) {
+        // Named so the same logic can be replayed over messages that arrived before this
+        // listener was bound - see the early message buffer near the top of this file.
+        const handleIFrameMessage = function (event) {
             console.groupCollapsed(
                 `embed windowListeneriFrameEvent on ${window.location}`
             );
@@ -1373,6 +1375,8 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
             if (event.source == iFrameContentWindow) {
                 //this message is from component iframe
+                // the widget is talking to us, so the readiness nudges can stop
+                ns.iFrameHasResponded.add($component.attr("id"));
                 console.log(["event", event]);
                 var eventData = event.data;
                 var sourceWindow = event.source;
@@ -1406,10 +1410,66 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 );
             }
             console.groupEnd();
-        });
+        };
+
+        window.addEventListener("message", handleIFrameMessage);
+        ns.notifyIFrameReady($component);
 
         console.groupEnd();
     };
+
+    /**
+     * Tell the widget the host page is ready to answer it.
+     *
+     * On a cold load the widget issues its initial data requests before this page can answer
+     * them, and those requests never arrive here at all - the widget is left showing
+     * "Loading ... from parent" until it times out. Replaying buffered messages cannot help,
+     * because there is nothing to replay.
+     *
+     * DATA_REFRESH is the existing "notify iframe to refresh data" action, so sending it once
+     * the listeners are bound prompts the widget to re-issue its requests, which this page
+     * then serves normally. Sent on every iframe load, plus once shortly after binding to
+     * cover an iframe that finished loading before the component initialised.
+     */
+    ns.notifyIFrameReady = function ($component) {
+        const iframe = $component.find("iframe")[0];
+        if (!iframe) {
+            return;
+        }
+
+        const componentId = $component.attr("id");
+
+        const notify = function () {
+            try {
+                ns.sendMessageToiFrame($component, ns.ACTION_DATA_REFRESH, {
+                    action: ns.ACTION_DATA_REFRESH,
+                    type: ns.ACTION_DATA_REFRESH,
+                });
+            } catch (error) {
+                console.error("notifyIFrameReady failed", error);
+            }
+        };
+
+        iframe.addEventListener("load", notify);
+
+        // The iframe may already have loaded before this component initialised, in which case
+        // the load event above never fires for it - and a single nudge can still land before
+        // the widget is listening. Retry on a short backoff until the widget starts talking
+        // to us, then stop. ns.iFrameHasResponded is set by the message handler.
+        const retryDelays = [500, 1500, 3000, 6000, 10000];
+        retryDelays.forEach(function (delay) {
+            setTimeout(function () {
+                if (ns.iFrameHasResponded.has(componentId)) {
+                    return;
+                }
+                console.log(["notifyIFrameReady retry", componentId, delay]);
+                notify();
+            }, delay);
+        });
+    };
+
+    /** Component ids whose iframe has sent us at least one message. */
+    ns.iFrameHasResponded = new Set();
 
     //used for event id
     ns.generateEventControllerId = (componentId, name) => {
