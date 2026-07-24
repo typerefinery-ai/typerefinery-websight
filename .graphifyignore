@@ -1,0 +1,39 @@
+# graphify excludes for typerefinery-websight (Maven / WebSight CMS)
+
+# Build output and dependencies
+target/
+**/target/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+
+# Maven wrapper binaries
+.mvn/wrapper/
+
+# Bundled Node.js runtime (downloaded by frontend build)
+node/
+**/node/
+
+# Generated frontend assets / copied build resources
+application/frontend/assets/
+application/frontend/src/main/resources/
+
+# Lockfiles and generated metadata (huge, no graph value)
+package-lock.json
+
+# Runtime environment data (docker volumes, local instance state)
+environment/local/
+
+# Logs
+logs/
+*.log
+
+# IDE / editor config
+.idea/
+.vscode/
+.cursor/
+
+# graphify's own output
+graphify-out/

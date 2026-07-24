@@ -4,6 +4,20 @@
 
 This project is adapted from WebSight Starter.
 
+## Codebase Lookup with graphify
+
+This repository is indexed as a [graphify](https://github.com/Graphify-Labs/graphify) knowledge graph (stored in `graphify-out/`). Use it to look things up in the codebase instead of searching blindly:
+
+```sh
+graphify query "how does X work?"
+```
+
+Rebuild the graph after significant changes:
+
+```sh
+graphify . --update
+```
+
 ## Development
 
 ### Prerequisites
