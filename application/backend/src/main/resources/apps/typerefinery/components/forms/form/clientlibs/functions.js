@@ -420,6 +420,9 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
               return;
           }
             
+          let populated = 0;
+          const skipped = [];
+
           // step though $formComponents
           for(let i = 0; i < $formComponents.length; i++) {
               const $input = $($formComponents[i]);
@@ -486,13 +489,22 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
                           $input.attr("value", data[name]);
                       }
                   }
+                  populated++;
               } else {
+                skipped.push(name);
                 console.warn(["could not find data for this field", name, data[name]]);
               }
               console.groupEnd();
 
           }
 
+          // Summarise the outcome. A form that renders empty looks identical to one that was
+          // never sent data, so state plainly how many fields the payload actually filled.
+          console.log(
+              `form loadData done: populated ${populated}/${$formComponents.length} fields` +
+              (skipped.length ? `, no data for [${skipped.join(", ")}]` : "") +
+              `, payload keys [${Object.keys(data).join(", ")}]`
+          );
 
           // emit event to notify the form is loaded
           ns.FORM_LOADED($component, componentConfig, data, $component);
@@ -712,6 +724,7 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
       //load data into form if action is FORM_LOAD or EVENT_READ_ACTION
       if (ns.ACTIONS[action] == ns.ACTIONS.FORM_LOAD || action === eventNs.EVENTS.EVENT_READ_ACTION) {
+          console.log(["FORM_LOAD accepted, fields available in data", data ? Object.keys(data) : data]);
           ns.loadData($component, data);
       } else if (ns.ACTIONS[action] == ns.ACTIONS.FORM_SUBMIT || action == eventNs.EVENTS.EVENT_SUBMIT_ACTION) {
           //submit form if action is FORM_SUBMIT or EVENT_SUBMIT_ACTION
@@ -730,8 +743,24 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         //check if this page is in iFrame
         if (window.self === window.top) {
             console.warn("this page is not in iFrame, skipping windowListeneriFrameEvent");
+            console.groupEnd();
             return;
         }
+
+        // Only register once per form component. This listener can be requested from two
+        // places - an authored FORM_LOAD listen event, and the in-iframe fallback in init()
+        // - and registering twice would run loadData twice for every host message.
+        const componentKey = $component.attr("id") || $component.attr("data-component-id");
+        if (componentKey) {
+            ns.iFrameListenerRegistered = ns.iFrameListenerRegistered || {};
+            if (ns.iFrameListenerRegistered[componentKey]) {
+                console.log(`iframe listener already registered for ${componentKey}, skipping`);
+                console.groupEnd();
+                return;
+            }
+            ns.iFrameListenerRegistered[componentKey] = true;
+        }
+        console.log(`registering iframe message listener for form ${componentKey}`);
 
         //declare page parent window to ensure only events from parent window are processed
         var iFrameContentWindow = window.parent;
@@ -779,6 +808,18 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         console.log("adding event listeners");
         ns.addEventListener($component, componentConfig);
         console.log(["ns.eventMap", ns.eventMap]);
+
+        // A form rendered inside an embed iframe is driven by its host page, which posts
+        // FORM_LOAD once the iframe has loaded. Registering the listener used to depend on
+        // the form carrying an authored FORM_LOAD listen event; a form without one silently
+        // ignored the host's message and rendered empty, with nothing logged to say why.
+        // Every stixorm form except relationship-create was in that state, so the opt-in is
+        // treated as a default here and the authored event remains supported (it registers
+        // first, and the guard in windowListeneriFrameEvent keeps this a no-op).
+        if (window.self !== window.top) {
+            console.log(`form ${id} is in an iframe, ensuring host FORM_LOAD listener is registered`);
+            ns.windowListeneriFrameEvent($component);
+        }
 
         if (ns.isDataLoadRequired(componentConfig)) {
           console.log("query string exists, loading data...");
