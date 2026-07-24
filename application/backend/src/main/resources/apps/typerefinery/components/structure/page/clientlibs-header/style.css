@@ -12,6 +12,25 @@ body {
     flex-direction: column;
 }
 
+/* Sidebar pages: the aside component was designed for the original display:table body
+   (display:table-cell, vertical-align:top, width:15%), where it sat beside the content.
+   The 2024 change above to flex-direction:column (381fdd54, "update global html body tag
+   fit") stacked it ABOVE the content instead - a 100vh sidebar pushing every sidebar page
+   ~900px below the fold (alpha-launch docs/issues/0025). Grid restores the intended
+   side-by-side layout without disturbing non-sidebar pages or the authoring editor. */
+body:not(.isEditMode):has(> aside[component="aside"]) {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-content: start;
+}
+body:not(.isEditMode):has(> aside[component="aside"]) > * {
+    grid-column: 2;
+}
+body:not(.isEditMode):has(> aside[component="aside"]) > aside[component="aside"] {
+    grid-column: 1;
+    grid-row: 1 / span 99;
+}
+
 .bg-dark {
     background-color: #4f4f4f !important;
 }
