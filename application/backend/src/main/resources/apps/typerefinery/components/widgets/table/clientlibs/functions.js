@@ -55,11 +55,15 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             newModalDivContainer.innerHTML = modalNs.getModalInnerHTML();
             $component.append(newModalDivContainer);
             // document.body.appendChild(newModalDivContainer);
-            modalNs.addModalSubmitListener(newModalDivContainer);
-            modalNs.addModalMaximiseListener(newModalDivContainer);
-            $(newModalDivContainer).on('click', '.closeButtonInModal', function (e) {
+            // Modal helpers take a jQuery-wrapped element ($modal.on/.find) - passing the raw
+            // DOM node threw "$modal.on is not a function" from inside the row formatter,
+            // aborting bootstrap-table's body render (headers painted, zero rows).
+            const $newModal = $(newModalDivContainer);
+            modalNs.addModalSubmitListener($newModal);
+            modalNs.addModalMaximiseListener($newModal);
+            $newModal.on('click', '.closeButtonInModal', function (e) {
               $component.find("#tableModalContent iframe").attr("src", ""); // was setAttribute on a jQuery object - always threw
-              $(newModalDivContainer).find("#loader").show();
+              $newModal.find("#loader").show();
             });
 
 
