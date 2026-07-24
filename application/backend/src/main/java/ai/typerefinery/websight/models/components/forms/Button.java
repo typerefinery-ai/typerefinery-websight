@@ -46,6 +46,8 @@ import org.apache.sling.models.annotations.Exporter;
 import org.apache.sling.models.annotations.ExporterOption;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Model(adaptables = {
     Resource.class,
@@ -55,6 +57,8 @@ import org.apache.commons.lang3.StringUtils;
     @ExporterOption(name = "SerializationFeature.WRITE_DATES_AS_TIMESTAMPS", value = "true")
 })
 public class Button extends BaseFormComponent {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Button.class);
 
     protected static final String DEFAULT_LABEL = "Click me";
     protected static final String DEFAULT_BUTTON_GRID_CLASS = "mb-3";
@@ -291,6 +295,14 @@ public class Button extends BaseFormComponent {
         props.put(defaultImage, defaultImage);
         props.put(imagePosition, imagePosition);
 
+        // Observability for the dropdown-button path (alpha-launch docs/issues): the front end
+        // reads dropdownItems from the serialized data-model, so log what injection produced
+        // relative to what the JCR holds to expose injection vs serialization failures.
+        if (StringUtils.isNotBlank(actionType) && actionType.equals("openDropdown")) {
+            boolean hasChildNode = resource != null && resource.getChild("dropdownItems") != null;
+            LOGGER.info("Button init id={} actionType={} dropdownItems injected={} jcr child present={}",
+                id, actionType, dropdownItems == null ? "null" : dropdownItems.size(), hasChildNode);
+        }
     }
 
 }
