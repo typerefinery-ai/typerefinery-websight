@@ -535,9 +535,27 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     }
                 }
             } else {
-                // if eventConfig is not an object, use it as is
-                console.log("eventConfig is not an object, using as is", eventConfig);
-                finalConfig = eventConfig;
+                // eventConfig is not a usable config object - typically an opaque id string
+                // sent by the iframe (e.g. "create-force-sro"). It must NOT replace
+                // defaultConfig: that is the authored, trusted config and is usually the only
+                // place the form/endpoint url exists. Overwriting it left OPEN_FORM_MODAL with
+                // no url to read and it threw, so the modal silently never opened.
+                const hasUsableDefault = defaultConfig
+                    && typeof defaultConfig === 'object'
+                    && Object.keys(defaultConfig).length > 0;
+
+                if (hasUsableDefault) {
+                    console.warn(
+                        `eventConfig is not a config object (${typeof eventConfig}: ${JSON.stringify(eventConfig)}), ` +
+                        "keeping the trusted default config", defaultConfig
+                    );
+                    finalConfig = defaultConfig;
+                } else {
+                    // no usable default to protect - preserve the previous behaviour, which
+                    // supports a bare url string being passed as the config
+                    console.log("eventConfig is not an object and there is no usable default, using as is", eventConfig);
+                    finalConfig = eventConfig;
+                }
             }
         } else {
             console.warn("event, defaultConfig or eventConfig is not set");

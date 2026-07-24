@@ -279,7 +279,21 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         ]);
         //open modal
         //check if config has source or config.config.source then get is value
-        let formUrl = componentConfig.url || componentConfig.config.url;
+        // Guarded: componentConfig here is the *merged* event config, which can arrive as a
+        // string or without a nested config. Reading .config.url blindly threw a TypeError
+        // that aborted the handler, so the modal never opened and nothing said why.
+        let formUrl = componentConfig && (componentConfig.url || (componentConfig.config && componentConfig.config.url));
+
+        if (!formUrl) {
+            console.error(
+                "OPEN_FORM_MODAL has no url to open. Merged event config was " +
+                `${typeof componentConfig}: ${JSON.stringify(componentConfig)}. ` +
+                "Expected an object with a url, e.g. {\"url\": \"/content/.../form.html\"}.",
+                componentConfig
+            );
+            console.groupEnd();
+            return;
+        }
 
         console.log(["formUrl", formUrl]);
 
