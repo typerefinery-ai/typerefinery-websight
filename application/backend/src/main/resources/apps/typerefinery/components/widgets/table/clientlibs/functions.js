@@ -75,27 +75,54 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
 
     ns.addEventListenerToTableActionButtons = (id) => {
-        $(`#${id}`).on('click', 'button', (event) => {
+        $(`#${id}`).on('click', 'button', async (event) => {
             const $button = event.currentTarget;
             const rowConfig = JSON.parse($button.getAttribute('data-model'));
             const row = JSON.parse($button.getAttribute('row-model'));
             console.log("---------------------------------ACTION BUTTON IS CLICKED---------------------------------")
-            console.log(row);  
-        
+            console.log(row);
+
             if(rowConfig.actionButtonModalContentURL?.trim()?.length > 0){
                 const path = componentNs.replaceRegex(rowConfig.actionButtonModalContentURL, row);
-                    
+
                 document.querySelector("#tableModalContent iframe").setAttribute("src", path);
                 $("#tableModalContent").modal("show");
                 modalNs.removeLoaderOnModalLoad();
             }
 
+            // Optional pre-navigation action: POST the row object to a configured URL and only
+            // navigate on success. Generic - the receiving service owns any interpretation of
+            // the row (alpha-launch docs/decisions/0002). Status-checked per docs/issues/0014.
+            if(rowConfig.actionButtonPostUrl?.trim()?.length > 0){
+                const postUrl = componentNs.replaceRegex(rowConfig.actionButtonPostUrl, row);
+                console.log(`action button POST ${postUrl}`);
+                try {
+                    const response = await fetch(postUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(row),
+                        keepalive: true,
+                        redirect: "follow"
+                    });
+                    if (!response.ok) {
+                        console.error(`action button POST ${postUrl} failed with HTTP ${response.status}; not navigating`);
+                        return;
+                    }
+                    console.log(`action button POST ${postUrl} ok`);
+                } catch (error) {
+                    console.error(`action button POST ${postUrl} error; not navigating`, error);
+                    return;
+                }
+            }
+
             if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0){
-                if(rowConfig.actionButtonNavigateToPath?.trim()?.length > 0) {
-                    const path = componentNs.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                const path = componentNs.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                if(rowConfig.actionButtonNavigateToNewWindow === true || rowConfig.actionButtonNavigateToNewWindow === "true") {
                     window.open(`${path}`, "_blank");
-                }else{
-                    const path = componentNs.replaceRegex(rowConfig.actionButtonNavigateToPath, row);
+                } else {
+                    // Same-window by default: a drill-in should replace the current view.
+                    // (The previous code compared the same truthy condition twice, so the
+                    // same-window branch was unreachable and every navigate opened a new tab.)
                     window.location.href = path;
                 }
             }

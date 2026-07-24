@@ -175,6 +175,14 @@
                                     icon="pi pi-pencil"
                                     id="0_YJRQJMMWP"
                                     label="Edit"/>
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    actionButtonModalContentURL="\0"
+                                    actionButtonNavigateToPath="/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident.html"
+                                    actionButtonPostUrl="https://flow.typerefinery.localhost:8101/os-triage/incident-context/set-current"
+                                    icon="pi pi-sign-in"
+                                    id="1_OPENINCDT"
+                                    label="Open"/>
                             </actionButtons>
                         </table>
                     </container2>
