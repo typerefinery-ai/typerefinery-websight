@@ -61,12 +61,21 @@ public class NavigationItemComponent {
   @Inject
   private String link;
 
+  // Optional: where to send the browser after a modal opened from this item reports
+  // success (e.g. a form submitted successfully). Consumed by dropdown.js.
+  @Inject
+  private String successNavigateTo;
+
   @Getter
   @Inject
   private Boolean openInNewTab;
 
   public String getLink() {
     return LinkUtil.handleLink(link, resourceResolver);
+  }
+
+  public String getSuccessNavigateTo() {
+    return LinkUtil.handleLink(successNavigateTo, resourceResolver);
   }
 
   public String getLinkPath() {

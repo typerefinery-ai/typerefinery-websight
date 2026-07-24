@@ -35,6 +35,14 @@
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     flowapi_title="Create Incident Form"
                     id="form_YEMAERK4R">
+                    <_events_ jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            action="FORM_SUCCESS"
+                            name="form-success"
+                            topic="form-success"
+                            type="emit"/>
+                    </_events_>
                     <input
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/forms/input"

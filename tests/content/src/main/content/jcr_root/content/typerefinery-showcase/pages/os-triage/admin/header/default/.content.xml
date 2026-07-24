@@ -50,8 +50,9 @@
                         <_x0030_
                             jcr:primaryType="nt:unstructured"
                             action="modal"
-                            label="Incident "
-                            link="/content/typerefinery-showcase/pages/os-triage/forms/createincident"/>
+                            label="Incident"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/createincident"
+                            successNavigateTo="/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident"/>
                         <_x0031_
                             jcr:primaryType="nt:unstructured"
                             action="modal"

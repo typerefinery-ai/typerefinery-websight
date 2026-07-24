@@ -65,7 +65,7 @@ Typerefinery.Modal = Typerefinery.Modal || {};
             console.groupCollapsed("drop down button event listener on " + window.location);
             // console.log("again 1 clicked on dropdown item", e.target );
             const componentConfig = JSON.parse(e.target.getAttribute("data-model"));
-            const { label, name, link, action, hideFooter = false } = componentConfig;
+            const { label, name, link, action, hideFooter = false, successNavigateTo } = componentConfig;
             // if this link as a form tag  then show the footer.
             if (link.includes("form.html")) {
                 showFooter = true;
@@ -79,6 +79,16 @@ Typerefinery.Modal = Typerefinery.Modal || {};
                   iframeURL: link,
                   hideFooter: hideFooter
                 };
+                if (successNavigateTo) {
+                  // When the modal's form reports success, follow the item's configured
+                  // destination (e.g. jump to the page that shows what was just created).
+                  options.callbackFn = function ($modal, data, message) {
+                    if (message === modalNs.MESSAGE_NAMES.FORM_SUCCESS) {
+                      console.log("dropdown item form success, navigating to " + successNavigateTo);
+                      window.location.href = successNavigateTo;
+                    }
+                  };
+                }
                 modalNs.createModalAndOpen($("body"), options);
             }
             else if(action === "navigate") {
