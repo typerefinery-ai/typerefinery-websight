@@ -1155,6 +1155,67 @@ public class FlowService {
     }
 
     /**
+     * Does this flow actually serve an HTTP route?
+     *
+     * HTTP routes are opt-in per flow template: a flow only answers on a route if its design
+     * contains an "HTTP Route" trigger step, whose config carries the route path. Form templates
+     * declare one; the widget templates (ticker, chart, map) deliberately do not.
+     *
+     * Publishing flowapi_httproute regardless meant every widget advertised a URL that 404s -
+     * see docs/issues/0002. Checking the design rather than the template text keeps this correct
+     * whether the flow was just built from a template (route placeholders already substituted)
+     * or reloaded from an existing export.
+     *
+     * @param flowObject flow definition to inspect
+     * @return true when at least one design step declares a route path
+     */
+    private boolean servesHttpRoute(JsonNode flowObject) {
+        if (flowObject == null || !flowObject.has("design")) {
+            return false;
+        }
+
+        JsonNode design = flowObject.get("design");
+        Iterator<JsonNode> steps = design.elements();
+        while (steps.hasNext()) {
+            JsonNode step = steps.next();
+            if (step == null || !step.has("config")) {
+                continue;
+            }
+            JsonNode url = step.get("config").get("url");
+            if (url == null || !url.isTextual()) {
+                continue;
+            }
+            // Route paths are server-relative; an absolute URL is an outbound call, not a route
+            // this flow answers on.
+            if (url.asText().startsWith("/")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add the client-facing route properties, but only when the flow actually serves a route.
+     *
+     * @param response property map being written back to the storage resource
+     * @param flowObject flow definition, used to decide whether a route exists
+     * @param httpRoutePath computed route path for this component
+     */
+    private void applyHttpRouteToResponse(HashMap<String, Object> response, JsonNode flowObject, String httpRoutePath) {
+        if (!servesHttpRoute(flowObject)) {
+            // Blank rather than skip: a component provisioned before this check existed still has
+            // the dead URL stored, and simply not writing it would leave that stale value in place
+            // forever.
+            LOGGER.info("Flow declares no HTTP Route step, clearing flowapi_httproute for {}", httpRoutePath);
+            response.put(prop(PROPERTY_HTTPROUTE), "");
+            response.put(prop(PROPERTY_HTTPROUTE_NOSFX), "");
+            return;
+        }
+        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
+        response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
+    }
+
+    /**
      * Push a flow's design to Flow.
      *
      * The update endpoint maps to Flow's stream_save, which persists only the flow metadata, so design
@@ -1450,8 +1511,7 @@ public class FlowService {
         response.put(prop(PROPERTY_ISCONTAINER), isContainer);
         response.put(prop(PROPERTY_CREATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(responseFlowId));
-        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
-        response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
+        applyHttpRouteToResponse(response, componentTemplateObject, httpRoutePath);
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
         applyFlowMetadataToResponse(response, metadata);
 
@@ -1560,8 +1620,7 @@ public class FlowService {
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
         response.put(prop(PROPERTY_TOPIC), flowTopic);
-        response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
-        response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
+        applyHttpRouteToResponse(response, componentTemplateObject, httpRoutePath);
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
         applyFlowMetadataToResponse(response, metadata);
 
