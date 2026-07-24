@@ -27,6 +27,7 @@ import ai.typerefinery.websight.models.components.layout.NavigationItemComponent
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ChildResource;
 import org.jetbrains.annotations.Nullable;
 
 import ai.typerefinery.websight.models.components.BaseFormComponent;
@@ -166,8 +167,13 @@ public class Button extends BaseFormComponent {
     @Getter
     private String iconPosition;
 
+    // @ChildResource, not plain @Inject: dropdownItems is a child node, and plain @Inject
+    // resolves it to null here (verified via the init() log below), which strips the items
+    // from the serialized data-model and leaves the dropdown button a no-op. Same pattern
+    // as BaseComponent._events_ and Tabs.tabsList.
     @Inject
     @Getter
+    @ChildResource(name = "dropdownItems")
     private List<NavigationItemComponent> dropdownItems;
 
     public String getActionUrl() {
