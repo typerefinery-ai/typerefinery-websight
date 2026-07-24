@@ -45,7 +45,9 @@ public class FlowSyncStorageService {
         FlowService.prop(FlowService.PROPERTY_HTTPROUTE),
         FlowService.prop(FlowService.PROPERTY_HTTPROUTE_NOSFX),
         FlowService.prop(FlowService.PROPERTY_WEBSOCKETURL),
-        FlowService.prop(FlowService.PROPERTY_TOPIC),
+        // PROPERTY_TOPIC is deliberately not managed here. It is authored on the /content component and
+        // FlowComponent injects it from /content at render time, so removing it from /content would leave
+        // the widget with no topic to subscribe to.
         FlowService.prop(FlowService.PROPERTY_SUCCESS),
         FlowService.prop(FlowService.PROPERTY_ERROR),
         FlowService.prop(FlowService.PROPERTY_PROCESSING_STATE),

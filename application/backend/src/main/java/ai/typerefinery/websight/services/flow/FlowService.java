@@ -719,6 +719,16 @@ public class FlowService {
                 changed = true;
             }
 
+            // The topic is what the rendered widget subscribes to, so a flow publishing on a stale topic
+            // has to count as changed. Without this the update (and therefore the topic repair) is skipped
+            // whenever the descriptive metadata happens to match.
+            String localTopic = resolveFlowTopic(flowComponent, sourceResource);
+            String flowTopic = getDesignTopic(flowData);
+            if (StringUtils.isNotBlank(localTopic) && !StringUtils.equals(flowTopic, localTopic)) {
+                LOGGER.info("Metadata changed: topic (Flow={}, Local={})", flowTopic, localTopic);
+                changed = true;
+            }
+
             if (!changed) {
                 LOGGER.info("No metadata changes detected for flowstreamid={}", flowstreamid);
             }
@@ -1052,6 +1062,133 @@ public class FlowService {
     }
 
     /**
+     * Resolve the TMS topic a flow must publish to.
+     *
+     * The topic is authored content: the rendered widget subscribes to the flowapi_topic baked into
+     * the /content component, so the flow has to publish to that exact topic or the widget never
+     * receives anything and renders blank.
+     *
+     * It must therefore be read from the authored /content resource, never from the /var storage
+     * resource. /var nodes are created as sling:Folder, so their resource type (and with it
+     * FlowComponent.componentName) resolves to "sling:Folder" and would produce an unmatchable
+     * "sling:Folder_&lt;uuid&gt;" topic.
+     *
+     * @param flowComponent flow component adapted from the storage resource
+     * @param sourceResource authored /content component resource
+     * @return the authored topic when present, otherwise a topic generated from the authored component name
+     */
+    private String resolveFlowTopic(@NotNull FlowComponent flowComponent, Resource sourceResource) {
+        if (sourceResource != null) {
+            String authoredTopic = sourceResource.getValueMap().get(prop(PROPERTY_TOPIC), "");
+            if (StringUtils.isNotBlank(authoredTopic)) {
+                return authoredTopic;
+            }
+        }
+
+        String storedTopic = flowComponent.flowapi_topic;
+        if (StringUtils.isNotBlank(storedTopic)) {
+            return storedTopic;
+        }
+
+        String componentName = sourceResource != null
+            ? PageUtil.getResourceTypeName(sourceResource)
+            : flowComponent.componentName;
+        return generateTopic(componentName);
+    }
+
+    /**
+     * Read the TMS topic a flow definition currently publishes on.
+     *
+     * @param flowData parsed flow definition
+     * @return the topic configured on the flowtmsfilterupdate step, or null when absent
+     */
+    private String getDesignTopic(JsonNode flowData) {
+        if (flowData == null || !flowData.has("design")) {
+            return null;
+        }
+        JsonNode step = flowData.get("design").get("flowtmsfilterupdate");
+        if (step == null || !step.has("config")) {
+            return null;
+        }
+        JsonNode topic = step.get("config").get(PROPERTY_TOPIC);
+        return topic != null ? topic.asText() : null;
+    }
+
+    /**
+     * Force the flow design to publish/subscribe on the given TMS topic.
+     *
+     * At create time the topic reaches the design through the &lt;tms-topic&gt; template placeholder, but an
+     * update reloads the already-substituted flow export, so the placeholder is gone. Without this the
+     * update path can never repair a flow whose topic drifted away from the authored one.
+     *
+     * @param flowObject flow definition to update in place
+     * @param flowTopic topic the flow must use
+     * @return true when a topic value was changed
+     */
+    private boolean applyTopicToDesign(ObjectNode flowObject, String flowTopic) {
+        if (flowObject == null || StringUtils.isBlank(flowTopic) || !flowObject.has("design")) {
+            return false;
+        }
+
+        JsonNode design = flowObject.get("design");
+        if (!(design instanceof ObjectNode)) {
+            return false;
+        }
+
+        boolean changed = false;
+        // flowtmsfilterupdate wraps data on its way out to TMS, flowtmsfilterget unwraps/filters data
+        // coming back from TMS. Both must carry the same topic as the subscribing widget.
+        for (String stepName : new String[] { "flowtmsfilterupdate", "flowtmsfilterget" }) {
+            JsonNode step = design.get(stepName);
+            if (step == null || !step.has("config") || !(step.get("config") instanceof ObjectNode)) {
+                continue;
+            }
+            ObjectNode config = (ObjectNode) step.get("config");
+            String currentTopic = config.has(PROPERTY_TOPIC) ? config.get(PROPERTY_TOPIC).asText() : null;
+            if (!StringUtils.equals(currentTopic, flowTopic)) {
+                config.put(PROPERTY_TOPIC, flowTopic);
+                changed = true;
+            }
+        }
+
+        return changed;
+    }
+
+    /**
+     * Push a flow's design to Flow.
+     *
+     * The update endpoint maps to Flow's stream_save, which persists only the flow metadata, so design
+     * edits made during an update are silently dropped unless they also go through the design-save
+     * endpoint. That endpoint takes the design object on its own, not the whole flow definition.
+     *
+     * @param flowObject flow definition holding the design to push
+     * @param flowstreamid flowstream id to update
+     * @return true when the design was sent without a reported error
+     */
+    private boolean saveDesignToFlow(ObjectNode flowObject, String flowstreamid) {
+        if (flowObject == null || !flowObject.has("design")) {
+            LOGGER.warn("saveDesignToFlow: No design to save. flowstreamid={}", flowstreamid);
+            return false;
+        }
+
+        String designJson = JsonUtil.getJsonString(flowObject.get("design"));
+        if (StringUtils.isBlank(designJson)) {
+            LOGGER.warn("saveDesignToFlow: Could not serialise design. flowstreamid={}", flowstreamid);
+            return false;
+        }
+
+        HashMap<String, Object> designResponse = doFlowStreamDesignSaveData(designJson, flowstreamid);
+        Object error = designResponse.get(prop(PROPERTY_ERROR));
+        boolean saved = error == null || StringUtils.isBlank(error.toString());
+        if (saved) {
+            LOGGER.info("saveDesignToFlow: Design saved. flowstreamid={}", flowstreamid);
+        } else {
+            LOGGER.error("saveDesignToFlow: Failed to save design. flowstreamid={}, error={}", flowstreamid, error);
+        }
+        return saved;
+    }
+
+    /**
      * get the flow data
      * @param flowstreamid - the flowstream id
      * @return a hashmap with the flow data
@@ -1226,18 +1363,13 @@ public class FlowService {
             @NotNull Resource sourceResource) {
         String templatePath = flowComponent.flowapi_template;
         String title = compileFlowTitle(flowComponent.flowapi_title,flowComponent.componentTitle);
-        String flowTopic = flowComponent.flowapi_topic;
+        String flowTopic = resolveFlowTopic(flowComponent, sourceResource);
         String id = flowComponent.flowapi_flowstreamid;
         boolean isContainer = flowComponent.isContainer();
         String sampleDataPath = flowComponent.flowapi_sampledata;
         String designTemplatePath = flowComponent.flowapi_designtemplate;
-        
+
         //  String designTemplatePath
-        
-        // if topic is blank then generate a unique topic
-        if (StringUtils.isBlank(flowTopic)) {
-            flowTopic = generateTopic(flowComponent.componentName);
-        }
 
         String componentSampleData = getComponentSampleJson(sampleDataPath, flowComponent.resourceResolver);
         String httpRoutePath = compileHttpRoutePath(sourceResource.getPath()); // client-facing route path and default Flow group/category seed derived from the authored component path
@@ -1389,6 +1521,16 @@ public class FlowService {
         }
 
         componentTemplateObject.put(PROPERTY_ID, flowstreamid);
+
+        // Re-assert the authored topic. An existing flow can be publishing on a stale topic (for example
+        // one generated from the /var storage node), which leaves the subscribing widget blank.
+        String flowTopic = resolveFlowTopic(flowComponent, sourceResource);
+        boolean topicRepaired = applyTopicToDesign(componentTemplateObject, flowTopic);
+        if (topicRepaired) {
+            LOGGER.info("updateFlowFromTemplate: Repaired flow topic. flowstreamid={}, sourcePath={}, topic={}",
+                flowstreamid, sourceResource.getPath(), flowTopic);
+        }
+
         FlowComponentMetadata metadata = resolveFlowComponentMetadata(flowComponent, flowGroup, newTitle);
         applyFlowMetadata(componentTemplateObject, metadata);
 
@@ -1406,10 +1548,18 @@ public class FlowService {
 
         // send to flowstream
         HashMap<String, Object> response = doFlowStreamUpdateData(componentJson, flowstreamid);
-        
+
+        // The update endpoint only persists flow metadata (it maps to Flow's stream_save), so a repaired
+        // design has to be pushed separately over the design-save endpoint or the flow keeps publishing
+        // on the stale topic and the subscribing widget stays blank.
+        if (topicRepaired) {
+            saveDesignToFlow(componentTemplateObject, flowstreamid);
+        }
+
         response.put(prop(PROPERTY_UPDATEDON), DateUtil.getIsoDate(new Date()));
         response.put(prop(PROPERTY_EDITURL), compileEditUrl(flowstreamid));
         response.put(prop(PROPERTY_TITLE), newTitle);
+        response.put(prop(PROPERTY_TOPIC), flowTopic);
         response.put(prop(PROPERTY_HTTPROUTE), compileClientHttpRouteUrl(httpRoutePath + FLOW_TEMPLATE_FIELD_HTTP_ROUTE_URL_SUFFIX));
         response.put(prop(PROPERTY_HTTPROUTE_NOSFX), compileClientHttpRouteUrl(httpRoutePath));
         response.put(prop(PROPERTY_WEBSOCKETURL), configuration.flow_tms_url());
