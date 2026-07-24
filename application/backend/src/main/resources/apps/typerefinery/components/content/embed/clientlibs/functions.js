@@ -478,10 +478,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
     ) => {
         console.group(["fetch", url, method, contentType, body]);
         console.log([url, method, contentType, body]);
-        let controller = new AbortController();
-        try {
-            await window
-                .fetch(url, {
+        // Check the HTTP status before parsing, and retry transient gateway errors.
+        // Previously a 502/503 (Traefik or the flow service re-registering after a deploy)
+        // fed its plain-text "Bad Gateway" body straight into response.json(), so the user
+        // saw "SyntaxError: Unexpected token 'B'" and the panel stayed empty with no retry -
+        // even though the service recovers within seconds (alpha-launch docs/issues/0014).
+        const maxAttempts = 3;
+        const retryDelayMs = 1500;
+        const retryableStatus = [502, 503, 504];
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                const response = await window.fetch(url, {
                     method: method || "GET",
                     headers: {
                         "Content-Type":
@@ -490,36 +497,60 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     body: body,
                     keepalive: true,
                     redirect: "follow",
-                    signal: controller.signal,
-                })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    console.group("fetch response");
-                    successCallback($component, {
+                });
+                if (!response.ok) {
+                    const bodyText = (await response.text()).substring(0, 200);
+                    if (retryableStatus.includes(response.status) && attempt < maxAttempts) {
+                        console.warn(`fetch ${url} -> HTTP ${response.status}, retrying (attempt ${attempt}/${maxAttempts})`);
+                        await new Promise((r) => setTimeout(r, retryDelayMs * attempt));
+                        continue;
+                    }
+                    console.error(`fetch ${url} failed with HTTP ${response.status} after ${attempt} attempt(s): ${bodyText}`);
+                    errorCallback($component, {
                         ...eventData,
                         url: url,
                         method: method,
                         payloadType: contentType,
                         body: body,
-                        ok: true,
-                        data: responseJson,
+                        status: response.status,
+                        error: `HTTP ${response.status}`,
                     });
-                    console.groupEnd();
+                    break;
+                }
+                const responseJson = await response.json();
+                console.group("fetch response");
+                successCallback($component, {
+                    ...eventData,
+                    url: url,
+                    method: method,
+                    payloadType: contentType,
+                    body: body,
+                    ok: true,
+                    data: responseJson,
                 });
-        } catch (error) {
-            console.group("Error in submitting the request");
-            console.error(error);
-            errorCallback($component, {
-                ...eventData,
-                url: url,
-                method: method,
-                payloadType: contentType,
-                body: body,
-                error: error,
-            });
-            console.groupEnd();
+                console.groupEnd();
+                break;
+            } catch (error) {
+                // network failure, or an OK response whose body was not valid JSON
+                if (attempt < maxAttempts) {
+                    console.warn(`fetch ${url} error (${error}), retrying (attempt ${attempt}/${maxAttempts})`);
+                    await new Promise((r) => setTimeout(r, retryDelayMs * attempt));
+                    continue;
+                }
+                console.group("Error in submitting the request");
+                console.error(error);
+                errorCallback($component, {
+                    ...eventData,
+                    url: url,
+                    method: method,
+                    payloadType: contentType,
+                    body: body,
+                    error: error,
+                });
+                console.groupEnd();
+                break;
+            }
         }
-        controller = null;
         console.groupEnd();
         return;
     };

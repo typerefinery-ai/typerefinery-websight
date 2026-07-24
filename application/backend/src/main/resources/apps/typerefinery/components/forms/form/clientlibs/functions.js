@@ -545,17 +545,34 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             
             var response;
             try {
-              response = await fetch(
-                  url,
-                  {
-                      method: readMethod || "GET",
-                      headers: {
-                          "Content-Type": readPayloadType || "application/json"
-                      },
-                      keepalive: true,
-                      redirect: 'follow'
+              // Check the status before parsing: a transient 502/503 from the flow route used
+              // to feed "Bad Gateway" into response.json() and surface as a SyntaxError on
+              // every page load (alpha-launch docs/issues/0014). One retry covers the common
+              // post-deploy re-registration blip.
+              for (let attempt = 1; attempt <= 2; attempt++) {
+                  const raw = await fetch(
+                      url,
+                      {
+                          method: readMethod || "GET",
+                          headers: {
+                              "Content-Type": readPayloadType || "application/json"
+                          },
+                          keepalive: true,
+                          redirect: 'follow'
+                      }
+                  );
+                  if (!raw.ok) {
+                      if ([502, 503, 504].includes(raw.status) && attempt === 1) {
+                          console.warn(`form initial data ${url} -> HTTP ${raw.status}, retrying once`);
+                          await new Promise(r => setTimeout(r, 1500));
+                          continue;
+                      }
+                      console.warn(`form initial data ${url} -> HTTP ${raw.status}, continuing without initial data`);
+                      return;
                   }
-              ).then(response => response.json());
+                  response = await raw.json();
+                  break;
+              }
 
             } catch (error) {
                 console.log(`Could not read data from ${readUrl}, possible reasons: querystring is missing; endpoint does not provide default data; CORS issue or server error.`);
