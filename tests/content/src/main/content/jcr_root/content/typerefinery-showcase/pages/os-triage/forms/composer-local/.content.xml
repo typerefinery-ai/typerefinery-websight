@@ -67,7 +67,7 @@
                                 <_x0030_
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
-                                    config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/unattached-force-graph&quot;}"
+                                    config="\{&quot;method&quot;:&quot;GET&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/viz-data/unattached-split&quot;}"
                                     name="readaction"
                                     nameCustom="\0"
                                     topic="embed-viz-event-payload-data-unattached-force-graph"
