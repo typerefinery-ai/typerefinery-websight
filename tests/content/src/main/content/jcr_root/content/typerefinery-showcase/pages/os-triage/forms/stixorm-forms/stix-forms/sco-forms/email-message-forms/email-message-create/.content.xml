@@ -865,7 +865,7 @@
                                                                 id="field_7Z2Z3GIRN"
                                                                 inputType="string"
                                                                 label="Field"
-                                                                name="content_disposition "/>
+                                                                name="content_disposition"/>
                                                         </string_1>
                                                     </field>
                                                 </composite>

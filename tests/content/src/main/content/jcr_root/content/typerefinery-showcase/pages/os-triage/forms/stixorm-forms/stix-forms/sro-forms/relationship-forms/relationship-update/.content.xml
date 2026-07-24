@@ -770,7 +770,7 @@
                                             label="Reference"
                                             lgColSize="10"
                                             mdColSize="10"
-                                            name="source_ref "
+                                            name="source_ref"
                                             smColSize="10"/>
                                     </reference>
                                     <reference_1
