@@ -24,6 +24,45 @@ function widget(page: any) {
   return page.frameLocator('iframe').first()
 }
 
+/**
+ * On the **Composer page** (as opposed to the workbench) the layout is:
+ *
+ *   frame[1] `widgetdevcomposer…`  — the whole widget: Evidence List + Promotable + Scratch
+ *                                    (31 node images, 3 svgs, the source radios)
+ *   frame[2] `…/stixorm-forms/default` — the form pane, showing "Select an object in the viz…"
+ *
+ * A left-select does **not** add a frame; it *navigates the existing form frame* away from
+ * `default`. An earlier version of P3-S5 counted iframes and so could never observe a pass.
+ */
+function composerWidget(page: any) {
+  return page.frameLocator('iframe[src*="widgetdevcomposer"], iframe[src*="4005"]').first()
+}
+
+/**
+ * The three panes carry stable ids, so steps can name the pane they mean instead of
+ * indexing into "all nodes on the page". That matters: the first node in DOM order belongs to
+ * the **tree**, and clicking a tree node only shows its JSON tooltip — it does *not* open a
+ * form. P3-S5 failed for exactly that reason while the behaviour it tests worked fine.
+ *
+ *   `.tree_svg`    — Evidence List   (3 nodes)
+ *   `.promo_svg`   — Promotable      (23 nodes for the current incident)
+ *   `.scratch_svg` — Scratch Pad     (5 nodes)
+ */
+const PANE = { tree: 'svg.tree_svg', promo: 'svg.promo_svg', scratch: 'svg.scratch_svg' }
+const paneNodes = (page: any, pane: string) =>
+  composerWidget(page).locator(pane).locator('image, g.node, circle')
+
+/** True once the form pane has left the default placeholder and rendered a real form. */
+async function formPaneOpened(page: any) {
+  for (const f of page.frames()) {
+    const url = f.url()
+    if (!/stixorm-forms|forms\//.test(url) || /\/default(\.html)?$/.test(url)) continue
+    const inputs = await f.locator('input, select, textarea').count().catch(() => 0)
+    if (inputs > 0) return true
+  }
+  return false
+}
+
 async function openComposer(page: any) {
   await page.goto(COMPOSER, { waitUntil: 'domcontentloaded' })
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
@@ -85,41 +124,70 @@ test.describe('Act 3 — Incident Composer', () => {
 
   step('P3-S5', async ({ page }) => {
     await openComposer(page)
-    const count = await page.locator('iframe').count()
-    let opened = false
-    for (let i = 0; i < count && !opened; i++) {
-      const f = page.frameLocator('iframe').nth(i)
-      const node = f.locator(NODE_SELECTOR).first()
-      if (await node.count().catch(() => 0)) {
-        await node.click().catch(() => {})
-        await page.waitForTimeout(6_000)
-        opened = (await page.locator('iframe').count()) > count
-      }
-    }
-    expect(opened, 'left-select opened a form frame').toBeTruthy()
+    const nodes = paneNodes(page, PANE.promo)
+    await expect
+      .poll(async () => await nodes.count(), { timeout: 60_000, message: 'Promo pane nodes rendered' })
+      .toBeGreaterThan(0)
+    await nodes.first().click()
+    await expect
+      .poll(async () => await formPaneOpened(page), {
+        timeout: 45_000,
+        message: 'left-select navigated the form pane away from the default placeholder',
+      })
+      .toBeTruthy()
   })
 
+  // S6/S7 run against the **Composer page**, not the workbench: the page's widget carries the
+  // real Promo (23 nodes / 42 edges) and Scratch (5 nodes) data for the current incident, while
+  // the workbench only preloads the tree fixture and leaves both panes empty.
+  /** Select one object in Promo, then one in Scratch — selection *order* sets source/target. */
+  async function selectAcrossPanes(page: any) {
+    const promo = paneNodes(page, PANE.promo)
+    const scratch = paneNodes(page, PANE.scratch)
+    await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    await promo.first().click()
+    await scratch.first().click()
+    return scratch.first()
+  }
+
   step('P3-S6', async ({ page }) => {
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(8_000)
-    const nodes = widget(page).locator(NODE_SELECTOR)
-    expect(await nodes.count()).toBeGreaterThan(1)
-    await nodes.nth(0).click()
-    await nodes.nth(1).click()
-    await nodes.nth(1).click({ button: 'right' })
-    await widget(page).getByText(/create sro/i).first().click()
-    await expect(widget(page).getByText(/related-to/i).first()).toBeVisible({ timeout: 30_000 })
+    await openComposer(page)
+    const target = await selectAcrossPanes(page)
+    await target.click({ button: 'right' })
+    await composerWidget(page).getByText(/create sro/i).first().click()
+    await expect(composerWidget(page).getByText(/related-to/i).first()).toBeVisible({ timeout: 30_000 })
   })
 
   step('P3-S7', async ({ page }) => {
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(8_000)
-    const nodes = widget(page).locator(NODE_SELECTOR)
-    await nodes.nth(0).click()
-    await nodes.nth(1).click()
-    await nodes.nth(1).click({ button: 'right' })
-    await widget(page).getByText(/create connection/i).first().click()
-    await expect(widget(page).getByText(/created_by_ref/i).first()).toBeVisible({ timeout: 30_000 })
+    await openComposer(page)
+    const target = await selectAcrossPanes(page)
+    await target.click({ button: 'right' })
+    await composerWidget(page).getByText(/create connection/i).first().click()
+
+    // The "Create Foreign Key Connections" modal must carry **both refs pre-filled** and offer
+    // the connection fields. `created_by_ref` is an *option inside the collapsed dropdown*, not
+    // visible text — asserting on the literal string failed against a working modal.
+    // ⚠️ UNRESOLVED LOCATOR — the step is verified by screenshot, not yet by assertion.
+    // `docs/runs/2026-08-03T17-04-51Z/test-output/…Connection-opens-pre-filled…/test-failed-1.png`
+    // shows the modal working: "Create Foreign Key Connections" with Source Ref
+    // `user-account--113460bd…` (Promo) and Target Ref `identity--c3df2145…` (Scratch) both
+    // pre-filled, plus a Connection Field List. But the title text is not findable from either
+    // the widget frame or the page, so the modal is rendered somewhere else again (a third
+    // frame or a portal). Resolve where it mounts before trusting this assertion either way —
+    // a red here currently means "not located", not "broken".
+    const modal = page.getByText(/create foreign key connections/i).first()
+    await expect(modal).toBeVisible({ timeout: 30_000 })
+
+    const values = await page
+      .locator('input')
+      .evaluateAll((els: HTMLInputElement[]) => els.map((e) => e.value).filter(Boolean))
+    const refs = values.filter((v) => /--[0-9a-f-]{8,}/i.test(v))
+    expect(refs.length, `Source Ref and Target Ref pre-filled (got ${JSON.stringify(refs)})`).toBeGreaterThan(1)
+
+    const fieldList = page.locator('select').last()
+    await expect(fieldList).toBeVisible({ timeout: 15_000 })
+    expect(await fieldList.locator('option').count(), 'connection field list offers fields').toBeGreaterThan(0)
   })
 
   step('P3-S8', async ({ page }) => {
