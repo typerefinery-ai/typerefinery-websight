@@ -292,17 +292,51 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         return;
     };
 
+    /**
+     * Emit a form action to the host, whether or not the page author declared a mapping.
+     *
+     * A form reaches its host modal only through `emitLocalEvent`, which walks the authored
+     * `_events_` emit mappings and does nothing when there is no entry for the action. That made a
+     * modal behaviour depend on a per-form authoring step that is easy to forget, and it was
+     * forgotten repeatedly: navigation-on-success needed a FORM_SUCCESS mapping
+     * (alpha-launch docs/issues/0005), error display needed a FORM_ERROR mapping (0034), and four
+     * modal-opened forms had no mappings at all so nothing was reported either way (0035).
+     *
+     * So: emit by default. When the author *has* declared a mapping for this action we leave it
+     * entirely alone — their topic and config win. When they have not, we post the action anyway,
+     * which is all the modal needs: `frameMessageHandler` dispatches on `payload.action`, not on
+     * the topic.
+     *
+     * Decided 2026-08-04 (docs/issues/0035, option 3).
+     */
+    ns.emitFormAction = ($component, componentConfig, formData, eventAction, componentAction) => {
+      const authored = ns.eventMap && ns.eventMap[eventNs.EVENT_TYPE_EMIT]
+        && ns.eventMap[eventNs.EVENT_TYPE_EMIT][componentAction];
+
+      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventAction, componentAction);
+
+      if (authored) {
+        console.log(`${componentAction}: authored emit mapping found, leaving it to handle the event`);
+        return;
+      }
+
+      // No mapping authored for this action — emit it anyway so the host is not left guessing.
+      console.log(`${componentAction}: no authored emit mapping, emitting the default`);
+      const eventData = eventNs.compileEventData(formData, componentAction, componentAction, componentConfig.id, {});
+      eventNs.emitEvent(componentAction, eventData);
+    };
+
     // local actions representing the form actions
     ns.FORM_SUCCESS = ($component, componentConfig, formData) => {
       console.groupCollapsed("FORM_SUCCESS");
       console.log(["FORM_SUCCESS", $component, componentConfig, formData]);
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
+      ns.emitFormAction($component, componentConfig, formData, eventNs.EVENTS.EVENT_SUCCESS_ACTION, "FORM_SUCCESS");
       console.groupEnd();
     }
     ns.FORM_ERROR = ($component, componentConfig, formData) => {
       console.groupCollapsed("FORM_ERROR");
       console.log(["FORM_ERROR", $component, componentConfig, formData]);
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
+      ns.emitFormAction($component, componentConfig, formData, eventNs.EVENTS.EVENT_ERROR_ACTION, "FORM_ERROR");
       console.groupEnd();
     }
     ns.FORM_SUBMIT = ($component, componentConfig, formData) => {

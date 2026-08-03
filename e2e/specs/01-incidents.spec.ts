@@ -48,6 +48,33 @@ async function openIncidents(page: any) {
 }
 
 test.describe('Act 1 — All Incidents table', () => {
+  /**
+   * Act 1 is **destructive**: P1-S5 and P1-S6 each create an incident, and the create API resets
+   * the current incident to the new (empty) one. Acts 2 and 3 are data-gated on that incident, so
+   * running the full suite in order silently starved them — Promo/Scratch came back with 0 nodes
+   * and three genuinely-passing Composer steps reported red. That is the runsheet's R-1 hazard,
+   * and it cost a false "regression" hunt.
+   *
+   * Restore whatever was current before this act, so suite order stops mattering.
+   */
+  let previousIncident: any = null
+
+  test.beforeAll(async ({ request }) => {
+    const res = await request.get(`${FLOW_BASE}/viz-data/overview-default-incident`).catch(() => null)
+    const payload = res ? await res.json().catch(() => null) : null
+    const incidentNode = (payload?.nodes || []).find((n: any) => n?.original?.type === 'incident')
+    previousIncident = incidentNode || null
+    if (!previousIncident) console.warn('Act 1: could not identify the current incident; skipping restore')
+  })
+
+  test.afterAll(async ({ request }) => {
+    if (!previousIncident) return
+    const res = await request
+      .post(`${FLOW_BASE}/os-triage/incident-context/set-current`, { data: previousIncident })
+      .catch(() => null)
+    console.log(`Act 1 teardown: restored current incident -> ${previousIncident?.id} (${res?.status()})`)
+  })
+
   step('P1-S1', async ({ page }) => {
     await openIncidents(page)
 
