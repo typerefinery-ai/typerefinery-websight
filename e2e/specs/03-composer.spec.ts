@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 import { step, test } from '../runsheet'
-import { SHOWCASE } from '../playwright.config'
+import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
 
@@ -134,20 +134,33 @@ test.describe('Act 3 — Incident Composer', () => {
     await expect(widget(page).getByText(/edit dag/i).first()).toBeVisible({ timeout: 20_000 })
   })
 
-  step('P3-S4', async ({ page }) => {
-    // Known broken: the os-threat copy algorithm rejects the sightings the tree serves,
-    // and the flow returns 200 so the widget toasts success (docs/issues/0026).
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(8_000)
-    const node = widget(page).locator(NODE_SELECTOR).first()
-    await node.click({ button: 'right' })
-    await widget(page).getByText(/copy/i).first().click()
-    await page.waitForTimeout(6_000)
-    // Must be checked **inside the widget frame** — the toast lives there. A page-level check
-    // passes vacuously and would falsely promote docs/issues/0026.
-    await expect(widget(page).locator('text=/No content found for STIX type/i')).toHaveCount(0)
-    // …and the copy must actually be acknowledged, otherwise "no error" proves nothing.
-    await expect(widget(page).getByText(/copied|success|added/i).first()).toBeVisible({ timeout: 20_000 })
+  step('P3-S4', async ({ page, request }) => {
+    // The criterion is "copies to unattached context and refreshes", so assert the *effect* —
+    // the object arriving in unattached context — rather than matching toast wording. Runs on
+    // the Composer page, which carries the real tree and the real host wiring.
+    const api = await request
+    const before = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
+    const beforeCount = (before.scratch?.nodes || []).length + (before.promo?.nodes || []).length
+
+    await openComposer(page)
+    const treeNode = paneNodes(page, PANE.tree).first()
+    await expect(treeNode).toBeVisible({ timeout: 60_000 })
+    await treeNode.click({ button: 'right' })
+    await composerWidget(page).getByText(/^\s*copy\s*$/i).first().click()
+
+    // The copy algorithm used to fail for every STIX type (docs/issues/0033) — guard the message
+    // so a regression is recognisable rather than just "count did not grow".
+    await expect(composerWidget(page).locator('text=/No content found for STIX type/i')).toHaveCount(0)
+
+    await expect
+      .poll(
+        async () => {
+          const after = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
+          return (after.scratch?.nodes || []).length + (after.promo?.nodes || []).length
+        },
+        { timeout: 60_000, message: 'copied object appears in unattached context' },
+      )
+      .toBeGreaterThan(beforeCount)
   })
 
   step('P3-S5', async ({ page }) => {
