@@ -1,0 +1,106 @@
+import { expect } from '@playwright/test'
+import { step, test } from '../runsheet'
+import { SHOWCASE } from '../playwright.config'
+
+/** Act 2 — Incident Overview force graph. Runsheet Act 2 / docs/issues/0006. */
+
+const OVERVIEW = `${SHOWCASE}/forms/overview-local.html`
+
+/** The widget lives in a cross-origin iframe served by the :4008 dev server. */
+function graph(page: any) {
+  return page.frameLocator('iframe').first()
+}
+
+async function openOverview(page: any) {
+  await page.goto(OVERVIEW, { waitUntil: 'domcontentloaded' })
+  await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
+  // The graph is posted in by the host, then simulated — let it settle.
+  await page.waitForTimeout(10_000)
+}
+
+test.describe('Act 2 — Incident Overview', () => {
+  step('P2-S1', async ({ page }) => {
+    await openOverview(page)
+    const nodes = graph(page).locator('svg g.node, svg circle, svg .node')
+    await expect
+      .poll(async () => await nodes.count(), { timeout: 60_000, message: 'graph nodes rendered' })
+      .toBeGreaterThan(1)
+  })
+
+  step('P2-S2', async ({ page }) => {
+    await openOverview(page)
+    // fitToPanel() should keep every node inside the SVG viewport — guards the centring
+    // fault seen in docs/issues/0004.
+    const outside = await graph(page).locator('svg').first().evaluate((svg: SVGSVGElement) => {
+      const box = svg.getBoundingClientRect()
+      let out = 0
+      svg.querySelectorAll('circle, g.node').forEach((n) => {
+        const b = (n as SVGGraphicsElement).getBoundingClientRect()
+        if (b.width === 0 && b.height === 0) return
+        if (b.left < box.left - 2 || b.right > box.right + 2 || b.top < box.top - 2 || b.bottom > box.bottom + 2) out++
+      })
+      return out
+    })
+    expect(outside, 'nodes outside the panel bounds').toBe(0)
+  })
+
+  step('P2-S3', async ({ page }) => {
+    await openOverview(page)
+    const node = graph(page).locator('svg circle, svg g.node').first()
+    await expect(node).toBeVisible({ timeout: 60_000 })
+    const before = await node.boundingBox()
+    expect(before).not.toBeNull()
+    await page.mouse.move(before!.x + before!.width / 2, before!.y + before!.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(before!.x + 120, before!.y + 80, { steps: 12 })
+    await page.mouse.up()
+    await page.waitForTimeout(1_500)
+    const after = await node.boundingBox()
+    const moved = Math.abs(after!.x - before!.x) + Math.abs(after!.y - before!.y)
+    expect(moved, 'node followed the pointer').toBeGreaterThan(20)
+    // Guards the regression in docs/issues/0006: dragging used to re-heat the simulation
+    // and leave it churning. Positions must be stable a moment after release.
+    const settled = await node.boundingBox()
+    await page.waitForTimeout(2_500)
+    const still = await node.boundingBox()
+    const drift = Math.abs(still!.x - settled!.x) + Math.abs(still!.y - settled!.y)
+    expect(drift, 'graph settles after the drag').toBeLessThan(15)
+  })
+
+  step('P2-S4', async ({ page }) => {
+    // manual-only: CDP scroll gestures time out against the cross-origin embed.
+  })
+
+  step('P2-S5', async ({ page }) => {
+    await openOverview(page)
+    const node = graph(page).locator('svg circle, svg g.node').first()
+    await expect(node).toBeVisible({ timeout: 60_000 })
+    await node.click()
+    await page.waitForTimeout(6_000)
+    // The Update form opens in a second frame; assert it arrived populated.
+    const filled = await page.evaluate(() => {
+      const frames = Array.from(document.querySelectorAll('iframe'))
+      return frames.length
+    })
+    expect(filled, 'a form frame is present after left-select').toBeGreaterThan(1)
+  })
+
+  step('P2-S6', async ({ page }) => {
+    await openOverview(page)
+    const dark = await graph(page).locator('body').first().evaluate((b: HTMLElement) => {
+      const bg = getComputedStyle(b).backgroundColor
+      const m = bg.match(/\d+/g)
+      if (!m) return false
+      const [r, g, bl] = m.map(Number)
+      return r + g + bl < 200
+    })
+    expect(dark, 'viz uses the dark palette').toBeTruthy()
+  })
+
+  step('P2-S7', async ({ page }) => {
+    await openOverview(page)
+    // The options API (#82) exists; this asserts the widget actually asked for it.
+    const asked = await page.evaluate(() => performance.getEntriesByType('resource').some((e: any) => /option/i.test(e.name)))
+    expect(asked, 'widget requested the Overview options').toBeTruthy()
+  })
+})

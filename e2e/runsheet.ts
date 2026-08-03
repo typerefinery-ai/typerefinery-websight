@@ -1,0 +1,139 @@
+import { test as base, TestInfo } from '@playwright/test'
+
+/**
+ * The runsheet step catalogue — one entry per row of
+ * `alpha-launch/docs/mini-app-runsheet.md`.
+ *
+ * `baseline` is the status that runsheet currently records, and it decides how a
+ * step is judged:
+ *
+ *   pass    → strict. The body must succeed; a throw is a **regression** and fails the run.
+ *   partial → the body runs, but a throw is recorded and the test is marked *skipped*,
+ *             not failed (we already know it is imperfect).
+ *   fail    → known broken. A throw is expected and recorded; a success is a promotion.
+ *   unknown → never exercised. Same handling as `fail`; the point is to observe.
+ *   manual  → cannot be driven headlessly (cross-origin gesture). Always skipped with a note.
+ *
+ * That split is what makes the suite useful as a regression gate *and* as an
+ * observation log: only steps the runsheet claims work can break the build.
+ */
+export type Baseline = 'pass' | 'partial' | 'fail' | 'unknown' | 'manual'
+
+export interface StepDef {
+  title: string
+  baseline: Baseline
+  /** Issue file(s) in alpha-launch/docs/issues that track this step. */
+  issue?: string
+  /** Why a `manual` step cannot be automated. */
+  note?: string
+}
+
+export const STEPS: Record<string, StepDef> = {
+  // ---- Act 0 — preflight -------------------------------------------------
+  'P0-S1': { title: 'Stack services STARTED (traefik, cms, flow, tms, fastapi, mongo, typedb)', baseline: 'pass' },
+  'P0-S2': { title: 'Widget dev servers up (:4001, :4005, :4008)', baseline: 'pass' },
+  'P0-S3': { title: '/viz-data/table-all-incidents returns one row per incident', baseline: 'pass', issue: '0023' },
+  'P0-S4': { title: '/viz-data/overview-default-incident returns nodes+edges, no duplicate ids', baseline: 'pass', issue: '0024' },
+  'P0-S5': { title: 'CMS login by typed credentials', baseline: 'pass' },
+  'P0-S6': { title: 'A rich incident is current', baseline: 'partial' },
+
+  // ---- Act 1 — All Incidents table --------------------------------------
+  'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'pass', issue: '0005,0021,0025' },
+  'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'partial', issue: '0005' },
+  'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
+  'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
+  'P1-S5': { title: 'Save Changes creates the incident and resets the default', baseline: 'pass', issue: '0005' },
+  'P1-S6': { title: 'After save the browser lands on Incident Overview', baseline: 'partial', issue: '0014' },
+  'P1-S7': { title: 'Row "Open" sets current incident and navigates same-window', baseline: 'pass', issue: '0005' },
+  'P1-S8': { title: 'A failing create API surfaces an error in the UI', baseline: 'unknown', issue: '0026' },
+
+  // ---- Act 2 — Incident Overview ----------------------------------------
+  'P2-S1': { title: 'Overview force graph renders the incident and its objects', baseline: 'pass', issue: '0006' },
+  'P2-S2': { title: 'All nodes are within the visible panel bounds', baseline: 'pass', issue: '0006' },
+  'P2-S3': { title: 'Dragging a node moves it without re-heating the simulation', baseline: 'pass', issue: '0006' },
+  'P2-S4': { title: 'Scroll zooms and background-drag pans', baseline: 'manual', issue: '0006', note: 'CDP scroll gestures time out against the cross-origin embed' },
+  'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'pass', issue: '0006' },
+  'P2-S6': { title: 'Dark theme config applies to the viz', baseline: 'unknown', issue: '0006' },
+  'P2-S7': { title: 'Widget init()/refresh() apply the Overview options', baseline: 'unknown', issue: '0006' },
+
+  // ---- Act 3 — Incident Composer ----------------------------------------
+  'P3-S1': { title: 'Composer renders Tree, Promo and Scratch with data', baseline: 'pass', issue: '0003,0004,0016' },
+  'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'partial', issue: '0007' },
+  'P3-S3': { title: 'Tree right-click shows Copy and Edit DAG', baseline: 'pass', issue: '0007' },
+  'P3-S4': { title: 'Tree Copy copies to unattached context and refreshes', baseline: 'fail', issue: '0026' },
+  'P3-S5': { title: 'Left-select in Promo opens a populated Update form', baseline: 'pass', issue: '0011,0013' },
+  'P3-S6': { title: 'Create SRO works across Promo and Scratch', baseline: 'pass', issue: '0015' },
+  'P3-S7': { title: 'Create Connection opens pre-filled', baseline: 'pass', issue: '0018' },
+  'P3-S8': { title: 'RMB Remove deletes the object after refresh', baseline: 'unknown', issue: '0007' },
+  'P3-S9': { title: 'Promote is offered only for Promotables', baseline: 'unknown', issue: '0007' },
+  'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'unknown', issue: '0007' },
+  'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'fail', issue: '0017' },
+
+  // ---- Act 4 — Attack Navigator ------------------------------------------
+  'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'unknown', issue: '0008' },
+  'P4-S2': { title: 'Technique right-click offers "Send Technique to Incident"', baseline: 'unknown', issue: '0008' },
+  'P4-S3': { title: 'Sending a technique adds it to the default incident', baseline: 'unknown', issue: '0008' },
+  'P4-S4': { title: 'Tactic right-click offers "Send Tactic to Incident"', baseline: 'unknown', issue: '0008' },
+  'P4-S5': { title: 'With no default incident the action reports clearly', baseline: 'unknown', issue: '0008' },
+
+  // ---- Act 5 — Form behaviour --------------------------------------------
+  'P5-S1': { title: 'Create form groups fields Base Required/Optional/Object/Extensions', baseline: 'pass', issue: '0009' },
+  'P5-S2': { title: 'Cancel opens the Default form', baseline: 'pass', issue: '0009' },
+  'P5-S3': { title: 'Save writes the object into unattached context (Scratch)', baseline: 'partial', issue: '0009' },
+  'P5-S4': { title: 'Update form is pre-filled with current values', baseline: 'pass', issue: '0009' },
+  'P5-S5': { title: 'Vocab select offers an empty row then the vocabulary', baseline: 'pass', issue: '0009' },
+  'P5-S6': { title: '_ref select lists candidates with icon/heading/description/tooltip', baseline: 'unknown', issue: '0009' },
+  'P5-S7': { title: '_refs list field supports add and remove', baseline: 'unknown', issue: '0009' },
+  'P5-S8': { title: 'A blank required field is rejected and no junk data is written', baseline: 'pass', issue: '0009' },
+}
+
+/** Record an observation on the test so the run-log generator can read it back. */
+export function observe(info: TestInfo, status: string, detail: string) {
+  info.annotations.push({ type: 'observed', description: `${status}: ${detail}` })
+}
+
+export const test = base
+
+/**
+ * Declare one runsheet step as a test.
+ *
+ * Steps whose baseline is `pass` are strict; everything else records what happened
+ * and marks itself skipped rather than red, so a run's failures always mean
+ * "something that used to work no longer does".
+ */
+export function step(id: string, body: (args: any) => Promise<void>) {
+  const def = STEPS[id]
+  if (!def) throw new Error(`Unknown runsheet step: ${id}`)
+
+  // The fixtures must be destructured **here**: Playwright decides which fixtures to
+  // build by parsing this callback's signature, so a bare `(args)` wrapper would hand
+  // the step an object with no `page` on it.
+  base(`${id} — ${def.title}`, async ({ page, context, request, browser, browserName }) => {
+    const args = { page, context, request, browser, browserName }
+    const testInfo = base.info()
+    testInfo.annotations.push({ type: 'baseline', description: def.baseline })
+    if (def.issue) testInfo.annotations.push({ type: 'issue', description: def.issue })
+
+    if (def.baseline === 'manual') {
+      observe(testInfo, 'manual', def.note || 'not automatable')
+      base.skip(true, `manual-only: ${def.note || ''}`)
+      return
+    }
+
+    if (def.baseline === 'pass') {
+      // Strict: a throw here is a regression against what the runsheet claims.
+      await body(args)
+      observe(testInfo, 'pass', 'matches runsheet baseline')
+      return
+    }
+
+    try {
+      await body(args)
+      observe(testInfo, 'pass', `baseline was "${def.baseline}" — step now passes, promote it`)
+    } catch (err: any) {
+      const msg = (err?.message || String(err)).split('\n').slice(0, 4).join(' | ')
+      observe(testInfo, def.baseline === 'fail' ? 'fail (expected)' : 'partial/fail', msg)
+      base.skip(true, `baseline "${def.baseline}" — observed: ${msg}`)
+    }
+  })
+}
