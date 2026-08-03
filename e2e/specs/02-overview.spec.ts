@@ -6,10 +6,22 @@ import { SHOWCASE } from '../playwright.config'
 
 const OVERVIEW = `${SHOWCASE}/forms/overview-local.html`
 
-/** The widget lives in a cross-origin iframe served by the :4008 dev server. */
+/**
+ * The widget lives in a cross-origin iframe served by the :4008 dev server, proxied as
+ * `widgetdevoverview.typerefinery.localhost`. The page carries **three** frames, so
+ * `frameLocator('iframe').first()` picks the wrong one — target it by src.
+ */
 function graph(page: any) {
-  return page.frameLocator('iframe').first()
+  return page.frameLocator('iframe[src*="widgetdevoverview"], iframe[src*="4008"], iframe').first()
 }
+
+/**
+ * The overview draws each node as an `<image class="node-image">` — there is **no** circle and
+ * no `g.node` anywhere in this widget. A probe of a healthy page (27 nodes / 52 edges) counted:
+ * `svg image` 27, `svg circle` 0, `svg path` 53, classes `node-image`×27, `edgepath`×52.
+ * Looking for circles reported a working graph as blank for two runs.
+ */
+const NODE = 'svg image.node-image, svg image, svg g.node'
 
 async function openOverview(page: any) {
   await page.goto(OVERVIEW, { waitUntil: 'domcontentloaded' })
@@ -21,7 +33,7 @@ async function openOverview(page: any) {
 test.describe('Act 2 — Incident Overview', () => {
   step('P2-S1', async ({ page }) => {
     await openOverview(page)
-    const nodes = graph(page).locator('svg g.node, svg circle, svg .node')
+    const nodes = graph(page).locator(NODE)
     await expect
       .poll(async () => await nodes.count(), { timeout: 60_000, message: 'graph nodes rendered' })
       .toBeGreaterThan(1)
@@ -34,7 +46,7 @@ test.describe('Act 2 — Incident Overview', () => {
     const outside = await graph(page).locator('svg').first().evaluate((svg: SVGSVGElement) => {
       const box = svg.getBoundingClientRect()
       let out = 0
-      svg.querySelectorAll('circle, g.node').forEach((n) => {
+      svg.querySelectorAll('image.node-image, image, circle, g.node').forEach((n) => {
         const b = (n as SVGGraphicsElement).getBoundingClientRect()
         if (b.width === 0 && b.height === 0) return
         if (b.left < box.left - 2 || b.right > box.right + 2 || b.top < box.top - 2 || b.bottom > box.bottom + 2) out++
@@ -46,7 +58,7 @@ test.describe('Act 2 — Incident Overview', () => {
 
   step('P2-S3', async ({ page }) => {
     await openOverview(page)
-    const node = graph(page).locator('svg circle, svg g.node').first()
+    const node = graph(page).locator(NODE).first()
     await expect(node).toBeVisible({ timeout: 60_000 })
     const before = await node.boundingBox()
     expect(before).not.toBeNull()
@@ -73,7 +85,7 @@ test.describe('Act 2 — Incident Overview', () => {
 
   step('P2-S5', async ({ page }) => {
     await openOverview(page)
-    const node = graph(page).locator('svg circle, svg g.node').first()
+    const node = graph(page).locator(NODE).first()
     await expect(node).toBeVisible({ timeout: 60_000 })
     await node.click()
     await page.waitForTimeout(6_000)
