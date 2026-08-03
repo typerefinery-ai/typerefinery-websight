@@ -42,6 +42,12 @@
                             name="form-success"
                             topic="form-success"
                             type="emit"/>
+                        <_x0031_
+                            jcr:primaryType="nt:unstructured"
+                            action="FORM_ERROR"
+                            name="form-error"
+                            topic="form-error"
+                            type="emit"/>
                     </_events_>
                     <input
                         jcr:primaryType="nt:unstructured"

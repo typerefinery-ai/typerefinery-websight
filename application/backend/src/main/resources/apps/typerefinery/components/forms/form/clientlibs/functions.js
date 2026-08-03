@@ -236,15 +236,41 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             redirect: 'follow',
             signal: controller.signal
           })
-          .then(res => res.json())
-          .then(res => {
+          .then(async res => {
             console.group("submit response");
-            console.log(res)
+            console.log(["status", res.status, res.statusText, "ok", res.ok]);
+
+            // A non-2xx is a failure, whatever the body says. This used to go straight to
+            // res.json() and then to successCallback, so a failing submit that happened to return
+            // JSON was reported as a SUCCESS. That became actively harmful once the platform
+            // started answering 500 with a JSON error envelope (alpha-launch docs/issues/0026):
+            // the form would announce success on every algorithm failure.
+            // Only a body that is not valid JSON failed before, and then only by accident.
+            if (!res.ok) {
+              const text = await res.text().catch(() => "");
+              console.error(`submit failed: HTTP ${res.status} ${res.statusText} - ${text.slice(0, 300)}`);
+              errorCallback($component, componentConfig, {
+                url: url,
+                method: method,
+                payloadType: payloadType,
+                body: body,
+                status: res.status,
+                statusText: res.statusText,
+                response: text
+              });
+              console.groupEnd();
+              return;
+            }
+
+            const parsed = await res.json();
+            console.log(parsed)
             successCallback($component, componentConfig, {
-              url: url, 
-              method: method, 
-              payloadType: payloadType, 
-              body: body
+              url: url,
+              method: method,
+              payloadType: payloadType,
+              body: body,
+              status: res.status,
+              response: parsed
             })
             console.groupEnd();
           });
@@ -330,12 +356,16 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
     // update the button state to loading or completed.
     ns.updateButtonState = ($component, state) => {
         const $button = $component.find("button[type='submit']");
-        if ($button) {
-            
-            // disable the button and loading text 
-            $button.disabled = state === "loading";
-            $button.innerHTML = state === "loading" ? `<i class="pi pi-spin pi-spinner"></i>` : $button.attr("data-label");
+        // `$button` is a jQuery object: assigning `.disabled` / `.innerHTML` to it sets properties
+        // on the wrapper and does nothing to the element, so this never actually worked - the
+        // button neither disabled on submit nor restored afterwards. Use the jQuery API, and check
+        // `.length` rather than the object (which is always truthy).
+        if (!$button.length) {
+            return;
         }
+        const loading = state === "loading";
+        $button.prop("disabled", loading);
+        $button.html(loading ? `<i class="pi pi-spin pi-spinner"></i>` : ($button.attr("data-label") || $button.text()));
     };
 
     /**
