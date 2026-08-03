@@ -216,13 +216,13 @@
                                     nameCustom="\0"
                                     topic="embed-viz-event-proxy"
                                     type="emit"/>
-                                <_x0032_0
+                                <_x0032_1
                                     jcr:primaryType="nt:unstructured"
                                     action="DATA_REQUEST"
                                     config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/rmb-force/remove-object&quot;}"
                                     name="\0"
-                                    nameCustom="viz-open-form-remove-promo-sro"
-                                    topic="viz-open-form-remove-promo-sro"
+                                    nameCustom="embed-force-remove"
+                                    topic="embed-force-remove"
                                     type="emit"/>
                                 <_x0031_9
                                     jcr:primaryType="nt:unstructured"
