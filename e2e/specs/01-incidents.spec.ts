@@ -176,9 +176,22 @@ test.describe('Act 1 — All Incidents table', () => {
   })
 
   step('P1-S8', async ({ page }) => {
-    // Simulate the create API failing and assert the UI says so rather than going quiet.
+    // Simulate the create failing and assert the UI says so rather than going quiet.
+    //
+    // ⚠️ Fail the request the **browser** actually makes. An earlier version intercepted
+    // `**/stix-orm/**`, but the create chain runs server-side (browser → the form's flow route →
+    // stix-orm), so that interception never touched it — the browser only calls `/stix-orm/*` for
+    // vocab lookups. The test reported "no error surfaced" without having caused a failure at all.
     await openIncidents(page)
-    await page.route('**/stix-orm/**', (route) => route.fulfill({ status: 500, body: 'forced failure' }))
+    let submitIntercepted = false
+    await page.route('**/*', (route) => {
+      const req = route.request()
+      if (req.method() === 'POST' && /\/form\b|\/form\//.test(req.url())) {
+        submitIntercepted = true
+        return route.fulfill({ status: 500, body: 'forced failure' })
+      }
+      return route.continue()
+    })
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
     await dropdownItem(page, /^\s*Incident\s*$/i).click()
     const frame = page.frameLocator('iframe').first()
@@ -195,6 +208,13 @@ test.describe('Act 1 — All Incidents table', () => {
     // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
     // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
     await submitModal(page, frame)
+
+    // Guard the test itself: if the submit was never intercepted, a missing error message proves
+    // nothing. This is the check the previous version lacked.
+    await expect
+      .poll(() => submitIntercepted, { timeout: 20_000, message: 'the submit request was actually failed' })
+      .toBeTruthy()
+
     await expect(
       page.locator('text=/error|failed|could not|unable/i').first(),
       'an error is surfaced in the UI',
