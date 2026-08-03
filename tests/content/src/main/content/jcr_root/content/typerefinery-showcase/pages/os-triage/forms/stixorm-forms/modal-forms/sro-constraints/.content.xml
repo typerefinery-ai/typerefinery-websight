@@ -190,6 +190,14 @@
                             nameCustom="FORM_SUCCESS"
                             topic="FORM_SUCCESS"
                             type="emit"/>
+                        <_x0032_
+                            jcr:primaryType="nt:unstructured"
+                            action="FORM_ERROR"
+                            config="\{&quot;postparentwindow&quot;:true}"
+                            name="\0"
+                            nameCustom="FORM_ERROR"
+                            topic="FORM_ERROR"
+                            type="emit"/>
                     </_events_>
                 </form>
             </main>
