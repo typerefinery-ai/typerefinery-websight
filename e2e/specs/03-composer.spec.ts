@@ -52,6 +52,26 @@ const PANE = { tree: 'svg.tree_svg', promo: 'svg.promo_svg', scratch: 'svg.scrat
 const paneNodes = (page: any, pane: string) =>
   composerWidget(page).locator(pane).locator('image, g.node, circle')
 
+/**
+ * Composer modals (Create SRO / Create Connection) mount in a **fourth frame** of their own,
+ * `…/forms/stixorm-forms/modal-forms/…` — not in the widget frame and not in the host page.
+ * That is why asserting on the modal from either of those found nothing while the modal was
+ * plainly on screen.
+ */
+async function modalState(page: any) {
+  for (const f of page.frames()) {
+    if (!/modal-forms/.test(f.url())) continue
+    const text = await f.locator('body').innerText().catch(() => '')
+    const values = await f
+      .locator('input')
+      .evaluateAll((els: HTMLInputElement[]) => els.map((e) => e.value).filter(Boolean))
+      .catch(() => [] as string[])
+    const options = await f.locator('select option').count().catch(() => 0)
+    return { found: true, text, values, options }
+  }
+  return { found: false, text: '', values: [] as string[], options: 0 }
+}
+
 /** True once the form pane has left the default placeholder and rendered a real form. */
 async function formPaneOpened(page: any) {
   for (const f of page.frames()) {
@@ -168,26 +188,30 @@ test.describe('Act 3 — Incident Composer', () => {
     // The "Create Foreign Key Connections" modal must carry **both refs pre-filled** and offer
     // the connection fields. `created_by_ref` is an *option inside the collapsed dropdown*, not
     // visible text — asserting on the literal string failed against a working modal.
-    // ⚠️ UNRESOLVED LOCATOR — the step is verified by screenshot, not yet by assertion.
-    // `docs/runs/2026-08-03T17-04-51Z/test-output/…Connection-opens-pre-filled…/test-failed-1.png`
-    // shows the modal working: "Create Foreign Key Connections" with Source Ref
-    // `user-account--113460bd…` (Promo) and Target Ref `identity--c3df2145…` (Scratch) both
-    // pre-filled, plus a Connection Field List. But the title text is not findable from either
-    // the widget frame or the page, so the modal is rendered somewhere else again (a third
-    // frame or a portal). Resolve where it mounts before trusting this assertion either way —
-    // a red here currently means "not located", not "broken".
-    const modal = page.getByText(/create foreign key connections/i).first()
-    await expect(modal).toBeVisible({ timeout: 30_000 })
+    await expect
+      .poll(async () => (await modalState(page)).found, {
+        timeout: 30_000,
+        message: 'Create Connection modal frame (…/modal-forms/…) appeared',
+      })
+      .toBeTruthy()
 
-    const values = await page
-      .locator('input')
-      .evaluateAll((els: HTMLInputElement[]) => els.map((e) => e.value).filter(Boolean))
-    const refs = values.filter((v) => /--[0-9a-f-]{8,}/i.test(v))
-    expect(refs.length, `Source Ref and Target Ref pre-filled (got ${JSON.stringify(refs)})`).toBeGreaterThan(1)
+    expect((await modalState(page)).text, 'modal is the Foreign Key Connections form').toMatch(
+      /foreign key connections/i,
+    )
 
-    const fieldList = page.locator('select').last()
-    await expect(fieldList).toBeVisible({ timeout: 15_000 })
-    expect(await fieldList.locator('option').count(), 'connection field list offers fields').toBeGreaterThan(0)
+    // The criterion is that source and target arrive **pre-filled across the two panes**.
+    // The frame mounts before it is populated, so this must be polled, not snapshotted.
+    await expect
+      .poll(
+        async () => (await modalState(page)).values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).length,
+        { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
+      )
+      .toBeGreaterThan(1)
+    const modal = await modalState(page)
+
+    // `created_by_ref` is an *option* in the collapsed "Connection Field List", never visible
+    // text — an assertion on the literal string fails against a working modal.
+    expect(modal.options, 'connection field list offers fields to choose').toBeGreaterThan(0)
   })
 
   step('P3-S8', async ({ page }) => {
