@@ -7,20 +7,38 @@ import { FLOW_BASE, SHOWCASE } from '../playwright.config'
 const INCIDENTS = `${SHOWCASE}/pages/incidents.html`
 
 /**
- * ⚠️ **KNOWN-BAD SELECTOR — results for P1-S4 / P1-S5 / P1-S6 are not trustworthy yet.**
+ * The "+ Create" dropdown's entries, scoped so they cannot be confused with the sidebar.
  *
- * These steps pick the dropdown's Incident entry with `getByText(/^\s*Incident\s*$/i)`, which also
- * matches the **left sidebar nav link "Incident"** (the sidebar lists Artifacts · Dashboard ·
- * Incidents · Incident · Notes · Options · Tags · Tasks). Proven 2026-08-04: clicking it navigates
- * to `pages/incidents/incident.html` instead of opening the Create modal, so the modal assertion
- * then fails against a product that may well be fine.
+ * The menu renders as `DIV.dropdown-menu.dropdownMenu` (gaining `.show` when open) containing
+ * `DIV.dropdown-item` entries — Incident · Note · Artifact · Task. The left sidebar *also* has an
+ * item reading "Incident" (`LI.list-group-item`, in the nav list Artifacts · Dashboard · Incidents
+ * · Incident · Notes · Options · Tags · Tasks), and it is **always visible**.
  *
- * The dropdown is **not** matched by `.dropdown-menu` / `[class*="dropdown"]` either — that was
- * tried and found nothing. The menu's real container still needs identifying (dropdown.js inserts
- * it with `.after()`), after which these steps should scope the click to it.
+ * A bare `getByText(/^\s*Incident\s*$/i)` therefore matched the sidebar, which broke these steps in
+ * two different ways:
+ *   - **P1-S4/S5/S6** clicked the sidebar link and navigated away instead of opening the modal.
+ *   - **P1-S3** asserted "the dropdown item is visible" against the sidebar item, so it **passed
+ *     vacuously** — it never demonstrated that the dropdown opened at all.
  *
- * Until then: a red on P1-S4/S5/S6 means "not yet measured", not "broken".
+ * Earlier attempts to scope by container looked for `a, li, button` children and found nothing:
+ * the entries are `DIV`s.
  */
+const dropdownItem = (page: any, label: RegExp) =>
+  page.locator('.dropdown-menu .dropdown-item').filter({ hasText: label }).first()
+
+/**
+ * Submit an item modal. Its buttons ("Cancel" / "Save Changes") live on the **modal chrome in the
+ * host page**, not inside the form iframe — the same arrangement the composer's modals use. The
+ * frame is kept as a fallback for any form that renders its own submit.
+ */
+async function submitModal(page: any, frame: any) {
+  const pageButton = page.getByRole('button', { name: /save changes|^save$|^create$/i }).first()
+  if (await pageButton.count()) {
+    await pageButton.click()
+    return
+  }
+  await frame.getByRole('button', { name: /save|create/i }).first().click()
+}
 
 /** The table paints its rows asynchronously over TMS; give it room before asserting. */
 async function openIncidents(page: any) {
@@ -75,14 +93,14 @@ test.describe('Act 1 — All Incidents table', () => {
     await create.click()
     // The dropdown is attached after the button (docs/issues/0005 — it used to be built
     // with jQuery .add(), which never inserts into the DOM).
-    const item = page.getByText(/^\s*Incident\s*$/i).first()
+    const item = dropdownItem(page, /^\s*Incident\s*$/i)
     await expect(item).toBeVisible({ timeout: 20_000 })
   })
 
   step('P1-S4', async ({ page }) => {
     await openIncidents(page)
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await page.getByText(/^\s*Incident\s*$/i).first().click()
+    await dropdownItem(page, /^\s*Incident\s*$/i).click()
 
     const frame = page.frameLocator('iframe').first()
     await expect(frame.locator('input, select, textarea').first()).toBeVisible({ timeout: 60_000 })
@@ -96,16 +114,24 @@ test.describe('Act 1 — All Incidents table', () => {
 
     await openIncidents(page)
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await page.getByText(/^\s*Incident\s*$/i).first().click()
+    await dropdownItem(page, /^\s*Incident\s*$/i).click()
 
     const frame = page.frameLocator('iframe').first()
-    const name = frame.locator('input[name="name"], input[name="name "]').first()
+    // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
+    // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
+    // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
+    // space seen on other authored field names (docs/issues/0013).
+    const name = frame
+      .locator('input[name="incidenttitle"], input[name="incidenttitle "], input[name="name"], input[name="name "]')
+      .first()
     await expect(name).toBeVisible({ timeout: 60_000 })
     const incidentName = `Runsheet probe ${new Date().toISOString().slice(11, 19)}`
     await name.click()
     await name.pressSequentially(incidentName, { delay: 20 })
 
-    await frame.getByRole('button', { name: /save|create/i }).first().click()
+    // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
+    // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
+    await submitModal(page, frame)
     // The create leg is fire-and-forget; poll the endpoint rather than the UI.
     await expect
       .poll(
@@ -122,13 +148,21 @@ test.describe('Act 1 — All Incidents table', () => {
   step('P1-S6', async ({ page }) => {
     await openIncidents(page)
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await page.getByText(/^\s*Incident\s*$/i).first().click()
+    await dropdownItem(page, /^\s*Incident\s*$/i).click()
     const frame = page.frameLocator('iframe').first()
-    const name = frame.locator('input[name="name"], input[name="name "]').first()
+    // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
+    // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
+    // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
+    // space seen on other authored field names (docs/issues/0013).
+    const name = frame
+      .locator('input[name="incidenttitle"], input[name="incidenttitle "], input[name="name"], input[name="name "]')
+      .first()
     await expect(name).toBeVisible({ timeout: 60_000 })
     await name.click()
     await name.pressSequentially(`Runsheet nav ${new Date().toISOString().slice(11, 19)}`, { delay: 20 })
-    await frame.getByRole('button', { name: /save|create/i }).first().click()
+    // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
+    // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
+    await submitModal(page, frame)
     // FORM_SUCCESS → modal callback → navigate. Skipped during a TotalJS busy window (0014).
     await expect(page).toHaveURL(/incident/i, { timeout: 90_000 })
   })
@@ -146,13 +180,21 @@ test.describe('Act 1 — All Incidents table', () => {
     await openIncidents(page)
     await page.route('**/stix-orm/**', (route) => route.fulfill({ status: 500, body: 'forced failure' }))
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await page.getByText(/^\s*Incident\s*$/i).first().click()
+    await dropdownItem(page, /^\s*Incident\s*$/i).click()
     const frame = page.frameLocator('iframe').first()
-    const name = frame.locator('input[name="name"], input[name="name "]').first()
+    // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
+    // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
+    // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
+    // space seen on other authored field names (docs/issues/0013).
+    const name = frame
+      .locator('input[name="incidenttitle"], input[name="incidenttitle "], input[name="name"], input[name="name "]')
+      .first()
     await expect(name).toBeVisible({ timeout: 60_000 })
     await name.click()
     await name.pressSequentially('Runsheet failure probe', { delay: 20 })
-    await frame.getByRole('button', { name: /save|create/i }).first().click()
+    // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
+    // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
+    await submitModal(page, frame)
     await expect(
       page.locator('text=/error|failed|could not|unable/i').first(),
       'an error is surfaced in the UI',
