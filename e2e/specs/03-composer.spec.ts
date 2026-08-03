@@ -66,7 +66,11 @@ async function modalState(page: any) {
       .locator('input')
       .evaluateAll((els: HTMLInputElement[]) => els.map((e) => e.value).filter(Boolean))
       .catch(() => [] as string[])
-    const options = await f.locator('select option').count().catch(() => 0)
+    // ⚠️ Count the **Choices-rendered** items, not native <option> elements. Choices.js takes
+    // the options out of the native select and renders its own list, so `select option` is
+    // legitimately 0 on a fully populated field — that miscount made this step look like a
+    // product defect for three runs (docs/issues/0030, closed as not-a-defect).
+    const options = await f.locator('.choices__item').count().catch(() => 0)
     return { found: true, text, values, options }
   }
   return { found: false, text: '', values: [] as string[], options: 0 }
@@ -211,7 +215,12 @@ test.describe('Act 3 — Incident Composer', () => {
 
     // `created_by_ref` is an *option* in the collapsed "Connection Field List", never visible
     // text — an assertion on the literal string fails against a working modal.
-    expect(modal.options, 'connection field list offers fields to choose').toBeGreaterThan(0)
+    await expect
+      .poll(async () => (await modalState(page)).options, {
+        timeout: 30_000,
+        message: 'connection field list offers fields to choose',
+      })
+      .toBeGreaterThan(0)
   })
 
   step('P3-S8', async ({ page }) => {
