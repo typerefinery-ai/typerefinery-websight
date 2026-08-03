@@ -6,6 +6,22 @@ import { FLOW_BASE, SHOWCASE } from '../playwright.config'
 
 const INCIDENTS = `${SHOWCASE}/pages/incidents.html`
 
+/**
+ * ⚠️ **KNOWN-BAD SELECTOR — results for P1-S4 / P1-S5 / P1-S6 are not trustworthy yet.**
+ *
+ * These steps pick the dropdown's Incident entry with `getByText(/^\s*Incident\s*$/i)`, which also
+ * matches the **left sidebar nav link "Incident"** (the sidebar lists Artifacts · Dashboard ·
+ * Incidents · Incident · Notes · Options · Tags · Tasks). Proven 2026-08-04: clicking it navigates
+ * to `pages/incidents/incident.html` instead of opening the Create modal, so the modal assertion
+ * then fails against a product that may well be fine.
+ *
+ * The dropdown is **not** matched by `.dropdown-menu` / `[class*="dropdown"]` either — that was
+ * tried and found nothing. The menu's real container still needs identifying (dropdown.js inserts
+ * it with `.after()`), after which these steps should scope the click to it.
+ *
+ * Until then: a red on P1-S4/S5/S6 means "not yet measured", not "broken".
+ */
+
 /** The table paints its rows asynchronously over TMS; give it room before asserting. */
 async function openIncidents(page: any) {
   await page.goto(INCIDENTS, { waitUntil: 'domcontentloaded' })
