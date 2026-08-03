@@ -8,6 +8,14 @@ const COMPOSER = `${SHOWCASE}/forms/composer-local.html`
 /** The composer workbench is the dependable lab for cross-origin gestures (docs/issues/0007). */
 export const WORKBENCH = 'http://localhost:4005/workbench.html'
 
+/**
+ * The composer draws its tree and graph nodes as SVG **images/groups**, not bare circles —
+ * the first version of this spec looked only for `svg circle, g.node` and reported a working
+ * widget as broken (run 2026-08-03T15-39-28Z, where the workbench screenshot clearly shows a
+ * populated Evidence List). Keep this broad and shared by every step below.
+ */
+const NODE_SELECTOR = 'svg image, svg g.node, svg g[class*="node"], svg circle, [class*="tree-node"], [class*="treenode"]'
+
 async function openComposer(page: any) {
   await page.goto(COMPOSER, { waitUntil: 'domcontentloaded' })
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
@@ -24,7 +32,7 @@ test.describe('Act 3 — Incident Composer', () => {
     const count = await frames.count()
     for (let i = 0; i < count; i++) {
       const f = page.frameLocator('iframe').nth(i)
-      const marks = await f.locator('svg circle, svg g.node, li, .tree-node').count().catch(() => 0)
+      const marks = await f.locator(NODE_SELECTOR).count().catch(() => 0)
       if (marks > 0) panesWithContent++
     }
     expect(panesWithContent, 'panes holding rendered content').toBeGreaterThan(0)
@@ -44,7 +52,7 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S3', async ({ page }) => {
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    const node = page.locator('svg g.node, .tree-node, svg circle').first()
+    const node = page.locator(NODE_SELECTOR).first()
     await expect(node).toBeVisible({ timeout: 40_000 })
     await node.click({ button: 'right' })
     await expect(page.getByText(/copy/i).first()).toBeVisible({ timeout: 20_000 })
@@ -56,7 +64,7 @@ test.describe('Act 3 — Incident Composer', () => {
     // and the flow returns 200 so the widget toasts success (docs/issues/0026).
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    const node = page.locator('svg g.node, .tree-node, svg circle').first()
+    const node = page.locator(NODE_SELECTOR).first()
     await node.click({ button: 'right' })
     await page.getByText(/copy/i).first().click()
     await page.waitForTimeout(6_000)
@@ -69,7 +77,7 @@ test.describe('Act 3 — Incident Composer', () => {
     let opened = false
     for (let i = 0; i < count && !opened; i++) {
       const f = page.frameLocator('iframe').nth(i)
-      const node = f.locator('svg circle, svg g.node').first()
+      const node = f.locator(NODE_SELECTOR).first()
       if (await node.count().catch(() => 0)) {
         await node.click().catch(() => {})
         await page.waitForTimeout(6_000)
@@ -82,7 +90,7 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S6', async ({ page }) => {
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    const nodes = page.locator('svg circle, svg g.node')
+    const nodes = page.locator(NODE_SELECTOR)
     expect(await nodes.count()).toBeGreaterThan(1)
     await nodes.nth(0).click()
     await nodes.nth(1).click()
@@ -94,7 +102,7 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S7', async ({ page }) => {
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    const nodes = page.locator('svg circle, svg g.node')
+    const nodes = page.locator(NODE_SELECTOR)
     await nodes.nth(0).click()
     await nodes.nth(1).click()
     await nodes.nth(1).click({ button: 'right' })
@@ -105,7 +113,7 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S8', async ({ page }) => {
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    const nodes = page.locator('svg circle, svg g.node')
+    const nodes = page.locator(NODE_SELECTOR)
     const before = await nodes.count()
     await nodes.first().click({ button: 'right' })
     await page.getByText(/^\s*remove\s*$/i).first().click()
@@ -116,7 +124,7 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S9', async ({ page }) => {
     await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(8_000)
-    await page.locator('svg circle, svg g.node').first().click({ button: 'right' })
+    await page.locator(NODE_SELECTOR).first().click({ button: 'right' })
     await expect(page.getByText(/promote/i).first()).toBeVisible({ timeout: 15_000 })
   })
 
