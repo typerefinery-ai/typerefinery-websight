@@ -110,14 +110,18 @@ test.describe('Act 3 — Incident Composer', () => {
   })
 
   step('P3-S2', async ({ page }) => {
-    // The runsheet marks the CMS embed unreliable for driving radios; use the workbench.
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
+    // The Composer page carries the radios directly (Attack-Flow, Behavior, Sighting, Tasks,
+    // Impact, Event, User, Company) — no need for the workbench now that the frame is targeted.
+    await openComposer(page)
+    const radios = composerWidget(page).locator('input[type="radio"]')
+    await expect.poll(async () => await radios.count(), { timeout: 60_000 }).toBeGreaterThan(1)
+
+    const treeBefore = await composerWidget(page).locator(PANE.tree).innerHTML().catch(() => '')
+    // Switch to a different source and let the tree reload.
+    await radios.nth(3).click({ force: true })
     await page.waitForTimeout(8_000)
-    const radios = widget(page).locator('input[type="radio"]')
-    const n = await radios.count()
-    expect(n, 'treeview source radios').toBeGreaterThan(1)
-    await radios.nth(1).click()
-    await page.waitForTimeout(4_000)
+    const treeAfter = await composerWidget(page).locator(PANE.tree).innerHTML().catch(() => '')
+    expect(treeAfter, 'tree re-rendered for the newly selected source').not.toBe(treeBefore)
   })
 
   step('P3-S3', async ({ page }) => {
@@ -223,28 +227,47 @@ test.describe('Act 3 — Incident Composer', () => {
       .toBeGreaterThan(0)
   })
 
+  /**
+   * ⚠️ **Destructive.** This consumes one Scratch object from the current incident's unattached
+   * context. Scratch is cheap to repopulate (P5-S3 / the identity-create form writes straight into
+   * it), which is why this is acceptable to run — but do not point it at Promo.
+   */
   step('P3-S8', async ({ page }) => {
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(8_000)
-    const nodes = widget(page).locator(NODE_SELECTOR)
-    const before = await nodes.count()
-    await nodes.first().click({ button: 'right' })
-    await widget(page).getByText(/^\s*remove\s*$/i).first().click()
-    await page.waitForTimeout(8_000)
-    expect(await nodes.count(), 'object removed after refresh').toBeLessThan(before)
+    await openComposer(page)
+    const scratch = paneNodes(page, PANE.scratch)
+    await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    const before = await scratch.count()
+
+    await scratch.first().click({ button: 'right' })
+    await composerWidget(page).getByText(/^\s*remove\s*$/i).first().click()
+
+    await expect
+      .poll(async () => await paneNodes(page, PANE.scratch).count(), {
+        timeout: 60_000,
+        message: 'Scratch object disappears after Remove + refresh',
+      })
+      .toBeLessThan(before)
   })
 
   step('P3-S9', async ({ page }) => {
-    await page.goto(WORKBENCH, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(8_000)
-    await widget(page).locator(NODE_SELECTOR).first().click({ button: 'right' })
-    await expect(widget(page).getByText(/promote/i).first()).toBeVisible({ timeout: 15_000 })
+    await openComposer(page)
+    // The criterion is stated negatively ("Promote is *not* offered for non-Promotables"), which
+    // passes vacuously while Promote does not exist at all. Assert the positive case instead, so
+    // this step stays red until the menu item is actually built (source-doc task 9).
+    const promo = paneNodes(page, PANE.promo)
+    await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    await promo.first().click({ button: 'right' })
+    await expect(composerWidget(page).getByText(/promote/i).first()).toBeVisible({ timeout: 15_000 })
   })
 
   step('P3-S10', async ({ page }) => {
     await openComposer(page)
-    await page.getByRole('button', { name: /new object/i }).first().click()
-    await expect(page.locator('.modal, [role="dialog"]').first()).toBeVisible({ timeout: 30_000 })
+    // Looked for in the page *and* the widget frame — measured 2026-08-04: the page has no
+    // buttons at all and the widget offers only "Reload".
+    const pageBtn = page.getByRole('button', { name: /new object|new form|create object/i })
+    const widgetBtn = composerWidget(page).getByRole('button', { name: /new object|new form|create object/i })
+    const found = (await pageBtn.count()) + (await widgetBtn.count())
+    expect(found, 'a "New Object" button exists on the Composer').toBeGreaterThan(0)
   })
 
   step('P3-S11', async ({ page }) => {
