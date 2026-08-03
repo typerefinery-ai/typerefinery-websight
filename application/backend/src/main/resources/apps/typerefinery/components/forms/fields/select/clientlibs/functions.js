@@ -322,7 +322,14 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
       console.group('select getValue');
       console.log('id', id);
       let returnValue = "";
-      returnValue = selectInstances[id].getValue(true)
+      // Same exposure as setValue: a select in a modal frame may not have been registered yet.
+      const getInstance = selectInstances[id] || ns.ensureInstance(id);
+      if (!getInstance) {
+        console.error(`select getValue: no instance for ${id}, returning ""`);
+        console.groupEnd();
+        return returnValue;
+      }
+      returnValue = getInstance.getValue(true)
       console.log('returnValue', returnValue);
       console.groupEnd();
       return returnValue;
@@ -331,15 +338,70 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
       console.group('select setChoiceByValue');
       console.log('id', id);
       console.log('value', value);
-      selectInstances[id].setChoiceByValue(value);
+      const instance = selectInstances[id] || ns.ensureInstance(id);
+      if (!instance) {
+        console.error(`select setChoiceByValue: no instance for ${id}, skipped`);
+        console.groupEnd();
+        return;
+      }
+      instance.setChoiceByValue(value);
       console.groupEnd();
     }
+    /**
+     * Choices options used by init() for both of its branches. Kept here so ensureInstance()
+     * below builds an identical instance rather than a subtly different one.
+     */
+    ns.choicesOptions = (maxSelection) => ({
+        removeItemButton: true,
+        maxItemCount: maxSelection || -1,
+        allowHTML: false,
+        shouldSort: true,
+        loadingText: 'Loading...',
+        itemSelectText: 'Press to select',
+        uniqueItemText: 'Only unique values can be added',
+        addItemText: (value) => {
+            return `Press Enter to add <b>"${value}"</b>`;
+        },
+    });
+
+    /**
+     * Return the Choices instance for a select, creating it if init() has not registered one.
+     *
+     * A select rendered inside a **modal frame** can be asked to take values before (or without)
+     * the page's component-init sweep having reached it — the Create Connection modal is exactly
+     * that case. setValue() then threw `Cannot read properties of undefined (reading 'items')`
+     * and the field list stayed empty, so the connection could never be completed
+     * (alpha-launch docs/issues/0030).
+     *
+     * Returns null when the element genuinely is not on the page, so callers can log and skip
+     * instead of throwing.
+     */
+    ns.ensureInstance = function (id) {
+        if (selectInstances[id]) {
+            return selectInstances[id];
+        }
+        const $el = $(`#${id}`);
+        if (!$el.length || !$el.get(0)) {
+            console.warn(`select ensureInstance: no element for id ${id}, cannot create a Choices instance`);
+            return null;
+        }
+        console.warn(`select ensureInstance: no Choices instance registered for ${id} — creating one now (see docs/issues/0030)`);
+        selectInstances[id] = new Choices($el.get(0), ns.choicesOptions());
+        return selectInstances[id];
+    };
+
     ns.setValue = function (id, values, options) {
         //TODO: check if data is an array or string and add it to the select options if not already present
         console.group('select setValue');
         console.log('id', id);
         console.log('values', values);
         console.log('Choice', selectInstances[id]);
+
+        if (!ns.ensureInstance(id)) {
+            console.error(`select setValue: skipped for ${id} — no select element and no Choices instance`);
+            console.groupEnd();
+            return;
+        }
 
         // selectInstances[id].setValue(values);
         if (options) {
@@ -350,7 +412,11 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
             console.log('current select.choices', selectInstances[id].choices);
 
             //if selectInstances[id] has choices then select by value if not add them
-            if (selectInstances[id].choices && replaceItems) {
+            // Was `if (selectInstances[id].choices && replaceItems)`. A freshly-created instance
+            // (see ensureInstance) has no `choices` yet, so that fell through to setValue(),
+            // which cannot introduce options that do not exist — leaving the list empty. When the
+            // caller asks to replace items, always go through setChoices.
+            if (replaceItems) {
                 console.log('no choices found and replace requested, adding new choices');
                 let choices = [];
                 // check if value is an array or string
