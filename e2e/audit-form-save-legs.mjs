@@ -11,6 +11,8 @@
  *
  * Walks every page under the os-triage forms tree, finds each `form` node, and reports.
  */
+import fs from 'fs'
+
 const BASE = 'https://cms.typerefinery.localhost:8101'
 const ROOT = '/content/typerefinery-showcase/pages/os-triage/forms'
 const auth = 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64')
@@ -55,17 +57,21 @@ for (const p of pages) {
   const content = await get(`${VAR}${p}/jcr:content.4.json`) || await get(`${p}/jcr:content.4.json`)
   if (!content) continue
   let found = null
-  const walk = (o) => {
+  // Track the path to the form node as well as the node itself: remediation has to WRITE
+  // flowapi_enable on the /content node, and without the path a caller has to guess it
+  // (docs/issues/0047).
+  let foundPath = null
+  const walk = (o, trail) => {
     for (const [k, v] of Object.entries(o)) {
       if (!v || typeof v !== 'object') continue
       // Match on the node name alone: the /var mirror does not carry sling:resourceType
       // (its nodes are sling:Folder), so requiring it silently skipped most forms.
-      if (k === 'form') { found = v; return }
-      walk(v)
+      if (k === 'form') { found = v; foundPath = [...trail, k]; return }
+      walk(v, [...trail, k])
       if (found) return
     }
   }
-  walk(content)
+  walk(content, [])
   if (!found) continue
   const props = Object.keys(found)
   // A route's *presence* is not its *validity*. docs/issues/0047: sro-constraints has a route, but
@@ -75,6 +81,8 @@ for (const p of pages) {
   const topicVal = String(found.flowapi_topic || '')
   rows.push({
     page: p.replace(ROOT + '/', ''),
+    // The /content node to write to. Always /content — the mirror is read-only output.
+    contentPath: `${p}/jcr:content/${foundPath.join('/')}`,
     route: !!found.flowapi_httproute,
     topic: !!found.flowapi_topic,
     enable: found.flowapi_enable,
@@ -117,3 +125,11 @@ console.log('\n⚠️  A provisioned flow is NOT a working save. docs/issues/004
 console.log('   Connection form gave it a route, but the generic flowform-service flow only ECHOES —')
 console.log('   the save logic is still authored per form. Treat the third list as "cheap to try",')
 console.log('   not "cheap to fix", and never bulk-enable.')
+
+// Machine-readable output, so remediation works from measured paths rather than a hand-copied
+// list (docs/issues/0047).
+fs.writeFileSync(
+  'audit-form-save-legs.json',
+  JSON.stringify({ healthy, poisoned, provisioningFailed, neverAsked }, null, 1),
+)
+console.log('\nwrote audit-form-save-legs.json')
