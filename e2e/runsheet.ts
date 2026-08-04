@@ -50,7 +50,10 @@ export const STEPS: Record<string, StepDef> = {
   'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
   'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
   'P1-S5': { title: 'Save Changes creates the incident and resets the default', baseline: 'pass', issue: '0005' },
-  'P1-S6': { title: 'After save the browser lands on Incident Overview', baseline: 'partial', issue: '0014' },
+  // Promoted 'partial' -> 'pass' 2026-08-04 (docs/issues/0048): the runsheet records this ✅ and it
+  // passes every run, but a non-'pass' baseline is NON-STRICT — a regression was being reported as
+  // 'skipped' rather than red. 0014's busy-window caveat is a flake risk, not a reason to stay silent.
+  'P1-S6': { title: 'After save the browser lands on Incident Overview', baseline: 'pass', issue: '0014' },
   // Downstream of 0029: with no rows there is no "Open" button to click. The step's own
   // mechanism is sound (decision 0002) — it cannot be exercised until P1-S1 renders rows.
   // Unblocked 2026-08-04 — the table now renders rows, so there is something to drill into.
@@ -64,13 +67,19 @@ export const STEPS: Record<string, StepDef> = {
   'P2-S2': { title: 'All nodes are within the visible panel bounds', baseline: 'pass', issue: '0006' },
   'P2-S3': { title: 'Dragging a node moves it without re-heating the simulation', baseline: 'pass', issue: '0006' },
   'P2-S4': { title: 'Scroll zooms and background-drag pans', baseline: 'manual', issue: '0006', note: 'CDP scroll gestures time out against the cross-origin embed' },
-  'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'pass', issue: '0006' },
+  // Demoted 'pass' -> 'fail' 2026-08-04. The old assertion counted iframes on a three-frame page,
+  // so it could never fail; the real assertion shows the form pane opens a **404** for os-threat
+  // typed nodes because os-threat-forms/attack-forms/oca-forms are empty (docs/issues/0049).
+  // Restore to 'pass' once those families are authored.
+  'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'fail', issue: '0006,0048,0049' },
   'P2-S6': { title: 'Dark theme config applies to the viz', baseline: 'unknown', issue: '0006' },
   'P2-S7': { title: 'Widget init()/refresh() apply the Overview options', baseline: 'unknown', issue: '0006' },
 
   // ---- Act 3 — Incident Composer ----------------------------------------
   'P3-S1': { title: 'Composer renders Tree, Promo and Scratch with data', baseline: 'pass', issue: '0003,0004,0016' },
-  'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'partial', issue: '0007' },
+  // Promoted 'partial' -> 'pass' 2026-08-04 (docs/issues/0048) — runsheet says ✅ automated; it was
+  // non-strict, so a regression would have been silently skipped.
+  'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'pass', issue: '0007' },
   'P3-S3': { title: 'Tree right-click shows Copy and Edit DAG', baseline: 'pass', issue: '0007' },
   // Promoted 2026-08-04: the step was never broken. Its assertion demanded the unattached count
   // GROW, but add_node replaces by id and every tree node is already in unattached context, so it
@@ -79,7 +88,10 @@ export const STEPS: Record<string, StepDef> = {
   'P3-S5': { title: 'Left-select in Promo opens a populated Update form', baseline: 'pass', issue: '0011,0013' },
   'P3-S6': { title: 'Create SRO works across Promo and Scratch', baseline: 'pass', issue: '0015' },
   'P3-S7': { title: 'Create Connection opens pre-filled', baseline: 'pass', issue: '0018' },
-  'P3-S8': { title: 'RMB Remove deletes the object after refresh', baseline: 'unknown', issue: '0007' },
+  // Promoted 'unknown' -> 'pass' 2026-08-04 (docs/issues/0048). The runsheet records this as PASSES
+  // after five stacked fixes (0032/0036/0037); leaving it 'unknown' meant a Remove regression — the
+  // exact thing 0037 was about — would report as skipped.
+  'P3-S8': { title: 'RMB Remove deletes the object after refresh', baseline: 'pass', issue: '0007,0037' },
   'P3-S9': { title: 'Promote is offered only for Promotables', baseline: 'unknown', issue: '0007' },
   'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'unknown', issue: '0007' },
   'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'fail', issue: '0017' },

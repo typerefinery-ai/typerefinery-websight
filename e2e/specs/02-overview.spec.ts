@@ -43,16 +43,22 @@ test.describe('Act 2 — Incident Overview', () => {
     await openOverview(page)
     // fitToPanel() should keep every node inside the SVG viewport — guards the centring
     // fault seen in docs/issues/0004.
-    const outside = await graph(page).locator('svg').first().evaluate((svg: SVGSVGElement) => {
+    // ⚠️ Counting only *outside* nodes passes on an EMPTY graph — zero nodes means zero outside,
+    // so a total render failure (0029's class, and the state Act 2 was in when data-starved by
+    // Act 1) reported this step as green (docs/issues/0048). Count both, and require that nodes
+    // were actually measured before concluding they all fit.
+    const { inside, outside } = await graph(page).locator('svg').first().evaluate((svg: SVGSVGElement) => {
       const box = svg.getBoundingClientRect()
-      let out = 0
+      let out = 0, ins = 0
       svg.querySelectorAll('image.node-image, image, circle, g.node').forEach((n) => {
         const b = (n as SVGGraphicsElement).getBoundingClientRect()
         if (b.width === 0 && b.height === 0) return
         if (b.left < box.left - 2 || b.right > box.right + 2 || b.top < box.top - 2 || b.bottom > box.bottom + 2) out++
+        else ins++
       })
-      return out
+      return { inside: ins, outside: out }
     })
+    expect(inside, 'nodes were actually rendered and measured (guards the empty-graph pass)').toBeGreaterThan(0)
     expect(outside, 'nodes outside the panel bounds').toBe(0)
   })
 
@@ -88,13 +94,28 @@ test.describe('Act 2 — Incident Overview', () => {
     const node = graph(page).locator(NODE).first()
     await expect(node).toBeVisible({ timeout: 60_000 })
     await node.click()
-    await page.waitForTimeout(6_000)
-    // The Update form opens in a second frame; assert it arrived populated.
-    const filled = await page.evaluate(() => {
-      const frames = Array.from(document.querySelectorAll('iframe'))
-      return frames.length
-    })
-    expect(filled, 'a form frame is present after left-select').toBeGreaterThan(1)
+
+    // ⚠️ This used to assert `document.querySelectorAll('iframe').length > 1`, which is true
+    // **before the click** — the Overview page carries three frames (see the comment at the top of
+    // this file). It could never distinguish a working left-select from a broken one
+    // (docs/issues/0048). P3-S5 documents the same anti-pattern as already fixed on its side;
+    // this is the equivalent fix here.
+    //
+    // Assert instead that a form frame **navigated off the default placeholder and carries
+    // inputs** — the same signal P3-S5 uses.
+    await expect
+      .poll(
+        async () => {
+          for (const f of page.frames()) {
+            const url = f.url()
+            if (!/stixorm-forms|forms\//.test(url) || /\/default(\.html)?$/.test(url)) continue
+            if ((await f.locator('input, select, textarea').count().catch(() => 0)) > 0) return true
+          }
+          return false
+        },
+        { timeout: 45_000, message: 'left-select opened a populated Update form (not the default placeholder)' },
+      )
+      .toBeTruthy()
   })
 
   step('P2-S6', async ({ page }) => {
