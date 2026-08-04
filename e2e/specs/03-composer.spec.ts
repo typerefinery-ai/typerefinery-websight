@@ -492,17 +492,32 @@ test.describe('Act 3 — Incident Composer', () => {
     const idsBefore = await unattachedIds()
 
     await openComposer(page)
-    const scratch = paneNodes(page, PANE.scratch)
-    await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
-    const before = await scratch.count()
 
-    await scratch.first().click({ button: 'right' })
+    // ⚠️ Do not require a Scratch node. Within a single regression run the pane drains: P3-S6
+    // creates an SRO, which reclassifies its Scratch endpoint into Promo permanently
+    // (docs/issues/0051). This step failed a full run with `Expected > 0, Received 0` while
+    // passing in isolation — an ordering artefact, not a Remove defect.
+    //
+    // Remove is asserted against the **unattached context** below, which covers either pane, so
+    // falling back to Promo tests the same behaviour.
+    const scratchCount = await paneNodes(page, PANE.scratch).count().catch(() => 0)
+    const pane = scratchCount > 0 ? PANE.scratch : PANE.promo
+    if (scratchCount === 0) {
+      observe(test.info(), 'note', 'Scratch empty — removing from Promo instead (docs/issues/0051)')
+    }
+    const targets = paneNodes(page, pane)
+    await expect
+      .poll(async () => await targets.count(), { timeout: 60_000, message: `${pane} holds a node to remove` })
+      .toBeGreaterThan(0)
+    const before = await targets.count()
+
+    await targets.first().click({ button: 'right' })
     await composerWidget(page).getByText(/^\s*remove\s*$/i).first().click()
 
     await expect
-      .poll(async () => await paneNodes(page, PANE.scratch).count(), {
+      .poll(async () => await paneNodes(page, pane).count(), {
         timeout: 60_000,
-        message: 'Scratch object disappears after Remove + refresh',
+        message: 'the object disappears from its pane after Remove + refresh',
       })
       .toBeLessThan(before)
 
