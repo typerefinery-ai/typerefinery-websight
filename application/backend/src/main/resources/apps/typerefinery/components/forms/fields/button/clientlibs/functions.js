@@ -177,6 +177,50 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       console.groupEnd();
     }
   
+    /**
+     * A submit button only submits a form it is a *descendant* of. Several pages author the
+     * submit button in the page <header> while the form lives in <main> - every stixorm
+     * create/update form does this - so the button renders type="submit" and is completely
+     * inert: the click produces no submit event, no request, and nothing is logged anywhere,
+     * which makes it look like a server problem rather than a markup one
+     * (alpha-launch docs/issues/0038).
+     *
+     * The HTML `form` attribute exists for exactly this case: it associates a control with a
+     * form it is not nested inside. Apply it only when the association is unambiguous, and say
+     * so in the log either way - a button that cannot submit should never be silent about it.
+     */
+    ns.associateSubmitButtonWithForm = ($component, componentConfig) => {
+      const { id } = componentConfig;
+      const button = $component.is("button") ? $component.get(0) : $component.find("button").get(0);
+
+      if (!button) {
+        console.warn(`submit button ${id} has no button element to associate with a form.`);
+        return;
+      }
+      if (button.closest("form")) {
+        console.log(`submit button ${id} is inside its form, native submit applies.`);
+        return;
+      }
+      if (button.getAttribute("form")) {
+        console.log(`submit button ${id} is already associated with form ${button.getAttribute("form")}.`);
+        return;
+      }
+
+      const forms = document.querySelectorAll("form[component=form]");
+      const target = forms.length === 1 ? forms[0] : null;
+      // NOTE: read the id with getAttribute, never `target.id`. A form exposes its named
+      // controls as properties, so on any form carrying a field named "id" - which these
+      // object forms do - `form.id` returns that <input>, not the form's id attribute.
+      const targetId = target ? target.getAttribute("id") : null;
+
+      if (targetId) {
+        button.setAttribute("form", targetId);
+        console.log(`submit button ${id} is outside the form - associated with form ${targetId} via the form attribute.`);
+      } else {
+        console.warn(`submit button ${id} is outside the form and ${forms.length} form component(s) were found on the page, so it cannot be associated unambiguously - this button will not submit anything.`);
+      }
+    };
+
     ns.handleEventAction = ($component, componentConfig, action, data) => {
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
@@ -212,7 +256,10 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
         switch (buttonType) {
           case "submit":
+            // a submit button carries no click handler by design - the browser submits the
+            // form for it, but only if the two are associated. See docs/issues/0038.
             initEvents = false;
+            ns.associateSubmitButtonWithForm($component, componentConfig);
             break;
           case "action":
             //FIXME: need to convert these to events.

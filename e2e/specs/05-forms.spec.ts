@@ -41,13 +41,20 @@ test.describe('Act 5 — form behaviour', () => {
     await name.click()
     await name.pressSequentially(probe, { delay: 20 })
     await page.getByRole('button', { name: /save|create/i }).first().click()
-    await page.waitForTimeout(8_000)
-    // ⚠️ Smoke check only. The object should land in the current incident's **unattached**
-    // context and show in the Composer's Scratch pane, which this assertion does not verify —
-    // it only proves the submit did not take the stack down. Treat a pass here as "not broken",
-    // not as evidence for the runsheet's P5-S3 criterion, which still needs the Scratch check.
-    const res = await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`, { timeout: 60_000 })
-    expect(res.status()).toBe(200)
+    // Assert the runsheet's actual criterion: the object lands in the current incident's
+    // **unattached** context, which is what the Composer's Scratch pane reads. The previous
+    // assertion only checked that an unrelated endpoint still answered 200, so it stayed green
+    // through five runs while the Create button was inert (docs/issues/0038).
+    const landed = async () => {
+      const res = await api.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
+      if (!res.ok()) return `unattached-split returned ${res.status()}`
+      const split = await res.json()
+      const all = [...(split.scratch?.nodes ?? []), ...(split.promo?.nodes ?? [])]
+      return all.some((n: unknown) => JSON.stringify(n).includes(probe))
+    }
+    await expect
+      .poll(landed, { timeout: 60_000, message: `identity "${probe}" written to unattached context` })
+      .toBe(true)
     await api.dispose()
   })
 
