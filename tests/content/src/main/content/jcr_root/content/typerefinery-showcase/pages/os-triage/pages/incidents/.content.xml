@@ -136,6 +136,7 @@
                             borderEnabled="false"
                             classes="\0"
                             dataSource="/apps/typerefinery/components/widgets/table/mock/datasource1.json"
+                            coldStartDataSource="https://flow.typerefinery.localhost:8101/viz-data/table-all-incidents-shaped"
                             flowapi_createdon="2025-02-03T11:25:46.279Z"
                             flowapi_designtemplate="\0"
                             flowapi_editurl="https://flow.typerefinery.localhost:8101/designer/?darkmode=0&amp;socket=wss%3A%2F%2Fflow.typerefinery.localhost%3A8101%2Fflows%2Ff1kgsp030mi50d&amp;components="

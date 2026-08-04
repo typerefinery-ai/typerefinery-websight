@@ -399,9 +399,11 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 console.log(["table cold start: no cached payload", componentConfig.id, topic,
                     "coldStartDataSource:", componentDataSource || "(none configured — will show waiting state)"]);
 
-                // Best-effort ask over TMS as well. Costs nothing and is guarded by REQUEST_MARKER;
-                // no flow answers it today (that was Option A, not taken) — see docs/issues/0029.
-                tmsNs.requestData(host, topic);
+                // NOT asking over TMS here. That was decision 0003 option A, which was not taken:
+                // no flow answers such a request, and calling it at this point throws inside the
+                // MessageService client (the socket is not open yet), which logged an error on
+                // every cold start for no benefit. ns.requestData remains in the TMS clientlib if
+                // the handshake is ever revisited. See docs/issues/0029.
 
                 if (componentDataSource) {
                     ns.jsonConnected(componentDataSource, componentConfig.id, $component);
