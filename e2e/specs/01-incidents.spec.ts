@@ -124,15 +124,34 @@ test.describe('Act 1 — All Incidents table', () => {
   })
 
   step('P1-S2', async ({ page }) => {
+    // The row's claim is "rows **live-update** over TMS **without a reload**". The old assertion
+    // never triggered the flow — it checked that a `table_*` key existed and rows > 0, which says
+    // nothing about updating (docs/issues/0048). Do the real thing: clear the rendered rows, trigger
+    // the flow, and require them to come back **without navigating**.
     await openIncidents(page)
-    const before = await page.locator('table tbody tr').count()
-    // The rows are published over TMS by flow f210iy001bt51d. Without triggering the flow
-    // we can at least assert the page holds a live TMS payload rather than a static table.
-    const stored = await page.evaluate(() =>
-      Object.keys(window.localStorage).filter((k) => k.startsWith('table_')),
-    )
-    expect(stored.length, 'a TMS table payload is cached on the page').toBeGreaterThan(0)
-    expect(before).toBeGreaterThan(0)
+    const onLoad = await page.locator('tbody tr').count()
+    expect(onLoad, 'rows render on load').toBeGreaterThan(0)
+
+    await page.evaluate(() => document.querySelectorAll('tbody tr').forEach((r) => r.remove()))
+    expect(await page.locator('tbody tr').count(), 'DOM cleared so a push is unambiguous').toBe(0)
+
+    // Restarting the flow re-fires its senddata node, which now drives the live fetch chain
+    // (senddata → fetchinc → maprows → TMS) rather than publishing a stale static payload — see
+    // docs/issues/0005. Before that rewiring this push carried a 6-row July snapshot.
+    await page.request.get(`${FLOW_BASE}/fapi/streams_restart/f210iy001bt51d/`).catch(() => {})
+
+    await expect
+      .poll(async () => await page.locator('tbody tr').count(), {
+        timeout: 60_000,
+        message: 'rows re-rendered over TMS without a reload',
+      })
+      .toBeGreaterThan(0)
+
+    // …and the payload must be current, not the old snapshot.
+    const after = await page.locator('tbody tr').count()
+    observe(test.info(), 'note', `TMS push re-rendered ${after} rows (on load: ${onLoad})`)
+    expect(after, 'the TMS push carries the full current row set, not a stale snapshot')
+      .toBeGreaterThanOrEqual(onLoad)
   })
 
   step('P1-S3', async ({ page }) => {

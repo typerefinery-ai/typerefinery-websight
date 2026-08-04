@@ -46,7 +46,11 @@ export const STEPS: Record<string, StepDef> = {
   // shaped flow route plus the authored coldStartDataSource make the table paint 22 rows on a
   // first visit. Strict from here — a regression must fail the run, not be skipped (0029).
   'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'pass', issue: '0005,0021,0025,0029' },
-  'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'partial', issue: '0005' },
+  // Promoted 'partial' -> 'pass' 2026-08-04. The live-fetch chain in flow f210iy001bt51d was parked
+  // since July: fetchinc/maprows existed but nothing triggered them, so TMS published a STATIC 6-row
+  // snapshot while the live endpoint held 34. Wiring senddata -> fetchinc unparked it; a trigger now
+  // re-renders the full current row set without a reload (docs/issues/0005).
+  'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'pass', issue: '0005' },
   'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
   'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
   'P1-S5': { title: 'Save Changes creates the incident and resets the default', baseline: 'pass', issue: '0005' },

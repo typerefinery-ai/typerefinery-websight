@@ -103,14 +103,36 @@ test.describe('Act 5 — form behaviour', () => {
 
   step('P5-S8', async ({ page }) => {
     const api = await request.newContext({ ignoreHTTPSErrors: true })
-    const before = await (await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`)).json()
+
+    // ⚠️ This used to look for junk in `overview-default-incident`. P5-S3 (above) establishes that
+    // created objects land in **unattached** context — so a junk identity would appear exactly
+    // where the old assertion never looked, and the step could not fail (docs/issues/0048).
+    // `toBeLessThanOrEqual` also passed on a *decrease*.
+    const unattachedCount = async () => {
+      const res = await api.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
+      if (!res.ok()) return -1
+      const split = await res.json()
+      return [...(split.scratch?.nodes ?? []), ...(split.promo?.nodes ?? [])].length
+    }
+    const before = await unattachedCount()
+
     await openForm(page, IDENTITY_CREATE)
-    // Submit with the required name blank — the Make-Object API must reject it and the
-    // save leg must be skipped, so no junk object appears.
+    // Submit with the required name blank — the Make-Object API must reject it and the save leg
+    // must be skipped, so no junk object appears.
+    //
+    // Guard the test itself, the way P1-S8 does: if the submit never fired, "nothing was written"
+    // is true for the wrong reason — which is exactly how this step stayed green while the Create
+    // button was inert (docs/issues/0038).
+    let submitted = false
+    page.on('request', (r) => { if (r.method() === 'POST' && /\/form\b|\/form\//.test(r.url())) submitted = true })
     await page.getByRole('button', { name: /save|create/i }).first().click()
+    await expect
+      .poll(() => submitted, { timeout: 30_000, message: 'the blank form was actually submitted' })
+      .toBeTruthy()
+
     await page.waitForTimeout(8_000)
-    const after = await (await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`)).json()
-    expect((after.nodes || []).length, 'no junk object was written').toBeLessThanOrEqual((before.nodes || []).length)
+    const after = await unattachedCount()
+    expect(after, 'no junk object was written to unattached context').toBe(before)
     await api.dispose()
   })
 })

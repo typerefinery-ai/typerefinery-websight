@@ -111,17 +111,29 @@ async function openComposer(page: any) {
 test.describe('Act 3 — Incident Composer', () => {
   step('P3-S1', async ({ page }) => {
     await openComposer(page)
-    const frames = page.locator('iframe')
-    await expect.poll(async () => await frames.count(), { timeout: 60_000 }).toBeGreaterThan(0)
-    // Tree + Promo + Scratch should each hold rendered content.
-    let panesWithContent = 0
-    const count = await frames.count()
-    for (let i = 0; i < count; i++) {
-      const f = page.frameLocator('iframe').nth(i)
-      const marks = await f.locator(NODE_SELECTOR).count().catch(() => 0)
-      if (marks > 0) panesWithContent++
+
+    // ⚠️ This used to loop over **iframes** and pass if any one of them held a node. All three
+    // panes live inside the single `widgetdevcomposer` frame, so one node anywhere satisfied it —
+    // an empty Promo or Scratch (the exact 0004 defect this row guards) was green
+    // (docs/issues/0048). Assert each pane separately, by its own svg.
+    const paneCounts: Record<string, number> = {}
+    for (const [name, sel] of Object.entries(PANE)) {
+      await expect
+        .poll(async () => (paneCounts[name] = await paneNodes(page, sel).count().catch(() => 0)), {
+          timeout: 60_000,
+          message: `${name} pane holds rendered nodes (0004: Promo/Scratch rendered empty)`,
+        })
+        .toBeGreaterThan(0)
     }
-    expect(panesWithContent, 'panes holding rendered content').toBeGreaterThan(0)
+    observe(test.info(), 'note', `pane node counts — ${Object.entries(paneCounts).map(([k, v]) => `${k}:${v}`).join(' ')}`)
+
+    // "…none drifting" is the row's third claim (0016: the graph never settles when embedded).
+    // Two measurements of the same node, 3 s apart, is the P2-S3 pattern.
+    const firstIcon = composerWidget(page).locator(PANE.promo).locator('image').first()
+    const at = async () => JSON.stringify(await firstIcon.boundingBox().catch(() => null))
+    const t0 = await at()
+    await page.waitForTimeout(3_000)
+    expect(await at(), 'Promo graph has settled — no drift 3s after load (0016)').toBe(t0)
   })
 
   step('P3-S2', async ({ page }) => {
