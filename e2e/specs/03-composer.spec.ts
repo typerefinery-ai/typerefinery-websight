@@ -1,7 +1,38 @@
+import fs from 'fs'
+import path from 'path'
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
 import { selectPopulatedNode } from '../form-pane'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
+
+/**
+ * Count the relationships in every incident's unattached context.
+ *
+ * Reading the store rather than an API is deliberate: a created relationship is persisted as an
+ * **edge** (`unattached_relation.json`), and no viz endpoint serves it — `unattached-split` and
+ * `overview-default-incident` both omit it entirely (docs/issues/0050). Counting nodes whose id
+ * starts with `relationship--` therefore stays flat even on success, which is exactly how
+ * docs/issues/0047 concluded "nothing was saved" when the save was in fact never wired at all.
+ */
+const CONTEXT_MEM = path.resolve(
+  __dirname,
+  '../../../typerefinery/services/fastapi/generated/os-triage/context_mem',
+)
+export function countUnattachedRelations(): number {
+  let total = 0
+  for (const dir of fs.readdirSync(CONTEXT_MEM, { withFileTypes: true })) {
+    if (!dir.isDirectory() || !dir.name.startsWith('incident--')) continue
+    const file = path.join(CONTEXT_MEM, dir.name, 'unattached_relation.json')
+    if (!fs.existsSync(file)) continue
+    try {
+      const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
+      if (Array.isArray(parsed)) total += parsed.length
+    } catch {
+      /* mid-write; the poll will retry */
+    }
+  }
+  return total
+}
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
 
@@ -293,6 +324,7 @@ test.describe('Act 3 — Incident Composer', () => {
         .filter((n: any) => String(n.id || '').startsWith('relationship--')).length
     }
     const before = await countRels()
+    const relationsBefore = countUnattachedRelations()
 
     await openComposer(page)
     const target = await selectAcrossPanes(page)
@@ -323,20 +355,75 @@ test.describe('Act 3 — Incident Composer', () => {
     expect(modal.options, 'relationship-type list is populated, not just a placeholder')
       .toBeGreaterThanOrEqual(2)
 
-    // Second claim — submit and see whether anything is actually written.
+    // Second claim — "the relationship is created". The save leg was authored 2026-08-04
+    // (docs/issues/0047), so this is now a hard assertion rather than an observation.
+    //
+    // ⚠️ It cannot be checked by counting nodes. A created relationship persists as an **edge**
+    // (`unattached_relation.json` / `relation_edges.json`), so `countRels()` — which counts nodes
+    // whose id starts with `relationship--` — stays flat even on success. That is exactly why 0047
+    // originally concluded "33 objects / 4 relationships before and after, nothing was saved".
+    // Assert on the submit response, which carries the save confirmation.
+    const saveBodies: string[] = []
+    page.on('response', async (r) => {
+      if (!/modal-forms\/sro-constraints/.test(r.url()) || r.request().method() !== 'POST') return
+      saveBodies.push(`${r.status()} ${(await r.text().catch(() => '')).slice(0, 400)}`)
+    })
+
+    // ⚠️ Choose a relationship type first — a user would. Measured 2026-08-04: submitting without
+    // one posts `{"object":{source_ref,target_ref,relationship_type:null}}`, and the Make-Object
+    // API answers **200 with an error body** for a null type (the docs/issues/0026 pattern), so the
+    // save leg correctly never fires. Skipping this step made the persistence assertion fail
+    // against a working flow.
+    const modalFrame = page.frames().find((f) => /modal-forms\/sro-constraints/.test(f.url()))!
+    const choices = modalFrame.locator('.choices').first()
+    await choices.click()
+    const typeOption = modalFrame.locator('.choices__list--dropdown .choices__item').first()
+    await expect(typeOption, 'the relationship-type dropdown offers a type to pick')
+      .toBeVisible({ timeout: 15_000 })
+    const chosenType = (await typeOption.innerText()).trim()
+    await typeOption.click()
+    observe(test.info(), 'note', `chose relationship type "${chosenType}"`)
+
     const submit = page.getByRole('button', { name: /save changes|^save$|^create$|^ok$|apply/i }).first()
-    if (await submit.count()) {
-      await submit.click().catch(() => {})
-      await page.waitForTimeout(10_000)
-    }
+    expect(await submit.count(), 'the SRO modal offers a submit button').toBeGreaterThan(0)
+    await submit.click()
+
+    await expect
+      .poll(() => saveBodies.length, { timeout: 45_000, message: 'the SRO modal actually submitted' })
+      .toBeGreaterThan(0)
+
+    const combined = saveBodies.join('\n')
+    observe(test.info(), 'note', `Create SRO submit -> ${combined.slice(0, 200)}`)
+    // 0047 first half — the route resolves. It used to answer 404 "Bad Gateway".
+    expect(combined, 'the submit did not 404 (the route resolves — 0047 first half)')
+      .not.toMatch(/^404|Bad Gateway/m)
+
+    // 0047 second half — the relationship is actually written.
+    //
+    // ⚠️ Do NOT assert this from the response body. The HTTP route answers with the echo node's
+    // message, and the save leg completes independently of that response — so the body looks the
+    // same whether the relationship was written or not. Asserting on it failed twice against a
+    // flow that was working.
+    //
+    // There is also no HTTP endpoint that exposes the result: a created relationship is stored as
+    // an EDGE and neither `unattached-split` nor `overview-default-incident` serves it
+    // (docs/issues/0050). So read the context store directly — the harness runs in Node on the
+    // same machine as the services, and a real assertion beats a vacuous one.
+    await expect
+      .poll(() => countUnattachedRelations(), {
+        timeout: 45_000,
+        message: 'the relationship was written to the unattached context (0047 second half)',
+      })
+      .toBeGreaterThan(relationsBefore)
+
+    // Recorded, not asserted: the created relationship is persisted but NOT served by the viz
+    // endpoints, so the analyst cannot see what they just made (docs/issues/0050).
     const after = await countRels()
     observe(
       test.info(),
-      after > before ? 'pass' : 'known-gap',
-      after > before
-        ? `Create SRO persisted: relationships ${before} → ${after}`
-        : `docs/issues/0047 — the modal opens but no relationship is written (${before} → ${after}). ` +
-          `The form flow is the generic flowform-service, which echoes; its save logic is unauthored.`,
+      'note',
+      `relationship nodes served by unattached-split: ${before} → ${after} (unchanged is expected — ` +
+        `relationships are stored as edges and are not surfaced, docs/issues/0050)`,
     )
   })
 
