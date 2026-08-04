@@ -75,7 +75,9 @@ export const STEPS: Record<string, StepDef> = {
   // so it could never fail; the real assertion shows the form pane opens a **404** for os-threat
   // typed nodes because os-threat-forms/attack-forms/oca-forms are empty (docs/issues/0049).
   // Restore to 'pass' once those families are authored.
-  'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'fail', issue: '0006,0048,0049' },
+  // Promoted fail -> pass 2026-08-04: 0049 fixed. The step now walks 8 nodes and requires every
+  // form to resolve, so an os-threat type regressing to a 0-input 404 goes red again.
+  'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'pass', issue: '0006,0048,0049' },
   'P2-S6': { title: 'Dark theme config applies to the viz', baseline: 'unknown', issue: '0006' },
   'P2-S7': { title: 'Widget init()/refresh() apply the Overview options', baseline: 'unknown', issue: '0006' },
 

@@ -108,9 +108,14 @@ test.describe('Act 5 — form behaviour', () => {
       `Update form pre-filled ${shape!.filled}/${shape!.total} fields for ${shape!.id}; blank: ${shape!.blanks.join(', ') || '(none)'}`,
     )
     expect(shape!.total, 'the Update form rendered its fields').toBeGreaterThan(5)
-    // The identifying fields must all come from the object, not from form defaults.
-    expect(shape!.created, 'created is pre-filled from the object').toBeTruthy()
-    expect(shape!.modified, 'modified is pre-filled from the object').toBeTruthy()
+    // ⚠️ `created` / `modified` are **not** asserted unconditionally. They are SDO/SRO properties;
+    // STIX SCOs (anecdote, url, user-account…) legitimately have neither, so demanding them made
+    // this step flaky the moment the docs/issues/0049 fix let SCO-typed nodes resolve — the walk
+    // would sometimes land on one and fail against a perfectly good form.
+    //
+    // Nothing is lost by dropping them: `missing` already requires that **every non-null key the
+    // payload carries** reached its input, which covers created/modified exactly when the object
+    // actually has them, and stays correct for the objects that do not.
     // Blanks are legitimate where the object has no value for that property (`created_by_ref`, the
     // `{}` extension composites), so the ratio is a majority check rather than 100% — the `missing`
     // gate inside selectPopulatedNode is what enforces the "every field" half.

@@ -135,6 +135,39 @@ test.describe('Act 2 — Incident Overview', () => {
         { timeout: 45_000, message: 'left-select opened a populated Update form (not the default placeholder)' },
       )
       .toBeTruthy()
+
+    // ⚠️ The above clicks ONE node, and most nodes are stix-typed — which never broke. docs/issues/0049
+    // was specifically that **os-threat typed** objects (event, sequence, task, anecdote) 404'd,
+    // because the recorded `object_family` named a folder that does not exist. Asserting only the
+    // first node would report that defect as fixed without ever exercising it.
+    //
+    // So walk the graph and require that *every* form opened resolves. A 404 renders zero inputs,
+    // which is exactly what this catches.
+    const nodes = graph(page).locator(NODE)
+    const total = Math.min(await nodes.count(), 8)
+    const broken: string[] = []
+    const opened: string[] = []
+    for (let i = 0; i < total; i++) {
+      await nodes.nth(i).click()
+      let url = ''
+      let inputs = 0
+      for (let waited = 0; waited < 12_000; waited += 1_000) {
+        const frame = page.frames().find(
+          (f) => /stixorm-forms/.test(f.url()) && !/\/default(\.html)?$/.test(f.url()),
+        )
+        if (frame) {
+          url = frame.url()
+          inputs = await frame.locator('input').count().catch(() => 0)
+          if (inputs > 0) break
+        }
+        await page.waitForTimeout(1_000)
+      }
+      const form = url.split('/').slice(-1)[0] || '(no form frame)'
+      if (inputs === 0) broken.push(`${form} (0 inputs)`)
+      else opened.push(form)
+    }
+    observe(test.info(), 'note', `left-select opened ${opened.length}/${total} forms: ${[...new Set(opened)].join(', ')}`)
+    expect(broken, `every left-selected node opened a form that resolves (0049)`).toEqual([])
   })
 
   step('P2-S6', async ({ page }) => {
