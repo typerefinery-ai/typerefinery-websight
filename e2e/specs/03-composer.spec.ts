@@ -334,13 +334,33 @@ test.describe('Act 3 — Incident Composer', () => {
     // Promo pane alone shows 8 visible `related-to` edge labels *before any menu is opened*
     // (measured 2026-08-04). An earlier version asserted `composerWidget.getByText(/related-to/)`
     // and so passed vacuously: it was matching graph edges, never the modal.
-    let modal = { found: false, text: '', values: [] as string[], options: 0 }
-    for (let i = 0; i < 12 && !modal.found; i++) {
-      modal = await modalState(page)
-      if (!modal.found) await page.waitForTimeout(2_500)
-    }
-    expect(modal.found, 'the SRO modal mounted in its own modal-forms frame').toBeTruthy()
-    expect(modal.text, 'the SRO modal, not some other modal-forms frame').toMatch(/Create SRO Relationship/i)
+    // ⚠️ Waiting for the FRAME is not waiting for the FORM. The modal-forms frame mounts, and its
+    // heading renders, **before** the widget has posted the two selected ids into it — the same
+    // mount-before-load trap that form-pane.ts documents for the update forms. Polling on
+    // `found` alone reads a half-built form, and whether that read lands early enough is a race
+    // this step lost once in a full run (docs/issues/0055): the snapshot at the moment of failure
+    // shows Source Ref and Target Ref BOTH populated, so the product was fine and the assertion
+    // was early. Poll until the refs are actually there, then assert.
+    await expect
+      .poll(async () => (await modalState(page)).found, {
+        timeout: 30_000,
+        message: 'the SRO modal mounted in its own modal-forms frame',
+      })
+      .toBeTruthy()
+    expect((await modalState(page)).text, 'the SRO modal, not some other modal-forms frame').toMatch(
+      /Create SRO Relationship/i,
+    )
+    // Then wait for it to be POPULATED — P3-S7 below already does this, and P3-S6 was the one
+    // place still snapshotting. The frame mounts and its heading renders before the widget posts
+    // the two selected ids in, so a single read can catch a half-built form.
+    await expect
+      .poll(
+        async () =>
+          (await modalState(page)).values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v)).length,
+        { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
+      )
+      .toBeGreaterThanOrEqual(2)
+    const modal = await modalState(page)
 
     // The row claims source AND target are pre-filled. Measured shape of this modal:
     //   source_ref = sighting--7a7017af…   target_ref = identity--32e8384f…
