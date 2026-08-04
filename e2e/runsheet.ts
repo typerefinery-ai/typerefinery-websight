@@ -66,7 +66,10 @@ export const STEPS: Record<string, StepDef> = {
   'P3-S1': { title: 'Composer renders Tree, Promo and Scratch with data', baseline: 'pass', issue: '0003,0004,0016' },
   'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'partial', issue: '0007' },
   'P3-S3': { title: 'Tree right-click shows Copy and Edit DAG', baseline: 'pass', issue: '0007' },
-  'P3-S4': { title: 'Tree Copy copies to unattached context and refreshes', baseline: 'fail', issue: '0026' },
+  // Promoted 2026-08-04: the step was never broken. Its assertion demanded the unattached count
+  // GROW, but add_node replaces by id and every tree node is already in unattached context, so it
+  // could not pass — a working feature reported red in every run (docs/issues/0040).
+  'P3-S4': { title: 'Tree Copy copies to unattached context and refreshes', baseline: 'pass', issue: '0026,0040' },
   'P3-S5': { title: 'Left-select in Promo opens a populated Update form', baseline: 'pass', issue: '0011,0013' },
   'P3-S6': { title: 'Create SRO works across Promo and Scratch', baseline: 'pass', issue: '0015' },
   'P3-S7': { title: 'Create Connection opens pre-filled', baseline: 'pass', issue: '0018' },

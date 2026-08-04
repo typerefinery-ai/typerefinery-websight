@@ -146,21 +146,38 @@ test.describe('Act 3 — Incident Composer', () => {
     const treeNode = paneNodes(page, PANE.tree).first()
     await expect(treeNode).toBeVisible({ timeout: 60_000 })
     await treeNode.click({ button: 'right' })
+
+    // Arm the wait *before* the click so a fast reply cannot be missed. The `.catch` matters:
+    // a pending waitForResponse rejects with "Test ended" when anything *else* fails first, and
+    // Playwright then reports that instead of the real cause — it masked the actual failure here.
+    const copyResponse = page
+      .waitForResponse(
+        (r) => /copy-to-unattached/.test(r.url()) && r.request().method() === 'POST',
+        { timeout: 60_000 },
+      )
+      .catch(() => null)
     await composerWidget(page).getByText(/^\s*copy\s*$/i).first().click()
 
     // The copy algorithm used to fail for every STIX type (docs/issues/0033) — guard the message
     // so a regression is recognisable rather than just "count did not grow".
     await expect(composerWidget(page).locator('text=/No content found for STIX type/i')).toHaveCount(0)
 
-    await expect
-      .poll(
-        async () => {
-          const after = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
-          return (after.scratch?.nodes || []).length + (after.promo?.nodes || []).length
-        },
-        { timeout: 60_000, message: 'copied object appears in unattached context' },
-      )
-      .toBeGreaterThan(beforeCount)
+    // Do NOT assert the unattached count grew. `add_node` matches on id and *replaces*, and every
+    // node in the tree the Composer opens on is already in unattached context (measured: 31 of 31
+    // for tree-company), so a re-copy is a legitimate no-op that leaves the count identical. The
+    // old assertion could therefore never pass, and reported a working feature as broken in every
+    // run since it was written (docs/issues/0040).
+    //
+    // Assert the criterion instead: the copy call succeeded, and nothing was lost.
+    const copied = await copyResponse
+    expect(copied, 'the Copy click produced no POST to copy-to-unattached').not.toBeNull()
+    expect(copied!.ok(), `copy-to-unattached returned ${copied!.status()}`).toBeTruthy()
+    const body = await copied!.text()
+    expect(body, 'copy API reported an error').not.toMatch(/error|No content found/i)
+
+    const after = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
+    const afterCount = (after.scratch?.nodes || []).length + (after.promo?.nodes || []).length
+    expect(afterCount, 'copy must never lose objects').toBeGreaterThanOrEqual(beforeCount)
   })
 
   step('P3-S5', async ({ page }) => {
