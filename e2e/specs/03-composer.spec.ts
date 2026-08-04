@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import { step, test } from '../runsheet'
+import { step, test, observe } from '../runsheet'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -225,12 +225,45 @@ test.describe('Act 3 — Incident Composer', () => {
     return scratch.first()
   }
 
-  step('P3-S6', async ({ page }) => {
+  step('P3-S6', async ({ page, request }) => {
+    // The runsheet's Expected result makes TWO claims: the modal opens pre-filled, **and** "the
+    // relationship is created across the two panes". Only the first was ever asserted, so the step
+    // showed green for weeks while the relationship was never written (docs/issues/0047).
+    //
+    // The modal half genuinely works and stays strict — it is what #23's own criterion asks for.
+    // The persistence half is recorded via observe() rather than expect(), because it is a known
+    // open defect: failing here would turn the suite red for something already tracked, and the
+    // harness's contract is that red means "something that used to work no longer does".
+    // Promote this to a hard assertion once 0047's save logic is authored.
+    const api = await request
+    const countRels = async () => {
+      const j = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
+      return [...(j.promo?.nodes || []), ...(j.scratch?.nodes || [])]
+        .filter((n: any) => String(n.id || '').startsWith('relationship--')).length
+    }
+    const before = await countRels()
+
     await openComposer(page)
     const target = await selectAcrossPanes(page)
     await target.click({ button: 'right' })
     await composerWidget(page).getByText(/create sro/i).first().click()
     await expect(composerWidget(page).getByText(/related-to/i).first()).toBeVisible({ timeout: 30_000 })
+
+    // Second claim — submit and see whether anything is actually written.
+    const submit = page.getByRole('button', { name: /save changes|^save$|^create$|^ok$|apply/i }).first()
+    if (await submit.count()) {
+      await submit.click().catch(() => {})
+      await page.waitForTimeout(10_000)
+    }
+    const after = await countRels()
+    observe(
+      test.info(),
+      after > before ? 'pass' : 'known-gap',
+      after > before
+        ? `Create SRO persisted: relationships ${before} → ${after}`
+        : `docs/issues/0047 — the modal opens but no relationship is written (${before} → ${after}). ` +
+          `The form flow is the generic flowform-service, which echoes; its save logic is unauthored.`,
+    )
   })
 
   step('P3-S7', async ({ page }) => {
