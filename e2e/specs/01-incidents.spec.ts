@@ -27,6 +27,22 @@ const dropdownItem = (page: any, label: RegExp) =>
   page.locator('.dropdown-menu .dropdown-item').filter({ hasText: label }).first()
 
 /**
+ * The Create Incident form's frame, scoped **by src**.
+ *
+ * These steps used `frameLocator('iframe').first()`, which held only while the incidents table
+ * rendered nothing. Once the table paints rows (docs/issues/0029, fixed 2026-08-04) the page
+ * carries an earlier, empty iframe, so `.first()` selects that instead and the steps time out
+ * looking for form fields that are in the *second* frame. Observed order after the fix:
+ *
+ *   iframes: ["", ".../os-triage/forms/createincident.html"]
+ *
+ * Naming the frame keeps the step honest whatever else the page grows. Same class of harness
+ * fragility as docs/issues/0043 — a locator that only worked because the page was empty.
+ */
+const createIncidentFrame = (page: any) =>
+  page.frameLocator('iframe[src*="createincident"]').first()
+
+/**
  * Submit an item modal. Its buttons ("Cancel" / "Save Changes") live on the **modal chrome in the
  * host page**, not inside the form iframe — the same arrangement the composer's modals use. The
  * frame is kept as a fallback for any form that renders its own submit.
@@ -84,7 +100,13 @@ test.describe('Act 1 — All Incidents table', () => {
       .toBeGreaterThan(0)
 
     // Guards docs/issues/0025 — the whole page used to stack ~900px below the fold.
-    const box = await page.locator('table').first().boundingBox()
+    //
+    // Measure the table that actually holds the rows. Bootstrap-table renders **two** `table`
+    // elements: a hidden header clone (no layout box, 0 rows) and the real body table. Taking
+    // `.first()` picked the clone and asserted `not.toBeNull()` against it, which only passed
+    // while the table was empty and the clone was the only one. Observed 2026-08-04:
+    //   table[0] box=null rows=0   ·   table[1] 1284x1947 y=228 rows=24
+    const box = await page.locator('table:has(tbody tr)').first().boundingBox()
     expect(box, 'table has a layout box').not.toBeNull()
     expect(box!.y, 'table is above the fold').toBeLessThan(1000)
 
@@ -129,7 +151,7 @@ test.describe('Act 1 — All Incidents table', () => {
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
     await dropdownItem(page, /^\s*Incident\s*$/i).click()
 
-    const frame = page.frameLocator('iframe').first()
+    const frame = createIncidentFrame(page)
     await expect(frame.locator('input, select, textarea').first()).toBeVisible({ timeout: 60_000 })
     const fields = await frame.locator('input, select, textarea').count()
     expect(fields, 'Create Incident form fields').toBeGreaterThan(5)
@@ -143,7 +165,7 @@ test.describe('Act 1 — All Incidents table', () => {
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
     await dropdownItem(page, /^\s*Incident\s*$/i).click()
 
-    const frame = page.frameLocator('iframe').first()
+    const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
     // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
     // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
@@ -176,7 +198,7 @@ test.describe('Act 1 — All Incidents table', () => {
     await openIncidents(page)
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
     await dropdownItem(page, /^\s*Incident\s*$/i).click()
-    const frame = page.frameLocator('iframe').first()
+    const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
     // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
     // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
@@ -196,7 +218,11 @@ test.describe('Act 1 — All Incidents table', () => {
 
   step('P1-S7', async ({ page }) => {
     await openIncidents(page)
-    const open = page.getByRole('button', { name: /^open$/i }).first()
+    // The row actions are **icon buttons with no text**, so getByRole(name: /open/) never matched
+    // them — it only appeared to work while there were no rows to match at all. The label lives on
+    // the nested icon's `title` (and in the button's data-model `label`), so target that:
+    //   <button class="btn btn-sm"><i title="Open" class="pi pi-sign-in"></i></button>
+    const open = page.locator('tbody tr td button:has([title="Open"])').first()
     await expect(open).toBeVisible({ timeout: 30_000 })
     await open.click()
     await expect(page).toHaveURL(/incident/i, { timeout: 60_000 })
@@ -221,7 +247,7 @@ test.describe('Act 1 — All Incidents table', () => {
     })
     await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
     await dropdownItem(page, /^\s*Incident\s*$/i).click()
-    const frame = page.frameLocator('iframe').first()
+    const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
     // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
     // (docs/flows/createincident-form-flow-f210ot001bt51d.json). Kept tolerant of the trailing
@@ -242,8 +268,12 @@ test.describe('Act 1 — All Incidents table', () => {
       .poll(() => submitIntercepted, { timeout: 20_000, message: 'the submit request was actually failed' })
       .toBeTruthy()
 
+    // Match only what a user can actually see. Once the table renders rows it brings ~33 hidden
+    // `<span class="visually-hidden">Error</span>` nodes (bootstrap-table's a11y markup), and
+    // `.first()` picked one of those and failed on "hidden" — an assertion that only worked while
+    // the page was empty. Filtering to visible keeps the step honest about what is *surfaced*.
     await expect(
-      page.locator('text=/error|failed|could not|unable/i').first(),
+      page.locator('text=/error|failed|could not|unable/i').filter({ visible: true }).first(),
       'an error is surfaced in the UI',
     ).toBeVisible({ timeout: 30_000 })
   })

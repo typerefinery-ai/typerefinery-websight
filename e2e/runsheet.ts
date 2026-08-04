@@ -42,7 +42,10 @@ export const STEPS: Record<string, StepDef> = {
   // rows only arrive when flow f210iy001bt51d publishes over TMS. The ✅ recorded on 2026-07-25
   // was measured in a browser that had already cached a TMS payload, so 'pass' was never the
   // baseline for a first-time visitor. Blocked pending decision 0003 (push vs pull).
-  'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'fail', issue: '0005,0021,0025,0029' },
+  // Promoted to 'pass' 2026-08-04: the cold-start fallback (decision 0003 option B) plus the
+  // shaped flow route plus the authored coldStartDataSource make the table paint 22 rows on a
+  // first visit. Strict from here — a regression must fail the run, not be skipped (0029).
+  'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'pass', issue: '0005,0021,0025,0029' },
   'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'partial', issue: '0005' },
   'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
   'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
@@ -50,8 +53,11 @@ export const STEPS: Record<string, StepDef> = {
   'P1-S6': { title: 'After save the browser lands on Incident Overview', baseline: 'partial', issue: '0014' },
   // Downstream of 0029: with no rows there is no "Open" button to click. The step's own
   // mechanism is sound (decision 0002) — it cannot be exercised until P1-S1 renders rows.
-  'P1-S7': { title: 'Row "Open" sets current incident and navigates same-window', baseline: 'fail', issue: '0005,0029' },
-  'P1-S8': { title: 'A failing create API surfaces an error in the UI', baseline: 'unknown', issue: '0026' },
+  // Unblocked 2026-08-04 — the table now renders rows, so there is something to drill into.
+  'P1-S7': { title: 'Row "Open" sets current incident and navigates same-window', baseline: 'pass', issue: '0005,0029' },
+  // Promoted to 'pass' 2026-08-04: the runsheet records this as fixed and passing (0034), and an
+  // 'unknown' baseline is non-strict — a real failure was being reported as "skipped".
+  'P1-S8': { title: 'A failing create API surfaces an error in the UI', baseline: 'pass', issue: '0026,0034' },
 
   // ---- Act 2 — Incident Overview ----------------------------------------
   'P2-S1': { title: 'Overview force graph renders the incident and its objects', baseline: 'pass', issue: '0006' },
