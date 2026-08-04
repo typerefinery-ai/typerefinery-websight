@@ -85,6 +85,30 @@
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_enable,flowapi_sampledata,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_c7799f0564c440729706eaf4ad814fee",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_2bbab2df6c5d45bb84fe55cc58ccde6a",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
    "page": "stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
    "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create/jcr:content/rootcontainer/main/form",
    "route": true,
@@ -270,17 +294,6 @@
    "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
   },
   {
-   "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
    "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
    "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update/jcr:content/rootcontainer/main/form",
    "route": false,
@@ -289,7 +302,7 @@
    "topicVal": "",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_template,flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_state,flowapi_processing_error,flowapi_processing_state_timestamp"
+   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
   },
   {
    "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
@@ -334,17 +347,6 @@
    "poisonedRoute": false,
    "poisonedTopic": false,
    "props": "flowapi_template,flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_state,flowapi_processing_error,flowapi_processing_state_timestamp"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-update",

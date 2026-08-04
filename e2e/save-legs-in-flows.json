@@ -56,6 +56,28 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
+   "flows": [
+    "f21cxb001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/indicator",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
+   "flows": [
+    "f21cxa001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/email-addr",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
    "flows": [
     "f21crm001rn51d"
