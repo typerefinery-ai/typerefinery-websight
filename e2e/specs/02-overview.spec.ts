@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
-import { step, test } from '../runsheet'
-import { SHOWCASE } from '../playwright.config'
+import { step, test, observe } from '../runsheet'
+import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 2 — Incident Overview force graph. Runsheet Act 2 / docs/issues/0006. */
 
@@ -31,12 +31,31 @@ async function openOverview(page: any) {
 }
 
 test.describe('Act 2 — Incident Overview', () => {
-  step('P2-S1', async ({ page }) => {
+  step('P2-S1', async ({ page, request }) => {
     await openOverview(page)
     const nodes = graph(page).locator(NODE)
     await expect
       .poll(async () => await nodes.count(), { timeout: 60_000, message: 'graph nodes rendered' })
       .toBeGreaterThan(1)
+
+    // The row claims the graph renders the incident **and its related objects**. `> 1` is satisfied
+    // by two nodes and no edges (docs/issues/0048, Tier 2). Compare against what the endpoint
+    // actually returns, so under-rendering is visible rather than silently green.
+    const api = await request
+    const payload = await (await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`)).json()
+    const expectedNodes = (payload.nodes || []).length
+    const expectedEdges = (payload.edges || payload.links || []).length
+    const renderedNodes = await nodes.count()
+    const renderedEdges = await graph(page).locator('svg line, svg path.link, svg .link').count().catch(() => 0)
+
+    observe(
+      test.info(),
+      renderedNodes === expectedNodes ? 'pass' : 'note',
+      `rendered ${renderedNodes}/${expectedNodes} nodes, ${renderedEdges} edge marks (endpoint says ${expectedEdges} edges)`,
+    )
+    expect(renderedNodes, `every node from the endpoint is drawn (${renderedNodes}/${expectedNodes})`)
+      .toBe(expectedNodes)
+    expect(expectedEdges, 'the incident has related objects to draw').toBeGreaterThan(0)
   })
 
   step('P2-S2', async ({ page }) => {
