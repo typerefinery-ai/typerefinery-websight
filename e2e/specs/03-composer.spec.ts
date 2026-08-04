@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
+import { selectPopulatedNode } from '../form-pane'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -235,13 +236,30 @@ test.describe('Act 3 — Incident Composer', () => {
     await expect
       .poll(async () => await nodes.count(), { timeout: 60_000, message: 'Promo pane nodes rendered' })
       .toBeGreaterThan(0)
-    await nodes.first().click()
-    await expect
-      .poll(async () => await formPaneOpened(page), {
-        timeout: 45_000,
-        message: 'left-select navigated the form pane away from the default placeholder',
-      })
-      .toBeTruthy()
+
+    // The row claims the form opens **populated** — "identity 15/20 fields, relationship 12/15,
+    // every field the payload carries". This used to assert only that *some* form frame left the
+    // default placeholder and had at least one input, which is a much weaker claim
+    // (docs/issues/0048, Tier 2). It also clicked `nodes.first()`, and pane ordering varies between
+    // runs: land on an os-threat family and the form is a 0-input 404
+    // (docs/issues/0049), so the step was flaky-red for a reason unrelated to what it tests.
+    //
+    // `selectPopulatedNode` walks the pane and applies the real measurement — see `../form-pane`.
+    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes)
+    if (skipped.length) {
+      observe(test.info(), 'note', `left-select opened no object for: ${skipped.join(', ')}`)
+    }
+    expect(
+      shape,
+      `left-select opened a populated Update form (tried ${tried}: ${skipped.join(', ') || 'none empty'})`,
+    ).not.toBeNull()
+    observe(
+      test.info(),
+      'note',
+      `${shape!.frame} pre-filled ${shape!.filled}/${shape!.total} fields for ${shape!.id}`,
+    )
+    expect(shape!.filled / shape!.total, `most fields pre-filled (${shape!.filled}/${shape!.total})`)
+      .toBeGreaterThan(0.5)
   })
 
   // S6/S7 run against the **Composer page**, not the workbench: the page's widget carries the

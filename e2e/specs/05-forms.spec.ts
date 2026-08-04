@@ -1,5 +1,6 @@
 import { expect, request } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
+import { selectPopulatedNode } from '../form-pane'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 5 — critical STIX form behaviour. Runsheet Act 5 / docs/issues/0009. */
@@ -88,109 +89,32 @@ test.describe('Act 5 — form behaviour', () => {
       .poll(async () => await nodes.count(), { timeout: 60_000, message: 'Promo pane nodes rendered' })
       .toBeGreaterThan(0)
 
-    // The frame mounts *before* the host posts FORM_LOAD, and the empty form already ships two
-    // non-blank constants (`type`, `spec_version`) plus `{}` composite placeholders. So a
-    // "filled > 0" gate is satisfied instantly by the empty state and this measured 2/18 against
-    // a form that populated correctly a moment later. Gate on a value only the payload can
-    // supply — the STIX `id` — and only then take the ratio.
-    const measure = async () => {
-      for (const f of page.frames()) {
-        const url = f.url()
-        if (!/stixorm-forms|forms\//.test(url) || /\/default(\.html)?$/.test(url)) continue
-        const shape = await f
-          .locator('input')
-          .evaluateAll((els: HTMLInputElement[]) => {
-            // Choices.js clones a `search_terms` input per wrapped select; those are chrome,
-            // never data, and counting them drags the ratio down on a perfectly good form.
-            const visible = els.filter(
-              (e) => e.type !== 'hidden' && !e.className.includes('choices__input'),
-            )
-            const val = (name: string) =>
-              visible.find((e) => e.getAttribute('name') === name)?.value.trim() ?? ''
-            // `{}` and `{"name":"","roles":null,…}` are the *empty* composite state, so they
-            // must not count as pre-filled — that is what made the empty form look half-full.
-            const isData = (e: HTMLInputElement) => {
-              const v = e.value.trim()
-              return v !== '' && v !== '{}' && !/^\{("[a-z_]+":(""|null),?)+\}$/.test(v)
-            }
-            // The row's real claim is "every field **the payload carries**". The payload is
-            // right there in the `object` / `base_required` composites, so compare the two:
-            // any key with a non-null value must have reached its own input.
-            const missing: string[] = []
-            for (const composite of ['base_required', 'object']) {
-              let parsed: Record<string, unknown> = {}
-              try {
-                parsed = JSON.parse(val(composite) || '{}')
-              } catch {
-                /* not ready yet */
-              }
-              for (const [k, v] of Object.entries(parsed)) {
-                if (v === null || v === '' || typeof v === 'object') continue
-                if (visible.some((e) => e.getAttribute('name') === k) && val(k) === '') missing.push(k)
-              }
-            }
-            return {
-              filled: visible.filter(isData).length,
-              total: visible.length,
-              blanks: visible.filter((e) => !isData(e)).map((e) => e.getAttribute('name') || '?').slice(0, 8),
-              id: val('id'),
-              created: val('created'),
-              modified: val('modified'),
-              missing,
-            }
-          })
-          .catch(() => null)
-        if (shape && shape.total > 0) return { ...shape, frame: url.split('/').pop() }
-      }
-      return null
+    // ⚠️ Do **not** just click the first promo node, and do **not** gate readiness on "some field
+    // is non-blank". Both traps are encoded in `selectPopulatedNode` — see `../form-pane` for why
+    // (the empty form ships its own constants; pane ordering varies; some families 404 with zero
+    // inputs, docs/issues/0049). P3-S5 makes the same claim and uses the same helper.
+    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes)
+    if (skipped.length) {
+      observe(test.info(), 'note', `Update forms that opened without the object: ${skipped.join(', ')}`)
     }
+    expect(
+      shape,
+      `a promo node opened a populated Update form (tried ${tried}: ${skipped.join(', ') || 'none empty'})`,
+    ).not.toBeNull()
 
-    // ⚠️ Do **not** just click the first promo node. The pane's ordering varies between runs, and
-    // some object families open an Update form that renders **zero inputs** — `anecdote-update.html`
-    // was measured empty on 2026-08-04, the same shape as docs/issues/0049. Clicking blind made this
-    // step alternate between a real assertion and a vacuous one. Walk the pane until a node opens a
-    // form that actually carries the object, and record the empty ones as evidence for 0049.
-    const STIX_ID = /^[a-z-]+--[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-    const empties: string[] = []
-    let shape: Awaited<ReturnType<typeof measure>> = null
-    const candidates = Math.min(await nodes.count(), 6)
-    for (let i = 0; i < candidates; i++) {
-      await nodes.nth(i).click()
-      // The frame mounts before FORM_LOAD arrives and the composites distribute into their child
-      // inputs after `base_required` lands, so wait for the settled state rather than sampling once.
-      // A miss here is not a failure — it means this node's family has no usable Update form, which
-      // is the thing worth recording.
-      let s: typeof shape = null
-      for (let waited = 0; waited < 20_000; waited += 1_000) {
-        s = await measure()
-        if (s && STIX_ID.test(s.id) && s.missing.length === 0) break
-        await page.waitForTimeout(1_000)
-      }
-      if (s && STIX_ID.test(s.id) && s.missing.length === 0) {
-        shape = s
-        break
-      }
-      empties.push(`${s?.frame ?? '(no form frame)'}:${s?.total ?? 0} inputs`)
-    }
-    if (empties.length) {
-      observe(test.info(), 'note', `Update forms that opened without the object: ${empties.join(', ')}`)
-    }
-    expect(shape, `a promo node opened a populated Update form (tried ${candidates}: ${empties.join(', ') || 'none empty'})`)
-      .not.toBeNull()
-    shape = shape!
     observe(
       test.info(),
       'note',
-      `Update form pre-filled ${shape.filled}/${shape.total} fields for ${shape.id}; blank: ${shape.blanks.join(', ') || '(none)'}`,
+      `Update form pre-filled ${shape!.filled}/${shape!.total} fields for ${shape!.id}; blank: ${shape!.blanks.join(', ') || '(none)'}`,
     )
-    expect(shape.total, 'the Update form rendered its fields').toBeGreaterThan(5)
+    expect(shape!.total, 'the Update form rendered its fields').toBeGreaterThan(5)
     // The identifying fields must all come from the object, not from form defaults.
-    expect(shape.created, 'created is pre-filled from the object').toBeTruthy()
-    expect(shape.modified, 'modified is pre-filled from the object').toBeTruthy()
-    // Blanks are legitimate where the object has no value for that property (`created_by_ref`,
-    // the `{}` extension composites), so the ratio is a majority check rather than 100% — the
-    // `missing` poll above is what enforces the "every field" half.
-    expect(shape.filled / shape.total, `most fields pre-filled (${shape.filled}/${shape.total})`)
+    expect(shape!.created, 'created is pre-filled from the object').toBeTruthy()
+    expect(shape!.modified, 'modified is pre-filled from the object').toBeTruthy()
+    // Blanks are legitimate where the object has no value for that property (`created_by_ref`, the
+    // `{}` extension composites), so the ratio is a majority check rather than 100% — the `missing`
+    // gate inside selectPopulatedNode is what enforces the "every field" half.
+    expect(shape!.filled / shape!.total, `most fields pre-filled (${shape!.filled}/${shape!.total})`)
       .toBeGreaterThan(0.5)
   })
 
