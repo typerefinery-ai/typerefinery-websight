@@ -470,16 +470,15 @@ test.describe('Act 3 — Incident Composer', () => {
       })
       .toBeGreaterThanOrEqual(0)
 
-    // ⚠️ This deliberately does NOT assert "> 0 real fields", and the reason matters. The field list
-    // is the set of reference properties on the source type that can point at the target's type, so
-    // **zero is correct for some pairs** — measured on email-addr -> identity. Pane ordering varies
-    // between runs, so which pair is selected varies too, and a `> 0` assertion here fails against
-    // correct behaviour.
+    // The strong guard for defect 0030 — a list that is empty when it should NOT be — needs an
+    // oracle, because "zero fields" is correct for some pairs (measured: email-addr -> identity
+    // returns []). Pane ordering varies between runs, so a blanket `> 0` fails against correct
+    // behaviour, and a blanket "no assertion" would let 0030 back in.
     //
-    // The stronger guard (defect 0030: a list that is empty when it should not be) needs an oracle —
-    // `/os-triage/rmb-force/get-connection-types` for the pair. Two payload shapes were tried and
-    // both returned a 200-error-body, so the request shape is unknown and is NOT being guessed at.
-    // Until then the count is recorded, and the write half below exercises the populated case.
+    // `/os-triage/rmb-force/get-connection-types` IS that oracle. Its payload was found by reading
+    // the algorithm rather than guessing (two guessed shapes had returned 200-error-bodies): it
+    // wants the **full STIX objects**, `{source: <object>, target: <object>}` — not type names.
+    // Verified: sighting->identity 3 fields, observed-data->identity 1, email-addr->identity 0.
 
     // The row also claims the refs are pre-filled **across the panes**. Matching any stix-shaped
     // string never showed that; compare against the two ids actually selected.
@@ -488,7 +487,9 @@ test.describe('Act 3 — Incident Composer', () => {
       test.info(),
       'note',
       `modal refs: ${finalState.values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).join(' → ')} · ` +
-        `selectable fields: ${finalState.dropdownOptions} (unscoped would read ${finalState.options})`,
+        `selectable fields BEFORE opening: ${finalState.dropdownOptions} (unscoped ${finalState.options}) — ` +
+        `Choices renders items lazily on open, so this under-reports; the authoritative count is the ` +
+        `API comparison below`,
     )
 
     // Second claim — the connection is actually SET on the object. This was unmet until the save leg
@@ -519,12 +520,40 @@ test.describe('Act 3 — Incident Composer', () => {
       .map((t) => t.trim())
       .filter((t) => t && !/no choices/i.test(t))
 
+    // Ask the oracle what this pair SHOULD offer, and hold the modal to it.
+    const graph = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
+    const allNodes = [...(graph.promo?.nodes || []), ...(graph.scratch?.nodes || [])]
+    const originalOf = (id: string) => allNodes.find((n: any) => n.id === id)?.original
+    let expectedFields: string[] | null = null
+    const sourceObject = originalOf(sourceRef)
+    const targetObject = originalOf(targetRef)
+    if (sourceObject && targetObject) {
+      const res = await api.post(`${FLOW_BASE}/os-triage/rmb-force/get-connection-types`, {
+        data: { source: sourceObject, target: targetObject },
+      })
+      const body = res.ok() ? await res.json().catch(() => null) : null
+      if (body && Array.isArray(body.connection_field_list)) expectedFields = body.connection_field_list
+    }
+
+    observe(
+      test.info(),
+      'note',
+      `${sourceRef.split('--')[0]} -> ${targetRef.split('--')[0]}: modal offers [${labels.join(', ')}], ` +
+        `API says [${expectedFields ? expectedFields.join(', ') : 'unavailable'}]`,
+    )
+    if (expectedFields) {
+      expect(
+        labels.sort(),
+        'the modal offers exactly the fields the connection-types API allows for this pair (0030)',
+      ).toEqual([...expectedFields].sort())
+    }
+
     if (labels.length === 0) {
       observe(
         test.info(),
         'note',
-        `no valid connection field exists for ${sourceRef.split('--')[0]} -> ${targetRef.split('--')[0]}; ` +
-          'the write half cannot be exercised on this pair (not a defect)',
+        `no valid connection field exists for this pair — confirmed by the API — so the write half ` +
+          'cannot be exercised here (not a defect)',
       )
       return
     }
