@@ -247,7 +247,30 @@ test.describe('Act 3 — Incident Composer', () => {
     const target = await selectAcrossPanes(page)
     await target.click({ button: 'right' })
     await composerWidget(page).getByText(/create sro/i).first().click()
-    await expect(composerWidget(page).getByText(/related-to/i).first()).toBeVisible({ timeout: 30_000 })
+
+    // ⚠️ Assert in the MODAL frame, not the widget frame. The composer modals mount in a fourth
+    // frame (`…/modal-forms/…`), and the widget itself renders every edge label as text — the
+    // Promo pane alone shows 8 visible `related-to` edge labels *before any menu is opened*
+    // (measured 2026-08-04). An earlier version asserted `composerWidget.getByText(/related-to/)`
+    // and so passed vacuously: it was matching graph edges, never the modal.
+    let modal = { found: false, text: '', values: [] as string[], options: 0 }
+    for (let i = 0; i < 12 && !modal.found; i++) {
+      modal = await modalState(page)
+      if (!modal.found) await page.waitForTimeout(2_500)
+    }
+    expect(modal.found, 'the SRO modal mounted in its own modal-forms frame').toBeTruthy()
+    expect(modal.text, 'the SRO modal, not some other modal-forms frame').toMatch(/Create SRO Relationship/i)
+
+    // The row claims source AND target are pre-filled. Measured shape of this modal:
+    //   source_ref = sighting--7a7017af…   target_ref = identity--32e8384f…
+    // and the relationship types are rendered by Choices.js (3 items, matching the 3 the
+    // get-relationship-types API returns) — the native <select> is emptied, and the type name is
+    // NOT in the modal's body text, so a text match for /related-to/ is the wrong assertion here.
+    const stixIds = modal.values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v))
+    expect(stixIds.length, `source_ref and target_ref pre-filled (saw: ${modal.values.join(' | ').slice(0, 160)})`)
+      .toBeGreaterThanOrEqual(2)
+    expect(modal.options, 'relationship-type list is populated, not just a placeholder')
+      .toBeGreaterThanOrEqual(2)
 
     // Second claim — submit and see whether anything is actually written.
     const submit = page.getByRole('button', { name: /save changes|^save$|^create$|^ok$|apply/i }).first()
