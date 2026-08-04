@@ -452,13 +452,48 @@ test.describe('Act 3 — Incident Composer', () => {
   })
 
   step('P3-S10', async ({ page }) => {
+    // #42 — "The New Object button enables one to select any valid new object" and "when the object
+    // is selected, the create form for that object is opened". Both halves are asserted here; the
+    // button was authored 2026-08-04 (e2e/author-newobject-button.mjs, docs/issues/0044).
     await openComposer(page)
-    // Looked for in the page *and* the widget frame — measured 2026-08-04: the page has no
-    // buttons at all and the widget offers only "Reload".
-    const pageBtn = page.getByRole('button', { name: /new object|new form|create object/i })
-    const widgetBtn = composerWidget(page).getByRole('button', { name: /new object|new form|create object/i })
-    const found = (await pageBtn.count()) + (await widgetBtn.count())
-    expect(found, 'a "New Object" button exists on the Composer').toBeGreaterThan(0)
+
+    const button = page.getByRole('button', { name: /new object/i }).first()
+    await expect(button, 'a "New Object" button exists on the Composer').toBeVisible({ timeout: 30_000 })
+    await button.click()
+
+    // Criterion 1 — the list offers the object types. It is DERIVED from the create forms that
+    // exist, so assert against that list rather than a hardcoded one: if a form is added or
+    // removed, this should follow rather than lie. `attack`/`os-threat`/`oca` families have no
+    // create form at all, so a list that offered them would be the docs/issues/0049 404.
+    // ⚠️ Count **visible** items. `.dropdown-item` is in the DOM before any click — measured 15
+    // with the menu closed — so a plain `count()` here would pass without the dropdown ever
+    // opening, which is the docs/issues/0048 anti-pattern this suite exists to avoid.
+    const menu = page.locator('.dropdown-menu').first()
+    await expect(menu, 'the New Object dropdown opened').toBeVisible({ timeout: 20_000 })
+    const items = page.locator('.dropdown-menu .dropdown-item:visible')
+    await expect
+      .poll(async () => await items.count(), { timeout: 20_000, message: 'dropdown items shown' })
+      .toBeGreaterThan(10)
+    const labels = (await items.allInnerTexts()).map((t) => t.trim()).filter(Boolean)
+    observe(test.info(), 'note', `New Object offers ${labels.length} types: ${labels.join(', ')}`)
+    expect(labels, 'the dropdown offers the core object types')
+      .toEqual(expect.arrayContaining(['Identity', 'Indicator', 'Relationship', 'Sighting']))
+
+    // Criterion 2 — choosing one opens *that type's* create form. Naming the type matters: a modal
+    // that opened the wrong form, or the default placeholder, would satisfy a bare "a modal opened".
+    // The dropdown template puts the label on its own line, so the element's text is
+    // "\n        Identity\n    " — an anchored /^Identity$/ never matches it. Allow the padding.
+    await items.filter({ hasText: /^\s*Identity\s*$/ }).first().click()
+    await expect
+      .poll(
+        async () => page.frames().some((f) => /identity-forms\/identity-create/.test(f.url())),
+        { timeout: 30_000, message: 'the Identity create form opened' },
+      )
+      .toBeTruthy()
+
+    const form = page.frames().find((f) => /identity-create/.test(f.url()))!
+    expect(await form.locator('input').count(), 'the create form rendered its fields')
+      .toBeGreaterThan(5)
   })
 
   step('P3-S11', async ({ page }) => {

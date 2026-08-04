@@ -97,7 +97,9 @@ export const STEPS: Record<string, StepDef> = {
   // exact thing 0037 was about — would report as skipped.
   'P3-S8': { title: 'RMB Remove deletes the object after refresh', baseline: 'pass', issue: '0007,0037' },
   'P3-S9': { title: 'Promote is offered only for Promotables', baseline: 'unknown', issue: '0007' },
-  'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'unknown', issue: '0007' },
+  // Promoted unknown -> pass 2026-08-04: the button was authored for #42 (docs/issues/0044), so
+  // this step now describes built behaviour and a regression must go red rather than skip.
+  'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'pass', issue: '0007' },
   'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'fail', issue: '0017' },
 
   // ---- Act 4 — Attack Navigator ------------------------------------------
