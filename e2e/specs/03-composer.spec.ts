@@ -418,7 +418,8 @@ test.describe('Act 3 — Incident Composer', () => {
     )
   })
 
-  step('P3-S7', async ({ page }) => {
+  step('P3-S7', async ({ page, request }) => {
+    const api = await request
     await openComposer(page)
     const target = await selectAcrossPanes(page)
     await target.click({ button: 'right' })
@@ -470,6 +471,46 @@ test.describe('Act 3 — Incident Composer', () => {
       `modal refs: ${finalState.values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).join(' → ')} · ` +
         `selectable fields: ${finalState.dropdownOptions} (unscoped would read ${finalState.options})`,
     )
+
+    // Second claim — the connection is actually SET on the object. This was unmet until the save leg
+    // was composed (docs/decisions/0009); before that the modal opened, submitted, and wrote nothing.
+    const modalFrame = page.frames().find((f) => /foreign-key-connections/.test(f.url()))!
+    const valueOf = async (name: string) =>
+      (await modalFrame.locator(`input[name="${name}"]`).first().inputValue().catch(() => '')).trim()
+    const sourceRef = await valueOf('source_ref')
+    const targetRef = await valueOf('target_ref')
+    expect(sourceRef, 'the modal carries a source_ref to write to').toMatch(/--[0-9a-f-]{8,}/i)
+
+    // ⚠️ Pick a field first. The equivalent omission on the SRO modal posted a null and the API
+    // answered 200-with-an-error-body, so the save correctly never fired (docs/issues/0026).
+    const choices = modalFrame.locator('.choices').first()
+    await choices.click()
+    const option = modalFrame.locator('.choices__list--dropdown .choices__item').first()
+    await expect(option, 'a connection field is offered to choose').toBeVisible({ timeout: 15_000 })
+    const chosenField = (await option.innerText()).trim()
+    await option.click()
+    observe(test.info(), 'note', `setting ${sourceRef}.${chosenField} = ${targetRef}`)
+
+    await page.getByRole('button', { name: /save changes|^save$|^create$|^ok$|apply/i }).first().click()
+
+    // Assert the stored object, not the response: the route answers with the echo node's message and
+    // the save leg completes independently, so the body looks identical either way (the mistake that
+    // cost two runs on P3-S6).
+    const fieldOnSource = async () => {
+      const res = await api.get(`${FLOW_BASE}/viz-data/unattached-split`)
+      if (!res.ok()) return null
+      const j = await res.json()
+      const node = [...(j.promo?.nodes || []), ...(j.scratch?.nodes || [])]
+        .find((n: any) => n.id === sourceRef)
+      const value = node?.original?.[chosenField]
+      return Array.isArray(value) ? value.join(',') : (value ?? null)
+    }
+    await expect
+      .poll(fieldOnSource, {
+        timeout: 45_000,
+        message: `${chosenField} was written onto ${sourceRef} (0009 / #24 second criterion)`,
+      })
+      .toContain(targetRef.split('--')[1].slice(0, 8))
   })
 
   /**
