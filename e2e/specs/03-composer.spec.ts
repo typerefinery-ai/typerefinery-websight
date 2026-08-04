@@ -1,38 +1,7 @@
-import fs from 'fs'
-import path from 'path'
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
 import { selectPopulatedNode } from '../form-pane'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
-
-/**
- * Count the relationships in every incident's unattached context.
- *
- * Reading the store rather than an API is deliberate: a created relationship is persisted as an
- * **edge** (`unattached_relation.json`), and no viz endpoint serves it — `unattached-split` and
- * `overview-default-incident` both omit it entirely (docs/issues/0050). Counting nodes whose id
- * starts with `relationship--` therefore stays flat even on success, which is exactly how
- * docs/issues/0047 concluded "nothing was saved" when the save was in fact never wired at all.
- */
-const CONTEXT_MEM = path.resolve(
-  __dirname,
-  '../../../typerefinery/services/fastapi/generated/os-triage/context_mem',
-)
-export function countUnattachedRelations(): number {
-  let total = 0
-  for (const dir of fs.readdirSync(CONTEXT_MEM, { withFileTypes: true })) {
-    if (!dir.isDirectory() || !dir.name.startsWith('incident--')) continue
-    const file = path.join(CONTEXT_MEM, dir.name, 'unattached_relation.json')
-    if (!fs.existsSync(file)) continue
-    try {
-      const parsed = JSON.parse(fs.readFileSync(file, 'utf8'))
-      if (Array.isArray(parsed)) total += parsed.length
-    } catch {
-      /* mid-write; the poll will retry */
-    }
-  }
-  return total
-}
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
 
@@ -324,7 +293,6 @@ test.describe('Act 3 — Incident Composer', () => {
         .filter((n: any) => String(n.id || '').startsWith('relationship--')).length
     }
     const before = await countRels()
-    const relationsBefore = countUnattachedRelations()
 
     await openComposer(page)
     const target = await selectAcrossPanes(page)
@@ -398,23 +366,24 @@ test.describe('Act 3 — Incident Composer', () => {
     expect(combined, 'the submit did not 404 (the route resolves — 0047 first half)')
       .not.toMatch(/^404|Bad Gateway/m)
 
-    // 0047 second half — the relationship is actually written.
+    // 0047 second half — the relationship is actually created.
     //
     // ⚠️ Do NOT assert this from the response body. The HTTP route answers with the echo node's
     // message, and the save leg completes independently of that response — so the body looks the
     // same whether the relationship was written or not. Asserting on it failed twice against a
     // flow that was working.
     //
-    // There is also no HTTP endpoint that exposes the result: a created relationship is stored as
-    // an EDGE and neither `unattached-split` nor `overview-default-incident` serves it
-    // (docs/issues/0050). So read the context store directly — the harness runs in Node on the
-    // same machine as the services, and a real assertion beats a vacuous one.
+    // This now asserts through the **endpoint**, which is the point of docs/issues/0050: until that
+    // was fixed, `unattached-split` never served a created relationship, and this step had to read
+    // `unattached_relation.json` off disk to see anything. Asserting through the API also covers
+    // 0050 itself — if the merge regresses, the relationship becomes invisible again and this
+    // goes red.
     await expect
-      .poll(() => countUnattachedRelations(), {
+      .poll(() => countRels(), {
         timeout: 45_000,
-        message: 'the relationship was written to the unattached context (0047 second half)',
+        message: 'the created relationship is served by unattached-split (0047 + 0050)',
       })
-      .toBeGreaterThan(relationsBefore)
+      .toBeGreaterThan(before)
 
     // Recorded, not asserted: the created relationship is persisted but NOT served by the viz
     // endpoints, so the analyst cannot see what they just made (docs/issues/0050).
