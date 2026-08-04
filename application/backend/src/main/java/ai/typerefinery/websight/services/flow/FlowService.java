@@ -73,6 +73,9 @@ public class FlowService {
     public static final String RESOURCE_TYPE = "typerefinery/components/flow/flowcontainer";
     private static final String TAG = FlowService.class.getSimpleName();
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowService.class);
+    /** How hard {@link #flowDesignNodeCount} tries before it calls a design genuinely empty. */
+    private static final int DESIGN_READBACK_ATTEMPTS = 3;
+    private static final long DESIGN_READBACK_DELAY_MS = 400;
     public static final String PROPERTY_PREFIX = "flowapi_";
     public static final String PROPERTY_FLOWSTREAMID = "flowstreamid";
     public static final String PROPERTY_ID = "id";
@@ -232,6 +235,12 @@ public class FlowService {
         if (StringUtils.isBlank(componentPath)) {
             return 0;
         }
+        // Without a flow to keep, every match below would be retired — including the one still doing
+        // the work. Refuse rather than retire blindly (alpha-launch docs/issues/0054).
+        if (StringUtils.isBlank(keepFlowId)) {
+            LOGGER.warn("retirePredecessorFlows: no replacement flow id for {}; refusing to retire anything", componentPath);
+            return 0;
+        }
         int retired = 0;
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -276,6 +285,56 @@ public class FlowService {
             LOGGER.warn("retirePredecessorFlows: error while retiring predecessors for {}: {}", componentPath, e.getMessage());
         }
         return retired;
+    }
+
+    /**
+     * How many nodes the flow's design actually contains, or {@code -1} if it could not be read.
+     *
+     * <p><b>Why this exists (alpha-launch docs/issues/0054).</b> Import can report success and leave
+     * the flow with an <b>empty design</b>. Three such shells were found on 2026-08-05, each
+     * registered against the same component path as the flow really doing the work — including
+     * {@code sro-constraints}, whose working flow carries the Create Connection save leg. A shell is
+     * worse than a stray record because the usual repair ("the newest flow serves") keeps it and
+     * discards the flow that works.
+     *
+     * <p>Read with a short retry: the design may not be queryable the instant import returns, and
+     * treating that as a failure would reject good provisions.
+     */
+    public int flowDesignNodeCount(String flowstreamid) {
+        if (StringUtils.isBlank(flowstreamid)) {
+            return -1;
+        }
+        for (int attempt = 1; attempt <= DESIGN_READBACK_ATTEMPTS; attempt++) {
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(getFlowStreamDesignAPIURL(flowstreamid)))
+                    .GET()
+                    .build();
+                HttpResponse<String> response = sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
+                if (response != null && response.statusCode() == 200) {
+                    JsonNode design = new ObjectMapper().readTree(response.body());
+                    if (design != null && design.isObject()) {
+                        int count = design.size();
+                        if (count > 0 || attempt == DESIGN_READBACK_ATTEMPTS) {
+                            LOGGER.info("flowDesignNodeCount: flow {} has {} design node(s), read on attempt {} of {}",
+                                flowstreamid, count, attempt, DESIGN_READBACK_ATTEMPTS);
+                            return count;
+                        }
+                        LOGGER.debug("flowDesignNodeCount: flow {} still reports an empty design on attempt {}; retrying",
+                            flowstreamid, attempt);
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.warn("flowDesignNodeCount: could not read design of {} (attempt {}): {}", flowstreamid, attempt, e.getMessage());
+            }
+            try {
+                Thread.sleep(DESIGN_READBACK_DELAY_MS);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                return -1;
+            }
+        }
+        return -1;
     }
 
     public String getFlowStreamSaveAPIURL(String flowstreamid) {
@@ -416,10 +475,31 @@ public class FlowService {
             // route means a save leg authored on the wrong one does nothing, silently — measured at
             // 10 duplicated routes, one with three. Retire any predecessor now that the replacement
             // exists, matching on the component path Flow records as the flow's `group`.
-            int retired = retirePredecessorFlows(sourcePath, newFlowId);
-            if (retired > 0) {
-                LOGGER.info("doProcessFlowResource: retired {} predecessor flow(s) for {} after creating {}",
-                    retired, sourcePath, newFlowId);
+            //
+            // alpha-launch issues/0054: but ONLY if the replacement can actually serve. Import can
+            // return an id for a flow with an EMPTY design, and retiring a working predecessor in
+            // favour of a shell is worse than leaving a duplicate — it takes the component's only
+            // functioning flow out of service, silently.
+            int newFlowNodeCount = flowDesignNodeCount(newFlowId);
+            if (newFlowNodeCount == 0) {
+                LOGGER.error(
+                    "doProcessFlowResource: created flow {} has an EMPTY design for {} (template={}); "
+                        + "keeping any existing flow and retiring the empty one instead",
+                    newFlowId, sourcePath, flowapiTemplate
+                );
+                FlowPauseResult shellPause = toggleFlowStreamPause(newFlowId, true);
+                LOGGER.warn("doProcessFlowResource: paused empty flow {} for {} (status {})",
+                    newFlowId, sourcePath, shellPause.getStatusCode());
+            } else {
+                if (newFlowNodeCount < 0) {
+                    LOGGER.warn("doProcessFlowResource: could not read back the design of {} for {}; retiring predecessors anyway",
+                        newFlowId, sourcePath);
+                }
+                int retired = retirePredecessorFlows(sourcePath, newFlowId);
+                if (retired > 0) {
+                    LOGGER.info("doProcessFlowResource: retired {} predecessor flow(s) for {} after creating {} ({} nodes)",
+                        retired, sourcePath, newFlowId, newFlowNodeCount);
+                }
             }
 
             boolean unpauseResult = processPauseChange(storageResource, newFlowId, false);
