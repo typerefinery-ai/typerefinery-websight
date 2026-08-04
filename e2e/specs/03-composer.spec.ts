@@ -265,15 +265,37 @@ test.describe('Act 3 — Incident Composer', () => {
   // S6/S7 run against the **Composer page**, not the workbench: the page's widget carries the
   // real Promo (23 nodes / 42 edges) and Scratch (5 nodes) data for the current incident, while
   // the workbench only preloads the tree fixture and leaves both panes empty.
-  /** Select one object in Promo, then one in Scratch — selection *order* sets source/target. */
+  /**
+   * Select one object in Promo, then one in Scratch — selection *order* sets source/target.
+   *
+   * ⚠️ **Creating an SRO consumes a Scratch node.** Once a scratch object is linked to a
+   * promotable, `split_subgraphs_by_promotables` classifies it as promotable-connected and moves it
+   * into Promo. So every P3-S6 run permanently shrinks Scratch by one, and after enough runs the
+   * pane is empty — six runs during the docs/issues/0050 work took it from 3 to 0, which failed
+   * P3-S7 and P3-S8 for a data reason unrelated to what they test.
+   *
+   * That is why the Scratch requirement is a *preference*, not a preconditon: fall back to a second
+   * Promo node and say so, rather than reporting a red suite for an exhausted fixture. The
+   * cross-pane case is P3-S6's own claim and it asserts it directly.
+   */
   async function selectAcrossPanes(page: any) {
     const promo = paneNodes(page, PANE.promo)
     const scratch = paneNodes(page, PANE.scratch)
-    await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(0)
-    await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(1)
     await promo.first().click()
-    await scratch.first().click()
-    return scratch.first()
+
+    if ((await scratch.count()) > 0) {
+      await scratch.first().click()
+      return scratch.first()
+    }
+    observe(
+      test.info(),
+      'note',
+      'Scratch pane is empty — selecting a second Promo node instead. Creating an SRO moves its ' +
+        'scratch endpoint into Promo, so repeated runs drain the pane (docs/issues/0051).',
+    )
+    await promo.nth(1).click()
+    return promo.nth(1)
   }
 
   step('P3-S6', async ({ page, request }) => {
