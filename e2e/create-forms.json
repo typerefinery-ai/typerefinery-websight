@@ -1,0 +1,20 @@
+{
+ "root": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms",
+ "forms": [
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/url-forms/url-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
+  "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create"
+ ]
+}

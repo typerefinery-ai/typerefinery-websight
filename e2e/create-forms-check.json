@@ -1,0 +1,122 @@
+[
+ {
+  "type": "anecdote",
+  "status": 200,
+  "inputs": 17,
+  "selects": 0,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "domain-name",
+  "status": 200,
+  "inputs": 16,
+  "selects": 0,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "email-addr",
+  "status": 200,
+  "inputs": 17,
+  "selects": 0,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "email-message",
+  "status": 200,
+  "inputs": 30,
+  "selects": 1,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "event",
+  "status": 200,
+  "inputs": 54,
+  "selects": 8,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "identity",
+  "status": 200,
+  "inputs": 45,
+  "selects": 8,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "indicator",
+  "status": 200,
+  "inputs": 53,
+  "selects": 7,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "ipv4-addr",
+  "status": 200,
+  "inputs": 17,
+  "selects": 0,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "observed-data",
+  "status": 200,
+  "inputs": 47,
+  "selects": 5,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "relationship",
+  "status": 200,
+  "inputs": 30,
+  "selects": 2,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "sequence",
+  "status": 200,
+  "inputs": 48,
+  "selects": 7,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "sighting",
+  "status": 200,
+  "inputs": 83,
+  "selects": 2,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "task",
+  "status": 200,
+  "inputs": 53,
+  "selects": 9,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "url",
+  "status": 200,
+  "inputs": 15,
+  "selects": 0,
+  "hasForm": true,
+  "ok": true
+ },
+ {
+  "type": "user-account",
+  "status": 200,
+  "inputs": 28,
+  "selects": 1,
+  "hasForm": true,
+  "ok": true
+ }
+]
