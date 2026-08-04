@@ -1,0 +1,81 @@
+{
+ "retired": [
+  {
+   "id": "f1k3hr006cc50d",
+   "keep": "f210mq001bt51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container1/container1_2/ticker",
+   "reason": "identical design (11 nodes); keeping the newer f210mq001bt51d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr009cc51d",
+   "keep": "f21041005un51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container1/container1_1/ticker",
+   "reason": "identical design (11 nodes); keeping the newer f21041005un51d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr010cc50d",
+   "keep": "f210n2001bt51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container1/container1_3/ticker",
+   "reason": "identical design (11 nodes); keeping the newer f210n2001bt51d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr014cc50d",
+   "keep": "f21041004un50d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container3/container3_2/chart",
+   "reason": "identical design (11 nodes); keeping the newer f21041004un50d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr018cc50d",
+   "keep": "f21041002un50d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container2/chart",
+   "reason": "identical design (11 nodes); keeping the newer f21041002un50d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr024cc50d",
+   "keep": "f21041007un51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container4/map",
+   "reason": "identical design (11 nodes); keeping the newer f21041007un51d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr025cc51d",
+   "keep": "f21041001un51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/dashboard/_jcr_content/rootcontainer/container/flowcontainer_1/container3/container3_1/chart",
+   "reason": "identical design (11 nodes); keeping the newer f21041001un51d",
+   "status": "200"
+  },
+  {
+   "id": "f1k3hr030cc50d",
+   "keep": "f210iy001bt51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/incidents/_jcr_content/rootcontainer/container1/form/container2/table",
+   "reason": "thinner design (11 vs 14 nodes); keeping f210iy001bt51d",
+   "status": "200"
+  },
+  {
+   "id": "f2102h003un51d",
+   "keep": "f2102h001un51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/incidents/_jcr_content/rootcontainer/container1/form",
+   "reason": "empty design (0 nodes); keeping f2102h001un51d with 12",
+   "status": "200"
+  },
+  {
+   "id": "f2103u003un51d",
+   "keep": "f2103u001un51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/pages/tasks/_jcr_content/rootcontainer/container1/form1",
+   "reason": "empty design (0 nodes); keeping f2103u001un51d with 12",
+   "status": "200"
+  },
+  {
+   "id": "f21cf9002rn50d",
+   "keep": "f21cf9001rn51d",
+   "group": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints/_jcr_content/rootcontainer/main/form",
+   "reason": "empty design (0 nodes); keeping f21cf9001rn51d with 20",
+   "status": "200"
+  }
+ ]
+}
