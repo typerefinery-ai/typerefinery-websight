@@ -573,8 +573,12 @@ test.describe('Act 3 — Incident Composer', () => {
       const j = await res.json()
       const node = [...(j.promo?.nodes || []), ...(j.scratch?.nodes || [])]
         .find((n: any) => n.id === sourceRef)
-      const value = node?.original?.[chosenField]
-      return Array.isArray(value) ? value.join(',') : (value ?? null)
+      // Distinguish the two failure modes: a null tells you nothing, and this step failed once with
+      // exactly that. 'node-missing' and 'field-unset' say which half went wrong.
+      if (!node) return 'node-missing: ' + sourceRef
+      const value = node.original?.[chosenField]
+      if (value === undefined || value === null) return 'field-unset: ' + chosenField
+      return Array.isArray(value) ? value.join(',') : String(value)
     }
     await expect
       .poll(fieldOnSource, {
