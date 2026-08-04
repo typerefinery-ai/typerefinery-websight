@@ -12,6 +12,39 @@
    ]
   },
   {
+   "page": "create-user",
+   "flows": [
+    "f21crl001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/user-account",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "identity1",
+   "flows": [
+    "f21crl002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/identity",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stix/company/create",
+   "flows": [
+    "f21crl004rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/identity",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create",
    "flows": [
     "f210cq001bt51d"
@@ -47,33 +80,9 @@
  ],
  "echo": [
   {
-   "page": "create-user",
-   "flows": [
-    "f21crl001rn51d"
-   ],
-   "saves": false,
-   "calls": []
-  },
-  {
-   "page": "identity1",
-   "flows": [
-    "f21crl002rn50d"
-   ],
-   "saves": false,
-   "calls": []
-  },
-  {
    "page": "stix/company/update",
    "flows": [
     "f21crl003rn51d"
-   ],
-   "saves": false,
-   "calls": []
-  },
-  {
-   "page": "stix/company/create",
-   "flows": [
-    "f21crl004rn50d"
    ],
    "saves": false,
    "calls": []
