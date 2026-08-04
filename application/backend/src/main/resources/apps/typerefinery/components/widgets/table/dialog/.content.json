@@ -198,6 +198,12 @@
         "name": "dataSource",
         "description": "Please provide url to data source",
         "label": "Data Source"
+      },
+      "coldStartDataSource": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "coldStartDataSource",
+        "description": "URL fetched when this table is driven by a flow topic but no payload has been received yet (first visit, or after a restart). Must return {columns, data}. Leave empty to show a waiting state instead.",
+        "label": "Cold Start Data Source"
       }
     },
     "flowTab": {

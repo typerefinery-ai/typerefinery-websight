@@ -52,6 +52,16 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     private static final String PROPERTY_DATASOURCE = "dataSource";
     private static final String DEFAULT_DATASOURCE = "";
 
+    // Cold-start source, deliberately separate from dataSource (decision 0003 option B).
+    // A flow publishes its payload over TMS when the flow starts, fire-and-forget, so a browser
+    // opened afterwards receives nothing and the table renders empty for ever. When there is no
+    // cached payload the clientlib falls back to this URL instead.
+    // It is NOT dataSource because that property carries a component-level mock default, and
+    // falling back to it would paint invented rows onto a page whose flow simply had not
+    // published yet. Empty by default: absent an explicit URL the table shows a waiting state.
+    private static final String PROPERTY_COLDSTART_DATASOURCE = "coldStartDataSource";
+    private static final String DEFAULT_COLDSTART_DATASOURCE = "";
+
     private static final String PROPERTY_WEBSOCKET_HOST = "websocketHost";
     private static final String DEFAULT_WEBSOCKET_HOST = "wss://tms.typerefinery.localhost:8101/$tms";
 
@@ -69,6 +79,12 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     @Named(PROPERTY_DATASOURCE)
     @Nullable
     public String dataSource;
+
+    @Getter
+    @Inject
+    @Named(PROPERTY_COLDSTART_DATASOURCE)
+    @Nullable
+    public String coldStartDataSource;
 
     @Getter
     @Inject
@@ -151,6 +167,9 @@ public class Table extends FlowComponent implements FlowComponentRegister {
         super.init();
         if (StringUtils.isBlank(dataSource)) {
             this.dataSource = DEFAULT_DATASOURCE;
+        }
+        if (StringUtils.isBlank(coldStartDataSource)) {
+            this.coldStartDataSource = DEFAULT_COLDSTART_DATASOURCE;
         }
         if (StringUtils.isBlank(websocketHost)) {
             this.websocketHost = DEFAULT_WEBSOCKET_HOST;
