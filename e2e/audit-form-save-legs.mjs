@@ -68,11 +68,20 @@ for (const p of pages) {
   walk(content)
   if (!found) continue
   const props = Object.keys(found)
+  // A route's *presence* is not its *validity*. docs/issues/0047: sro-constraints has a route, but
+  // it was derived from the /var mirror — the URL carries a `/var/typerefinery/flow/` segment and
+  // the topic is `sling:Folder_…` (the storage node's type) instead of `form_…`. Submitting 404s.
+  const routeUrl = String(found.flowapi_httproute || '')
+  const topicVal = String(found.flowapi_topic || '')
   rows.push({
     page: p.replace(ROOT + '/', ''),
     route: !!found.flowapi_httproute,
     topic: !!found.flowapi_topic,
     enable: found.flowapi_enable,
+    routeUrl,
+    topicVal,
+    poisonedRoute: routeUrl.includes('/var/typerefinery/flow'),
+    poisonedTopic: !!topicVal && !topicVal.startsWith('form_'),
     props: props.filter(k => k.startsWith('flowapi_')).join(','),
   })
 }
@@ -84,8 +93,18 @@ const canSave = rows.filter(r => r.route)
 const provisioningFailed = rows.filter(r => !r.route && enabled(r))
 const neverAsked = rows.filter(r => !r.route && !enabled(r))
 
-console.log(`FORMS WITH A SAVE LEG (flowapi_httproute present): ${canSave.length}`)
-for (const r of canSave) console.log(`   ✅ ${r.page}   topic=${r.topic}`)
+const poisoned = rows.filter(r => r.poisonedRoute || r.poisonedTopic)
+const healthy = canSave.filter(r => !r.poisonedRoute && !r.poisonedTopic)
+
+console.log(`FORMS WITH A *HEALTHY* SAVE LEG: ${healthy.length}`)
+for (const r of healthy) console.log(`   ✅ ${r.page}`)
+
+console.log(`\n🚨 POISONED — route or topic derived from the /var mirror (docs/issues/0047): ${poisoned.length}`)
+for (const r of poisoned) {
+  console.log(`   🚨 ${r.page}`)
+  if (r.poisonedRoute) console.log(`        route carries /var/typerefinery/flow → ${r.routeUrl.slice(0, 96)}`)
+  if (r.poisonedTopic) console.log(`        topic is not form_* → ${r.topicVal}`)
+}
 
 console.log(`\n⚠️  ENABLED BUT NO ROUTE — provisioning FAILED, needs investigation: ${provisioningFailed.length}`)
 for (const r of provisioningFailed) console.log(`   ⚠️  ${r.page}`)
