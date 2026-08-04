@@ -22,7 +22,8 @@
  */
 import fs from 'fs'
 
-const FLOW = 'f21cf9001rn51d' // "Form flow" behind stixorm-forms/modal-forms/sro-constraints
+// Flow id defaults to sro-constraints; pass another to author the same save leg elsewhere.
+const FLOW = process.argv[2] || 'f21cf9001rn51d'
 const FASTAPI = 'http://localhost:8000'
 
 const design = await (await fetch(`${FASTAPI}/flow/${FLOW}/design`)).json()
