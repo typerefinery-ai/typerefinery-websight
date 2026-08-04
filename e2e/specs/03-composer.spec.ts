@@ -206,6 +206,21 @@ test.describe('Act 3 — Incident Composer', () => {
     const after = await (await api.get(`${FLOW_BASE}/viz-data/unattached-split`)).json()
     const afterCount = (after.scratch?.nodes || []).length + (after.promo?.nodes || []).length
     expect(afterCount, 'copy must never lose objects').toBeGreaterThanOrEqual(beforeCount)
+
+    // 0040 rightly rules out asserting the count *grew* — `add_node` replaces by id, and every tree
+    // node is already in unattached context, so a re-copy is a legitimate no-op. But **presence** is
+    // still assertable, and that is what "copied to unattached context" actually claims
+    // (docs/issues/0048, Tier 2). The Copy request body carries the raw node, so take the id from
+    // there rather than guessing which node was clicked.
+    const copiedId = (copied!.request().postData() || '').match(/[a-z-]+--[0-9a-f-]{8,}/i)?.[0]
+    if (copiedId) {
+      const present = [...(after.scratch?.nodes || []), ...(after.promo?.nodes || [])]
+        .some((n: any) => String(n.id) === copiedId)
+      expect(present, `the copied object ${copiedId} is in unattached context`).toBeTruthy()
+      observe(test.info(), 'note', `copied ${copiedId}; unattached ${beforeCount} → ${afterCount} (replace-by-id, so equal is correct)`)
+    } else {
+      observe(test.info(), 'note', 'could not read a stix id from the copy request body — presence not asserted')
+    }
   })
 
   step('P3-S5', async ({ page }) => {

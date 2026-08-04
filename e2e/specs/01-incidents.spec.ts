@@ -225,15 +225,31 @@ test.describe('Act 1 — All Incidents table', () => {
     // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
     await submitModal(page, frame)
     // The create leg is fire-and-forget; poll the endpoint rather than the UI.
+    //
+    // ⚠️ A growing count alone is a weak signal: the documented `incidenttitle` mapping failure
+    // writes "Untitled Incident" and *still* grows the count, so this passed whether or not the
+    // typed name landed (docs/issues/0048, Tier 2). Poll for **the name we typed**.
     await expect
       .poll(
         async () => {
           const rows = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents`)).json()
-          return rows.length
+          return JSON.stringify(rows).includes(incidentName) ? 'found' : `${rows.length} rows, incidentName absent`
         },
-        { timeout: 90_000, message: 'incident count grows after create' },
+        { timeout: 90_000, message: `the incident named "${incidentName}" was created (not "Untitled Incident")` },
       )
-      .toBeGreaterThan(before.length)
+      .toBe('found')
+
+    // …and the row's second claim: the create **resets the default incident**. R-1 in the runsheet
+    // exists precisely because this side effect is real and destructive, yet it was never asserted.
+    await expect
+      .poll(
+        async () => {
+          const res = await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`, { timeout: 60_000 })
+          return res.ok() ? JSON.stringify(await res.json()).includes(incidentName) : false
+        },
+        { timeout: 90_000, message: 'the newly created incident became the default (the R-1 hazard)' },
+      )
+      .toBe(true)
     await api.dispose()
   })
 
