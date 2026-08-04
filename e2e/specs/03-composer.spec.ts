@@ -346,7 +346,20 @@ test.describe('Act 3 — Incident Composer', () => {
    * context. Scratch is cheap to repopulate (P5-S3 / the identity-create form writes straight into
    * it), which is why this is acceptable to run — but do not point it at Promo.
    */
-  step('P3-S8', async ({ page }) => {
+  step('P3-S8', async ({ page, request }) => {
+    // ⚠️ The UI count is the *weaker* half of this claim. docs/issues/0037 is exactly the case
+    // where Remove reported success and removed nothing — a pane that re-renders without the node
+    // proves the widget refreshed, not that the object is gone. So check the store too
+    // (docs/issues/0048, Tier 2).
+    const api = await request
+    const unattachedIds = async (): Promise<string[]> => {
+      const res = await api.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
+      if (!res.ok()) return []
+      const j = await res.json()
+      return [...(j.scratch?.nodes ?? []), ...(j.promo?.nodes ?? [])].map((n: any) => String(n.id))
+    }
+    const idsBefore = await unattachedIds()
+
     await openComposer(page)
     const scratch = paneNodes(page, PANE.scratch)
     await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
@@ -361,6 +374,17 @@ test.describe('Act 3 — Incident Composer', () => {
         message: 'Scratch object disappears after Remove + refresh',
       })
       .toBeLessThan(before)
+
+    // The object must be gone from unattached context, not merely off the canvas.
+    await expect
+      .poll(async () => (await unattachedIds()).length, {
+        timeout: 60_000,
+        message: 'the object was actually removed from unattached context, not just from the pane (0037)',
+      })
+      .toBeLessThan(idsBefore.length)
+    const idsAfter = new Set(await unattachedIds())
+    const removed = idsBefore.filter((id) => !idsAfter.has(id))
+    observe(test.info(), 'note', `removed from unattached context: ${removed.join(', ') || '(count fell but id not isolated)'}`)
   })
 
   step('P3-S9', async ({ page }) => {

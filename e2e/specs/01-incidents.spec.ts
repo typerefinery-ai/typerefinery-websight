@@ -110,6 +110,30 @@ test.describe('Act 1 — All Incidents table', () => {
     expect(box, 'table has a layout box').not.toBeNull()
     expect(box!.y, 'table is above the fold').toBeLessThan(1000)
 
+    // The row promises six things; only "rows render" and "above the fold" were asserted
+    // (docs/issues/0048, Tier 2). The rest are cheap to check, so check them.
+    expect(await page.locator('thead th').allInnerTexts().then((h) => h.map((s) => s.trim()).filter(Boolean)),
+      'the five promised columns').toEqual(['Name', 'Type', 'Description', 'ID', 'Action'])
+
+    // ⚠️ The authored content sets `searchEnabled="false"`, which looked like the row's
+    // "search box" claim being wrong. It is not: the flow payload carries `search: true`, and the
+    // **payload wins** — a search box renders (verified 2026-08-04). Asserting it pins that
+    // precedence, which is otherwise easy to break from either side.
+    expect(await page.locator('input[type=search], .fixed-table-toolbar input').count(),
+      'search box renders (payload search:true overrides authored searchEnabled:false)').toBeGreaterThan(0)
+
+    // "per-row action buttons" — one Open button per row, which is also what P1-S7 drives.
+    const rowCount = await rows.count()
+    expect(await page.locator('tbody tr td button:has([title="Open"])').count(),
+      'every row exposes an Open action').toBe(rowCount)
+
+    // "one row per incident" — compare against the endpoint rather than trusting a non-zero count,
+    // which would also pass on the duplicated rows of docs/issues/0023.
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    const shaped = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents-shaped`)).json()
+    await api.dispose()
+    expect(rowCount, 'one row per incident returned by the endpoint').toBe((shaped.data || []).length)
+
     // Not a failure of this step, but this is where docs/issues/0027 shows itself:
     // in-app created incidents display the type label instead of their own name.
     const text = await rows.allInnerTexts()
