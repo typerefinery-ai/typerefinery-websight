@@ -226,13 +226,37 @@ test.describe('Act 1 — All Incidents table', () => {
       .locator('input[name="incidenttitle"], input[name="incidenttitle "], input[name="name"], input[name="name "]')
       .first()
     await expect(name).toBeVisible({ timeout: 60_000 })
+    const probe = `Runsheet nav ${new Date().toISOString().slice(11, 19)}`
     await name.click()
-    await name.pressSequentially(`Runsheet nav ${new Date().toISOString().slice(11, 19)}`, { delay: 20 })
+    await name.pressSequentially(probe, { delay: 20 })
     // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
     // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
+    const startUrl = page.url()
     await submitModal(page, frame)
+
     // FORM_SUCCESS → modal callback → navigate. Skipped during a TotalJS busy window (0014).
-    await expect(page).toHaveURL(/incident/i, { timeout: 90_000 })
+    //
+    // ⚠️ The old assertion was `toHaveURL(/incident/i)`, which the starting page
+    // (`…/pages/incidents.html`) already satisfies — true before the save, and silent about the
+    // row's second claim, "**with the new incident loaded as default**" (docs/issues/0048).
+    await expect
+      .poll(() => page.url(), { timeout: 90_000, message: 'navigated away from the incidents list after save' })
+      .not.toBe(startUrl)
+    expect(page.url(), 'landed on an incident page').toMatch(/incident/i)
+
+    // The second claim: the incident just created is now the default.
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    await expect
+      .poll(
+        async () => {
+          const res = await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`, { timeout: 60_000 })
+          if (!res.ok()) return `HTTP ${res.status()}`
+          return JSON.stringify(await res.json())
+        },
+        { timeout: 90_000, message: `the newly created incident "${probe}" is loaded as the default` },
+      )
+      .toContain(probe)
+    await api.dispose()
   })
 
   step('P1-S7', async ({ page }) => {
@@ -243,8 +267,41 @@ test.describe('Act 1 — All Incidents table', () => {
     //   <button class="btn btn-sm"><i title="Open" class="pi pi-sign-in"></i></button>
     const open = page.locator('tbody tr td button:has([title="Open"])').first()
     await expect(open).toBeVisible({ timeout: 30_000 })
+
+    // ⚠️ `toHaveURL(/incident/i)` was the old assertion — and the starting page is
+    // `…/pages/incidents.html`, which matches on the first poll. It was true *before* the click,
+    // proved nothing about same-window navigation, and never checked the step's actual point:
+    // that `current_incident` switches (docs/issues/0048).
+    const startUrl = page.url()
+    const rowId = (await page.locator('tbody tr').first().innerText())
+      .match(/incident--[0-9a-f-]+/i)?.[0]
+    expect(rowId, 'read the incident id from the first row').toBeTruthy()
+
     await open.click()
-    await expect(page).toHaveURL(/incident/i, { timeout: 60_000 })
+
+    // 1. it navigated, in the same window
+    await expect
+      .poll(() => page.url(), { timeout: 60_000, message: 'navigated away from the incidents list' })
+      .not.toBe(startUrl)
+    expect(page.url(), 'landed on an incident page').toMatch(/incident/i)
+    expect(page.context().pages().length, 'same-window navigation — no new tab opened').toBe(1)
+
+    // 2. and — the real claim — the clicked row became the current incident
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    await expect
+      .poll(
+        async () => {
+          const res = await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`, { timeout: 60_000 })
+          if (!res.ok()) return `HTTP ${res.status()}`
+          const j = await res.json()
+          return (j.nodes || []).some((n: any) => String(n.id || '').startsWith('incident--'))
+            ? (j.nodes || []).find((n: any) => String(n.id || '').startsWith('incident--')).id
+            : 'no incident node'
+        },
+        { timeout: 60_000, message: `current_incident switched to the clicked row (${rowId})` },
+      )
+      .toBe(rowId)
+    await api.dispose()
   })
 
   step('P1-S8', async ({ page }) => {
