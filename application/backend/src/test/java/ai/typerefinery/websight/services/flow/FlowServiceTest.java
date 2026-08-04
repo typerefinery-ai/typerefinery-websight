@@ -288,6 +288,11 @@ class FlowServiceTest {
         }
 
         @Override
+        public String endpoint_streams_list() {
+            return FlowService.FlowServiceConfiguration.FLOW_ENDPOINT_STREAMS_LIST;
+        }
+
+        @Override
         public String endpoint_streams_save() {
             return FlowService.FlowServiceConfiguration.FLOW_ENDPOINT_STREAMS_SAVE;
         }

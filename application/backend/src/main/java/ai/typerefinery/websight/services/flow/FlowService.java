@@ -207,6 +207,77 @@ public class FlowService {
         return url;
     }
 
+    /** Lists every flow Flow knows about. Each entry's `group` is the component path it serves. */
+    public String getFlowStreamListAPIURL() {
+        return configuration.host_url() + configuration.endpoint_streams_list();
+    }
+
+    /**
+     * Pause any flow that already serves {@code componentPath}, except {@code keepFlowId}.
+     *
+     * <p><b>Why this exists (alpha-launch docs/decisions/0008, docs/issues/0052).</b>
+     * {@link #doProcessFlowResource} creates a new flow whenever the stored
+     * {@code flowapi_flowstreamid} is missing, and {@link #createFlowFromTemplate} removes the id
+     * before importing, so Flow mints a fresh one. That branch knew nothing about a predecessor, so
+     * nothing retired it: a measurement on 2026-08-05 found <b>10 routes registered by more than one
+     * live flow</b>, one by three. A save leg authored on the flow that is <i>not</i> serving does
+     * nothing, silently — which is what makes this worth fixing rather than tolerating.
+     *
+     * <p>Flow exposes <b>no delete</b>, so pausing is retirement. It is reversible, which is what
+     * makes this safe to do automatically.
+     *
+     * @return the number of predecessors paused
+     */
+    public int retirePredecessorFlows(String componentPath, String keepFlowId) {
+        if (StringUtils.isBlank(componentPath)) {
+            return 0;
+        }
+        int retired = 0;
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(getFlowStreamListAPIURL()))
+                .GET()
+                .build();
+            HttpResponse<String> response = sendRequestWithRetry(request, client, HttpResponse.BodyHandlers.ofString());
+            if (response == null || response.statusCode() != 200) {
+                LOGGER.warn("retirePredecessorFlows: could not list flows (status {}); leaving any predecessor in place for {}",
+                    response == null ? "none" : response.statusCode(), componentPath);
+                return 0;
+            }
+            JsonNode flows = new ObjectMapper().readTree(response.body());
+            if (flows == null || !flows.isArray()) {
+                LOGGER.warn("retirePredecessorFlows: flow list was not an array; leaving any predecessor in place for {}", componentPath);
+                return 0;
+            }
+            for (JsonNode flow : flows) {
+                String id = flow.path("id").asText("");
+                // `group` carries the component path the flow was provisioned for — the same value
+                // this service writes as flowapi_group.
+                String group = flow.path("group").asText("");
+                if (StringUtils.isBlank(id) || !componentPath.equals(group)) {
+                    continue;
+                }
+                if (id.equals(keepFlowId)) {
+                    continue;
+                }
+                FlowPauseResult result = toggleFlowStreamPause(id, true);
+                if (result.isSuccess()) {
+                    retired++;
+                    LOGGER.info("retirePredecessorFlows: retired predecessor flow {} for {} (keeping {})",
+                        id, componentPath, keepFlowId);
+                } else {
+                    LOGGER.warn("retirePredecessorFlows: failed to pause predecessor flow {} for {} (status {})",
+                        id, componentPath, result.getStatusCode());
+                }
+            }
+        } catch (Exception e) {
+            // Never let cleanup break provisioning: a duplicate is recoverable, a failed provision
+            // is not.
+            LOGGER.warn("retirePredecessorFlows: error while retiring predecessors for {}: {}", componentPath, e.getMessage());
+        }
+        return retired;
+    }
+
     public String getFlowStreamSaveAPIURL(String flowstreamid) {
         String url = String.format(configuration.host_url() + configuration.endpoint_streams_save(), flowstreamid);
         return url;
@@ -338,6 +409,17 @@ public class FlowService {
             if (StringUtils.isBlank(newFlowId)) {
                 LOGGER.error("doProcessFlowResource: Failed to create flow from template. storagePath={}, sourcePath={}, template={}", storagePath, sourcePath, flowapiTemplate);
                 return false;
+            }
+
+            // alpha-launch decisions/0008: this branch runs when the stored flow id has been LOST,
+            // and until now it left the previous flow live on the same route. Two flows serving one
+            // route means a save leg authored on the wrong one does nothing, silently — measured at
+            // 10 duplicated routes, one with three. Retire any predecessor now that the replacement
+            // exists, matching on the component path Flow records as the flow's `group`.
+            int retired = retirePredecessorFlows(sourcePath, newFlowId);
+            if (retired > 0) {
+                LOGGER.info("doProcessFlowResource: retired {} predecessor flow(s) for {} after creating {}",
+                    retired, sourcePath, newFlowId);
             }
 
             boolean unpauseResult = processPauseChange(storageResource, newFlowId, false);
@@ -2466,6 +2548,8 @@ public class FlowService {
         public final static String FLOW_META_AUTHOR = "TypeRefinery.io";
         public final static String FLOW_ENDPOINT_STREAMS_PAUSE = "/flow/pause/%s?is=%s";
         public final static String FLOW_ENDPOINT_STREAMS_SAVE = "/flow/save/%s";
+        // Lists every flow; each entry's "group" is the component path it serves (decisions/0008).
+        public final static String FLOW_ENDPOINT_STREAMS_LIST = "/flowproxy/fapi/streams/";
         
         @AttributeDefinition(
             name = "Host URL",
@@ -2536,6 +2620,14 @@ public class FlowService {
                 defaultValue = FLOW_ENDPOINT_STREAMS_PAUSE
         )
         String endpoint_streams_pause() default FLOW_ENDPOINT_STREAMS_PAUSE;
+
+        @AttributeDefinition(
+                name = "Streams list endpoint",
+                description = "Lists all flows; used to retire a predecessor when re-provisioning",
+                type = AttributeType.STRING,
+                defaultValue = FLOW_ENDPOINT_STREAMS_LIST
+        )
+        String endpoint_streams_list() default FLOW_ENDPOINT_STREAMS_LIST;
 
         @AttributeDefinition(
                 name = "Endpoint Streams Save",
