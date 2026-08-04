@@ -43,10 +43,13 @@ function walk(suite, file) {
 }
 for (const s of results.suites || []) walk(s)
 
+// A failing step is only a *regression* if the runsheet claims it works. A step whose
+// recorded baseline is already `fail` is known-broken: reporting it as a regression every
+// tick buries the one line that matters — a step that used to pass and no longer does.
 const icon = (r) => {
   if (r.status === 'expected' || r.status === 'passed') return '✅'
   if (r.status === 'skipped') return r.baseline === 'manual' ? '✋' : '⬜'
-  return '❌'
+  return r.baseline === 'fail' ? '⬜' : '❌'
 }
 
 const stamp = path.basename(runDir)

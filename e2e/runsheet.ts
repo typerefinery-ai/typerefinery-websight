@@ -38,13 +38,19 @@ export const STEPS: Record<string, StepDef> = {
   'P0-S6': { title: 'A rich incident is current', baseline: 'partial' },
 
   // ---- Act 1 — All Incidents table --------------------------------------
-  'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'pass', issue: '0005,0021,0025' },
+  // 0029: the table is empty on a clean profile against a restarted stack — the columns and
+  // rows only arrive when flow f210iy001bt51d publishes over TMS. The ✅ recorded on 2026-07-25
+  // was measured in a browser that had already cached a TMS payload, so 'pass' was never the
+  // baseline for a first-time visitor. Blocked pending decision 0003 (push vs pull).
+  'P1-S1': { title: 'Incidents table renders above the fold, one row per incident', baseline: 'fail', issue: '0005,0021,0025,0029' },
   'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'partial', issue: '0005' },
   'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
   'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
   'P1-S5': { title: 'Save Changes creates the incident and resets the default', baseline: 'pass', issue: '0005' },
   'P1-S6': { title: 'After save the browser lands on Incident Overview', baseline: 'partial', issue: '0014' },
-  'P1-S7': { title: 'Row "Open" sets current incident and navigates same-window', baseline: 'pass', issue: '0005' },
+  // Downstream of 0029: with no rows there is no "Open" button to click. The step's own
+  // mechanism is sound (decision 0002) — it cannot be exercised until P1-S1 renders rows.
+  'P1-S7': { title: 'Row "Open" sets current incident and navigates same-window', baseline: 'fail', issue: '0005,0029' },
   'P1-S8': { title: 'A failing create API surfaces an error in the UI', baseline: 'unknown', issue: '0026' },
 
   // ---- Act 2 — Incident Overview ----------------------------------------
