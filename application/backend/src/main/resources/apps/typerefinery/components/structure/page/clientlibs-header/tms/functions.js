@@ -31,6 +31,58 @@ window.MessageService.Client = MessageService.Client || {};
     ns.registry[host][topic][key] = callbackFn;
   };
 
+  /**
+   * Marks a message as a *request for data* rather than data itself.
+   *
+   * A flow publishes its payload when it starts, fire-and-forget, so a browser opened afterwards
+   * receives nothing and the widget renders empty for ever (alpha-launch docs/issues/0029).
+   * Decision 0003 Option A closes that with a handshake: a client with no cached payload asks on
+   * its own topic, and the flow re-triggers its senddata node in response.
+   *
+   * The marker is what makes that safe. The flow both publishes to and subscribes on the same
+   * channel, so a request must be distinguishable from a payload at both ends or the two sides
+   * feed each other. This is the guard the decision calls for — the flow must only re-emit for
+   * messages carrying it, and the client must never treat one as data (see the handler below).
+   *
+   * Deliberately generic: the platform knows nothing about what any topic carries.
+   */
+  ns.REQUEST_MARKER = "__typerefinery_data_request";
+
+  ns.isDataRequest = (payload) => {
+    if (!payload) return false;
+    try {
+      const parsed = typeof payload === "string" ? JSON.parse(payload) : payload;
+      return !!(parsed && parsed[ns.REQUEST_MARKER]);
+    } catch (error) {
+      // A payload that is not JSON cannot be one of our requests.
+      return false;
+    }
+  };
+
+  /**
+   * Ask whoever publishes `topic` to send its current payload.
+   * No-ops (loudly) when the client cannot publish, so a cold start never fails silently.
+   */
+  ns.requestData = (host, topic) => {
+    if (!topic) {
+      console.warn("tms requestData: no topic, cannot ask for data");
+      return false;
+    }
+    if (typeof clientNs?.publish !== "function") {
+      console.warn(`tms requestData: MessageService.Client.publish unavailable, cannot ask for '${topic}'`);
+      return false;
+    }
+    try {
+      const request = { [ns.REQUEST_MARKER]: true, topic: topic, requestedAt: new Date().toISOString() };
+      clientNs.publish(topic, request);
+      console.log(["tms requestData: asked for a payload on cold start", host, topic, request]);
+      return true;
+    } catch (error) {
+      console.error(["tms requestData failed", host, topic, error]);
+      return false;
+    }
+  };
+
   ns.isSystemMessage = (message) => {
     
     // if message?.detail is a type of string
@@ -90,6 +142,14 @@ window.MessageService.Client = MessageService.Client || {};
       if (!ns.isSystemMessage(message)) {        
         let messagePayload = message?.detail?.data?.payload || null;
         let messageTopic = message?.detail?.data?.topic || null;
+        // Half of the loop guard for decision 0003 Option A: a cold-start request published by
+        // this page (or by another tab) comes back on the same topic. Persisting it would
+        // overwrite the cache with a request envelope and render it as data.
+        if (ns.isDataRequest(messagePayload)) {
+          console.log(["tms message is a data request, not data — ignoring", messageTopic]);
+          console.groupEnd();
+          return;
+        }
         if (messagePayload && messageTopic) {
           console.log(["tms message payload", messageTopic, messagePayload]);
           ns.persistData(messageTopic, messagePayload);
