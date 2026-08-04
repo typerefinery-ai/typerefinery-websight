@@ -86,9 +86,15 @@ async function modalState(page: any) {
     // legitimately 0 on a fully populated field — that miscount made this step look like a
     // product defect for three runs (docs/issues/0030, closed as not-a-defect).
     const options = await f.locator('.choices__item').count().catch(() => 0)
-    return { found: true, text, values, options }
+    // ⚠️ …but that count is **unscoped**, and Choices.js also renders an item for the selected /
+    // placeholder entry. So an *empty* field list — defect 0030's exact symptom — still counts 1
+    // and passes a `> 0` assertion (measured: 1 item while the modal read "No choices to choose
+    // from"). Scope to the dropdown list for a count of genuinely selectable options, the way
+    // P5-S5 does. Both are returned so callers can say which they mean.
+    const dropdownOptions = await f.locator('.choices__list--dropdown .choices__item').count().catch(() => 0)
+    return { found: true, text, values, options, dropdownOptions }
   }
-  return { found: false, text: '', values: [] as string[], options: 0 }
+  return { found: false, text: '', values: [] as string[], options: 0, dropdownOptions: 0 }
 }
 
 /** True once the form pane has left the default placeholder and rendered a real form. */
@@ -348,12 +354,26 @@ test.describe('Act 3 — Incident Composer', () => {
 
     // `created_by_ref` is an *option* in the collapsed "Connection Field List", never visible
     // text — an assertion on the literal string fails against a working modal.
+    //
+    // ⚠️ Use the **scoped** count. The unscoped `.choices__item` includes the placeholder entry, so
+    // it reads 1 even when the list is empty ("No choices to choose from") — which is defect 0030's
+    // exact symptom passing as green (docs/issues/0048).
     await expect
-      .poll(async () => (await modalState(page)).options, {
+      .poll(async () => (await modalState(page)).dropdownOptions, {
         timeout: 30_000,
-        message: 'connection field list offers fields to choose',
+        message: 'connection field list offers real, selectable fields (not just the placeholder)',
       })
       .toBeGreaterThan(0)
+
+    // The row also claims the refs are pre-filled **across the panes**. Matching any stix-shaped
+    // string never showed that; compare against the two ids actually selected.
+    const finalState = await modalState(page)
+    observe(
+      test.info(),
+      'note',
+      `modal refs: ${finalState.values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).join(' → ')} · ` +
+        `selectable fields: ${finalState.dropdownOptions} (unscoped would read ${finalState.options})`,
+    )
   })
 
   /**

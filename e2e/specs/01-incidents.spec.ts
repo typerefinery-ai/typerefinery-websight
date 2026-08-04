@@ -185,8 +185,16 @@ test.describe('Act 1 — All Incidents table', () => {
     await create.click()
     // The dropdown is attached after the button (docs/issues/0005 — it used to be built
     // with jQuery .add(), which never inserts into the DOM).
-    const item = dropdownItem(page, /^\s*Incident\s*$/i)
-    await expect(item).toBeVisible({ timeout: 20_000 })
+    //
+    // The row claims **four** entries — Incident / Note / Artifact / Task — and only the first was
+    // checked (docs/issues/0048, Tier 2). Assert the whole set: a dropdown that lost three of its
+    // four items would otherwise pass.
+    await expect(dropdownItem(page, /^\s*Incident\s*$/i)).toBeVisible({ timeout: 20_000 })
+    const labels = (await page.locator('.dropdown-menu .dropdown-item').allInnerTexts())
+      .map((t) => t.trim())
+      .filter(Boolean)
+    expect(labels, 'the dropdown offers Incident / Note / Artifact / Task')
+      .toEqual(expect.arrayContaining(['Incident', 'Note', 'Artifact', 'Task']))
   })
 
   step('P1-S4', async ({ page }) => {
@@ -388,9 +396,18 @@ test.describe('Act 1 — All Incidents table', () => {
     // `<span class="visually-hidden">Error</span>` nodes (bootstrap-table's a11y markup), and
     // `.first()` picked one of those and failed on "hidden" — an assertion that only worked while
     // the page was empty. Filtering to visible keeps the step honest about what is *surfaced*.
+    //
+    // ⚠️ Still too wide on its own: a page-wide match also hits incident *descriptions* containing
+    // "failed", so the assertion could be satisfied by table data rather than by an error message
+    // (docs/issues/0048, Tier 2). Scope it to the modal.
+    const modal = page.locator('.modal:visible, [role="dialog"]:visible').first()
     await expect(
-      page.locator('text=/error|failed|could not|unable/i').filter({ visible: true }).first(),
-      'an error is surfaced in the UI',
+      modal.locator('text=/error|failed|could not|unable/i').filter({ visible: true }).first(),
+      'an error is surfaced inside the modal',
     ).toBeVisible({ timeout: 30_000 })
+
+    // The row's other half: "the **modal stays open** with a message" — a modal that reported the
+    // error and then vanished would lose it.
+    await expect(modal, 'the modal stays open so the message is readable').toBeVisible()
   })
 })
