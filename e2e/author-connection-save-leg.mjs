@@ -51,6 +51,7 @@ if (!src || !tgt || !field) { console.log('[connection] missing source_ref/targe
 console.log('[connection] ' + src + '.' + field + ' = ' + tgt);
 // Carry the parameters forward explicitly. Whether they survive the HTTP node is the open
 // question; merge() searches for them and refuses to write if they are gone.
+try { $.repo.connection = { source_ref: src, target_ref: tgt, field: field }; } catch (e) { console.log('[connection] no repository available: ' + e.message); }
 $.send('output', { connection: { source_ref: src, target_ref: tgt, field: field } });
 `
 
@@ -62,7 +63,10 @@ function findConnection(node, depth) {
   for (var k in node) { var f = findConnection(node[k], depth + 1); if (f) return f; }
   return null;
 }
-var conn = findConnection(data, 0);
+var conn = null;
+try { conn = $.repo && $.repo.connection; } catch (e) { conn = null; }
+if (!conn) conn = findConnection(data, 0);
+console.log('[connection] parameters from ' + (conn ? 'repository/message' : 'nowhere'));
 if (!conn) { console.log('[connection] parameters did not survive the fetch, refusing to write'); $.destroy(); return; }
 
 var graph = (data && data.body) || {};
