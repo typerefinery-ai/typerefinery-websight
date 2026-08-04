@@ -77,10 +77,24 @@ for (const p of pages) {
   })
 }
 
+// `flowapi_enable` is the authored REQUEST (on /content); `flowapi_httproute` is the provisioned
+// RESULT (in /var). Crossing them says *why* a form cannot save, which decides the cost of fixing it.
+const enabled = r => String(r.enable) === 'true'
 const canSave = rows.filter(r => r.route)
-const cannot = rows.filter(r => !r.route)
+const provisioningFailed = rows.filter(r => !r.route && enabled(r))
+const neverAsked = rows.filter(r => !r.route && !enabled(r))
+
 console.log(`FORMS WITH A SAVE LEG (flowapi_httproute present): ${canSave.length}`)
-for (const r of canSave) console.log(`   ✅ ${r.page}   topic=${r.topic} enable=${r.enable}`)
-console.log(`\nFORMS WITHOUT (no flowapi_httproute): ${cannot.length}`)
-for (const r of cannot) console.log(`   ❌ ${r.page}`)
+for (const r of canSave) console.log(`   ✅ ${r.page}   topic=${r.topic}`)
+
+console.log(`\n⚠️  ENABLED BUT NO ROUTE — provisioning FAILED, needs investigation: ${provisioningFailed.length}`)
+for (const r of provisioningFailed) console.log(`   ⚠️  ${r.page}`)
+
+console.log(`\nNEVER ASKED FOR A FLOW (no flowapi_enable) — candidates for the one-property fix: ${neverAsked.length}`)
+for (const r of neverAsked) console.log(`   ○ ${r.page}`)
+
 console.log(`\nTOTAL form nodes inspected: ${rows.length}`)
+console.log('\n⚠️  A provisioned flow is NOT a working save. docs/issues/0046: enabling the Create')
+console.log('   Connection form gave it a route, but the generic flowform-service flow only ECHOES —')
+console.log('   the save logic is still authored per form. Treat the third list as "cheap to try",')
+console.log('   not "cheap to fix", and never bulk-enable.')
