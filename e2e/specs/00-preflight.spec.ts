@@ -74,6 +74,31 @@ test.describe('Act 0 — preflight', () => {
     await api.dispose()
   })
 
+  step('P0-S7', async ({}) => {
+    // GitHub #82's own criterion is "Get API for Composer/Overview Options works properly" —
+    // an API-level claim, so it is asserted at the API. docs/issues/0041.
+    //
+    // ⚠️ 200 is NOT sufficient. These algorithms return HTTP 200 with an `{"error":"true"}`
+    // envelope when they throw (docs/issues/0026), and that is exactly how the overview half
+    // failed for a day while looking healthy. Assert the payload instead.
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    const expected: Record<string, string[]> = {
+      // One key each side reads that a stub or an error envelope would not carry.
+      'composer-options': ['tree_data', 'tree_data_default'],
+      'overview-options': ['current_theme', 'api'],
+    }
+    for (const [route, keys] of Object.entries(expected)) {
+      const res = await api.get(`${FLOW_BASE}/viz-data/${route}`, { timeout: 60_000 })
+      expect(res.status(), `${route} status`).toBe(200)
+      const payload = await res.json()
+      expect(payload.error, `${route} returned an error envelope`).toBeFalsy()
+      for (const key of keys) {
+        expect(payload[key], `${route} payload is missing ${key}`).toBeDefined()
+      }
+    }
+    await api.dispose()
+  })
+
   step('P0-S6', async ({}) => {
     const api = await request.newContext({ ignoreHTTPSErrors: true })
     const res = await api.get(`${FLOW_BASE}/viz-data/overview-default-incident`, { timeout: 60_000 })

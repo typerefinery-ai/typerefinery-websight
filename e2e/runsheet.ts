@@ -36,6 +36,11 @@ export const STEPS: Record<string, StepDef> = {
   'P0-S4': { title: '/viz-data/overview-default-incident returns nodes+edges, no duplicate ids', baseline: 'pass', issue: '0024' },
   'P0-S5': { title: 'CMS login by typed credentials', baseline: 'pass' },
   'P0-S6': { title: 'A rich incident is current', baseline: 'partial' },
+  // Both halves of GitHub #82. The composer half was 404 until 2026-08-05 because its route sits
+  // in a flow whose SUBMODULE revision and RUNTIME revision serve different URLs under the same
+  // id; importing the submodule copy with the id stripped registers /viz-data/composer-options
+  // without touching the live /viz-data/tree-user (docs/issues/0041).
+  'P0-S7': { title: 'Both #82 options APIs return usable payloads (composer + overview)', baseline: 'pass', issue: '0041' },
 
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and
