@@ -53,6 +53,21 @@ const paneNodes = (page: any, pane: string) =>
   composerWidget(page).locator(pane).locator('image, g.node, circle')
 
 /**
+ * Right-click targets, which are **not** the same elements as `paneNodes`.
+ *
+ * A pane alternates in DOM order: a `g.node` row group (~162×40, the whole row) and then the
+ * `image` icon inside it (40×40). The **context-menu handler lives on the `image`** — measured
+ * 2026-08-04: right-clicking `g.node` produces no menu at all, right-clicking the `image`
+ * immediately in front of it opens Copy / Edit DAG.
+ *
+ * `paneNodes(...).first()` therefore lands on the row group and hangs waiting for a menu that
+ * will never appear. That is what made P3-S4 fail while the feature it tests worked — the same
+ * shape of harness defect as docs/issues/0040, and now docs/issues/0043.
+ */
+const paneNodeIcons = (page: any, pane: string) =>
+  composerWidget(page).locator(pane).locator('image')
+
+/**
  * Composer modals (Create SRO / Create Connection) mount in a **fourth frame** of their own,
  * `…/forms/stixorm-forms/modal-forms/…` — not in the widget frame and not in the host page.
  * That is why asserting on the modal from either of those found nothing while the modal was
@@ -143,7 +158,8 @@ test.describe('Act 3 — Incident Composer', () => {
     const beforeCount = (before.scratch?.nodes || []).length + (before.promo?.nodes || []).length
 
     await openComposer(page)
-    const treeNode = paneNodes(page, PANE.tree).first()
+    // Right-click the node *icon*, not the row group — only the icon carries the menu handler.
+    const treeNode = paneNodeIcons(page, PANE.tree).first()
     await expect(treeNode).toBeVisible({ timeout: 60_000 })
     await treeNode.click({ button: 'right' })
 
