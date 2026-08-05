@@ -84,6 +84,16 @@ for (const page of formPages) {
       list: r.name.trim().endsWith('_refs'),
       resourceType: r.resourceType,
       authored: Boolean(r.node.readOptionsFromDataSource),
+      // ⚠️ Whether the form's `type` is the right `object_type` for this field.
+      //
+      // A top-level property sits under exactly one `composite*` segment. A field belonging to a
+      // **sub-object** — `granular_markings.marking_ref`, or the identity extension's
+      // `email_addresses[].email_address_ref` — sits under two or more, and its owning type is that
+      // sub-object, NOT the form's type. Probing those with the form's type returns `[]`, which
+      // looks exactly like a missing dialect row and is not one. The same shape of mistake as
+      // sending `{object, field}` instead of `{object_type, object_field}` (docs/issues/0026).
+      nesting: (r.path.match(/\/composite(_\d+)?\//g) || []).length,
+      topLevel: (r.path.match(/\/composite(_\d+)?\//g) || []).length <= 1,
       path: r.path,
     })),
   })
@@ -95,17 +105,23 @@ if (AS_JSON) {
   let total = 0
   let authored = 0
   let noType = 0
+  let nested = 0
   for (const form of report) {
     console.log(`\n${form.form}   type=${form.objectType || '⚠️ UNKNOWN'}`)
     if (!form.objectType) noType++
     for (const ref of form.refs) {
       total++
       if (ref.authored) authored++
+      if (!ref.topLevel) nested++
       const kind = ref.resourceType.split('/').pop()
-      console.log(`   ${ref.authored ? '✅' : '⬜'} ${ref.name.padEnd(26)} ${ref.list ? 'list  ' : 'scalar'} ${kind}`)
+      console.log(
+        `   ${ref.authored ? '✅' : '⬜'} ${ref.name.padEnd(26)} ${ref.list ? 'list  ' : 'scalar'} ` +
+          `${kind.padEnd(10)} ${ref.topLevel ? '' : `⚠️ sub-object (nesting ${ref.nesting}) — the form's type is NOT its object_type`}`,
+      )
     }
   }
   console.log(`\n${report.length} forms carry reference fields`)
   console.log(`${total} reference fields, ${authored} authored, ${total - authored} to go`)
+  console.log(`${total - nested} belong to the form's own type; ${nested} belong to a sub-object and cannot be probed with it`)
   if (noType) console.log(`⚠️ ${noType} form(s) have no readable object type — the sweep must skip these, not guess`)
 }
