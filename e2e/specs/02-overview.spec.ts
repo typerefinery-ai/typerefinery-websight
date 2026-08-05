@@ -79,6 +79,52 @@ test.describe('Act 2 — Incident Overview', () => {
     })
     expect(inside, 'nodes were actually rendered and measured (guards the empty-graph pass)').toBeGreaterThan(0)
     expect(outside, 'nodes outside the panel bounds').toBe(0)
+
+    // ⚠️ "In bounds" is not GitHub #80's criterion — #80 asks for a **usable, centred** layout, and
+    // an oversized graph shrunk to nothing would satisfy `outside === 0` perfectly. That gap was
+    // recorded as the reason #80 stayed PARTIAL, so assert the thing the issue actually asks for.
+    //
+    // Measured 2026-08-05 across three panel widths (27 nodes):
+    //   1067px panel → fill 74% x 68%, icons 35px, margins L138=R138 T162=B162, 0 overlaps
+    //    853px panel → fill 92% x 84%, icons 35px, margins  L35=R35   T65=B65,  0 overlaps
+    //    683px panel → fill 92% x 77%, icons 28px, margins  L28=R28   T82=B82,  0 overlaps
+    // So fitToPanel() scales down only when the panel is genuinely smaller than the graph, and
+    // even then the icons stay legible. Thresholds are set well below the measurements so a real
+    // collapse fails while normal variation does not.
+    const fit = await graph(page).locator('svg').first().evaluate((svg: SVGSVGElement) => {
+      const box = svg.getBoundingClientRect()
+      const rects = [...svg.querySelectorAll('image.node-image, image')]
+        .map((n) => (n as SVGGraphicsElement).getBoundingClientRect())
+        .filter((r) => r.width > 0)
+      if (!rects.length) return null
+      const left = Math.min(...rects.map((r) => r.left))
+      const right = Math.max(...rects.map((r) => r.right))
+      const top = Math.min(...rects.map((r) => r.top))
+      const bottom = Math.max(...rects.map((r) => r.bottom))
+      const centres = rects.map((r) => [r.left + r.width / 2, r.top + r.height / 2] as const)
+      const nearest = centres.map(([x, y], i) => {
+        let best = Infinity
+        centres.forEach(([x2, y2], j) => {
+          if (i !== j) best = Math.min(best, Math.hypot(x - x2, y - y2))
+        })
+        return best
+      })
+      return {
+        fillX: (right - left) / box.width,
+        fillY: (bottom - top) / box.height,
+        // Difference between opposing margins, as a fraction of the panel — 0 means centred.
+        skewX: Math.abs((left - box.left) - (box.right - right)) / box.width,
+        skewY: Math.abs((top - box.top) - (box.bottom - bottom)) / box.height,
+        iconPx: rects[0].width,
+        overlapping: nearest.filter((d) => d < rects[0].width).length,
+      }
+    })
+    expect(fit, 'nodes measurable for the fit assertions').not.toBeNull()
+    expect(Math.max(fit!.fillX, fit!.fillY), 'graph fills a usable share of the panel, not shrunk to a dot')
+      .toBeGreaterThan(0.5)
+    expect(Math.max(fit!.skewX, fit!.skewY), 'graph is centred in the panel').toBeLessThan(0.15)
+    expect(fit!.iconPx, 'node icons are still legible').toBeGreaterThan(12)
+    expect(fit!.overlapping, 'node icons do not overlap each other').toBe(0)
   })
 
   step('P2-S3', async ({ page }) => {
