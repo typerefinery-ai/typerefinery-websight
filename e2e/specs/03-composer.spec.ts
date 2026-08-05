@@ -142,6 +142,39 @@ test.describe('Act 3 — Incident Composer', () => {
     }
     observe(test.info(), 'note', `pane node counts — ${Object.entries(paneCounts).map(([k, v]) => `${k}:${v}`).join(' ')}`)
 
+    // docs/issues/0058 — no pane's drawing surface may extend past its own container. A full run
+    // failed P3-S6 because `svg.scratch_svg` had grown over the Promo pane and **intercepted its
+    // clicks**; the Promo node was visible, enabled and stable, and the click still never landed.
+    //
+    // Asserted here rather than left to P3-S6 because "a click was intercepted" only shows up when
+    // the overlap happens to sit under the node the step chose. This measures the condition itself,
+    // so the fix is verifiable instead of probabilistic.
+    const overflow = await composerWidget(page)
+      .locator('svg.promo_svg, svg.scratch_svg')
+      .first()
+      .evaluate(() => {
+        const report: Array<{ pane: string; overflowX: number; overflowY: number }> = []
+        for (const id of ['promo_panel', 'scratch_panel']) {
+          const pane = document.getElementById(id)
+          const svg = pane && pane.querySelector('svg')
+          if (!pane || !svg) continue
+          const p = pane.getBoundingClientRect()
+          const s = svg.getBoundingClientRect()
+          report.push({
+            pane: id,
+            overflowX: Math.round(Math.max(0, s.right - p.right, p.left - s.left)),
+            overflowY: Math.round(Math.max(0, s.bottom - p.bottom, p.top - s.top)),
+          })
+        }
+        return report
+      })
+    observe(test.info(), 'note', `pane overflow — ${overflow.map((o) => `${o.pane}:${o.overflowX}x${o.overflowY}`).join(' ')}`)
+    for (const o of overflow) {
+      // A couple of pixels of border/rounding is fine; a pane covering its neighbour is not.
+      expect(o.overflowX, `${o.pane} svg does not extend past its pane horizontally`).toBeLessThan(8)
+      expect(o.overflowY, `${o.pane} svg does not extend past its pane vertically`).toBeLessThan(8)
+    }
+
     // "…none drifting" is the row's third claim (0016: the graph never settles when embedded).
     // Two measurements of the same node, 3 s apart, is the P2-S3 pattern.
     const firstIcon = composerWidget(page).locator(PANE.promo).locator('image').first()
