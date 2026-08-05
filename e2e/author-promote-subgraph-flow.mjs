@@ -94,13 +94,22 @@ for (var k = 0; k < subgraph.length; k++) {
 }
 `
 
-const dropCode = `// The object is now on the incident; take it out of unattached. The remove route wants the
-// STIX object itself, so recover it from the message that went into the save.
-var obj = null;
-try { obj = $.repo && $.repo.promoted; } catch (e) { obj = null; }
-if (!obj) { console.log('[promote] no object recorded for removal, skipping the unattached drop'); $.destroy(); return; }
-console.log('[promote] removing ' + obj.id + ' from unattached');
-$.send('output', obj);
+const dropCode = `// The object is on the incident; now take it out of unattached.
+//
+// Recover the id from the SAVE RESPONSE, not from $.repo. $.repo is per-FLOW, not per-message, so
+// a multi-object sub-graph had every message overwrite it and the removals raced. The save answers
+//   {"context_result":" incident context saved - \\nstix_id -> identity--..."}
+// which is per-message and cannot race.
+var body = (data && data.body) || {};
+var text = typeof body === 'string' ? body : (body.context_result || JSON.stringify(body));
+var m = /stix_id\\s*->\\s*([a-z0-9-]+--[0-9a-f-]+)/i.exec(text || '');
+if (!m) { console.log('[promote] save response did not name a stix_id, not removing: ' + String(text).slice(0,160)); $.destroy(); return; }
+console.log('[promote] saved ' + m[1] + ', removing it from unattached');
+// ⚠️ The remove route wants ONLY the id. Measured against all three shapes:
+//   {id}            -> "outcome":"success" ... "is removed from unattached context memory"
+//   the STIX object -> "outcome":"failure" ... "was not found"
+//   {stix_object}   -> 200 with an {"error":"true"} envelope
+$.send('output', { id: m[1] });
 `
 
 const stashCode = `// Keep the object across the incident-save HTTP call, whose response replaces the message.
