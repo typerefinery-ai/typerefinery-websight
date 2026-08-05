@@ -99,8 +99,21 @@ public class Select extends BaseFormComponent {
     @Inject
     public String readPayloadType;
 
+    /**
+     * Authored request body for the option data source, sent verbatim when {@code readMethod}
+     * takes one (POST/PUT). Opaque to this component: it is a string the author supplies and the
+     * client passes straight through, so no data-model vocabulary enters the platform layer.
+     *
+     * <p>alpha-launch decision 0011 / GitHub #62 — reference fields need to ask their source
+     * <em>which</em> field they are populating, and that question is a property of the authored
+     * field, not of the Select component.
+     */
     @Getter
-    @Inject 
+    @Inject
+    public String readPayload;
+
+    @Getter
+    @Inject
     public String keyNameInOptionList;
 
     

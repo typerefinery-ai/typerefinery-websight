@@ -279,38 +279,168 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
 
     ns.getOptionsFromDataSource = async (componentConfig) => {
         try{
-            const {  readOptionsFromDataSource, readMethod , readPayloadType } = componentConfig;
+            const {  readOptionsFromDataSource, readMethod , readPayloadType, readPayload } = componentConfig;
             if(!readOptionsFromDataSource) {
                 return [];
             }
-            const response = await fetch(
-                readOptionsFromDataSource, 
-                {
-                    method: readMethod || "GET",
-                    headers: {
-                        "Content-Type": readPayloadType || "application/json"
-                    }
+            // `readPayload` is an authored request body, sent when the method takes one.
+            //
+            // alpha-launch decision 0011: the component stays data-agnostic — it does not know what
+            // is in the payload, only how to send it. Which URL and which parameters are authored
+            // per field, so no domain vocabulary enters this file. (The os-triage reference fields
+            // author `{"object_type":"identity","object_field":"created_by_ref"}` against
+            // `/stix-orm/utils/connections`, but this component never names any of that.)
+            const method = (readMethod || "GET").toUpperCase();
+            const options = {
+                method: method,
+                headers: {
+                    "Content-Type": readPayloadType || "application/json"
                 }
-            ).then(response => response.json());
-            return Array.isArray(response) ? response : (response?.data || []);
+            };
+            if (readPayload && method !== "GET" && method !== "HEAD") {
+                options.body = typeof readPayload === "string" ? readPayload : JSON.stringify(readPayload);
+            }
+            const response = await fetch(readOptionsFromDataSource, options).then(response => response.json());
+            const list = Array.isArray(response) ? response : (response?.data || []);
+            // A flow algorithm answers 200 with an error envelope when it throws
+            // (alpha-launch docs/issues/0026), and that is an object, not a list — so it lands here
+            // as an empty list rather than as rows made of error text.
+            if (!Array.isArray(list)) {
+                console.warn("select getOptionsFromDataSource: response was not a list", response);
+                return [];
+            }
+            return list;
         }catch(error) {
             console.error(error);
             return [];
         }
     };
 
+    /**
+     * Rich option rows — icon, heading, description — for a data source that supplies them.
+     *
+     * alpha-launch decision 0011 / GitHub #62. The row contract (`icon_url`, `heading`,
+     * `description`, `tooltip`) is **generic UI vocabulary**, not domain vocabulary: any
+     * application can return rows of that shape. The component renders whatever it is given and
+     * falls back to the plain label when the extra fields are absent.
+     *
+     * ⚠️ **Built as DOM nodes, not an HTML string.** Choices' `allowHTML` stays `false`, which is
+     * what previously made rich rows impossible — but turning it on would have parsed
+     * server-supplied markup (`description` arrives as `First Name -&gt;Naive&lt;br&gt;…`) and
+     * opened an injection surface for the sake of a line break. Building nodes gives the same
+     * result with none of that.
+     */
+    ns.richChoiceTemplates = (strToEl) => ({
+        // ⚠️ Choices calls a template as `template.call(this, this.config, ...args)` — the first
+        // argument is the **config**, not `classNames`, and `selectText` arrives third. Reading it
+        // as `classNames` produces rows whose every class is the string "undefined": they render,
+        // but nothing can highlight, select or style them.
+        choice: function (config, data, selectText) {
+            const classNames = config.classNames;
+            const props = (data && data.customProperties) || {};
+            const row = document.createElement("div");
+            row.id = data.elementId;
+            // Mirror the stock template's classes and dataset exactly — Choices' own event handling
+            // reads them back — and only change what goes *inside* the row.
+            row.className = classNames.item + " " + classNames.itemChoice;
+            if (data.selected) row.classList.add(classNames.selectedState);
+            if (data.placeholder) row.classList.add(classNames.placeholder);
+            row.setAttribute("role", data.groupId > 0 ? "treeitem" : "option");
+            Object.assign(row.dataset, { choice: "", id: data.id, value: data.value, selectText: selectText });
+            if (data.disabled) {
+                row.classList.add(classNames.itemDisabled);
+                row.dataset.choiceDisabled = "";
+                row.setAttribute("aria-disabled", "true");
+            } else {
+                row.classList.add(classNames.itemSelectable);
+                row.dataset.choiceSelectable = "";
+            }
+            if (props.tooltip) {
+                // Indented when it is an object: a `title` renders newlines, and one long line of
+                // JSON is unreadable at the size a tooltip gets.
+                row.setAttribute("title", typeof props.tooltip === "string" ? props.tooltip : JSON.stringify(props.tooltip, null, 1));
+            }
+
+            if (props.icon_url) {
+                const icon = document.createElement("img");
+                icon.src = props.icon_url;
+                icon.alt = "";
+                icon.width = 20;
+                icon.height = 20;
+                icon.className = "choices__icon me-2 align-middle";
+                row.appendChild(icon);
+            }
+
+            const text = document.createElement("span");
+            const heading = document.createElement("strong");
+            heading.textContent = props.heading || data.label;
+            text.appendChild(heading);
+
+            if (props.description) {
+                const description = document.createElement("small");
+                description.className = "d-block text-muted";
+                // `description` may carry <br> separators. Split rather than parse: same reading,
+                // no markup interpreted.
+                String(props.description).split(/<br\s*\/?>/i).forEach((line, index) => {
+                    if (index) description.appendChild(document.createElement("br"));
+                    description.appendChild(document.createTextNode(line));
+                });
+                text.appendChild(description);
+            }
+            row.appendChild(text);
+            return row;
+        },
+    });
+
+    /**
+     * Read `path` out of `option`, following dots so a nested field can be named.
+     *
+     * A data source is free to nest the value it wants used as the option key — the os-triage
+     * connections source returns the identifier under `tooltip.id`, for instance. Resolving a
+     * dotted path here keeps that an authoring detail rather than a reason to reshape the
+     * response (alpha-launch decision 0011). A plain name still works unchanged.
+     */
+    ns.readOptionField = (option, path) => {
+      if (!option || !path) return undefined;
+      if (String(path).indexOf('.') === -1) return option[path];
+      return String(path).split('.').reduce((acc, part) => (acc == null ? acc : acc[part]), option);
+    };
+
     ns.addOptionsToSelect = ($component, defaultSelectedOptions, optionsList, keyName, labelName) => {
       console.log('options from data source', optionsList, defaultSelectedOptions, keyName, labelName);
       if(optionsList.length !== 0) {
-          const selectOptions = optionsList.map((option) => {
-              console.log(option);
-              var html = `<option ${ns.isValueSelectedAsDefault(defaultSelectedOptions, option[keyName || 'key'])} value="${option[keyName || 'key']}">${option[labelName || 'label']}</option>`;
-              console.log(html);
-              return html;
+          const select = $component.get(0);
+          if (!select) {
+            console.warn("addOptionsToSelect: no select element");
+            return;
+          }
+          // Built as DOM nodes rather than an HTML string: the values are server-supplied and
+          // hand-escaping them into `value="…"` is a bug waiting to happen (a label containing a
+          // quote used to break the whole option list). Same output, no escaping to get wrong.
+          select.replaceChildren();
+          optionsList.forEach((option) => {
+            const value = ns.readOptionField(option, keyName || 'key');
+            const label = ns.readOptionField(option, labelName || 'label');
+            const el = document.createElement('option');
+            el.value = value == null ? '' : String(value);
+            el.textContent = label == null ? el.value : String(label);
+            // `isValueSelectedAsDefault` calls `.trim()` on the value, so hand it the string form.
+            if (ns.isValueSelectedAsDefault(defaultSelectedOptions, el.value)) {
+              el.setAttribute('selected', 'selected');
+            }
+            // Carry any extra per-row fields through to Choices as `customProperties`, so a rich
+            // template can render them (alpha-launch decision 0011). Absent on ordinary sources,
+            // in which case Choices renders its default row exactly as before.
+            const extras = {};
+            ['icon_url', 'heading', 'description', 'tooltip'].forEach((field) => {
+              if (option[field] !== undefined) extras[field] = option[field];
+            });
+            if (Object.keys(extras).length) {
+              el.dataset.customProperties = JSON.stringify(extras);
+            }
+            select.appendChild(el);
           });
-          var optionsHTML = selectOptions.join('');
-          console.log(optionsHTML)
-          $component.html(optionsHTML);
+          console.log("added " + optionsList.length + " options, first value: " + (select.options[0] && select.options[0].value));
           return;
       } else {
         console.log("optionsList is empty");
@@ -467,13 +597,20 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           var optionsList = await ns.getOptionsFromDataSource(componentConfig);
           console.groupCollapsed("select init, resume after response from data source on " + window.location);
           console.log("data source list", optionsList);
-          ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
+          // ⚠️ This used to pass `keyNameInOptionList` twice and `labelNameInOptionList` third, but
+          // `addOptionsToSelect` takes five arguments — so the label name was silently dropped and
+          // every data-source option was labelled with its key. That is why authored
+          // `labelNameInOptionList` values appeared to have no effect (alpha-launch decision 0011).
+          ns.addOptionsToSelect($component, defaultSelectedOptions, optionsList, componentConfig.keyNameInOptionList, componentConfig.labelNameInOptionList);
           console.log($component.html());
           console.log("loaded options");
 
           console.log("init choices");
 
-          selectInstances[componentConfig.id] = new Choices($component.get(0), {
+          // Render rich rows only when the data source actually supplies them, so every existing
+          // data-source select keeps exactly its current appearance (alpha-launch decision 0011).
+          const hasRichRows = optionsList.some((option) => option && (option.icon_url || option.heading || option.description));
+          const choicesConfig = {
               removeItemButton: true,
               maxItemCount: componentConfig.maxSelection || -1,
               allowHTML: false,
@@ -484,7 +621,12 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
               addItemText: (value) => {
                 return `Press Enter to add <b>"${value}"</b>`;
               },
-          }); 
+          };
+          if (hasRichRows) {
+              console.log("data source supplies icon/heading/description - using rich option rows");
+              choicesConfig.callbackOnCreateTemplates = ns.richChoiceTemplates;
+          }
+          selectInstances[componentConfig.id] = new Choices($component.get(0), choicesConfig);
 
           console.log("add event listener");
           ns.addEventListener($component, componentConfig);

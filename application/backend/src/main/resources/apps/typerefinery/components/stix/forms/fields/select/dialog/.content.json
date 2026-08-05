@@ -89,7 +89,25 @@
         "sling:resourceType": "wcm/dialogs/components/textfield",
         "name": "readOptionsFromDataSource",
         "label": "Read options from data source",
-        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties."
+        "description": "Enter the path to a data source. The data source must be a JSON array of objects with label and value properties. Rows may also carry icon_url, heading and description, which are rendered as a rich option row."
+      },
+      "readMethod": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readMethod",
+        "label": "Data source method",
+        "description": "HTTP method used to read the data source. Defaults to GET."
+      },
+      "readPayloadType": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readPayloadType",
+        "label": "Data source payload type",
+        "description": "Content-Type sent with the data source request. Defaults to application/json."
+      },
+      "readPayload": {
+        "sling:resourceType": "wcm/dialogs/components/textfield",
+        "name": "readPayload",
+        "label": "Data source payload",
+        "description": "Request body sent to the data source, verbatim, when the method takes one (POST/PUT). For a reference field this names the object type and field, e.g. {\"object_type\":\"identity\",\"object_field\":\"created_by_ref\"}."
       },
       "keyNameInOptionList": {
         "sling:resourceType": "wcm/dialogs/components/textfield",
