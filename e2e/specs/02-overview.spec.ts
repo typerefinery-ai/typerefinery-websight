@@ -105,7 +105,22 @@ test.describe('Act 2 — Incident Overview', () => {
   })
 
   step('P2-S4', async ({ page }) => {
-    // manual-only: CDP scroll gestures time out against the cross-origin embed.
+    // Manual-only, and 2026-08-05 established *why* more precisely than "CDP times out".
+    //
+    // PAN was verified in Chrome against the real embedded page: a background drag of (+170,-110)
+    // moved every node by exactly that delta — a canvas pan, not a node drag.
+    //
+    // ZOOM could not be driven by any automation available here. Chrome's `scroll` action delivers
+    // **zero wheel events** — measured with a capture-phase `wheel` listener on the widget's own
+    // document, which logged 0 after a 4-tick scroll. So "the graph did not zoom" is a statement
+    // about the tool, not the product, and reporting it as a defect would have been wrong.
+    //
+    // What the product does: dispatching a real WheelEvent on the widget's svg runs its d3.zoom
+    // handler and writes `scale(1.5157)` into the layout transform. Zoom works.
+    //
+    // Both come from the same `zoom_handler(parentSvg)` in widget-graph-viz-overview — pan proves
+    // it is attached in the embedded context, and d3.zoom sets no `.filter()` that could accept
+    // drags while rejecting wheels. See docs/issues/0006 and GitHub #80.
   })
 
   step('P2-S5', async ({ page }) => {
