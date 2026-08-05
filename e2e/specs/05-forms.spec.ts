@@ -224,15 +224,37 @@ test.describe('Act 5 — form behaviour', () => {
     }
     observe(test.info(), 'pass', `#83 data half: ${candidates.length} candidates with icon/heading/description/tooltip`)
 
-    // Half 2, the RENDERING: the reference select exists and is visible, but shows bare values.
-    // The component sets Choices' `allowHTML: false`, so icon + heading + description cannot be
-    // rendered at all, whatever data arrives — that is the whole of what #62 still needs.
+    // Half 2, the RENDERING (decision 0011 Option 1). The reason this half was dead was not the
+    // Select component: `created_by_ref` was authored as a plain **text input**, so there was no
+    // option list to render at all. It is now a Select pointed at the source above
+    // (e2e/author-reference-options.mjs), and the component renders icon + heading + description
+    // as DOM nodes — `allowHTML` stays `false`.
+    //
+    // ⚠️ Assert against the **Choices wrapper**, not the `<select>`. Choices hides the native
+    // element and builds its own rows beside it, so `toBeVisible()` on the select fails and the
+    // icons are never inside it.
     await openForm(page, IDENTITY_CREATE)
-    const refSelect = page.locator('[name$="_ref"], [name$="_ref "]').first()
-    await expect(refSelect, 'a reference field is present on the form').toBeVisible({ timeout: 20_000 })
-    const hasRichRows = await refSelect.locator('img, .icon').count()
-    expect(hasRichRows, 'reference rows carry an icon (#62 rendering half — see decisions/0011)')
+    const refSelect = page.locator('select[name$="_ref"]').first()
+    await expect(refSelect, 'a reference field is present on the form').toBeAttached({ timeout: 20_000 })
+    const refWidget = page.locator('.choices').filter({ has: refSelect })
+    await expect(refWidget, 'the reference field is rendered as an option list').toBeVisible({ timeout: 20_000 })
+
+    const rows = refWidget.locator('.choices__item--choice')
+    await expect
+      .poll(() => rows.count(), { timeout: 30_000, message: 'reference options load from the data source' })
       .toBeGreaterThan(0)
+
+    const icons = await refWidget.locator('.choices__item--choice img').count()
+    expect(icons, 'reference rows carry an icon (#62 rendering half — see decisions/0011)').toBeGreaterThan(0)
+
+    // ⚠️ `toBeVisible()` is wrong here: the rows live in a closed dropdown, which is exactly how a
+    // select should behave. Assert they are built and carry text, not that they are on screen.
+    const firstRow = rows.first()
+    await expect(firstRow.locator('strong'), 'a reference row shows a heading').toHaveText(/\S/)
+    await expect(firstRow.locator('small'), 'a reference row shows a description').toHaveText(/\S/)
+    await expect(firstRow, 'a reference row carries the full object as a tooltip').toHaveAttribute('title', /\S/)
+
+    observe(test.info(), 'pass', `#62 rendering half: ${await rows.count()} rich rows, ${icons} with icons`)
   })
 
   step('P5-S7', async ({ page }) => {

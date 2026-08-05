@@ -140,7 +140,11 @@ export const STEPS: Record<string, StepDef> = {
   'P5-S3': { title: 'Save writes the object into unattached context (Scratch)', baseline: 'partial', issue: '0009' },
   'P5-S4': { title: 'Update form is pre-filled with current values', baseline: 'pass', issue: '0009' },
   'P5-S5': { title: 'Vocab select offers an empty row then the vocabulary', baseline: 'pass', issue: '0009' },
-  'P5-S6': { title: '_ref select lists candidates with icon/heading/description/tooltip', baseline: 'unknown', issue: '0009' },
+  // Promoted 'unknown' -> 'pass' 2026-08-05 (decision 0011 Option 1, GitHub #62). The data half
+  // (#83) always worked; the rendering half was dead because `created_by_ref` was authored as a
+  // text input, not a select. It is now a data-source Select and the rows carry icon + heading +
+  // description.
+  'P5-S6': { title: '_ref select lists candidates with icon/heading/description/tooltip', baseline: 'pass', issue: '0009' },
   // Promoted 'unknown' -> 'pass' 2026-08-05. It was never "unbuilt": the old step waited for a
   // template row that is hidden by design, so it could not pass and never exercised the feature.
   // Driving the authored *Object Marking* button showed add worked and remove did not exist at all
