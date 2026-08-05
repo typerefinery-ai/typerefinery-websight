@@ -83,8 +83,18 @@ export const STEPS: Record<string, StepDef> = {
   // Promoted fail -> pass 2026-08-04: 0049 fixed. The step now walks 8 nodes and requires every
   // form to resolve, so an os-threat type regressing to a 0-input 404 goes red again.
   'P2-S5': { title: 'Left-select a node opens its populated Update form', baseline: 'pass', issue: '0006,0048,0049' },
-  'P2-S6': { title: 'Dark theme config applies to the viz', baseline: 'unknown', issue: '0006' },
-  'P2-S7': { title: 'Widget init()/refresh() apply the Overview options', baseline: 'unknown', issue: '0006' },
+  // Promoted 'unknown' -> 'pass' 2026-08-05. The step now asserts that the rendering matches the
+  // **configured** theme, which is the actual claim; it previously demanded dark unconditionally
+  // while the deployed options say `current_theme: "light"`, so it could only ever fail and its
+  // failure said nothing about whether theming works. Checkable only now that #82's options are
+  // consumed (P2-S7). docs/issues/0006.
+  'P2-S6': { title: 'Theme config applies to the viz', baseline: 'pass', issue: '0006' },
+  // Promoted 'unknown' -> 'pass' 2026-08-05: the widget now fetches #82's options in init() and
+  // merges them over its defaults. Two faults had to be cleared first — the step was asserting on
+  // the PARENT page's resource timings (the widget fetches from its own frame), and the widget's
+  // own API base was the direct port, which answers with no Access-Control-Allow-Origin when the
+  // widget is served over https. docs/issues/0006, decision 0006.
+  'P2-S7': { title: 'Widget init()/refresh() apply the Overview options', baseline: 'pass', issue: '0006' },
 
   // ---- Act 3 — Incident Composer ----------------------------------------
   'P3-S1': { title: 'Composer renders Tree, Promo and Scratch with data', baseline: 'pass', issue: '0003,0004,0016' },

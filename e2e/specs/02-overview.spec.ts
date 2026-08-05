@@ -262,20 +262,59 @@ test.describe('Act 2 — Incident Overview', () => {
 
   step('P2-S6', async ({ page }) => {
     await openOverview(page)
-    const dark = await graph(page).locator('body').first().evaluate((b: HTMLElement) => {
-      const bg = getComputedStyle(b).backgroundColor
-      const m = bg.match(/\d+/g)
-      if (!m) return false
-      const [r, g, bl] = m.map(Number)
-      return r + g + bl < 200
+
+    // The claim is "the theme **config** applies to the viz" — so read the configured theme and
+    // require the rendering to match it, rather than demanding dark unconditionally. The deployed
+    // options say `current_theme: "light"`, so the old assertion could only ever fail here, and a
+    // failure would have said nothing about whether theming works. #82's options are consumed as of
+    // 2026-08-05 (P2-S7), which is what makes this checkable at all.
+    const widget = page.frames().find((f: any) => /widgetdevoverview|:4008/.test(f.url()))
+    expect(widget, 'the widget frame is present').toBeTruthy()
+
+    const configured = await widget!.evaluate(() => {
+      const ns = (window as any).Widgets?.Widget
+      return (ns && ns.config && ns.config.current_theme) || null
     })
-    expect(dark, 'viz uses the dark palette').toBeTruthy()
+    const luminance = await widget!.evaluate(() => {
+      const bg = getComputedStyle(document.body).backgroundColor
+      const m = bg.match(/\d+/g)
+      return m ? m.slice(0, 3).map(Number).reduce((a, b) => a + b, 0) : null
+    })
+    observe(test.info(), 'note', `current_theme=${configured}, body luminance sum=${luminance}`)
+
+    expect(configured, 'the widget has a configured theme (from #82 options)').toBeTruthy()
+    expect(luminance, 'the widget body has a measurable background').not.toBeNull()
+    if (configured === 'dark') {
+      expect(luminance!, 'dark theme renders a dark background').toBeLessThan(200)
+    } else {
+      expect(luminance!, 'light theme renders a light background').toBeGreaterThanOrEqual(200)
+    }
   })
 
   step('P2-S7', async ({ page }) => {
     await openOverview(page)
-    // The options API (#82) exists; this asserts the widget actually asked for it.
-    const asked = await page.evaluate(() => performance.getEntriesByType('resource').some((e: any) => /option/i.test(e.name)))
-    expect(asked, 'widget requested the Overview options').toBeTruthy()
+
+    // ⚠️ Assert inside the WIDGET frame. The widget fetches its options from its own document, so
+    // `performance.getEntriesByType('resource')` on the top-level page never sees the request —
+    // the previous version of this step checked the parent and reported "did not request" against
+    // a widget that had just fetched them.
+    const widget = page.frames().find((f: any) => /widgetdevoverview|:4008/.test(f.url()))
+    expect(widget, 'the widget frame is present').toBeTruthy()
+
+    const asked = await widget!.evaluate(() =>
+      performance.getEntriesByType('resource').some((e: any) => /overview-options/i.test(e.name)),
+    )
+    expect(asked, 'widget requested the Overview options (#82)').toBeTruthy()
+
+    // Requesting is not applying. `current_theme` is supplied only by the API — it is not among the
+    // widget's built-in defaults — so its presence in ns.config proves the merge actually landed.
+    const merged = await widget!.evaluate(() => {
+      const ns = (window as any).Widgets?.Widget || (window as any).ns
+      const cfg = ns && ns.config
+      return cfg ? { current_theme: cfg.current_theme, iconSize: cfg.iconSize, prefix: cfg.prefix } : null
+    })
+    expect(merged, 'the widget namespace exposes its config').toBeTruthy()
+    observe(test.info(), 'note', `merged config: ${JSON.stringify(merged)}`)
+    expect(merged!.current_theme, 'an API-only option (current_theme) reached ns.config').toBeDefined()
   })
 })
