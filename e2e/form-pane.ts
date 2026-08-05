@@ -98,6 +98,41 @@ export async function measureFormPane(page: Page): Promise<FormShape | null> {
  * Returns the populated shape (or null if none did) alongside `skipped` — the frames that opened
  * without the object, which is the evidence for docs/issues/0049 and belongs in the run log.
  */
+/**
+ * Click the first node in a Composer pane that can **actually be clicked**, and return it.
+ *
+ * ⚠️ Not the same as `.first().click()`, and the difference is not cosmetic. The force simulation
+ * settles nodes wherever it settles them, and one can end up outside the pane's viewport — measured
+ * at `y = -46.68` (above) and `y = 386.6` (below) on a pane a few hundred pixels tall. Playwright
+ * then retries the click for its full timeout and fails the step. Both P5-S4 and P3-S7 failed exactly
+ * this way, and which node is affected changes run to run, so a step that clicks a fixed index is a
+ * coin flip.
+ *
+ * A user is not blocked the same way — they can pan the canvas — so this is a harness concern, not a
+ * reason to fail. Whether the panes *should* place nodes outside their bounds is
+ * docs/issues/0065; the Overview asserts they do not (P2-S2), the Composer has no such check.
+ *
+ * Throws only if no candidate is clickable, so a genuine "nothing is reachable" still fails loudly.
+ */
+export async function clickAnyNode(nodes: Locator, opts: { candidates?: number; label?: string } = {}): Promise<Locator> {
+  const count = await nodes.count()
+  const limit = Math.min(count, opts.candidates ?? 8)
+  const reasons: string[] = []
+
+  for (let i = 0; i < limit; i++) {
+    try {
+      await nodes.nth(i).click({ timeout: 8_000 })
+      return nodes.nth(i)
+    } catch (error) {
+      reasons.push(`${i}:${String(error).split('\n')[0].slice(0, 40)}`)
+    }
+  }
+  throw new Error(
+    `${opts.label ?? 'pane'}: none of the first ${limit} of ${count} node(s) could be clicked — ` +
+      `they are probably outside the pane viewport (docs/issues/0065). Tried: ${reasons.join(' | ')}`,
+  )
+}
+
 export async function selectPopulatedNode(
   page: Page,
   nodes: Locator,
@@ -108,7 +143,21 @@ export async function selectPopulatedNode(
   const skipped: string[] = []
 
   for (let i = 0; i < tried; i++) {
-    await nodes.nth(i).click()
+    // ⚠️ A node can be **un-clickable**, not just unpopulated: the force simulation places nodes at
+    // whatever coordinates it settles on, and one can land outside the pane's viewport (P5-S4 failed
+    // twice on a node at `y = -46.68`, with Playwright retrying for the full 30 s and reporting
+    // "element is outside of the viewport").
+    //
+    // This loop already exists to try several candidates and record why each was rejected. An
+    // un-clickable one should be another skip reason, not an exception that ends the step — the
+    // previous behaviour made the whole test depend on where the simulation happened to drop node
+    // zero. A user is not stuck the same way; they can pan the canvas.
+    try {
+      await nodes.nth(i).click({ timeout: 10_000 })
+    } catch (error) {
+      skipped.push(`node ${i}: not clickable (${String(error).split('\n')[0].slice(0, 60)})`)
+      continue
+    }
     let s: FormShape | null = null
     for (let waited = 0; waited < settleMs; waited += 1_000) {
       s = await measureFormPane(page)

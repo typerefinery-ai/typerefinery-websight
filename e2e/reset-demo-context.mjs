@@ -22,8 +22,13 @@ import fs from 'fs'
 import path from 'path'
 import { execFileSync } from 'child_process'
 
+// ⚠️ Resolve from **this file**, not `process.cwd()`. The path used to be
+// `path.resolve(process.cwd(), '../../typerefinery/…')`, which is only correct when the script is run
+// from `e2e/`; run from the repo root it resolved to `WebstormProjects/typerefinery/…` — outside the
+// workspace — and the script exited with "context_mem not found" while the directory was right there.
+// This is the documented recovery path (runsheet R-1), so it has to work from anywhere.
 const CONTEXT_MEM = path.resolve(
-  process.cwd(),
+  path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')),
   '../../typerefinery/services/fastapi/generated/os-triage/context_mem',
 )
 const APPLY = process.argv.includes('--apply')

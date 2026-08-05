@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
-import { selectPopulatedNode } from '../form-pane'
+import { clickAnyNode, selectPopulatedNode } from '../form-pane'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -323,11 +323,12 @@ test.describe('Act 3 — Incident Composer', () => {
     const promo = paneNodes(page, PANE.promo)
     const scratch = paneNodes(page, PANE.scratch)
     await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(1)
-    await promo.first().click()
+    // ⚠️ `.first()` is a coin flip — the simulation can settle a node outside the pane viewport and
+    // Playwright then burns its whole timeout on an unclickable element (docs/issues/0065).
+    await clickAnyNode(promo, { label: 'promo' })
 
     if ((await scratch.count()) > 0) {
-      await scratch.first().click()
-      return scratch.first()
+      return await clickAnyNode(scratch, { label: 'scratch' })
     }
     observe(
       test.info(),
