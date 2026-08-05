@@ -121,7 +121,7 @@ Object.assign(design, {
     component: CODE,
     config: { title: 'Promote: read the object id', version: '2', outputs: 1, code: mapreqCode },
     ...at(520, 120),
-    connections: { output: [{ id: 'fetchgraph', index: 'payload' }] },
+    connections: { output: [{ id: 'fetchgraph', index: 'payload' }, { id: 'prntmap', index: 'input' }] },
   },
   fetchgraph: {
     component: HTTP,
@@ -136,13 +136,16 @@ Object.assign(design, {
     component: CODE,
     config: { title: 'Promote: resolve the sub-graph', version: '2', outputs: 1, code: pickCode },
     ...at(1000, 120),
-    connections: { output: [{ id: 'stash', index: 'payload' }] },
+    // code -> code takes index 'input'. Wiring this 'payload' (which is right for code -> HTTP)
+    // silently dropped every message: pick emitted, stash never received, ctxsave never fired, and
+    // the route still answered 200. That cost a tick to find.
+    connections: { output: [{ id: 'stash', index: 'input' }, { id: 'prntpick', index: 'input' }] },
   },
   stash: {
     component: CODE,
     config: { title: 'Promote: stash the object', version: '2', outputs: 1, code: stashCode },
     ...at(1240, 120),
-    connections: { output: [{ id: 'ctxsave', index: 'payload' }] },
+    connections: { output: [{ id: 'ctxsave', index: 'payload' }, { id: 'prntstash', index: 'input' }] },
   },
   ctxsave: {
     component: HTTP,
@@ -168,6 +171,9 @@ Object.assign(design, {
       error: [{ id: 'prnterr3', index: 'input' }],
     },
   },
+  prntmap: { component: PRINT, config: {}, ...at(520, 420), connections: {} },
+  prntpick: { component: PRINT, config: {}, ...at(1000, 320), connections: {} },
+  prntstash: { component: PRINT, config: {}, ...at(1240, 320), connections: {} },
   prntfetch: { component: PRINT, config: {}, ...at(760, 300), connections: {} },
   prnterr1: { component: PRINT, config: {}, ...at(760, 380), connections: {} },
   prntsave: { component: PRINT, config: {}, ...at(1480, 300), connections: {} },

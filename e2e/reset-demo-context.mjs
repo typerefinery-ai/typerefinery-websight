@@ -29,9 +29,24 @@ const CONTEXT_MEM = path.resolve(
 const APPLY = process.argv.includes('--apply')
 
 /** Written only by a save; absent from a fresh checkout. */
-const RESIDUE = ['unattached_relation.json', 'relation_edges.json', 'relation_replacement_edges.json']
+const RESIDUE = [
+  'unattached_relation.json',
+  'relation_edges.json',
+  'relation_replacement_edges.json',
+  // Written by a promote into the incident; absent from a fresh checkout.
+  'incident_edges.json',
+  'incident_relations.json',
+]
 /** Tracked, so it can be restored rather than deleted. */
-const RESTORE = ['unattached_objs.json']
+/**
+ * Tracked, so they can be restored rather than deleted.
+ *
+ * ⚠ other_object_refs.json and incident.json were added 2026-08-05: **Promote writes into the
+ * incident**, and the reset did not undo that. Experimenting with the promote route left the demo
+ * incident carrying 31 nodes instead of 27, which failed P2-S2 (icons 8.5px once fitToPanel scaled
+ * a too-large graph) and P2-S5 — a green suite turned red on data I had polluted, not on code.
+ */
+const RESTORE = ['unattached_objs.json', 'other_object_refs.json', 'incident.json']
 
 if (!fs.existsSync(CONTEXT_MEM)) {
   console.error(`context_mem not found at ${CONTEXT_MEM}`)
