@@ -109,7 +109,19 @@ test.describe('Act 2 — Incident Overview', () => {
         })
         return best
       })
+      // Walk up from the svg so a collapse can be attributed to a named element rather than
+      // "some container" (docs/issues/0056).
+      const chain: string[] = []
+      let el: Element | null = svg.parentElement
+      for (let i = 0; i < 4 && el; i++, el = el.parentElement) {
+        const r = el.getBoundingClientRect()
+        chain.push(`${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''}${el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : ''}=${Math.round(r.width)}x${Math.round(r.height)}`)
+      }
       return {
+        panelW: box.width,
+        panelH: box.height,
+        chain: chain.join(' < '),
+        transform: (svg.querySelector('g') || {}).getAttribute?.('transform') || '',
         fillX: (right - left) / box.width,
         fillY: (bottom - top) / box.height,
         // Difference between opposing margins, as a fraction of the panel — 0 means centred.
@@ -120,11 +132,28 @@ test.describe('Act 2 — Incident Overview', () => {
       }
     })
     expect(fit, 'nodes measurable for the fit assertions').not.toBeNull()
-    expect(Math.max(fit!.fillX, fit!.fillY), 'graph fills a usable share of the panel, not shrunk to a dot')
+    // Report every number on any failure — "icons are 7px" is only actionable next to the panel
+    // size, node count and scale that produced it (docs/issues/0056).
+    // Which layer is wrong when the panel collapses — the host's iframe, or the widget's own svg?
+    const hostFrame = await page
+      .locator('iframe[src*="widgetdevoverview"], iframe[src*="4008"], iframe')
+      .first()
+      .evaluate((el: HTMLIFrameElement) => {
+        const r = el.getBoundingClientRect()
+        return `${Math.round(r.width)}x${Math.round(r.height)}`
+      })
+      .catch(() => 'unknown')
+    const shape =
+      `iframe ${hostFrame} · panel ${Math.round(fit!.panelW)}x${Math.round(fit!.panelH)} · nodes ${inside} · ` +
+      `fill ${(fit!.fillX * 100).toFixed(0)}%x${(fit!.fillY * 100).toFixed(0)}% · ` +
+      `icons ${fit!.iconPx.toFixed(1)}px · skew ${(fit!.skewX * 100).toFixed(0)}%,${(fit!.skewY * 100).toFixed(0)}% · ` +
+      `overlaps ${fit!.overlapping} · transform ${fit!.transform} · ancestors ${fit!.chain}`
+    observe(test.info(), 'note', `P2-S2 fit: ${shape}`)
+    expect(Math.max(fit!.fillX, fit!.fillY), `graph fills a usable share of the panel, not shrunk to a dot — ${shape}`)
       .toBeGreaterThan(0.5)
-    expect(Math.max(fit!.skewX, fit!.skewY), 'graph is centred in the panel').toBeLessThan(0.15)
-    expect(fit!.iconPx, 'node icons are still legible').toBeGreaterThan(12)
-    expect(fit!.overlapping, 'node icons do not overlap each other').toBe(0)
+    expect(Math.max(fit!.skewX, fit!.skewY), `graph is centred in the panel — ${shape}`).toBeLessThan(0.15)
+    expect(fit!.iconPx, `node icons are still legible — ${shape}`).toBeGreaterThan(12)
+    expect(fit!.overlapping, `node icons do not overlap each other — ${shape}`).toBe(0)
   })
 
   step('P2-S3', async ({ page }) => {
