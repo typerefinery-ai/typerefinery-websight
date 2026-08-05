@@ -195,6 +195,40 @@ test.describe('Act 1 — All Incidents table', () => {
       .filter(Boolean)
     expect(labels, 'the dropdown offers Incident / Note / Artifact / Task')
       .toEqual(expect.arrayContaining(['Incident', 'Note', 'Artifact', 'Task']))
+
+    // Only *Incident* is proven to work end to end (P1-S4/P1-S5). Record what the other three
+    // actually open, so the demo's exposure here is measured rather than assumed.
+    //
+    // ⚠️ Do NOT try to answer this by inspecting the form pages standalone. Three cheaper checks
+    // all gave the wrong answer: a regex for `type="submit"` reads false even for createincident;
+    // `.infinity.json` truncates deep trees so authored buttons are missing; and counting rendered
+    // buttons on the page misses the point entirely, because **"Save Changes" lives on the modal
+    // chrome in the host page, not inside the form iframe** — as `submitModal` above documents.
+    // The only honest oracle is opening the entry and looking at what appears.
+    for (const label of ['Incident', 'Note', 'Artifact', 'Task']) {
+      await openIncidents(page)
+      await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
+      const item = dropdownItem(page, new RegExp(`^\\s*${label}\\s*$`, 'i'))
+      if (!(await item.count())) {
+        observe(test.info(), 'note', `"+ Create → ${label}": entry not found`)
+        continue
+      }
+      await item.click()
+      await page.waitForTimeout(4_000)
+      const modal = page.locator('.modal, [role="dialog"]').filter({ hasNot: page.locator('.d-none') }).first()
+      const opened = await modal.count()
+      const save = await page.getByRole('button', { name: /save changes|^save$|^create$/i }).count()
+      const src = await page
+        .locator('.modal iframe, [role="dialog"] iframe')
+        .first()
+        .getAttribute('src')
+        .catch(() => null)
+      observe(
+        test.info(),
+        'note',
+        `"+ Create → ${label}": modal=${opened ? 'yes' : 'no'}, save-affordance=${save}, form=${(src || '(none)').split('/').pop()}`,
+      )
+    }
   })
 
   step('P1-S4', async ({ page }) => {
