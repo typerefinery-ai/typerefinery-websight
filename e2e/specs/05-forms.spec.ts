@@ -19,13 +19,58 @@ async function openForm(page: any, path: string) {
 test.describe('Act 5 — form behaviour', () => {
   step('P5-S1', async ({ page }) => {
     await openForm(page, IDENTITY_CREATE)
-    // The groups are **icon tabs**, not text headings — the earlier text-matching version of
-    // this check failed against a perfectly good form. Assert the grouping affordance itself:
-    // a row of group tabs plus the fieldset separators the form renders between groups.
-    const tabs = page.locator('button, [role="tab"], a').filter({ hasNot: page.locator('text=/create|cancel/i') })
     await expect(page.getByRole('button', { name: /create/i }).first()).toBeVisible({ timeout: 30_000 })
-    const groupTabs = await page.locator('.nav-item, [role="tab"], button.btn-primary, button[data-group]').count()
-    expect(groupTabs, 'field-group tabs on the Create form').toBeGreaterThan(2)
+
+    // docs/issues/0048, last Tier 2 item. The old assertion counted `.nav-item, [role="tab"],
+    // button.btn-primary, button[data-group]` and required **> 2** — a loose enough net that three
+    // unrelated buttons would satisfy it, and it never checked a single group *name*.
+    //
+    // ⚠️ It also tested the wrong thing. The runsheet row says the form "groups fields Base
+    // Required / Optional / Object / Extensions", and that is the **payload** categorisation the
+    // Make-Object API wants (`{base_required, base_optional, sub, object, extensions}`) — not a
+    // visible grouping. Measured, the form renders:
+    //   • base + object properties INLINE — type, spec_version, ID, created, modified, name,
+    //     roles, sectors, identity_class, description, contact_information, created_by_ref
+    //   • optional and extension properties as NAMED ADD CONTROLS — Revoked, Labels, Confidence,
+    //     Language, External References, Object Marking, Granular Markings, and the extension one,
+    //     Identity Contact Extension (the `add-optional-template` mechanism of docs/issues/0057).
+    // So assert that structure, by name, rather than counting buttons.
+    // ⚠️ Visibility is the wrong test for the select-backed ones. Choices.js **hides the native
+    // element** (`<select … hidden class="… choices__i…">`) and renders its own UI, so
+    // `identity_class`, `roles` and `sectors` are present-but-not-visible on a perfectly good
+    // form — measured. Asserting visibility on them failed against a working build, which is the
+    // same Choices trap as docs/issues/0030. Require visibility only where the field really is
+    // the rendered control.
+    for (const field of ['name', 'description']) {
+      await expect(
+        page.locator(`[name="${field}"], [name="${field} "]`).first(),
+        `base/object property "${field}" is rendered inline`,
+      ).toBeVisible({ timeout: 20_000 })
+    }
+    for (const field of ['identity_class', 'roles', 'sectors']) {
+      await expect
+        .poll(async () => await page.locator(`[name="${field}"], [name="${field} "]`).count(), {
+          timeout: 20_000,
+          message: `vocabulary property "${field}" is present (Choices hides the native select)`,
+        })
+        .toBeGreaterThan(0)
+    }
+
+    const optionalControls = await page
+      .locator('button[title]')
+      .evaluateAll((els: HTMLElement[]) => els.map((e) => e.getAttribute('title') || '').filter(Boolean))
+    observe(test.info(), 'note', `optional/extension controls: ${optionalControls.join(', ')}`)
+
+    // Optional properties, offered by name rather than dumped into the form.
+    for (const control of ['Labels', 'Confidence', 'External References', 'Object Marking']) {
+      expect(optionalControls, `the form offers the optional property "${control}"`).toContain(control)
+    }
+    // …and at least one **extension**, which is the fourth category in the row's claim and the one
+    // a flat form would omit entirely.
+    expect(
+      optionalControls.some((t) => /extension/i.test(t)),
+      `the form offers an extension property (saw: ${optionalControls.join(', ')})`,
+    ).toBeTruthy()
   })
 
   step('P5-S2', async ({ page }) => {
