@@ -532,7 +532,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_1WVSZYDP0"
-                                            label="from_refs"/>
+                                            label="from_ref"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -541,7 +541,7 @@
                                             label="Reference"
                                             lgColSize="10"
                                             mdColSize="10"
-                                            name="from_refs"
+                                            name="from_ref"
                                             smColSize="10"/>
                                     </reference_3>
                                     <reference
