@@ -169,9 +169,42 @@ test.describe('Act 5 — form behaviour', () => {
 
   step('P5-S7', async ({ page }) => {
     await openForm(page, IDENTITY_CREATE)
-    const refs = page.locator('[name$="_refs"], [name$="_refs "]').first()
-    await expect(refs).toBeVisible({ timeout: 20_000 })
-    await expect(page.getByRole('button', { name: /add/i }).first()).toBeVisible({ timeout: 15_000 })
+
+    // ⚠️ The previous version waited for `[name$="_refs"]` to become visible and could never pass.
+    // The **only** `_refs`-suffixed field a create form renders is `template_object_marking_refs`,
+    // and a template row is hidden by design — so the step failed on an element that is *supposed*
+    // to be invisible, and "P5-S7 is unbuilt" was never actually established (docs/issues/0057).
+    //
+    // The authored design is a button that instantiates the template: a control titled
+    // "Object Marking" emitting `add-optional-template-once-full-width` with config
+    // `template_object_marking_refs`. So the list field is what that button *produces*.
+    const addButton = page.locator('button[title="Object Marking"], button[data-label*="Object Marking" i]').first()
+    await expect(addButton, 'the control that adds an object-marking row').toBeVisible({ timeout: 30_000 })
+
+    const rows = () => page.locator('[name="object_marking_refs"], [name^="object_marking_refs"]:visible')
+    const before = await rows().count()
+    await addButton.click()
+    await page.waitForTimeout(2_000)
+    const after = await rows().count()
+    observe(test.info(), after > before ? 'pass' : 'note', `object_marking_refs rows ${before} -> ${after}`)
+    expect(after, `clicking "Object Marking" adds a row (${before} -> ${after})`).toBeGreaterThan(before)
+
+    // …and the list must be **removable**, which is the other half of the runsheet's claim.
+    //
+    // ⚠️ Do NOT match remove controls page-wide. The form carries Choices.js multi-selects whose
+    // "Remove item" buttons belong to `roles`, `sectors` and `identity_class` — a first version of
+    // this assertion clicked one of those and read the unchanged row count as "remove is broken".
+    // Scope the search to the row that was just added (docs/issues/0057).
+    const addedRow = rows().last()
+    const rowRemove = addedRow
+      .locator('xpath=ancestor::*[self::div or self::li][1]')
+      .locator('button[title*="remove" i], button[aria-label*="remove" i], .remove, [data-action="remove"]')
+    const removeCount = await rowRemove.count().catch(() => 0)
+    observe(test.info(), removeCount ? 'pass' : 'note', `remove controls scoped to the added row: ${removeCount}`)
+    expect(removeCount, 'the added object_marking_refs row carries its own remove control').toBeGreaterThan(0)
+    await rowRemove.first().click()
+    await page.waitForTimeout(2_000)
+    expect(await rows().count(), 'removing takes the row away again').toBe(before)
   })
 
   step('P5-S8', async ({ page }) => {

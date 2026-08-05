@@ -107,7 +107,11 @@ export const STEPS: Record<string, StepDef> = {
   // Promoted unknown -> pass 2026-08-04: the button was authored for #42 (docs/issues/0044), so
   // this step now describes built behaviour and a regression must go red rather than skip.
   'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'pass', issue: '0007' },
-  'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'fail', issue: '0017' },
+  // Promoted 'fail' -> 'pass' 2026-08-05 after **five consecutive full runs** green. The assertion
+  // is not a weak one: it checks every frame (the toast renders inside the widget frames, so a
+  // page-level check would pass vacuously) and requires a pane to have loaded data first, so
+  // "no data -> no toast -> nothing to prove" cannot sneak through. docs/issues/0017.
+  'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'pass', issue: '0017' },
 
   // ---- Act 4 — Attack Navigator ------------------------------------------
   'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'unknown', issue: '0008' },
