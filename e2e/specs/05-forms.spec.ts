@@ -158,13 +158,36 @@ test.describe('Act 5 — form behaviour', () => {
     await api?.dispose()
   })
 
-  step('P5-S6', async ({ page }) => {
+  step('P5-S6', async ({ page, request }) => {
+    // #62 has two halves and they fail differently — say which, or the record just reads
+    // "no icon" and the next tick re-derives it (docs/decisions/0011).
+    //
+    // Half 1, the DATA (#83): verified working. ⚠️ The parameters are `object_type` /
+    // `object_field`; sending `{object, field}` returns a 200 with an `{"error":"true"}` envelope
+    // (docs/issues/0026) that reads exactly like a regression. It is not one.
+    const api = await request
+    const res = await api.post(`${FLOW_BASE}/stix-orm/utils/connections`, {
+      data: { object_type: 'identity', object_field: 'created_by_ref' },
+      timeout: 60_000,
+    })
+    const candidates = await res.json()
+    expect(Array.isArray(candidates), `#83 returns a candidate list (saw: ${JSON.stringify(candidates).slice(0, 120)})`)
+      .toBeTruthy()
+    expect(candidates.length, '#83 returns candidates for identity.created_by_ref').toBeGreaterThan(0)
+    for (const key of ['icon_url', 'heading', 'description', 'tooltip']) {
+      expect(candidates[0][key], `#83 candidate carries ${key}`).toBeDefined()
+    }
+    observe(test.info(), 'pass', `#83 data half: ${candidates.length} candidates with icon/heading/description/tooltip`)
+
+    // Half 2, the RENDERING: the reference select exists and is visible, but shows bare values.
+    // The component sets Choices' `allowHTML: false`, so icon + heading + description cannot be
+    // rendered at all, whatever data arrives — that is the whole of what #62 still needs.
     await openForm(page, IDENTITY_CREATE)
-    // #62 — the replacement reference-field select shows icon + heading + description.
     const refSelect = page.locator('[name$="_ref"], [name$="_ref "]').first()
-    await expect(refSelect).toBeVisible({ timeout: 20_000 })
+    await expect(refSelect, 'a reference field is present on the form').toBeVisible({ timeout: 20_000 })
     const hasRichRows = await refSelect.locator('img, .icon').count()
-    expect(hasRichRows, 'reference rows carry an icon').toBeGreaterThan(0)
+    expect(hasRichRows, 'reference rows carry an icon (#62 rendering half — see decisions/0011)')
+      .toBeGreaterThan(0)
   })
 
   step('P5-S7', async ({ page }) => {
