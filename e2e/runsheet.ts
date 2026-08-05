@@ -127,7 +127,12 @@ export const STEPS: Record<string, StepDef> = {
   'P5-S4': { title: 'Update form is pre-filled with current values', baseline: 'pass', issue: '0009' },
   'P5-S5': { title: 'Vocab select offers an empty row then the vocabulary', baseline: 'pass', issue: '0009' },
   'P5-S6': { title: '_ref select lists candidates with icon/heading/description/tooltip', baseline: 'unknown', issue: '0009' },
-  'P5-S7': { title: '_refs list field supports add and remove', baseline: 'unknown', issue: '0009' },
+  // Promoted 'unknown' -> 'pass' 2026-08-05. It was never "unbuilt": the old step waited for a
+  // template row that is hidden by design, so it could not pass and never exercised the feature.
+  // Driving the authored *Object Marking* button showed add worked and remove did not exist at all
+  // — `handleEventAction` knew only ADD_ITEM/ADDONCE_ITEM. REMOVE_ITEM plus an auto-attached remove
+  // control were added to the container component; both halves now pass. docs/issues/0057.
+  'P5-S7': { title: '_refs list field supports add and remove', baseline: 'pass', issue: '0009,0057' },
   'P5-S8': { title: 'A blank required field is rejected and no junk data is written', baseline: 'pass', issue: '0009' },
 }
 

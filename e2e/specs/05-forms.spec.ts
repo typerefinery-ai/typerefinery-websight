@@ -195,10 +195,11 @@ test.describe('Act 5 — form behaviour', () => {
     // "Remove item" buttons belong to `roles`, `sectors` and `identity_class` — a first version of
     // this assertion clicked one of those and read the unchanged row count as "remove is broken".
     // Scope the search to the row that was just added (docs/issues/0057).
-    const addedRow = rows().last()
-    const rowRemove = addedRow
-      .locator('xpath=ancestor::*[self::div or self::li][1]')
-      .locator('button[title*="remove" i], button[aria-label*="remove" i], .remove, [data-action="remove"]')
+    // Scope to the ROW, not the input's immediate parent. `addNewItem` appends the remove control
+    // to the row root (the element it marks `state="new"`), several levels above the input — an
+    // earlier version scoped to `ancestor::div[1]` and reported 0 controls against a working build.
+    const addedRow = rows().last().locator('xpath=ancestor::*[@state="new"][1]')
+    const rowRemove = addedRow.locator('.composite-remove-item, button[aria-label*="remove" i], [data-action="remove-item"]')
     const removeCount = await rowRemove.count().catch(() => 0)
     observe(test.info(), removeCount ? 'pass' : 'note', `remove controls scoped to the added row: ${removeCount}`)
     expect(removeCount, 'the added object_marking_refs row carries its own remove control').toBeGreaterThan(0)

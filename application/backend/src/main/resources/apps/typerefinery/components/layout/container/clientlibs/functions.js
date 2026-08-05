@@ -160,12 +160,66 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
       console.log('$newRow', $newRow);
 
+      // Give the row a way to be taken away again.
+      //
+      // alpha-launch docs/issues/0057: template rows could be added and never removed —
+      // `handleEventAction` knew only ADD_ITEM and ADDONCE_ITEM, so there was no remove action for
+      // an authored button to bind to either, and any remove control authored into the template
+      // would have been a dead control. Attaching it here fixes every form that uses the pattern
+      // at once, which matters because the fault was present on 14 of them.
+      //
+      // Deliberately generic: no field name, type name or vocabulary appears here.
+      ns.addRemoveControl($component, $newRow, itemId);
+
       //insert into component
       $componentBody.append($newRow);
-      
+
       //raise event that item is added
       ns.ADD_ITEM($component, componentConfig, { type: ns.selectorComponentName, action: "add_item" , "id": itemId } );
 
+      console.groupEnd();
+    }
+
+    /** A control that removes the row it sits in. Added to every row `addNewItem` creates. */
+    ns.addRemoveControl = ($component, $newRow, itemId) => {
+      const $remove = $(
+        '<button type="button" class="composite-remove-item btn btn-sm btn-link"' +
+        ' data-action="remove-item" aria-label="Remove item" title="Remove item">&times;</button>'
+      );
+      $remove.on('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        ns.removeItem($component, { id: itemId });
+      });
+      $newRow.append($remove);
+    }
+
+    /**
+     * Remove a previously added row.
+     *
+     * Accepts the row's generated `id` (what {@link ns.addRemoveControl} passes) or a `config`
+     * naming the row or its template, so an authored button bound to REMOVE_ITEM works too.
+     */
+    ns.removeItem = ($component, data) => {
+      console.group('removeItem');
+      console.log(["removeItem", $component, data]);
+
+      const target = (data && (data.id || data.config)) || '';
+      let $row = $();
+      if (target) {
+        $row = $component.find(`#${target}`);
+        if ($row.length === 0) $row = $component.find(`[templateId='${target}']`);
+      }
+      if ($row.length === 0) {
+        console.log(`row ${target} not found to remove`);
+        console.groupEnd();
+        return;
+      }
+
+      // Removing the row takes its `templateId` marker with it, so an ADDONCE template can be
+      // added again afterwards — otherwise remove would be a one-way door.
+      console.log(`removing row ${target}`);
+      $row.remove();
       console.groupEnd();
     }
 
@@ -178,6 +232,11 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       }
       if (action === "ADDONCE_ITEM") {
           ns.addNewItem($component, data, true);
+      }
+      // Symmetric with ADD_ITEM so a remove control can also be *authored* against a button,
+      // not only the one addNewItem attaches (alpha-launch docs/issues/0057).
+      if (action === "REMOVE_ITEM") {
+          ns.removeItem($component, data);
       }
       console.groupEnd();
     }
