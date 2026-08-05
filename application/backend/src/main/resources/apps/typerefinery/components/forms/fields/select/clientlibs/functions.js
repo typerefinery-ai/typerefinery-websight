@@ -520,8 +520,24 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         return selectInstances[id];
     };
 
+    /**
+     * The options this select already holds, or [] if it has none yet.
+     *
+     * Choices keeps them on its internal store, and the shape has moved between versions — read
+     * both, and never let a shape change here throw inside setValue().
+     */
+    ns.currentChoices = function (instance) {
+        try {
+            const store = instance && (instance._currentState || instance._store);
+            const choices = store && (store.choices || (store.state && store.state.choices));
+            return Array.isArray(choices) ? choices : [];
+        } catch (error) {
+            console.warn('select currentChoices: could not read the choice store', error);
+            return [];
+        }
+    };
+
     ns.setValue = function (id, values, options) {
-        //TODO: check if data is an array or string and add it to the select options if not already present
         console.group('select setValue');
         console.log('id', id);
         console.log('values', values);
@@ -547,24 +563,39 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
             // which cannot introduce options that do not exist — leaving the list empty. When the
             // caller asks to replace items, always go through setChoices.
             if (replaceItems) {
-                console.log('no choices found and replace requested, adding new choices');
-                let choices = [];
-                // check if value is an array or string
-                if (Array.isArray(values)) {
-                    choices = values.map((val) => {
-                        return {
-                            value: val,
-                            label: val
-                        }
-                    });
+                const wanted = (Array.isArray(values) ? values : [values]).filter((v) => v !== undefined && v !== null && v !== '');
+                const existing = ns.currentChoices(selectInstances[id]);
+
+                if (existing.length) {
+                    // ⚠️ This select already has options — it reads them from a data source — so
+                    // **merge**, never replace.
+                    //
+                    // `replaceItems: true` came from the Create Connection modal, where the select
+                    // is empty and the caller has to introduce the options (alpha-launch
+                    // docs/issues/0030). Applying it to a data-source select instead **wiped the
+                    // whole candidate list** and left one option labelled with a raw id: the value
+                    // survived, but the author could no longer pick a different one. On an update
+                    // form that is most of the point of the field.
+                    //
+                    // Merging is also what the original TODO on this function asked for — "add it
+                    // to the select options if not already present".
+                    const known = new Set(existing.map((choice) => choice.value));
+                    const missing = wanted.filter((val) => !known.has(val)).map((val) => ({ value: val, label: val }));
+                    if (missing.length) {
+                        // The stored value may point at an object the source does not offer — on an
+                        // update form it often references something outside the candidate set. Carry
+                        // it as its own option so the control can always represent what is saved.
+                        console.log(`merging ${missing.length} value(s) not offered by the data source`, missing);
+                        selectInstances[id].setChoices(missing, 'value', 'label', false);
+                    }
+                    console.log(`selecting ${wanted.length} value(s) from ${existing.length + missing.length} option(s)`);
+                    selectInstances[id].setChoiceByValue(wanted);
                 } else {
-                    choices = [{
-                        value: values,
-                        label: values
-                    }];
+                    console.log('no choices found and replace requested, adding new choices');
+                    const choices = wanted.map((val) => ({ value: val, label: val }));
+                    console.log('choices', choices);
+                    selectInstances[id].setChoices(choices, 'value', 'label', replaceItems);
                 }
-                console.log('choices', choices);
-                selectInstances[id].setChoices(choices, 'value', 'label', replaceItems);
             } else {
                 console.log('choices found, setting value');
                 selectInstances[id].setValue(values);    
