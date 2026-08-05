@@ -76,6 +76,36 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-update",
+   "flows": [
+    "f21dcw001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
+   "flows": [
+    "f21dcw002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-update",
+   "flows": [
+    "f21dcy001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
    "flows": [
     "f21cxb001rn51d"
@@ -87,6 +117,36 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
+   "flows": [
+    "f21dcy002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
+   "flows": [
+    "f21dcy003rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-update",
+   "flows": [
+    "f21dcy004rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
    "flows": [
     "f21cxa001rn51d"
@@ -94,6 +154,87 @@
    "saves": true,
    "calls": [
     "/stix-orm/sco/email-addr",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-update",
+   "flows": [
+    "f21dcz001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
+   "flows": [
+    "f21dcz002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-update",
+   "flows": [
+    "f21dcz003rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-update",
+   "flows": [
+    "f21dcz004rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-update",
+   "flows": [
+    "f21dd0001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/url-forms/url-create",
+   "flows": [
+    "f21d2w001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/url",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/url-forms/url-update",
+   "flows": [
+    "f21dd0002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-update",
+   "flows": [
+    "f21dd0003rn51d"
+   ],
+   "saves": true,
+   "calls": [
     "/os-triage/unattached-context/save"
    ]
   },
@@ -112,6 +253,16 @@
    "page": "stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-update",
    "flows": [
     "f21crm002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-update",
+   "flows": [
+    "f21dd0004rn50d"
    ],
    "saves": true,
    "calls": [
@@ -141,6 +292,18 @@
   }
  ],
  "echo": [
+  {
+   "page": "note",
+   "flows": [],
+   "saves": false,
+   "calls": []
+  },
+  {
+   "page": "addtag",
+   "flows": [],
+   "saves": false,
+   "calls": []
+  },
   {
    "page": "form-flow-metadata",
    "flows": [
