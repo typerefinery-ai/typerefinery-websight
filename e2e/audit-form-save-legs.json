@@ -118,7 +118,7 @@
    "topicVal": "form_f1c3d933a04144eeaf8f1aa0463cf31c",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
@@ -128,6 +128,18 @@
    "enable": "true",
    "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-update/_jcr_content/rootcontainer/main/form/{{id}}",
    "topicVal": "form_dcd141379fe7449fa315169fb6c815ee",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_cedb2915035d4266b769e2422543f3c5",
    "poisonedRoute": false,
    "poisonedTopic": false,
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
@@ -142,7 +154,7 @@
    "topicVal": "form_7cd8b82188484da4ac02fd8ca7977e29",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
@@ -166,6 +178,18 @@
    "topicVal": "form_9bceb6ab80594f988c08c8fad6ed52c1",
    "poisonedRoute": false,
    "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_6b6f3051564a425e8b96e16d121b00bf",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
@@ -176,6 +200,18 @@
    "enable": "true",
    "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update/_jcr_content/rootcontainer/main/form/{{id}}",
    "topicVal": "form_ce71d43041c0499e808c5cd1217a2d16",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_0ae5944843b0438b8abe27a1d0ba86d8",
    "poisonedRoute": false,
    "poisonedTopic": false,
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
@@ -190,7 +226,7 @@
    "topicVal": "form_4a6af253690e4a489a42398c11c2fc54",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
@@ -214,7 +250,19 @@
    "topicVal": "form_ffd549fe0e56476998e8e8fd8d8a1fd8",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_enable,flowapi_sampledata,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_enable,flowapi_sampledata,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_ba941b6f8692435cbd2b338ee8a48260",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
@@ -226,7 +274,7 @@
    "topicVal": "form_f546614f0eb34935bd982056b6145f89",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-update",
@@ -236,6 +284,18 @@
    "enable": "true",
    "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-update/_jcr_content/rootcontainer/main/form/{{id}}",
    "topicVal": "form_cc811100bb5b4fb7aa0fa6a6b0b771a6",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_21a801b03445412c9375c04555b2fd3c",
    "poisonedRoute": false,
    "poisonedTopic": false,
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
@@ -250,7 +310,7 @@
    "topicVal": "form_01ba99aef3184e15b7331661f94645f2",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-update",
@@ -262,7 +322,7 @@
    "topicVal": "form_80f2e6c131c64d479bc57c702d106cea",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sco-forms/url-forms/url-create",
@@ -286,6 +346,18 @@
    "topicVal": "form_41298498f6fd47168b567a1df3f809af",
    "poisonedRoute": false,
    "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_685c8729855e4b11a710aa1c4ccae60a",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
@@ -298,7 +370,7 @@
    "topicVal": "form_3187c122f76349589af64d76add81bae",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
@@ -325,6 +397,18 @@
    "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_enable,flowapi_sampledata,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_updatedon,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
+   "page": "stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create",
+   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create/jcr:content/rootcontainer/main/form",
+   "route": true,
+   "topic": true,
+   "enable": "true",
+   "routeUrl": "https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create/_jcr_content/rootcontainer/main/form/{{id}}",
+   "topicVal": "form_56be149737d8449997b140f852190f1d",
+   "poisonedRoute": false,
+   "poisonedTopic": false,
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+  },
+  {
    "page": "stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-update",
    "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-update/jcr:content/rootcontainer/main/form",
    "route": true,
@@ -334,7 +418,7 @@
    "topicVal": "form_626d60885bc94389ae03fe6b7a5e4c03",
    "poisonedRoute": false,
    "poisonedTopic": false,
-   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_success,flowapi_httproutenosfx,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
+   "props": "flowapi_error,flowapi_iscontainer,flowapi_title,flowapi_processing_job_id,flowapi_author,flowapi_designtemplate,flowapi_processing_state_timestamp,flowapi_httproute,flowapi_editurl,flowapi_paused,flowapi_topic,flowapi_flowstreamid,flowapi_websocketurl,flowapi_sampledata,flowapi_enable,flowapi_processing_error,flowapi_name,flowapi_httproutenosfx,flowapi_success,flowapi_template,flowapi_group,flowapi_processing_state,flowapi_createdon"
   },
   {
    "page": "stixorm-forms/modal-forms/sro-constraints",
@@ -432,50 +516,6 @@
    "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
   },
   {
-   "page": "stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
    "page": "stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create",
    "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create/jcr:content/rootcontainer/main/form",
    "route": false,
@@ -487,41 +527,8 @@
    "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
   },
   {
-   "page": "stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
    "page": "stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create",
    "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create/jcr:content/rootcontainer/main/form",
-   "route": false,
-   "topic": false,
-   "routeUrl": "",
-   "topicVal": "",
-   "poisonedRoute": false,
-   "poisonedTopic": false,
-   "props": "flowapi_processing_job_id,flowapi_sampledata,flowapi_processing_error,flowapi_processing_state_timestamp,flowapi_template,flowapi_processing_state"
-  },
-  {
-   "page": "stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create",
-   "contentPath": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create/jcr:content/rootcontainer/main/form",
    "route": false,
    "topic": false,
    "routeUrl": "",

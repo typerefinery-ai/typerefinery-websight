@@ -96,6 +96,17 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
+   "flows": [
+    "f21ddq001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/observed-data",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-update",
    "flows": [
     "f21dcy001rn51d"
@@ -127,12 +138,34 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
+   "flows": [
+    "f21ddq002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/event",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
    "flows": [
     "f21dcy003rn51d"
    ],
    "saves": true,
    "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
+   "flows": [
+    "f21ddq003rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sdo/sequence",
     "/os-triage/unattached-context/save"
    ]
   },
@@ -168,6 +201,17 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
+   "flows": [
+    "f21ddr001rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/email-message",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
    "flows": [
     "f21dcz002rn50d"
@@ -184,6 +228,17 @@
    ],
    "saves": true,
    "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create",
+   "flows": [
+    "f21ddr002rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/anecdote",
     "/os-triage/unattached-context/save"
    ]
   },
@@ -229,6 +284,17 @@
    ]
   },
   {
+   "page": "stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create",
+   "flows": [
+    "f21ddr003rn51d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sco/user-account",
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
    "page": "stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-update",
    "flows": [
     "f21dd0003rn51d"
@@ -256,6 +322,17 @@
    ],
    "saves": true,
    "calls": [
+    "/os-triage/unattached-context/save"
+   ]
+  },
+  {
+   "page": "stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create",
+   "flows": [
+    "f21ddr004rn50d"
+   ],
+   "saves": true,
+   "calls": [
+    "/stix-orm/sro/sighting",
     "/os-triage/unattached-context/save"
    ]
   },
