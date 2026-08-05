@@ -113,7 +113,11 @@ export const STEPS: Record<string, StepDef> = {
   // after five stacked fixes (0032/0036/0037); leaving it 'unknown' meant a Remove regression — the
   // exact thing 0037 was about — would report as skipped.
   'P3-S8': { title: 'RMB Remove deletes the object after refresh', baseline: 'pass', issue: '0007,0037' },
-  'P3-S9': { title: 'Promote is offered only for Promotables', baseline: 'unknown', issue: '0007' },
+  // Promoted 'unknown' -> 'pass' 2026-08-05, once both halves of decision 0010 Option 1 existed:
+  // the composed API (`POST /os-triage/promote-subgraph`, moves a sub-graph out of unattached and
+  // onto the incident) and the Promotable pane's menu item. Both halves of the row are now
+  // meaningful — the negative one was vacuous while Promote existed nowhere.
+  'P3-S9': { title: 'Promote is offered only for Promotables', baseline: 'pass', issue: '0007,0010' },
   // Promoted unknown -> pass 2026-08-04: the button was authored for #42 (docs/issues/0044), so
   // this step now describes built behaviour and a regression must go red rather than skip.
   'P3-S10': { title: 'New Object opens a modal offering the form types', baseline: 'pass', issue: '0007' },

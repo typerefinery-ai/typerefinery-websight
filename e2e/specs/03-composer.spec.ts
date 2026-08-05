@@ -711,6 +711,35 @@ test.describe('Act 3 — Incident Composer', () => {
     await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(0)
     await promo.first().click({ button: 'right' })
     await expect(composerWidget(page).getByText(/promote/i).first()).toBeVisible({ timeout: 15_000 })
+
+    // Now the negative half is worth asserting: it was vacuous while Promote did not exist
+    // anywhere, and it is the row's actual claim. Promote is authored **only** in
+    // `panel.promo.js` — Scratch's menu deliberately has no such entry, because #78 makes
+    // promotable-ness a property of the node's type and Scratch holds what no promotable reaches
+    // (decisions/0010, 0007).
+    // ⚠️ Dismiss the first menu *deterministically*. `Escape` did not close it, and the open
+    // `.scm-container` then covered the Scratch node — the click was intercepted by
+    // `<div class="scm-item">` and the step timed out in a full run while passing targeted.
+    // Same family as docs/issues/0058: something overlapping the thing under test.
+    // ⚠️ `.scm-container` is NOT removed when the menu closes — it stays in the DOM and is toggled,
+    // so counting it always returns 1. Wait for it to stop being *visible*.
+    await composerWidget(page).locator('svg.promo_svg').click({ position: { x: 5, y: 5 } })
+    await expect(composerWidget(page).locator('.scm-container').first(), 'the first context menu closed')
+      .toBeHidden({ timeout: 15_000 })
+
+    const scratch = paneNodes(page, PANE.scratch)
+    await expect.poll(async () => await scratch.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+    await scratch.first().click({ button: 'right' })
+    // The Scratch menu must open — otherwise "no Promote" would be true for the wrong reason.
+    await expect(composerWidget(page).getByText(/create sro/i).first()).toBeVisible({ timeout: 15_000 })
+    // Count only VISIBLE matches: the Promo pane's menu stays in the DOM when hidden, so an
+    // unscoped count would find its Promote entry and fail against a correct build.
+    const promoteInScratch = await composerWidget(page)
+      .locator('.scm-container:visible')
+      .getByText(/^\s*promote\s*$/i)
+      .count()
+    observe(test.info(), promoteInScratch === 0 ? 'pass' : 'note', `Promote entries in the Scratch menu: ${promoteInScratch}`)
+    expect(promoteInScratch, 'Promote is NOT offered on a non-Promotable (Scratch)').toBe(0)
   })
 
   step('P3-S10', async ({ page }) => {
