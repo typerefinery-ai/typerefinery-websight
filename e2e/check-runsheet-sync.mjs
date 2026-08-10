@@ -41,4 +41,54 @@ if (missingFromTs.length || missingFromMd.length) {
   process.exit(1)
 }
 
-console.log(`runsheet in sync: ${mdIds.size} steps in both mini-app-runsheet.md and runsheet.ts`)
+/**
+ * Structural check on the step tables themselves.
+ *
+ * ⚠️ The ID comparison above passed happily for several ticks while two rows were MALFORMED — an
+ * edit had eaten a column delimiter, merging a status note into the Expected cell, and another row
+ * carried a fifth column in a four-column table. Neither showed up, because counting IDs says
+ * nothing about the shape of the row the ID sits in.
+ *
+ * Step tables are the ones headed "| ID | Action | Expected result | Status |". Rows inside them
+ * must have exactly four cells and a status glyph in the last one. Rows elsewhere (Blockers, the
+ * rollup, per-act notes) legitimately have other shapes and are left alone.
+ */
+const STATUS = ['\u2705', '\u25d0', '\u274c', '\u2b1c'] // pass / partial / fail / never exercised
+const lines = md.split('\n')
+const problems = []
+let inStepTable = false
+
+lines.forEach((line, i) => {
+  if (/^\|\s*ID\s*\|\s*Action\s*\|\s*Expected result\s*\|\s*Status\s*\|/.test(line)) {
+    inStepTable = true
+    return
+  }
+  if (inStepTable && !line.trim().startsWith('|')) {
+    inStepTable = false
+    return
+  }
+  if (!inStepTable) return
+  if (/^\|[-\s|]+\|$/.test(line)) return // separator row
+
+  const m = /^\|\s*(P\d-S\d+)\s*\|/.exec(line)
+  if (!m) return
+  const cells = line.split('|')
+  // "| a | b | c | d |" splits to ['', a, b, c, d, ''] — six parts for four cells.
+  if (cells.length !== 6) {
+    problems.push(`line ${i + 1}: ${m[1]} has ${cells.length - 2} cells, expected 4 (a delimiter was lost or added)`)
+    return
+  }
+  const status = cells[4].trim()
+  if (!STATUS.some((g) => status.startsWith(g))) {
+    problems.push(`line ${i + 1}: ${m[1]} has no status glyph — starts "${status.slice(0, 40)}"`)
+  }
+})
+
+if (problems.length) {
+  console.error('runsheet step table is malformed:\n')
+  problems.forEach((p) => console.error(`  ${p}`))
+  console.error('')
+  process.exit(1)
+}
+
+console.log(`runsheet in sync and well-formed: ${mdIds.size} steps in both mini-app-runsheet.md and runsheet.ts`)
