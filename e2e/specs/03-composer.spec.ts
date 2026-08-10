@@ -308,36 +308,43 @@ test.describe('Act 3 — Incident Composer', () => {
     // (docs/issues/0073) — because it never checks WHICH data set arrived, and nth(3) is "Tasks",
     // so Company and User are never selected at all.
     //
-    // The radios name their sources, so assert the sources are actually distinct at the API. Two
-    // tabs returning the same set is the signature of one tab running another's algorithm.
-    const api = request
-    const fingerprint = async (route: string) => {
-      const res = await api.get(`${FLOW_BASE}/viz-data/${route}`, { timeout: 60_000 })
-      if (!res.ok()) return { route, status: res.status(), ids: [] as string[] }
-      const body = await res.json().catch(() => ({}))
-      const nodes = body.nodes || body.promo?.nodes || []
-      return { route, status: res.status(), ids: (nodes as any[]).map((n) => n.id).sort() }
+    // Every tree source must answer with a TREE. Measured 2026-08-11 across all six routes:
+    //
+    //   tree-sighting  TREE  children:2   tree-task  TREE  children:2
+    //   tree-impact    TREE  children:1   tree-event TREE  children:1
+    //   tree-user      TREE  children:0   tree-company  NODES/EDGES  nodes:39   <-- the odd one out
+    //
+    // ⚠️ Shape, not content, is the right invariant here. An earlier version of this check compared
+    // the company node ids against the unattached set — which caught today's defect but would have
+    // kept failing after a fix, because a correctly-working tree-company returns `children`, not
+    // `nodes`, so the comparison would read zero company nodes forever.
+    const shapeOf = async (route: string) => {
+      const res = await request.get(`${FLOW_BASE}/viz-data/${route}`, { timeout: 60_000 })
+      const body = res.ok() ? await res.json().catch(() => ({} as any)) : ({} as any)
+      return {
+        route,
+        tree: Array.isArray(body.children),
+        children: (body.children || []).length,
+        nodes: (body.nodes || []).length,
+        name: body.name || '',
+      }
     }
 
-    const company = await fingerprint('tree-company')
-    const unattached = await fingerprint('unattached-force-graph')
-
+    const sources = ['tree-sighting', 'tree-task', 'tree-impact', 'tree-event', 'tree-user', 'tree-company']
+    const shapes = []
+    for (const s of sources) shapes.push(await shapeOf(s))
     observe(
       test.info(),
       'note',
-      `tree-company ${company.ids.length} nodes, unattached-force-graph ${unattached.ids.length} nodes`,
+      shapes.map((s) => `${s.route}:${s.tree ? `tree(${s.children})` : `nodes(${s.nodes})`}`).join(' '),
     )
 
-    // Not "different lengths" — an overlapping subset is exactly what a stale copy produces. Assert
-    // the company set is not wholly contained in the unattached one.
-    const unattachedSet = new Set(unattached.ids)
-    const companyOnly = company.ids.filter((id) => !unattachedSet.has(id))
+    const notTrees = shapes.filter((s) => !s.tree)
     expect(
-      companyOnly.length,
-      `the Company tab must serve its own data, not the unattached set (docs/issues/0073): ` +
-        `${company.ids.length} company nodes, ${companyOnly.length} of which are not in the ` +
-        `unattached set of ${unattached.ids.length}`,
-    ).toBeGreaterThan(0)
+      notTrees.map((s) => `${s.route} returned ${s.nodes} nodes/edges instead of a tree`),
+      'every treeview source must answer with a tree — one returning the unattached nodes/edges ' +
+        'graph is the signature of that tab running another flow\'s algorithm (docs/issues/0073)',
+    ).toEqual([])
   })
 
   step('P3-S3', async ({ page }) => {
