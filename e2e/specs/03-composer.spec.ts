@@ -632,18 +632,48 @@ test.describe('Act 3 — Incident Composer', () => {
     const api = await request
     await openComposer(page)
     const target = await selectAcrossPanes(page)
+
+    // docs/issues/0074 — this step fails roughly one run in three because the modal never mounts.
+    // The saved trace showed the menu click landing AND a 200 for the modal HTML, but the trace
+    // records action times on a monotonic counter and network times on a wall clock, so the fetch
+    // could not be ordered against the click. That ordering is the whole question: a fetch after
+    // the click means the modal was asked for and failed to attach; no fetch means the widget's
+    // handler never fired. Record it on the SAME clock as the click.
+    const modalRequests: string[] = []
+    const clickAt = Date.now()
+    page.on('request', (r) => {
+      if (/modal-forms|foreign-key-connections/.test(r.url())) {
+        modalRequests.push(`+${Date.now() - clickAt}ms ${r.method()} ${r.url().slice(-60)}`)
+      }
+    })
+    const framesAt = () => page.frames().map((f: any) => f.url()).filter((u: string) => /modal|forms/.test(u))
+
     await target.click({ button: 'right' })
     await composerWidget(page).getByText(/create connection/i).first().click()
 
     // The "Create Foreign Key Connections" modal must carry **both refs pre-filled** and offer
     // the connection fields. `created_by_ref` is an *option inside the collapsed dropdown*, not
     // visible text — asserting on the literal string failed against a working modal.
-    await expect
-      .poll(async () => (await modalState(page)).found, {
-        timeout: 30_000,
-        message: 'Create Connection modal frame (…/modal-forms/…) appeared',
-      })
-      .toBeTruthy()
+    try {
+      await expect
+        .poll(async () => (await modalState(page)).found, {
+          timeout: 30_000,
+          message: 'Create Connection modal frame (…/modal-forms/…) appeared',
+        })
+        .toBeTruthy()
+    } catch (err) {
+      // Attach the evidence 0074 needs before rethrowing — a failing run is rare, so it must not
+      // be wasted.
+      observe(
+        test.info(),
+        'note',
+        `0074: modal did not mount. Requests after the click: ${
+          modalRequests.length ? modalRequests.join(' ; ') : 'NONE — the click produced no fetch'
+        }. Frames now: ${JSON.stringify(framesAt())}`,
+      )
+      throw err
+    }
+    observe(test.info(), 'note', `0074: modal mounted; requests after click: ${modalRequests.join(' ; ') || 'none'}`)
 
     expect((await modalState(page)).text, 'modal is the Foreign Key Connections form').toMatch(
       /foreign key connections/i,
