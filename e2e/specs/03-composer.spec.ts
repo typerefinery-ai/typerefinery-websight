@@ -289,7 +289,7 @@ test.describe('Act 3 — Incident Composer', () => {
     expect(await at(), 'Promo graph has settled — no drift 3s after load (0016)').toBe(t0)
   })
 
-  step('P3-S2', async ({ page }) => {
+  step('P3-S2', async ({ page, request }) => {
     // The Composer page carries the radios directly (Attack-Flow, Behavior, Sighting, Tasks,
     // Impact, Event, User, Company) — no need for the workbench now that the frame is targeted.
     await openComposer(page)
@@ -302,6 +302,42 @@ test.describe('Act 3 — Incident Composer', () => {
     await page.waitForTimeout(8_000)
     const treeAfter = await composerWidget(page).locator(PANE.tree).innerHTML().catch(() => '')
     expect(treeAfter, 'tree re-rendered for the newly selected source').not.toBe(treeBefore)
+
+    // ⚠️ The assertion above only proves the DOM changed. It passed for months while
+    // /viz-data/tree-company was running the *Unattached* algorithm and serving unattached objects
+    // (docs/issues/0073) — because it never checks WHICH data set arrived, and nth(3) is "Tasks",
+    // so Company and User are never selected at all.
+    //
+    // The radios name their sources, so assert the sources are actually distinct at the API. Two
+    // tabs returning the same set is the signature of one tab running another's algorithm.
+    const api = request
+    const fingerprint = async (route: string) => {
+      const res = await api.get(`${FLOW_BASE}/viz-data/${route}`, { timeout: 60_000 })
+      if (!res.ok()) return { route, status: res.status(), ids: [] as string[] }
+      const body = await res.json().catch(() => ({}))
+      const nodes = body.nodes || body.promo?.nodes || []
+      return { route, status: res.status(), ids: (nodes as any[]).map((n) => n.id).sort() }
+    }
+
+    const company = await fingerprint('tree-company')
+    const unattached = await fingerprint('unattached-force-graph')
+
+    observe(
+      test.info(),
+      'note',
+      `tree-company ${company.ids.length} nodes, unattached-force-graph ${unattached.ids.length} nodes`,
+    )
+
+    // Not "different lengths" — an overlapping subset is exactly what a stale copy produces. Assert
+    // the company set is not wholly contained in the unattached one.
+    const unattachedSet = new Set(unattached.ids)
+    const companyOnly = company.ids.filter((id) => !unattachedSet.has(id))
+    expect(
+      companyOnly.length,
+      `the Company tab must serve its own data, not the unattached set (docs/issues/0073): ` +
+        `${company.ids.length} company nodes, ${companyOnly.length} of which are not in the ` +
+        `unattached set of ${unattached.ids.length}`,
+    ).toBeGreaterThan(0)
   })
 
   step('P3-S3', async ({ page }) => {
