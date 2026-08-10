@@ -1,6 +1,13 @@
 import { expect, request } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 import { step, test } from '../runsheet'
 import { FLOW_BASE } from '../playwright.config'
+
+// docs/issues/0072 — the runtime flow DB is git-ignored; the provisioning source is the submodule.
+const TR = path.resolve(__dirname, '../../../typerefinery/services/totaljs-flow/database')
+const RUNTIME_DB = path.join(TR, 'database.json')
+const SOURCE_DB = path.join(TR, 'demo/database.json')
 
 /** Act 0 — preflight. Runsheet §0. API-level guards that later acts depend on. */
 
@@ -106,5 +113,48 @@ test.describe('Act 0 — preflight', () => {
     // "Rich enough to demo" — an incident with a handful of objects, not a bare shell.
     expect((payload.nodes || []).length, 'current incident is rich enough to demo').toBeGreaterThan(5)
     await api.dispose()
+  })
+
+  step('P0-S8', async ({}) => {
+    // docs/issues/0072. The runtime flow database is git-ignored, so a fix applied with
+    // /flow/{id}/design/save leaves NO trace in version control and is silently reverted by the
+    // next re-provision. 0050's relationship merge sat runtime-only for days exactly this way, and
+    // it took fixing 0071 to notice.
+    //
+    // ⚠️ Only "runtime ahead" is failed here. Source-ahead drift also exists (six flows), but that
+    // direction loses nothing on a re-provision — it means the runtime is behind, which is a
+    // different problem and not one preflight should block a demo for.
+    const runtime = JSON.parse(fs.readFileSync(RUNTIME_DB, 'utf8'))
+    const source = JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))
+
+    const algs = (flow: any): Record<string, string> => {
+      const design = (flow && (flow.design || flow)) || {}
+      const out: Record<string, string> = {}
+      for (const [nodeId, node] of Object.entries<any>(design)) {
+        const a = node && node.config && node.config.algorithm
+        if (typeof a === 'string') out[nodeId] = a
+      }
+      return out
+    }
+
+    const ahead: string[] = []
+    for (const id of Object.keys(runtime)) {
+      if (id === 'variables' || !source[id]) continue
+      const r = algs(runtime[id])
+      const s = algs(source[id])
+      for (const nodeId of Object.keys(r)) {
+        // Longer-and-different is the signature of "someone fixed it in the running copy".
+        if ((r[nodeId] || '').length > (s[nodeId] || '').length) {
+          ahead.push(`${runtime[id].name || id} (${id}) node ${nodeId}: runtime ${r[nodeId].length} > source ${(s[nodeId] || '').length}`)
+        }
+      }
+    }
+
+    expect(
+      ahead,
+      'flows whose algorithm exists only in the git-ignored runtime DB — sync them into the ' +
+        'strxi2-demo-api submodule or the next re-provision reverts them (docs/issues/0072):\n  ' +
+        ahead.join('\n  '),
+    ).toEqual([])
   })
 })

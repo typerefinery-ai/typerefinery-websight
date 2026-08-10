@@ -42,6 +42,12 @@ export const STEPS: Record<string, StepDef> = {
   // without touching the live /viz-data/tree-user (docs/issues/0041).
   'P0-S7': { title: 'Both #82 options APIs return usable payloads (composer + overview)', baseline: 'pass', issue: '0041' },
 
+  // 0072: services/totaljs-flow/database/database.json is git-IGNORED runtime state, so every fix
+  // applied with /flow/{id}/design/save is unversioned and reverted by the next re-provision. That
+  // is not theoretical — 0050's relationship merge sat runtime-only for days with nothing to show
+  // it. This step makes the drift fail loudly in preflight instead of surfacing after a re-provision.
+  'P0-S8': { title: 'No flow fix exists only in the git-ignored runtime database', baseline: 'fail', issue: '0072' },
+
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and
   // rows only arrive when flow f210iy001bt51d publishes over TMS. The ✅ recorded on 2026-07-25
