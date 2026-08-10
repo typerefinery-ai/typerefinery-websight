@@ -175,6 +175,50 @@ test.describe('Act 3 — Incident Composer', () => {
       expect(o.overflowY, `${o.pane} svg does not extend past its pane vertically`).toBeLessThan(8)
     }
 
+    // docs/issues/0065 — every pane node must be **reachable**. The Overview has asserted the
+    // equivalent since 0056 (P2-S2, "all nodes within the visible panel bounds"); the Composer had
+    // no such check, which is how nodes at y = -46.68 and y = 386.6 went unnoticed while two fixes
+    // for the same family of fault landed next door. They surfaced instead as intermittent failures
+    // in P5-S4 and P3-S7, which were mis-attributed to load latency for two ticks.
+    //
+    // ⚠️ Assert the node's **centre**, not strict containment. A click — Playwright's or a user's —
+    // lands on the centre, so a node overhanging an edge by a few pixels is still perfectly usable.
+    // Requiring every node fully inside would fail on ~1 node per pane for a purely cosmetic reason.
+    const unreachable = await composerWidget(page)
+      .locator('svg.promo_svg')
+      .first()
+      .evaluate(() => {
+        const report: Array<{ pane: string; total: number; unreachable: number; worst: string }> = []
+        for (const cls of ['promo_svg', 'scratch_svg']) {
+          const svg = document.querySelector(`svg.${cls}`)
+          if (!svg) continue
+          const box = svg.getBoundingClientRect()
+          const nodes = [...svg.querySelectorAll('image')]
+            .map((n) => ({
+              id: n.id || '',
+              cx: Number(n.getAttribute('x')) + (Number(n.getAttribute('width')) || 0) / 2,
+              cy: Number(n.getAttribute('y')) + (Number(n.getAttribute('height')) || 0) / 2,
+            }))
+            .filter((n) => Number.isFinite(n.cx) && Number.isFinite(n.cy))
+          const out = nodes.filter((n) => n.cx < 0 || n.cy < 0 || n.cx > box.width || n.cy > box.height)
+          report.push({
+            pane: cls,
+            total: nodes.length,
+            unreachable: out.length,
+            worst: out.length ? `${out[0].id.slice(0, 24)}@(${Math.round(out[0].cx)},${Math.round(out[0].cy)})` : '-',
+          })
+        }
+        return report
+      })
+    observe(
+      test.info(),
+      'note',
+      `pane node reachability — ${unreachable.map((u) => `${u.pane}:${u.total - u.unreachable}/${u.total} reachable`).join(' ')}`,
+    )
+    for (const u of unreachable) {
+      expect(u.unreachable, `${u.pane}: every node's centre is inside the pane (worst ${u.worst})`).toBe(0)
+    }
+
     // "…none drifting" is the row's third claim (0016: the graph never settles when embedded).
     // Two measurements of the same node, 3 s apart, is the P2-S3 pattern.
     const firstIcon = composerWidget(page).locator(PANE.promo).locator('image').first()
