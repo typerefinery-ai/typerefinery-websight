@@ -35,7 +35,20 @@ const PAGES = [
 
 const VERBOSE = process.argv.includes('--verbose')
 const RETRIES = 3
-const TIMEOUT_MS = 120_000
+
+/**
+ * Per-request timeout, sized from the measurement in docs/issues/0066 — **not** guessed.
+ *
+ * The cold-start trace shows what actually happens: the 28 clientlib JS files that 504'd all did so
+ * at **100.11 s** (100108–100114 ms, every one stamped the same second), while the 6 that succeeded
+ * took **210.4–211.0 s** to first byte. So the resources are not broken — the CMS really does need
+ * ~210 s to compile a clientlib JS cold, and the gateway abandons the request at 100 s.
+ *
+ * ⚠️ This constant was **120 s in the first version of this script**, which is *below* the observed
+ * cold compile time — the warm-up would have timed out on exactly the requests it exists to make.
+ * 300 s leaves headroom over the 211 s measured worst case.
+ */
+const TIMEOUT_MS = 300_000
 
 const agent = new https.Agent({ rejectUnauthorized: false, keepAlive: true })
 const auth = 'Basic ' + Buffer.from(`${USER}:${PASS}`).toString('base64')
