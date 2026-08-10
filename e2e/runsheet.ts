@@ -106,12 +106,12 @@ export const STEPS: Record<string, StepDef> = {
   'P3-S1': { title: 'Composer renders Tree, Promo and Scratch with data', baseline: 'pass', issue: '0003,0004,0016' },
   // Promoted 'partial' -> 'pass' 2026-08-04 (docs/issues/0048) — runsheet says ✅ automated; it was
   // non-strict, so a regression would have been silently skipped.
-  // 0073: baseline dropped 'pass' -> 'fail' when the step was strengthened. It used to assert only
-  // that the tree's innerHTML CHANGED, which it does — so it was green while /viz-data/tree-company
-  // ran the *Unattached* algorithm. Now it also checks the Company tab serves its own data, and that
-  // is genuinely broken: 39 company nodes, 0 of them outside the unattached set of 45. Promote back
-  // to 'pass' when 0073 is fixed.
-  'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'fail', issue: '0073' },
+  // 0073: this step used to assert only that the tree's innerHTML CHANGED, which it does — so it was
+  // green while /viz-data/tree-company ran the *Unattached* algorithm and answered with a nodes/edges
+  // graph instead of a tree. It now asserts every treeview source answers with a TREE. Baseline went
+  // 'pass' -> 'fail' while the defect stood and is back to 'pass' now that it is fixed: the
+  // check failed before the fix and passes after it.
+  'P3-S2': { title: 'Treeview radio switches the data set', baseline: 'pass', issue: '0073' },
   'P3-S3': { title: 'Tree right-click shows Copy and Edit DAG', baseline: 'pass', issue: '0007' },
   // Promoted 2026-08-04: the step was never broken. Its assertion demanded the unattached count
   // GROW, but add_node replaces by id and every tree node is already in unattached context, so it
