@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
 import { clickAnyNode, selectPopulatedNode } from '../form-pane'
+import { ensureScratch, requireScratch } from '../fixtures'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -121,31 +122,6 @@ async function openComposer(page: any) {
   await page.goto(COMPOSER, { waitUntil: 'domcontentloaded' })
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
   await page.waitForTimeout(12_000)
-}
-
-/**
- * docs/issues/0076 — Act 3 CONSUMES Scratch objects and never replaces them: P3-S6 reclassifies one
- * into Promotable (docs/issues/0051) and P3-S8 deletes one by design. After enough runs the pane
- * reaches zero and the steps that need it fail — with assertions that say nothing about the real
- * cause. Measured 2026-08-11 at promo 53 / scratch 0; three P5-S3 runs restored it and both steps
- * went green unchanged.
- *
- * This does NOT fix the drain (that is 0076 Option 1, seeding). It makes the failure legible, so a
- * missing fixture is never mistaken for a regression in the step.
- */
-async function requireScratch(request: any, stepId: string) {
-  const res = await request.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
-  const j = res.ok() ? await res.json().catch(() => ({} as any)) : ({} as any)
-  const scratch = (j.scratch?.nodes ?? []).length
-  const promo = (j.promo?.nodes ?? []).length
-  observe(test.info(), 'note', `${stepId} fixture: promo ${promo}, scratch ${scratch}`)
-  expect(
-    scratch,
-    `${stepId} needs a Scratch object and the pane is empty (promo ${promo}, scratch ${scratch}). ` +
-      'Act 3 drains Scratch as it runs and nothing replenishes it - docs/issues/0076. ' +
-      'Repopulate with:  playwright test --grep "P5-S3"  (three runs took it 0 -> 3). ' +
-      'This is a missing fixture, NOT a regression in this step.',
-  ).toBeGreaterThan(0)
 }
 
 test.describe('Act 3 — Incident Composer', () => {
@@ -864,6 +840,11 @@ test.describe('Act 3 — Incident Composer', () => {
    * it), which is why this is acceptable to run — but do not point it at Promo.
    */
   step('P3-S8', async ({ page, request }) => {
+    // docs/issues/0076 — this step DELETES a Scratch object and nothing replaces it, so a suite on
+    // a loop eventually runs it against an empty pane. Seed rather than fail: the fixture is the
+    // suite's responsibility, not a defect in what this step tests.
+    const seeded = await ensureScratch(page, request, 2)
+    observe(test.info(), 'note', `P3-S8 fixture: scratch ${seeded}`)
     await requireScratch(request, 'P3-S8')
     // ⚠️ The UI count is the *weaker* half of this claim. docs/issues/0037 is exactly the case
     // where Remove reported success and removed nothing — a pane that re-renders without the node
@@ -920,7 +901,11 @@ test.describe('Act 3 — Incident Composer', () => {
     observe(test.info(), 'note', `removed from unattached context: ${removed.join(', ') || '(count fell but id not isolated)'}`)
   })
 
-  step('P3-S9', async ({ page }) => {
+  step('P3-S9', async ({ page, request }) => {
+    // docs/issues/0076 — right-clicks a Scratch node to prove Promote is NOT offered there, so an
+    // empty pane makes the negative half unprovable rather than false.
+    const seeded = await ensureScratch(page, request, 1)
+    observe(test.info(), 'note', `P3-S9 fixture: scratch ${seeded}`)
     await openComposer(page)
     // The criterion is stated negatively ("Promote is *not* offered for non-Promotables"), which
     // passes vacuously while Promote does not exist at all. Assert the positive case instead, so
