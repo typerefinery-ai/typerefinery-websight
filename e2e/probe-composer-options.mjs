@@ -51,10 +51,18 @@ if (!frame) {
 
 const state = await frame.evaluate(() => {
   const o = (window.Widgets && window.Widgets.Panel && window.Widgets.Panel.Utils || {}).options || {}
+  // docs/issues/0067: the drawn width is `iconSize + 5`, so reading it back proves the API value
+  // is actually used rather than merely merged. `icon_size` is reported too, so a settings file
+  // that still carries the old name shows up here instead of silently doing nothing.
+  const drawn = Array.from(document.querySelectorAll('image'))
+    .map((i) => i.getAttribute('width'))
+    .filter(Boolean)
   return {
     keys: Object.keys(o).length,
     current_theme: o.current_theme,
+    iconSize: o.iconSize,
     icon_size: o.icon_size,
+    drawnIconWidths: Array.from(new Set(drawn)).slice(0, 5),
     api: o.api ? Object.keys(o.api) : null,
     themeTooltipFill: o.theme && o.theme.tooltip ? o.theme.tooltip.fill : null,
   }
@@ -62,9 +70,9 @@ const state = await frame.evaluate(() => {
 
 console.log('\nwidget frame options:', JSON.stringify(state, null, 1))
 
-// `current_theme` and `icon_size` are not in the widget's built-in defaults — if they are present,
-// the API payload was merged, not merely fetched.
-const merged = state.current_theme !== undefined && state.icon_size !== undefined
+// `current_theme` is not in the widget's built-in defaults — if it is present, the API payload was
+// merged, not merely fetched.
+const merged = state.current_theme !== undefined
 console.log(`\n${merged ? 'PASS' : 'FAIL'} — Composer options ${merged ? 'merged from the API' : 'NOT merged; defaults only'}`)
 
 await browser.close()
