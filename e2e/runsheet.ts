@@ -46,7 +46,13 @@ export const STEPS: Record<string, StepDef> = {
   // applied with /flow/{id}/design/save is unversioned and reverted by the next re-provision. That
   // is not theoretical — 0050's relationship merge sat runtime-only for days with nothing to show
   // it. This step makes the drift fail loudly in preflight instead of surfacing after a re-provision.
-  'P0-S8': { title: 'No flow fix exists only in the git-ignored runtime database', baseline: 'fail', issue: '0072' },
+  // Promoted 'fail' -> 'pass' 2026-08-11. The 8 runtime-ahead flows were synced into the
+  // strxi2-demo-api submodule (181dbad), leaving exactly ONE runtime-ahead node — the
+  // Composer-Tree-User name-crossing, which the spec now exempts *conditionally* on the source
+  // still carrying its counterpart. A 'fail' baseline is NON-STRICT, so this guard could never go
+  // red: the one thing it exists to catch — a NEW fix living only in the git-ignored runtime DB —
+  // would have been reported as "skipped". That is precisely how 0072 hid for days (docs/issues/0072).
+  'P0-S8': { title: 'No flow fix exists only in the git-ignored runtime database', baseline: 'pass', issue: '0072' },
 
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and

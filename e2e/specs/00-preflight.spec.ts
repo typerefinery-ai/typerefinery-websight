@@ -137,7 +137,30 @@ test.describe('Act 0 — preflight', () => {
       return out
     }
 
+    // The one known-and-deliberate exception: runtime and source carry the SAME algorithm under
+    // DIFFERENT node ids in this flow, so a naive per-node comparison reports the runtime node as
+    // "ahead" when nothing is actually at risk. The exemption is deliberately CONDITIONAL — it only
+    // applies while the counterpart really is in the source. If someone deletes it, this stops
+    // exempting and the guard fires, which is the point: an exemption that cannot expire is a hole.
+    const NAME_CROSSED: Array<{ flow: string; runtimeNode: string; sourceNode: string; why: string }> = [
+      {
+        flow: 'f1fiw5002ra50d', // Composer-Tree-User
+        runtimeNode: 'im0or912a',
+        sourceNode: 'imlk91n23',
+        why: 'runtime and source name the same node differently; the work exists in both (docs/issues/0072)',
+      },
+    ]
+    const exempt = (flowId: string, nodeId: string, sourceAlgs: Record<string, string>): string | null => {
+      const rule = NAME_CROSSED.find((k) => k.flow === flowId && k.runtimeNode === nodeId)
+      if (!rule) return null
+      const counterpart = sourceAlgs[rule.sourceNode] || ''
+      // Only honour the exemption if the source genuinely still carries the counterpart.
+      if (counterpart.length < 1000) return null
+      return `${flowId} node ${nodeId} exempt: ${rule.why} (source ${rule.sourceNode} = ${counterpart.length} chars)`
+    }
+
     const ahead: string[] = []
+    const exemptions: string[] = []
     for (const id of Object.keys(runtime)) {
       if (id === 'variables' || !source[id]) continue
       const r = algs(runtime[id])
@@ -145,10 +168,18 @@ test.describe('Act 0 — preflight', () => {
       for (const nodeId of Object.keys(r)) {
         // Longer-and-different is the signature of "someone fixed it in the running copy".
         if ((r[nodeId] || '').length > (s[nodeId] || '').length) {
+          const why = exempt(id, nodeId, s)
+          if (why) {
+            exemptions.push(why)
+            continue
+          }
           ahead.push(`${runtime[id].name || id} (${id}) node ${nodeId}: runtime ${r[nodeId].length} > source ${(s[nodeId] || '').length}`)
         }
       }
     }
+    // Never let an exemption pass silently — a muted guard that says nothing is how 0072 went
+    // unnoticed for days in the first place.
+    for (const e of exemptions) console.log(`P0-S8 ${e}`)
 
     expect(
       ahead,
