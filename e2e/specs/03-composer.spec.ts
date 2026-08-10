@@ -707,12 +707,22 @@ test.describe('Act 3 — Incident Composer', () => {
       ).toEqual([...expectedFields].sort())
     }
 
+    // ⚠️ This used to `return` here, which reported the step GREEN having tested nothing. That is how
+    // docs/issues/0071 stayed hidden: the write half is the criterion under test (#24, second
+    // criterion), and a pair with no valid field cannot exercise it. A pass that proves nothing must
+    // not look like a pass that proves something — same class as docs/issues/0048.
     if (labels.length === 0) {
       observe(
         test.info(),
         'note',
-        `no valid connection field exists for this pair — confirmed by the API — so the write half ` +
-          'cannot be exercised here (not a defect)',
+        `no valid connection field exists for ${sourceRef.split('--')[0]} -> ${targetRef.split('--')[0]} ` +
+          '— confirmed by the API — so the write half CANNOT be exercised for this pair (0071)',
+      )
+      test.skip(
+        true,
+        `P3-S7 write half not exercised: no valid connection field for ` +
+          `${sourceRef.split('--')[0]} -> ${targetRef.split('--')[0]}. Not a product defect, but not ` +
+          `coverage either — see docs/issues/0071.`,
       )
       return
     }
