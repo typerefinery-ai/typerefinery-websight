@@ -664,16 +664,19 @@ test.describe('Act 3 — Incident Composer', () => {
     } catch (err) {
       // Attach the evidence 0074 needs before rethrowing — a failing run is rare, so it must not
       // be wasted.
-      observe(
-        test.info(),
-        'note',
-        `0074: modal did not mount. Requests after the click: ${
-          modalRequests.length ? modalRequests.join(' ; ') : 'NONE — the click produced no fetch'
-        }. Frames now: ${JSON.stringify(framesAt())}`,
-      )
+      // ⚠️ observe() only pushes a testInfo annotation, which neither the list reporter nor the
+      // trace surfaces — the first version of this instrumentation was unreadable where it mattered.
+      // console.log lands in stdout on every reporter.
+      const note = `0074: modal did not mount. Requests after the click: ${
+        modalRequests.length ? modalRequests.join(' ; ') : 'NONE - the click produced no fetch'
+      }. Frames now: ${JSON.stringify(framesAt())}`
+      console.log(note)
+      observe(test.info(), 'note', note)
       throw err
     }
-    observe(test.info(), 'note', `0074: modal mounted; requests after click: ${modalRequests.join(' ; ') || 'none'}`)
+    const okNote = `0074: modal mounted; requests after click: ${modalRequests.join(' ; ') || 'none'}`
+    console.log(okNote)
+    observe(test.info(), 'note', okNote)
 
     expect((await modalState(page)).text, 'modal is the Foreign Key Connections form').toMatch(
       /foreign key connections/i,
