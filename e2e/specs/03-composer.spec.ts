@@ -219,6 +219,67 @@ test.describe('Act 3 — Incident Composer', () => {
       expect(u.unreachable, `${u.pane}: every node's centre is inside the pane (worst ${u.worst})`).toBe(0)
     }
 
+    // ⚠️ The check above is a **weak** guard, and 2026-08-10 proved it: with `clampNodesToPanel`
+    // disabled entirely, it still passed. Not because it is vacuous — it measured 28 promo and 12
+    // scratch nodes — but because **the defect is node-count dependent**. The escapes recorded in
+    // docs/issues/0065 (y = -46.68, y = 386.6) were measured when Promotable had grown to ~38–55
+    // nodes via docs/issues/0051; at the reset count of 28 the spread stays inside the pane, so
+    // there is nothing for the assertion to catch. It fires only once the simulation happens to
+    // breach the bound — which is exactly when a demo is being rehearsed, and never on fresh data.
+    //
+    // So assert the **invariant** as well as the outcome: hand the containment function nodes that
+    // are definitively outside and require it to bring them back. Deterministic, independent of how
+    // many nodes the panes hold, and it fails the moment containment is removed.
+    //
+    // Deliberately uses a **synthetic array**, not the live simulation's nodes: this must not
+    // perturb the graph the other steps go on to click. (It therefore checks that containment is
+    // implemented and correct, while the check above covers that it is actually wired into the
+    // tick handler — the two together are the guard.)
+    const containment = await composerWidget(page)
+      .locator('svg.promo_svg')
+      .first()
+      .evaluate(() => {
+        const fg = (window as any).Widgets?.Panel?.ForceGraph
+        if (!fg || typeof fg.clampNodesToPanel !== 'function') {
+          return { implemented: false, moved: 0, after: [] as Array<{ x: number; y: number }>, box: null as any }
+        }
+        const svg = document.querySelector('svg.promo_svg')
+        const box = svg ? svg.getBoundingClientRect() : null
+        // Far outside on every side, so a partial clamp (one axis, one direction) still fails.
+        const probes = [
+          { x: -500, y: -500 },
+          { x: 99999, y: 99999 },
+          { x: -1, y: 50 },
+          { x: 50, y: 99999 },
+        ]
+        const moved = fg.clampNodesToPanel(probes, '#promo_panel', 35)
+        return {
+          implemented: true,
+          moved,
+          after: probes.map((p) => ({ x: Math.round(p.x), y: Math.round(p.y) })),
+          box: box ? { w: Math.round(box.width), h: Math.round(box.height) } : null,
+        }
+      })
+
+    observe(
+      test.info(),
+      'note',
+      `containment invariant — implemented=${containment.implemented} moved=${containment.moved}/4 ` +
+        `into ${containment.box ? `${containment.box.w}x${containment.box.h}` : '?'}: ` +
+        containment.after.map((p) => `(${p.x},${p.y})`).join(' '),
+    )
+
+    expect(containment.implemented, 'the panes have a containment function at all (docs/issues/0065)').toBe(true)
+    expect(containment.moved, 'containment moves every out-of-bounds node (4 probes, each outside)').toBe(4)
+    for (const p of containment.after) {
+      expect(p.x, `containment brought x back inside the pane — got ${p.x}`).toBeGreaterThanOrEqual(0)
+      expect(p.y, `containment brought y back inside the pane — got ${p.y}`).toBeGreaterThanOrEqual(0)
+      if (containment.box) {
+        expect(p.x, `containment brought x back inside the pane — got ${p.x}`).toBeLessThanOrEqual(containment.box.w)
+        expect(p.y, `containment brought y back inside the pane — got ${p.y}`).toBeLessThanOrEqual(containment.box.h)
+      }
+    }
+
     // "…none drifting" is the row's third claim (0016: the graph never settles when embedded).
     // Two measurements of the same node, 3 s apart, is the P2-S3 pattern.
     const firstIcon = composerWidget(page).locator(PANE.promo).locator('image').first()
