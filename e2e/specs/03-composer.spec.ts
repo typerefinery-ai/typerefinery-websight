@@ -650,7 +650,24 @@ test.describe('Act 3 — Incident Composer', () => {
     const framesAt = () => page.frames().map((f: any) => f.url()).filter((u: string) => /modal|forms/.test(u))
 
     await target.click({ button: 'right' })
-    await composerWidget(page).getByText(/create connection/i).first().click()
+
+    // docs/issues/0077 — the click intermittently falls THROUGH to the node: no modal-forms request
+    // is made and a `user-account-update` frame opens instead, which is the left-select result. So
+    // the menu had already closed and the click hit what was underneath.
+    //
+    // `.scm-container` is persistent and toggled rather than created per interaction (P3-S9's notes),
+    // so matching the item's text does not prove the menu is OPEN. Scope to the visible container and
+    // wait for it before clicking.
+    //
+    // ⚠️ The outcome of this is itself evidence: if asserting visibility makes the failure vanish, the
+    // race was in the harness; if it persists, it is in the widget.
+    const menu = composerWidget(page).locator('.scm-container:visible')
+    await expect(menu.first(), 'the context menu is open before its item is clicked (0077)').toBeVisible({
+      timeout: 15_000,
+    })
+    const item = menu.getByText(/create connection/i).first()
+    await expect(item, 'Create Connection is present in the OPEN menu (0077)').toBeVisible({ timeout: 15_000 })
+    await item.click()
 
     // The "Create Foreign Key Connections" modal must carry **both refs pre-filled** and offer
     // the connection fields. `created_by_ref` is an *option inside the collapsed dropdown*, not
