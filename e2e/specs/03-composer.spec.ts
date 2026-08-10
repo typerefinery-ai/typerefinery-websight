@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
 import { clickAnyNode, selectPopulatedNode } from '../form-pane'
-import { ensureScratch, requireScratch } from '../fixtures'
+import { choosePairWithConnectionField, ensureScratch, requireScratch } from '../fixtures'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -632,7 +632,41 @@ test.describe('Act 3 — Incident Composer', () => {
   step('P3-S7', async ({ page, request }) => {
     const api = await request
     await openComposer(page)
-    const target = await selectAcrossPanes(page)
+    // docs/issues/0077 — pick a pair the oracle APPROVES, instead of whatever happens to be
+    // clickable. Measured 2026-08-11: of 24 arbitrary pairs only 3 (13%) offer a connection
+    // field, so random selection made this step skip more often than it asserted (6 of 10 runs)
+    // and #24's completion leg went largely unexercised. Every viable pair had an identity target.
+    //
+    // ⚠️ Falls back to the original selection when the oracle approves nothing, so a context with
+    // no valid pair degrades to the old behaviour (a skip) rather than failing the step.
+    const pairs = await choosePairWithConnectionField(request)
+    const byId = (id: string) =>
+      composerWidget(page)
+        .locator('svg.promo_svg, svg.scratch_svg')
+        .locator(`image[id="${id}"]`)
+        .first()
+
+    // ⚠️ An oracle-approved pair can still be UNCLICKABLE: nodes overlap in a dense pane, and the
+    // one on top intercepts the pointer ("<image id=…> intercepts pointer events"). clickAnyNode
+    // used to hide that by skipping candidates; choosing a specific node removes that escape hatch,
+    // so try each approved pair in turn.
+    let target
+    for (const pair of pairs) {
+      try {
+        await byId(pair.sourceId).click({ timeout: 10_000 })
+        const t = byId(pair.targetId)
+        await t.click({ timeout: 10_000 })
+        target = t
+        observe(test.info(), 'note', `0077 pair: ${pair.sourceId} -> ${pair.targetId} [${pair.fields.join(',')}]`)
+        break
+      } catch {
+        observe(test.info(), 'note', `0077: ${pair.sourceId} -> ${pair.targetId} not clickable (occluded?), trying next`)
+      }
+    }
+    if (!target) {
+      observe(test.info(), 'note', `0077: no approved pair was clickable (${pairs.length} tried) — falling back`)
+      target = await selectAcrossPanes(page)
+    }
 
     // docs/issues/0074 — this step fails roughly one run in three because the modal never mounts.
     // The saved trace showed the menu click landing AND a 200 for the modal HTML, but the trace

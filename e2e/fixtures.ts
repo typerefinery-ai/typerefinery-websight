@@ -65,3 +65,57 @@ export async function requireScratch(request: any, stepId: string) {
       'in this step.',
   ).toBeGreaterThan(0)
 }
+
+/**
+ * Find a source/target pair the connection-types oracle actually approves.
+ *
+ * docs/issues/0077 — P3-S7 skipped more often than it asserted (6 of 10 runs), because whatever
+ * `selectAcrossPanes` happened to click usually had no valid connection field between the two
+ * objects. Measured 2026-08-11: of 24 arbitrary pairs, **3 (13%)** offered a field — and every
+ * viable one had an **identity** target. So random selection cannot cover #24's completion leg.
+ *
+ * This asks the same endpoint the modal's field list comes from and returns EVERY pair it approves,
+ * best-first, so the caller can try the next one when a node turns out to be unclickable.
+ *
+ * ⚠️ Returning only the first was not enough. Measured 2026-08-11: a chosen node was overlapped by
+ * another in the same pane —
+ *     <image id="email-addr--b0708db8…"> intercepts pointer events
+ * — so the click timed out even though the element was "visible, enabled and stable". The old
+ * random selection never hit this because clickAnyNode simply skipped past unclickable candidates;
+ * selecting a SPECIFIC node removed that escape hatch. Hence a list.
+ */
+export async function choosePairWithConnectionField(
+  request: any,
+  maxProbes = 30,
+  wanted = 4,
+): Promise<Array<{ sourceId: string; targetId: string; fields: string[] }>> {
+  const res = await request.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
+  if (!res.ok()) return []
+  const j = await res.json().catch(() => ({} as any))
+  const nodes = [...(j.promo?.nodes ?? []), ...(j.scratch?.nodes ?? [])].filter((n: any) => n && n.original)
+
+  // Identity targets are the ones that ever work, so try them first rather than burning probes.
+  const targets = nodes.filter((n: any) => String(n.id).startsWith('identity--'))
+  const sources = nodes.filter((n: any) => !String(n.id).startsWith('identity--'))
+  let probes = 0
+  const found: Array<{ sourceId: string; targetId: string; fields: string[] }> = []
+
+  for (const target of targets) {
+    for (const source of sources) {
+      if (source.id === target.id || probes >= maxProbes) continue
+      probes++
+      const r = await request.post(`${FLOW_BASE}/os-triage/rmb-force/get-connection-types`, {
+        data: { source: source.original, target: target.original },
+        timeout: 30_000,
+      })
+      if (!r.ok()) continue
+      const body = await r.json().catch(() => ({} as any))
+      const fields = Array.isArray(body.connection_field_list) ? body.connection_field_list : []
+      if (fields.length) {
+        found.push({ sourceId: source.id, targetId: target.id, fields })
+        if (found.length >= wanted) return found
+      }
+    }
+  }
+  return found
+}
