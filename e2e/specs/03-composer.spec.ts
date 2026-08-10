@@ -702,12 +702,41 @@ test.describe('Act 3 — Incident Composer', () => {
 
     // The criterion is that source and target arrive **pre-filled across the two panes**.
     // The frame mounts before it is populated, so this must be polled, not snapshotted.
-    await expect
-      .poll(
-        async () => (await modalState(page)).values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).length,
-        { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
-      )
-      .toBeGreaterThan(1)
+    try {
+      await expect
+        .poll(
+          async () => (await modalState(page)).values.filter((v) => /--[0-9a-f-]{8,}/i.test(v)).length,
+          { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
+        )
+        .toBeGreaterThan(1)
+    } catch (err) {
+      // docs/issues/0077 mechanism 3 — the widget logs correct refs
+      // (`dataForForm source_ref=… target_ref=… types=1`) and the form still renders empty. Three
+      // causes have already been distinguished for this step, so capture enough to tell which
+      // *this* is rather than naming a fourth from a bare timeout.
+      //
+      // ⚠️ console.log, not observe(): observe() only pushes a testInfo annotation, which neither
+      // the list reporter nor the trace surfaces (learned the hard way on 0074).
+      const frames = []
+      for (const f of page.frames()) {
+        if (!/modal-forms/.test(f.url())) continue
+        const fields = await f
+          .locator('input, select, textarea')
+          .evaluateAll((els: any[]) =>
+            els.map((e) => ({
+              name: e.getAttribute('name') || e.getAttribute('id') || e.tagName,
+              type: e.getAttribute('type') || e.tagName,
+              value: String(e.value ?? '').slice(0, 60),
+              hidden: e.type === 'hidden',
+            })),
+          )
+          .catch(() => [])
+        const bodyLen = await f.locator('body').innerText().then((t: string) => t.length).catch(() => -1)
+        frames.push({ url: f.url().slice(-70), bodyChars: bodyLen, fieldCount: fields.length, fields })
+      }
+      console.log('0077-m3: pre-fill empty. modal frames: ' + JSON.stringify(frames))
+      throw err
+    }
     const modal = await modalState(page)
 
     // `created_by_ref` is an *option* in the collapsed "Connection Field List", never visible
