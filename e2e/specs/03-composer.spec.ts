@@ -125,7 +125,11 @@ async function openComposer(page: any) {
 }
 
 test.describe('Act 3 — Incident Composer', () => {
-  step('P3-S1', async ({ page }) => {
+  step('P3-S1', async ({ page, request }) => {
+    // docs/issues/0076 — this step asserts all three panes are non-empty, and Act 3 drains Scratch to
+    // zero over repeated runs, so it fails on the fixture rather than on the behaviour it guards
+    // (0004: Promo/Scratch rendered empty). Seeding was added to P3-S8/P3-S9 first and missed here.
+    await ensureScratch(page, request, 1)
     await openComposer(page)
 
     // ⚠️ This used to loop over **iframes** and pass if any one of them held a node. All three
