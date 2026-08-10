@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test'
 import { step, test } from '../runsheet'
 import { SHOWCASE } from '../playwright.config'
+import { ACT4_MENU } from '../act4-menu'
 
 /**
  * Act 4 — Attack Navigator. Runsheet Act 4 / docs/issues/0008.
@@ -31,7 +32,15 @@ test.describe('Act 4 — Attack Navigator', () => {
   })
 
   step('P4-S2', async ({ page }) => {
-    expect(false, 'no Attack Navigator page to right-click a technique in').toBeTruthy()
+    // decision 0014 Option 5: assert the **configured** label, never a hardcoded string. The
+    // Navigator service generates its menu config from env, so renaming an item is a config change
+    // and this step follows it without an edit. That is what stops the wording question from
+    // blocking this automation (see e2e/act4-menu.ts).
+    expect(
+      false,
+      `no Attack Navigator page to right-click a technique in — when built, this asserts the ` +
+        `configured label "${ACT4_MENU.techniqueLabel}"`,
+    ).toBeTruthy()
   })
 
   step('P4-S3', async ({ page }) => {
