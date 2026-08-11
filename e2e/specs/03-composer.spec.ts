@@ -1,7 +1,13 @@
 import { expect } from '@playwright/test'
 import { step, test, observe } from '../runsheet'
 import { clickAnyNode, selectPopulatedNode } from '../form-pane'
-import { choosePairWithConnectionField, ensureScratch, requireScratch } from '../fixtures'
+import {
+  choosePairWithConnectionField,
+  ensurePromotable,
+  ensureScratch,
+  promotableIds,
+  requireScratch,
+} from '../fixtures'
 import { SHOWCASE, FLOW_BASE } from '../playwright.config'
 
 /** Act 3 — Incident Composer. Runsheet Act 3 / docs/issues/0007. */
@@ -1090,5 +1096,55 @@ test.describe('Act 3 — Incident Composer', () => {
       await expect(f.locator('text=/Loading graph data/i')).toHaveCount(0)
     }
     expect(sawContent, 'a pane actually loaded data, so a toast could have appeared').toBeTruthy()
+  })
+
+  step('P3-S12', async ({ page, request }) => {
+    // docs/issues/0086 + 0087 — the claim P3-S9 makes but never tests: promoting moves the object
+    // out of unattached context and onto the incident (os-threat#84).
+    //
+    // Three things this step must NOT do, each measured rather than assumed (docs/issues/0087):
+    //
+    //  1. Do not consume demo data. Only THREE promotable objects exist, and promotion takes the
+    //     target plus its sub-graph (~9 objects), so a borrowing step exhausts them in three runs.
+    //     ensurePromotable() seeds one and returns only an id it created.
+    //  2. Do not trust the HTTP status. /os-triage/promote-subgraph 503s while the flow completes
+    //     anyway — the 503 is TotalJS abandoning the response, not a failure.
+    //  3. Do not measure immediately. Every incoherent reading in 0087 came from sampling a still
+    //     running flow. Poll until the id is gone.
+    const seeded = await ensurePromotable(page, request)
+    observe(test.info(), 'note', `P3-S12 fixture: seeded ${seeded ?? '(none)'}`)
+    expect(seeded, 'a promotable was seeded through the create form (docs/issues/0086)').toBeTruthy()
+
+    const before = await promotableIds(request)
+    expect(before, 'the seeded promotable is in unattached context').toContain(seeded)
+
+    await openComposer(page)
+
+    const promo = paneNodes(page, PANE.promo)
+    await expect.poll(async () => await promo.count(), { timeout: 60_000 }).toBeGreaterThan(0)
+
+    // Promote through the UI, not the API: the point is that the gesture works end to end.
+    const target = composerWidget(page).locator(`[id="${seeded}"]`).first()
+    await expect(target, 'the seeded promotable is rendered in a pane').toBeVisible({ timeout: 60_000 })
+    await target.click({ button: 'right' })
+
+    const promote = composerWidget(page)
+      .locator('.scm-container:visible')
+      .getByText(/^\s*promote\s*$/i)
+      .first()
+    await expect(promote, 'Promote is offered on the seeded promotable').toBeVisible({ timeout: 15_000 })
+    await promote.click()
+
+    // ⚠️ Poll the CONTEXT, never the response. A seeded task has no references, so its sub-graph is
+    // itself and exactly this one id should disappear (docs/issues/0087).
+    await expect
+      .poll(async () => (await promotableIds(request)).includes(seeded!), {
+        timeout: 120_000,
+        message: 'the promoted object left unattached context (os-threat#84 half 1)',
+      })
+      .toBe(false)
+
+    const after = await promotableIds(request)
+    observe(test.info(), 'pass', `promotables ${before.length} -> ${after.length}; seeded id gone`)
   })
 })

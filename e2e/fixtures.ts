@@ -51,6 +51,56 @@ export async function ensureScratch(page: any, request: any, min = 2, maxAttempt
   return count
 }
 
+const TASK_CREATE = `${SHOWCASE}/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create.html`
+
+/** The types the Composer treats as promotable (panel.promo.js / decisions 0007, 0010). */
+const PROMOTABLE = ['task', 'impact', 'event', 'sighting', 'attack-flow', 'x-oca-behavior']
+
+/** Ids of promotable objects currently in unattached context, across both panes. */
+export async function promotableIds(request: any): Promise<string[]> {
+  const res = await request.get(`${FLOW_BASE}/viz-data/unattached-split`, { timeout: 60_000 })
+  if (!res.ok()) return []
+  const j = await res.json().catch(() => ({} as any))
+  const all = [...(j.promo?.nodes ?? []), ...(j.scratch?.nodes ?? [])]
+  return all.filter((n: any) => PROMOTABLE.includes(n?.type)).map((n: any) => n.id)
+}
+
+/**
+ * Ensure at least one promotable object exists that this run created, and return its id.
+ *
+ * docs/issues/0086. A step that promotes **consumes** its fixture, and promotion takes the target
+ * *and its sub-graph* — measured at ~9 objects (docs/issues/0087). Measured 2026-08-11 there are only
+ * **3** promotable objects in the whole unattached context, so a consuming step would exhaust them in
+ * three runs. Seed rather than borrow.
+ *
+ * 🔑 Seeding also makes the assertion exact. A freshly created task has **no references**, so its
+ * sub-graph is itself and promoting it should remove exactly **one** object — which is why 0087's
+ * "do not assert a count" caveat does not apply to a seeded object.
+ *
+ * Uses the same create-form path as `ensureScratch`, for the same reason: the UI path is the one the
+ * suite proves works, so the fixture cannot silently diverge from it.
+ */
+export async function ensurePromotable(page: any, request: any): Promise<string | null> {
+  const before = new Set(await promotableIds(request))
+
+  await page.goto(TASK_CREATE, { waitUntil: 'domcontentloaded' })
+  await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
+  await page.waitForTimeout(4_000)
+
+  const name = page.locator('input[name="name"], input[name="name "]').first()
+  if (!(await name.isVisible().catch(() => false))) return null
+  // Typed, not set programmatically — the same rule P0-S5 follows for the CMS login.
+  await name.click()
+  await name.pressSequentially(`Promote fixture ${new Date().toISOString().slice(11, 19)}`, { delay: 20 })
+  await page.getByRole('button', { name: /save|create/i }).first().click()
+  await page.waitForTimeout(6_000)
+
+  const after = await promotableIds(request)
+  const fresh = after.filter((id) => !before.has(id))
+  // Return only an id THIS call created, so a step promoting it cannot eat demo data by accident.
+  return fresh[0] ?? null
+}
+
 /**
  * Assert the fixture Act 3's later steps depend on, and say so in terms of the fixture rather than
  * a bare locator timeout when it is missing.

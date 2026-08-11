@@ -143,6 +143,11 @@ export const STEPS: Record<string, StepDef> = {
   // page-level check would pass vacuously) and requires a pane to have loaded data first, so
   // "no data -> no toast -> nothing to prove" cannot sneak through. docs/issues/0017.
   'P3-S11': { title: '"Loading graph data…" toast clears', baseline: 'pass', issue: '0017' },
+  // docs/issues/0086 — P3-S9 asserts the Promote MENU ITEM and never clicks it, while its Expected
+  // result claims promoting moves the subgraph into the incident. This step carries that claim.
+  // Baseline starts at unknown: it has never run, and marking a step pass before its first run is
+  // how a step ends up recorded as green on evidence that does not exist.
+  'P3-S12': { title: 'Promote moves a seeded promotable out of unattached context', baseline: 'unknown', issue: '0086,0087' },
 
   // ---- Act 4 — Attack Navigator ------------------------------------------
   'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'unknown', issue: '0008' },
