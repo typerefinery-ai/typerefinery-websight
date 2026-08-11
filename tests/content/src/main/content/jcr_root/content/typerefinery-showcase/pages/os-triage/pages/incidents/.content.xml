@@ -178,7 +178,7 @@
                                 <_x0031_
                                     jcr:primaryType="nt:unstructured"
                                     actionButtonModalContentURL="\0"
-                                    actionButtonNavigateToPath="/content/typerefinery-showcase/pages/os-triage/pages/incidents/incident"
+                                    actionButtonNavigateToPath="/content/typerefinery-showcase/pages/os-triage/forms/overview-local"
                                     actionButtonPostUrl="https://flow.typerefinery.localhost:8101/os-triage/incident-context/set-current"
                                     icon="pi pi-sign-in"
                                     id="1_OPENINCDT"

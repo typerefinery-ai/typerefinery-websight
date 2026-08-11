@@ -324,7 +324,19 @@ test.describe('Act 1 — All Incidents table', () => {
     await expect
       .poll(() => page.url(), { timeout: 90_000, message: 'navigated away from the incidents list after save' })
       .not.toBe(startUrl)
-    expect(page.url(), 'landed on an incident page').toMatch(/incident/i)
+
+    // ⚠️ `toMatch(/incident/i)` was here too, and it was **still** vacuous after the rewrite above:
+    // the wrong destination (`…/pages/incidents/incident.html`, a wireframe bound to nothing) matches
+    // it just as well as the right one. That is how docs/issues/0103 hid behind a green P1-S6 —
+    // the step asserted that navigation *happened*, never *where to* (docs/issues/0048 class).
+    //
+    // Assert the destination is the real Incident Overview, by the one thing only it has: the
+    // overview widget's iframe. `incident.html` contains **zero** iframes, so this cannot pass on it.
+    // Same locator P2-S1 uses, so the two steps agree on what "Overview" means.
+    await expect(
+      page.locator('iframe[src*="widgetdevoverview"]'),
+      'landed on the Incident Overview — the destination embeds the overview widget (docs/issues/0103)',
+    ).toHaveCount(1, { timeout: 60_000 })
 
     // The second claim: the incident just created is now the default.
     const api = await request.newContext({ ignoreHTTPSErrors: true })
@@ -365,8 +377,14 @@ test.describe('Act 1 — All Incidents table', () => {
     await expect
       .poll(() => page.url(), { timeout: 60_000, message: 'navigated away from the incidents list' })
       .not.toBe(startUrl)
-    expect(page.url(), 'landed on an incident page').toMatch(/incident/i)
     expect(page.context().pages().length, 'same-window navigation — no new tab opened').toBe(1)
+
+    // As in P1-S6: `toMatch(/incident/i)` passed on the unbound wireframe too, so it could not tell
+    // a working Open from a broken one (docs/issues/0103). Assert the destination is the Overview.
+    await expect(
+      page.locator('iframe[src*="widgetdevoverview"]'),
+      'landed on the Incident Overview — the destination embeds the overview widget (docs/issues/0103)',
+    ).toHaveCount(1, { timeout: 60_000 })
 
     // 2. and — the real claim — the clicked row became the current incident
     const api = await request.newContext({ ignoreHTTPSErrors: true })
