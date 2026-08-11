@@ -315,6 +315,35 @@ test.describe('Act 1 — All Incidents table', () => {
     await name.click()
     await name.pressSequentially(incidentName, { delay: 20 })
 
+    // decision 0031 (Option 1) — the form's tags and TLP are now stored as STRUCTURED STIX rather
+    // than concatenated into `description`. Fill them here so the assertion below has something to
+    // check; both are optional on the form, so a build without them still passes the rest.
+    const tagsField = frame.locator('input[name="casetitle"], input[name="casetitle "]').first()
+    const filledTags = await tagsField.isVisible().catch(() => false)
+    if (filledTags) {
+      await tagsField.click()
+      await tagsField.pressSequentially('phishing, urgent', { delay: 15 })
+    }
+    // ⚠️ TLP is a RADIO GROUP (four inputs all named `tlp`, labelled White/Green/Amber/Red), not a
+    // select — read from the authored form, after a `select[name="tlp"]` locator silently matched
+    // nothing and skipped this assertion entirely. Same for `severity` and `pap`.
+    const tlpRadios = frame.locator('input[name="tlp"], input[name="tlp "]')
+    let filledTlp = false
+    const tlpCount = await tlpRadios.count()
+    for (let i = 0; i < tlpCount; i++) {
+      const v = await tlpRadios.nth(i).getAttribute('value')
+      if (/amber/i.test(v ?? '')) {
+        await tlpRadios.nth(i).click({ force: true }).catch(() => {})
+        filledTlp = true
+        break
+      }
+    }
+    if (!filledTlp && tlpCount) {
+      await tlpRadios.first().click({ force: true }).catch(() => {})
+      filledTlp = true
+    }
+    observe(test.info(), 'note', `0031 fields filled — tags:${filledTags} tlp:${filledTlp}`)
+
     // "Save Changes" belongs to the **modal chrome on the host page**, not to the form iframe —
     // the same arrangement as the composer's modals. Try the page first, fall back to the frame.
     await submitModal(page, frame)
@@ -344,6 +373,38 @@ test.describe('Act 1 — All Incidents table', () => {
         { timeout: 90_000, message: 'the newly created incident became the default (the R-1 hazard)' },
       )
       .toBe(true)
+
+    // decision 0031 (Option 1) — the values the STANDARD settles must now be stored as STIX, not
+    // concatenated into prose. ⚠️ Guarded here because the failure mode is invisible: adding a
+    // property the class does not accept makes the algorithm crash behind an HTTP 200
+    // (docs/issues/0142, docs/issues/0093), so the incident would simply not appear — and the
+    // "was it created" poll above would already have failed, but with no hint of the cause.
+    const created = (await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents`)).json())
+      .find((r: any) => String(r.name ?? '').includes(incidentName))
+    expect(created, 'the created incident is readable back').toBeTruthy()
+    const stix = created.original ?? {}
+    observe(test.info(), 'note',
+      `0031 stored — labels:${JSON.stringify(stix.labels)} markings:${JSON.stringify(stix.object_marking_refs)}`)
+
+    if (filledTags) {
+      expect(stix.labels, 'tags are stored as core STIX `labels`, not in the description')
+        .toEqual(expect.arrayContaining(['phishing', 'urgent']))
+      expect(String(stix.description ?? ''), 'tags no longer duplicated into the description')
+        .not.toContain('tags=')
+    }
+    if (filledTlp) {
+      // The TLP marking-definition ids are FIXED by STIX 2.1, so this is a lookup, not a convention.
+      expect(String(JSON.stringify(stix.object_marking_refs ?? [])),
+        'TLP is stored as an object_marking_refs marking-definition')
+        .toMatch(/marking-definition--/)
+      expect(String(stix.description ?? ''), 'TLP no longer duplicated into the description')
+        .not.toContain('tlp=')
+    }
+    // ⬜ severity / pap / casedate deliberately REMAIN in the description — decision 0031 leaves
+    // them unmapped (pap is not core STIX; casedate's meaning is an open question to the owner; and
+    // severity's home, `IncidentCoreExt.criticality`, needs a vocabulary→integer mapping that is a
+    // judgement rather than a lookup). Asserting they are absent would be asserting work nobody
+    // has agreed to do.
     await api.dispose()
   })
 
