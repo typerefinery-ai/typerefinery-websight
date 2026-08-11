@@ -147,7 +147,13 @@ export const STEPS: Record<string, StepDef> = {
   // result claims promoting moves the subgraph into the incident. This step carries that claim.
   // Baseline starts at unknown: it has never run, and marking a step pass before its first run is
   // how a step ends up recorded as green on evidence that does not exist.
-  'P3-S12': { title: 'Promote moves a seeded promotable out of unattached context', baseline: 'unknown', issue: '0086,0087' },
+  // Promoted 'unknown' -> 'pass' 2026-08-12. This step had NEVER run in any green run: its fixture
+  // could not seed a promotable because the `event` create form crashed server-side
+  // (docs/issues/0093), so os-threat#84 — promotion moves an object onto the incident — was
+  // unverified. With the form's field names corrected it now runs end to end and passes. Making it
+  // strict matters more here than elsewhere: while it stayed 'unknown', any non-fixture failure was
+  // swallowed into a skip (docs/issues/0143) and this step's whole history was invisible.
+  'P3-S12': { title: 'Promote moves a seeded promotable out of unattached context', baseline: 'pass', issue: '0086,0087' },
 
   // ---- Act 4 — Attack Navigator ------------------------------------------
   'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'unknown', issue: '0008' },
