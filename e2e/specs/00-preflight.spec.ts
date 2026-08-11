@@ -127,12 +127,24 @@ test.describe('Act 0 — preflight', () => {
     const runtime = JSON.parse(fs.readFileSync(RUNTIME_DB, 'utf8'))
     const source = JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))
 
+    // ⚠️ Covers BOTH node bodies. This used to read `config.algorithm` only — the Python blocks —
+    // so a JS `config.code` node could drift between runtime and source completely unseen. That was
+    // half of how docs/issues/0149 hid: the incidents-table mapping is a `config.code` node, and it
+    // sat four column additions behind its counterpart without this guard noticing. (The other half
+    // was the runtime-only blind spot, closed in docs/issues/0095.)
+    //
+    // Measured before adding it: **0 code-node differences across all 98 common flows**, so this
+    // costs nothing today and only catches what comes next — the opposite of the permanently-red
+    // trap of docs/issues/0143.
     const algs = (flow: any): Record<string, string> => {
       const design = (flow && (flow.design || flow)) || {}
       const out: Record<string, string> = {}
       for (const [nodeId, node] of Object.entries<any>(design)) {
-        const a = node && node.config && node.config.algorithm
-        if (typeof a === 'string') out[nodeId] = a
+        const cfg = (node && node.config) || {}
+        // Namespaced so a flow with both kinds on one node id cannot mask one with the other, and
+        // so the failure message says which body drifted.
+        if (typeof cfg.algorithm === 'string') out[`${nodeId} (algorithm)`] = cfg.algorithm
+        if (typeof cfg.code === 'string') out[`${nodeId} (code)`] = cfg.code
       }
       return out
     }
@@ -151,9 +163,13 @@ test.describe('Act 0 — preflight', () => {
       },
     ]
     const exempt = (flowId: string, nodeId: string, sourceAlgs: Record<string, string>): string | null => {
-      const rule = NAME_CROSSED.find((k) => k.flow === flowId && k.runtimeNode === nodeId)
+      // `nodeId` is namespaced ("im0or912a (algorithm)") since code nodes were added above, so match
+      // on the bare id rather than the whole key — and look the counterpart up the same way.
+      const bare = nodeId.replace(/ \((algorithm|code)\)$/, '')
+      const rule = NAME_CROSSED.find((k) => k.flow === flowId && k.runtimeNode === bare)
       if (!rule) return null
-      const counterpart = sourceAlgs[rule.sourceNode] || ''
+      const counterpart =
+        sourceAlgs[`${rule.sourceNode} (algorithm)`] || sourceAlgs[`${rule.sourceNode} (code)`] || ''
       // Only honour the exemption if the source genuinely still carries the counterpart.
       if (counterpart.length < 1000) return null
       return `${flowId} node ${nodeId} exempt: ${rule.why} (source ${rule.sourceNode} = ${counterpart.length} chars)`
