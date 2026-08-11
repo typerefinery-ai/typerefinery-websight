@@ -134,12 +134,18 @@ test('Act 3 — Incident Composer: three panes, selection, context menus, and Ne
 
   const menu = composerWidget(page).locator('.scm-container:visible')
   await expect(menu.first(), 'the context menu opened').toBeVisible({ timeout: 20_000 })
-  const entries = (await menu.allInnerTexts().catch(() => [] as string[]))
-    .join(' ')
-    .split('\n')
+  // ⚠️ The menu's FIRST line is a header carrying the right-clicked object's **name**
+  // (`panel.promo.js` renders `contentMenuItem.name`), not an action. Joining it into the action
+  // list makes a data value read as a menu entry — a first version of this logged
+  // "Promotable menu offers: Strange | Create SRO | …" and "Strange" is an identity in the data,
+  // not a command. Separate them.
+  const lines = (await menu.allInnerTexts().catch(() => [] as string[]))
+    .flatMap((t) => t.split('\n'))
     .map((t) => t.trim())
     .filter(Boolean)
-  console.log(`     Promotable menu offers: ${entries.join(' | ')}`)
+  const [header, ...entries] = lines
+  console.log(`     right-clicked: "${header}"`)
+  console.log(`     Promotable menu actions: ${entries.join(' | ')}`)
   await beat(page, 5_000)
   await dismissMenu(page)
 
