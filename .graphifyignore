@@ -20,6 +20,17 @@ node/
 application/frontend/assets/
 application/frontend/src/main/resources/
 
+# Vendor icon/font asset sets (each SVG costs a vision pass, none carry design intent)
+application/frontend/src/static/clientlibs/vendor/fontawesome/
+application/frontend/src/static/clientlibs/vendor/primevue/primeicons/
+application/frontend/src/static/clientlibs/vendor/primevue/styles/fonts/
+application/frontend/src/static/clientlibs/vendor/primevue/resources/images/
+application/frontend/src/static/clientlibs/vendor/map/leafletmap/images/
+**/clientlibs/resources/stix2viz/icons/
+
+# Sling/JCR binary renditions (duplicates of the authored asset next to them)
+**/_jcr_content/renditions/
+
 # Lockfiles and generated metadata (huge, no graph value)
 package-lock.json
 
