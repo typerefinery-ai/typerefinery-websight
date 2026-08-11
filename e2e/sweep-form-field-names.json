@@ -1,59 +1,5 @@
 [
  {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
   "label": "Reference",
   "path": "/rootcontainer/main/form/composite_1/reference",
@@ -63,120 +9,12 @@
   "kind": "🔴 MISSING NAME"
  },
  {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
-  "label": "bcc_refs",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/reference_4",
-  "rt": "input",
-  "container": "object",
-  "fix": "bcc_refs",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
-  "label": "body",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/textarea",
-  "rt": "textarea",
-  "container": "object",
-  "fix": "body",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
   "label": "Reference",
   "path": "/rootcontainer/main/form/composite_1/reference",
   "rt": "input",
   "container": "object",
   "fix": null,
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
-  "label": "bcc_refs",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/reference_4",
-  "rt": "input",
-  "container": "object",
-  "fix": "bcc_refs",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
-  "label": "body",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/textarea",
-  "rt": "textarea",
-  "container": "object",
-  "fix": "body",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/url-forms/url-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/url-forms/url-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
   "kind": "🔴 MISSING NAME"
  },
  {
@@ -188,34 +26,6 @@
   "container": "base_optional",
   "fix": null,
   "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
  },
  {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
@@ -229,15 +39,6 @@
  },
  {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
-  "label": "event_types",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/vocab",
-  "rt": "select",
-  "container": "object",
-  "fix": "event_types",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
   "name": "StateChangeObject",
   "label": "changed_objects",
   "path": "/rootcontainer/main/form/composite_1/field/one/container1/composite",
@@ -257,90 +58,6 @@
   "kind": "🟠 NOT A PROPERTY"
  },
  {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
   "name": "status",
   "label": "status",
@@ -352,48 +69,11 @@
  },
  {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
-  "label": "kill_chain_phases",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/composite",
-  "rt": "composite",
-  "container": "object",
-  "fix": "kill_chain_phases",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
   "label": "Kill Chain Phase",
   "path": "/rootcontainer/main/form/composite_1/field/one/container1/composite/field/killchainphase",
   "rt": "composite",
-  "container": "(unnamed)",
+  "container": "kill_chain_phases",
   "fix": null,
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
   "kind": "🔴 MISSING NAME"
  },
  {
@@ -408,104 +88,11 @@
  },
  {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
-  "label": "kill_chain_phases",
-  "path": "/rootcontainer/main/form/composite_1/field/one/container1/composite",
-  "rt": "composite",
-  "container": "object",
-  "fix": "kill_chain_phases",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
   "label": "Kill Chain Phase",
   "path": "/rootcontainer/main/form/composite_1/field/one/container1/composite/field/killchainphase",
   "rt": "composite",
-  "container": "(unnamed)",
+  "container": "kill_chain_phases",
   "fix": null,
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
   "kind": "🔴 MISSING NAME"
  },
  {
@@ -519,34 +106,6 @@
   "kind": "🟠 NOT A PROPERTY"
  },
  {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-update",
   "name": "revoked",
   "label": "revoked",
@@ -555,34 +114,6 @@
   "container": "base_optional",
   "fix": null,
   "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
  },
  {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create",
@@ -605,34 +136,6 @@
   "kind": "🟠 NOT A PROPERTY"
  },
  {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
   "name": "StateChangeObject",
   "label": "changed_objects",
@@ -651,89 +154,5 @@
   "container": "base_optional",
   "fix": null,
   "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-update",
-  "name": "",
-  "label": "labels",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_1/container/vocab",
-  "rt": "select",
-  "container": "base_optional",
-  "fix": "labels",
-  "kind": "🟠 NOT A PROPERTY"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-update",
-  "label": "external_references",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_4/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "external_references",
-  "kind": "🔴 MISSING NAME"
- },
- {
-  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-update",
-  "label": "granular_markings",
-  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template_6/composite",
-  "rt": "composite",
-  "container": "base_optional",
-  "fix": "granular_markings",
-  "kind": "🔴 MISSING NAME"
  }
 ]
