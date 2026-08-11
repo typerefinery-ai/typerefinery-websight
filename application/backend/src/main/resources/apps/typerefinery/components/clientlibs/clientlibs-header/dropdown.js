@@ -39,6 +39,29 @@ Typerefinery.Modal = Typerefinery.Modal || {};
         $newDropdownContainer.attr("class", "dropdown-menu dropdownMenu");
         $newDropdownContainer.attr("aria-labelledby", buttonId);
 
+        // alpha-launch docs/issues/0111 — anchor the menu to its own button.
+        // `.dropdown-menu` is `position: absolute`, so it is placed against the nearest POSITIONED
+        // ancestor. This component ships no `.dropdown` wrapper (Bootstrap's usual container, which
+        // is what makes that ancestor the button's parent), so where the menu lands depends entirely
+        // on the host page's markup. On the header the surrounding chrome happens to be positioned
+        // and `+ Create` opens correctly; on the Composer page nothing near the button is, so the
+        // menu resolved against a distant ancestor and rendered at x=0, y=510 — 15 correctly
+        // populated items, drawn in empty space below the fold, which reads as "the button does
+        // nothing".
+        //
+        // Set the parent to `relative` rather than wrapping the button in a new `<div class=
+        // "dropdown">`: wrapping restructures the DOM under flex/grid parents and could move the
+        // working `+ Create` button, and this achieves the same anchoring without touching layout.
+        const $anchor = $component.parent();
+        if ($anchor.length && $anchor.css("position") === "static") {
+            console.log("dropdown: parent is statically positioned, setting position:relative so the menu anchors to the button", buttonId);
+            $anchor.css("position", "relative");
+        }
+
+        // A long menu (15 object types on the Composer) is taller than a short viewport, so even a
+        // correctly anchored menu can run off-screen. Cap it and scroll internally.
+        $newDropdownContainer.css({ "max-height": "60vh", "overflow-y": "auto" });
+
 
         const { dropdownItems } = componentConfig;
 
