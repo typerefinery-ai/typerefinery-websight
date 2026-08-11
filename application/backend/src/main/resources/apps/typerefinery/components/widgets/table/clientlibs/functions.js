@@ -543,12 +543,25 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             ns.modelDataConnected(componentConfig.id, $component);
         }
 
+        // alpha-launch decision 0032 / docs/issues/0110. Authored events arrive as `EventsListItem`
+        // (BaseComponent's `_events_` child resource), whose fields are `topic` / `type` / `action` —
+        // there is no `key` or `value` on it at all. Reading `event.key` therefore produced
+        // `{topic: undefined}`, and getEventHandlerCallBackFn below returns a no-op for a falsy
+        // topic, so an authored FILTER event registered nothing and failed silently.
+        //
+        // This is the THIRD shape mismatch in the same chain: the handler read a bare payload where
+        // the bus sends an envelope (fixed in f55c97c7), and now the registration read key/value
+        // where the model sends topic/type. Both shapes are accepted rather than swapped, in case a
+        // caller elsewhere really does pass key/value.
         const events = componentConfig?.events?.map(event => {
             return {
-                topic: event.key,
-                type: event.value
+                topic: event.topic ?? event.key,
+                type: event.type ?? event.value
             }
         }) || [];
+        if (componentConfig?.events?.length) {
+            console.log(["table registerEvents: authored events", componentConfig.events, "->", events]);
+        }
 
         // if componentConfig.events is defined then add event listeners to table.
         if (events) {
