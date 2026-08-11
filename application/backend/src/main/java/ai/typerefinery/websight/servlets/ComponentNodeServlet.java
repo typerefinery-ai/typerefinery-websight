@@ -75,6 +75,22 @@ import org.slf4j.LoggerFactory;
  *   http://localhost:8113/bin/typerefinery/component-node
  * </pre>
  *
+ * <p><b>Ordering</b> — an optional {@code before} names a sibling to sit in front of. A WebSight page
+ * renders its rootcontainer children in <b>JCR child order</b>, so without this, chrome authored onto
+ * a page that already has a {@code main} lands <em>after</em> the content — a stray band below the
+ * fold (alpha-launch docs/issues/0139):
+ * <pre>
+ *   -d 'parent=/content/.../rootcontainer' -d 'name=header' -d 'before=main' -d 'json={...}'
+ * </pre>
+ *
+ * <p><b>Deleting</b> — {@code operation=delete} with {@code parent} and {@code name}. It refuses a
+ * node that still has children unless {@code recursive=true}, and reports a count rather than a bare
+ * success, because an earlier authoring script POSTed {@code delete=true} to this servlet, was
+ * silently ignored, and reported success while doing nothing:
+ * <pre>
+ *   -d 'operation=delete' -d 'parent=/content/.../rootcontainer' -d 'name=header'
+ * </pre>
+ *
  * <p>Responds {@code 200} on success with the created path and a node count, {@code 400} on a
  * rejected request and {@code 404} when the parent does not exist.
  */
@@ -112,6 +128,17 @@ public class ComponentNodeServlet extends SlingAllMethodsServlet {
         final String parentPath = request.getParameter("parent");
         final String name = request.getParameter("name");
         final String json = request.getParameter("json");
+        final String operation = request.getParameter("operation");
+        final String before = request.getParameter("before");
+
+        // alpha-launch docs/issues/0139: create-and-update-only meant a node authored by mistake was
+        // permanent, and one authored in the wrong position stayed there — a WebSight page renders
+        // its rootcontainer children in JCR child order, so retrofitted chrome landed BELOW the
+        // content and could not be moved. Delete and ordering are the two missing verbs.
+        if ("delete".equals(operation)) {
+            doDelete(request, response, parentPath, name);
+            return;
+        }
 
         if (isBlank(parentPath) || isBlank(name) || isBlank(json)) {
             reject(response, 400, "parent, name and json are all required");
@@ -154,16 +181,19 @@ public class ComponentNodeServlet extends SlingAllMethodsServlet {
         final int[] created = { 0 };
         try {
             final Resource node = writeNode(resolver, parent, name, description, created);
+            final String ordered = orderBefore(parent, name, before);
             resolver.commit();
-            LOG.info("component-node: wrote {} ({} nodes) as {} for {}",
+            LOG.info("component-node: wrote {} ({} nodes) as {} for {}{}",
                     node.getPath(), created[0],
                     description.path("sling:resourceType").asText("(no resource type)"),
-                    resolver.getUserID());
+                    resolver.getUserID(),
+                    ordered == null ? "" : " (" + ordered + ")");
             response.setStatus(200);
             response.setContentType("application/json");
             response.getWriter().write(String.format(
-                    "{\"success\":true,\"path\":%s,\"nodes\":%d}",
-                    quote(node.getPath()), created[0]));
+                    "{\"success\":true,\"path\":%s,\"nodes\":%d,\"ordered\":%s}",
+                    quote(node.getPath()), created[0],
+                    ordered == null ? "null" : quote(ordered)));
         } catch (IllegalArgumentException e) {
             // A refused property name — report it rather than silently dropping it, so a caller
             // never believes it authored something it did not.
@@ -234,6 +264,125 @@ public class ComponentNodeServlet extends SlingAllMethodsServlet {
             writeNode(resolver, node, child.getKey(), child.getValue(), created);
         }
         return node;
+    }
+
+    /**
+     * Move {@code name} to sit immediately before sibling {@code before} in the parent's child
+     * order — the position a WebSight page actually renders in.
+     *
+     * <p>alpha-launch docs/issues/0139. Without this, chrome authored onto a page that already has
+     * a {@code main} renders <em>after</em> the content: a stray band below the fold that could not
+     * be moved. {@code before=main} puts it where the design shows it.
+     *
+     * <p>Returns a description of what happened, or {@code null} when no ordering was requested, so
+     * the caller is told rather than left to assume. A blank {@code before} is not an error — it
+     * simply means "leave the order alone".
+     *
+     * @throws IllegalArgumentException if the sibling does not exist or the parent cannot be
+     *         ordered, because silently leaving a node in the wrong place is exactly the failure
+     *         this method exists to end.
+     */
+    private String orderBefore(Resource parent, String name, String before) {
+        if (isBlank(before)) {
+            return null;
+        }
+        final javax.jcr.Node parentNode = parent.adaptTo(javax.jcr.Node.class);
+        if (parentNode == null) {
+            throw new IllegalArgumentException(
+                    parent.getPath() + " cannot be ordered (not a JCR node)");
+        }
+        try {
+            if (!parentNode.getPrimaryNodeType().hasOrderableChildNodes()) {
+                throw new IllegalArgumentException(
+                        parent.getPath() + " has unorderable children ("
+                        + parentNode.getPrimaryNodeType().getName() + ")");
+            }
+            if (!parentNode.hasNode(before)) {
+                throw new IllegalArgumentException(
+                        "no sibling '" + before + "' under " + parent.getPath() + " to order before");
+            }
+            parentNode.orderBefore(name, before);
+            return "ordered " + name + " before " + before;
+        } catch (javax.jcr.RepositoryException e) {
+            throw new IllegalArgumentException(
+                    "could not order " + name + " before " + before + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Remove an authored node.
+     *
+     * <p>alpha-launch docs/issues/0139: a node created by mistake used to be permanent. An earlier
+     * authoring script even POSTed {@code delete=true} and was silently ignored, reporting success
+     * while doing nothing — which is why this returns an explicit count rather than a bare 200.
+     *
+     * <p>Guarded the same way writes are: authored content only, single node name, and it
+     * <b>refuses a node that has children</b> unless {@code recursive=true}. Deleting a subtree by
+     * accident is far worse than the problem this solves.
+     */
+    private void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response,
+            String parentPath, String name) throws IOException {
+
+        if (isBlank(parentPath) || isBlank(name)) {
+            reject(response, 400, "parent and name are required to delete");
+            return;
+        }
+        if (!parentPath.startsWith(ALLOWED_ROOT)) {
+            LOG.warn("component-node: refused delete outside {} -> {}", ALLOWED_ROOT, parentPath);
+            reject(response, 400, "parent must be under " + ALLOWED_ROOT);
+            return;
+        }
+        if (name.contains("/") || name.contains("..")) {
+            reject(response, 400, "name must be a single node name");
+            return;
+        }
+
+        final ResourceResolver resolver = request.getResourceResolver();
+        final Resource parent = resolver.getResource(parentPath);
+        if (parent == null) {
+            reject(response, 404, "no resource at " + parentPath);
+            return;
+        }
+        final Resource victim = resolver.getResource(parent, name);
+        if (victim == null) {
+            // Idempotent: a delete of something already gone is a success, not an error, so a
+            // re-run of an authoring script does not fail on its own previous work.
+            LOG.info("component-node: delete {}/{} — already absent", parentPath, name);
+            response.setStatus(200);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"success\":true,\"deleted\":0,\"note\":\"already absent\"}");
+            return;
+        }
+
+        final boolean recursive = "true".equals(request.getParameter("recursive"));
+        int children = 0;
+        for (Iterator<Resource> it = victim.listChildren(); it.hasNext(); it.next()) {
+            children++;
+        }
+        if (children > 0 && !recursive) {
+            LOG.warn("component-node: refused delete of {} — {} child node(s), recursive not set",
+                    victim.getPath(), children);
+            reject(response, 400, victim.getPath() + " has " + children
+                    + " child node(s); pass recursive=true to delete the subtree");
+            return;
+        }
+
+        final String path = victim.getPath();
+        try {
+            resolver.delete(victim);
+            resolver.commit();
+            LOG.info("component-node: deleted {} ({} child node(s)) for {}",
+                    path, children, resolver.getUserID());
+            response.setStatus(200);
+            response.setContentType("application/json");
+            response.getWriter().write(String.format(
+                    "{\"success\":true,\"deleted\":1,\"path\":%s,\"children\":%d}",
+                    quote(path), children));
+        } catch (PersistenceException e) {
+            LOG.error("component-node: failed deleting {}", path, e);
+            resolver.revert();
+            reject(response, 400, "could not delete node: " + e.getMessage());
+        }
     }
 
     /** Refuse system namespaces other than the two a component definition needs. */
