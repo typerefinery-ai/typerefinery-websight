@@ -112,8 +112,21 @@ test.describe('Act 1 — All Incidents table', () => {
 
     // The row promises six things; only "rows render" and "above the fold" were asserted
     // (docs/issues/0048, Tier 2). The rest are cheap to check, so check them.
+    // docs/issues/0116 — `Created` added 2026-08-12. It is the only one of the docx's eight Act-1
+    // columns (ID · Name · Author · Tags · Status · Observed · Created · Tasks) that needed no
+    // data-model decision: `original.created` is stored on every incident and was simply missing
+    // from the shaped endpoint's column list. The other five wait on docs/decisions/0031.
+    //
+    // Asserting the exact list (rather than "contains") is deliberate: it is what caught this change
+    // immediately, and it will catch the next column arriving without its runsheet row.
     expect(await page.locator('thead th').allInnerTexts().then((h) => h.map((s) => s.trim()).filter(Boolean)),
-      'the five promised columns').toEqual(['Name', 'Type', 'Description', 'ID', 'Action'])
+      'the promised columns').toEqual(['Name', 'Type', 'Description', 'Created', 'ID', 'Action'])
+
+    // The column is only worth having if it carries data — a header with 184 blank cells would
+    // satisfy the assertion above. Guard the values too (docs/issues/0048-class).
+    const createdCells = await page.locator('tbody tr td:nth-child(4)').allInnerTexts()
+    const dated = createdCells.filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.trim()))
+    expect(dated.length, 'every row shows a YYYY-MM-DD Created date').toBe(createdCells.length)
 
     // ⚠️ The authored content sets `searchEnabled="false"`, which looked like the row's
     // "search box" claim being wrong. It is not: the flow payload carries `search: true`, and the
