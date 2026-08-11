@@ -50,3 +50,12 @@ Thumbs.db
 
 # Reference files from WS
 _reference
+
+# --- added 2026-08-11, alpha-launch docs/issues/0090 -------------------------
+# CLAUDE.md forbids committing secrets or generated output, but nothing enforced it:
+# .env (holding a live API key) and graphify-out/ were merely UNTRACKED in every repo,
+# so a single `git add -A` would have committed them.
+.env
+.env.*
+!.env.example
+graphify-out/

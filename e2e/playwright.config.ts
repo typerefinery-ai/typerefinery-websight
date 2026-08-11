@@ -61,6 +61,22 @@ export default defineConfig({
     {
       name: 'runsheet',
       dependencies: ['setup'],
+      // Demo journeys live in *.demo.ts and are NOT regression steps — excluded so a normal run
+      // neither doubles in length nor gains a test the runsheet does not account for.
+      testIgnore: /.*\.demo\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        storageState: path.join(__dirname, '.auth', 'cms.json'),
+      },
+    },
+    {
+      // One continuous journey per act, for a single watchable video — Playwright records one video
+      // per test, so a whole act has to be ONE test to produce one file.
+      //   ./node_modules/.bin/playwright test --project=demo
+      name: 'demo',
+      testMatch: /.*\.demo\.ts/,
+      dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
