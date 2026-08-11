@@ -226,15 +226,15 @@ test.describe('Act 0 — preflight', () => {
 
     // Conditional, in the spirit of the exemption above: each entry names WHY it is tolerated. They
     // are still printed every run — a tolerated hazard that says nothing is how 0072 went unnoticed.
-    // ⚠️ These are NOT safe. Every one of them is a demo capability that a re-provision deletes.
-    const KNOWN_RUNTIME_ONLY: Record<string, string> = {
-      f21c7p001rn51d: 'Overview options (/viz-data/overview-options) — Act 2 (docs/issues/0095)',
-      f21d4m001rn51d: 'Composer options (/viz-data/composer-options) — Act 3 (docs/issues/0095)',
-      f21dij001rn51d: 'Promote subgraph (/os-triage/promote-subgraph) — P3-S12 / os-threat#84',
-      f21c08001ye51d: 'RMB remove object (/os-triage/rmb-force/remove-object) — Act 3',
-      f21ccx001rn51d: 'Connections for form (/stix-orm/utils/connections) — P5-S6 reference picker',
-      f210iy001bt51d: 'Incidents table live push — docs/issues/0149',
-    }
+    // ⚠️ Entries here are NOT safe; they are known losses waiting to happen.
+    //
+    // ✅ EMPTY as of 2026-08-12. It briefly held six demo capabilities — Act 2's and Act 3's options,
+    // promote-subgraph (P3-S12), remove-object, the P5-S6 reference picker and Act 1's live push —
+    // and all six have now been copied into the provisioning source (docs/issues/0095 Option 1), so
+    // they are no longer runtime-only and no longer need tolerating. Emptying it is the point: an
+    // exemption that outlives its reason is a hole, so these were removed the moment they were
+    // fixed rather than left to rot into documentation.
+    const KNOWN_RUNTIME_ONLY: Record<string, string> = {}
 
     const runtimeOnlyServingDemo: string[] = []
     const tolerated: string[] = []
