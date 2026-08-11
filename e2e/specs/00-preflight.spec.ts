@@ -187,5 +187,74 @@ test.describe('Act 0 — preflight', () => {
         'strxi2-demo-api submodule or the next re-provision reverts them (docs/issues/0072):\n  ' +
         ahead.join('\n  '),
     ).toEqual([])
+
+    // ── docs/issues/0095 Option 2 ──────────────────────────────────────────────────────────────
+    // The loop above starts with `if (!source[id]) continue`, so a flow that exists ONLY in the
+    // runtime is skipped entirely — the guard cannot see the very thing it exists to prevent. That
+    // blind spot is how docs/issues/0149 happened: the incidents table's live-push flow is
+    // runtime-only AND its mapping is a JS `config.code` node, which this comparison also ignores.
+    //
+    // Measured 2026-08-12: **59** flows exist only in the runtime. Most are `Form flow` / `Chart
+    // flow` / `Ticker flow` scaffolding whose loss would not be felt. Failing on all 59 would make
+    // preflight permanently red, which is the "failures stop meaning something" trap of
+    // docs/issues/0143 — so this fails only on flows that SERVE A DEMO ROUTE, and lists the known
+    // ones explicitly. Anything new is loud.
+    // Two NARROW criteria, arrived at by measuring rather than guessing:
+    //
+    //  (a) the flow SERVES a demo route — a relative `/viz-data|/os-triage|/stix-orm` url. These are
+    //      capability endpoints; losing one removes a feature. Measured: 5 flows.
+    //  (b) the flow is a TMS PUBLISHER that fetches a demo route — how a widget is fed live.
+    //      Measured: this is what `f210iy001bt51d` is, the incidents-table push flow that
+    //      docs/issues/0149 is about.
+    //
+    // ⚠️ A first version matched the path ANYWHERE in the url to catch (b), and flagged **42** extra
+    // flows — every `Form flow` that merely POSTs to a demo API. That would have made preflight
+    // permanently red, which is the docs/issues/0143 trap. Serving a route and calling one are not
+    // the same thing, and the guard has to tell them apart.
+    const SERVED_ROUTE = /^\/(viz-data|os-triage|stix-orm)\//
+    const FETCHED_ROUTE = /\/(viz-data|os-triage|stix-orm)\//
+    const routesOf = (flow: any): string[] => {
+      const design = (flow && (flow.design || flow)) || {}
+      const nodes = Object.values<any>(design)
+      const urls = nodes.map((n) => n && n.config && n.config.url).filter((u): u is string => typeof u === 'string')
+      const served = urls.filter((u) => SERVED_ROUTE.test(u))
+      if (served.length) return served
+      // (b) a TMS publisher feeding a widget from a demo route.
+      const publishes = nodes.some((n) => /^pubsrc/.test(String(n && n.component)))
+      return publishes ? urls.filter((u) => FETCHED_ROUTE.test(u)) : []
+    }
+
+    // Conditional, in the spirit of the exemption above: each entry names WHY it is tolerated. They
+    // are still printed every run — a tolerated hazard that says nothing is how 0072 went unnoticed.
+    // ⚠️ These are NOT safe. Every one of them is a demo capability that a re-provision deletes.
+    const KNOWN_RUNTIME_ONLY: Record<string, string> = {
+      f21c7p001rn51d: 'Overview options (/viz-data/overview-options) — Act 2 (docs/issues/0095)',
+      f21d4m001rn51d: 'Composer options (/viz-data/composer-options) — Act 3 (docs/issues/0095)',
+      f21dij001rn51d: 'Promote subgraph (/os-triage/promote-subgraph) — P3-S12 / os-threat#84',
+      f21c08001ye51d: 'RMB remove object (/os-triage/rmb-force/remove-object) — Act 3',
+      f21ccx001rn51d: 'Connections for form (/stix-orm/utils/connections) — P5-S6 reference picker',
+      f210iy001bt51d: 'Incidents table live push — docs/issues/0149',
+    }
+
+    const runtimeOnlyServingDemo: string[] = []
+    const tolerated: string[] = []
+    for (const id of Object.keys(runtime)) {
+      if (id === 'variables' || source[id]) continue
+      const routes = routesOf(runtime[id])
+      if (!routes.length) continue
+      const line = `${runtime[id].name || id} (${id}) serves ${routes.join(', ')}`
+      if (KNOWN_RUNTIME_ONLY[id]) tolerated.push(`${line} — tolerated: ${KNOWN_RUNTIME_ONLY[id]}`)
+      else runtimeOnlyServingDemo.push(line)
+    }
+    for (const t of tolerated) console.log(`P0-S8 runtime-only ${t}`)
+    console.log(`P0-S8 runtime-only flows serving a demo route: ${tolerated.length} tolerated, ${runtimeOnlyServingDemo.length} new`)
+
+    expect(
+      runtimeOnlyServingDemo,
+      'flows that SERVE A DEMO ROUTE but exist only in the git-ignored runtime DB — a re-provision ' +
+        'deletes them and the demo loses that capability with no warning (docs/issues/0095). Add ' +
+        'them to the provisioning source, or list them in KNOWN_RUNTIME_ONLY with a reason:\n  ' +
+        runtimeOnlyServingDemo.join('\n  '),
+    ).toEqual([])
   })
 })
