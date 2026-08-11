@@ -226,6 +226,28 @@ test.describe('Act 1 — All Incidents table', () => {
       })
       .toBeGreaterThan(0)
 
+    // docs/issues/0149 — the push must deliver the SAME TABLE, not just some rows.
+    //
+    // ⚠️ This table has two data paths, and they had silently diverged: the HTTP route served the
+    // six mockup columns while the live push still sent `Name·Type·Description·ID`, so the table
+    // reverted the moment anything pushed — on the opening screen, during the very live-update this
+    // step demonstrates. Row count alone could not see it, and no other Act-1 step reads the push
+    // path, so nothing caught it for four column additions.
+    //
+    // Compare the rendered header AFTER the push against the shaped route's own column list, so the
+    // two definitions cannot drift apart again without this failing.
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    const shaped = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents-shaped`)).json()
+    await api.dispose()
+    const expected = shaped.columns.map((c: any) => String(c.title))
+    const rendered = (await page.locator('thead th').allInnerTexts())
+      .map((s) => s.trim())
+      .filter(Boolean)
+    // `Action` is appended by the table component, not by the payload — compare the payload's share.
+    expect(rendered.slice(0, expected.length),
+      'the pushed payload carries the same columns as the shaped route (docs/issues/0149)')
+      .toEqual(expected)
+
     // …and the payload must be current, not the old snapshot.
     const after = await page.locator('tbody tr').count()
     observe(test.info(), 'note', `TMS push re-rendered ${after} rows (on load: ${onLoad})`)
