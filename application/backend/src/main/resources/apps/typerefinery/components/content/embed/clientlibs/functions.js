@@ -129,6 +129,53 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         console.groupEnd();
     };
 
+    /** Class used for the "embedded page failed to load" surface, so it can be cleared again. */
+    ns.classFrameError = "embed-frame-error";
+
+    /**
+     * Show or clear a visible message when an embedded page fails to load.
+     *
+     * alpha-launch docs/issues/0084. The load handlers below already detect a non-200 embed and
+     * `return`, which leaves the frame blank and says nothing. Measured consequence: left-selecting
+     * a node whose form does not exist left the pane on its placeholder, and the failure was
+     * indistinguishable from "still loading" - it took a Playwright trace to find out the request
+     * had 404'd. Anyone demoing this had no way to tell.
+     *
+     * Deliberately generic: this component is a **generic CMS component** and must stay
+     * data-agnostic (CLAUDE.md), so the message names the status and the address and nothing about
+     * what kind of content was expected.
+     *
+     * @param {object} $component jQuery-wrapped component
+     * @param {number|null} status HTTP status of the embedded navigation, or null to clear
+     * @param {string} [url] address that was loaded, shown for diagnosis
+     */
+    ns.setFrameError = function ($component, status, url) {
+        if (!$component || !$component.length) {
+            return;
+        }
+        // Always clear first, so a later successful load removes a stale message.
+        $component.find("." + ns.classFrameError).remove();
+        if (status === null || status === undefined) {
+            return;
+        }
+        const detail = url ? " (" + url + ")" : "";
+        const $message = $(
+            '<div class="' +
+                ns.classFrameError +
+                '" role="alert" style="padding:12px;font-size:13px;line-height:1.4;">' +
+                "<strong>This content could not be loaded.</strong><br>" +
+                "The embedded page returned status " +
+                status +
+                "." +
+                "</div>"
+        );
+        $message.attr("title", "status " + status + detail);
+        $component.append($message);
+        console.warn(
+            "embed: showing load-failure message, status " + status + detail
+        );
+    };
+
     //send message to iframe
     ns.sendMessageToiFrame = function ($component, action, eventData) {
         console.group("sendMessageToiFrame on " + window.location);
@@ -1776,9 +1823,20 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                             "iframe loaded with error status",
                             frameStatus
                         );
+                        // alpha-launch docs/issues/0084 - a blank frame is indistinguishable from
+                        // one still loading. Say so instead of returning silently.
+                        ns.setFrameError(
+                            $component,
+                            frameStatus,
+                            iframe && iframe.getAttribute
+                                ? iframe.getAttribute("src")
+                                : ""
+                        );
                         return;
                     } else {
                         console.log("iframe loaded successfully");
+                        // Clear any message left by a previous failed load.
+                        ns.setFrameError($component, null);
                         if (callbackFnData) {
                             // send message to iframe to load data into the form, the form should already have the event listener to handle this event.
                             let data = callbackFnData();
@@ -1843,9 +1901,20 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                             "iframe loaded with error status",
                             frameStatus
                         );
+                        // alpha-launch docs/issues/0084 - a blank frame is indistinguishable from
+                        // one still loading. Say so instead of returning silently.
+                        ns.setFrameError(
+                            $component,
+                            frameStatus,
+                            iframe && iframe.getAttribute
+                                ? iframe.getAttribute("src")
+                                : ""
+                        );
                         return;
                     } else {
                         console.log("iframe loaded successfully");
+                        // Clear any message left by a previous failed load.
+                        ns.setFrameError($component, null);
                         if (options.callbackFnData) {
                             // send message to iframe to load data into the form, the form should already have the event listener to handle this event.
                             let data = options.callbackFnData();
