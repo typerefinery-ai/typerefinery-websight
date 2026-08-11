@@ -6,7 +6,8 @@
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "test:act": "playwright test --project=runsheet"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0"

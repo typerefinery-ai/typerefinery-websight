@@ -39,6 +39,10 @@ export default defineConfig({
     ['list'],
     ['json', { outputFile: path.join(RUN_DIR, 'results.json') }],
     ['html', { outputFolder: path.join(RUN_DIR, 'html-report'), open: 'never' }],
+    // docs/issues/0143 — `step()` downgrades a throw from a non-'pass' step to a skip, which the
+    // summary then renders identically to a deliberate skip. This separates the two and prints the
+    // swallowed ones loudly, so "9 passed" can never again be read as "9 steps verified".
+    ['./swallowed-reporter.ts'],
   ],
   use: {
     baseURL: CMS_BASE,
