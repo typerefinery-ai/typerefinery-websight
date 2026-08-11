@@ -40,9 +40,30 @@ const ROOT = `/content/typerefinery-showcase/pages/os-triage/forms/${PAGE}/jcr:c
 
 // Mirror exactly what the working `pages/` branch carries - empty layout nodes that inherit the
 // root page's references. Copying the reference nodes directly would fork the nav content.
+// ⚠️ ORDER MATTERS AND CANNOT BE SET HERE. The rendered position of an inherited chrome component
+// is decided by where the LOCAL placeholder node sits in the parent's child order, and
+// ComponentNodeServlet only creates/updates — it has no ordering parameter and no delete
+// (verified in ComponentNodeServlet.java: it takes exactly parent/name/json).
+//
+// So on a page whose rootcontainer already has `main`, anything added lands AFTER it:
+//   pages/incidents.html  order aside, header, container1   -> header renders top=0    ✅
+//   forms/overview-local  order main, aside, header         -> header renders top=900  ❌ below the fold
+//
+// The aside is unaffected (CSS positions it left at top=0), but the header becomes a stray 63px bar
+// under the content. Measured, not assumed — and a "header present: true" assertion passes on it,
+// which is how it nearly shipped (docs/issues/0139).
+//
+// Until an ordering/delete capability exists, `header` is created with cancelInheritParent=true so
+// the root page's header is NOT pulled in at the wrong position. That is a mitigation: the page gets
+// the nav and no stray bar, but no header band.
 const CHROME = [
-  { name: 'aside', rt: 'typerefinery/components/layout/aside' },
-  { name: 'header', rt: 'typerefinery/components/layout/header' },
+  { name: 'aside', rt: 'typerefinery/components/layout/aside', props: {} },
+  {
+    name: 'header',
+    rt: 'typerefinery/components/layout/header',
+    // Suppresses the inherited header rather than rendering it in the wrong place.
+    props: { cancelInheritParent: 'true' },
+  },
 ]
 
 const json = async (p) => {
@@ -73,15 +94,14 @@ let changed = 0
 for (const c of CHROME) {
   const exists = kids.includes(c.name)
   if (REVERT) {
-    console.log(`${c.name}: ${exists ? 'present -> would remove' : 'absent, nothing to remove'}`)
-    if (exists && APPLY) {
-      const res = await fetch(NODE_SERVLET, {
-        method: 'POST',
-        headers: { Authorization: auth, 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ parent: ROOT, name: c.name, json: '', delete: 'true' }),
-      })
-      console.log(`   DELETE -> ${res.status}`)
-    }
+    // ⚠️ THERE IS NO REVERT. An earlier version of this script POSTed `delete: 'true'`, which the
+    // servlet ignores (it accepts only parent/name/json, and a blank json is rejected 400). Nothing
+    // in ComponentNodeServlet or ComponentPropertyServlet can remove a node — so a node created here
+    // is permanent with the sanctioned tooling. Say so rather than appearing to undo (docs/issues/0139).
+    console.log(`${c.name}: ${exists ? 'PRESENT' : 'absent'} — cannot be removed.`)
+    console.log('   The authoring servlets create/update only; neither deletes a node.')
+    console.log('   Closest available mitigation: set cancelInheritParent=true so the inherited')
+    console.log('   component is not rendered (that is what this script already does for `header`).')
     continue
   }
   if (exists) {
@@ -98,7 +118,11 @@ for (const c of CHROME) {
     body: new URLSearchParams({
       parent: ROOT,
       name: c.name,
-      json: JSON.stringify({ 'jcr:primaryType': 'nt:unstructured', 'sling:resourceType': c.rt }),
+      json: JSON.stringify({
+        'jcr:primaryType': 'nt:unstructured',
+        'sling:resourceType': c.rt,
+        ...(c.props || {}),
+      }),
     }),
   })
   console.log(`${c.name}: POST -> ${res.status}`)
