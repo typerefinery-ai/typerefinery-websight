@@ -460,11 +460,34 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         const id = componentConfig.id;
 
+        // This handler was unreachable from any authored event (alpha-launch docs/issues/0110).
+        // It read `filter.value`, but the page event bus never delivers that shape: emitEvent carries
+        // whatever compileEventData built, which is always the envelope
+        //     { type, payload, action, componentId, config }
+        // so `filter.value` was undefined and the handler threw
+        // "Cannot read properties of undefined (reading 'toLowerCase')" before filtering anything.
+        // Measured live on the Incidents page (e2e/probe-0110-filter-payload.mjs): envelope -> threw,
+        // bare {value} -> 188 rows filtered to 2. Every other consumer in the codebase already reads
+        // eventData.payload.* (see content/embed and widgets/modal), so the envelope is the norm and
+        // this handler was the outlier. Both shapes are accepted rather than swapping one for the
+        // other, because the bare shape is what the component's own tests and callers pass directly.
+        const term = String(filter?.payload?.value ?? filter?.value ?? "");
+        if (!term) {
+            console.log(["eventOnFilter: no term in event, ignoring", id, filter]);
+            return;
+        }
+        const needle = term.toLowerCase();
+
         const filteredData = ns[id].data.filter((row) => {
             return Object.keys(row).some((key) => {
-                return row[key].toString().toLowerCase().includes(filter.value.toLowerCase());
+                // A null/undefined cell used to throw here and kill the whole filter, not just
+                // the row - same class of unguarded access as the term above.
+                const cell = row[key];
+                return cell !== null && cell !== undefined
+                    && cell.toString().toLowerCase().includes(needle);
             });
         });
+        console.log(["eventOnFilter", id, "term", term, "matched", filteredData.length, "of", ns[id].data.length]);
         tableInstanceNs[id].bootstrapTable('load', filteredData);
     };
 
