@@ -29,10 +29,8 @@
  * ⚠️ **`--reporter=...` on the command line REPLACES the config's reporter list, so it disables this
  * one.** That is exactly backwards from when you need it: `--reporter=list` is what you reach for
  * while debugging a step, which is precisely when a swallowed failure matters. Run the suite with no
- * `--reporter` flag (the config already includes `list`), or add this reporter explicitly:
- *
- *     node node_modules/@playwright/test/cli.js test --project=runsheet specs/05-forms.spec.ts
- *     …                                          --reporter=list,./swallowed-reporter.ts
+ * `--reporter` flag (the config already includes `list`), via `npm run test:act`, or name this
+ * reporter explicitly: `--reporter=list,./swallowed-reporter.ts`.
  */
 import type { Reporter, TestCase, TestResult, FullResult } from '@playwright/test/reporter'
 import fs from 'fs'
@@ -43,6 +41,17 @@ type Swallowed = { title: string; baseline: string; issue?: string; detail: stri
 
 const annotation = (test: TestCase, result: TestResult, type: string) =>
   [...(result.annotations ?? []), ...test.annotations].find((a) => a.type === type)?.description
+
+/**
+ * Playwright colours its assertion messages, so the text carries ANSI escapes. Writing those into a
+ * `.md` file under `docs/` puts control bytes in the docs tree — the exact damage docs/issues/0088
+ * describes, and `e2e/audit-doc-integrity.mjs` flags it. It caught this reporter's own first output,
+ * which is the best argument for keeping that audit.
+ *
+ * The pattern is built with `String.fromCharCode(27)` rather than written literally, so this source
+ * file does not itself contain a control byte.
+ */
+const stripAnsi = (s: string) => s.replace(new RegExp(String.fromCharCode(27) + '\\[[0-9;]*m', 'g'), '')
 
 class SwallowedReporter implements Reporter {
   private swallowed: Swallowed[] = []
@@ -58,7 +67,7 @@ class SwallowedReporter implements Reporter {
         title: test.title,
         baseline: annotation(test, result, 'baseline') ?? '(unknown)',
         issue: annotation(test, result, 'issue'),
-        detail: observed.replace(/^[^:]+:\s*/, ''),
+        detail: stripAnsi(observed.replace(/^[^:]+:\s*/, '')),
       })
     } else {
       this.deliberate++
@@ -95,9 +104,12 @@ class SwallowedReporter implements Reporter {
 
     try {
       fs.mkdirSync(RUN_DIR, { recursive: true })
-      fs.writeFileSync(path.join(RUN_DIR, 'swallowed-failures.md'),
+      // Fenced, because the assertion text is raw test output, not prose.
+      fs.writeFileSync(
+        path.join(RUN_DIR, 'swallowed-failures.md'),
         `# Swallowed failures\n\n> ${new Date().toISOString()} — docs/issues/0143\n\n` +
-        lines.map((l) => (l.startsWith('  ') ? l : l ? `${l}` : '')).join('\n') + '\n')
+          '```\n' + lines.join('\n') + '\n```\n',
+      )
     } catch (err) {
       console.log(`  (could not write swallowed-failures.md: ${(err as Error).message})`)
     }
