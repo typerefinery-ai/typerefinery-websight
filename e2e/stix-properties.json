@@ -1,0 +1,1779 @@
+{
+ "types": {
+  "campaign": {
+   "class": "AttackCampaign",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "last_seen",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "objective",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_aliases",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_first_seen_citation",
+    "x_mitre_last_seen_citation",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "identity": {
+   "class": "AttackIdentity",
+   "properties": [
+    "confidence",
+    "contact_information",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "identity_class",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "roles",
+    "sectors",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "marking-definition": {
+   "class": "AttackMarking",
+   "properties": [
+    "created",
+    "created_by_ref",
+    "definition",
+    "definition_type",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "name",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "relationship": {
+   "class": "AttackRelation",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "object_marking_refs",
+    "relationship_type",
+    "revoked",
+    "source_ref",
+    "spec_version",
+    "start_time",
+    "stop_time",
+    "target_ref",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_platforms",
+    "x_mitre_version"
+   ]
+  },
+  "x-mitre-collection": {
+   "class": "Collection",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contents",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "x-mitre-data-component": {
+   "class": "DataComponent",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_data_source_ref",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "x-mitre-data-source": {
+   "class": "DataSource",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_collection_layers",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_platforms",
+    "x_mitre_version"
+   ]
+  },
+  "intrusion-set": {
+   "class": "Group",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "goals",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "last_seen",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "primary_motivation",
+    "resource_level",
+    "revoked",
+    "secondary_motivations",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "x-mitre-matrix": {
+   "class": "Matrix",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "tactic_refs",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "course-of-action": {
+   "class": "Mitigation",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_version"
+   ]
+  },
+  "malware": {
+   "class": "SoftwareMalware",
+   "properties": [
+    "aliases",
+    "architecture_execution_envs",
+    "capabilities",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "granular_markings",
+    "id",
+    "implementation_languages",
+    "is_family",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "last_seen",
+    "malware_types",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "operating_system_refs",
+    "revoked",
+    "sample_refs",
+    "spec_version",
+    "type",
+    "x_mitre_aliases",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_platforms",
+    "x_mitre_version"
+   ]
+  },
+  "tool": {
+   "class": "SoftwareTool",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "tool_types",
+    "tool_version",
+    "type",
+    "x_mitre_aliases",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_platforms",
+    "x_mitre_version"
+   ]
+  },
+  "attack-pattern": {
+   "class": "SubTechnique",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_data_sources",
+    "x_mitre_defense_bypassed",
+    "x_mitre_deprecated",
+    "x_mitre_detection",
+    "x_mitre_domains",
+    "x_mitre_effective_permissions",
+    "x_mitre_impact_type",
+    "x_mitre_is_subtechnique",
+    "x_mitre_modified_by_ref",
+    "x_mitre_network_requirements",
+    "x_mitre_permissions_required",
+    "x_mitre_platforms",
+    "x_mitre_remote_support",
+    "x_mitre_system_requirements",
+    "x_mitre_tactic_type",
+    "x_mitre_version"
+   ]
+  },
+  "x-mitre-tactic": {
+   "class": "Tactic",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type",
+    "x_mitre_attack_spec_version",
+    "x_mitre_contributors",
+    "x_mitre_deprecated",
+    "x_mitre_domains",
+    "x_mitre_modified_by_ref",
+    "x_mitre_shortname",
+    "x_mitre_version"
+   ]
+  },
+  "statement": {
+   "class": "StatementMarking",
+   "properties": [
+    "statement"
+   ]
+  },
+  "tlp": {
+   "class": "TLPMarking",
+   "properties": [
+    "tlp"
+   ]
+  },
+  "anecdote": {
+   "class": "Anecdote",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "provided_by_ref",
+    "report_date",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "extension-definition--23676abf-481e-4fee-ac8c-e3d0947287a4": {
+   "class": "AnecdoteExt",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "availability": {
+   "class": "Availability",
+   "properties": [
+    "availability_impact"
+   ]
+  },
+  "confidentiality": {
+   "class": "Confidentiality",
+   "properties": [
+    "information_type",
+    "loss_type",
+    "record_count",
+    "record_size"
+   ]
+  },
+  "contact-number": {
+   "class": "ContactNumber",
+   "properties": [
+    "contact_number",
+    "contact_number_type",
+    "description"
+   ]
+  },
+  "email-contact": {
+   "class": "EmailContact",
+   "properties": [
+    "description",
+    "digital_contact_type",
+    "email_address_ref"
+   ]
+  },
+  "event": {
+   "class": "Event",
+   "properties": [
+    "changed_objects",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "end_time",
+    "end_time_fidelity",
+    "event_types",
+    "extensions",
+    "external_references",
+    "goal",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "sighting_refs",
+    "spec_version",
+    "start_time",
+    "start_time_fidelity",
+    "status",
+    "type"
+   ]
+  },
+  "extension-definition--4ca6de00-5b0d-45ef-a1dc-ea7279ea910e": {
+   "class": "EventCoreExt",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "external": {
+   "class": "External",
+   "properties": [
+    "impact_type"
+   ]
+  },
+  "feed": {
+   "class": "Feed",
+   "properties": [
+    "confidence",
+    "contents",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "free",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "paid",
+    "spec_version",
+    "type"
+   ]
+  },
+  "feeds": {
+   "class": "Feeds",
+   "properties": [
+    "confidence",
+    "contained",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "free",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "paid",
+    "spec_version",
+    "type"
+   ]
+  },
+  "extension-definition--66e2492a-bbd3-4be6-88f5-cc91a017a498": {
+   "class": "IdentityContact",
+   "properties": [
+    "contact_numbers",
+    "email_addresses",
+    "extension_type",
+    "first_name",
+    "last_name",
+    "middle_name",
+    "prefix",
+    "social_media_accounts",
+    "suffix",
+    "team"
+   ]
+  },
+  "impact": {
+   "class": "Impact",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "criticality",
+    "description",
+    "end_time",
+    "end_time_fidelity",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "impact_category",
+    "impacted_entity_counts",
+    "impacted_refs",
+    "labels",
+    "lang",
+    "modified",
+    "object_marking_refs",
+    "recoverability",
+    "spec_version",
+    "start_time",
+    "start_time_fidelity",
+    "superseded_by_ref",
+    "type"
+   ]
+  },
+  "extension-definition--7cc33dd6-f6a1-489b-98ea-522d351d71b9": {
+   "class": "ImpactCoreExt",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "extension-definition--ef765651-680c-498d-9894-99799f2fa126": {
+   "class": "IncidentCoreExt",
+   "properties": [
+    "blocked",
+    "criticality",
+    "determination",
+    "event_refs",
+    "extension_type",
+    "impact_refs",
+    "impacted_entity_counts",
+    "incident_types",
+    "investigation_status",
+    "malicious",
+    "other_object_refs",
+    "recoverability",
+    "scores",
+    "sequence_refs",
+    "sequence_start_refs",
+    "task_refs"
+   ]
+  },
+  "integrity": {
+   "class": "Integrity",
+   "properties": [
+    "alteration",
+    "information_type",
+    "record_count",
+    "record_size"
+   ]
+  },
+  "monetary": {
+   "class": "Monetary",
+   "properties": [
+    "conversion_rate",
+    "conversion_time",
+    "currency",
+    "currency_actual",
+    "max_amount",
+    "min_amount",
+    "variety"
+   ]
+  },
+  "physical": {
+   "class": "Physical",
+   "properties": [
+    "asset_type",
+    "impact_type"
+   ]
+  },
+  "sequence": {
+   "class": "Sequence",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "next_steps",
+    "object_marking_refs",
+    "on_completion",
+    "on_failure",
+    "on_success",
+    "sequence_type",
+    "sequenced_object",
+    "spec_version",
+    "step_type",
+    "type"
+   ]
+  },
+  "extension-definition--be0c7c79-1961-43db-afde-637066a87a64": {
+   "class": "SequenceExt",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "sighting-alert": {
+   "class": "SightingAlert",
+   "properties": [
+    "format",
+    "log",
+    "name",
+    "product",
+    "source",
+    "system_id"
+   ]
+  },
+  "sighting-anecdote": {
+   "class": "SightingAnecdote",
+   "properties": [
+    "person_context",
+    "person_name",
+    "report_submission"
+   ]
+  },
+  "sighting-context": {
+   "class": "SightingContext",
+   "properties": [
+    "description",
+    "name",
+    "value"
+   ]
+  },
+  "sighting-enrichment": {
+   "class": "SightingEnrichment",
+   "properties": [
+    "name",
+    "paid",
+    "url",
+    "value"
+   ]
+  },
+  "extension-definition--0d76d6d9-16ca-43fd-bd41-4f800ba8fc43": {
+   "class": "SightingEvidence",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "sighting-exclusion": {
+   "class": "SightingExclusion",
+   "properties": [
+    "channel",
+    "source"
+   ]
+  },
+  "sighting-external": {
+   "class": "SightingExternal",
+   "properties": [
+    "last_update",
+    "pattern",
+    "pattern_type",
+    "payload",
+    "source",
+    "valid_from",
+    "valid_until",
+    "version"
+   ]
+  },
+  "sighting-framework": {
+   "class": "SightingFramework",
+   "properties": [
+    "comparison",
+    "comparison_approach",
+    "domain",
+    "framework",
+    "version"
+   ]
+  },
+  "sighting-hunt": {
+   "class": "SightingHunt",
+   "properties": [
+    "name",
+    "playbook_id",
+    "rule"
+   ]
+  },
+  "social-media-contact": {
+   "class": "SocialMediaContact",
+   "properties": [
+    "description",
+    "digital_contact_type",
+    "user_account_ref"
+   ]
+  },
+  "task": {
+   "class": "Task",
+   "properties": [
+    "changed_objects",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "end_time",
+    "end_time_fidelity",
+    "error",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "impacted_entity_counts",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "outcome",
+    "owner",
+    "priority",
+    "spec_version",
+    "start_time",
+    "start_time_fidelity",
+    "task_types",
+    "type"
+   ]
+  },
+  "extension-definition--2074a052-8be4-4932-849e-f5e7798e0030": {
+   "class": "TaskCoreExt",
+   "properties": [
+    "extension_type"
+   ]
+  },
+  "traceability": {
+   "class": "Traceability",
+   "properties": [
+    "traceability_impact"
+   ]
+  },
+  "archive-ext": {
+   "class": "ArchiveExt",
+   "properties": [
+    "comment",
+    "contains_refs"
+   ]
+  },
+  "artifact": {
+   "class": "Artifact",
+   "properties": [
+    "decryption_key",
+    "defanged",
+    "encryption_algorithm",
+    "extensions",
+    "granular_markings",
+    "hashes",
+    "id",
+    "mime_type",
+    "object_marking_refs",
+    "payload_bin",
+    "spec_version",
+    "type",
+    "url"
+   ]
+  },
+  "autonomous-system": {
+   "class": "AutonomousSystem",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "name",
+    "number",
+    "object_marking_refs",
+    "rir",
+    "spec_version",
+    "type"
+   ]
+  },
+  "bundle": {
+   "class": "Bundle",
+   "properties": [
+    "id",
+    "objects",
+    "type"
+   ]
+  },
+  "directory": {
+   "class": "Directory",
+   "properties": [
+    "atime",
+    "contains_refs",
+    "ctime",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "mtime",
+    "object_marking_refs",
+    "path",
+    "path_enc",
+    "spec_version",
+    "type"
+   ]
+  },
+  "domain-name": {
+   "class": "DomainName",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "resolves_to_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "email-addr": {
+   "class": "EmailAddress",
+   "properties": [
+    "belongs_to_ref",
+    "defanged",
+    "display_name",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "email-message": {
+   "class": "EmailMessage",
+   "properties": [
+    "additional_header_fields",
+    "bcc_refs",
+    "body",
+    "body_multipart",
+    "cc_refs",
+    "content_type",
+    "date",
+    "defanged",
+    "extensions",
+    "from_ref",
+    "granular_markings",
+    "id",
+    "is_multipart",
+    "message_id",
+    "object_marking_refs",
+    "raw_email_ref",
+    "received_lines",
+    "sender_ref",
+    "spec_version",
+    "subject",
+    "to_refs",
+    "type"
+   ]
+  },
+  "file": {
+   "class": "File",
+   "properties": [
+    "atime",
+    "contains_refs",
+    "content_ref",
+    "ctime",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "hashes",
+    "id",
+    "magic_number_hex",
+    "mime_type",
+    "mtime",
+    "name",
+    "name_enc",
+    "object_marking_refs",
+    "parent_directory_ref",
+    "size",
+    "spec_version",
+    "type"
+   ]
+  },
+  "grouping": {
+   "class": "Grouping",
+   "properties": [
+    "confidence",
+    "context",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "object_refs",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "http-request-ext": {
+   "class": "HTTPRequestExt",
+   "properties": [
+    "message_body_data_ref",
+    "message_body_length",
+    "request_header",
+    "request_method",
+    "request_value",
+    "request_version"
+   ]
+  },
+  "icmp-ext": {
+   "class": "ICMPExt",
+   "properties": [
+    "icmp_code_hex",
+    "icmp_type_hex"
+   ]
+  },
+  "ipv4-addr": {
+   "class": "IPv4Address",
+   "properties": [
+    "belongs_to_refs",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "resolves_to_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "ipv6-addr": {
+   "class": "IPv6Address",
+   "properties": [
+    "belongs_to_refs",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "resolves_to_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "incident": {
+   "class": "Incident",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "indicator": {
+   "class": "Indicator",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "indicator_types",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "pattern",
+    "pattern_type",
+    "pattern_version",
+    "revoked",
+    "spec_version",
+    "type",
+    "valid_from",
+    "valid_until"
+   ]
+  },
+  "infrastructure": {
+   "class": "Infrastructure",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "granular_markings",
+    "id",
+    "infrastructure_types",
+    "kill_chain_phases",
+    "labels",
+    "lang",
+    "last_seen",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "location": {
+   "class": "Location",
+   "properties": [
+    "administrative_area",
+    "city",
+    "confidence",
+    "country",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "latitude",
+    "longitude",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "postal_code",
+    "precision",
+    "region",
+    "revoked",
+    "spec_version",
+    "street_address",
+    "type"
+   ]
+  },
+  "mac-addr": {
+   "class": "MACAddress",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "malware-analysis": {
+   "class": "MalwareAnalysis",
+   "properties": [
+    "analysis_definition_version",
+    "analysis_ended",
+    "analysis_engine_version",
+    "analysis_sco_refs",
+    "analysis_started",
+    "confidence",
+    "configuration_version",
+    "created",
+    "created_by_ref",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "host_vm_ref",
+    "id",
+    "installed_software_refs",
+    "labels",
+    "lang",
+    "modified",
+    "modules",
+    "object_marking_refs",
+    "operating_system_ref",
+    "product",
+    "result",
+    "result_name",
+    "revoked",
+    "sample_ref",
+    "spec_version",
+    "submitted",
+    "type",
+    "version"
+   ]
+  },
+  "mutex": {
+   "class": "Mutex",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "name",
+    "object_marking_refs",
+    "spec_version",
+    "type"
+   ]
+  },
+  "ntfs-ext": {
+   "class": "NTFSExt",
+   "properties": [
+    "alternate_data_streams",
+    "sid"
+   ]
+  },
+  "network-traffic": {
+   "class": "NetworkTraffic",
+   "properties": [
+    "defanged",
+    "dst_byte_count",
+    "dst_packets",
+    "dst_payload_ref",
+    "dst_port",
+    "dst_ref",
+    "encapsulated_by_ref",
+    "encapsulates_refs",
+    "end",
+    "extensions",
+    "granular_markings",
+    "id",
+    "ipfix",
+    "is_active",
+    "object_marking_refs",
+    "protocols",
+    "spec_version",
+    "src_byte_count",
+    "src_packets",
+    "src_payload_ref",
+    "src_port",
+    "src_ref",
+    "start",
+    "type"
+   ]
+  },
+  "note": {
+   "class": "Note",
+   "properties": [
+    "abstract",
+    "authors",
+    "confidence",
+    "content",
+    "created",
+    "created_by_ref",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "object_marking_refs",
+    "object_refs",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "observed-data": {
+   "class": "ObservedData",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "extensions",
+    "external_references",
+    "first_observed",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "last_observed",
+    "modified",
+    "number_observed",
+    "object_marking_refs",
+    "object_refs",
+    "objects",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "opinion": {
+   "class": "Opinion",
+   "properties": [
+    "authors",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "explanation",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "object_marking_refs",
+    "object_refs",
+    "opinion",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "pdf-ext": {
+   "class": "PDFExt",
+   "properties": [
+    "document_info_dict",
+    "is_optimized",
+    "pdfid0",
+    "pdfid1",
+    "version"
+   ]
+  },
+  "process": {
+   "class": "Process",
+   "properties": [
+    "child_refs",
+    "command_line",
+    "created_time",
+    "creator_user_ref",
+    "cwd",
+    "defanged",
+    "environment_variables",
+    "extensions",
+    "granular_markings",
+    "id",
+    "image_ref",
+    "is_hidden",
+    "object_marking_refs",
+    "opened_connection_refs",
+    "parent_ref",
+    "pid",
+    "spec_version",
+    "type"
+   ]
+  },
+  "raster-image-ext": {
+   "class": "RasterImageExt",
+   "properties": [
+    "bits_per_pixel",
+    "exif_tags",
+    "image_height",
+    "image_width"
+   ]
+  },
+  "report": {
+   "class": "Report",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "object_refs",
+    "published",
+    "report_types",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "sighting": {
+   "class": "Sighting",
+   "properties": [
+    "confidence",
+    "count",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "last_seen",
+    "modified",
+    "object_marking_refs",
+    "observed_data_refs",
+    "revoked",
+    "sighting_of_ref",
+    "spec_version",
+    "summary",
+    "type",
+    "where_sighted_refs"
+   ]
+  },
+  "socket-ext": {
+   "class": "SocketExt",
+   "properties": [
+    "address_family",
+    "is_blocking",
+    "is_listening",
+    "options",
+    "socket_descriptor",
+    "socket_handle",
+    "socket_type"
+   ]
+  },
+  "software": {
+   "class": "Software",
+   "properties": [
+    "cpe",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "languages",
+    "name",
+    "object_marking_refs",
+    "spec_version",
+    "swid",
+    "type",
+    "vendor",
+    "version"
+   ]
+  },
+  "tcp-ext": {
+   "class": "TCPExt",
+   "properties": [
+    "dst_flags_hex",
+    "src_flags_hex"
+   ]
+  },
+  "threat-actor": {
+   "class": "ThreatActor",
+   "properties": [
+    "aliases",
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "first_seen",
+    "goals",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "last_seen",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "personal_motivations",
+    "primary_motivation",
+    "resource_level",
+    "revoked",
+    "roles",
+    "secondary_motivations",
+    "sophistication",
+    "spec_version",
+    "threat_actor_types",
+    "type"
+   ]
+  },
+  "unix-account-ext": {
+   "class": "UNIXAccountExt",
+   "properties": [
+    "gid",
+    "groups",
+    "home_dir",
+    "shell"
+   ]
+  },
+  "url": {
+   "class": "URL",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "value"
+   ]
+  },
+  "user-account": {
+   "class": "UserAccount",
+   "properties": [
+    "account_created",
+    "account_expires",
+    "account_first_login",
+    "account_last_login",
+    "account_login",
+    "account_type",
+    "can_escalate_privs",
+    "credential",
+    "credential_last_changed",
+    "defanged",
+    "display_name",
+    "extensions",
+    "granular_markings",
+    "id",
+    "is_disabled",
+    "is_privileged",
+    "is_service_account",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "user_id"
+   ]
+  },
+  "vulnerability": {
+   "class": "Vulnerability",
+   "properties": [
+    "confidence",
+    "created",
+    "created_by_ref",
+    "description",
+    "extensions",
+    "external_references",
+    "granular_markings",
+    "id",
+    "labels",
+    "lang",
+    "modified",
+    "name",
+    "object_marking_refs",
+    "revoked",
+    "spec_version",
+    "type"
+   ]
+  },
+  "windows-pebinary-ext": {
+   "class": "WindowsPEBinaryExt",
+   "properties": [
+    "characteristics_hex",
+    "file_header_hashes",
+    "imphash",
+    "machine_hex",
+    "number_of_sections",
+    "number_of_symbols",
+    "optional_header",
+    "pe_type",
+    "pointer_to_symbol_table_hex",
+    "sections",
+    "size_of_optional_header",
+    "time_date_stamp"
+   ]
+  },
+  "windows-process-ext": {
+   "class": "WindowsProcessExt",
+   "properties": [
+    "aslr_enabled",
+    "dep_enabled",
+    "integrity_level",
+    "owner_sid",
+    "priority",
+    "startup_info",
+    "window_title"
+   ]
+  },
+  "windows-registry-key": {
+   "class": "WindowsRegistryKey",
+   "properties": [
+    "creator_user_ref",
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "id",
+    "key",
+    "modified_time",
+    "number_of_subkeys",
+    "object_marking_refs",
+    "spec_version",
+    "type",
+    "values"
+   ]
+  },
+  "windows-registry-value-type": {
+   "class": "WindowsRegistryValueType",
+   "properties": [
+    "data",
+    "data_type",
+    "name"
+   ]
+  },
+  "windows-service-ext": {
+   "class": "WindowsServiceExt",
+   "properties": [
+    "descriptions",
+    "display_name",
+    "group_name",
+    "service_dll_refs",
+    "service_name",
+    "service_status",
+    "service_type",
+    "start_type"
+   ]
+  },
+  "x509-certificate": {
+   "class": "X509Certificate",
+   "properties": [
+    "defanged",
+    "extensions",
+    "granular_markings",
+    "hashes",
+    "id",
+    "is_self_signed",
+    "issuer",
+    "object_marking_refs",
+    "serial_number",
+    "signature_algorithm",
+    "spec_version",
+    "subject",
+    "subject_public_key_algorithm",
+    "subject_public_key_exponent",
+    "subject_public_key_modulus",
+    "type",
+    "validity_not_after",
+    "validity_not_before",
+    "version",
+    "x509_v3_extensions"
+   ]
+  },
+  "x509-v3-extensions-type": {
+   "class": "X509V3ExtensionsType",
+   "properties": [
+    "authority_key_identifier",
+    "basic_constraints",
+    "certificate_policies",
+    "crl_distribution_points",
+    "extended_key_usage",
+    "inhibit_any_policy",
+    "issuer_alternative_name",
+    "key_usage",
+    "name_constraints",
+    "policy_constraints",
+    "policy_mappings",
+    "private_key_usage_period_not_after",
+    "private_key_usage_period_not_before",
+    "subject_alternative_name",
+    "subject_directory_attributes",
+    "subject_key_identifier"
+   ]
+  }
+ },
+ "embedded": {
+  "ObjectVersion": [
+   "object_modified",
+   "object_ref"
+  ],
+  "ExternalReference": [
+   "description",
+   "external_id",
+   "hashes",
+   "source_name",
+   "url"
+  ],
+  "GranularMarking": [
+   "lang",
+   "marking_ref",
+   "selectors"
+  ],
+  "KillChainPhase": [
+   "kill_chain_name",
+   "phase_name"
+  ],
+  "IncidentScoreObject": [
+   "description",
+   "name",
+   "value"
+  ],
+  "StateChangeObject": [
+   "initial_ref",
+   "result_ref",
+   "state_change_type"
+  ],
+  "ThreatSubObject": [
+   "created",
+   "modified",
+   "object_ref"
+  ],
+  "AlternateDataStream": [
+   "hashes",
+   "name",
+   "size"
+  ],
+  "EmailMIMEComponent": [
+   "body",
+   "body_raw_ref",
+   "content_disposition",
+   "content_type"
+  ],
+  "WindowsPEOptionalHeaderType": [
+   "address_of_entry_point",
+   "base_of_code",
+   "base_of_data",
+   "checksum_hex",
+   "dll_characteristics_hex",
+   "file_alignment",
+   "hashes",
+   "image_base",
+   "loader_flags_hex",
+   "magic_hex",
+   "major_image_version",
+   "major_linker_version",
+   "major_os_version",
+   "major_subsystem_version",
+   "minor_image_version",
+   "minor_linker_version",
+   "minor_os_version",
+   "minor_subsystem_version",
+   "number_of_rva_and_sizes",
+   "section_alignment",
+   "size_of_code",
+   "size_of_headers",
+   "size_of_heap_commit",
+   "size_of_heap_reserve",
+   "size_of_image",
+   "size_of_initialized_data",
+   "size_of_stack_commit",
+   "size_of_stack_reserve",
+   "size_of_uninitialized_data",
+   "subsystem_hex",
+   "win32_version_value_hex"
+  ],
+  "WindowsPESection": [
+   "entropy",
+   "hashes",
+   "name",
+   "size"
+  ]
+ },
+ "errors": [
+  "stixorm.module.definitions.stix21.generator: ModuleNotFoundError: No module named 'definitions'"
+ ],
+ "meta": {
+  "stixorm": "C:\\Users/denis/WebstormProjects/alpha-launch/typerefinery/services/fastapi/__packages__/Python311/site-packages\\stixorm\\__init__.py",
+  "types": 95,
+  "embedded": 11
+ }
+}
