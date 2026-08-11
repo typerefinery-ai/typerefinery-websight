@@ -112,21 +112,49 @@ test.describe('Act 1 — All Incidents table', () => {
 
     // The row promises six things; only "rows render" and "above the fold" were asserted
     // (docs/issues/0048, Tier 2). The rest are cheap to check, so check them.
-    // docs/issues/0116 — `Created` added 2026-08-12. It is the only one of the docx's eight Act-1
-    // columns (ID · Name · Author · Tags · Status · Observed · Created · Tasks) that needed no
-    // data-model decision: `original.created` is stored on every incident and was simply missing
-    // from the shaped endpoint's column list. The other five wait on docs/decisions/0031.
+    // docs/issues/0116 — the docx asks for eight Act-1 columns
+    // (ID · Name · Author · Tags · Status · Observed · Created · Tasks). Delivered so far:
+    //   Created  2026-08-12 — `original.created`, stored on every incident
+    //   Status   2026-08-12 — extensions[<os-threat>].investigation_status
+    //   Observed 2026-08-12 — count of `observed-data--` ids in other_object_refs
+    //   Tasks    2026-08-12 — count of task_refs
+    // ❌ Author (`created_by_ref`) and Tags (`labels`) are empty on EVERY row and need decision
+    // 0031's write-path change; they are deliberately absent rather than shown blank.
     //
     // Asserting the exact list (rather than "contains") is deliberate: it is what caught this change
     // immediately, and it will catch the next column arriving without its runsheet row.
     expect(await page.locator('thead th').allInnerTexts().then((h) => h.map((s) => s.trim()).filter(Boolean)),
-      'the promised columns').toEqual(['Name', 'Type', 'Description', 'Created', 'ID', 'Action'])
+      'the promised columns').toEqual(
+      ['Name', 'Type', 'Description', 'Status', 'Observed', 'Tasks', 'Created', 'ID', 'Action'])
 
-    // The column is only worth having if it carries data — a header with 184 blank cells would
-    // satisfy the assertion above. Guard the values too (docs/issues/0048-class).
-    const createdCells = await page.locator('tbody tr td:nth-child(4)').allInnerTexts()
+    const col = async (n: number) => await page.locator(`tbody tr td:nth-child(${n})`).allInnerTexts()
+
+    // A column is only worth having if it carries data — a header over blank cells would satisfy the
+    // assertion above (docs/issues/0048-class).
+    const createdCells = await col(7)
     const dated = createdCells.filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.trim()))
     expect(dated.length, 'every row shows a YYYY-MM-DD Created date').toBe(createdCells.length)
+
+    // ⚠️ Status / Observed / Tasks cannot use that shape. Measured 2026-08-12: only the **2 curated
+    // incidents** carry an os-threat extension with any content — the other 190 are CMS-form
+    // creations whose extension is an empty shell, so they legitimately read blank/0. Asserting
+    // "every row" would fail against honest data; asserting nothing would let the columns go blank
+    // unnoticed. Assert instead that the counts are numeric everywhere (never blank, never text) and
+    // that the curated rows carry the real values the mockup promises.
+    const counts = [...(await col(5)), ...(await col(6))]
+    expect(counts.filter((t) => !/^\d+$/.test(t.trim())),
+      'Observed and Tasks are numeric on every row (0 is a fact, blank is not)').toEqual([])
+
+    const api2 = await request.newContext({ ignoreHTTPSErrors: true })
+    const shapedRows = (await (await api2.get(`${FLOW_BASE}/viz-data/table-all-incidents-shaped`)).json()).data
+    await api2.dispose()
+    const curated = shapedRows.filter((r: any) => /phishing email/i.test(String(r.name ?? '')))
+    expect(curated.length, 'the curated demo incidents are present').toBeGreaterThan(0)
+    for (const r of curated) {
+      expect(String(r.status), `curated incident "${r.name}" has a recorded status`).not.toBe('')
+      expect(Number(r.tasks), `curated incident "${r.name}" reports its tasks`).toBeGreaterThan(0)
+      expect(Number(r.observed), `curated incident "${r.name}" reports its observations`).toBeGreaterThan(0)
+    }
 
     // docs/issues/0115 — the Description column used to read `Name -> potential phishing` and
     // `<br>Created from CMS form (…)`. That string is not debug output: convert_n_and_e.py builds an
