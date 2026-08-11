@@ -128,6 +128,17 @@ test.describe('Act 1 — All Incidents table', () => {
     const dated = createdCells.filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.trim()))
     expect(dated.length, 'every row shows a YYYY-MM-DD Created date').toBe(createdCells.length)
 
+    // docs/issues/0115 — the Description column used to read `Name -> potential phishing` and
+    // `<br>Created from CMS form (…)`. That string is not debug output: convert_n_and_e.py builds an
+    // HTML micro-summary for the GRAPH TOOLTIPS (`<br>Label -> value`), and it is frozen on disk at
+    // creation time, so the table was rendering another view's presentation layer as text. The
+    // shaper now reads the object's own `original.description`. Guarded here because the fix is
+    // invisible to every other assertion — the column was always populated, just with the wrong
+    // string (the presence-vs-quality trap of docs/issues/0048).
+    const descCells = await page.locator('tbody tr td:nth-child(3)').allInnerTexts()
+    expect(descCells.filter((t) => t.includes('->') || /<br\s*\/?>/i.test(t)),
+      'no display-wrapper plumbing leaks into Description').toEqual([])
+
     // ⚠️ The authored content sets `searchEnabled="false"`, which looked like the row's
     // "search box" claim being wrong. It is not: the flow payload carries `search: true`, and the
     // **payload wins** — a search box renders (verified 2026-08-04). Asserting it pins that
