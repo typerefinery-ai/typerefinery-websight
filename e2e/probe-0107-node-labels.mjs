@@ -64,7 +64,20 @@ const r = await frame.evaluate(() => {
       shieldedBy.push((el.textContent || '').trim())
     }
   }
-  return { icons: icons.length, labels: labels.length, empty: texts.filter((t) => !t).length, texts, shielded, shieldedBy }
+  // ⚠️ LEGIBILITY, not just presence. fitToPanel scales the whole root group (measured 0.39 for the
+  // demo incident), and text inside it scales too - an 11px font rendered at 5px on screen. The
+  // first version of this probe passed on exactly that, because it only asked whether labels
+  // existed, were non-empty and did not collide. Measure the RENDERED height.
+  const g = document.querySelector('svg > g')
+  const m = /scale\(([\d.]+)\)/.exec((g && g.getAttribute('transform')) || '')
+  const viewScale = m ? Number(m[1]) : 1
+  const heights = labels.map((l) => l.getBoundingClientRect().height).filter((h) => h > 0).sort((a, b) => a - b)
+  const medianHeight = heights.length ? heights[Math.floor(heights.length / 2)] : 0
+
+  return {
+    icons: icons.length, labels: labels.length, empty: texts.filter((t) => !t).length, texts,
+    shielded, shieldedBy, viewScale, medianHeight: Math.round(medianHeight * 10) / 10,
+  }
 })
 
 console.log(`\nicons: ${r.icons}   labels: ${r.labels}   empty labels: ${r.empty}`)
@@ -74,12 +87,19 @@ console.log(`node centres routed to a label (hit-shield): ${r.shielded}`)
 const present = wanted.filter((w) => r.texts.some((t) => t === w || w.startsWith(t.replace(/…$/, ''))))
 console.log(`\nspecific payload names rendered: ${present.length}/${wanted.length} ${JSON.stringify(present)}`)
 
-const ok = r.labels === r.icons && r.empty === 0 && r.shielded === 0 && present.length === wanted.length
+const LEGIBLE_PX = 9 // below this, text on screen is not readable
+const legible = r.medianHeight >= LEGIBLE_PX
+console.log(`\nview scale: ${r.viewScale.toFixed(3)}   median rendered label height: ${r.medianHeight}px`)
+
+const ok =
+  r.labels === r.icons && r.empty === 0 && r.shielded === 0 &&
+  present.length === wanted.length && legible
 console.log('\n=== VERDICT ===')
 console.log(`one label per node : ${r.labels === r.icons}`)
 console.log(`no empty labels    : ${r.empty === 0}`)
 console.log(`no click shielding : ${r.shielded === 0}`)
 console.log(`named nodes present: ${present.length === wanted.length}`)
+console.log(`LEGIBLE on screen  : ${legible} (>=${LEGIBLE_PX}px)`)
 console.log(ok ? 'PASS' : 'FAIL')
 
 await browser.close()
