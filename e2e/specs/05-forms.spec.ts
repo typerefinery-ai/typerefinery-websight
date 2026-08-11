@@ -102,6 +102,68 @@ test.describe('Act 5 — form behaviour', () => {
     await expect
       .poll(landed, { timeout: 60_000, message: `identity "${probe}" written to unattached context` })
       .toBe(true)
+
+    // docs/issues/0142 — the same save, with the Identity Contact Extension submitted, created
+    // nothing: two authored field names did not match `IdentityContact`. Act 5 ran 9/9 both before
+    // and after that fix, because nothing here ever submitted an extension.
+    //
+    // ⚠️ Assert the payload BEFORE the outcome. Merely revealing the extension's fields does not put
+    // them in the request, so an "object landed" assertion downstream of a save that never carried
+    // the extension passes forever. The payload check is what makes this guard impossible to pass
+    // vacuously.
+    const sent: string[] = []
+    const failures: string[] = []
+    page.on('request', (r) => { if (r.method() === 'POST') sent.push(r.postData() ?? '') })
+    page.on('response', async (res) => {
+      if (res.request().method() !== 'POST') return
+      const body = await res.text().catch(() => '')
+      if (/"error"\s*:\s*"?true/i.test(body)) {
+        const log = /"log"\s*:\s*"([^"]+)"/.exec(body)?.[1]?.replace(/\\\\/g, '\\')
+        failures.push(`${res.status()} ${res.url().slice(0, 110)} traceback: ${log ?? '<none>'}`)
+      }
+    })
+
+    await openForm(page, IDENTITY_CREATE)
+    // The extension's fields sit behind controls whose names live only in `title`
+    // (docs/issues/0113).
+    // ⚠️ Match `extension` ONLY. A wider `[title*="identity" i]` also matches the **Create Identity**
+    // button, so the click loop submitted three empty forms, each answering 200-with-error:true
+    // (`MissingPropertiesError: … (name)`) — the guard below then failed on the test's own noise
+    // rather than on the product. That is also the real explanation for the spurious
+    // `MissingPropertiesError` recorded as an open question in docs/issues/0142: a probe clicking
+    // the Save button, not an add-button submitting the form.
+    const extBtns = page.locator('[title*="extension" i]')
+    const firstNameSel = 'input[name="first_name"], input[name="first_name "]'
+    const n = await extBtns.count()
+    for (let i = 0; i < n; i++) {
+      await extBtns.nth(i).click({ timeout: 5_000 }).catch(() => {})
+      await page.waitForTimeout(1_000)
+      if (await page.locator(firstNameSel).first().isVisible().catch(() => false)) break
+    }
+    await expect(page.locator(firstNameSel).first(),
+      'the Identity Contact Extension opens').toBeVisible({ timeout: 15_000 })
+
+    const extProbe = `Runsheet identity ext ${new Date().toISOString().slice(11, 19)}`
+    const extName = page.locator('input[name="name"], input[name="name "]').first()
+    await extName.click()
+    await extName.pressSequentially(extProbe, { delay: 20 })
+    await page.getByRole('button', { name: /save|create/i }).first().click()
+    await page.waitForTimeout(8_000)
+
+    const withKeys = sent.filter((b) =>
+      b.includes('extension-definition--66e2492a') &&
+      /"(contact_numbers|email_addresses|social_media_accounts|email-contact|field)"/.test(b))
+    expect(withKeys.length,
+      'a save actually submitted the extension WITH its fields (else the checks below prove nothing)')
+      .toBeGreaterThan(0)
+    for (const body of withKeys) {
+      expect(body, 'extension uses `email_addresses`, not the embedded type name').not.toContain('"email-contact"')
+      expect(body, 'no unnamed composite serialising as the fallback key `field`').not.toContain('"field":')
+    }
+    // This chain answers 200 while the algorithm crashes, putting the truth in the body — so a
+    // status check reads a crash as success (docs/issues/0142, docs/issues/0089).
+    expect(failures, `no save answered 200-with-error:true\n    ${failures.join('\n    ')}`).toEqual([])
+
     await api.dispose()
   })
 

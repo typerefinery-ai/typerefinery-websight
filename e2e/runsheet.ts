@@ -159,7 +159,12 @@ export const STEPS: Record<string, StepDef> = {
   // ---- Act 5 — Form behaviour --------------------------------------------
   'P5-S1': { title: 'Create form groups fields Base Required/Optional/Object/Extensions', baseline: 'pass', issue: '0009' },
   'P5-S2': { title: 'Cancel opens the Default form', baseline: 'pass', issue: '0009' },
-  'P5-S3': { title: 'Save writes the object into unattached context (Scratch)', baseline: 'partial', issue: '0009' },
+  // Promoted 'partial' -> 'pass' 2026-08-12. It had passed in every recent Act 5 run, and while it
+  // stayed non-'pass' the harness below absorbed any throw into a **skip** — so the step that
+  // verifies writes actually land was structurally incapable of failing. That was not theoretical:
+  // a new docs/issues/0142 assertion failed exactly as designed and the run reported
+  // "1 passed · 1 skipped" with zero failures, which read as a green (docs/issues/0143).
+  'P5-S3': { title: 'Save writes the object into unattached context (Scratch)', baseline: 'pass', issue: '0009' },
   'P5-S4': { title: 'Update form is pre-filled with current values', baseline: 'pass', issue: '0009' },
   'P5-S5': { title: 'Vocab select offers an empty row then the vocabulary', baseline: 'pass', issue: '0009' },
   // Promoted 'unknown' -> 'pass' 2026-08-05 (decision 0011 Option 1, GitHub #62). The data half
