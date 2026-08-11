@@ -85,8 +85,13 @@ test('Act 3 — Incident Composer: three panes, selection, context menus, and Ne
   // run), so a recording made after enough runs would open onto an empty pane and film nothing.
   // Seed before the camera matters.
   const seededScratch = await ensureScratch(page, request, 2).catch(() => 0)
-  const seededPromo = await ensurePromotable(page, request).catch(() => null)
-  console.log(`     seed: scratch=${seededScratch}, promotable=${seededPromo ?? 'existing'}`)
+  // ⚠️ Do NOT log a failed seed as "existing" — that reads like success and is how docs/issues/0093
+  // stayed invisible. Promotables cannot currently be seeded at all (no create form works), so this
+  // is expected to fail; the journey continues against whatever is already there.
+  const seededPromo = await ensurePromotable(page, request).catch((e: any) =>
+    `FAILED (${String(e?.message || e).slice(0, 80)})`,
+  )
+  console.log(`     seed: scratch=${seededScratch}, promotable=${seededPromo}`)
 
   // ---- Scene 1 — the workbench (P3-S1) ------------------------------------
   await scene(page, 'Open the Incident Composer')

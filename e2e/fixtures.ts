@@ -51,7 +51,27 @@ export async function ensureScratch(page: any, request: any, min = 2, maxAttempt
   return count
 }
 
-const TASK_CREATE = `${SHOWCASE}/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create.html`
+/**
+ * The create form used to seed a **promotable** object.
+ *
+ * ⚠️ Not `task-create` — that form is **not wired to a flow** (`flowapi_enable=false`, no
+ * `flowapi_flowstreamid`), so its Create button fires no request at all and seeding silently
+ * produced nothing (docs/issues/0093).
+ *
+ * Measured 2026-08-11 across every promotable type in `PROMOTABLE`:
+ *   identity (control) 200 WIRED · task 200 NOT WIRED · **event 200 WIRED** ·
+ *   impact / sighting / attack-flow / x-oca-behavior → **404, no create form exists**
+ *
+ * `event` is the only promotable type with a wired create form — but ⚠️ **it does not work
+ * either**. Its submit fires and returns **200**, and no object appears in unattached context
+ * (measured 32 → 32). So the two promotable types with forms fail in two different ways:
+ * task never submits, event submits and produces nothing.
+ *
+ * ⚠️ **Consequence: no promotable can currently be seeded through the UI at all**, so P3-S12 —
+ * the only step verifying os-threat#84 — cannot run. It is pointed at `event` so the failure
+ * names the closest thing to a working path. See docs/issues/0093.
+ */
+const PROMOTABLE_CREATE = `${SHOWCASE}/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create.html`
 
 /** The types the Composer treats as promotable (panel.promo.js / decisions 0007, 0010). */
 const PROMOTABLE = ['task', 'impact', 'event', 'sighting', 'attack-flow', 'x-oca-behavior']
@@ -83,22 +103,32 @@ export async function promotableIds(request: any): Promise<string[]> {
 export async function ensurePromotable(page: any, request: any): Promise<string | null> {
   const before = new Set(await promotableIds(request))
 
-  await page.goto(TASK_CREATE, { waitUntil: 'domcontentloaded' })
+  await page.goto(PROMOTABLE_CREATE, { waitUntil: 'domcontentloaded' })
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
   await page.waitForTimeout(4_000)
 
   const name = page.locator('input[name="name"], input[name="name "]').first()
-  if (!(await name.isVisible().catch(() => false))) return null
+  if (!(await name.isVisible().catch(() => false))) {
+    throw new Error(`FIXTURE: ${PROMOTABLE_CREATE} rendered no name field, so no promotable could be seeded`)
+  }
   // Typed, not set programmatically — the same rule P0-S5 follows for the CMS login.
   await name.click()
   await name.pressSequentially(`Promote fixture ${new Date().toISOString().slice(11, 19)}`, { delay: 20 })
   await page.getByRole('button', { name: /save|create/i }).first().click()
-  await page.waitForTimeout(6_000)
 
-  const after = await promotableIds(request)
-  const fresh = after.filter((id) => !before.has(id))
-  // Return only an id THIS call created, so a step promoting it cannot eat demo data by accident.
-  return fresh[0] ?? null
+  // ⚠️ Do not sample once. The old version waited a flat 6 s and returned `null` on a miss, which
+  // is how docs/issues/0093 stayed invisible. Poll, then fail loudly.
+  for (let i = 0; i < 10; i++) {
+    await page.waitForTimeout(3_000)
+    const fresh = (await promotableIds(request)).filter((id) => !before.has(id))
+    // Return only an id THIS call created, so a step promoting it cannot eat demo data by accident.
+    if (fresh[0]) return fresh[0]
+  }
+
+  throw new Error(
+    `FIXTURE: no promotable appeared within 30s of submitting ${PROMOTABLE_CREATE}. ` +
+      'Check the form is wired to a flow (flowapi_enable + flowapi_flowstreamid) — docs/issues/0093.',
+  )
 }
 
 /**

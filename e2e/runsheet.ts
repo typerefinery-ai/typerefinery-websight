@@ -221,6 +221,18 @@ export function step(id: string, body: (args: any) => Promise<void>) {
       observe(testInfo, 'pass', `baseline was "${def.baseline}" — step now passes, promote it`)
     } catch (err: any) {
       const msg = (err?.message || String(err)).split('\n').slice(0, 4).join(' | ')
+
+      // ⚠️ A FIXTURE failure is never a legitimate baseline observation, so it must NOT be
+      // absorbed into a skip. docs/issues/0093: P3-S12 could not seed its promotable (the task
+      // create form is not wired to a flow), the first assertion failed, and this catch turned it
+      // into `- P3-S12 … skipped` — indistinguishable from the deliberately-skipped Act 4 steps.
+      // The step that exists to verify os-threat#84 therefore never ran, in any run, and the run
+      // still reported 0 failures. Re-throw so a broken fixture is loud.
+      if (/^FIXTURE:/.test(err?.message || '')) {
+        observe(testInfo, 'fail', `fixture could not be prepared — not a baseline observation: ${msg}`)
+        throw err
+      }
+
       observe(testInfo, def.baseline === 'fail' ? 'fail (expected)' : 'partial/fail', msg)
       base.skip(true, `baseline "${def.baseline}" — observed: ${msg}`)
     }
