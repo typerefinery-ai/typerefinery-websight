@@ -123,15 +123,23 @@ test.describe('Act 1 — All Incidents table', () => {
     //
     // Asserting the exact list (rather than "contains") is deliberate: it is what caught this change
     // immediately, and it will catch the next column arriving without its runsheet row.
+    // ⚠️ 2026-08-12 — aligned to the docx mockup (`docs/mini-app-source/image2.png`), read directly
+    // rather than via a summary of it. The design's header row is
+    //     ID | Name | Author | Tags | Status | Observed | Created | Tasks
+    // so `Type` and `Description` were dropped: neither is in the design, `Type` read
+    // "Extended-Incident" on every row, and since the 0138 dataset reset `Description` is empty on
+    // both curated incidents. Author and Tags stay out until they have data (docs/issues/0145).
+    // `Action` is not in the mockup either, but it carries the Open button P1-S7 drives — removing
+    // working navigation to match a picture would be the wrong trade (docs/issues/0123).
     expect(await page.locator('thead th').allInnerTexts().then((h) => h.map((s) => s.trim()).filter(Boolean)),
       'the promised columns').toEqual(
-      ['Name', 'Type', 'Description', 'Status', 'Observed', 'Tasks', 'Created', 'ID', 'Action'])
+      ['ID', 'Name', 'Status', 'Observed', 'Created', 'Tasks', 'Action'])
 
     const col = async (n: number) => await page.locator(`tbody tr td:nth-child(${n})`).allInnerTexts()
 
     // A column is only worth having if it carries data — a header over blank cells would satisfy the
     // assertion above (docs/issues/0048-class).
-    const createdCells = await col(7)
+    const createdCells = await col(5)
     const dated = createdCells.filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.trim()))
     expect(dated.length, 'every row shows a YYYY-MM-DD Created date').toBe(createdCells.length)
 
@@ -141,7 +149,8 @@ test.describe('Act 1 — All Incidents table', () => {
     // "every row" would fail against honest data; asserting nothing would let the columns go blank
     // unnoticed. Assert instead that the counts are numeric everywhere (never blank, never text) and
     // that the curated rows carry the real values the mockup promises.
-    const counts = [...(await col(5)), ...(await col(6))]
+    // Observed is column 4 and Tasks column 6 in the mockup order (ID·Name·Status·Observed·Created·Tasks).
+    const counts = [...(await col(4)), ...(await col(6))]
     expect(counts.filter((t) => !/^\d+$/.test(t.trim())),
       'Observed and Tasks are numeric on every row (0 is a fact, blank is not)').toEqual([])
 
@@ -156,16 +165,10 @@ test.describe('Act 1 — All Incidents table', () => {
       expect(Number(r.observed), `curated incident "${r.name}" reports its observations`).toBeGreaterThan(0)
     }
 
-    // docs/issues/0115 — the Description column used to read `Name -> potential phishing` and
-    // `<br>Created from CMS form (…)`. That string is not debug output: convert_n_and_e.py builds an
-    // HTML micro-summary for the GRAPH TOOLTIPS (`<br>Label -> value`), and it is frozen on disk at
-    // creation time, so the table was rendering another view's presentation layer as text. The
-    // shaper now reads the object's own `original.description`. Guarded here because the fix is
-    // invisible to every other assertion — the column was always populated, just with the wrong
-    // string (the presence-vs-quality trap of docs/issues/0048).
-    const descCells = await page.locator('tbody tr td:nth-child(3)').allInnerTexts()
-    expect(descCells.filter((t) => t.includes('->') || /<br\s*\/?>/i.test(t)),
-      'no display-wrapper plumbing leaks into Description').toEqual([])
+    // ⚠️ The docs/issues/0115 guard ("no `->` or `<br>` plumbing in Description") is GONE with the
+    // column. It is not lost coverage: the shaper still reads `original.description` rather than the
+    // frozen display wrapper, and the rule it protected — never render another view's presentation
+    // layer as text — now has no surface in this table. If Description ever returns, restore it.
 
     // ⚠️ The authored content sets `searchEnabled="false"`, which looked like the row's
     // "search box" claim being wrong. It is not: the flow payload carries `search: true`, and the
