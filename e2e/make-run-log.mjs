@@ -43,6 +43,11 @@ const runsheet = fs.readFileSync('docs/mini-app-runsheet.md', 'utf8')
 // step-level evidence and is not. Keep them apart and say which is which.
 const stepDirect = new Map() // step id -> Set(issue)
 const stepAct = new Map() // step id -> Set(issue)
+// A step can NAME an issue while only testing part of it. Mapping P3-S9 to os-threat#84 turned a
+// truthful NOT-EXERCISED into a false PASS, because P3-S9 asserts the Promote menu item and never
+// clicks it. A false green is worse than a visible gap, so the runsheet marks these explicitly as
+// `partial-coverage:#84` and the verdict is capped at PARTIAL (docs/issues/0086).
+const partialCoverage = new Map() // step id -> Set(issue)
 
 /** "#23-#26" / "#23–#26" is a RANGE. Not expanding it silently loses #24 and #25. */
 const expandIssues = (text) => {
@@ -71,6 +76,8 @@ for (const line of runsheet.split('\n')) {
     if (currentAct) stepAct.set(id, new Set([...(stepAct.get(id) || []), ...currentAct]))
     const direct = expandIssues(line)
     if (direct.size) stepDirect.set(id, new Set([...(stepDirect.get(id) || []), ...direct]))
+    const partials = [...line.matchAll(/partial-coverage:#(\d+)/g)].map((m) => m[1])
+    if (partials.length) partialCoverage.set(id, new Set(partials))
   }
 }
 const stepIssues = new Map()
@@ -102,8 +109,17 @@ const MANUAL_BY_DESIGN = new Set(
 )
 if (!MANUAL_BY_DESIGN.size) MANUAL_BY_DESIGN.add('P2-S4') // known manual step; keep the rule honest if the regex misses
 
-const verdict = (list) => {
+const verdict = (list, issue) => {
   if (!list || !list.length) return 'NOT-EXERCISED'
+  // Cap at PARTIAL when every step that names this issue only covers part of it.
+  const covering = list.filter((s) => (stepDirect.get(s.id) || new Set()).has(issue))
+  if (
+    issue &&
+    covering.length &&
+    covering.every((s) => (partialCoverage.get(s.id) || new Set()).has(issue))
+  ) {
+    return list.some((s) => s.result === 'FAIL') ? 'FAIL' : 'PARTIAL'
+  }
   if (list.some((s) => s.result === 'FAIL')) return 'FAIL'
   const gaps = list.filter((s) => s.result === 'SKIPPED' && !MANUAL_BY_DESIGN.has(s.id))
   const ran = list.filter((s) => s.result === 'PASS')
@@ -139,7 +155,7 @@ out.push('| Issue | State | Verdict | Evidence | Steps | Title |')
 out.push('|---|---|---|---|---|---|')
 for (const [n, meta] of [...gh.entries()].sort((a, b) => Number(a[0]) - Number(b[0]))) {
   const list = byIssue.get(n)
-  const v = verdict(list)
+  const v = verdict(list, n)
   const direct = (list || []).filter((s) => (stepDirect.get(s.id) || new Set()).has(n))
   const level = direct.length ? 'direct' : list && list.length ? 'act' : '—'
   const shown = direct.length ? direct : list || []
