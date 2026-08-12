@@ -933,6 +933,34 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         console.log(["form group captions rendered", added, "of", composites.length, "composite(s)"]);
     };
 
+    /** Marker class for a generated add-button label. */
+    ns.CLASS_ADD_BUTTON_LABEL = "form-add-button-label";
+
+    /**
+     * Show each icon-only add-button's authored `title` as visible text.
+     *
+     * decision 0035 Option 1. Scoped to buttons that have a `title` and **no** text of their own, so
+     * Submit/Cancel — which already carry their own labels — are untouched. Idempotent.
+     *
+     * Data-agnostic: the text is whatever the author set on the button. No mapping table, no
+     * knowledge of what the properties mean (CLAUDE.md).
+     */
+    ns.renderAddButtonLabels = ($component) => {
+        const $buttons = $component.find("button[title]").filter(function () {
+            return $(this).text().trim() === "";
+        });
+        let added = 0;
+        $buttons.each(function () {
+            const $button = $(this);
+            if ($button.find("." + ns.CLASS_ADD_BUTTON_LABEL).length) return; // idempotent
+            const label = ($button.attr("title") || "").trim();
+            if (!label) return;
+            $("<span/>").addClass(ns.CLASS_ADD_BUTTON_LABEL).text(label).appendTo($button);
+            added++;
+        });
+        console.log(["form add-button labels rendered", added, "of", $buttons.length, "icon-only button(s)"]);
+    };
+
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         const id = componentConfig.id;
@@ -975,6 +1003,20 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         // existed only as composite field NAMES plus an unlabelled horizontal rule. The claim was
         // true of the markup and false of the screen, which is the one thing a demo must never do.
         ns.renderGroupCaptions($component);
+
+        // alpha-launch decision 0035 (Decided 2026-08-12, Option 1) — label the add-buttons.
+        //
+        // The optional/extension add-buttons were icon-only, their names living solely in `title`
+        // attributes: eight identical blue rectangles on identity-create. The Act 5 header claims the
+        // optional properties are "offered **by name**", which was true of the markup and false of
+        // the screen (docs/issues/0113).
+        //
+        // Measured before choosing: full names add **no rows and no width** — only height (+24 px at
+        // 1920×1080, +48 px at 1366×768) — and clip nothing, so the compactness argument for the
+        // wireframe's two-letter chips does not apply. The chips were also not derivable (ER/OM/GM
+        // are initials, but CO/LN/LB/DF/IC follow no rule), so they would need an authored label per
+        // property, forever.
+        ns.renderAddButtonLabels($component);
 
         //highlight fields with same ids
         const isEditMode = $("body").hasClass("isEditMode");

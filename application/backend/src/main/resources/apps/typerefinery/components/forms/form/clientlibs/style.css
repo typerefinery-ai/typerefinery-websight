@@ -129,3 +129,14 @@ form-control:invalid {
     margin: 0.25rem 0 0.5rem 0;
     letter-spacing: 0.01em;
 }
+
+/* alpha-launch decision 0035 Option 1 — the add-buttons' authored names, on screen.
+   Small and wrapping: measured, names add height only (no extra rows, no extra width) and clip
+   nothing at 1920x1080 or 1366x768. */
+.form-add-button-label {
+    display: block;
+    font-size: 0.72rem;
+    line-height: 1.15;
+    margin-top: 0.2rem;
+    white-space: normal;
+}
