@@ -122,11 +122,90 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 }
             }
 
-            $component.find("iframe").attr("src", sourceUrl);
+            ns.navigateFrame($component, sourceUrl);
         } else {
             console.error("no source was specified");
         }
         console.groupEnd();
+    };
+
+    /** Marker class for the placeholder shown in place of an embed that could not be loaded. */
+    ns.CLASS_EMBED_UNAVAILABLE = "embed-unavailable";
+
+    /**
+     * Navigate the embedded frame, but do not send it somewhere that does not exist.
+     *
+     * docs/issues/0084 — an embed pointed at a missing page used to navigate anyway, and the CMS's
+     * own 404 rendered in the pane. On the Incident Overview that meant left-selecting the central
+     * incident node replaced the object pane with a near-blank panel reading only **"WebSight"**:
+     * it looks broken, says nothing about what happened, and leaks the CMS vendor name into the
+     * product. A dead click that blanks a pane is the worst failure mode to have on a demo screen.
+     *
+     * ⚠️ Deliberately fails OPEN. If the probe itself cannot answer (offline, CORS, method not
+     * allowed), we navigate anyway rather than blocking a working embed — only a definitive
+     * non-OK **status** suppresses navigation. Treating an error as a verdict is exactly the bug
+     * this project just fixed in `e2e/audit-form-coverage.mjs`, where a TLS failure was rendered as
+     * a confident "404" and overstated a defect fourteen-fold.
+     *
+     * Data-agnostic: this knows about URLs and HTTP status, never about what the embedded page
+     * contains. The message says "content", not "form" or any domain term.
+     */
+    ns.navigateFrame = ($component, sourceUrl) => {
+        const $frame = $component.find("iframe");
+        const go = () => {
+            ns.clearUnavailable($component);
+            $frame.attr("src", sourceUrl);
+        };
+
+        if (typeof fetch !== "function") {
+            go();
+            return;
+        }
+
+        fetch(sourceUrl, { method: "HEAD", credentials: "same-origin" })
+            .then((res) => {
+                if (res.ok) {
+                    go();
+                    return;
+                }
+                console.error([
+                    "embed source does not resolve; not navigating the frame",
+                    sourceUrl,
+                    res.status,
+                    res.statusText,
+                ]);
+                ns.showUnavailable($component, sourceUrl, res.status);
+            })
+            .catch((error) => {
+                // Could not determine - navigate anyway. A probe that failed is not evidence the
+                // target is missing.
+                console.warn([
+                    "embed source could not be probed; navigating anyway",
+                    sourceUrl,
+                    error && error.message,
+                ]);
+                go();
+            });
+    };
+
+    /** Replace the frame with an explicit, honest placeholder. */
+    ns.showUnavailable = ($component, sourceUrl, status) => {
+        const $frame = $component.find("iframe");
+        $frame.hide();
+        let $msg = $component.find("." + ns.CLASS_EMBED_UNAVAILABLE);
+        if (!$msg.length) {
+            $msg = $("<div/>")
+                .addClass(ns.CLASS_EMBED_UNAVAILABLE)
+                .css({ padding: "1rem", color: "#666", "font-size": "0.9rem" });
+            $component.append($msg);
+        }
+        // Generic wording on purpose - this component must not name what it was embedding.
+        $msg.text("This content is not available (" + status + ").").show();
+    };
+
+    ns.clearUnavailable = ($component) => {
+        $component.find("." + ns.CLASS_EMBED_UNAVAILABLE).hide();
+        $component.find("iframe").show();
     };
 
     /** Class used for the "embedded page failed to load" surface, so it can be cleared again. */

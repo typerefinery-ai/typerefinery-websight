@@ -78,6 +78,9 @@ for (const i of [0, 1, 2]) {
   await nodes.nth(i).click({ force: true })
   await page.waitForTimeout(6000)
   console.log(`  form after : ${await formState()}`)
+  // decision 0034 — a missing form must say so rather than rendering the CMS 404.
+  const msg = page.locator('.embed-unavailable:visible')
+  console.log(`  pane message: ${(await msg.count()) ? JSON.stringify(await msg.first().innerText()) : '(none)'}`)
 }
 
 await browser.close()
