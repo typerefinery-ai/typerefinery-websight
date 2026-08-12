@@ -21,6 +21,7 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { retarget } from './form-retarget.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WORKSPACE = path.resolve(__dirname, '..', '..')
@@ -193,6 +194,12 @@ const stripReserved = (node) => {
 const content = tree['jcr:content']
 for (const k of ['jcr:title', 'propertyTitle', 'ogTitle']) if (content[k]) content[k] = 'incident-update'
 if (content.description) content.description = 'Incident update form'
+
+// ⚠️ docs/issues/0158 — the page metadata above is NOT what a viewer sees. The first cut of this
+// form rendered `<h1>Identity Form</h1>` with a greyed `type` reading `identity`, and posted to
+// identity-update's own endpoint, while scoring "200, 35 inputs". Retarget the strings that carry
+// the template's type; the extension button is set to the real incident extension below.
+for (const line of retarget(tree, 'incident', 'identity', `${TARGET_PARENT}/${TARGET_NAME}`)) console.log(`retarget ${line}`)
 
 stripReserved(tree)
 

@@ -18,6 +18,7 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { retarget } from './form-retarget.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WORKSPACE = path.resolve(__dirname, '..', '..')
@@ -162,6 +163,12 @@ for (const t of TYPES.filter((t) => !ONLY || t.type === ONLY)) {
 
   const content = tree['jcr:content']
   for (const k of ['jcr:title', 'propertyTitle', 'ogTitle']) if (content[k]) content[k] = name
+
+  // docs/issues/0158 — strip the TEMPLATE's identity before writing, or the page renders as the
+  // form it was cloned from and posts to that form's endpoint.
+  const templateType = t.template.split('/').pop().replace('-update', '')
+  for (const line of retarget(tree, t.type, templateType, `${parent}/${name}`)) console.log(`  retarget ${line}`)
+
   stripReserved(tree)
 
   if (!APPLY) { console.log(`  would create ${parent}/${name}`); continue }
@@ -171,8 +178,17 @@ for (const t of TYPES.filter((t) => !ONLY || t.type === ONLY)) {
   const body = await page.text()
   console.log(`  folder ${folder.status} · page ${page.status} ${body.slice(0, 90)}`)
 
-  // A servlet 200 is not evidence the page renders (docs/issues/0057) - read it back.
+  // ⚠️ A servlet 200 is not evidence the page renders (docs/issues/0057), and an input COUNT is not
+  // evidence the page is the right form (docs/issues/0158) - the first cut of these forms scored
+  // "200, 35 inputs" while rendering as `Identity Form` with type `identity`. Assert what a human
+  // actually sees: the heading and the serialised `type`.
   const check = await fetch(`${CMS}${parent}/${name}.html`, { headers: { Authorization: AUTH } })
   const html = await check.text()
-  console.log(`  GET ${name}.html -> ${check.status}, ${(html.match(/<input/g) || []).length} input(s)`)
+  const heading = (/<h1>\s*([^<]+?)\s*<\/h1>/.exec(html) || [, '(none)'])[1]
+  const typeValue = (/name="type"[^>]*\svalue="([^"]*)"/.exec(html) || [, '(none)'])[1]
+  const inputs = (html.match(/<input/g) || []).length
+  const ok = heading.toLowerCase().startsWith(t.type.replaceAll('-', ' ')) && typeValue === t.type
+  console.log(
+    `  GET ${name}.html -> ${check.status}, ${inputs} input(s) | h1="${heading}" type="${typeValue}" ${ok ? 'OK' : '❌ MISLABELLED'}`,
+  )
 }
