@@ -196,6 +196,28 @@ export async function selectPopulatedNode(
       if (isPopulated(s)) break
       await page.waitForTimeout(1_000)
     }
+    // ⚠️ docs/issues/0157 — the form must be THIS node's Update form.
+    //
+    // `filled/total` cannot tell the right form from a well-populated wrong one, and that is not
+    // hypothetical: measured, clicking an identity opened `relationship-create.html` at 12/14 filled,
+    // which sailed past the ratio. **P3-S5 was green on the wrong form for as long as it existed** —
+    // Act 3's headline claim (*select an object, see that object*) verified by an assertion that
+    // could not see the difference.
+    //
+    // Two conditions, and both are needed:
+    //   - the form names the clicked node's type   (`identity--…` -> `identity-…`)
+    //   - it is an *update* form, not a create one (a relationship node opening
+    //     `relationship-create` satisfies the type check alone)
+    const nodeType = /^([a-z0-9-]+)--/i.exec(nodeId)?.[1] ?? ''
+    const frameName = s?.frame ?? ''
+    const correspondsToNode =
+      !nodeType || (frameName.includes(`${nodeType}-`) && /-update/.test(frameName))
+
+    if (isPopulated(s) && !correspondsToNode) {
+      skipped.push(`${nodeId.slice(0, 22)} ${before}->${frameName}: NOT this node's update form`)
+      continue
+    }
+
     if (isPopulated(s)) {
       const ratio = s.total > 0 ? s.filled / s.total : 0
       // ⚠️ Strictly greater, not `>=`. Both callers assert `filled/total > minFilledRatio` on the
