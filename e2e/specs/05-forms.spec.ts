@@ -71,6 +71,42 @@ test.describe('Act 5 — form behaviour', () => {
       optionalControls.some((t) => /extension/i.test(t)),
       `the form offers an extension property (saw: ${optionalControls.join(', ')})`,
     ).toBeTruthy()
+
+    /**
+     * The four group captions, ON SCREEN — docs/issues/0048's last open half of this step.
+     *
+     * ⚠️ **The comment above used to end by saying the four names were the payload categorisation
+     * "not a visible grouping". That was true when it was written and is not any more:**
+     * `renderGroupCaptions` (docs/issues/0113) shipped 2026-08-12 and the captions now render —
+     * verified by hand in Chrome on the live Composer pane. So the half of this row's claim that was
+     * genuinely unassertable has become assertable, and leaving it out would now be under-testing by
+     * habit rather than by necessity.
+     *
+     * 🔑 **Asserted by TEXT, not by counting.** 0048's original complaint about this step was that it
+     * counted controls loosely enough that three unrelated buttons satisfied it. Naming each caption
+     * is the fix for that class, not a tighter count.
+     *
+     * ⚠️ The captions are injected **client-side**, so they are absent from the served markup — a
+     * check against the HTML would silently pass on nothing (measured while probing docs/issues/0160).
+     * Poll the rendered DOM.
+     *
+     * ⬜ `base_optional` renders as "Base Optional" where the design says "Optional" — a recorded
+     * divergence (docs/issues/0113, docs/issues/0160), so match the build's wording and let the
+     * divergence stay visible in the docs rather than hiding it behind a lenient regex here.
+     */
+    for (const caption of ['Base Required', 'Object', 'Base Optional', 'Extensions']) {
+      await expect
+        .poll(
+          async () =>
+            await page.getByText(caption, { exact: true }).count(),
+          {
+            timeout: 20_000,
+            message: `group caption "${caption}" renders on screen (docs/issues/0113)`,
+          },
+        )
+        .toBeGreaterThan(0)
+    }
+    observe(test.info(), 'note', 'group captions asserted: Base Required · Object · Base Optional · Extensions')
   })
 
   step('P5-S2', async ({ page }) => {
