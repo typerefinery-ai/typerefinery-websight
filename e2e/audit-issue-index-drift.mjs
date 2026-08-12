@@ -67,6 +67,7 @@ if (!headerRow) {
   console.error('FAIL - could not find the index table header; refusing to guess the Status column')
   process.exit(1)
 }
+const HEADER_CELLS = headerRow.split("|").length
 const STATUS_COL = headerRow.split('|').findIndex((c) => c.trim().toLowerCase() === 'status')
 console.log(`index Status column = ${STATUS_COL} (from the header row)\n`)
 
@@ -98,6 +99,7 @@ let checked = 0
 let drift = 0
 let missing = 0
 let duplicated = 0
+let malformed = 0
 
 for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)).sort()) {
   const id = name.slice(0, 4)
@@ -128,6 +130,22 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
    * column and there is no need to guess.
    */
   const cells = row.split('|')
+
+  /**
+   * ⚠️ **A row with the wrong cell count makes every column comparison meaningless — silently.**
+   * Measured: `0081`'s "Status" cell reads `**High**`, which is a *Severity* value. The row is short
+   * a cell, so everything after the gap is read one column to the left and the audit would report a
+   * confident, wrong answer. Check the shape before trusting the contents.
+   */
+  if (cells.length !== HEADER_CELLS) {
+    malformed++
+    console.log(
+      `${id}  ⚠️ MALFORMED ROW — ${cells.length - 2} cells, header has ${HEADER_CELLS - 2}; ` +
+      `column comparison skipped (its "Status" cell reads "${(cells[STATUS_COL] ?? '').trim().slice(0, 24)}")`,
+    )
+    continue
+  }
+
   const statusCell = cells[STATUS_COL]
   if (statusCell === undefined) continue
 
@@ -142,6 +160,8 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
 
 console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
-  `${duplicated} with duplicate index rows · ${missing} absent from the index.`,
+  `${duplicated} with duplicate index rows · ${malformed} malformed row(s) · ${missing} absent from the index.`,
 )
-if (!drift && !missing && !duplicated) console.log('index and frontmatter agree throughout.')
+if (!drift && !missing && !duplicated && !malformed) {
+  console.log('index and frontmatter agree throughout.')
+}
