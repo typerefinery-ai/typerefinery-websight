@@ -445,7 +445,17 @@ test.describe('Act 3 — Incident Composer', () => {
     // (docs/issues/0049), so the step was flaky-red for a reason unrelated to what it tests.
     //
     // `selectPopulatedNode` walks the pane and applies the real measurement — see `../form-pane`.
-    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes)
+    // ⚠️ docs/issues/0076 — same gate as P5-S4, for the same measured reason. Controlled pair:
+    // Act 3 run from a freshly reset dataset passes **13/13**; run again immediately, with no reset,
+    // **P3-S5 fails at 6/14**. Each Act 3 run leaves ~2 more objects in Promo (76 → 78 → 80), and
+    // those the suite creates are sparse, so they progressively crowd out the candidates this step
+    // samples. Without a minimum, the walk stops at the first node that merely has nothing
+    // *missing* — which a one-field object satisfies — and the ratio assertion below then fails on
+    // a fixture problem rather than a product one.
+    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes, {
+      candidates: 10,
+      minFilledRatio: 0.5,
+    })
     if (skipped.length) {
       observe(test.info(), 'note', `left-select opened no object for: ${skipped.join(', ')}`)
     }
