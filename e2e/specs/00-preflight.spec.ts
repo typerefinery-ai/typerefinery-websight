@@ -2,7 +2,7 @@ import { expect, request } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
 import { step, test } from '../runsheet'
-import { FLOW_BASE } from '../playwright.config'
+import { FLOW_BASE, SHOWCASE } from '../playwright.config'
 
 // docs/issues/0072 — the runtime flow DB is git-ignored; the provisioning source is the submodule.
 const TR = path.resolve(__dirname, '../../../typerefinery/services/totaljs-flow/database')
@@ -272,5 +272,68 @@ test.describe('Act 0 — preflight', () => {
         'them to the provisioning source, or list them in KNOWN_RUNTIME_ONLY with a reason:\n  ' +
         runtimeOnlyServingDemo.join('\n  '),
     ).toEqual([])
+  })
+
+  /**
+   * docs/issues/0152 — a cached payload must never outrank the live route.
+   *
+   * ⚠️ This is the one check the rest of the suite is **structurally incapable** of making. Every
+   * Playwright run starts from a fresh profile with empty `localStorage`, which is always the
+   * cold-start branch — the branch that works. A returning browser takes the other branch, and for
+   * as long as that branch preferred the cache, Act 1's opening screen rendered 152 rows that had
+   * been withdrawn from the data set, under columns that no longer existed. P1-S1 passed throughout.
+   *
+   * So this step deliberately does what no other step does: it **plants a stale payload first**, then
+   * asserts the page ignores it in favour of live data.
+   */
+  step('P0-S9', async ({ page }) => {
+    await page.goto(`${SHOWCASE}/pages/incidents.html`)
+
+    // ⚠️ Derive the cache key rather than hardcoding it. The key IS the TMS topic, and a hardcoded
+    // one that stopped matching would make this guard silently vacuous — it would plant a payload
+    // nothing reads and then "pass". That is the docs/issues/0048 failure mode this project keeps
+    // re-learning, so the topic is read from the page and its absence is a failure in itself.
+    const topic = (await page.content()).match(/websocketTopic&?#?3?4?;?":?"?(table_[a-f0-9]+)/i)?.[1]
+      ?? (await page.content()).match(/(table_[a-f0-9]{32})/)?.[1]
+    expect(topic, 'the incidents table exposes its TMS topic (the localStorage cache key)').toBeTruthy()
+
+    // A payload that is unmistakably wrong: the pre-0149 columns and rows that no longer exist.
+    // If any of this reaches the screen, the cache won.
+    const STALE = {
+      columns: [
+        { field: 'name', title: 'Name' },
+        { field: 'type', title: 'Type' },
+        { field: 'description', title: 'Description' },
+        { field: 'id', title: 'ID' },
+      ],
+      data: [
+        { name: 'STALE CACHE ROW', type: 'Extended-Incident', description: 'Name -> STALE CACHE ROW', id: 'incident--stale-0152' },
+      ],
+    }
+    await page.evaluate(
+      ([key, payload]) => window.localStorage.setItem(key as string, payload as string),
+      [topic!, JSON.stringify(STALE)],
+    )
+    // Prove the plant landed before drawing any conclusion from what renders next.
+    expect(
+      await page.evaluate((key) => window.localStorage.getItem(key as string)?.length ?? 0, topic!),
+      'the stale payload was actually written to localStorage (otherwise this step tests nothing)',
+    ).toBeGreaterThan(0)
+
+    await page.reload()
+    await page.locator('tbody tr').first().waitFor({ state: 'visible', timeout: 60_000 })
+
+    const headers = (await page.locator('thead th').allInnerTexts()).map((s) => s.trim()).filter(Boolean)
+    expect(headers, 'the live column set is rendered, not the cached one').not.toContain('Description')
+    expect(headers, 'the live column set is rendered, not the cached one').toContain('Status')
+
+    const bodyText = await page.locator('tbody').innerText()
+    expect(bodyText, 'no cached row reaches the screen').not.toContain('STALE CACHE ROW')
+
+    const api = await request.newContext({ ignoreHTTPSErrors: true })
+    const shaped = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents-shaped`)).json()
+    await api.dispose()
+    expect(await page.locator('tbody tr').count(), 'one row per incident returned by the LIVE endpoint')
+      .toBe((shaped.data || []).length)
   })
 })

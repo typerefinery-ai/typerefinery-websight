@@ -340,7 +340,20 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
 
 
-    ns.jsonConnected = async (dataSourceURL, id, $component) => {
+    /**
+     * @param onFailure optional fallback invoked when the fetch cannot produce a payload. Defaults
+     *   to the "waiting for data" state. docs/issues/0152 passes a cached-payload renderer here so
+     *   an unreachable endpoint degrades to the last known rows rather than to an empty table.
+     */
+    ns.jsonConnected = async (dataSourceURL, id, $component, onFailure) => {
+        const fail = (why) => {
+            if (typeof onFailure === "function") {
+                console.warn(["table dataSource unavailable; falling back", id, dataSourceURL, why]);
+                onFailure();
+                return;
+            }
+            ns.waitingForDataConnected(id, $component);
+        };
         try {
             // Since decision 0003 (option B) this is also the cold-start path for TMS-backed
             // tables, not just the JSON-only case — so its failures are now user-visible and
@@ -348,7 +361,7 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             const res = await fetch(dataSourceURL);
             if (!res.ok) {
                 console.error(["table dataSource fetch failed", id, dataSourceURL, res.status, res.statusText]);
-                ns.waitingForDataConnected(id, $component);
+                fail(`HTTP ${res.status}`);
                 return;
             }
             const response = await res.json();
@@ -359,11 +372,11 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 return;
             }
             console.warn(["table dataSource returned an empty body", id, dataSourceURL]);
-            ns.waitingForDataConnected(id, $component);
+            fail("empty body");
         }
         catch (error) {
             console.error(["table dataSource error", id, dataSourceURL, error]);
-            ns.waitingForDataConnected(id, $component);
+            fail(String((error && error.message) || error));
         }
     };
 
@@ -377,27 +390,42 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
             let componentConfig = componentNs.getComponentConfig($component);
             tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
-            if (!componentData) {
-                // Cold start: the flow publishes its payload from a senddata node when the flow
-                // *starts*, and that publish is fire-and-forget. A browser opened afterwards has
-                // nothing cached and used to render an empty table for ever — the Mini App's
-                // landing page showed "No matching records found" on every fresh machine and after
-                // every stack restart (alpha-launch docs/issues/0029).
-                //
-                // decision 0003 = Option B: fall through to the component's own HTTP dataSource so
-                // first paint no longer depends on flow timing. The TMS subscription registered
-                // above stays live, so a later publish still updates the table through callbackFn.
-                //
-                // Data-agnostic: this is a URL from component config. The widget knows nothing
-                // about what the rows mean — shaping into {columns, data} is the flow's job.
-                //
-                // Deliberately NOT `dataSource`: that property carries a component-level *mock*
-                // default (mock/datasource1.json — fake people rows), so reusing it would paint
-                // invented data onto a page whose flow simply had not published yet. The cold-start
-                // source is opt-in per component; absent it, we say we are waiting.
-                const componentDataSource = componentConfig.coldStartDataSource;
-                console.log(["table cold start: no cached payload", componentConfig.id, topic,
-                    "coldStartDataSource:", componentDataSource || "(none configured — will show waiting state)"]);
+
+            // The flow publishes its payload from a senddata node when the flow *starts*, and that
+            // publish is fire-and-forget. A browser opened afterwards has nothing cached and used to
+            // render an empty table for ever — the Mini App's landing page showed "No matching
+            // records found" on every fresh machine and after every stack restart
+            // (alpha-launch docs/issues/0029).
+            //
+            // decision 0003 = Option B: fall through to the component's own HTTP dataSource so first
+            // paint no longer depends on flow timing. The TMS subscription registered above stays
+            // live, so a later publish still updates the table through callbackFn.
+            //
+            // Data-agnostic: this is a URL from component config. The widget knows nothing about
+            // what the rows mean — shaping into {columns, data} is the flow's job.
+            //
+            // Deliberately NOT `dataSource`: that property carries a component-level *mock* default
+            // (mock/datasource1.json — fake people rows), so reusing it would paint invented data
+            // onto a page whose flow simply had not published yet. The cold-start source is opt-in
+            // per component; absent it, we say we are waiting.
+            const componentDataSource = componentConfig.coldStartDataSource;
+
+            // ⚠️ docs/issues/0152 — the cached payload used to win outright: this read was
+            // `if (!componentData) { …fetch… }`, so a key cached by ANY earlier build was rendered
+            // unconditionally and the fetch never happened. There is no freshness check on it — no
+            // timestamp, no version — so a returning browser showed rows that had been withdrawn
+            // from the data set, under columns that no longer existed, indefinitely (nothing
+            // publishes on page load, so the live TMS subscription never corrected it). On Act 1's
+            // opening screen that is invented data presented as live.
+            //
+            // 0029's author already refused to paint *mock* rows onto a page whose flow had not
+            // published; a *stale* cache is worse, because withdrawn rows are indistinguishable from
+            // live ones. So when a cold-start route is configured it is now AUTHORITATIVE on load,
+            // and the cache is demoted to the fallback for when that fetch cannot answer.
+            if (componentDataSource) {
+                console.log(["table load: fetching authoritative payload", componentConfig.id, topic,
+                    "coldStartDataSource:", componentDataSource,
+                    componentData ? "(cached payload held in reserve)" : "(no cached payload)"]);
 
                 // NOT asking over TMS here. That was decision 0003 option A, which was not taken:
                 // no flow answers such a request, and calling it at this point throws inside the
@@ -405,17 +433,21 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
                 // every cold start for no benefit. ns.requestData remains in the TMS clientlib if
                 // the handshake is ever revisited. See docs/issues/0029.
 
-                if (componentDataSource) {
-                    ns.jsonConnected(componentDataSource, componentConfig.id, $component);
-                    return;
-                }
-                // Nothing cached and nothing to fetch: say so, rather than rendering a table that
-                // looks empty when it is really still waiting (0029 option 3).
-                ns.waitingForDataConnected(componentConfig.id, $component);
+                ns.jsonConnected(componentDataSource, componentConfig.id, $component,
+                    componentData
+                        ? () => ns.cachedPayloadConnected(componentData, componentConfig.id, topic, $component)
+                        : undefined);
                 return;
             }
-            const parsedComponentData =JSON.parse(componentData);
-            ns.updateComponentHTML(componentConfig.id, parsedComponentData, $component);
+
+            // No live route configured — the cache is all there is.
+            if (componentData) {
+                ns.cachedPayloadConnected(componentData, componentConfig.id, topic, $component);
+                return;
+            }
+            // Nothing cached and nothing to fetch: say so, rather than rendering a table that
+            // looks empty when it is really still waiting (0029 option 3).
+            ns.waitingForDataConnected(componentConfig.id, $component);
         }
         catch (error) {
             ns.modelDataConnected(topic, $component);
@@ -424,6 +456,29 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
     ns.modelDataConnected = (id, $component) => {
         ns.updateComponentHTML(id, {}, $component);
+    };
+
+    /**
+     * Render a payload previously cached in localStorage under the TMS topic.
+     *
+     * Since docs/issues/0152 this is a **fallback**, not the primary path: it runs when no live
+     * route is configured, or when that route could not answer. The payload has no freshness
+     * information of any kind, so it may be arbitrarily old — the log line says so explicitly and
+     * names the topic, because "the table is showing last week's rows" is otherwise indistinguishable
+     * from a working page.
+     */
+    ns.cachedPayloadConnected = (componentData, id, topic, $component) => {
+        try {
+            const parsedComponentData = JSON.parse(componentData);
+            const rows = (parsedComponentData && parsedComponentData.data && parsedComponentData.data.length) || 0;
+            console.warn(["table rendering CACHED payload of unknown age", id, topic,
+                `${rows} row(s)`, `${componentData.length} bytes`]);
+            ns.updateComponentHTML(id, parsedComponentData, $component);
+        }
+        catch (error) {
+            console.error(["table cached payload is unreadable; discarding", id, topic, error]);
+            ns.waitingForDataConnected(id, $component);
+        }
     };
 
     /**

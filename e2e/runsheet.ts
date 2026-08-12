@@ -53,6 +53,11 @@ export const STEPS: Record<string, StepDef> = {
   // red: the one thing it exists to catch — a NEW fix living only in the git-ignored runtime DB —
   // would have been reported as "skipped". That is precisely how 0072 hid for days (docs/issues/0072).
   'P0-S8': { title: 'No flow fix exists only in the git-ignored runtime database', baseline: 'pass', issue: '0072' },
+  // ⚠️ Baseline 'pass' deliberately, while the fix is NOT yet deployed — so this step is currently
+  // RED. That is the honest state: a returning browser really does see withdrawn data on Act 1's
+  // opening screen. Parking it at 'unknown' would have the harness swallow the throw and the suite
+  // would look clean while the demo's first screen was broken.
+  'P0-S9': { title: 'A stale cached payload never outranks the live route', baseline: 'pass', issue: '0152' },
 
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and
