@@ -240,6 +240,27 @@ test.describe('Act 5 — form behaviour', () => {
     await expect(roles).toHaveCount(1, { timeout: 30_000 })
     expect(await roles.getAttribute('placeholder'), 'empty-state placeholder').toBeTruthy()
 
+    // ⚠️ docs/issues/0156 — the half this step's own row promises ("**Empty** first row") and this
+    // assertion never checked. A truthy `placeholder` attribute and a populated dropdown were both
+    // true while every select arrived with its FIRST vocabulary value already selected — so creating
+    // an identity with only a name typed stored identity_class:"individual", roles:["soc"] and
+    // sectors:["agriculture"], three attributes nobody chose, persisted to disk.
+    //
+    // Assert on the native <select> value: Choices keeps only the selected option there, so an empty
+    // value is exactly "nothing is selected". Checked across EVERY vocab select on the form, because
+    // the defect was in the shared component and would otherwise be caught only where it was found.
+    const emptyOnLoad = await page.evaluate(() =>
+      [...document.querySelectorAll('select')]
+        .filter((s) => !(s as HTMLSelectElement).multiple)
+        .map((s) => ({ name: (s as HTMLSelectElement).name || '(unnamed)', value: (s as HTMLSelectElement).value }))
+        .filter((s) => s.value !== ''),
+    )
+    expect(
+      emptyOnLoad,
+      'no vocab select arrives with a value already chosen — a value the user never picked is ' +
+        'submitted and stored (docs/issues/0156)',
+    ).toEqual([])
+
     const choices = page.locator('.choices').first()
     await expect(choices).toBeVisible({ timeout: 20_000 })
     await choices.click()
@@ -311,7 +332,19 @@ test.describe('Act 5 — form behaviour', () => {
 
     // ⚠️ `toBeVisible()` is wrong here: the rows live in a closed dropdown, which is exactly how a
     // select should behave. Assert they are built and carry text, not that they are on screen.
-    const firstRow = rows.first()
+    //
+    // ⚠️ docs/issues/0156 — skip the placeholder row. Since that fix every single-value select opens
+    // with an empty first row ("Select an item"), so `rows.first()` is no longer a candidate: it is
+    // the empty state, and it legitimately has no heading, description or tooltip. A `_ref` picker
+    // must not arrive with a reference already chosen any more than a vocab select must — before the
+    // fix, `created_by_ref` was being silently set to an arbitrary identity on every create.
+    //
+    // This narrows the locator to the first REAL candidate rather than relaxing what is asserted of
+    // it: the row must still carry icon, heading, description and tooltip.
+    // Choices marks the empty row with `.choices__placeholder`, so exclude it by class rather than
+    // by position. Asserted below: the surviving row must still carry icon, heading, description and
+    // tooltip — the requirement is unchanged, only the row it is asked of.
+    const firstRow = refWidget.locator('.choices__item--choice:not(.choices__placeholder)').first()
     await expect(firstRow.locator('strong'), 'a reference row shows a heading').toHaveText(/\S/)
     await expect(firstRow.locator('small'), 'a reference row shows a description').toHaveText(/\S/)
     await expect(firstRow, 'a reference row carries the full object as a tooltip').toHaveAttribute('title', /\S/)

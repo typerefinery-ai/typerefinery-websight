@@ -277,6 +277,18 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         return '';
     };
 
+    /**
+     * Has an author actually declared a default selection for this field?
+     *
+     * docs/issues/0156 — the empty first row is added only when they have NOT, so every existing
+     * authored default keeps working exactly as before. Mirrors `isValueSelectedAsDefault`'s
+     * contract: an array of values, already normalised by `getDefaultOptionsSelected`. Blank
+     * strings do not count as a declaration.
+     */
+    ns.hasAuthoredDefault = (defaultSelectedOptions) =>
+        Array.isArray(defaultSelectedOptions) &&
+        defaultSelectedOptions.some((value) => String(value ?? '').trim() !== '');
+
     ns.getOptionsFromDataSource = async (componentConfig) => {
         try{
             const {  readOptionsFromDataSource, readMethod , readPayloadType, readPayload } = componentConfig;
@@ -418,6 +430,34 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           // hand-escaping them into `value="…"` is a bug waiting to happen (a label containing a
           // quote used to break the whole option list). Same output, no escaping to get wrong.
           select.replaceChildren();
+
+          // ⚠️ alpha-launch docs/issues/0156 — an empty first row, unless a default is authored.
+          //
+          // Without this, a single-value <select> that has options but none marked `selected` gets
+          // its FIRST option selected by the browser, and Choices renders that as a chosen item. The
+          // field therefore arrives already "filled in" and the value is submitted. Measured: creating
+          // an identity with only the NAME typed stored identity_class:"individual", roles:["soc"]
+          // and sectors:["agriculture"] - three attributes nobody chose, persisted to disk.
+          //
+          // This is what runsheet step P5-S5 has always specified ("Empty first row, then the full
+          // vocabulary"), and the component already has a deliberate mechanism for real defaults
+          // (`defaultSelectedOptions` / `isValueSelectedAsDefault`) - which is what makes the implicit
+          // first-option default clearly unintended rather than a design choice.
+          //
+          // Skipped when an author HAS declared a default, so existing authored defaults are
+          // untouched. Multi-value selects never had the problem (the browser selects nothing), so
+          // they are left exactly as they were.
+          if (!select.multiple && !ns.hasAuthoredDefault(defaultSelectedOptions)) {
+            const blank = document.createElement('option');
+            blank.value = '';
+            // Choices shows this as the placeholder row; the text comes from the authored
+            // `placeholder` attribute so no wording is invented here.
+            blank.textContent = select.getAttribute('placeholder') || '';
+            blank.setAttribute('selected', 'selected');
+            blank.dataset.placeholder = 'true';
+            select.appendChild(blank);
+          }
+
           optionsList.forEach((option) => {
             const value = ns.readOptionField(option, keyName || 'key');
             const label = ns.readOptionField(option, labelName || 'label');
@@ -652,6 +692,11 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
               addItemText: (value) => {
                 return `Press Enter to add <b>"${value}"</b>`;
               },
+              // docs/issues/0156 — render the empty first row as a placeholder rather than as a
+              // selected (and therefore submitted) value. The text comes from the authored
+              // `placeholder` attribute, so no wording is invented in this generic component.
+              placeholder: true,
+              placeholderValue: $component.attr('placeholder') || '',
           };
           if (hasRichRows) {
               console.log("data source supplies icon/heading/description - using rich option rows");
@@ -686,7 +731,10 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
               addItemText: (value) => {
                 return `Press Enter to add <b>"${value}"</b>`;
               },
-          }); 
+              // docs/issues/0156 — same placeholder handling as the data-source branch above.
+              placeholder: true,
+              placeholderValue: $component.attr('placeholder') || '',
+          });
 
           console.log("add event listener");
           ns.addEventListener($component, componentConfig);
