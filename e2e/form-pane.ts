@@ -172,6 +172,18 @@ export async function selectPopulatedNode(
     // un-clickable one should be another skip reason, not an exception that ends the step — the
     // previous behaviour made the whole test depend on where the simulation happened to drop node
     // zero. A user is not stuck the same way; they can pan the canvas.
+    // ⚠️ docs/issues/0076 — record what was in the pane BEFORE the click, and which node was
+    // clicked. A combined Acts 0/1/2/3/5 run reported ten candidates all showing the *same*
+    // `relationship-create.html` at 6/14, which has two very different explanations: the pane never
+    // changed (so the clicks are doing nothing), or every candidate really was a relationship whose
+    // left-select opens the *create* form. The skip text could not tell them apart. Now it can.
+    const before = (await measureFormPane(page))?.frame ?? '(none)'
+    const nodeId =
+      (await nodes
+        .nth(i)
+        .getAttribute('id')
+        .catch(() => null)) ?? `#${i}`
+
     try {
       await nodes.nth(i).click({ timeout: 10_000 })
     } catch (error) {
@@ -186,13 +198,21 @@ export async function selectPopulatedNode(
     }
     if (isPopulated(s)) {
       const ratio = s.total > 0 ? s.filled / s.total : 0
-      if (ratio >= minFilledRatio) return { shape: s, skipped, tried }
+      // ⚠️ Strictly greater, not `>=`. Both callers assert `filled/total > minFilledRatio` on the
+      // shape this returns, so a `>=` gate hands back a candidate sitting exactly on the threshold
+      // and the step then fails on it — measured: P3-S5 accepted 6/12 (= 0.5) and failed asserting
+      // `> 0.5`. The gate must use the same comparison as the assertion it exists to satisfy.
+      if (ratio > minFilledRatio) return { shape: s, skipped, tried }
       // Populated in the product sense (nothing the object carries is missing) but too sparse to
       // demonstrate pre-fill — typically an object the suite itself just created with one field.
-      skipped.push(`${s.frame}:${s.filled}/${s.total} filled (below ${minFilledRatio})`)
+      skipped.push(
+        `${nodeId.slice(0, 22)} ${before}->${s.frame}:${s.filled}/${s.total} filled (below ${minFilledRatio})`,
+      )
       continue
     }
-    skipped.push(`${s?.frame ?? '(no form frame)'}:${s?.total ?? 0} inputs`)
+    skipped.push(
+      `${nodeId.slice(0, 22)} ${before}->${s?.frame ?? '(no form frame)'}:${s?.total ?? 0} inputs`,
+    )
   }
   return { shape: null, skipped, tried }
 }
