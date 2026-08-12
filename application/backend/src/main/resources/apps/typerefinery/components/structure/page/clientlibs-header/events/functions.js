@@ -368,7 +368,24 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 const isTopicMatch = topic == eventTopic; // action topic matches event topic, good match, matches topic of event being raised
                 const isTypeMatch = (!eventType && topic == eventType); // action topic matches event type, good match, matches alternative topic
                 const isTopicAndTypeMatch = isTopicMatch && isTypeMatch; // action topic and type matches event topic and type, closes match, matches both topic and type of event being raised
-                const isTopicMatchActionComponent = (!eventType && topic == actionComponent); // action topic matches action component, good match, matches type of event being raised
+                // ⚠️ alpha-launch docs/issues/0102 Option 4 — narrowed with `!eventTopic`.
+                //
+                // This fallback exists for genuinely topic-less payloads (form actions like
+                // FORM_SUCCESS, which depend on it). But it also fired for events that DO name their
+                // topic, so any widget event whose payload lacked `.type` was broadcast to **every
+                // same-action mapping on the component**, not just the one it named.
+                //
+                // Measured consequence (docs/issues/0157): the Composer authors three form-open
+                // mappings on one embed. A left-select raises `…-open-stixorm-forms-object` — the
+                // correct per-object topic — and this fallback ALSO fired the mapping hardcoded to
+                // `relationship-create.html`. Both then navigated the same iframe in turn and the
+                // last writer won, so clicking an identity showed a relationship *create* form. It
+                // varied run to run because it was a race, which is what made it look like flaky
+                // fixture state for days.
+                //
+                // 0102 already named this as the trigger for its own 404 and predicted that fixing
+                // it would stop "P3-S5's click path depending on authored-order coincidence".
+                const isTopicMatchActionComponent = (!eventType && !eventTopic && topic == actionComponent); // action topic matches action component, only when the event named no topic of its own
                 const isTypeMatchActionComponent = (eventType && eventType == actionComponent); // action type matches action component, good match, matches type of event being raised
 
                 // good matches for picking events
@@ -382,6 +399,13 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
                 //only run actions that match event topic and actionComponent if eventType is not set
                 if (topic && (isTopicAndTypeMatch || isTypeMatch || isTopicMatch || isTopicMatchActionComponent || isTypeMatchActionComponent )) {
+                    // docs/issues/0102 Option 4 — the fallback is legitimate for topic-less form
+                    // actions, but it is also how the 0157 fan-out happened, so say when it is the
+                    // ONLY reason a mapping matched. If this warns for an event that names a topic,
+                    // the narrowing above has regressed.
+                    if (isTopicMatchActionComponent && !isTopicMatch && !isTypeMatch && !isTypeMatchActionComponent) {
+                        console.warn(["event matched a mapping only by the topic-less fallback", topic, actionComponent, "eventTopic:", eventTopic, "eventType:", eventType]);
+                    }
                     console.log("emit event for topic", topic);
                     console.log("actionComponent", actionComponent);
                     console.log("componentAction", componentAction);
