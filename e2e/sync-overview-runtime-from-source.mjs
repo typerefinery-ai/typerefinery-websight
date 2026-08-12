@@ -39,6 +39,18 @@ const APPLY = process.argv.includes('--apply')
 const TARGETS = [
   { flow: 'f1kzb9001xs51d', node: 'im7cs30iz', what: 'Overview - Get Default Incident & Objects' },
   { flow: 'f1kutl001ts51d', node: 'im7cpfumk', what: 'Overview - Get Incident & Objects' },
+  // Same class, found by auditing the remaining source-ahead drift. Both runtimes are missing the
+  // single line "sys.modules[spec.name] = parse" from their importlib load of parse.py.
+  //
+  // That line is what lets pydantic resolve parse.py's forward references — parse.py uses
+  // "from __future__ import annotations", so every annotation is a string that must be resolved
+  // against the module's namespace, and an importlib-loaded module that is not registered in
+  // sys.modules cannot be found by name. Without it every ParseContent(**row) raises, and
+  // get_content_list_for_type() catches that per row and continues — so the registry loads its 168
+  // rows and silently drops all of them, and callers see only "No content found for STIX type".
+  // parse.py documents exactly this failure, citing alpha-launch docs/issues/0033.
+  { flow: 'f1gq27001io51d', node: 'im1vpazp1', what: 'Tree RMB - Copy' },
+  { flow: 'f1gsb5001io51d', node: 'im1ylixlh', what: 'Tree RMB - Edit DAG' },
 ]
 
 const db = JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))
@@ -54,8 +66,8 @@ for (const t of TARGETS) {
     continue
   }
   const rAlg = rNode.config.algorithm
-  const rGuarded = rAlg.includes('node.get("references"')
-  const sGuarded = sAlg.includes('node.get("references"')
+  const rGuarded = rAlg.includes('node.get("references"') || rAlg.includes('sys.modules[spec.name]')
+  const sGuarded = sAlg.includes('node.get("references"') || sAlg.includes('sys.modules[spec.name]')
   console.log(`  runtime : ${rAlg.length} chars, guarded=${rGuarded}`)
   console.log(`  source  : ${sAlg.length} chars, guarded=${sGuarded}`)
 
