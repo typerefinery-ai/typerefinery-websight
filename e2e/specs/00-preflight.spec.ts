@@ -321,19 +321,27 @@ test.describe('Act 0 — preflight', () => {
     ).toBeGreaterThan(0)
 
     await page.reload()
-    await page.locator('tbody tr').first().waitFor({ state: 'visible', timeout: 60_000 })
 
-    const headers = (await page.locator('thead th').allInnerTexts()).map((s) => s.trim()).filter(Boolean)
+    // ⚠️ Scope to the table that actually has rows. A bare `tbody tr` also matches rows inside the
+    // page's hidden Create-Incident modal, so `.first()` waited on something never made visible —
+    // the same first-table/first-iframe locator trap docs/issues/0029 hit when the page stopped
+    // being empty. Poll the count rather than waiting on visibility of one element.
+    const table = page.locator('table:has(tbody tr)').first()
+    await expect
+      .poll(async () => await page.locator('table tbody tr').count(), { timeout: 60_000 })
+      .toBeGreaterThan(0)
+
+    const headers = (await table.locator('thead th').allInnerTexts()).map((s) => s.trim()).filter(Boolean)
     expect(headers, 'the live column set is rendered, not the cached one').not.toContain('Description')
     expect(headers, 'the live column set is rendered, not the cached one').toContain('Status')
 
-    const bodyText = await page.locator('tbody').innerText()
+    const bodyText = await table.locator('tbody').innerText()
     expect(bodyText, 'no cached row reaches the screen').not.toContain('STALE CACHE ROW')
 
     const api = await request.newContext({ ignoreHTTPSErrors: true })
     const shaped = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents-shaped`)).json()
     await api.dispose()
-    expect(await page.locator('tbody tr').count(), 'one row per incident returned by the LIVE endpoint')
+    expect(await table.locator('tbody tr').count(), 'one row per incident returned by the LIVE endpoint')
       .toBe((shaped.data || []).length)
   })
 })
