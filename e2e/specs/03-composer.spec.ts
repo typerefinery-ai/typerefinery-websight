@@ -363,9 +363,48 @@ test.describe('Act 3 — Incident Composer', () => {
     await page.waitForTimeout(8_000)
     const node = widget(page).locator(NODE_SELECTOR).first()
     await expect(node).toBeVisible({ timeout: 40_000 })
+    // Captured BEFORE the gesture — the preview assertion below is only meaningful as a change.
+    const bodyBefore = (await widget(page).locator('body').innerText()).replace(/\s+/g, ' ')
     await node.click({ button: 'right' })
     await expect(widget(page).getByText(/copy/i).first()).toBeVisible({ timeout: 20_000 })
     await expect(widget(page).getByText(/edit dag/i).first()).toBeVisible({ timeout: 20_000 })
+
+    /**
+     * docs/issues/0048 Tier 2 — the row says the menu shows Copy and Edit DAG **"with the node's JSON
+     * preview"**, and the preview half was never asserted. A menu that rendered its two items and no
+     * preview at all passed.
+     *
+     * ⚠️ **Two wrong ways to assert this, both tried:**
+     *
+     * 1. *Compare the preview against the node's STIX id.* Tree nodes do not carry one — measured,
+     *    the element's attributes are `{id: "node", class: "node", transform: …}`. The id is a
+     *    literal string, not the object's identity, so that check failed for a reason that had
+     *    nothing to do with the behaviour.
+     * 2. *Assert some JSON is on the page.* That is precisely the anti-pattern this issue exists to
+     *    kill — the preview only means something if it **appeared because of the right-click**.
+     *
+     * So assert it the one way that can actually fail for the right reason: **capture before,
+     * compare after.** The preview must be absent before the gesture and carry a well-formed STIX
+     * object after it, with `type` and `id` agreeing — measured shape:
+     * `{"type": "sighting", "spec_version": "2.1", "id": "sighting--f38db457-…", …}`.
+     */
+    const stixId = /"id"\s*:\s*"([a-z0-9-]+)--[0-9a-f-]{36}"/
+    expect(
+      stixId.test(bodyBefore),
+      'no JSON preview is on screen BEFORE the right-click — otherwise this asserts nothing',
+    ).toBeFalsy()
+
+    const after = (await widget(page).locator('body').innerText()).replace(/\s+/g, ' ')
+    const match = stixId.exec(after)
+    expect(match, 'the right-click produced a JSON preview carrying a STIX id').toBeTruthy()
+
+    // The preview describes ONE object: the `type` field and the id's prefix must agree. A fragment
+    // stitched from two objects, or a stale preview from a previous selection, fails here.
+    const typeInPreview = /"type"\s*:\s*"([a-z0-9-]+)"/.exec(after)
+    expect(
+      typeInPreview?.[1],
+      `the preview's "type" agrees with its id prefix (${match?.[1]})`,
+    ).toBe(match?.[1])
   })
 
   step('P3-S4', async ({ page, request }) => {
