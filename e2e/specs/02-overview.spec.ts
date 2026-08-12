@@ -168,8 +168,36 @@ test.describe('Act 2 — Incident Overview', () => {
     await page.mouse.up()
     await page.waitForTimeout(1_500)
     const after = await node.boundingBox()
-    const moved = Math.abs(after!.x - before!.x) + Math.abs(after!.y - before!.y)
-    expect(moved, 'node followed the pointer').toBeGreaterThan(20)
+    /**
+     * docs/issues/0048's last Tier 2 item — the row says the node follows the pointer **exactly**,
+     * and this asserted only `|Δx| + |Δy| > 20` against a pointer that travels ~180px. A node that
+     * lurched 25px and stopped would have passed.
+     *
+     * ⚠️ **The expected delta is NOT (120, 80).** The drag starts at the node's **centre** and ends
+     * at `(before.x + 120, before.y + 80)`, so the pointer travels `(120 - w/2, 80 - h/2)`.
+     * Asserting (120, 80) would fail on a perfectly good drag — the same guess-instead-of-measure
+     * error that produced two false alarms elsewhere in this suite (P1-S4 reading radio `.value`s as
+     * pre-filled data, P3-S3 expecting a STIX id on a tree node).
+     *
+     * Measured with `probe-0048-p2s3-drag-geometry.mjs`, three consecutive drags:
+     *   icon 20×20 · expected (110, 70) · actual (110, 70) · **error (0, 0)** every time.
+     *
+     * So the tracking really is exact and a tight tolerance is honest rather than optimistic. 6px
+     * absorbs sub-pixel rounding and any settling nudge without admitting a fling.
+     */
+    const expectedDx = 120 - before!.width / 2
+    const expectedDy = 80 - before!.height / 2
+    const errX = Math.abs(after!.x - before!.x - expectedDx)
+    const errY = Math.abs(after!.y - before!.y - expectedDy)
+    observe(
+      test.info(),
+      'note',
+      `drag: icon ${Math.round(before!.width)}×${Math.round(before!.height)}, expected ` +
+        `(${Math.round(expectedDx)}, ${Math.round(expectedDy)}), actual ` +
+        `(${Math.round(after!.x - before!.x)}, ${Math.round(after!.y - before!.y)})`,
+    )
+    expect(errX, 'node tracked the pointer on X (the row says "exactly")').toBeLessThanOrEqual(6)
+    expect(errY, 'node tracked the pointer on Y (the row says "exactly")').toBeLessThanOrEqual(6)
     // Guards the regression in docs/issues/0006: dragging used to re-heat the simulation
     // and leave it churning. Positions must be stable a moment after release.
     const settled = await node.boundingBox()
