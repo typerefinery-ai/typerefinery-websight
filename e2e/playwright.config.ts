@@ -60,6 +60,19 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
+      // docs/issues/0091 — restore the curated demo dataset once everything that depends on `setup`
+      // has finished. Playwright runs a project's `teardown` after the project AND all its
+      // dependents complete, so this covers `runsheet` and `demo` without naming either.
+      //
+      // ⚠️ The ritual was never missing, only never invoked at the END of a session: every run left
+      // `Runsheet …` incidents on Act 1, the first screen an investor sees. Opt out with
+      // SKIP_DEMO_RESTORE=1 while iterating on a single spec.
+      teardown: 'restore',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    },
+    {
+      name: 'restore',
+      testMatch: /.*\.teardown\.ts/,
       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     },
     {
@@ -67,7 +80,12 @@ export default defineConfig({
       dependencies: ['setup'],
       // Demo journeys live in *.demo.ts and are NOT regression steps — excluded so a normal run
       // neither doubles in length nor gains a test the runsheet does not account for.
-      testIgnore: /.*\.demo\.ts/,
+      //
+      // ⚠️ `*.teardown.ts` must be excluded too. It belongs to the `restore` project, but this
+      // project's testMatch is the default (every spec), so without this the restore would ALSO run
+      // as an ordinary runsheet test — in the middle of the suite, wiping the dataset the later Acts
+      // are still using.
+      testIgnore: [/.*\.demo\.ts/, /.*\.teardown\.ts/],
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
