@@ -317,6 +317,72 @@ test.describe('Act 1 — All Incidents table', () => {
     await expect(frame.locator('input, select, textarea').first()).toBeVisible({ timeout: 60_000 })
     const fields = await frame.locator('input, select, textarea').count()
     expect(fields, 'Create Incident form fields').toBeGreaterThan(5)
+
+    /**
+     * docs/issues/0048, Tier 2 "partial claim" — this step asserted `fields > 5` where the row
+     * promises *"a **blank** Create Incident form (~21 inputs: Name, Date, Severity, TLP, PAP…)"*.
+     * Two thirds of that claim went untested: **which** fields, and **blank**.
+     *
+     * The names are measured from the authored form, not transcribed from the row's prose:
+     * `incidenttitle · casedate · severity · tlp · pap · casetitle · selecttags · choosetags`.
+     */
+    for (const field of ['incidenttitle', 'casedate', 'severity', 'tlp', 'pap']) {
+      await expect(
+        frame.locator(`[name="${field}"]`).first(),
+        `the row names this field — "${field}" is present`,
+      ).toHaveCount(1, { timeout: 20_000 })
+    }
+
+    /**
+     * 🔑 **"Blank" is the half worth having, because it is the half that has broken before.**
+     * docs/issues/0156: every Create form silently set `identity_class`, `roles` and `sectors` from
+     * the **first vocabulary entry**, so an identity created with only a name was stored as working
+     * in *agriculture* — chosen by nobody. `severity`, `tlp` and `pap` here are vocabulary selects of
+     * exactly that shape, and an incident that arrives pre-set to a severity nobody chose is a
+     * worse version of the same bug: it is the first object a presenter creates on stage.
+     *
+     * Read the **runtime** values, not the markup — 0156's fabrication was invisible in the served
+     * HTML (no `value` attribute is authored; Choices.js selects the first option at runtime).
+     *
+     * ⚠️ **"Blank" means a different thing for a radio than for a text box, and conflating them
+     * produces a false alarm.** The first cut of this assertion read `.value` on every input and went
+     * red on **12 fields** — which looked exactly like 0156 reaching Act 1. It was not: `severity`,
+     * `tlp` and `pap` are **radio groups**, and a radio's `.value` is its own option value, present by
+     * construction whether or not anything is selected. Measured: 12 checkable inputs, **0 checked**,
+     * and every text field genuinely empty. The form was right and the assertion was wrong.
+     *
+     * So ask each control the question that can actually distinguish chosen from unchosen:
+     * **checkables → is anything CHECKED; everything else → is the value EMPTY.**
+     */
+    const state = await frame.locator('input, select, textarea').evaluateAll((els: any[]) => {
+      const visible = els.filter(
+        (e) => e.type !== 'hidden' && !String(e.className).includes('choices__input'),
+      )
+      const isCheckable = (e: any) => e.type === 'radio' || e.type === 'checkbox'
+      return {
+        checked: visible
+          .filter((e) => isCheckable(e) && e.checked)
+          .map((e) => `${e.getAttribute('name') || '?'}="${e.value}"`),
+        valued: visible
+          .filter((e) => !isCheckable(e))
+          .map((e) => ({ name: e.getAttribute('name') || '?', value: String(e.value ?? '').trim() }))
+          .filter((f) => f.value !== '' && f.value !== '{}')
+          .map((f) => `${f.name}="${f.value}"`),
+      }
+    })
+    observe(
+      test.info(),
+      'note',
+      `Create Incident on open — checked: ${state.checked.join(' · ') || '(none)'} | valued: ${state.valued.join(' · ') || '(none)'}`,
+    )
+    expect(
+      state.checked,
+      'the row says the form opens BLANK — no severity/TLP/PAP may be pre-selected for the user (docs/issues/0156)',
+    ).toEqual([])
+    expect(
+      state.valued,
+      'the row says the form opens BLANK — no text field may arrive carrying a value',
+    ).toEqual([])
   })
 
   step('P1-S5', async ({ page }) => {
