@@ -883,6 +883,56 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
         console.groupEnd();
     };    
 
+    /** Marker class for a generated field-group caption. */
+    ns.CLASS_GROUP_CAPTION = "form-group-caption";
+
+    /**
+     * Turn a field name into a caption: `base_required` -> "Base Required".
+     *
+     * ⚠️ Data-agnostic on purpose (CLAUDE.md): this is a string transform over whatever the author
+     * named the group. There is **no mapping table** of known names here — a lookup keyed on
+     * `base_required` / `extensions` would put the application's form vocabulary inside a generic
+     * component.
+     *
+     * ⬜ Consequence worth knowing: `base_optional` renders as **"Base Optional"**, where image3 and
+     * P5-S1 say **"Optional"**. Recorded as a deliberate divergence rather than papered over with a
+     * lookup — the generic transform is the right trade, and the wording is a one-line change in the
+     * authored name if the design must win.
+     */
+    ns.captionFromName = (name) =>
+        String(name || "")
+            .replace(/[_-]+/g, " ")
+            .trim()
+            .replace(/\b\w/g, (c) => c.toUpperCase());
+
+    /**
+     * Caption every **top-level** field group on the form.
+     *
+     * The discriminator is structural, not domain: a composite renders `<input iscompositevalue>`
+     * followed by `<div template>` holding its children, so a composite with a `div[template]`
+     * ancestor is nested inside another one and gets no caption. Measured across identity-create,
+     * identity-update, sequence-update and url-update (e2e/probe-0113-composite-nesting.mjs): the
+     * rule selects exactly `base_required, object, base_optional, extensions` on every one, and
+     * excludes the nested `extension-definition--…` composite. That id is also why names are not
+     * blindly captioned — it would render a STIX id as a heading.
+     */
+    ns.renderGroupCaptions = ($component) => {
+        const composites = $component.find('input[iscompositevalue="true"][name]');
+        let added = 0;
+        composites.each(function () {
+            const $input = $(this);
+            if ($input.parents("div[template]").length > 0) return; // nested - not a group
+            const $children = $input.nextAll("div[template]").first();
+            if (!$children.length) return;
+            if ($children.prev("." + ns.CLASS_GROUP_CAPTION).length) return; // idempotent
+            const caption = ns.captionFromName($input.attr("name"));
+            if (!caption) return;
+            $("<div/>").addClass(ns.CLASS_GROUP_CAPTION).text(caption).insertBefore($children);
+            added++;
+        });
+        console.log(["form group captions rendered", added, "of", composites.length, "composite(s)"]);
+    };
+
     ns.init = ($component) => {
         const componentConfig = componentNs.getComponentConfig($component);
         const id = componentConfig.id;
@@ -916,6 +966,15 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
             console.log("data loaded done", data);
           });
         }
+
+        // alpha-launch docs/issues/0113 — give each top-level field group a visible caption.
+        //
+        // P5-S1's criterion, and the Act 5 header a presenter reads aloud, both say fields are
+        // "grouped by their role in the data model (Base Required / Optional / Object /
+        // Extensions)". Measured: **none of those words appeared anywhere on screen** — the grouping
+        // existed only as composite field NAMES plus an unlabelled horizontal rule. The claim was
+        // true of the markup and false of the screen, which is the one thing a demo must never do.
+        ns.renderGroupCaptions($component);
 
         //highlight fields with same ids
         const isEditMode = $("body").hasClass("isEditMode");

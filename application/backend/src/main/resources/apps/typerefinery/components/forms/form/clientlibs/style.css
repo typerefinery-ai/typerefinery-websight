@@ -118,3 +118,14 @@ form-control:invalid {
         border-color: rgb(255 1 1 / 40%);
     }
 }
+/* alpha-launch docs/issues/0113 — captions for top-level field groups.
+   The mockup (docs/mini-app-source/image3.png) draws these as captioned fieldsets; the build had an
+   unlabelled horizontal rule. Styled as a section heading, not a field label, so it reads as
+   structure rather than as another input. */
+.form-group-caption {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #444;
+    margin: 0.25rem 0 0.5rem 0;
+    letter-spacing: 0.01em;
+}
