@@ -133,13 +133,33 @@ export async function clickAnyNode(nodes: Locator, opts: { candidates?: number; 
   )
 }
 
+/**
+ * @param opts.minFilledRatio require the candidate's form to be at least this proportion filled.
+ *
+ * ⚠️ docs/issues/0076 / docs/issues/0156. `isPopulated` asks the **product** question — did every
+ * non-null key the object carries reach an input (`missing.length === 0`). It is satisfied by an
+ * object that simply has very little in it, and the suite creates exactly those: P5-S3 saves an
+ * object with only a name, and P5-S4 would then land on it and measure 4/14 fields filled.
+ *
+ * 🔑 That step used to pass **because the product was fabricating data** — before 0156 every Create
+ * form silently set `identity_class`, `roles`, `sectors` and `created_by_ref` from the first
+ * vocabulary entry, so a "blank" new object arrived with enough invented values to clear a majority.
+ * Fixing the fabrication removed the padding and exposed that the ratio was never a product
+ * assertion at all: it asks whether the *fixture* has substance.
+ *
+ * So the ratio belongs here, as a candidate gate — keep walking until a node whose form is
+ * substantively filled is found — rather than as an assertion against whichever node the force
+ * layout happened to put first. The step still fails when **no** candidate qualifies, and the skip
+ * list says what each one was.
+ */
 export async function selectPopulatedNode(
   page: Page,
   nodes: Locator,
-  opts: { candidates?: number; settleMs?: number } = {},
+  opts: { candidates?: number; settleMs?: number; minFilledRatio?: number } = {},
 ): Promise<{ shape: FormShape | null; skipped: string[]; tried: number }> {
   const tried = Math.min(await nodes.count(), opts.candidates ?? 6)
   const settleMs = opts.settleMs ?? 20_000
+  const minFilledRatio = opts.minFilledRatio ?? 0
   const skipped: string[] = []
 
   for (let i = 0; i < tried; i++) {
@@ -164,7 +184,14 @@ export async function selectPopulatedNode(
       if (isPopulated(s)) break
       await page.waitForTimeout(1_000)
     }
-    if (isPopulated(s)) return { shape: s, skipped, tried }
+    if (isPopulated(s)) {
+      const ratio = s.total > 0 ? s.filled / s.total : 0
+      if (ratio >= minFilledRatio) return { shape: s, skipped, tried }
+      // Populated in the product sense (nothing the object carries is missing) but too sparse to
+      // demonstrate pre-fill — typically an object the suite itself just created with one field.
+      skipped.push(`${s.frame}:${s.filled}/${s.total} filled (below ${minFilledRatio})`)
+      continue
+    }
     skipped.push(`${s?.frame ?? '(no form frame)'}:${s?.total ?? 0} inputs`)
   }
   return { shape: null, skipped, tried }

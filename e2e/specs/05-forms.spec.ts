@@ -200,7 +200,17 @@ test.describe('Act 5 — form behaviour', () => {
     // is non-blank". Both traps are encoded in `selectPopulatedNode` — see `../form-pane` for why
     // (the empty form ships its own constants; pane ordering varies; some families 404 with zero
     // inputs, docs/issues/0049). P3-S5 makes the same claim and uses the same helper.
-    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes)
+    // ⚠️ docs/issues/0156 — `minFilledRatio` matches the ratio asserted below, so the walk keeps
+    // looking for a node with substance instead of stopping at the first one that merely has
+    // nothing *missing*. P5-S3 runs immediately before this step and saves an object with only a
+    // name; landing on that measured 4/14 and failed. It used to pass only because Create forms
+    // fabricated `identity_class`/`roles`/`sectors`/`created_by_ref` — the padding is gone, and this
+    // step must find a real object rather than rely on invented values. Candidates raised from 6
+    // because sparse suite-created objects are now legitimately common in the pane.
+    const { shape, skipped, tried } = await selectPopulatedNode(page, nodes, {
+      candidates: 10,
+      minFilledRatio: 0.5,
+    })
     if (skipped.length) {
       observe(test.info(), 'note', `Update forms that opened without the object: ${skipped.join(', ')}`)
     }
