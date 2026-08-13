@@ -1183,6 +1183,23 @@ test.describe('Act 3 — Incident Composer', () => {
   })
 
   step('P3-S12', async ({ page, request }) => {
+    // ⚠️ THIS STEP NEEDS ITS OWN TIMEOUT — docs/issues/0148, the half that a green suite does not fix.
+    //
+    // The promote poll below asks for 120 s. The project timeout is ALSO 120 s
+    // (`playwright.config.ts`), and this step spends a large part of it before the poll even starts:
+    // seeding a promotable through the create form, `openComposer` (whose `networkidle` wait can burn
+    // its full 60 s because networkidle never settles on the composer under suite load), then up to
+    // 60 s polling for panes to render. So the poll could never have the budget its own code claims —
+    // on a fast run it got most of it, on a slow one almost none. That is 0148's Run 3: the step
+    // failed not because promotion broke but because the clock ran out mid-poll, which reads
+    // identically in a report.
+    //
+    // Fixing this by giving the STEP room, rather than by shortening the poll: the poll is long on
+    // purpose (docs/issues/0087 — `/os-triage/promote-subgraph` 503s while the flow completes anyway,
+    // so the context must be polled until the id disappears). `test.setTimeout` is the established
+    // convention here — the four journey specs already set 300–480 s for the same reason.
+    test.setTimeout(360_000)
+
     // docs/issues/0086 + 0087 — the claim P3-S9 makes but never tests: promoting moves the object
     // out of unattached context and onto the incident (os-threat#84).
     //
