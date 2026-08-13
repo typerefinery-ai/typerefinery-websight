@@ -68,7 +68,13 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
           
                     console.log(["config", componentConfig]);
                     const $input = $(e.target);
-                    const value = $input.attr('value');
+                    // ⚠️ `.val()`, not `.attr('value')`. `.attr()` reads the HTML ATTRIBUTE, which
+                    // holds whatever was authored and does NOT change as the user types: measured on
+                    // the Incidents toolbar, `getAttribute('value')` stayed null through typing and
+                    // commit while `.value` held the typed term (alpha-launch docs/issues/0110). The
+                    // emit therefore carried `value: undefined`, and any consumer guarding on an
+                    // empty term — as the table's FILTER handler correctly does — discarded it.
+                    const value = $input.val();
                     const id = $input.attr('id');
                     const type = $input.attr('type');
   
@@ -122,7 +128,14 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       console.group('handleEvent');
       console.log(["handleEvent", $component, action, data]);
       switch (action) {
-        case ns.INPUT_CHANGE:
+        // ⚠️ `ns.INPUT_CHANGE` is the HANDLER FUNCTION (defined above); the action arriving here is
+        // the STRING "INPUT_CHANGE" (`ns.ACTION_INPUT_CHANGE`). Comparing the two could never match,
+        // so every input change fell through to `default` and the component never emitted anything —
+        // the authored `_events_` emit entry registered fine and then had nothing to publish.
+        // Measured on the Incidents toolbar (alpha-launch docs/issues/0110): the change listener
+        // fired, `handleEvent … INPUT_CHANGE` logged, and no emit followed.
+        case ns.ACTION_INPUT_CHANGE:
+            console.log(["handleEventAction: dispatching", ns.ACTION_INPUT_CHANGE, data]);
             ns.INPUT_CHANGE($component, componentConfig, data );
             break
         default:
