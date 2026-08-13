@@ -61,9 +61,15 @@ const labels = await frame.evaluate(() => {
 
 const TYPES = /^(task|event|impact|sighting|identity|indicator|incident|anecdote|observed-data|url|note|artifact|relationship|sequence|user-account|email-addr|email-message|network-traffic|process|malware|attack-flow)$/i
 const VOCAB = /^(availability|integrity|confidentiality|new|open|closed|high|medium|low)$/i
+// ⚠️ BARE NUMBER must be tested for. 0140 recorded `99` (an impact) and `79563902` (a user-account)
+// as labels on 2026-08-12, and the first version of this classifier had no numeric case — so those
+// would have fallen through as NAME and the reported tail would have been an undercount presented as
+// a finding. A classifier that cannot see a known failure mode is not entitled to say "this is all
+// that is left".
 const classify = (s) =>
   /^[a-z][a-z0-9-]*--[0-9a-f-]{36}$/i.test(s) ? 'RAW ID'
     : /^\d{4}-\d{2}-\d{2}T[\d:.]+Z?$/.test(s) ? 'TIMESTAMP'
+    : /^[\d.,\s]+$/.test(s) ? 'BARE NUMBER'
     : TYPES.test(s) ? 'TYPE WORD'
     : VOCAB.test(s) ? 'VOCAB VALUE'
     : 'NAME'
