@@ -52,6 +52,42 @@ await page.waitForTimeout(3_000)
 const rows = await page.locator('tbody tr').count()
 record('P1-S1', rows > 0 ? 'PASS' : 'FAIL', `table renders ${rows} incident row(s)`)
 
+/**
+ * P1-SEARCH — the toolbar search beat the demo run card now tells the presenter to perform:
+ * *"filter to one incident, then clear it."*
+ *
+ * ⚠️ It is walked here because the run card recommends it. Instructions a presenter will follow on
+ * stage get exercised, not inferred — the same rule that caught the stale Acts 2/3 guidance earlier
+ * today. P1-S1 asserts this in the suite; this is the by-hand, headed-Chrome counterpart.
+ *
+ * ⚠️ Targets the TOOLBAR box specifically (`name="case"` / the mockup's `Incident 1` placeholder),
+ * never "an input" — the page carries a second, separate table filter that already worked, and a
+ * loose locator would report success from the control that was never broken (docs/issues/0110).
+ */
+await step('P1-SEARCH', async () => {
+  const box = page.locator('input[name="case"], input[placeholder="Incident 1"]').first()
+  if (!(await box.count())) { record('P1-SEARCH', 'FAIL', 'toolbar search box not on the page'); return }
+  const name = (await page.locator('tbody tr td:nth-child(2)').first().innerText()).trim()
+  const term = name.split(/\s+/).filter((w) => w.length > 3)[0]
+  if (!term) { record('P1-SEARCH', 'NOT-EXERCISED', `no usable term in "${name}"`); return }
+
+  // The field emits on `change`, so the value must be COMMITTED — typing alone proves nothing.
+  await box.fill(term)
+  await box.press('Enter')
+  await page.waitForTimeout(2_500)
+  const filtered = await page.locator('tbody tr').count()
+
+  await box.fill('')
+  await box.press('Enter')
+  await page.waitForTimeout(2_500)
+  const restored = await page.locator('tbody tr').count()
+
+  const ok = filtered < rows && filtered > 0 && restored === rows
+  record('P1-SEARCH', ok ? 'PASS' : 'FAIL',
+    `"${term}": ${rows} → ${filtered} → ${restored} rows` +
+    (ok ? ' (filters, and clearing restores)' : ' — expected fewer-then-restored'))
+})
+
 // P1-S3 — the Create dropdown
 await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
 await page.waitForTimeout(1_200)
