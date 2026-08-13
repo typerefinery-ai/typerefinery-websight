@@ -585,7 +585,22 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
         // other, because the bare shape is what the component's own tests and callers pass directly.
         const term = String(filter?.payload?.value ?? filter?.value ?? "");
         if (!term) {
-            console.log(["eventOnFilter: no term in event, ignoring", id, filter]);
+            // ⚠️ An EMPTY term means "show everything", not "do nothing".
+            //
+            // Ignoring it left the table stuck in whatever filter was last applied: clearing the
+            // search box and committing did nothing, so the only way back to the full list was a
+            // page reload. Caught by P1-S1's new filter assertion (alpha-launch docs/issues/0110),
+            // which filtered 3 rows to 2 and then could not get the third back.
+            //
+            // `ns[id].data` is the unfiltered set the filter reads from, so restoring is just
+            // loading it again. Guarded because an event with no term can also arrive before any
+            // data exists, and reloading nothing would blank a table that was fine.
+            if (ns[id] && Array.isArray(ns[id].data) && tableInstanceNs[id]) {
+                console.log(["eventOnFilter: empty term - restoring all rows", id, ns[id].data.length]);
+                tableInstanceNs[id].bootstrapTable('load', ns[id].data);
+            } else {
+                console.log(["eventOnFilter: empty term and no data to restore, ignoring", id, filter]);
+            }
             return;
         }
         const needle = term.toLowerCase();

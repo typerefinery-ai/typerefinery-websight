@@ -189,6 +189,50 @@ test.describe('Act 1 — All Incidents table', () => {
     await api.dispose()
     expect(rowCount, 'one row per incident returned by the endpoint').toBe((shaped.data || []).length)
 
+    /**
+     * **The TOOLBAR search filters the table** — decision 0032 Option 2's "P1-S1 assertion upgrade",
+     * now that decision 0041 Option 2 made it work (`18e58098`).
+     *
+     * ⚠️ **Assert against the TOOLBAR control specifically, not "an input".** docs/issues/0110's own
+     * testing criteria say so, and for a concrete reason: the page carries **two** search
+     * affordances — the mockup's toolbar box (which was dead until today) and a separate
+     * bootstrap-table filter box on the right **which already worked**. A loose locator would be
+     * satisfied by the one that never needed fixing, and this assertion would pass while the feature
+     * regressed.
+     *
+     * ⚠️ **The value must be COMMITTED, not typed.** The input emits on `change`, so typing alone
+     * proves nothing — that was the third of the three mismatches this feature needed.
+     *
+     * The term is taken from live data rather than hardcoded, because the suite creates incidents as
+     * it runs and a fixed string would match everything or nothing depending on run order.
+     */
+    const toolbarSearch = page.locator('input[name="case"], input[placeholder="Incident 1"]').first()
+    if (await toolbarSearch.count()) {
+      const firstName = (await page.locator('tbody tr td:nth-child(2)').first().innerText()).trim()
+      const term = firstName.split(/\s+/).filter((w) => w.length > 3)[0]
+      if (term) {
+        await toolbarSearch.fill(term)
+        await toolbarSearch.press('Enter')
+        await page.waitForTimeout(2_000)
+        const filtered = await rows.count()
+        expect(filtered, `toolbar search on "${term}" filtered the table (was ${rowCount})`)
+          .toBeLessThan(rowCount)
+        expect(filtered, 'the filter kept the rows that match, rather than emptying the table')
+          .toBeGreaterThan(0)
+
+        // Reversible: clearing must bring the rows back, which also proves the first assertion was
+        // filtering and not a table that simply broke.
+        await toolbarSearch.fill('')
+        await toolbarSearch.press('Enter')
+        await page.waitForTimeout(2_000)
+        expect(await rows.count(), 'clearing the toolbar search restores every row').toBe(rowCount)
+      } else {
+        observe(test.info(), 'note', 'no usable search term in the first row name; filter not asserted')
+      }
+    } else {
+      observe(test.info(), 'note', 'toolbar search box absent — filter not asserted (say so, do not imply it passed)')
+    }
+
     // Not a failure of this step, but this is where docs/issues/0027 shows itself:
     // in-app created incidents display the type label instead of their own name.
     const text = await rows.allInnerTexts()
