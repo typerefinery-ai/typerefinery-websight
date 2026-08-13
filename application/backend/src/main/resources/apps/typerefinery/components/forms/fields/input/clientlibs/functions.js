@@ -114,12 +114,72 @@ window.Typerefinery.Components.Forms.Input = Typerefinery.Components.Forms.Input
       
     }
 
+    /**
+     * The topics this component was AUTHORED to emit for a given action.
+     *
+     * Shape, from `registerEventActionMapping`:
+     *   eventMap[type][componentAction][componentId][eventName] = [{ topic, action, event, config }]
+     *
+     * Returns the distinct topic strings, or [] when nothing is authored.
+     */
+    ns.authoredTopicsFor = (componentAction, componentId) => {
+      try {
+        const byEventName = ((ns.eventMap || {})[eventNs.EVENT_TYPE_EMIT] || {})[componentAction] || {};
+        const forComponent = byEventName[componentId] || {};
+        const topics = [];
+        Object.keys(forComponent).forEach((eventName) => {
+          const entries = forComponent[eventName];
+          (Array.isArray(entries) ? entries : [entries]).forEach((e) => {
+            if (e && e.topic && topics.indexOf(e.topic) === -1) topics.push(e.topic);
+          });
+        });
+        return topics;
+      } catch (e) {
+        console.warn('authoredTopicsFor failed; emitting without a stamped topic', e);
+        return [];
+      }
+    };
+
     ns.INPUT_CHANGE = ($component, componentConfig, data) => {
       console.group(ns.ACTION_INPUT_CHANGE);
       const { id } = componentConfig;
       const comonentEventId = componentConfig.name || id;
 
-      eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_UPDATE, ns.ACTION_INPUT_CHANGE, {id: comonentEventId});
+      /**
+       * ⚠️ **Stamp the authored topic into the payload** — alpha-launch decision 0041, Option 2.
+       *
+       * `emitLocalEvent` derives its routing from the PAYLOAD (`payload.topic`,
+       * `payload.payload?.type`) and publishes only when one of those equals the authored `topic`.
+       * This component's payload is `{value, type, id, action}` and carries neither, so an authored
+       * topic was **resolved and then discarded** — measured on Act 1's toolbar (docs/issues/0110):
+       *
+       *     [topicValue, topic, incidents-table-filter, ...]
+       *     topic incidents-table-filter not matched with eventType and actionComponent INPUT_CHANGE
+       *
+       * 🔑 The tempting fix — widening `emitLocalEvent`'s topic-less fallback — is the rule
+       * docs/issues/0102 Option 4 deliberately NARROWED to stop docs/issues/0157, where one
+       * left-select fired every same-action mapping on a component and opened the wrong form. Doing
+       * it here instead keeps that narrowing untouched: no other component's routing changes.
+       *
+       * Emitted once per authored topic, because `isTopicMatch` matches a single topic at a time —
+       * stamping only the first would silently drop the rest. With nothing authored the call is
+       * exactly as it was, so components that rely on the existing fallbacks are unaffected.
+       */
+      const topics = ns.authoredTopicsFor(ns.ACTION_INPUT_CHANGE, comonentEventId);
+      console.log(['INPUT_CHANGE authored topics', comonentEventId, topics]);
+
+      if (topics.length) {
+        topics.forEach((topic) => {
+          console.log(`emitting INPUT_CHANGE on authored topic "${topic}"`);
+          eventNs.emitLocalEvent(
+            $component, componentConfig, ns.eventMap,
+            Object.assign({}, data, { topic: topic }),
+            eventNs.EVENTS.EVENT_ITEM_UPDATE, ns.ACTION_INPUT_CHANGE, {id: comonentEventId});
+        });
+      } else {
+        console.log('no authored emit topic for INPUT_CHANGE — emitting unchanged');
+        eventNs.emitLocalEvent($component, componentConfig, ns.eventMap, data, eventNs.EVENTS.EVENT_ITEM_UPDATE, ns.ACTION_INPUT_CHANGE, {id: comonentEventId});
+      }
 
       console.groupEnd();
     }
