@@ -132,6 +132,25 @@ public class Table extends FlowComponent implements FlowComponentRegister {
     @Inject
     public Boolean showActionButtons;
 
+    /**
+     * Opt-in: clicking a row triggers that row's navigating action button.
+     *
+     * <p>alpha-launch decision 0037 (Option 1). The design specifies the drill-in gesture as
+     * "Left-Select or Double-Click on a row", but the behaviour only ever existed on a per-row
+     * button. This flag lets an author switch the row itself into a drill-in target.
+     *
+     * <p>Opt-in deliberately: several authored tables share this component, and making every row
+     * navigate whenever a navigating action button happens to exist would change all of them at
+     * once. Off unless authored.
+     *
+     * <p>Deliberately generic - it says nothing about what a row contains. The clientlib picks the
+     * target button by the {@code actionButtonNavigateToPath} config key, never by a label or any
+     * domain concept, so this component stays data-agnostic.
+     */
+    @Getter
+    @Inject
+    public Boolean rowClickNavigates;
+
     
     @Getter
     @Inject
