@@ -47,17 +47,29 @@ const APPLY = process.argv.includes('--apply')
 
 const INC = 'incident--1a9e5000-0000-4000-8000-00001a9e5000'
 const CREATED = '2026-02-08T01:11:57.617Z'
-const B = '5c9a7f10-0000-4000-8000-0000'   // shared id stem, so a diff reads as one authored set
-
+/**
+ * Shared id stem so a diff reads as one authored set.
+ *
+ * ⚠️ **The final group MUST be 12 hex characters — a valid UUID.** The first version of this script
+ * emitted a 10-character tail (`…-0000e5a001`), and the consequence was silent and expensive:
+ * `derive_references` in the Composer's split algorithm finds referenced objects by **validating the
+ * STIX identifier FORMAT** (`type--UUID`), deliberately rather than by property name. A malformed
+ * UUID therefore matches nothing, so every embedded reference was skipped and the authored cast came
+ * out as loose nodes — which looked exactly like "the Composer only connects via SROs".
+ * It does not: the live incident's Promotable pane carries **42** embedded edges
+ * (`object-refs`, `sighting-of-ref`, `where-sighted-refs`, …) alongside its relationship edges.
+ */
+const B = '5c9a7f10-0000-4000-8000-'
 const id = (t, n) => `${t}--${B}${n}`
-const EMAIL = id('email-addr', 'e5a001')
-const URLO  = id('url', 'e5a002')
-const OBS   = id('observed-data', 'e5a003')
-const EXCH  = id('identity', 'e5a004')
-const IND   = id('indicator', 'e5a005')
-const ALERT = id('sighting', 'e5a006')
-const NAIVE = id('sighting', 'e5a007')
-const SRO   = id('relationship', 'e5a008')
+const uuidTail = /^[0-9a-f]{12}$/
+const EMAIL = id('email-addr', '00000e5a0001')
+const URLO  = id('url', '00000e5a0002')
+const OBS   = id('observed-data', '00000e5a0003')
+const EXCH  = id('identity', '00000e5a0004')
+const IND   = id('indicator', '00000e5a0005')
+const ALERT = id('sighting', '00000e5a0006')
+const NAIVE = id('sighting', '00000e5a0007')
+const SRO   = id('relationship', '00000e5a0008')
 
 /** Promotable: image5's eight, wired into one connected subgraph. */
 const PROMO = [
@@ -108,9 +120,9 @@ const PROMO = [
  * ⚠️ image5 shows THREE; the `ipv4-addr` is a fourth because `NetworkTraffic` requires at least one
  * of src_ref/dst_ref (docs/issues/0166 — omitting it produced invalid STIX that broke Create SRO).
  */
-const IPV4 = id('ipv4-addr', 'e5b001')
+const IPV4 = id('ipv4-addr', '00000e5b0001')
 const SCRATCH = [
-  { id: id('process', 'e5b002'), label: 'Unauthorised Process', icon: 'process', head: 'Process',
+  { id: id('process', '00000e5b0002'), label: 'Unauthorised Process', icon: 'process', head: 'Process',
     form: 'process', group: 'sco-forms',
     original: { type: 'process', spec_version: '2.1', pid: 4212,
       cwd: 'C:\\Users\\naive\\AppData\\Local\\Temp',
@@ -120,12 +132,12 @@ const SCRATCH = [
     group: 'sco-forms',
     original: { type: 'ipv4-addr', spec_version: '2.1', value: '203.0.113.42' },
     references: {} },
-  { id: id('network-traffic', 'e5b003'), label: 'Socket Connection', icon: 'network-traffic',
+  { id: id('network-traffic', '00000e5b0003'), label: 'Socket Connection', icon: 'network-traffic',
     head: 'Network-Traffic', form: 'network-traffic', group: 'sco-forms',
     original: { type: 'network-traffic', spec_version: '2.1', protocols: ['tcp'], dst_ref: IPV4,
       dst_port: 443 },
     references: {} },
-  { id: id('malware', 'e5b004'), label: 'malware', icon: 'malware', head: 'Malware', form: 'malware',
+  { id: id('malware', '00000e5b0004'), label: 'malware', icon: 'malware', head: 'Malware', form: 'malware',
     group: 'sdo-forms',
     original: { type: 'malware', spec_version: '2.1', created: CREATED, modified: CREATED,
       name: 'malware', is_family: false, malware_types: ['dropper'] },
