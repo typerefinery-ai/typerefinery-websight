@@ -630,13 +630,42 @@ test.describe('Act 3 — Incident Composer', () => {
     // Then wait for it to be POPULATED — P3-S7 below already does this, and P3-S6 was the one
     // place still snapshotting. The frame mounts and its heading renders before the widget posts
     // the two selected ids in, so a single read can catch a half-built form.
-    await expect
-      .poll(
-        async () =>
-          (await modalState(page)).values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v)).length,
-        { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
-      )
-      .toBeGreaterThanOrEqual(2)
+    /**
+     * ⚠️ On failure, CAPTURE WHICH FRAME WAS READ — docs/issues/0101.
+     *
+     * This assertion failed once in the 2026-08-13T23:05Z suite with `Expected >= 2, Received 1`,
+     * and the follow-up probe (`e2e/probe-0101-which-ref-lands.mjs`) showed that in isolation both
+     * refs land **together** at ~5 s, 4 runs out of 4. So the "one id was posted and the other
+     * dropped" reading is refuted, and two possibilities remain — which need different fixes:
+     *
+     *   1. the write pair is genuinely interrupted under suite load, or
+     *   2. the poll read the WRONG modal frame. P3-S6 has a history of a different modal mounting
+     *      (docs/issues/0074, 0166), and one STIX-shaped value in the wrong form reports `1` just as
+     *      convincingly as a half-built right one.
+     *
+     * Telling them apart needs the FAILING run, and a failing run that records nothing is a wasted
+     * one — this issue has already cost several. So capture the frame URLs and the values before
+     * re-throwing, and leave the failure itself untouched.
+     */
+    try {
+      await expect
+        .poll(
+          async () =>
+            (await modalState(page)).values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v)).length,
+          { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
+        )
+        .toBeGreaterThanOrEqual(2)
+    } catch (err) {
+      const frames = page.frames().map((f: any) => f.url()).filter((u: string) => /modal-forms/.test(u))
+      const st = await modalState(page).catch(() => ({ values: [], text: '' } as any))
+      observe(test.info(), 'note',
+        `0101 diagnostic — ${frames.length} modal-forms frame(s): ${frames.join(' | ').slice(0, 300) || '(none)'}`)
+      observe(test.info(), 'note',
+        `0101 diagnostic — values seen: ${JSON.stringify(st.values).slice(0, 300)}`)
+      observe(test.info(), 'note',
+        `0101 diagnostic — modal text starts: ${String(st.text).replace(/\s+/g, ' ').slice(0, 160)}`)
+      throw err
+    }
     const modal = await modalState(page)
 
     // The row claims source AND target are pre-filled. Measured shape of this modal:
