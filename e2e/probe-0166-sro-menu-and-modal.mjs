@@ -48,7 +48,16 @@ console.log(`panes: promo ${promoCount} · scratch ${scratchCount}`)
 // Same sequence P3-S6 performs: select one node in each pane, then right-click the second.
 await nodesIn(PANE.promo).first().click()
 await page.waitForTimeout(1_500)
-const target = nodesIn(PANE.scratch).first()
+const which = process.argv[2] || ''
+  const all = nodesIn(PANE.scratch)
+  let target = all.first()
+  if (which) {
+    const n = await all.count()
+    for (let i = 0; i < n; i++) {
+      const id = (await all.nth(i).getAttribute('id')) || ''
+      if (id.startsWith(which)) { target = all.nth(i); console.log('selected scratch node:', id.slice(0,46)); break }
+    }
+  }
 await target.click()
 await page.waitForTimeout(1_500)
 
