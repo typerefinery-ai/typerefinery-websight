@@ -38,13 +38,28 @@ const normalise = (s) => {
   const pick = (t) => {
     if (/reopen/.test(t)) return 'open' // "Reopened" is an open issue
     if (/partly|partial/.test(t)) return 'partly resolved'
+    /**
+     * ⚠️ Test `superseded` BEFORE `resolved`, and before the generic branches. A superseded issue is
+     * not resolved — it was replaced — and the project writes it two ways: bare `Superseded` in
+     * frontmatter, and `**Superseded by [0064](…)**` in the index. Both must land on one state or
+     * every superseded issue reads as drift.
+     */
+    if (/supersed/.test(t)) return 'superseded'
+    if (/duplicate/.test(t)) return 'superseded' // a duplicate is likewise replaced, not fixed
     if (/resolved|closed|fixed/.test(t)) return 'resolved'
     if (/blocked/.test(t)) return 'blocked'
     if (/in progress/.test(t)) return 'in progress'
     if (/open/.test(t)) return 'open'
     return null
   }
-  return pick(lead) || pick(full) || full.split(/[\s—-]/)[0] || '(none)'
+  /**
+   * ⚠️ **Trim before the last-resort split.** Untrimmed, a leading space makes
+   * `split(/[\s—-]/)[0]` return `''`, which falls through to `(none)` — so the SAME unhandled state
+   * normalised to `superseded` from frontmatter (no leading space) and `(none)` from a table cell
+   * (padded), and 0063 was reported as drift for years-shaped nothing. The state word must not
+   * depend on whitespace that markdown tables add for free.
+   */
+  return pick(lead) || pick(full) || full.trim().split(/[\s—-]/)[0] || '(none)'
 }
 
 const frontmatterStatus = (file) => {
@@ -100,6 +115,7 @@ let drift = 0
 let missing = 0
 let duplicated = 0
 let malformed = 0
+let collisions = 0
 
 for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)).sort()) {
   const id = name.slice(0, 4)
@@ -120,6 +136,27 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
     console.log(`${id}  ⚠️ ${rows.length} INDEX ROWS — Status cells say: ${states.join(' / ')}`)
   }
   const row = rows[0]
+
+  /**
+   * ⚠️ **Compare the file the row LINKS TO — an ID does not identify a file here.**
+   * `0078` and `0165` each have TWO files: a live one and a superseded duplicate that kept the
+   * number. The outer loop walks *files*, so both looked up the same row and the superseded twin was
+   * reported as status drift every run — a guaranteed false positive for every collision, and the
+   * reason this audit claimed 4 disagreements when there were 1.
+   *
+   * The index row names its file explicitly, so use that and stop guessing. A file that shares the
+   * ID but is not the one linked is an **ID COLLISION** — a real finding, and a different one from
+   * drift. Reporting it as drift hides it behind a status mismatch nobody can act on.
+   */
+  const linked = (/\(\.\/(\d{4}-[^)]+\.md)\)/.exec(row.split('|')[1] ?? '') || [])[1]
+  if (linked && linked !== name) {
+    collisions++
+    console.log(
+      `${id}  ⚠️ ID COLLISION — "${name}" shares id ${id} but the index links "${linked}". ` +
+      `Status not compared (this file's own status is "${fmRaw.slice(0, 40)}").`,
+    )
+    continue
+  }
   checked++
 
   /**
@@ -160,8 +197,9 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
 
 console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
-  `${duplicated} with duplicate index rows · ${malformed} malformed row(s) · ${missing} absent from the index.`,
+  `${duplicated} with duplicate index rows · ${collisions} id collision(s) · ` +
+  `${malformed} malformed row(s) · ${missing} absent from the index.`,
 )
-if (!drift && !missing && !duplicated && !malformed) {
+if (!drift && !missing && !duplicated && !malformed && !collisions) {
   console.log('index and frontmatter agree throughout.')
 }
