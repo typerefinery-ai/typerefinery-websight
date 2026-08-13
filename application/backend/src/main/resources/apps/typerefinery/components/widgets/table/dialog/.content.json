@@ -31,6 +31,11 @@
         "name": "showActionButtons",
         "label": "Show Action Buttons"
       },
+      "rowClickNavigates": {
+        "sling:resourceType": "wcm/dialogs/components/toggle",
+        "name": "rowClickNavigates",
+        "label": "Row click triggers the navigating action"
+      },
       "searchEnabled": {
         "sling:resourceType": "wcm/dialogs/components/toggle",
         "name": "searchEnabled",

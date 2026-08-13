@@ -336,6 +336,63 @@ window.Typerefinery.Modal = Typerefinery.Modal || {};
 
         // add event listener to table action buttons.
         ns.addEventListenerToTableActionButtons(id);
+
+        // opt-in: make the row itself a drill-in target (alpha-launch decision 0037).
+        ns.addRowClickNavigation(id, componentConfig);
+    };
+
+    /**
+     * Make a table row itself trigger its navigating action button.
+     *
+     * alpha-launch **decision 0037 (Option 1)**. `Mini_App_Tasks.docx` Page 1 specifies the drill-in
+     * gesture as *"Left-Select or Double-Click on an incident's row"*, but the build only ever exposed
+     * it on a per-row `Open` button, so the specified gesture existed nowhere.
+     *
+     * ⚠️ **OPT-IN, deliberately.** Five authored tables use this component. Making every row navigate
+     * whenever a navigating action button happens to exist would silently change behaviour for all of
+     * them — wrong for a shared, generic component. Authors switch it on with `rowClickNavigates`.
+     *
+     * ⚠️ **Stays data-agnostic.** It selects the target button by the *generic* config key
+     * `actionButtonNavigateToPath` — "the button that navigates" — never by a label like "Open" or by
+     * any domain concept. This component must not learn what an incident is.
+     *
+     * 🔑 **Reuses the existing handler rather than duplicating it**: it triggers the button's own
+     * click, so the modal / POST / navigate sequence (including the POST status check that decides
+     * whether to navigate at all) stays in exactly one place.
+     *
+     * ⚠️ **Binds `click` only, not `dblclick`.** A double-click already delivers a `click` first, so
+     * the docx's "or Double-Click" is satisfied without a second binding — and binding both would fire
+     * the navigation twice. This also answers decision 0037's open question about a double-click
+     * colliding with the table's own selection/sorting: nothing extra is bound, so nothing collides.
+     */
+    ns.addRowClickNavigation = (id, componentConfig) => {
+        const enabled = componentConfig?.rowClickNavigates;
+        if (enabled !== true && enabled !== "true") {
+            return;
+        }
+        $(`#${id}`).on("click", "tbody tr", (event) => {
+            // Never hijack a real control inside the row - the action buttons, links, and the
+            // checkbox/sort/search affordances must keep behaving exactly as they did.
+            if ($(event.target).closest("button, a, input, select, textarea, label").length) {
+                return;
+            }
+            const $navigating = $(event.currentTarget).find("button").filter(function () {
+                try {
+                    return !!JSON.parse(this.getAttribute("data-model") || "{}").actionButtonNavigateToPath;
+                } catch (error) {
+                    console.warn("row-click navigation: unreadable data-model on a row button", error);
+                    return false;
+                }
+            }).first();
+
+            if (!$navigating.length) {
+                // Honest no-op: the row has no navigating action, so there is nothing to drill into.
+                console.log(`row-click navigation: no navigating action button in this row of #${id}`);
+                return;
+            }
+            console.log(`row-click navigation: triggering the row's navigating action button in #${id}`);
+            $navigating.trigger("click");
+        });
     };
 
 
