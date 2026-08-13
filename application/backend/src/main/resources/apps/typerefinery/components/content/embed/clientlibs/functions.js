@@ -150,6 +150,23 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
      * Data-agnostic: this knows about URLs and HTTP status, never about what the embedded page
      * contains. The message says "content", not "form" or any domain term.
      */
+    /**
+     * URLs this session has already proved resolve.
+     *
+     * alpha-launch docs/issues/0170 — the probe below is not free: **WebSight renders the whole page
+     * to answer a HEAD**, so it costs as much as the navigation it is checking. Measured on
+     * `incident-update.html`: HEAD 3.42 s / 3.53 s against GET 3.33 s / 3.40 s. Every object selection
+     * therefore rendered the same form TWICE, which was about half of the 7 s between clicking a node
+     * and having a usable form.
+     *
+     * ⚠️ **Only successes are cached, deliberately.** A URL that failed is re-probed every time: the
+     * failure may be transient, or an author may have just created the missing page, and a cached
+     * "missing" would keep showing the unavailable placeholder after the problem was fixed. Caching
+     * only the affirmative answer keeps 0084's protection exactly as strong as before — a page that
+     * has never resolved is still never navigated to blind.
+     */
+    ns.resolvedSources = ns.resolvedSources || new Set();
+
     ns.navigateFrame = ($component, sourceUrl) => {
         const $frame = $component.find("iframe");
         const go = () => {
@@ -162,9 +179,18 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             return;
         }
 
+        // Already proved to resolve in this session - skip the duplicate render (docs/issues/0170).
+        if (ns.resolvedSources.has(sourceUrl)) {
+            console.log(["embed source already verified this session; skipping the HEAD probe", sourceUrl]);
+            go();
+            return;
+        }
+
         fetch(sourceUrl, { method: "HEAD", credentials: "same-origin" })
             .then((res) => {
                 if (res.ok) {
+                    // Remember only the affirmative answer - see ns.resolvedSources above.
+                    ns.resolvedSources.add(sourceUrl);
                     go();
                     return;
                 }
