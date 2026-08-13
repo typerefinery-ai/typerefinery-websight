@@ -583,12 +583,47 @@ test.describe('Act 3 — Incident Composer', () => {
     // this step lost once in a full run (docs/issues/0055): the snapshot at the moment of failure
     // shows Source Ref and Target Ref BOTH populated, so the product was fine and the assertion
     // was early. Poll until the refs are actually there, then assert.
-    await expect
-      .poll(async () => (await modalState(page)).found, {
-        timeout: 30_000,
-        message: 'the SRO modal mounted in its own modal-forms frame',
-      })
-      .toBeTruthy()
+    /**
+     * docs/issues/0166 — this poll fails intermittently in a **full** run (measured 2 of 5) and
+     * passes when the step is re-run alone. The bare failure says only *"the modal never mounted"*,
+     * which is not enough to act on, so capture the state that distinguishes the candidates **at the
+     * moment of failure** and re-throw.
+     *
+     * 🔑 **What the answers mean:**
+     *   - no `modal-forms` frame **and** the context menu still on screen → the *"Create SRO"* click
+     *     never took effect (a gesture/timing problem, not the modal);
+     *   - no frame **and** no menu → the menu closed but nothing opened (the event was raised and
+     *     lost, or never raised);
+     *   - a `modal-forms` frame present → the poll's own read is at fault, not the product.
+     *
+     * ⚠️ Note this failure is at **frame mount**, which the pair-dependence mechanism 0166 quotes
+     * from `act3-journey.demo.ts` does **not** explain — an unusable pair yields a *mounted* modal
+     * with an empty dropdown, not a missing frame. Recording that distinction is the point.
+     */
+    try {
+      await expect
+        .poll(async () => (await modalState(page)).found, {
+          timeout: 30_000,
+          message: 'the SRO modal mounted in its own modal-forms frame',
+        })
+        .toBeTruthy()
+    } catch (error) {
+      const frames = page.frames().map((f: any) => f.url().split('/').pop() || '(root)')
+      const widgetText = await composerWidget(page)
+        .locator('body')
+        .innerText()
+        .catch(() => '')
+        .then((t: string) => t.replace(/\s+/g, ' '))
+      const menuStillOpen = /create sro/i.test(widgetText)
+      observe(
+        test.info(),
+        'note',
+        `0166 DIAGNOSTIC — modal never mounted. frames=[${frames.join(' | ')}] ` +
+          `contextMenuStillOnScreen=${menuStillOpen} ` +
+          `verdict=${menuStillOpen ? 'the Create SRO click did not take effect' : 'menu closed but no modal opened'}`,
+      )
+      throw error
+    }
     expect((await modalState(page)).text, 'the SRO modal, not some other modal-forms frame').toMatch(
       /Create SRO Relationship/i,
     )
