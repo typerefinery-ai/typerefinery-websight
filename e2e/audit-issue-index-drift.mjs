@@ -68,6 +68,16 @@ const frontmatterStatus = (file) => {
   return m ? m[1].split('#')[0].trim() : null
 }
 
+/**
+ * ⚠️ Read a generous slice, not the first few hundred bytes: several status lines here run to a
+ * paragraph, so `severity:` can sit well past the start of the frontmatter.
+ */
+const frontmatterSeverity = (file) => {
+  const head = fs.readFileSync(file, 'utf8').slice(0, 4000)
+  const m = /^severity:\s*(.+)$/m.exec(head)
+  return m ? m[1].split('#')[0].trim() : null
+}
+
 const indexText = fs.readFileSync(path.join(ISSUES, 'README.md'), 'utf8')
 
 /**
@@ -84,6 +94,7 @@ if (!headerRow) {
 }
 const HEADER_CELLS = headerRow.split("|").length
 const STATUS_COL = headerRow.split('|').findIndex((c) => c.trim().toLowerCase() === 'status')
+const SEVERITY_COL = headerRow.split('|').findIndex((c) => c.trim().toLowerCase() === 'severity')
 console.log(`index Status column = ${STATUS_COL} (from the header row)\n`)
 
 /**
@@ -112,6 +123,7 @@ const indexRowsFor = (id) =>
 
 let checked = 0
 let drift = 0
+let severityDrift = 0
 let missing = 0
 let duplicated = 0
 let malformed = 0
@@ -193,13 +205,39 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
     console.log(`${id}  DRIFT — file says "${fm}", index Status column says "${idx}"`)
     console.log(`        frontmatter: ${fmRaw.slice(0, 80)}`)
   }
+
+  /**
+   * ⚠️ **SEVERITY drifts too, and it was invisible until now.** This audit compared only Status, so
+   * an index row could keep saying **Critical** long after the file was downgraded — measured
+   * 2026-08-13: **0169 read `Critical` in the index while its file said `Low`**, having been
+   * downgraded once decision 0038 Option 3 fixed both rendering faults. Four rows disagreed in total.
+   *
+   * That matters more than it sounds: severity is what a triage sweep sorts on, so a stale
+   * `Critical` sends someone at an issue that is already handled, and a stale low value hides one
+   * that is not. The FILE is authoritative — the index is a summary of it.
+   *
+   * Compared on the first word only (`Low`, `High`, …), because both sides legitimately carry
+   * explanation after it ("Low — was Critical; downgraded 2026-08-13 …").
+   */
+  const firstWord = (v) => String(v).replace(/[*`~_]/g, '').trim().split(/[\s—-]+/)[0].toLowerCase()
+  const fmSev = frontmatterSeverity(path.join(ISSUES, name))
+  const idxSev = cells[SEVERITY_COL]
+  if (fmSev && idxSev !== undefined) {
+    const a = firstWord(fmSev)
+    const b = firstWord(idxSev)
+    if (a && b && a !== b) {
+      severityDrift++
+      console.log(`${id}  SEVERITY DRIFT — file says "${a}", index Severity column says "${b}"`)
+    }
+  }
 }
 
 console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
+  `${severityDrift} severity disagreement(s) · ` +
   `${duplicated} with duplicate index rows · ${collisions} id collision(s) · ` +
   `${malformed} malformed row(s) · ${missing} absent from the index.`,
 )
-if (!drift && !missing && !duplicated && !malformed && !collisions) {
+if (!drift && !severityDrift && !missing && !duplicated && !malformed && !collisions) {
   console.log('index and frontmatter agree throughout.')
 }
