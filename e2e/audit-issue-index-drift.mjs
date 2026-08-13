@@ -128,6 +128,7 @@ let missing = 0
 let duplicated = 0
 let malformed = 0
 let collisions = 0
+let documentedSupersessions = 0
 
 for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)).sort()) {
   const id = name.slice(0, 4)
@@ -162,10 +163,30 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
    */
   const linked = (/\(\.\/(\d{4}-[^)]+\.md)\)/.exec(row.split('|')[1] ?? '') || [])[1]
   if (linked && linked !== name) {
+    /**
+     * ⚠️ **A DOCUMENTED supersession is not an unresolved collision.** Both live pairs (0078, 0165)
+     * are {live, superseded}: the index links the live file, and the superseded twin **says so in
+     * its own body**, naming the file that replaced it. That is history kept deliberately, not drift
+     * — and reporting it as a warning on every run is a check crying wolf, which this script's own
+     * header says is worse than no check.
+     *
+     * So it is only a **collision** when the duplicate does NOT explain itself: an unexplained
+     * second file claiming a live id is exactly the case a human needs to resolve. A superseded file
+     * that names its successor is reported as a note and counted separately.
+     */
+    const selfDescribing =
+      normalise(fmRaw) === 'superseded' &&
+      fs.readFileSync(path.join(ISSUES, name), 'utf8').includes(linked)
+    if (selfDescribing) {
+      documentedSupersessions++
+      console.log(`${id}  ℹ️ superseded duplicate — "${name}" names its successor "${linked}". Expected; not drift.`)
+      continue
+    }
     collisions++
     console.log(
-      `${id}  ⚠️ ID COLLISION — "${name}" shares id ${id} but the index links "${linked}". ` +
-      `Status not compared (this file's own status is "${fmRaw.slice(0, 40)}").`,
+      `${id}  ⚠️ ID COLLISION — "${name}" shares id ${id} but the index links "${linked}", ` +
+      `and this file does NOT name it. Needs a human: which file keeps ${id}? ` +
+      `(this file's own status is "${fmRaw.slice(0, 40)}")`,
     )
     continue
   }
@@ -236,7 +257,7 @@ console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
   `${severityDrift} severity disagreement(s) · ` +
   `${duplicated} with duplicate index rows · ${collisions} id collision(s) · ` +
-  `${malformed} malformed row(s) · ${missing} absent from the index.`,
+  `${malformed} malformed row(s) · ${missing} absent from the index · ${documentedSupersessions} documented supersession(s).`,
 )
 if (!drift && !severityDrift && !missing && !duplicated && !malformed && !collisions) {
   console.log('index and frontmatter agree throughout.')
