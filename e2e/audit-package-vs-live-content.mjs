@@ -36,6 +36,7 @@ const CMS = 'http://localhost:8113'
 const auth = 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64')
 const VERBOSE = process.argv.includes('--verbose')
 const APPLY = process.argv.includes('--apply')
+const WRITE_NODES = process.argv.includes('--write-live-only')
 
 const escapeXml = (v) =>
   v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -50,6 +51,12 @@ const WHITELIST = new Set([
   'flowapi_enable',
 ])
 
+// Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
+// <_x0030_>. Decode for comparison with live JSON names (which are the real JCR names); without
+// this, every numbered child reports as a pkg-only/live-only PAIR (652 of the first run's ~890
+// "structural drift" lines were this artifact).
+const decodeName = (n) => n.replace(/_x([0-9a-fA-F]{4})_/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+
 const unescapeXml = (v) =>
   v.replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>')
    .replace(/&#xd;/gi, '\r').replace(/&#xa;/gi, '\n').replace(/&amp;/g, '&')
@@ -62,12 +69,31 @@ function parseVaultXml(xml) {
   for (const [, close, name, attrText, selfClose] of tokens) {
     if (name.startsWith('?')) continue
     if (close) { stack.pop(); continue }
-    const node = { name, props: {}, children: [] }
+    const node = { name: decodeName(name), props: {}, children: [] }
     for (const [, k, v] of attrText.matchAll(/([\w:.\-]+)="([^"]*)"/g)) node.props[k] = unescapeXml(v)
     stack[stack.length - 1].children.push(node)
     if (!selfClose) stack.push(node)
   }
   return root.children[0] // jcr:root
+}
+
+// Inverse of decodeName — vault ISO9075 encoding for element names XML cannot express.
+const encodeName = (n) => n.replace(/^[0-9]|[^\w.\-]/g, (c) => `_x${c.charCodeAt(0).toString(16).padStart(4, '0')}_`)
+
+/** Serialize a live JSON subtree as vault XML, indented to sit at `depth` levels (4 spaces each). */
+function serializeNode(name, node, depth) {
+  const pad = '    '.repeat(depth)
+  const attrs = [`jcr:primaryType="${node['jcr:primaryType'] || 'nt:unstructured'}"`]
+  for (const [k, v] of Object.entries(node)) {
+    if (k === 'jcr:primaryType' || k.startsWith('jcr:created')) continue
+    if (v === null || typeof v === 'object') continue
+    const val = typeof v === 'boolean' ? `{Boolean}${v}` : String(v)
+    attrs.push(`${k}="${escapeXml(val) === '' ? '\\0' : escapeXml(val)}"`)
+  }
+  const children = Object.entries(node).filter(([, v]) => v && typeof v === 'object' && !Array.isArray(v))
+  const open = `${pad}<${encodeName(name)}\n${pad}    ${attrs.join(`\n${pad}    `)}`
+  if (!children.length) return `${open}/>\n`
+  return `${open}>\n${children.map(([cn, cv]) => serializeNode(cn, cv, depth + 1)).join('')}${pad}</${encodeName(name)}>\n`
 }
 
 /**
@@ -83,9 +109,36 @@ function findTagSpan(xml, nodePath) {
     const [full, close, name, , selfClose] = m
     if (name.startsWith('?')) continue
     if (close) { stack.pop(); continue }
-    stack.push(name)
+    stack.push(decodeName(name))
     const matches = stack.length === want.length && stack.every((n, i) => n === want[i])
     if (matches) return [m.index, m.index + full.length]
+    if (selfClose) stack.pop()
+  }
+  return null
+}
+
+/** Like findTagSpan, but returns the whole element range: { openStart, openEnd, closeStart,
+ *  closeEnd, selfClosing } — closeStart is where a new child can be inserted. */
+function findElementRange(xml, nodePath) {
+  const want = ['jcr:root', 'jcr:content', ...nodePath.split('/').filter(Boolean)]
+  const stack = []
+  let found = null
+  for (const m of xml.matchAll(/<(\/?)([\w:.\-]+)((?:"[^"]*"|[^>"])*?)(\/?)>/gs)) {
+    const [full, close, name, , selfClose] = m
+    if (name.startsWith('?')) continue
+    if (close) {
+      if (found && stack.length === want.length) {
+        return { ...found, closeStart: m.index, closeEnd: m.index + full.length, selfClosing: false }
+      }
+      stack.pop()
+      continue
+    }
+    stack.push(decodeName(name))
+    const matches = !found && stack.length === want.length && stack.every((n, i) => n === want[i])
+    if (matches) {
+      found = { openStart: m.index, openEnd: m.index + full.length }
+      if (selfClose) return { ...found, closeStart: found.openEnd, closeEnd: found.openEnd, selfClosing: true }
+    }
     if (selfClose) stack.pop()
   }
   return null
@@ -209,6 +262,40 @@ for (const f of files) {
       applied++
     }
     if (applied) { fs.writeFileSync(f, updated); console.log(`  ✍️ ${rel}: ${applied}/${out.attrDiffs.length} attr diff(s) written`) }
+  }
+  // --write-live-only: serialize live-only subtrees into the package (explicit opt-in — node
+  // insertion is a bigger claim than an attribute edit; each write is logged and the file is
+  // re-parsed as a sanity check before saving).
+  if (WRITE_NODES && out.liveOnly.length) {
+    let updated = fs.readFileSync(f, 'utf8')
+    let wrote = 0
+    for (const lo of out.liveOnly) {
+      const segs = lo.split('/').filter(Boolean)
+      const nodeName = segs.pop()
+      const parentPath = '/' + segs.join('/')
+      let subtree = live
+      for (const s of segs) subtree = subtree?.[s]
+      const nodeJson = subtree?.[nodeName]
+      if (!nodeJson) { console.log(`  ⚠️ SKIP write ${rel}${lo} — live subtree unavailable`); continue }
+      const range = findElementRange(updated, parentPath)
+      if (!range) { console.log(`  ⚠️ SKIP write ${rel}${lo} — parent tag not found`); continue }
+      const childXml = serializeNode(nodeName, nodeJson, segs.length + 2)
+      if (range.selfClosing) {
+        const openTag = updated.slice(range.openStart, range.openEnd)
+        const parentTag = openTag.match(/^<([\w:.\-]+)/)[1]
+        const pad = '    '.repeat(segs.length + 1)
+        const reopened = openTag.replace(/\/>$/, '>')
+        updated = updated.slice(0, range.openStart) + reopened + '\n' + childXml + pad + `</${parentTag}>` + updated.slice(range.openEnd)
+      } else {
+        updated = updated.slice(0, range.closeStart) + childXml + '    '.repeat(segs.length + 1) + updated.slice(range.closeStart).replace(/^[ ]*/, '')
+      }
+      wrote++
+      console.log(`  ✍️ ${rel}: inserted live-only node ${lo}`)
+    }
+    if (wrote) {
+      try { parseVaultXml(updated) } catch (e) { console.log(`  🔴 ${rel}: post-insert parse FAILED — not saving`); continue }
+      fs.writeFileSync(f, updated)
+    }
   }
 }
 

@@ -119,7 +119,17 @@
                                     id="field_KAMQYXGOC"
                                     inputType="text"
                                     name="case"
-                                    placeholder="Incident  1"/>
+                                    placeholder="Incident  1">
+                                    <_events_
+                                        jcr:primaryType="nt:unstructured">
+                                        <_x0030_
+                                            jcr:primaryType="nt:unstructured"
+                                            name="INPUT_CHANGE"
+                                            action="INPUT_CHANGE"
+                                            topic="incidents-table-filter"
+                                            type="emit"/>
+                                    </_events_>
+                                </field>
                             </input_1>
                         </container_2>
                     </container>
@@ -184,6 +194,14 @@
                                     id="1_OPENINCDT"
                                     label="Open"/>
                             </actionButtons>
+                                                    <_events_
+                                jcr:primaryType="nt:unstructured">
+                                <_x0030_
+                                    jcr:primaryType="nt:unstructured"
+                                    action="FILTER"
+                                    topic="incidents-table-filter"
+                                    type="FILTER"/>
+                            </_events_>
                         </table>
                     </container2>
                 </form>

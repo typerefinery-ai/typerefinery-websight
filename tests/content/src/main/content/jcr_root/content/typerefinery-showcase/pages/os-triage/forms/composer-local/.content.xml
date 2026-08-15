@@ -317,6 +317,101 @@
                         </embed>
                     </container_1>
                 </container>
+                            <newobject
+                    jcr:primaryType="nt:unstructured"
+                    showTextualElementOfButton="false"
+                    buttonStyle="warning"
+                    classes="btn-sm"
+                    icon="pi pi-plus"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    label="New Object"
+                    actionType="openDropdown"
+                    buttonType="action"
+                    hideButtonLabel="false"
+                    iconPosition="left"
+                    isOutlinedButton="false"
+                    persistColorWhenThemeSwitches="true"
+                    id="newobject_UQB1FVBGL"
+                    showIcon="true">
+                    <dropdownItems
+                        jcr:primaryType="nt:unstructured">
+                        <_x0030_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create"
+                            action="modal"
+                            label="Anecdote"/>
+                        <_x0031_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create"
+                            action="modal"
+                            label="Domain Name"/>
+                        <_x0032_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create"
+                            action="modal"
+                            label="Email Addr"/>
+                        <_x0033_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create"
+                            action="modal"
+                            label="Email Message"/>
+                        <_x0034_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create"
+                            action="modal"
+                            label="Event"/>
+                        <_x0035_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create"
+                            action="modal"
+                            label="Identity"/>
+                        <_x0036_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create"
+                            action="modal"
+                            label="Indicator"/>
+                        <_x0037_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create"
+                            action="modal"
+                            label="Ipv4 Addr"/>
+                        <_x0038_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create"
+                            action="modal"
+                            label="Observed Data"/>
+                        <_x0039_
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create"
+                            action="modal"
+                            label="Relationship"/>
+                        <_x0031_0
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create"
+                            action="modal"
+                            label="Sequence"/>
+                        <_x0031_1
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create"
+                            action="modal"
+                            label="Sighting"/>
+                        <_x0031_2
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create"
+                            action="modal"
+                            label="Task"/>
+                        <_x0031_3
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/url-forms/url-create"
+                            action="modal"
+                            label="Url"/>
+                        <_x0031_4
+                            jcr:primaryType="nt:unstructured"
+                            link="/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create"
+                            action="modal"
+                            label="User Account"/>
+                    </dropdownItems>
+                </newobject>
             </main>
         </rootcontainer>
     </jcr:content>
