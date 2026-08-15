@@ -240,6 +240,14 @@
                                     nameCustom="embed-tree-edit-dag"
                                     topic="embed-tree-edit-dag"
                                     type="emit"/>
+                                <_x0032_2
+                                    jcr:primaryType="nt:unstructured"
+                                    action="DATA_REQUEST"
+                                    config="\{&quot;method&quot;:&quot;POST&quot;,&quot;url&quot;:&quot;https://flow.typerefinery.localhost:8101/os-triage/promote-subgraph&quot;}"
+                                    name="\0"
+                                    nameCustom="embed-force-promote"
+                                    topic="embed-force-promote"
+                                    type="emit"/>
                             </_events_>
                         </embed>
                     </container>
