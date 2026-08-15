@@ -745,8 +745,14 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
 
       console.log("adding submit event listener");
 
+      // docs/issues/0120 — `.on()` ADDS a handler on every init, and this init re-runs after
+      // every submit response ("adding submit event listener" re-logged per response was the
+      // tell: four FORM_SUBMIT cycles in one second on a single create). Accumulated handlers
+      // mean one click can fire N submits — a silent-duplicate-write landmine. The namespaced
+      // `.off()` first makes the attach idempotent without touching anyone else's submit
+      // handlers.
       // override default submit to handle form submit using code
-      $component.on("submit",  function (e) {
+      $component.off("submit.trform").on("submit.trform",  function (e) {
           console.groupCollapsed("form submit event listener")
           e.preventDefault();
           const { target } = e;
@@ -756,7 +762,9 @@ window.Typerefinery.Page.Files = Typerefinery.Page.Files || {};
       });
 
       // add event listener to document to listen for incoming events
-      $(document).keydown(function(event) {
+      // (docs/issues/0120 — same accumulation shape: one document-level hint handler per form
+      // init, forever. Namespaced per component id so re-init replaces its own, and only its own.)
+      $(document).off("keydown.trformhints-" + componentConfig.id).on("keydown.trformhints-" + componentConfig.id, function(event) {
         if (event.ctrlKey && event.shiftKey && event.altKey && String.fromCharCode(event.which) === "I") {
           console.group("showhints");
           ns.showFormHints($component, componentConfig).then(() => {
