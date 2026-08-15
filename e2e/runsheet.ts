@@ -165,11 +165,15 @@ export const STEPS: Record<string, StepDef> = {
   'P3-S12': { title: 'Promote moves a seeded promotable out of unattached context', baseline: 'pass', issue: '0086,0087' },
 
   // ---- Act 4 — Attack Navigator ------------------------------------------
-  'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'unknown', issue: '0008' },
-  'P4-S2': { title: 'Technique right-click offers "Send Technique to Incident"', baseline: 'unknown', issue: '0008' },
-  'P4-S3': { title: 'Sending a technique adds it to the default incident', baseline: 'unknown', issue: '0008' },
-  'P4-S4': { title: 'Tactic right-click offers "Send Tactic to Incident"', baseline: 'unknown', issue: '0008' },
-  'P4-S5': { title: 'With no default incident the action reports clearly', baseline: 'unknown', issue: '0008' },
+  // Promoted 'unknown' -> 'pass' 2026-08-15: 0008 R1-R5 delivered, spec rewritten against the
+  // real behaviour (matrix + banner, configured menu labels, copy-to-scratch round trip, 409
+  // no_current_incident) and green 5/5. Titles keep the runsheet's wording; the shipped labels
+  // say "Copy ... to Scratch" per decision 0014 — the spec asserts the CONFIGURED label.
+  'P4-S1': { title: 'Attack Navigator renders in its iframe', baseline: 'pass', issue: '0008' },
+  'P4-S2': { title: 'Technique right-click offers "Send Technique to Incident"', baseline: 'pass', issue: '0008' },
+  'P4-S3': { title: 'Sending a technique adds it to the default incident', baseline: 'pass', issue: '0008' },
+  'P4-S4': { title: 'Tactic right-click offers "Send Tactic to Incident"', baseline: 'pass', issue: '0008' },
+  'P4-S5': { title: 'With no default incident the action reports clearly', baseline: 'pass', issue: '0008' },
 
   // ---- Act 5 — Form behaviour --------------------------------------------
   'P5-S1': { title: 'Create form groups fields Base Required/Optional/Object/Extensions', baseline: 'pass', issue: '0009' },
