@@ -71,3 +71,38 @@ for (const d of drifted) {
     console.log(`     node ${n.padEnd(12)} runtime ${String(ra).padStart(6)}  source ${String(sb).padStart(6)}   ${sign}`)
   }
 }
+
+// docs/issues/0096 Option 2 — stale-branch-URL gate. The drift comparison above is BLIND
+// to this class: the 14 stale nodes were byte-identical on both sides (no drift), and the
+// source-only flows never enter the common loop. Scan URL *content* in BOTH DBs instead.
+// A raw-GitHub fetch pinned to refs/heads/main installs code 493 insertions behind
+// (parse.py — no `references` writer) or a settings file missing its required sections
+// (options.json, 0068's landmine). Allow-list starts EMPTY — the sweep
+// (fix-0096-stale-branch-urls.mjs) landed first so this gate is born green; anything new
+// fails by name. The TR_Settings_Branch comments in fixed algorithms are prose, not
+// URL-shaped, and never match.
+const STALE = /raw\.githubusercontent\.com\/[^"'\s\\]*\/refs\/heads\/main\//
+const ALLOWED = [] // exact `${db} ${flow} ${node} ${field}` strings, if ever needed
+const staleHits = []
+for (const [dbName, dbObj] of [['runtime', rt], ['source', src]]) {
+  for (const [flowId, flow] of Object.entries(dbObj)) {
+    if (flowId === 'variables' || !flow?.design) continue
+    for (const [nodeId, n] of Object.entries(flow.design)) {
+      for (const field of ['algorithm', 'code']) {
+        const s = n?.config?.[field]
+        if (typeof s === 'string' && STALE.test(s)) {
+          const key = `${dbName} ${flowId} ${nodeId} ${field}`
+          if (!ALLOWED.includes(key)) {
+            staleHits.push(`${key}: ${(s.match(STALE) || [''])[0]}…`)
+          }
+        }
+      }
+    }
+  }
+}
+console.log(`\n=== STALE refs/heads/main URLS (0096 gate): ${staleHits.length} ===`)
+for (const h of staleHits) console.log(`  🔴 ${h}`)
+if (staleHits.length) {
+  console.log('FAIL — a refs/heads/main fetch is back in a flow DB; sweep it (fix-0096-stale-branch-urls.mjs) or allow-list the exact tuple with a reason.')
+  process.exitCode = 1
+}
