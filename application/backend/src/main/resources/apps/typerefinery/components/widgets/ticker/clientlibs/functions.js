@@ -62,17 +62,30 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         $component.innerHTML = handlebarTemplate({ ...defaultData, ...defaultConfigData, ...data });
     }
 
-    ns.jsonConnected = async (dataSourceURL, $component) => {
+    /**
+     * @param onFailure optional fallback invoked when the fetch cannot produce a payload.
+     *   docs/issues/0163 passes a cached-payload renderer here so an unreachable endpoint degrades
+     *   to the last known payload rather than to the model default.
+     */
+    ns.jsonConnected = async (dataSourceURL, $component, onFailure) => {
+        const fail = (why) => {
+            if (typeof onFailure === "function") {
+                console.warn(["ticker dataSource unavailable; falling back", dataSourceURL, why]);
+                onFailure();
+                return;
+            }
+            ns.modelDataConnected($component);
+        };
         try {
             const response = await fetch(dataSourceURL).then((res) => res.json());
             if (response) {
                 ns.updateComponentHTML(response, $component);
                 return;
             }
-            ns.modelDataConnected($component);
+            fail("empty body");
         }
         catch (error) {
-            ns.modelDataConnected($component);
+            fail(String((error && error.message) || error));
         }
     }
 
@@ -82,17 +95,51 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
                 ns.modelDataConnected($component);
                 return;
             }
-            
+
             let componentConfig = componentNs.getComponentConfig($component);
             tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.callbackFn(data, $component));
             const componentData = localStorage.getItem(`${topic}`);
-            if (!componentData) {
-                ns.modelDataConnected($component);
+
+            // ⚠️ docs/issues/0163 (0152's class): the cached payload used to win outright — a key
+            // cached by ANY earlier session rendered unconditionally, with no freshness check, and
+            // nothing publishes on page load so the live TMS subscription never corrected it. When
+            // a cold-start route is configured it is AUTHORITATIVE on load; the cache is demoted to
+            // the fallback for when that fetch cannot answer. Same pattern as table@0af13e67.
+            const componentDataSource = componentConfig.coldStartDataSource;
+            if (componentDataSource) {
+                console.log(["ticker load: fetching authoritative payload", componentConfig.id, topic,
+                    "coldStartDataSource:", componentDataSource,
+                    componentData ? "(cached payload held in reserve)" : "(no cached payload)"]);
+                ns.jsonConnected(componentDataSource, $component,
+                    componentData
+                        ? () => ns.cachedPayloadConnected(componentData, topic, $component)
+                        : undefined);
                 return;
             }
+            // No live route configured — the cache is all there is.
+            if (componentData) {
+                ns.cachedPayloadConnected(componentData, topic, $component);
+                return;
+            }
+            ns.modelDataConnected($component);
+        }
+        catch (error) {
+            ns.modelDataConnected($component);
+        }
+    }
+
+    /**
+     * Render a payload previously cached in localStorage under the TMS topic. It has no freshness
+     * information of any kind, so it may be arbitrarily old — the log line says so explicitly
+     * (docs/issues/0163; same contract as table's cachedPayloadConnected).
+     */
+    ns.cachedPayloadConnected = (componentData, topic, $component) => {
+        try {
+            console.warn(["ticker rendering CACHED payload of unknown age", topic, `${componentData.length} bytes`]);
             ns.updateComponentHTML(JSON.parse(componentData), $component);
         }
         catch (error) {
+            console.error(["ticker cached payload is unreadable; discarding", topic, error]);
             ns.modelDataConnected($component);
         }
     }

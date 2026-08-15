@@ -107,16 +107,29 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
   }
 
   // load data from json source
-  ns.loadDataFromJson = async (dataSourceURL, $component) => {
+  /**
+   * @param onFailure optional fallback invoked when the fetch cannot produce a payload.
+   *   docs/issues/0163 passes a cached-payload renderer here so an unreachable endpoint degrades
+   *   to the last known payload rather than to a silent empty canvas.
+   */
+  ns.loadDataFromJson = async (dataSourceURL, $component, onFailure) => {
     try {
         const response = await fetch(dataSourceURL).then((res) => res.json());
         if (response) {
             ns.updateComponentWithData(response, $component);
             return;
         }
+        if (typeof onFailure === "function") {
+            console.warn(["stix dataSource unavailable; falling back", dataSourceURL, "empty body"]);
+            onFailure();
+        }
     } catch (error) {
         ns.alert(`Could load data from JsonL: ${dataSourceURL}`);
         ns.alert(error);
+        if (typeof onFailure === "function") {
+            console.warn(["stix dataSource unavailable; falling back", dataSourceURL, String((error && error.message) || error)]);
+            onFailure();
+        }
     }
   }
 
@@ -137,14 +150,47 @@ window.Typerefinery.Page.Tms = Typerefinery.Page.Tms || {};
         let componentConfig = componentNs.getComponentConfig($component);
         tmsNs.registerToTms(host, topic, componentConfig.resourcePath, (data) => ns.tmsCallback(data, $component));
         const componentData = localStorage.getItem(`${topic}`);
+
+        // ⚠️ docs/issues/0163 (0152's class): the cached payload used to win outright — a key
+        // cached by ANY earlier session rendered unconditionally, with no freshness check, and
+        // nothing publishes on page load so the live TMS subscription never corrected it. When
+        // a cold-start route is configured it is AUTHORITATIVE on load; the cache is demoted to
+        // the fallback for when that fetch cannot answer. Same pattern as table@0af13e67.
+        const componentDataSource = componentConfig.coldStartDataSource;
+        if (componentDataSource) {
+          console.log(["stix load: fetching authoritative payload", componentConfig.id, topic,
+            "coldStartDataSource:", componentDataSource,
+            componentData ? "(cached payload held in reserve)" : "(no cached payload)"]);
+          ns.loadDataFromJson(componentDataSource, $component,
+            componentData
+              ? () => ns.cachedPayloadConnected(componentData, topic, $component)
+              : undefined);
+          return;
+        }
+        // No live route configured — the cache is all there is.
         if (componentData) {
-          ns.updateComponentWithData(JSON.parse(componentData), $component);
+          ns.cachedPayloadConnected(componentData, topic, $component);
         } else {
           ns.alert("No data found in local storage.");
         }
     } catch (error) {
       ns.alert(`Could not connect to TMS host: ${host}, topic: ${topic}.`);
       ns.alert(error);
+    }
+  }
+
+  /**
+   * Render a payload previously cached in localStorage under the TMS topic. It has no freshness
+   * information of any kind, so it may be arbitrarily old — the log line says so explicitly
+   * (docs/issues/0163; same contract as table's cachedPayloadConnected).
+   */
+  ns.cachedPayloadConnected = (componentData, topic, $component) => {
+    try {
+      console.warn(["stix rendering CACHED payload of unknown age", topic, `${componentData.length} bytes`]);
+      ns.updateComponentWithData(JSON.parse(componentData), $component);
+    } catch (error) {
+      console.error(["stix cached payload is unreadable; discarding", topic, error]);
+      ns.alert("Cached payload was unreadable; discarded.");
     }
   }
 
