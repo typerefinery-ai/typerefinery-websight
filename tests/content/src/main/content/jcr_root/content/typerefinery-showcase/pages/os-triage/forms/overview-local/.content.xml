@@ -166,6 +166,15 @@
                     </container_1>
                 </container>
             </main>
+                    <aside
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/aside"
+                id="aside_3LPQ5MVLZ"/>
+                    <header
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/header"
+                cancelInheritParent="true"
+                id="header_5VXPOUQ3E"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>
