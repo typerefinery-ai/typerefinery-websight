@@ -289,6 +289,28 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
         Array.isArray(defaultSelectedOptions) &&
         defaultSelectedOptions.some((value) => String(value ?? '').trim() !== '');
 
+    /**
+     * alpha-launch docs/issues/0061 / 0150 — swap an unusable select for a plain text input
+     * carrying the same name/id, so the form serialises the field exactly as before. Used when
+     * (a) the data source explicitly reports it has no options configured (0061), or (b) the
+     * control has NO options source at all — no readOptionsFromDataSource, no authored
+     * selectOptions, no server-rendered <option>s (0150: the `labels` control on 19 forms is a
+     * vocab select with an empty source; STIX `labels` is free-form text and the API coerces a
+     * bare string into its list). Generic UI logic — the component learns no field names.
+     */
+    ns.degradeToFreeText = ($component, componentConfig, defaultSelectedOptions) => {
+        const freeText = document.createElement("input");
+        freeText.type = "text";
+        freeText.className = "form-control";
+        freeText.id = $component.attr("id") || componentConfig.id || "";
+        freeText.name = $component.attr("name") || "";
+        freeText.placeholder = $component.attr("placeholder") || "";
+        const firstDefault = Array.isArray(defaultSelectedOptions) && defaultSelectedOptions.length
+            ? String(defaultSelectedOptions[0] ?? "") : "";
+        if (firstDefault) freeText.value = firstDefault;
+        $component.replaceWith(freeText);
+    };
+
     ns.getOptionsFromDataSource = async (componentConfig) => {
         try{
             const {  readOptionsFromDataSource, readMethod , readPayloadType, readPayload } = componentConfig;
@@ -684,16 +706,7 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           // envelope told us everything we know.
           if (optionsList.sourceUnconfigured) {
             console.warn("select: data source unconfigured — degrading to free-text input", componentConfig.id);
-            const freeText = document.createElement("input");
-            freeText.type = "text";
-            freeText.className = "form-control";
-            freeText.id = $component.attr("id") || componentConfig.id || "";
-            freeText.name = $component.attr("name") || "";
-            freeText.placeholder = $component.attr("placeholder") || "";
-            const firstDefault = Array.isArray(defaultSelectedOptions) && defaultSelectedOptions.length
-              ? String(defaultSelectedOptions[0] ?? "") : "";
-            if (firstDefault) freeText.value = firstDefault;
-            $component.replaceWith(freeText);
+            ns.degradeToFreeText($component, componentConfig, defaultSelectedOptions);
             console.groupEnd();
             return;
           }
@@ -740,10 +753,24 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           console.groupEnd();
         } else {
           console.log("loading options from config");
-          
+
           if(componentConfig.selectOptions && Array.isArray(componentConfig.selectOptions)) {
             console.log("config options list", componentConfig.selectOptions)
             ns.addOptionsToSelect($component, defaultSelectedOptions, componentConfig.selectOptions, "value", "label");
+          }
+          // alpha-launch docs/issues/0150 — a select with NO options source of any kind (no data
+          // source handled above, no authored selectOptions, and no server-rendered <option>s
+          // beyond an empty placeholder) can never be filled: it renders as a locked empty
+          // dropdown and the property it fronts can never be set. Degrade to free text — the
+          // 0061 mechanism, extended to the no-source-at-all case. The `labels` control on 19
+          // stixorm forms is the known instance (STIX labels is free-form; the API coerces a
+          // bare string into the list — measured, 0150's 2026-08-12 section).
+          const domOptions = $component.find('option').filter((_, o) => String(o.value ?? '').trim() !== '').length;
+          if (domOptions === 0) {
+            console.warn("select: no options from any source — degrading to free-text input (docs/issues/0150)", componentConfig.id);
+            ns.degradeToFreeText($component, componentConfig, defaultSelectedOptions);
+            console.groupEnd();
+            return;
           }
           console.log("loaded options");
 
