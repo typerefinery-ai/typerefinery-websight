@@ -8,6 +8,7 @@
         jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
         jcr:title="Forms"
+        hideInNav="true"
         sling:resourceType="typerefinery/components/structure/page"
         ws:template="/apps/typerefinery/templates/page">
         <rootcontainer

@@ -412,6 +412,82 @@
                             label="User Account"/>
                     </dropdownItems>
                 </newobject>
+                            <breadcrumbs
+                    jcr:primaryType="nt:unstructured"
+                    classes="order-first w-100"
+                    sling:resourceType="typerefinery/components/layout/breadcrumbs"
+                    id="breadcrumbs_composerlocal"
+                    startLevel="3"/>
+                            <innertabs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/container"
+                    id="innertabs_composerlocal"
+                    flexEnabled="true"
+                    classes="order-first w-100 d-flex flex-row gap-1 mb-2">
+                    <itab_overview
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto"
+                        buttonStyle="secondary"
+                        isOutlinedButton="true"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        navigateTo="https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/overview-local.html"
+                        label="Overview"
+                        id="itab_overview_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    <itab_composer
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto"
+                        buttonStyle="primary"
+                        isOutlinedButton="false"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        navigateTo="https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/composer-local.html"
+                        label="Composer"
+                        id="itab_composer_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    <itab_navigator
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto"
+                        buttonStyle="secondary"
+                        isOutlinedButton="true"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        navigateTo="https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/attack-navigator.html"
+                        label="Navigator"
+                        id="itab_navigator_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    <itab_aiatlas
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto disabled"
+                        buttonStyle="light"
+                        isOutlinedButton="true"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        label="AI Atlas"
+                        id="itab_aiatlas_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    <itab_mbc
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto disabled"
+                        buttonStyle="light"
+                        isOutlinedButton="true"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        label="Malware MBC"
+                        id="itab_mbc_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                    <itab_d3fend
+                        jcr:primaryType="nt:unstructured"
+                        buttonType="navigate"
+                        classes="btn-sm w-auto disabled"
+                        buttonStyle="light"
+                        isOutlinedButton="true"
+                        sling:resourceType="typerefinery/components/forms/fields/button"
+                        label="D3FEND"
+                        id="itab_d3fend_composerlocal"
+                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                </innertabs>
             </main>
         </rootcontainer>
     </jcr:content>
