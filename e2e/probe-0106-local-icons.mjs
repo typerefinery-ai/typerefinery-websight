@@ -31,7 +31,12 @@ await context.route('**/*githubusercontent.com/**', (route) => {
   route.abort()
 })
 context.on('response', (res) => {
-  if (res.url().includes('/assets/icons/img/')) iconResponses.push(res.status())
+  // ⚠️ status alone is VACUOUS here: the dev server's historyApiFallback answers 200 with
+  // index.html for ANY unknown path (that is exactly how the first /assets/icons/img/ prefix
+  // "passed" while every icon rendered broken). The content-type is the real check.
+  if (res.url().includes('/icons/img/')) {
+    iconResponses.push({ status: res.status(), type: res.headers()['content-type'] || '' })
+  }
 })
 
 const page = await context.newPage()
@@ -49,11 +54,12 @@ const icons = await frame.locator('svg').first().evaluate((svg) => {
   }
 })
 
+const badType = iconResponses.filter((r) => r.status !== 200 || !r.type.includes('svg'))
 console.log(`node icons rendered : ${icons.drawn}/${icons.total} (sample: ${icons.sampleHref})`)
 console.log(`github attempts     : ${githubAttempts} (route was blocked — any attempt is a fail)`)
-console.log(`local icon responses: ${iconResponses.length}, non-200: ${iconResponses.filter((s) => s !== 200).length}`)
+console.log(`local icon responses: ${iconResponses.length}, wrong status/type: ${badType.length}` + (badType.length ? ` e.g. ${JSON.stringify(badType[0])}` : ''))
 
-const ok = icons.total > 0 && icons.drawn === icons.total && githubAttempts === 0 && iconResponses.length > 0 && iconResponses.every((s) => s === 200)
+const ok = icons.total > 0 && icons.drawn === icons.total && githubAttempts === 0 && iconResponses.length > 0 && badType.length === 0
 console.log(ok ? '✅ icons are fully local — 0106 criteria met' : '🔴 0106 criteria NOT met')
 await browser.close()
 process.exit(ok ? 0 : 1)
