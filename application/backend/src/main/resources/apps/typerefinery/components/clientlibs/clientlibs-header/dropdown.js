@@ -5,21 +5,29 @@ Typerefinery.Modal = Typerefinery.Modal || {};
 (function ($, ns, modalNs, document, window) {
 
     // Inner HTML for the Dropdown window.
+    // docs/issues/0168 — <button>, not <div>: plain divs are unfocusable and invisible to the
+    // accessibility tree, so the menu could not be reached by keyboard at all (ArrowDown left
+    // focus on the toggle) and screen readers listed no items. A real button is focusable, appears
+    // in the a11y tree, and Bootstrap's own dropdown key handling (ArrowDown/Up focuses
+    // `.dropdown-menu .dropdown-item`) starts working with NO custom key code — it only ever
+    // failed because divs cannot take focus. `.dropdown-item` is Bootstrap's documented button
+    // markup and is kept so P1-S3/P1-S4's locators and the click delegate below keep matching.
     ns.getDropdownInnerHTML = (menuItems) => {
         return menuItems.map(menuItem => `
-            <div 
-                name="${menuItem.name}" 
-                label="${menuItem.label}" 
+            <button
+                type="button"
+                name="${menuItem.name}"
+                label="${menuItem.label}"
                 link="${menuItem.link}"
                 action="${menuItem.action}"
                 hideFooter="${menuItem.hideFooter}"
                 data-model='${JSON.stringify(menuItem)}'
 
-                id="__dropdown__" 
-                class="dropdown-item" 
+                id="__dropdown__"
+                class="dropdown-item"
             >
                 ${menuItem.name || menuItem.label}
-            </div>
+            </button>
         `).join("");
     }
 
