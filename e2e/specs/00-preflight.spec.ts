@@ -410,12 +410,12 @@ test.describe('Act 0 — preflight', () => {
    */
   step('P0-S12', async ({}) => {
     const ROUTE_COMPS = new Set(['cfbhsf66dd', 'c71gcc7fd3', 'cysfdf35fb'])
-    // Known-and-recorded: not stale duplicates but BODY divergences, fixed by a 0095 body-sync,
-    // not by pausing (pausing f1fiw5002ra50d would drop tree-user/P3-S2 on re-provision).
-    const KNOWN_DIVERGENCE: Record<string, string> = {
-      'GET /viz-data/composer-options':
-        'f1fiw5002ra50d body diverged from runtime (runtime serves tree-user) — 0095 body-sync pending, recorded in 0183',
-    }
+    // Known-and-recorded BODY divergences (fixed by a 0095 body-sync, not by pausing).
+    // ✅ EMPTY as of 2026-08-16, same day the guard landed: its only entry (composer-options ←
+    // f1fiw5002ra50d) was body-synced runtime→provisioning — which promptly exposed a SECOND
+    // provisioning-only claimant of tree-user (f1w116001pn51d, runtime-absent, now paused).
+    // An exemption that outlives its reason is a hole; this one lived two hours.
+    const KNOWN_DIVERGENCE: Record<string, string> = {}
     const source = JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))
     const routes: Record<string, Array<{ id: string; name: string }>> = {}
     for (const [id, flow] of Object.entries<any>(source)) {
