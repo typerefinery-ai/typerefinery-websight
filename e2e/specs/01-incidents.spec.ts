@@ -118,8 +118,12 @@ test.describe('Act 1 — All Incidents table', () => {
     //   Status   2026-08-12 — extensions[<os-threat>].investigation_status
     //   Observed 2026-08-12 — count of `observed-data--` ids in other_object_refs
     //   Tasks    2026-08-12 — count of task_refs
-    // ❌ Author (`created_by_ref`) and Tags (`labels`) are empty on EVERY row and need decision
-    // 0031's write-path change; they are deliberately absent rather than shown blank.
+    //   Tags     2026-08-16 — `original.labels` joined with ', ' (docs/issues/0123). The blocking
+    //            premise ("needs decision 0031's write-path change") resolved when 0031 Option 1
+    //            landed: the create form now stores tags as STIX `labels` (asserted below at the
+    //            P1-S4 block), and the three curated incidents carry authored labels in context_mem.
+    // ❌ Author (`created_by_ref`) is still empty on EVERY row and stays out pending decision
+    // 0145-1a; it is deliberately absent rather than shown blank.
     //
     // Asserting the exact list (rather than "contains") is deliberate: it is what caught this change
     // immediately, and it will catch the next column arriving without its runsheet row.
@@ -128,18 +132,18 @@ test.describe('Act 1 — All Incidents table', () => {
     //     ID | Name | Author | Tags | Status | Observed | Created | Tasks
     // so `Type` and `Description` were dropped: neither is in the design, `Type` read
     // "Extended-Incident" on every row, and since the 0138 dataset reset `Description` is empty on
-    // both curated incidents. Author and Tags stay out until they have data (docs/issues/0145).
+    // both curated incidents. Author stays out until it has data (docs/issues/0145).
     // `Action` is not in the mockup either, but it carries the Open button P1-S7 drives — removing
     // working navigation to match a picture would be the wrong trade (docs/issues/0123).
     expect(await page.locator('thead th').allInnerTexts().then((h) => h.map((s) => s.trim()).filter(Boolean)),
       'the promised columns').toEqual(
-      ['ID', 'Name', 'Status', 'Observed', 'Created', 'Tasks', 'Action'])
+      ['ID', 'Name', 'Tags', 'Status', 'Observed', 'Created', 'Tasks', 'Action'])
 
     const col = async (n: number) => await page.locator(`tbody tr td:nth-child(${n})`).allInnerTexts()
 
     // A column is only worth having if it carries data — a header over blank cells would satisfy the
     // assertion above (docs/issues/0048-class).
-    const createdCells = await col(5)
+    const createdCells = await col(6)
     const dated = createdCells.filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.trim()))
     expect(dated.length, 'every row shows a YYYY-MM-DD Created date').toBe(createdCells.length)
 
@@ -149,8 +153,8 @@ test.describe('Act 1 — All Incidents table', () => {
     // "every row" would fail against honest data; asserting nothing would let the columns go blank
     // unnoticed. Assert instead that the counts are numeric everywhere (never blank, never text) and
     // that the curated rows carry the real values the mockup promises.
-    // Observed is column 4 and Tasks column 6 in the mockup order (ID·Name·Status·Observed·Created·Tasks).
-    const counts = [...(await col(4)), ...(await col(6))]
+    // Observed is column 5 and Tasks column 7 in the mockup order (ID·Name·Tags·Status·Observed·Created·Tasks).
+    const counts = [...(await col(5)), ...(await col(7))]
     expect(counts.filter((t) => !/^\d+$/.test(t.trim())),
       'Observed and Tasks are numeric on every row (0 is a fact, blank is not)').toEqual([])
 
@@ -163,6 +167,9 @@ test.describe('Act 1 — All Incidents table', () => {
       expect(String(r.status), `curated incident "${r.name}" has a recorded status`).not.toBe('')
       expect(Number(r.tasks), `curated incident "${r.name}" reports its tasks`).toBeGreaterThan(0)
       expect(Number(r.observed), `curated incident "${r.name}" reports its observations`).toBeGreaterThan(0)
+      // docs/issues/0123 — Tags carries authored labels on the curated rows; blank elsewhere is
+      // honest (a CMS-form incident without tags genuinely has none).
+      expect(String(r.tags), `curated incident "${r.name}" shows its authored labels`).toContain('phishing')
     }
 
     // ⚠️ The docs/issues/0115 guard ("no `->` or `<br>` plumbing in Description") is GONE with the
