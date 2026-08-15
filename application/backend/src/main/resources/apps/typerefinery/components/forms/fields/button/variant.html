@@ -25,7 +25,7 @@
       component="${model.componentName}"
       title="${model.title}"
       id="${model.id}"
-      type="${model.buttonType}"
+      type="${model.buttonType == 'submit' ? 'submit' : 'button'}"
       data-actionType="${model.actionType}"
       data-model="${model.jsonString}"
       class="${model.componentClassNames} ${model.variantClassNames}">
