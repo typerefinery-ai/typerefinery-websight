@@ -63,6 +63,12 @@ export const STEPS: Record<string, StepDef> = {
   // Strict from birth: measured green the day it was added (22 distinct paths, all 200).
   'P0-S11': { title: 'Every served form_path resolves to an authored form', baseline: 'pass', issue: '0133' },
 
+  // 0183: the provisioning source had 17 groups of UNPAUSED flows claiming one route (runtime
+  // encodes supersession by pausing; the source had lost that state). 24 flows paused to mirror
+  // runtime; this guard keeps the class closed. Strict from birth: green the day it was added
+  // (1 tolerated body-divergence, 0 new).
+  'P0-S12': { title: 'No provisioning route is claimed by two unpaused flows', baseline: 'pass', issue: '0183' },
+
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and
   // rows only arrive when flow f210iy001bt51d publishes over TMS. The ✅ recorded on 2026-07-25

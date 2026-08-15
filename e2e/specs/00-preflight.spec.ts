@@ -395,4 +395,57 @@ test.describe('Act 0 — preflight', () => {
     console.log(`P0-S11 form_path coverage: ${distinct.size} distinct served paths, all resolve`)
     await api.dispose()
   })
+
+  /**
+   * docs/issues/0183 — the provisioning source must not carry two UNPAUSED flows claiming the
+   * same route. Runtime encodes supersession by PAUSING the old flow; when the provisioning
+   * source loses that state, a re-provision becomes an import-order lottery over which algorithm
+   * serves each route (0182 found one instance; 0183 found 17 groups and paused 24 flows).
+   *
+   * ⚠️ Inbound registrations ONLY: nodes whose config carries url+method+response, on the three
+   * route component ids. A naive `config.url` scan also counts OUTBOUND fetch nodes (form save
+   * legs calling /os-triage/unattached-context/save etc.) and reported 64 "duplicates" where 17
+   * were real. If a new route component appears in the palette, add its id here — a route this
+   * guard cannot see is a route it cannot protect.
+   */
+  step('P0-S12', async ({}) => {
+    const ROUTE_COMPS = new Set(['cfbhsf66dd', 'c71gcc7fd3', 'cysfdf35fb'])
+    // Known-and-recorded: not stale duplicates but BODY divergences, fixed by a 0095 body-sync,
+    // not by pausing (pausing f1fiw5002ra50d would drop tree-user/P3-S2 on re-provision).
+    const KNOWN_DIVERGENCE: Record<string, string> = {
+      'GET /viz-data/composer-options':
+        'f1fiw5002ra50d body diverged from runtime (runtime serves tree-user) — 0095 body-sync pending, recorded in 0183',
+    }
+    const source = JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))
+    const routes: Record<string, Array<{ id: string; name: string }>> = {}
+    for (const [id, flow] of Object.entries<any>(source)) {
+      if (id === 'variables' || !flow || !flow.design || flow.paused) continue
+      for (const node of Object.values<any>(flow.design)) {
+        if (!node || !ROUTE_COMPS.has(node.component)) continue
+        const cfg = node.config || {}
+        if (!cfg.url || !cfg.method || !('response' in cfg)) continue
+        const route = `${cfg.method} ${cfg.url}`
+        ;(routes[route] = routes[route] || []).push({ id, name: flow.name || id })
+      }
+    }
+    const offending: string[] = []
+    let toleratedCount = 0
+    for (const [route, claimants] of Object.entries(routes)) {
+      if (claimants.length < 2) continue
+      if (KNOWN_DIVERGENCE[route]) {
+        console.log(`P0-S12 tolerated: ${route} ← ${claimants.map((c) => c.id).join(', ')} — ${KNOWN_DIVERGENCE[route]}`)
+        toleratedCount++
+        continue
+      }
+      offending.push(`${route} ← ${claimants.map((c) => `${c.id} (${c.name})`).join(' | ')}`)
+    }
+    console.log(`P0-S12 unpaused duplicate routes: ${toleratedCount} tolerated, ${offending.length} new`)
+    expect(
+      offending,
+      'provisioning-source routes claimed by MULTIPLE UNPAUSED flows — a re-provision races the ' +
+        'registrations (docs/issues/0183). Pause the superseded copies (mirror the runtime DB) or, ' +
+        'for a genuine body divergence, record it in KNOWN_DIVERGENCE with its 0095 plan:\n  ' +
+        offending.join('\n  '),
+    ).toEqual([])
+  })
 })
