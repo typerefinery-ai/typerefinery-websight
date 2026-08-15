@@ -77,6 +77,109 @@
                 sling:resourceType="typerefinery/components/layout/breadcrumbs"
                 id="breadcrumbs_OSTRIAGE1"
                 startLevel="4"/>
+                    <tabstrip
+                jcr:primaryType="nt:unstructured"
+                flexEnabled="true"
+                classes="order-first w-100 d-flex flex-row gap-1 mb-1"
+                sling:resourceType="typerefinery/components/layout/container"
+                id="tabstrip_OSTRIAGE1">
+                <tab_ostriage
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto"
+                    buttonStyle="primary"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    navigateTo="https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/pages/incidents.html"
+                    label="OS-Triage"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="false"
+                    lgColSize="auto"
+                    id="tab_ostriage_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_jupyter
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto disabled"
+                    buttonStyle="light"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    label="Jupyter"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    lgColSize="auto"
+                    id="tab_jupyter_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_roaster
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto disabled"
+                    buttonStyle="light"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    label="Roaster"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    lgColSize="auto"
+                    id="tab_roaster_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_attackflow
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto"
+                    buttonStyle="secondary"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    navigateTo="https://bpmn.typerefinery.localhost:8101/"
+                    label="Attack-Flow"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    navigateToInNewWindow="true"
+                    lgColSize="auto"
+                    id="tab_attackflow_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_workbench
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto"
+                    buttonStyle="secondary"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    navigateTo="https://widgetdevcomposer.typerefinery.localhost:8101/workbench.html"
+                    label="Workbench"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    navigateToInNewWindow="true"
+                    lgColSize="auto"
+                    id="tab_workbench_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_d3fend
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto disabled"
+                    buttonStyle="light"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    label="D3FEND"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    lgColSize="auto"
+                    id="tab_d3fend_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+                <tab_caldera
+                    jcr:primaryType="nt:unstructured"
+                    smColSize="auto"
+                    classes="btn-sm w-auto disabled"
+                    buttonStyle="light"
+                    sling:resourceType="typerefinery/components/forms/fields/button"
+                    label="Caldera"
+                    buttonType="navigate"
+                    mdColSize="auto"
+                    isOutlinedButton="true"
+                    lgColSize="auto"
+                    id="tab_caldera_1"
+                    persistColorWhenThemeSwitches="{Boolean}true"/>
+            </tabstrip>
         </container>
     </jcr:content>
 </jcr:root>
