@@ -136,6 +136,12 @@
                                 </field>
                             </input_1>
                         </container_2>
+                                            <breadcrumbs
+                            jcr:primaryType="nt:unstructured"
+                            classes="order-first w-100"
+                            sling:resourceType="typerefinery/components/layout/breadcrumbs"
+                            id="breadcrumbs_INCIDENTS1"
+                            startLevel="3"/>
                     </container>
                     <container2
                         jcr:primaryType="nt:unstructured"

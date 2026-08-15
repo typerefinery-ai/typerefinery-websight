@@ -71,6 +71,12 @@
                     </dropdownItems>
                 </button_1>
             </container2>
+                    <breadcrumbs
+                jcr:primaryType="nt:unstructured"
+                classes="d-none"
+                sling:resourceType="typerefinery/components/layout/breadcrumbs"
+                id="breadcrumbs_OSTRIAGE1"
+                startLevel="4"/>
         </container>
     </jcr:content>
 </jcr:root>

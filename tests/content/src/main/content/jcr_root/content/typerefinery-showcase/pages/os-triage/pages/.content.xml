@@ -6,6 +6,7 @@
         jcr:lastModifiedBy="sling-package-install"
         jcr:primaryType="ws:PageContent"
         jcr:title="Pages"
+        hideInNav="true"
         sling:resourceType="typerefinery/components/structure/page"
         ws:lastModified="{Date}2023-04-07T10:48:57.413+05:30"
         ws:lastModifiedBy="wsadmin"

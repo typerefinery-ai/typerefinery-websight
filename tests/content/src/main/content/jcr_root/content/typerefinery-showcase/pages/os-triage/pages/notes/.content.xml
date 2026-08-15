@@ -20,7 +20,14 @@
             <header
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/header"
-                id="header_R4ZBKHEPQ"/>
+                id="header_R4ZBKHEPQ">
+                <breadcrumbs
+                    jcr:primaryType="nt:unstructured"
+                    classes="d-none"
+                    sling:resourceType="typerefinery/components/layout/breadcrumbs"
+                    id="breadcrumbs_NOTESTEST"
+                    startLevel="4"/>
+            </header>
             <container1
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
