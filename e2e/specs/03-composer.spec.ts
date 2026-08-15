@@ -1047,6 +1047,11 @@ test.describe('Act 3 — Incident Composer', () => {
    * it), which is why this is acceptable to run — but do not point it at Promo.
    */
   step('P3-S8', async ({ page, request }) => {
+    // docs/issues/0148's class, P3-S12's established remedy: this step seeds, removes over the
+    // flow, and polls the pane — normal passes run ~90s, and a busy sequenced run measured 126s
+    // against the 120s default budget (2026-08-15 15:02 run: "Test timeout of 120000ms exceeded"
+    // while the remove was completing). The step was starved, not slow.
+    test.setTimeout(360_000)
     // docs/issues/0076 — this step DELETES a Scratch object and nothing replaces it, so a suite on
     // a loop eventually runs it against an empty pane. Seed rather than fail: the fixture is the
     // suite's responsibility, not a defect in what this step tests.
