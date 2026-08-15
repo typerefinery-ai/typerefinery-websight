@@ -51,6 +51,8 @@ const WHITELIST = new Set([
   'flowapi_enable',
   // button action wiring (0123's New Incident conversion lives in these)
   'buttonType', 'actionType', 'actionUrl', 'actionModalTitle', 'actionSuccessNavigateTo',
+  // rich-text content (0127's form-title sweep lives in these)
+  'text',
 ])
 
 // Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
@@ -246,8 +248,14 @@ for (const f of files) {
     let updated = fs.readFileSync(f, 'utf8')
     let applied = 0
     for (const d of out.attrDiffs) {
-      const oldStr = `${d.k}="${escapeXml(d.pkgVal)}"`
-      const newStr = `${d.k}="${escapeXml(d.liveVal)}"`
+      // vault escapes `<` but leaves `>` literal — try the strict form first, then the lenient
+      // one, so values containing markup (0127's <h5> titles) still match the on-disk encoding.
+      let oldStr = `${d.k}="${escapeXml(d.pkgVal)}"`
+      let newStr = `${d.k}="${escapeXml(d.liveVal)}"`
+      if (updated.split(oldStr).length - 1 === 0) {
+        oldStr = `${d.k}="${escapeXml(d.pkgVal).replace(/&gt;/g, '>')}"`
+        newStr = `${d.k}="${escapeXml(d.liveVal).replace(/&gt;/g, '>')}"`
+      }
       const count = updated.split(oldStr).length - 1
       if (count === 1) {
         updated = updated.replace(oldStr, newStr)

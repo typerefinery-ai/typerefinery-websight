@@ -55,7 +55,7 @@
                             sling:resourceType="typerefinery/components/content/text"
                             gap="4"
                             id="text_27E20MAMX"
-                            text="&lt;h1>Event Form&lt;/h1>"/>
+                            text="&lt;h5>&quot;event&quot;&lt;/h5>"/>
                     </container1>
                     <container2
                         jcr:primaryType="nt:unstructured"
