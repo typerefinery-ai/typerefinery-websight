@@ -321,6 +321,15 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
                 console.warn("select getOptionsFromDataSource: response was not a list", response);
                 return [];
             }
+            // alpha-launch docs/issues/0061 Option 1 — a data source can now say "no options
+            // source configured for this field" ({configured:false, data:[]}), a different fact
+            // from "configured but zero matches" ([]). Tag the (empty) list so the caller can
+            // degrade the control instead of rendering an unusable empty dropdown. The tag is an
+            // array property: invisible to every consumer that just iterates.
+            if (response && !Array.isArray(response) && response.configured === false) {
+                console.warn("select getOptionsFromDataSource: source reports unconfigured", readOptionsFromDataSource);
+                list.sourceUnconfigured = true;
+            }
             return list;
         }catch(error) {
             console.error(error);
@@ -668,6 +677,26 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           var optionsList = await ns.getOptionsFromDataSource(componentConfig);
           console.groupCollapsed("select init, resume after response from data source on " + window.location);
           console.log("data source list", optionsList);
+          // alpha-launch docs/issues/0061 Option 1 — the source explicitly reported that no
+          // options source is configured for this field (distinct from "no matches"). A locked
+          // empty dropdown is unusable; degrade to a plain text input carrying the same name and
+          // id so the form serialises the field exactly as before. No domain vocabulary — the
+          // envelope told us everything we know.
+          if (optionsList.sourceUnconfigured) {
+            console.warn("select: data source unconfigured — degrading to free-text input", componentConfig.id);
+            const freeText = document.createElement("input");
+            freeText.type = "text";
+            freeText.className = "form-control";
+            freeText.id = $component.attr("id") || componentConfig.id || "";
+            freeText.name = $component.attr("name") || "";
+            freeText.placeholder = $component.attr("placeholder") || "";
+            const firstDefault = Array.isArray(defaultSelectedOptions) && defaultSelectedOptions.length
+              ? String(defaultSelectedOptions[0] ?? "") : "";
+            if (firstDefault) freeText.value = firstDefault;
+            $component.replaceWith(freeText);
+            console.groupEnd();
+            return;
+          }
           // ⚠️ This used to pass `keyNameInOptionList` twice and `labelNameInOptionList` third, but
           // `addOptionsToSelect` takes five arguments — so the label name was silently dropped and
           // every data-source option was labelled with its key. That is why authored
