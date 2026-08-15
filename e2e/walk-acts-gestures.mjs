@@ -125,16 +125,21 @@ record('P2-S1', gnodes > 1 ? 'PASS' : 'FAIL', `force graph renders ${gnodes} nod
 
 const formSrcNow = async () =>
   await page.locator('iframe[src*="stixorm-forms"]').first().getAttribute('src').catch(() => null)
-const beforeForm = await formSrcNow()
-await viz.locator('image, g.node').first().click()
-let opened = null
-for (let i = 0; i < 90; i++) {
-  const s = await formSrcNow()
-  if (s && s !== beforeForm) { opened = s; break }
-  await page.waitForTimeout(300)
-}
-record('P2-S5', opened ? 'PASS' : 'FAIL',
-  `left-select → ${opened ? opened.split('stixorm-forms/')[1] : 'form did not change'}`)
+// ⚠️ Wrapped in step(): on 2026-08-15 a 0-node graph (docs/issues/0177) made this click
+// time out UNWRAPPED, aborting the walk after P2-S1 so Acts 2/3 went unreported — the
+// exact failure mode the step() comment above warns about.
+await step('P2-S5', async () => {
+  const beforeForm = await formSrcNow()
+  await viz.locator('image, g.node').first().click()
+  let opened = null
+  for (let i = 0; i < 90; i++) {
+    const s = await formSrcNow()
+    if (s && s !== beforeForm) { opened = s; break }
+    await page.waitForTimeout(300)
+  }
+  record('P2-S5', opened ? 'PASS' : 'FAIL',
+    `left-select → ${opened ? opened.split('stixorm-forms/')[1] : 'form did not change'}`)
+})
 await page.screenshot({ path: path.join(OUT, 'gesture-act2-after-select.png') })
 
 // ---------- Act 3 ----------
@@ -145,16 +150,18 @@ const promo = await comp.locator('svg.promo_svg image, svg.promo_svg g.node').co
 const scratch = await comp.locator('svg.scratch_svg image, svg.scratch_svg g.node').count().catch(() => 0)
 record('P3-S1', promo > 0 ? 'PASS' : 'FAIL', `panes render — Promotable ${promo}, Scratch ${scratch}`)
 
-const beforeC = await formSrcNow()
-await comp.locator('svg.promo_svg image, svg.promo_svg g.node').first().click()
-let openedC = null
-for (let i = 0; i < 90; i++) {
-  const s = await formSrcNow()
-  if (s && s !== beforeC) { openedC = s; break }
-  await page.waitForTimeout(300)
-}
-record('P3-S5', openedC ? 'PASS' : 'FAIL',
-  `left-select → ${openedC ? openedC.split('stixorm-forms/')[1] : 'form did not change'}`)
+await step('P3-S5', async () => {
+  const beforeC = await formSrcNow()
+  await comp.locator('svg.promo_svg image, svg.promo_svg g.node').first().click()
+  let openedC = null
+  for (let i = 0; i < 90; i++) {
+    const s = await formSrcNow()
+    if (s && s !== beforeC) { openedC = s; break }
+    await page.waitForTimeout(300)
+  }
+  record('P3-S5', openedC ? 'PASS' : 'FAIL',
+    `left-select → ${openedC ? openedC.split('stixorm-forms/')[1] : 'form did not change'}`)
+})
 await page.screenshot({ path: path.join(OUT, 'gesture-act3-after-select.png') })
 
 console.log(`\n=== ${results.filter((r) => r.verdict === 'PASS').length}/${results.length} gestures PASS`)
