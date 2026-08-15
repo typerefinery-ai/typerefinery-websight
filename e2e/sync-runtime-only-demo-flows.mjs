@@ -28,6 +28,7 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { findRouteConflicts } from './lib-flow-routes.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WORKSPACE = path.resolve(__dirname, '..', '..')
@@ -72,9 +73,24 @@ if (!APPLY) {
   process.exit(0)
 }
 
-for (const id of toAdd) source[id] = runtime[id]
+// docs/issues/0183 follow-up 1 — same guard as sync-runtime-only-form-legs.mjs: a "runtime-only"
+// id may be the re-minted current copy of a flow the source still carries UNPAUSED under an old
+// id. Detect the route collision; only --pause-superseded authorises retiring the old claimants.
+const PAUSE_SUPERSEDED = process.argv.includes('--pause-superseded')
+const conflicts = findRouteConflicts(toAdd, runtime, source)
+const skipped = []
+for (const [cid, losers] of Object.entries(conflicts)) {
+  for (const l of losers) console.log(`  ⚠️ ${cid} collides with UNPAUSED source flow ${l.id} (${l.name}) on ${l.routes.join(', ')}`)
+  if (PAUSE_SUPERSEDED) {
+    for (const l of losers) { source[l.id].paused = true; console.log(`    → paused ${l.id}`) }
+  } else {
+    skipped.push(cid)
+    console.log(`    → SKIPPING ${cid} (re-run with --pause-superseded to add it and pause the old claimants)`)
+  }
+}
+for (const id of toAdd.filter((i) => !skipped.includes(i))) source[id] = runtime[id]
 fs.writeFileSync(SOURCE_DB, JSON.stringify(source, null, '\t'))
-console.log(`\nsource written: ${SOURCE_DB}`)
+console.log(`\nsource written: ${SOURCE_DB}${skipped.length ? ` (skipped ${skipped.length} conflicted)` : ''}`)
 console.log(`source entries now: ${Object.keys(JSON.parse(fs.readFileSync(SOURCE_DB, 'utf8'))).length}`)
 console.log('\nNext: re-run the drift audit and P0-S8, then REMOVE the newly-synced ids from')
 console.log("P0-S8's KNOWN_RUNTIME_ONLY — an exemption that outlives its reason is a hole.")
