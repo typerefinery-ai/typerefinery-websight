@@ -227,7 +227,11 @@ test.describe('Act 0 — preflight', () => {
     // flows — every `Form flow` that merely POSTs to a demo API. That would have made preflight
     // permanently red, which is the docs/issues/0143 trap. Serving a route and calling one are not
     // the same thing, and the guard has to tell them apart.
-    const SERVED_ROUTE = /^\/(viz-data|os-triage|stix-orm)\//
+    // ⚠️ 2026-08-15 (0075 follow-through): the original pattern excluded `/content/` routes, so
+    // ~46 form SAVE LEGS — the write half of every stixorm create/update form, Acts 3+5's write
+    // layer — sat runtime-only for weeks with this guard green. Form legs serve
+    // /content/…/os-triage/…/form/* and are demo capabilities like any other served route.
+    const SERVED_ROUTE = /^\/(viz-data|os-triage|stix-orm)\/|^\/content\/.*\/os-triage\//
     const FETCHED_ROUTE = /\/(viz-data|os-triage|stix-orm)\//
     const routesOf = (flow: any): string[] => {
       const design = (flow && (flow.design || flow)) || {}
@@ -250,7 +254,13 @@ test.describe('Act 0 — preflight', () => {
     // they are no longer runtime-only and no longer need tolerating. Emptying it is the point: an
     // exemption that outlives its reason is a hole, so these were removed the moment they were
     // fixed rather than left to rot into documentation.
-    const KNOWN_RUNTIME_ONLY: Record<string, string> = {}
+    const KNOWN_RUNTIME_ONLY: Record<string, string> = {
+      // 2026-08-15 (0075 follow-through): a TEST flow ("Test Title Update", form-flow-metadata) —
+      // not a demo capability; losing it on re-provision is acceptable, and copying it would put
+      // test residue in the provisioning source. The 46 REAL form save legs were copied instead
+      // (sync-runtime-only-form-legs.mjs).
+      f21crm003rn51d: 'form-flow-metadata test flow — deliberately not provisioned',
+    }
 
     const runtimeOnlyServingDemo: string[] = []
     const tolerated: string[] = []
