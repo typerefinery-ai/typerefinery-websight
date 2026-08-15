@@ -253,6 +253,17 @@ export function step(id: string, body: (args: any) => Promise<void>) {
         throw err
       }
 
+      // docs/issues/0143 Option 1 — a GUARD assertion is a NEW invariant, never a baseline
+      // observation, so its failure must be loud in ANY step. Without this, three guard
+      // attempts on P5-S3 (then baseline 'partial') failed exactly as designed, were
+      // absorbed here into skips, and were concluded "vacuous" — the wrong conclusion was
+      // then written into 0142 and the runsheet. Prefix such assertions' messages with
+      // `GUARD:` (mirroring FIXTURE:) and this re-throw keeps them red.
+      if (/GUARD:/.test(err?.message || '')) {
+        observe(testInfo, 'fail', `guard assertion failed — not a baseline observation: ${msg}`)
+        throw err
+      }
+
       observe(testInfo, def.baseline === 'fail' ? 'fail (expected)' : 'partial/fail', msg)
       base.skip(true, `baseline "${def.baseline}" — observed: ${msg}`)
     }
