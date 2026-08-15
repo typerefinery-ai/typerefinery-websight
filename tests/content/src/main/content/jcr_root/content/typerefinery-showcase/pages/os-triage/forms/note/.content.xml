@@ -43,7 +43,7 @@
                         flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                         flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                         id="form_LHSNPXYQE"
-                        title="note">
+                        title="note" readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/note/_jcr_content/rootcontainer/main/container/form/{{id}}" writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/note/_jcr_content/rootcontainer/main/container/form/{{id}}">
                         <select
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/select"

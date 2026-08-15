@@ -32,7 +32,7 @@
                 <two
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
-                    flexEnabled="{Boolean}true"
+                    flexEnabled="true"
                     id="two_ZEKCU7GMW">
                     <container1
                         jcr:primaryType="nt:unstructured"
@@ -149,7 +149,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Revoked"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -187,7 +187,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Labels"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -224,7 +224,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Confidence"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -261,7 +261,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Language"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -298,7 +298,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="External References"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -335,7 +335,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Object Marking"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 hideButtonLabel="true"
                                 id="button_6_WCOP4QR23"
@@ -371,7 +371,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Granular Marking"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -403,6 +403,12 @@
                                         type="emit"/>
                                 </_events_>
                             </button_5>
+                                                    <optheading
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                id="optheading_sdoformsobserveddataformsobse"
+                                text="&lt;h6 class=&quot;text-muted mb-1&quot;&gt;Options&lt;/h6&gt;"
+                                classes="w-100"/>
                         </container1>
                         <container2
                             jcr:primaryType="nt:unstructured"
@@ -419,7 +425,14 @@
                             persistColorWhenThemeSwitches="false"
                             roleOther="\0"
                             smColSize="6"
-                            title="\0"/>
+                            title="\0">
+                            <extheading
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                id="extheading_sdoformsobserveddataformsobse"
+                                text="&lt;h6 class=&quot;text-muted mb-1&quot;&gt;Extensions&lt;/h6&gt;"
+                                classes="w-100"/>
+                        </container2>
                     </two>
                     <composite
                         jcr:primaryType="nt:unstructured"
@@ -611,7 +624,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="created_by_ref"
-                                            smColSize="10"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;observed-data&quot;,&quot;object_field&quot;:&quot;created_by_ref&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference>
                                     <timestamp_1
                                         jcr:primaryType="nt:unstructured"
@@ -792,7 +805,7 @@
                                             lgColSize="11"
                                             mdColSize="11"
                                             name="object_refs"
-                                            smColSize="11"/>
+                                            smColSize="11" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;observed-data&quot;,&quot;object_field&quot;:&quot;object_refs&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference>
                                 </container1>
                             </one>
@@ -1075,7 +1088,7 @@
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
                                                 id="field_FJ34AQ9ZR"
                                                 inputType="list"
-                                                label="Composite Field">
+                                                label="Composite Field" name="external_references">
                                                 <externalreference
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="typerefinery/components/stix/forms/composite/externalreference"
@@ -1255,7 +1268,7 @@
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
                                                 id="field_IHJA7JDCE"
                                                 inputType="list"
-                                                label="Composite Field">
+                                                label="Composite Field" name="granular_markings">
                                                 <granularmarking
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="typerefinery/components/stix/forms/composite/granularmarking"

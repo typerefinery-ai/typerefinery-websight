@@ -44,7 +44,7 @@
                     <two
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
-                        flexEnabled="{Boolean}true"
+                        flexEnabled="true"
                         horizontalAlignment="start"
                         id="two_V30OAL8HE">
                         <container1

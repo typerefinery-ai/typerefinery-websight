@@ -20,12 +20,12 @@
         <rootcontainer
             jcr:primaryType="nt:unstructured"
             sling:resourceType="typerefinery/components/layout/fixedrootcontainer"
-            classes="h-100">
+            classes="d-flex flex-wrap" flexEnabled="true">
             <main
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/main"
                 classes="vh-100"
-                flexEnabled="false"
+                flexEnabled="true"
                 id="main_W0KKE5JBK">
                 <container
                     jcr:primaryType="nt:unstructured"
@@ -250,7 +250,7 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/header"
                 cancelInheritParent="true"
-                id="header_5VXPOUQ3E"/>
+                id="header_5VXPOUQ3E" classes="order-first w-100"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>

@@ -53,6 +53,8 @@ const WHITELIST = new Set([
   'buttonType', 'actionType', 'actionUrl', 'actionModalTitle', 'actionSuccessNavigateTo',
   // rich-text content (0127's form-title sweep lives in these)
   'text',
+  // layout/order wiring (0123/0127 chrome uses these)
+  'classes', 'flexEnabled', 'hideInNav', 'startLevel',
 ])
 
 // Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
@@ -202,6 +204,14 @@ function compare(xmlNode, liveNode, nodePath, out) {
     const pkgNorm = pkgVal === '\\0' ? '' : pkgVal
     if (String(liveVal) !== pkgNorm) out.attrDiffs.push({ nodePath, k, pkgVal, liveVal: String(liveVal) })
   }
+  // live-only whitelist properties (present live, absent in the package) — previously a blind
+  // spot that twice needed hand-mirroring (0123's button action props, 0127's order classes).
+  for (const k of WHITELIST) {
+    if (k in xmlNode.props) continue
+    const liveVal = liveNode[k]
+    if (liveVal === undefined || liveVal === null || typeof liveVal === 'object') continue
+    out.attrDiffs.push({ nodePath, k, pkgVal: null, liveVal: String(liveVal), insert: true })
+  }
   // children
   const liveChildren = Object.entries(liveNode).filter(([, v]) => v && typeof v === 'object' && !Array.isArray(v))
   const liveNames = new Set(liveChildren.map(([n]) => n))
@@ -248,6 +258,16 @@ for (const f of files) {
     let updated = fs.readFileSync(f, 'utf8')
     let applied = 0
     for (const d of out.attrDiffs) {
+      if (d.insert) {
+        // live-only property: inject the attribute into the node's opening tag
+        const span = findTagSpan(updated, d.nodePath)
+        if (!span) { console.log(`  ⚠️ SKIP insert ${rel} ${d.nodePath} @${d.k} — tag not found`); continue }
+        const tagText = updated.slice(span[0], span[1])
+        const injected = tagText.replace(/(\/?>)$/, ` ${d.k}="${escapeXml(d.liveVal).replace(/&gt;/g, '>')}"$1`)
+        updated = updated.slice(0, span[0]) + injected + updated.slice(span[1])
+        applied++
+        continue
+      }
       // vault escapes `<` but leaves `>` literal — try the strict form first, then the lenient
       // one, so values containing markup (0127's <h5> titles) still match the on-disk encoding.
       let oldStr = `${d.k}="${escapeXml(d.pkgVal)}"`

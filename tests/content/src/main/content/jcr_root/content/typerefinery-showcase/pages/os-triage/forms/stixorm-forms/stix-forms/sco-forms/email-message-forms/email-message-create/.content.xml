@@ -32,7 +32,7 @@
                 <two
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="typerefinery/components/layout/container"
-                    flexEnabled="{Boolean}true"
+                    flexEnabled="true"
                     id="two_ZEKCU7GMW">
                     <container1
                         jcr:primaryType="nt:unstructured"
@@ -115,7 +115,7 @@
                     <two
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="typerefinery/components/layout/container"
-                        flexEnabled="{Boolean}true"
+                        flexEnabled="true"
                         id="two_SN2AXJW55">
                         <container1
                             jcr:primaryType="nt:unstructured"
@@ -139,7 +139,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Defanged"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -177,7 +177,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Object Marking"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 hideButtonLabel="true"
                                 id="button_6_WCOP4QR23"
@@ -213,7 +213,7 @@
                                 sling:resourceType="typerefinery/components/forms/fields/button"
                                 alt="Granular Marking"
                                 buttonType="action"
-                                classes="\0"
+                                classes="order-1"
                                 flexEnabled="false"
                                 gap="1"
                                 hideButtonLabel="true"
@@ -245,6 +245,12 @@
                                         type="emit"/>
                                 </_events_>
                             </button_5>
+                                                    <optheading
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                id="optheading_scoformsemailmessageformsemai"
+                                text="&lt;h6 class=&quot;text-muted mb-1&quot;&gt;Options&lt;/h6&gt;"
+                                classes="w-100"/>
                         </container1>
                         <container2
                             jcr:primaryType="nt:unstructured"
@@ -261,7 +267,14 @@
                             persistColorWhenThemeSwitches="false"
                             roleOther="\0"
                             smColSize="6"
-                            title="\0"/>
+                            title="\0">
+                            <extheading
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="typerefinery/components/content/text"
+                                id="extheading_scoformsemailmessageformsemai"
+                                text="&lt;h6 class=&quot;text-muted mb-1&quot;&gt;Extensions&lt;/h6&gt;"
+                                classes="w-100"/>
+                        </container2>
                     </two>
                     <composite
                         jcr:primaryType="nt:unstructured"
@@ -474,7 +487,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="to_refs"
-                                            smColSize="10"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;email-message&quot;,&quot;object_field&quot;:&quot;to_refs&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference_2>
                                     <reference_1
                                         jcr:primaryType="nt:unstructured"
@@ -497,7 +510,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="cc_refs"
-                                            smColSize="10"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;email-message&quot;,&quot;object_field&quot;:&quot;cc_refs&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference_1>
                                     <reference_4
                                         jcr:primaryType="nt:unstructured"
@@ -519,7 +532,7 @@
                                             label="Reference"
                                             lgColSize="10"
                                             mdColSize="10"
-                                            smColSize="10"/>
+                                            smColSize="10" name="bcc_refs" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;email-message&quot;,&quot;object_field&quot;:&quot;bcc_refs&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference_4>
                                     <reference_3
                                         jcr:primaryType="nt:unstructured"
@@ -542,7 +555,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="from_ref"
-                                            smColSize="10"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;email-message&quot;,&quot;object_field&quot;:&quot;from_ref&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference_3>
                                     <reference
                                         jcr:primaryType="nt:unstructured"
@@ -565,7 +578,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="sender_ref"
-                                            smColSize="10"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;email-message&quot;,&quot;object_field&quot;:&quot;sender_ref&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
                                     </reference>
                                     <reference_5
                                         jcr:primaryType="nt:unstructured"
@@ -630,7 +643,7 @@
                                             label="body"
                                             lgColSize="11"
                                             mdColSize="11"
-                                            smColSize="11"/>
+                                            smColSize="11" name="body"/>
                                     </textarea>
                                     <timestamp
                                         jcr:primaryType="nt:unstructured"
@@ -1061,7 +1074,7 @@
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
                                                 id="field_IHJA7JDCE"
                                                 inputType="list"
-                                                label="Composite Field">
+                                                label="Composite Field" name="granular_markings">
                                                 <granularmarking
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="typerefinery/components/stix/forms/composite/granularmarking"

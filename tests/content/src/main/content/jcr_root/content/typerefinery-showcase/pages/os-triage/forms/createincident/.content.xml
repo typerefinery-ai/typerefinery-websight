@@ -34,7 +34,7 @@
                     flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                     flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
                     flowapi_title="Create Incident Form"
-                    id="form_YEMAERK4R">
+                    id="form_YEMAERK4R" readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/createincident/_jcr_content/rootcontainer/main/form/{{id}}" writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/createincident/_jcr_content/rootcontainer/main/form/{{id}}">
                     <_events_ jcr:primaryType="nt:unstructured">
                         <_x0030_
                             jcr:primaryType="nt:unstructured"

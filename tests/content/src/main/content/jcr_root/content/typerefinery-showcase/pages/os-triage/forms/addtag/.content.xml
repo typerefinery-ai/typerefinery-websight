@@ -42,7 +42,7 @@
                         sling:resourceType="typerefinery/components/forms/form"
                         flowapi_sampledata="/apps/typerefinery/components/forms/form/templates/flowsample.json"
                         flowapi_template="/apps/typerefinery/components/forms/form/templates/flowform-service.json"
-                        id="form_NB0G1VGHJ">
+                        id="form_NB0G1VGHJ" readUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/addtag/_jcr_content/rootcontainer/main/container/form/{{id}}" writeUrl="https://flow.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/addtag/_jcr_content/rootcontainer/main/container/form/{{id}}">
                         <select
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/select"

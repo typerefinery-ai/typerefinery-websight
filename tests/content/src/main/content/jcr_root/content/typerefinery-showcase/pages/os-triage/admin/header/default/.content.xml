@@ -17,7 +17,7 @@
             marginEnabled="true"
             marginGeneral="zero"
             paddingEnabled="true"
-            paddingGeneral="three">
+            paddingGeneral="three" flexEnabled="true">
             <container2
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="typerefinery/components/layout/container"
