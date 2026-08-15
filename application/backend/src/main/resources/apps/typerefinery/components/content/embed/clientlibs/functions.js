@@ -169,8 +169,17 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
 
     ns.navigateFrame = ($component, sourceUrl) => {
         const $frame = $component.find("iframe");
+        // alpha-launch docs/issues/0170 + 0105 — show progress the moment navigation is
+        // requested. The render behind this navigation costs seconds (a ~3 s HTL floor per
+        // page, measured in 0170), and until now the pane kept its PREVIOUS content with no
+        // cue, so a presenter could not tell whether the click registered. This does not
+        // make anything faster; it makes the wait legible instead of ambiguous.
+        ns.showLoading($component);
         const go = () => {
             ns.clearUnavailable($component);
+            // the cue stays up until the new document actually arrives; failsafe below
+            // covers a frame whose load event never fires
+            $frame.one("load", () => ns.clearLoading($component));
             $frame.attr("src", sourceUrl);
         };
 
@@ -214,8 +223,48 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
             });
     };
 
+    /** Marker class for the transient loading cue (docs/issues/0170, 0105). */
+    ns.CLASS_EMBED_LOADING = "embed-loading";
+
+    /**
+     * Show a loading cue over the embed while a navigation is in flight. Generic wording
+     * on purpose — this is a platform component and must not name what it is embedding
+     * (CLAUDE.md data-agnostic rule). The current frame content is dimmed rather than
+     * hidden, so the transition reads as "changing", not "broken".
+     */
+    ns.showLoading = ($component) => {
+        const $frame = $component.find("iframe");
+        $frame.css("opacity", "0.4");
+        let $cue = $component.find("." + ns.CLASS_EMBED_LOADING);
+        if (!$cue.length) {
+            $cue = $("<div/>")
+                .addClass(ns.CLASS_EMBED_LOADING)
+                .attr("role", "status")
+                .css({
+                    padding: "0.5rem 1rem",
+                    color: "#444",
+                    "font-size": "0.9rem",
+                    "font-style": "italic",
+                });
+            $component.prepend($cue);
+        }
+        $cue.text("Loading…").show();
+        // Failsafe: a frame whose load event never fires (or a navigation abandoned by a
+        // newer one) must not leave a permanent "Loading…" — that would recreate 0105's
+        // ambiguity in the opposite direction.
+        clearTimeout(ns._loadingFailsafe);
+        ns._loadingFailsafe = setTimeout(() => ns.clearLoading($component), 30000);
+    };
+
+    ns.clearLoading = ($component) => {
+        clearTimeout(ns._loadingFailsafe);
+        $component.find("." + ns.CLASS_EMBED_LOADING).hide();
+        $component.find("iframe").css("opacity", "");
+    };
+
     /** Replace the frame with an explicit, honest placeholder. */
     ns.showUnavailable = ($component, sourceUrl, status) => {
+        ns.clearLoading($component);
         const $frame = $component.find("iframe");
         $frame.hide();
         let $msg = $component.find("." + ns.CLASS_EMBED_UNAVAILABLE);
@@ -2121,6 +2170,27 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         // const componentId = $component.attr("data-field-componentId");
         // const fieldName = $component.attr("data-field-name");
         console.log(["embed init", componentConfig]);
+
+        // alpha-launch docs/issues/0126 (runsheet P4-S1). The FIRST frame load is server-rendered:
+        // HTL writes `src` straight into the markup, so it never passes through ns.navigateFrame and
+        // leaves no trace anywhere. When an embedded app is not running, the frame silently shows the
+        // gateway's error page instead, and nothing in the console says which address was asked for
+        // — which is exactly the "blank iframe read as a defect" cycle docs/ui-access.md warns about.
+        // Log the address the page shipped with, and whether the frame ever fired `load`.
+        //
+        // Deliberately generic (this is a platform component): it reports an address and an event,
+        // never what was being embedded. Guarded so a page with no frame — the `source` variant —
+        // costs nothing and cannot throw.
+        const $initialFrame = $component.find("iframe");
+        const initialSrc = $initialFrame.length ? $initialFrame.attr("src") : null;
+        if (initialSrc) {
+            console.log(["embed initial frame src (server-rendered)", initialSrc]);
+            $initialFrame.one("load", () => {
+                console.log(["embed initial frame load fired", initialSrc]);
+            });
+        } else if ($initialFrame.length) {
+            console.warn(["embed has a frame but no src was authored", $component.attr("id")]);
+        }
 
         //run events for this component when it loads
         ns.autoLoad($component);
