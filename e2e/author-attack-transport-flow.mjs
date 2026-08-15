@@ -108,7 +108,12 @@ else if (result) {
 // ⚠️ $.status does NOT survive message forwarding (measured: unknown id answered 200);
 // $.repo demonstrably does (the wantjson flag rode it). This flow's own copy of the
 // httpresponse component reads repo.r4_status as the status source.
-repo.r4_status = status;
+// ⚠️ AND: Total.js replaces a custom body when the status is non-2xx (measured: 409
+// arrived as text/plain "Bad Gateway"). So the JSON/API branch keeps the mapped status
+// as the machine contract (decision 0017 — the body may be platform-generic), while the
+// HTML/human branch always answers 200 with the readable page (decision 0015 — the
+// popup must read well; its page TEXT carries the failure).
+repo.r4_status = repo.r4_wantjson ? status : 200;
 console.log('[attack-transport] ok=' + ok + ' status=' + status + (reason ? ' reason=' + reason : ''));
 if (repo.r4_wantjson) {
   $.send('output2', ok ? { ok: true, stix_id: stixid, domain: result && result.domain } : { ok: false, reason: reason, detail: detail });
