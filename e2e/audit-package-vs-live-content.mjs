@@ -54,7 +54,7 @@ const WHITELIST = new Set([
   // rich-text content (0127's form-title sweep lives in these)
   'text',
   // layout/order wiring (0123/0127 chrome uses these)
-  'classes', 'flexEnabled', 'hideInNav', 'startLevel',
+  'classes', 'flexEnabled', 'hideInNav', 'startLevel', 'readOnly', 'disabled',
 ])
 
 // Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
