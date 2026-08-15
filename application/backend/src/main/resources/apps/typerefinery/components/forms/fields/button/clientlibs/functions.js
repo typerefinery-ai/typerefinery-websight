@@ -150,6 +150,15 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                     };
                     options.callbackFn = ($modal, data, message) => {
                         console.log(["modal callback", $modal, data, message]);
+                        // alpha-launch docs/issues/0123 — mirror the dropdown items'
+                        // successNavigateTo behaviour (clientlibs-header/dropdown.js): when the
+                        // modal's form reports success, follow the authored destination. This is
+                        // what lets a direct "New Incident" button reproduce the docx's
+                        // create → land-on-overview journey without the dropdown.
+                        if (componentConfig.actionSuccessNavigateTo && message === modalNs.MESSAGE_NAMES.FORM_SUCCESS) {
+                            console.log("button openModal form success, navigating to " + componentConfig.actionSuccessNavigateTo);
+                            window.location.href = componentConfig.actionSuccessNavigateTo;
+                        }
                     };
                     modalNs.createModalAndOpen($component, options);
                 } else {

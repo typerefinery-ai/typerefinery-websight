@@ -49,6 +49,8 @@ const WHITELIST = new Set([
   'readOptionsFromDataSource', 'readMethod', 'readPayload', 'readPayloadType',
   'readUrl', 'writeUrl', 'keyNameInOptionList', 'labelNameInOptionList',
   'flowapi_enable',
+  // button action wiring (0123's New Incident conversion lives in these)
+  'buttonType', 'actionType', 'actionUrl', 'actionModalTitle', 'actionSuccessNavigateTo',
 ])
 
 // Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
