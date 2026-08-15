@@ -603,7 +603,11 @@ test.describe('Act 3 — Incident Composer', () => {
     try {
       await expect
         .poll(async () => (await modalState(page)).found, {
-          timeout: 30_000,
+          // 60s, not 30s — docs/issues/0166: in a FULL run the failure screenshot (2026-08-15
+          // 14:44 run) shows the modal open and pre-filled AT capture time, i.e. it mounted just
+          // after a 30s poll expired on a busy stack. Same starvation class as 0148's poll-budget
+          // fix: the product was fine, the budget was tight. Alone the mount takes ~2s.
+          timeout: 60_000,
           message: 'the SRO modal mounted in its own modal-forms frame',
         })
         .toBeTruthy()
