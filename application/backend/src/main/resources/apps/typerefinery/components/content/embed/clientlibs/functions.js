@@ -2114,6 +2114,24 @@ Typerefinery.Page.Events = Typerefinery.Page.Events || {};
                 console.log("form submitted");
                 console.log(["$component", $component, "data", data]);
 
+                // docs/issues/0129 Option 1 — the write completed inside a form iframe the
+                // widgets cannot see into, so nothing re-read and the new object stayed
+                // invisible until a manual reload. Announce the success on the page event bus:
+                // any widget whose authored mapping listens for `notifydatarefresh` (the
+                // composer pages all carry it) re-reads; pages without the mapping ignore the
+                // event. The name and shape are the composer README's documented contract —
+                // generic, no domain vocabulary. try/catch because a refresh emit must never
+                // be able to break the form-success callback itself.
+                try {
+                    const pageEvents = window.Typerefinery && window.Typerefinery.Page && window.Typerefinery.Page.Events;
+                    if (pageEvents && typeof pageEvents.emitEvent === "function" && typeof pageEvents.compileEventData === "function") {
+                        pageEvents.emitEvent("notifydatarefresh", pageEvents.compileEventData({}, "notifydatarefresh", "DATA_REFRESH", "notifydatarefresh", null));
+                        console.log("form success -> notifydatarefresh emitted (docs/issues/0129)");
+                    }
+                } catch (refreshError) {
+                    console.warn("notifydatarefresh emit failed (non-fatal, docs/issues/0129)", refreshError);
+                }
+
                 if (options.callbackFn) {
                     options.callbackFn(
                         $component,
