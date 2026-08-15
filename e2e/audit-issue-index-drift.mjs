@@ -253,12 +253,34 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
   }
 }
 
+/**
+ * Front-matter freshness (the 2026-08-15 assessment §6 recommendation, 0130's lesson
+ * operationalised): a file whose BODY carries a dated section newer than its
+ * front-matter `updated:` misleads anyone who trusts the header — ~15 files did on
+ * 2026-08-15. Compare the header date to the newest date in any `##`/`###` heading.
+ * Dates inside prose are deliberately ignored (a heading is a claim of "as of"; a prose
+ * date is often a citation of the past).
+ */
+let staleness = 0
+for (const name of fs.readdirSync(ISSUES).filter((n) => /^\d{4}-.*\.md$/.test(n))) {
+  const text = fs.readFileSync(path.join(ISSUES, name), 'utf8')
+  const fmUpdated = text.match(/^updated:\s*(\d{4}-\d{2}-\d{2})/m)?.[1]
+  if (!fmUpdated) continue
+  const headingDates = [...text.matchAll(/^#{2,3} [^\n]*?(\d{4}-\d{2}-\d{2})/gm)].map((m) => m[1])
+  const newest = headingDates.sort().at(-1)
+  if (newest && newest > fmUpdated) {
+    staleness++
+    console.log(`${name.slice(0, 4)}  FRONT-MATTER STALE — updated: ${fmUpdated}, but a body section is dated ${newest}`)
+  }
+}
+
 console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
   `${severityDrift} severity disagreement(s) · ` +
   `${duplicated} with duplicate index rows · ${collisions} id collision(s) · ` +
-  `${malformed} malformed row(s) · ${missing} absent from the index · ${documentedSupersessions} documented supersession(s).`,
+  `${malformed} malformed row(s) · ${missing} absent from the index · ${documentedSupersessions} documented supersession(s) · ` +
+  `${staleness} stale front-matter date(s).`,
 )
-if (!drift && !severityDrift && !missing && !duplicated && !malformed && !collisions) {
+if (!drift && !severityDrift && !missing && !duplicated && !malformed && !collisions && !staleness) {
   console.log('index and frontmatter agree throughout.')
 }
