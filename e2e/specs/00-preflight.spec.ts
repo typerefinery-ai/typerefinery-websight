@@ -2,7 +2,7 @@ import { expect, request } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
 import { step, test } from '../runsheet'
-import { FLOW_BASE, SHOWCASE } from '../playwright.config'
+import { CMS_BASE, FLOW_BASE, SHOWCASE } from '../playwright.config'
 
 // docs/issues/0072 — the runtime flow DB is git-ignored; the provisioning source is the submodule.
 const TR = path.resolve(__dirname, '../../../typerefinery/services/totaljs-flow/database')
@@ -343,5 +343,46 @@ test.describe('Act 0 — preflight', () => {
     await api.dispose()
     expect(await table.locator('tbody tr').count(), 'one row per incident returned by the LIVE endpoint')
       .toBe((shaped.data || []).length)
+  })
+
+  step('P0-S11', async ({}) => {
+    // docs/issues/0133 (decision 0021 Option 3) — the flows SERVE each node's resolved
+    // form_path from icon_registry.csv, and the five authored templates navigate from that
+    // single field. This gate fails preflight the day registry and authored content
+    // diverge again: every served node must carry the field, and every distinct served
+    // path must resolve to an authored update form. A flow-side fallback (node with no
+    // registry row) already logs loudly; a fallback that 404s HERE is a registry gap to
+    // fix in the registry — never by re-teaching a consumer to assemble URLs (the
+    // 0085/0102 shape this gate exists to keep dead).
+    const api = await request.newContext({
+      ignoreHTTPSErrors: true,
+      extraHTTPHeaders: {
+        Authorization: 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64'),
+      },
+    })
+    const payloads: Array<[string, (p: any) => any[]]> = [
+      ['viz-data/overview-default-incident', (p) => p.nodes || []],
+      // the split payload nests nodes under promo/scratch (docs/issues/0085 note)
+      ['viz-data/unattached-split', (p) => [...(p.promo?.nodes || []), ...(p.scratch?.nodes || [])]],
+    ]
+    const distinct = new Set<string>()
+    for (const [route, extract] of payloads) {
+      const res = await api.get(`${FLOW_BASE}/${route}`, { timeout: 60_000 })
+      expect(res.status(), route).toBe(200)
+      const nodes = extract(await res.json())
+      expect(nodes.length, `${route} returned no nodes — cannot claim coverage over nothing`).toBeGreaterThan(0)
+      const missing = nodes.filter((n) => !n.form_path)
+      expect(
+        missing.map((n) => `${n.icon}:${n.id}`),
+        `${route}: node(s) served without form_path`,
+      ).toEqual([])
+      for (const n of nodes) distinct.add(n.form_path)
+    }
+    for (const fp of distinct) {
+      const res = await api.get(`${CMS_BASE}${SHOWCASE}/forms/stixorm-forms/${fp}-update.html`, { timeout: 60_000 })
+      expect(res.status(), `served form_path does not resolve to an authored form: ${fp}`).toBe(200)
+    }
+    console.log(`P0-S11 form_path coverage: ${distinct.size} distinct served paths, all resolve`)
+    await api.dispose()
   })
 })

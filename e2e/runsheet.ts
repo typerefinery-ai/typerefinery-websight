@@ -58,6 +58,10 @@ export const STEPS: Record<string, StepDef> = {
   // opening screen. Parking it at 'unknown' would have the harness swallow the throw and the suite
   // would look clean while the demo's first screen was broken.
   'P0-S9': { title: 'A stale cached payload never outranks the live route', baseline: 'pass', issue: '0152' },
+  // 0133 (decision 0021 Option 3): every served node carries form_path and every distinct
+  // served path resolves to an authored update form — the registry/content divergence gate.
+  // Strict from birth: measured green the day it was added (22 distinct paths, all 200).
+  'P0-S11': { title: 'Every served form_path resolves to an authored form', baseline: 'pass', issue: '0133' },
 
   // ---- Act 1 — All Incidents table --------------------------------------
   // 0029: the table is empty on a clean profile against a restarted stack — the columns and
