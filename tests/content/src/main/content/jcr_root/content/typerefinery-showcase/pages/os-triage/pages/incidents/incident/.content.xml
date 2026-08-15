@@ -83,7 +83,7 @@
                             paddingEnabled="false"
                             persistColorWhenThemeSwitches="false"
                             textAlignment="center"
-                            title="\0">
+                            title="[object Object]">
                             <title
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/content/title"

@@ -15,6 +15,13 @@
  *
  *     node e2e/audit-package-vs-live-content.mjs            # summary
  *     node e2e/audit-package-vs-live-content.mjs --verbose  # every diff
+ *     node e2e/audit-package-vs-live-content.mjs --apply    # write the WHITELIST attr diffs
+ *                                                             into the package XML (live wins)
+ *
+ * --apply touches ONLY attribute values already reported as diffs, by exact unique-string
+ * replacement of `attr="escaped-old"` within the file — if the escaped old string is not unique
+ * in the file, the diff is SKIPPED with a warning rather than guessed at. Structural drift is
+ * never written.
  */
 import fs from 'fs'
 import path from 'path'
@@ -28,6 +35,11 @@ const PKG_ROOT = path.resolve(
 const CMS = 'http://localhost:8113'
 const auth = 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64')
 const VERBOSE = process.argv.includes('--verbose')
+const APPLY = process.argv.includes('--apply')
+
+const escapeXml = (v) =>
+  v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+   .replace(/\r/g, '&#xd;').replace(/\n/g, '&#xa;')
 
 // The property classes the live fix/author scripts have been changing. Anything outside this
 // list may still drift but is not what the reconciliation is about (ids, timestamps, layout).
@@ -58,13 +70,69 @@ function parseVaultXml(xml) {
   return root.children[0] // jcr:root
 }
 
+/**
+ * Find the [start, end) span of the OPENING TAG of the element at `nodePath`
+ * (path segments relative to jcr:content, e.g. "/rootcontainer/container1/form"). Walks the
+ * same tokenizer as parseVaultXml, tracking the element stack, and returns the span of the
+ * matching open tag — attribute edits are then scoped to that span alone.
+ */
+function findTagSpan(xml, nodePath) {
+  const want = ['jcr:root', 'jcr:content', ...nodePath.split('/').filter(Boolean)]
+  const stack = []
+  for (const m of xml.matchAll(/<(\/?)([\w:.\-]+)((?:"[^"]*"|[^>"])*?)(\/?)>/gs)) {
+    const [full, close, name, , selfClose] = m
+    if (name.startsWith('?')) continue
+    if (close) { stack.pop(); continue }
+    stack.push(name)
+    const matches = stack.length === want.length && stack.every((n, i) => n === want[i])
+    if (matches) return [m.index, m.index + full.length]
+    if (selfClose) stack.pop()
+  }
+  return null
+}
+
 async function liveJson(pagePath) {
-  // depth 25 covers the deepest form composites; a paging-array answer means "too big" and is
-  // detected by the caller (docs/issues: the .infinity.json vacuous-walk trap).
-  const res = await fetch(`${CMS}${pagePath}/jcr:content.25.json`, { headers: { Authorization: auth } })
-  if (!res.ok) return null
-  const j = await res.json()
-  return Array.isArray(j) ? null : j
+  return liveJsonDeep(`${pagePath}/jcr:content`)
+}
+
+/**
+ * Two Sling depth traps, both hit by this audit (the .infinity.json vacuous-walk family):
+ *  1. A too-deep selector answers **HTTP 300** with a paging array — `res.ok` is false, so a
+ *     naive fetcher reports the page "missing" (which silently excluded the 16 biggest form
+ *     pages, identity/indicator/task among them, from the first sizing run).
+ *  2. A depth-N answer TRUNCATES SILENTLY below level N — nodes deeper than N simply vanish
+ *     with no marker (identity-update's external-reference labels sit at level 14).
+ * Fix: fetch at a workable depth, then re-fetch every node sitting AT the depth boundary —
+ * those are the only nodes whose children could have been dropped.
+ */
+async function liveJsonDeep(nodePath, depth = 10) {
+  const res = await fetch(`${CMS}${nodePath}.${depth}.json`, { headers: { Authorization: auth } })
+  const j = await res.json().catch(() => null)
+  if (!j) return null
+  if (Array.isArray(j)) {
+    // paging array (HTTP 300): node itself too big at this depth — take it shallow, recurse children
+    const shallow = await (await fetch(`${CMS}${nodePath}.1.json`, { headers: { Authorization: auth } })).json().catch(() => null)
+    if (!shallow || Array.isArray(shallow)) return null
+    for (const [k, v] of Object.entries(shallow)) {
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        const child = await liveJsonDeep(`${nodePath}/${encodeURIComponent(k)}`, depth)
+        if (child) shallow[k] = child
+      }
+    }
+    return shallow
+  }
+  // re-fetch boundary nodes (at exactly `depth` levels down) — their children may be truncated
+  const refetch = async (node, subPath, level) => {
+    for (const [k, v] of Object.entries(node)) {
+      if (!v || typeof v !== 'object' || Array.isArray(v)) continue
+      if (level + 1 >= depth) {
+        const full = await liveJsonDeep(`${nodePath}${subPath}/${encodeURIComponent(k)}`, depth)
+        if (full) node[k] = full
+      } else await refetch(v, `${subPath}/${encodeURIComponent(k)}`, level + 1)
+    }
+  }
+  await refetch(j, '', 0)
+  return j
 }
 
 function compare(xmlNode, liveNode, nodePath, out) {
@@ -118,6 +186,29 @@ for (const f of files) {
     totals.attrDiffs += out.attrDiffs.length
     totals.pkgOnly += out.pkgOnly.length
     totals.liveOnly += out.liveOnly.length
+  }
+  if (APPLY && out.attrDiffs.length) {
+    let updated = fs.readFileSync(f, 'utf8')
+    let applied = 0
+    for (const d of out.attrDiffs) {
+      const oldStr = `${d.k}="${escapeXml(d.pkgVal)}"`
+      const newStr = `${d.k}="${escapeXml(d.liveVal)}"`
+      const count = updated.split(oldStr).length - 1
+      if (count === 1) {
+        updated = updated.replace(oldStr, newStr)
+        applied++
+        continue
+      }
+      // Non-unique old string: locate the exact opening tag by walking the element path from
+      // jcr:content, then replace the attribute within that tag's span only.
+      const span = findTagSpan(updated, d.nodePath)
+      if (!span) { console.log(`  ⚠️ SKIP ${rel} ${d.nodePath} @${d.k} — tag not found by path`); continue }
+      const tagText = updated.slice(span[0], span[1])
+      if (tagText.split(oldStr).length - 1 !== 1) { console.log(`  ⚠️ SKIP ${rel} ${d.nodePath} @${d.k} — ambiguous within tag`); continue }
+      updated = updated.slice(0, span[0]) + tagText.replace(oldStr, newStr) + updated.slice(span[1])
+      applied++
+    }
+    if (applied) { fs.writeFileSync(f, updated); console.log(`  ✍️ ${rel}: ${applied}/${out.attrDiffs.length} attr diff(s) written`) }
   }
 }
 

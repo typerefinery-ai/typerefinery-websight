@@ -791,7 +791,7 @@
                                             label="Field"
                                             lgColSize="10"
                                             mdColSize="10"
-                                            name="goals"
+                                            name="goal"
                                             smColSize="10"/>
                                     </string_3>
                                     <vocab
@@ -973,7 +973,7 @@
                                             label="Composite Field"
                                             listIsUserReadonly="false"
                                             marginEnabled="false"
-                                            name="StateChangeObject"
+                                            name="changed_objects"
                                             paddingEnabled="false"
                                             persistColorWhenThemeSwitches="false"
                                             roleOther="\0"
@@ -1180,7 +1180,7 @@
                                                     maxSelection="\0"
                                                     mdColSize="10"
                                                     multipleSelection="true"
-                                                    name="\0"
+                                                    name="labels"
                                                     paddingEnabled="false"
                                                     persistColorWhenThemeSwitches="false"
                                                     placeholder="\0"
@@ -1470,7 +1470,7 @@
                                                     inputType="reference"
                                                     label="Selector"
                                                     marginEnabled="false"
-                                                    name="object_marking_refs,"
+                                                    name="object_marking_refs"
                                                     paddingEnabled="false"
                                                     persistColorWhenThemeSwitches="false"
                                                     placeholder="\0"

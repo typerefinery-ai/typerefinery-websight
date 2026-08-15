@@ -636,7 +636,7 @@
                                                     inputType="reference"
                                                     label="Selector"
                                                     marginEnabled="false"
-                                                    name="object_marking_refs,"
+                                                    name="object_marking_refs"
                                                     paddingEnabled="false"
                                                     persistColorWhenThemeSwitches="false"
                                                     placeholder="\0"
