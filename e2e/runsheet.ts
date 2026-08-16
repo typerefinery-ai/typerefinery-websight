@@ -83,8 +83,8 @@ export const STEPS: Record<string, StepDef> = {
   // snapshot while the live endpoint held 34. Wiring senddata -> fetchinc unparked it; a trigger now
   // re-renders the full current row set without a reload (docs/issues/0005).
   'P1-S2': { title: 'Table live-updates over TMS when the flow is triggered', baseline: 'pass', issue: '0005' },
-  'P1-S3': { title: '"+ Create" opens the dropdown (Incident/Note/Artifact/Task)', baseline: 'pass', issue: '0005' },
-  'P1-S4': { title: 'Choosing Incident opens the centred Create Incident modal', baseline: 'pass', issue: '0005' },
+  'P1-S3': { title: 'Toolbar offers New Incident; + Create hidden; Enter-in-search opens nothing', baseline: 'pass', issue: '0110' },
+  'P1-S4': { title: 'New Incident opens the centred, blank Create Incident modal', baseline: 'pass', issue: '0005' },
   'P1-S5': { title: 'Save Changes creates the incident and resets the default', baseline: 'pass', issue: '0005' },
   // Promoted 'partial' -> 'pass' 2026-08-04 (docs/issues/0048): the runsheet records this ✅ and it
   // passes every run, but a non-'pass' baseline is NON-STRICT — a regression was being reported as
