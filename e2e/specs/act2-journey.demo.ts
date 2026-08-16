@@ -8,9 +8,16 @@ import { SHOWCASE } from '../playwright.config'
  * context = one video) and why demo journeys live in the `demo` project rather than the runsheet
  * suite.
  *
- * ⚠️ **P2-S4 (scroll-zoom / background-drag) is excluded.** The runsheet marks it manual-only: CDP
- * scroll gestures time out against the cross-origin embed. It works by hand — it just cannot be
- * driven here, so recording it would produce a scene where nothing happens.
+ * ⚠️ **P2-S4 (scroll-zoom / background-drag) was excluded on a premise that is no longer true.**
+ * This read "the runsheet marks it manual-only: CDP scroll gestures time out against the
+ * cross-origin embed… it cannot be driven here, so recording it would produce a scene where nothing
+ * happens." That was about the Claude-in-Chrome bridge. Headed Playwright's `mouse.wheel` DOES drive
+ * d3.zoom through the embed — the runsheet recorded it on 2026-08-13 (`scale(1)` -> `scale(9.849)`)
+ * and P2-S4 has carried a strict assertion since 2026-08-16 (docs/issues/0048).
+ *
+ * So a zoom/pan scene WOULD record. Adding it here is worthwhile and is not yet done — the gesture
+ * is proven, only this journey has not been extended. Left as a deliberate gap rather than a
+ * standing impossibility.
  *
  * Run with:  ./node_modules/.bin/playwright test --project=demo --grep "Act 2"
  */

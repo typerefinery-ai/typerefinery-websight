@@ -208,22 +208,95 @@ test.describe('Act 2 — Incident Overview', () => {
   })
 
   step('P2-S4', async ({ page }) => {
-    // Manual-only, and 2026-08-05 established *why* more precisely than "CDP times out".
+    // ⚠️ This step had NO ASSERTIONS AT ALL until 2026-08-16 — the body was seventeen lines of
+    // comment — and `runsheet.ts` carried `baseline: 'manual'`, which makes it non-strict. A zoom
+    // regression reported as *skipped* while the runsheet marked the row verified. docs/issues/0048.
     //
-    // PAN was verified in Chrome against the real embedded page: a background drag of (+170,-110)
-    // moved every node by exactly that delta — a canvas pan, not a node drag.
+    // The manual classification rested on a 2026-08-05 finding: "ZOOM could not be driven by any
+    // automation available here. Chrome's `scroll` action delivers zero wheel events." That
+    // measurement was true, and it was about the **Claude-in-Chrome bridge**. It was generalised to
+    // all automation, and Playwright's `mouse.wheel` — which synthesises a real wheel event through
+    // the browser input pipeline at viewport coordinates, so it lands on whatever is under the
+    // cursor, cross-origin iframe included — was never the thing that had been tested.
     //
-    // ZOOM could not be driven by any automation available here. Chrome's `scroll` action delivers
-    // **zero wheel events** — measured with a capture-phase `wheel` listener on the widget's own
-    // document, which logged 0 after a 4-tick scroll. So "the graph did not zoom" is a statement
-    // about the tool, not the product, and reporting it as a defect would have been wrong.
+    // ⚠️ The runsheet HAD ALREADY DISPROVEN IT on 2026-08-13: its P2-S4 row records "Headed
+    // Playwright's `mouse.wheel` does deliver them… `scale(1.000)` -> `scale(9.849)`". The blocker
+    // survived here for three more days because nothing carries a correction from the runsheet back
+    // into the harness. That gap IS docs/issues/0048's headline — the runsheet claiming more than
+    // the tests assert — and this step was the last instance of it.
     //
-    // What the product does: dispatching a real WheelEvent on the widget's svg runs its d3.zoom
-    // handler and writes `scale(1.5157)` into the layout transform. Zoom works.
+    // Re-measured 2026-08-16 before writing this (probe-0048-p2s4-wheel.mjs): the widget document
+    // received **4** wheel events where the bridge delivered 0, and the transform went `scale(1)` ->
+    // `scale(3.78)` on 4 ticks. That 1-before / 3.78-after is also the control this step needs: the
+    // value asserted on cannot be satisfied before the gesture runs.
     //
-    // Both come from the same `zoom_handler(parentSvg)` in widget-graph-viz-overview — pan proves
-    // it is attached in the embedded context, and d3.zoom sets no `.filter()` that could accept
-    // drags while rejecting wheels. See docs/issues/0006 and GitHub #80.
+    // ⚠️ Read the WHOLE transform, not the first `scale(`. It is composed:
+    //     translate(a,b) scale(1) translate(c,d) scale(k)
+    // The leading `scale(1)` is a constant on the outer layout group. A first version of the probe
+    // matched only the first hit, reported "the scale did not move" through a 3.8x zoom, and would
+    // have recorded a product defect that does not exist.
+    await openOverview(page)
+    const g = graph(page).locator(NODE).first()
+    await expect(g).toBeVisible({ timeout: 60_000 })
+
+    const frame = page.frames().find((f) => /widgetdevoverview|4008/.test(f.url()))
+    expect(frame, 'the cross-origin graph frame is present').toBeTruthy()
+
+    /** Product of every scale() in the composed layout transform. */
+    const zoomLevel = async () =>
+      frame!.evaluate(() => {
+        let best = 1
+        document.querySelectorAll('svg g').forEach((el) => {
+          const t = el.getAttribute('transform') || ''
+          const scales = [...t.matchAll(/scale\(([-\d.]+)/g)].map((m) => parseFloat(m[1]))
+          if (scales.length) best = scales.reduce((a, b) => a * b, 1)
+        })
+        return best
+      })
+    /** Translation of the composed layout transform, to tell a pan from a zoom. */
+    const panOffset = async () =>
+      frame!.evaluate(() => {
+        let last = { x: 0, y: 0 }
+        document.querySelectorAll('svg g').forEach((el) => {
+          const t = el.getAttribute('transform') || ''
+          const ts = [...t.matchAll(/translate\(([-\d.]+)[, ]+([-\d.]+)/g)]
+          if (ts.length) last = { x: parseFloat(ts[ts.length - 1][1]), y: parseFloat(ts[ts.length - 1][2]) }
+        })
+        return last
+      })
+
+    const box = await page.locator('iframe[src*="widgetdevoverview"], iframe[src*="4008"]').first().boundingBox()
+    expect(box, 'the graph iframe has a measurable box').toBeTruthy()
+    const cx = box!.x + box!.width / 2
+    const cy = box!.y + box!.height / 2
+
+    // --- the row's first claim: scroll zooms ---
+    const zoom0 = await zoomLevel()
+    await page.mouse.move(cx, cy)
+    for (let i = 0; i < 4; i++) {
+      await page.mouse.wheel(0, -240)
+      await page.waitForTimeout(250)
+    }
+    await page.waitForTimeout(1_000)
+    const zoom1 = await zoomLevel()
+    observe(test.info(), zoom1 > zoom0 ? 'pass' : 'note', `zoom ${zoom0.toFixed(3)} -> ${zoom1.toFixed(3)} on 4 wheel ticks`)
+    expect(zoom1, `scroll zooms the graph (${zoom0.toFixed(3)} -> ${zoom1.toFixed(3)})`).toBeGreaterThan(zoom0 * 1.05)
+
+    // --- the row's second claim: background-drag pans ---
+    // Assert the pan moved the view WITHOUT changing zoom, so a drag that accidentally re-zoomed,
+    // or a node-drag mistaken for a canvas pan, does not satisfy this.
+    const pan0 = await panOffset()
+    await page.mouse.move(cx, cy)
+    await page.mouse.down()
+    await page.mouse.move(cx + 170, cy - 110, { steps: 12 })
+    await page.mouse.up()
+    await page.waitForTimeout(1_000)
+    const pan1 = await panOffset()
+    const zoom2 = await zoomLevel()
+    const moved = Math.abs(pan1.x - pan0.x) + Math.abs(pan1.y - pan0.y)
+    observe(test.info(), moved > 5 ? 'pass' : 'note', `background drag moved the view by ${moved.toFixed(1)}px at zoom ${zoom2.toFixed(3)}`)
+    expect(moved, 'dragging the background pans the view').toBeGreaterThan(5)
+    expect(Math.abs(zoom2 - zoom1), 'the pan did not change the zoom level').toBeLessThan(0.05)
   })
 
   step('P2-S5', async ({ page }) => {

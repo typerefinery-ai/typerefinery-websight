@@ -102,7 +102,7 @@ export const STEPS: Record<string, StepDef> = {
   'P2-S1': { title: 'Overview force graph renders the incident and its objects', baseline: 'pass', issue: '0006' },
   'P2-S2': { title: 'All nodes are within the visible panel bounds', baseline: 'pass', issue: '0006' },
   'P2-S3': { title: 'Dragging a node moves it without re-heating the simulation', baseline: 'pass', issue: '0006' },
-  'P2-S4': { title: 'Scroll zooms and background-drag pans', baseline: 'manual', issue: '0006', note: 'CDP scroll gestures time out against the cross-origin embed' },
+  'P2-S4': { title: 'Scroll zooms and background-drag pans', baseline: 'pass', issue: '0006,0048', note: 'automated 2026-08-16: page.mouse.wheel drives d3.zoom through the cross-origin embed (scale 1 -> 3.78). The old manual note described the Claude-in-Chrome bridge, not Playwright' },
   // Demoted 'pass' -> 'fail' 2026-08-04. The old assertion counted iframes on a three-frame page,
   // so it could never fail; the real assertion shows the form pane opens a **404** for os-threat
   // typed nodes because os-threat-forms/attack-forms/oca-forms are empty (docs/issues/0049).
