@@ -547,7 +547,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_1ZETNKLAL"
-                                            label="display_name "/>
+                                            label="Display Name"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"

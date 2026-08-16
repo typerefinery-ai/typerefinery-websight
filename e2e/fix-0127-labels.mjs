@@ -59,8 +59,19 @@ if (!targets.length) {
   process.exit(1)
 }
 
-const isSnake = (s) => typeof s === 'string' && /^[a-z0-9]+(_[a-z0-9]+)+$/.test(s)
-const titleCase = (s) => s.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+// ⚠️ TRIM before testing. The first sweep did not, and three labels authored with a trailing space
+// (`label="display_name "`, `"content_disposition "`, `"source_ref "`) failed the regex and were
+// skipped — while `audit-0127-snake-case-labels.mjs`, which trims the RENDERED text, counted them.
+// The two measurements disagreed by exactly those 6 rendered labels, and the gap got written up as
+// "they are not `label` nodes in the page tree", which was wrong. Same class as every other miss
+// today: two checks of the same thing that normalise differently.
+const isSnake = (s) => typeof s === 'string' && /^[a-z0-9]+(_[a-z0-9]+)+$/.test(s.trim())
+const titleCase = (s) =>
+  s
+    .trim()
+    .split('_')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
 
 const findLabels = async (base) => {
   const found = []

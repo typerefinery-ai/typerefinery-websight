@@ -823,7 +823,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_2Z6NPNDIT"
-                                            label="source_ref "/>
+                                            label="Source Ref"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
