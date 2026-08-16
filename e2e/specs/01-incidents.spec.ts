@@ -7,26 +7,6 @@ import { FLOW_BASE, SHOWCASE } from '../playwright.config'
 const INCIDENTS = `${SHOWCASE}/pages/incidents.html`
 
 /**
- * The "+ Create" dropdown's entries, scoped so they cannot be confused with the sidebar.
- *
- * The menu renders as `DIV.dropdown-menu.dropdownMenu` (gaining `.show` when open) containing
- * `DIV.dropdown-item` entries — Incident · Note · Artifact · Task. The left sidebar *also* has an
- * item reading "Incident" (`LI.list-group-item`, in the nav list Artifacts · Dashboard · Incidents
- * · Incident · Notes · Options · Tags · Tasks), and it is **always visible**.
- *
- * A bare `getByText(/^\s*Incident\s*$/i)` therefore matched the sidebar, which broke these steps in
- * two different ways:
- *   - **P1-S4/S5/S6** clicked the sidebar link and navigated away instead of opening the modal.
- *   - **P1-S3** asserted "the dropdown item is visible" against the sidebar item, so it **passed
- *     vacuously** — it never demonstrated that the dropdown opened at all.
- *
- * Earlier attempts to scope by container looked for `a, li, button` children and found nothing:
- * the entries are `DIV`s.
- */
-const dropdownItem = (page: any, label: RegExp) =>
-  page.locator('.dropdown-menu .dropdown-item').filter({ hasText: label }).first()
-
-/**
  * The Create Incident form's frame, scoped **by src**.
  *
  * These steps used `frameLocator('iframe').first()`, which held only while the incidents table
@@ -61,6 +41,15 @@ async function openIncidents(page: any) {
   await page.goto(INCIDENTS, { waitUntil: 'domcontentloaded' })
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
   await page.waitForTimeout(5_000)
+}
+
+/**
+ * Open the Create Incident modal via the toolbar **New Incident** button — the docx P1 control.
+ * The former `+ Create` dropdown is hidden since 0044's runbook (the docx has no dropdown); its
+ * Incident entry's journey (openModal → createincident, success → overview) lives on this button.
+ */
+async function openCreateIncident(page: any) {
+  await page.locator('button[data-label="New Incident"]').first().click()
 }
 
 test.describe('Act 1 — All Incidents table', () => {
@@ -307,62 +296,37 @@ test.describe('Act 1 — All Incidents table', () => {
   })
 
   step('P1-S3', async ({ page }) => {
+    /**
+     * Rewritten 2026-08-16 with 0044's runbook (docx likeness, user-directed): the `+ Create`
+     * dropdown is HIDDEN (`d-none` — the docx shows no dropdown), and the toolbar's control is
+     * the **New Incident** button (image2). Three claims worth a step:
+     *
+     *   1. New Incident is visible and enabled — the docx's primary CTA exists.
+     *   2. The old + Create button is really gone from view (a likeness regression otherwise).
+     *   3. **Enter in the toolbar search does NOT open the create modal** — the implicit-submit
+     *      hijack found 2026-08-16 (an invalid `type="action"` attr made the button the form's
+     *      default submit; fixed at component level: non-submit buttonTypes render type="button").
+     *
+     * The dropdown's four-entry exploration (0005/0048 archaeology) retires with the dropdown.
+     */
     await openIncidents(page)
-    const create = page.getByRole('button', { name: /\+?\s*create/i }).first()
-    await expect(create).toBeVisible({ timeout: 30_000 })
-    await create.click()
-    // The dropdown is attached after the button (docs/issues/0005 — it used to be built
-    // with jQuery .add(), which never inserts into the DOM).
-    //
-    // The row claims **four** entries — Incident / Note / Artifact / Task — and only the first was
-    // checked (docs/issues/0048, Tier 2). Assert the whole set: a dropdown that lost three of its
-    // four items would otherwise pass.
-    await expect(dropdownItem(page, /^\s*Incident\s*$/i)).toBeVisible({ timeout: 20_000 })
-    const labels = (await page.locator('.dropdown-menu .dropdown-item').allInnerTexts())
-      .map((t) => t.trim())
-      .filter(Boolean)
-    expect(labels, 'the dropdown offers Incident / Note / Artifact / Task')
-      .toEqual(expect.arrayContaining(['Incident', 'Note', 'Artifact', 'Task']))
+    const newIncident = page.locator('button[data-label="New Incident"]').first()
+    await expect(newIncident, 'the docx toolbar CTA exists').toBeVisible({ timeout: 30_000 })
+    expect(await newIncident.getAttribute('type'), 'non-submit button renders type="button" (Enter-hijack guard)').toBe('button')
 
-    // Only *Incident* is proven to work end to end (P1-S4/P1-S5). Record what the other three
-    // actually open, so the demo's exposure here is measured rather than assumed.
-    //
-    // ⚠️ Do NOT try to answer this by inspecting the form pages standalone. Three cheaper checks
-    // all gave the wrong answer: a regex for `type="submit"` reads false even for createincident;
-    // `.infinity.json` truncates deep trees so authored buttons are missing; and counting rendered
-    // buttons on the page misses the point entirely, because **"Save Changes" lives on the modal
-    // chrome in the host page, not inside the form iframe** — as `submitModal` above documents.
-    // The only honest oracle is opening the entry and looking at what appears.
-    for (const label of ['Incident', 'Note', 'Artifact', 'Task']) {
-      await openIncidents(page)
-      await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-      const item = dropdownItem(page, new RegExp(`^\\s*${label}\\s*$`, 'i'))
-      if (!(await item.count())) {
-        observe(test.info(), 'note', `"+ Create → ${label}": entry not found`)
-        continue
-      }
-      await item.click()
-      await page.waitForTimeout(4_000)
-      const modal = page.locator('.modal, [role="dialog"]').filter({ hasNot: page.locator('.d-none') }).first()
-      const opened = await modal.count()
-      const save = await page.getByRole('button', { name: /save changes|^save$|^create$/i }).count()
-      const src = await page
-        .locator('.modal iframe, [role="dialog"] iframe')
-        .first()
-        .getAttribute('src')
-        .catch(() => null)
-      observe(
-        test.info(),
-        'note',
-        `"+ Create → ${label}": modal=${opened ? 'yes' : 'no'}, save-affordance=${save}, form=${(src || '(none)').split('/').pop()}`,
-      )
-    }
+    const createVisible = await page.locator('button[data-label="Create"]:visible').count()
+    expect(createVisible, 'the + Create dropdown button is hidden (docx has no dropdown)').toBe(0)
+
+    const search = page.locator('input[name="case"], input[placeholder="Incident 1"]').first()
+    await search.fill('')
+    await search.press('Enter')
+    await page.waitForTimeout(2_000)
+    expect(await page.locator('.modal.show').count(), 'Enter in search opens no modal').toBe(0)
   })
 
   step('P1-S4', async ({ page }) => {
     await openIncidents(page)
-    await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await dropdownItem(page, /^\s*Incident\s*$/i).click()
+    await openCreateIncident(page)
 
     const frame = createIncidentFrame(page)
     await expect(frame.locator('input, select, textarea').first()).toBeVisible({ timeout: 60_000 })
@@ -441,8 +405,7 @@ test.describe('Act 1 — All Incidents table', () => {
     const before = await (await api.get(`${FLOW_BASE}/viz-data/table-all-incidents`)).json()
 
     await openIncidents(page)
-    await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await dropdownItem(page, /^\s*Incident\s*$/i).click()
+    await openCreateIncident(page)
 
     const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
@@ -552,8 +515,7 @@ test.describe('Act 1 — All Incidents table', () => {
 
   step('P1-S6', async ({ page }) => {
     await openIncidents(page)
-    await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await dropdownItem(page, /^\s*Incident\s*$/i).click()
+    await openCreateIncident(page)
     const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
     // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it
@@ -676,8 +638,7 @@ test.describe('Act 1 — All Incidents table', () => {
       }
       return route.continue()
     })
-    await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-    await dropdownItem(page, /^\s*Incident\s*$/i).click()
+    await openCreateIncident(page)
     const frame = createIncidentFrame(page)
     // The Create Incident form's title field is **`incidenttitle`**, not `name` — the flow's
     // mapform node reads `form.incidenttitle` and falls back to "Untitled Incident" without it

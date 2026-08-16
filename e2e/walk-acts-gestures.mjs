@@ -88,19 +88,28 @@ await step('P1-SEARCH', async () => {
     (ok ? ' (filters, and clearing restores)' : ' — expected fewer-then-restored'))
 })
 
-// P1-S3 — the Create dropdown
-await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-await page.waitForTimeout(1_200)
-const items = await page.locator('.dropdown-menu.show .dropdown-item').allInnerTexts().catch(() => [])
-record('P1-S3', items.length >= 4 ? 'PASS' : 'FAIL', `dropdown: ${items.map((t) => t.trim()).join(' / ') || 'did not open'}`)
+// P1-S3 — Enter in the toolbar search must NOT open the create modal (the implicit-submit
+// regression caught 2026-08-16; fixed by type="button" on non-submit buttons, live since 0044).
+// The + Create dropdown is hidden per 0044's runbook (docx has no dropdown), so the old
+// dropdown assertion is retired — the create journey belongs to New Incident (P1-S4).
+await step('P1-S3', async () => {
+  const box = page.locator('input[name="case"], input[placeholder="Incident 1"]').first()
+  await box.fill('')
+  await box.press('Enter')
+  await page.waitForTimeout(2_000)
+  const hijacked = await page.locator('.modal.show').count()
+  const createHidden = (await page.locator('button[data-label="Create"]:visible').count()) === 0
+  record('P1-S3', hijacked === 0 && createHidden ? 'PASS' : 'FAIL',
+    `Enter-in-search opens no modal (${hijacked === 0 ? 'ok' : 'HIJACKED'}); + Create hidden (${createHidden ? 'ok' : 'still visible'})`)
+})
 
-// P1-S4 — choosing Incident opens the modal
-await step("P1-S4", async () => {
-  await page.locator(".dropdown-menu.show .dropdown-item").filter({ hasText: /Incident/ }).first().click({ timeout: 15000 })
+// P1-S4 — the New Incident button opens the create modal (docx P1's control; 0044 runbook)
+await step('P1-S4', async () => {
+  await page.locator('button[data-label="New Incident"]').first().click({ timeout: 15000 })
   await page.waitForTimeout(6_000)
-  const modalUp = await page.locator(".modal.show").count()
-  const modalSrc = await page.locator(".modal.show iframe").first().getAttribute("src").catch(() => null)
-  record("P1-S4", modalUp > 0 ? "PASS" : "FAIL", "modal " + (modalUp ? "opened -> " + String(modalSrc).split("/").pop() : "did not open"))
+  const modalUp = await page.locator('.modal.show').count()
+  const modalSrc = await page.locator('.modal.show iframe').first().getAttribute('src').catch(() => null)
+  record('P1-S4', modalUp > 0 ? 'PASS' : 'FAIL', 'New Incident modal ' + (modalUp ? 'opened -> ' + String(modalSrc).split('/').pop() : 'did not open'))
 })
 await page.keyboard.press('Escape').catch(() => {})
 await page.waitForTimeout(1_500)

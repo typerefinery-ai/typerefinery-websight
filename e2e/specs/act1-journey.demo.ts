@@ -22,8 +22,8 @@ import { SHOWCASE } from '../playwright.config'
  * handling can be checked — a necessary regression assertion and a terrible demo beat. Ask for it
  * as a closing scene if you want to show graceful failure; it is not part of the happy path.
  *
- * ⚠️ **"+ Create → Task" is deliberately avoided.** The dropdown offers it and creating a Task
- * silently does nothing (alpha-launch docs/issues/0089). The journey uses Incident, which works.
+ * The former + Create dropdown is hidden since 0044 (docx shows no dropdown); the journey uses
+ * the New Incident button. Task creation silently doing nothing (0089) is no longer reachable here.
  */
 
 const INCIDENTS = `${SHOWCASE}/pages/incidents.html`
@@ -39,9 +39,6 @@ async function scene(page: any, title: string) {
     await beat(page, 800)
   })
 }
-
-const dropdownItem = (page: any, label: RegExp) =>
-  page.locator('.dropdown-menu .dropdown-item').filter({ hasText: label }).first()
 
 const createIncidentFrame = (page: any) => page.frameLocator('iframe[src*="createincident"]').first()
 
@@ -62,24 +59,13 @@ test('Act 1 — All Incidents: browse, create an incident, open one', async ({ p
   console.log(`     table shows ${rowCount} incident(s)`)
   await beat(page, 3_000)
 
-  // ---- Scene 2 — the Create menu (P1-S3) ----------------------------------
-  await scene(page, 'Open "+ Create"')
-  // ⚠️ Use P1-S3's proven locator verbatim: `/\+?\s*create/i` — unanchored, optional plus.
-  // The first cut of this journey wrote `/\+\s*create|^create$/i` from assumption and found
-  // nothing, failing the recording at scene 2. The regression spec already knew the answer;
-  // re-deriving a locator instead of reusing the one under test is how a demo drifts from the
-  // thing it is meant to demonstrate.
-  const createButton = page.getByRole('button', { name: /\+?\s*create/i }).first()
-  await expect(createButton, 'the "+ Create" button is on the page').toBeVisible({ timeout: 30_000 })
-  await createButton.click()
-  await expect(dropdownItem(page, /^\s*Incident\s*$/i), 'the Create dropdown opened').toBeVisible({
-    timeout: 20_000,
-  })
-  await beat(page, 2_500)
-
-  // ---- Scene 3 — the Create Incident form (P1-S4) -------------------------
-  await scene(page, 'Choose Incident — the modal form opens')
-  await dropdownItem(page, /^\s*Incident\s*$/i).click()
+  // ---- Scene 2+3 — New Incident opens the form (P1-S3/P1-S4) --------------
+  // 0044 runbook (2026-08-16): the + Create dropdown is hidden (the docx shows no dropdown);
+  // the docx's toolbar CTA is the **New Incident** button, which opens the create modal directly.
+  await scene(page, 'Click "New Incident" — the modal form opens')
+  const newIncidentButton = page.locator('button[data-label="New Incident"]').first()
+  await expect(newIncidentButton, 'the "New Incident" button is on the page').toBeVisible({ timeout: 30_000 })
+  await newIncidentButton.click()
   const frame = createIncidentFrame(page)
   const title = frame.locator('input[name="incidenttitle"], input[name="name"]').first()
   await expect(title, 'the Create Incident form rendered').toBeVisible({ timeout: 60_000 })
@@ -152,8 +138,7 @@ test('Act 1 — All Incidents: browse, create an incident, open one', async ({ p
   await page.waitForLoadState('networkidle', { timeout: 90_000 }).catch(() => {})
   await beat(page, 3_000)
 
-  await page.getByRole('button', { name: /\+?\s*create/i }).first().click()
-  await dropdownItem(page, /^\s*Incident\s*$/i).click()
+  await page.locator('button[data-label="New Incident"]').first().click()
   const failFrame = createIncidentFrame(page)
   const failTitle = failFrame
     .locator('input[name="incidenttitle"], input[name="incidenttitle "], input[name="name"], input[name="name "]')
