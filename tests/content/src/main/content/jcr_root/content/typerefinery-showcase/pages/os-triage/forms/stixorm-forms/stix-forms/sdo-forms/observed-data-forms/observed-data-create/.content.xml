@@ -515,7 +515,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
                                             borderEnabled="false"
-                                            classes="\0"
+                                            classes="bg-light"
                                             disabled="true"
                                             id="field_ZAL0UBJAG"
                                             inputType="string"
@@ -555,7 +555,7 @@
                                             name="spec_version"
                                             placeholder="2.1"
                                             smColSize="10"
-                                            value="2.1" readOnly="true"/>
+                                            value="2.1" readOnly="true" classes="bg-light"/>
                                     </string_1>
                                     <id_1
                                         jcr:primaryType="nt:unstructured"
@@ -578,7 +578,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="id"
-                                            smColSize="10" readOnly="true"/>
+                                            smColSize="10" readOnly="true" classes="bg-light"/>
                                     </id_1>
                                     <timestamp
                                         jcr:primaryType="nt:unstructured"
@@ -601,7 +601,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="created"
-                                            smColSize="10" readOnly="true"/>
+                                            smColSize="10" readOnly="true" classes="bg-light"/>
                                     </timestamp>
                                     <reference
                                         jcr:primaryType="nt:unstructured"
@@ -647,7 +647,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="modified"
-                                            smColSize="10" readOnly="true"/>
+                                            smColSize="10" readOnly="true" classes="bg-light"/>
                                     </timestamp_1>
                                 </container1>
                             </one>
@@ -1477,7 +1477,7 @@
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="typerefinery/components/stix/forms/fields/input"
                                                         borderEnabled="false"
-                                                        classes="\0"
+                                                        classes="bg-light"
                                                         disabled="true"
                                                         id="field_F7D7TFUIW"
                                                         inputType="string"

@@ -348,7 +348,7 @@
                                             name="type"
                                             placeholder="domain-name"
                                             smColSize="10"
-                                            value="domain-name"/>
+                                            value="domain-name" classes="bg-light"/>
                                     </string>
                                     <string_1
                                         jcr:primaryType="nt:unstructured"
@@ -373,7 +373,7 @@
                                             name="spec_version"
                                             placeholder="2.1"
                                             smColSize="10"
-                                            value="2.1" readOnly="true"/>
+                                            value="2.1" readOnly="true" classes="bg-light"/>
                                     </string_1>
                                     <id_1
                                         jcr:primaryType="nt:unstructured"
@@ -396,7 +396,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="id"
-                                            smColSize="10" readOnly="true"/>
+                                            smColSize="10" readOnly="true" classes="bg-light"/>
                                     </id_1>
                                 </container1>
                             </one>
