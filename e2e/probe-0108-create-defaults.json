@@ -1,0 +1,501 @@
+[
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/anecdote-forms/anecdote-create.html",
+    "fields": 11,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "anecdote",
+      "spec_version": "2.1",
+      "id": "",
+      "value": "",
+      "report_date": "",
+      "provided_by_ref": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "value",
+      "report_date"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/domain-name-forms/domain-name-create.html",
+    "fields": 10,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "domain-name",
+      "spec_version": "2.1",
+      "id": "",
+      "value": "",
+      "resolves_to_refs": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "value"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-addr-forms/email-addr-create.html",
+    "fields": 11,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "email-addr",
+      "spec_version": "2.1",
+      "id": "",
+      "value": "",
+      "display_name": "",
+      "belongs_to_ref": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "value",
+      "display_name"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create.html",
+    "fields": 25,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "email-message",
+      "spec_version": "2.1",
+      "id": "",
+      "to_refs": null,
+      "cc_refs": null,
+      "bcc_refs": null,
+      "from_ref": null,
+      "sender_ref": null,
+      "raw_email_ref": "",
+      "subject": "",
+      "body": "",
+      "date": "",
+      "message_id": "",
+      "is_multipart": "true",
+      "content_type": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "raw_email_ref",
+      "subject",
+      "body",
+      "date",
+      "message_id",
+      "content_type"
+    ],
+    "valuedKeys": [
+      "is_multipart=\"true\""
+    ]
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/ipv4-addr-forms/ipv4-addr-create.html",
+    "fields": 10,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "ipv4-addr",
+      "spec_version": "2.1",
+      "id": "",
+      "value": "",
+      "belongs_to_refs": "",
+      "resolves_to_refs": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "value",
+      "belongs_to_refs",
+      "resolves_to_refs"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/url-forms/url-create.html",
+    "fields": 8,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "url",
+      "spec_version": "2.1",
+      "id": "",
+      "value": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "value"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/user-account-forms/user-account-create.html",
+    "fields": 23,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "user-account",
+      "spec_version": "2.1",
+      "id": "",
+      "user_id": "",
+      "credential": "",
+      "account_login": "",
+      "display_name": "",
+      "account_type": "",
+      "is_service_account": "false",
+      "is_privileged": "false",
+      "can_escalate_privs": "false",
+      "is_disabled": "false",
+      "account_created": "",
+      "account_expires": "",
+      "credential_last_changed": "",
+      "account_first_login": "",
+      "account_last_login": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "user_id",
+      "credential",
+      "account_login",
+      "display_name",
+      "account_type",
+      "account_created",
+      "account_expires",
+      "credential_last_changed",
+      "account_first_login",
+      "account_last_login"
+    ],
+    "valuedKeys": [
+      "is_service_account=\"false\"",
+      "is_privileged=\"false\"",
+      "can_escalate_privs=\"false\"",
+      "is_disabled=\"false\""
+    ]
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/event-forms/event-create.html",
+    "fields": 27,
+    "filled": 8,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "event",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "name": "",
+      "status": "",
+      "description": "",
+      "goal": "",
+      "event_types": "",
+      "start_time": "",
+      "end_time": "",
+      "start_time_fidelity": null,
+      "end_time_fidelity": null,
+      "sighting_refs": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "name",
+      "status",
+      "description",
+      "goal",
+      "event_types",
+      "start_time",
+      "end_time"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create.html",
+    "fields": 21,
+    "filled": 7,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "name": "",
+      "roles": "",
+      "sectors": "",
+      "identity_class": "",
+      "description": "",
+      "contact_information": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "name",
+      "roles",
+      "sectors",
+      "identity_class",
+      "description",
+      "contact_information"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/indicator-forms/indicator-create.html",
+    "fields": 23,
+    "filled": 8,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "name": "",
+      "status": "",
+      "description": "",
+      "indicator_types": "",
+      "pattern_type": null,
+      "valid_from": "",
+      "valid_until": "",
+      "pattern": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "name",
+      "status",
+      "description",
+      "indicator_types",
+      "valid_from",
+      "valid_until",
+      "pattern"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/observed-data-forms/observed-data-create.html",
+    "fields": 17,
+    "filled": 7,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "observed-data",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "first_observed": "",
+      "last_observed": "",
+      "number_observed": "",
+      "object_refs": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "first_observed",
+      "last_observed",
+      "number_observed"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/sequence-forms/sequence-create.html",
+    "fields": 21,
+    "filled": 7,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "sequence",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "sequenced_object": "",
+      "sequence_type": "",
+      "step_type": null,
+      "on_completion": "",
+      "on_success": "",
+      "on_failure": "",
+      "next_steps": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "sequenced_object",
+      "sequence_type",
+      "on_completion",
+      "on_success",
+      "on_failure",
+      "next_steps"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sdo-forms/task-forms/task-create.html",
+    "fields": 27,
+    "filled": 8,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "task",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "name": "",
+      "outcome": null,
+      "description": "",
+      "task_types": "",
+      "priority": "",
+      "start_time": "",
+      "end_time": "",
+      "start_time_fidelity": null,
+      "end_time_fidelity": null,
+      "owner": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "name",
+      "description",
+      "task_types",
+      "priority",
+      "start_time",
+      "end_time",
+      "owner"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/relationship-forms/relationship-create.html",
+    "fields": 16,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "relationship_type": "",
+      "source_ref": "",
+      "target_ref": "",
+      "start_time": "",
+      "stop_time": ""
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "relationship_type",
+      "source_ref",
+      "target_ref",
+      "start_time",
+      "stop_time"
+    ],
+    "valuedKeys": []
+  },
+  {
+    "form": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sro-forms/sighting-forms/sighting-create.html",
+    "fields": 22,
+    "filled": 6,
+    "constants": [
+      "type",
+      "spec_version"
+    ],
+    "unexpected": [],
+    "payload": {
+      "type": "sighting",
+      "spec_version": "2.1",
+      "id": "",
+      "created": "",
+      "created_by_ref": null,
+      "modified": "",
+      "description": "",
+      "first_seen": "",
+      "last_seen": "",
+      "count": "",
+      "summary": "",
+      "sighting_of_ref": null,
+      "observed_data_refs": null,
+      "where_sighted_refs": null
+    },
+    "emptyStringKeys": [
+      "id",
+      "created",
+      "modified",
+      "description",
+      "first_seen",
+      "last_seen",
+      "count",
+      "summary"
+    ],
+    "valuedKeys": []
+  }
+]

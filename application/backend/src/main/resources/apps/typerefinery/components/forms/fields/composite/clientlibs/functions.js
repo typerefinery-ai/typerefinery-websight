@@ -520,6 +520,32 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
         //get name and value of each input field
         var name = $(this).attr(ns.selectorNameAttribute);
         var value = $(this).val();
+
+        // ⚠️ alpha-launch docs/issues/0108 — a radio or checkbox reports its OWN value from .val()
+        // regardless of whether the user selected it, and every radio in a group shares one `name`.
+        // So this loop used to write data[name] once per radio and keep whichever it visited last,
+        // meaning an untouched group still contributed a value: every email-message created here
+        // asserted `is_multipart: "true"`, and every user-account asserted four boolean claims,
+        // none of which anyone had chosen. Same class as docs/issues/0156 (a control the user never
+        // touched supplying data), in a different component — 0156 fixed it for <select>, this is
+        // the radio/checkbox half.
+        //
+        // An unselected group falls back to the empty string, which is what every other untouched
+        // field in this payload already carries — deliberately NOT omitting the key, so the payload
+        // shape does not change.
+        if ($(this).is(':radio, :checkbox')) {
+          if ($(this).is(':checked')) {
+            data[name] = value;
+          } else if (data[name] === undefined) {
+            data[name] = "";
+          }
+          // an already-recorded checked sibling must not be overwritten by a later unchecked one
+          if (addFieldHint) {
+            formNs.addFieldHint($(this), $(this).attr(ns.selectorNameAttribute), $(this).attr(ns.selectorIdAttribute));
+          }
+          return;
+        }
+
         data[name] = value;
 
         if (addFieldHint) {
