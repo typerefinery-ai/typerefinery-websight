@@ -361,7 +361,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_SCQRRTAOQ"
-                                            label="spec_version"/>
+                                            label="Spec Version"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -477,7 +477,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_8S4MHU2GR"
-                                            label="to_refs"/>
+                                            label="To Refs"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -500,7 +500,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_GJVBT34J6"
-                                            label="cc_refs"/>
+                                            label="Cc Refs"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -523,7 +523,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_7HOZSCMLM"
-                                            label="bcc_refs"/>
+                                            label="Bcc Refs"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -545,7 +545,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_1WVSZYDP0"
-                                            label="from_ref"/>
+                                            label="From Ref"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -568,7 +568,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_YHEFMRYMA"
-                                            label="sender_ref"/>
+                                            label="Sender Ref"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -591,7 +591,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_PWW8QOSUA"
-                                            label="raw_email_ref"/>
+                                            label="Raw Email Ref"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -679,7 +679,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_QCI8XGSAB"
-                                            label="message_id"/>
+                                            label="Message Id"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -702,7 +702,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_VEERRV7YI"
-                                            label="is_multipart"/>
+                                            label="Is Multipart"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -742,7 +742,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_HYQLYDSQC"
-                                            label="content_type"/>
+                                            label="Content Type"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -762,7 +762,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_FCPZDDRGD"
-                                            label="additional_header_fields"/>
+                                            label="Additional Header Fields"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/select"
@@ -792,7 +792,7 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                 id="label_7NDO39VAS"
-                                                label="body_multipart"/>
+                                                label="Body Multipart"/>
                                             <field
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
@@ -839,7 +839,7 @@
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                                 id="label_9YLFUSJBM"
-                                                                label="body_raw_ref"/>
+                                                                label="Body Raw Ref"/>
                                                             <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -856,7 +856,7 @@
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                                 id="label_VDESFWC0J"
-                                                                label="content_type"/>
+                                                                label="Content Type"/>
                                                             <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -1068,7 +1068,7 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                 id="label_Q41RERG2Y"
-                                                label="granular_markings"/>
+                                                label="Granular Markings"/>
                                             <field
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
@@ -1116,13 +1116,13 @@
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                                 id="label_CV8ACFUHL"
-                                                                label="marking_ref"/>
+                                                                label="Marking Ref"/>
                                                             <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/stix/forms/fields/input"
                                                                 id="field_TYHT5Y6OV"
                                                                 inputType="string"
-                                                                label="marking_ref"
+                                                                label="Marking Ref"
                                                                 name="marking_ref"/>
                                                         </marking_ref>
                                                         <selectors
@@ -1288,7 +1288,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_B8ZUSZ5XS"
-                            label="first_name"/>
+                            label="First Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -1311,7 +1311,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_OHOJYTLIJ"
-                            label="middle_name"/>
+                            label="Middle Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -1334,7 +1334,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_H5OYKHDED"
-                            label="last_name"/>
+                            label="Last Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"

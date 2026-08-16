@@ -361,7 +361,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_SCQRRTAOQ"
-                                            label="spec_version"/>
+                                            label="Spec Version"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -464,7 +464,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_RHF8CEMD8"
-                                            label="user_id"/>
+                                            label="User Id"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -510,7 +510,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_LA6HKIJFT"
-                                            label="account_login"/>
+                                            label="Account Login"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -533,7 +533,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_LA6HKIJFT"
-                                            label="display_name"/>
+                                            label="Display Name"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -556,7 +556,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_BRCZFFJYW"
-                                            label="account_type"/>
+                                            label="Account Type"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/select"
@@ -593,7 +593,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_MO8E7P6BN"
-                                            label="is_service_account"/>
+                                            label="Is Service Account"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -613,7 +613,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_MO8E7P6BN"
-                                            label="is_service_account"/>
+                                            label="Is Service Account"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -633,7 +633,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_MO8E7P6BN"
-                                            label="is_privileged"/>
+                                            label="Is Privileged"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -653,7 +653,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_MO8E7P6BN"
-                                            label="can_escalate_privs"/>
+                                            label="Can Escalate Privs"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -673,7 +673,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_MO8E7P6BN"
-                                            label="is_disabled"/>
+                                            label="Is Disabled"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/radio"
@@ -693,7 +693,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_KSQ8Y3AKH"
-                                            label="account_created"/>
+                                            label="Account Created"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -716,7 +716,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_KSQ8Y3AKH"
-                                            label="account_expires"/>
+                                            label="Account Expires"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -739,7 +739,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_KSQ8Y3AKH"
-                                            label="credential_last_changed"/>
+                                            label="Credential Last Changed"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -762,7 +762,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_KSQ8Y3AKH"
-                                            label="account_first_login"/>
+                                            label="Account First Login"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -785,7 +785,7 @@
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/label"
                                             id="label_KSQ8Y3AKH"
-                                            label="account_last_login"/>
+                                            label="Account Last Login"/>
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -955,7 +955,7 @@
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                 id="label_Q41RERG2Y"
-                                                label="granular_markings"/>
+                                                label="Granular Markings"/>
                                             <field
                                                 jcr:primaryType="nt:unstructured"
                                                 sling:resourceType="typerefinery/components/forms/fields/composite"
@@ -1003,13 +1003,13 @@
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/forms/fields/label"
                                                                 id="label_CV8ACFUHL"
-                                                                label="marking_ref"/>
+                                                                label="Marking Ref"/>
                                                             <field
                                                                 jcr:primaryType="nt:unstructured"
                                                                 sling:resourceType="typerefinery/components/stix/forms/fields/input"
                                                                 id="field_TYHT5Y6OV"
                                                                 inputType="string"
-                                                                label="marking_ref"
+                                                                label="Marking Ref"
                                                                 name="marking_ref"/>
                                                         </marking_ref>
                                                         <selectors
@@ -1175,7 +1175,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_B8ZUSZ5XS"
-                            label="first_name"/>
+                            label="First Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -1198,7 +1198,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_OHOJYTLIJ"
-                            label="middle_name"/>
+                            label="Middle Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"
@@ -1221,7 +1221,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/label"
                             id="label_H5OYKHDED"
-                            label="last_name"/>
+                            label="Last Name"/>
                         <field
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/stix/forms/fields/input"

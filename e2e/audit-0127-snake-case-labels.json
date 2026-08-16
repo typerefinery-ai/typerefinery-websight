@@ -1,0 +1,240 @@
+{
+  "perForm": [
+    {
+      "rel": "sco-forms/email-addr-forms/email-addr-create",
+      "http": 200,
+      "distinct": 12,
+      "snake": 1,
+      "examples": [
+        "display_name"
+      ]
+    },
+    {
+      "rel": "sco-forms/email-addr-forms/email-addr-update",
+      "http": 200,
+      "distinct": 12,
+      "snake": 1,
+      "examples": [
+        "display_name"
+      ]
+    },
+    {
+      "rel": "sco-forms/email-message-forms/email-message-create",
+      "http": 200,
+      "distinct": 25,
+      "snake": 1,
+      "examples": [
+        "content_disposition"
+      ]
+    },
+    {
+      "rel": "sco-forms/email-message-forms/email-message-update",
+      "http": 200,
+      "distinct": 25,
+      "snake": 1,
+      "examples": [
+        "content_disposition"
+      ]
+    },
+    {
+      "rel": "sro-forms/relationship-forms/relationship-create",
+      "http": 200,
+      "distinct": 25,
+      "snake": 1,
+      "examples": [
+        "source_ref"
+      ]
+    },
+    {
+      "rel": "sro-forms/relationship-forms/relationship-update",
+      "http": 200,
+      "distinct": 25,
+      "snake": 1,
+      "examples": [
+        "source_ref"
+      ]
+    },
+    {
+      "rel": "sco-forms/anecdote-forms/anecdote-create",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/anecdote-forms/anecdote-update",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/domain-name-forms/domain-name-create",
+      "http": 200,
+      "distinct": 11,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/domain-name-forms/domain-name-update",
+      "http": 200,
+      "distinct": 11,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/ipv4-addr-forms/ipv4-addr-create",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/ipv4-addr-forms/ipv4-addr-update",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/url-forms/url-create",
+      "http": 200,
+      "distinct": 10,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/url-forms/url-update",
+      "http": 200,
+      "distinct": 10,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/user-account-forms/user-account-create",
+      "http": 200,
+      "distinct": 23,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/user-account-forms/user-account-update",
+      "http": 200,
+      "distinct": 23,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/event-forms/event-create",
+      "http": 200,
+      "distinct": 49,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/event-forms/event-update",
+      "http": 200,
+      "distinct": 49,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/identity-forms/identity-create",
+      "http": 200,
+      "distinct": 41,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/identity-forms/identity-update",
+      "http": 200,
+      "distinct": 41,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/indicator-forms/indicator-create",
+      "http": 200,
+      "distinct": 46,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/indicator-forms/indicator-update",
+      "http": 200,
+      "distinct": 46,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/observed-data-forms/observed-data-create",
+      "http": 200,
+      "distinct": 40,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/observed-data-forms/observed-data-update",
+      "http": 200,
+      "distinct": 40,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/sequence-forms/sequence-create",
+      "http": 200,
+      "distinct": 43,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/sequence-forms/sequence-update",
+      "http": 200,
+      "distinct": 43,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/task-forms/task-create",
+      "http": 200,
+      "distinct": 49,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sdo-forms/task-forms/task-update",
+      "http": 200,
+      "distinct": 49,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sro-forms/sighting-forms/sighting-create",
+      "http": 200,
+      "distinct": 53,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sro-forms/sighting-forms/sighting-update",
+      "http": 200,
+      "distinct": 53,
+      "snake": 0,
+      "examples": []
+    }
+  ],
+  "distinct": [
+    [
+      "display_name",
+      2
+    ],
+    [
+      "content_disposition",
+      2
+    ],
+    [
+      "source_ref",
+      2
+    ]
+  ]
+}
