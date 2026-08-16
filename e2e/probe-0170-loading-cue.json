@@ -1,0 +1,67 @@
+{
+  "deployed": {
+    "embed": "content/embed/clientlibs.js",
+    "hasShowLoading": true,
+    "hasEmbedLoading": true,
+    "hasFailsafe": true,
+    "bytes": 95293
+  },
+  "rows": [
+    {
+      "icon": "rect-anecdote.svg",
+      "form": "anecdote-update.html",
+      "preVisible": null,
+      "cueMs": 48.20000000298023,
+      "cueText": "Loading",
+      "tNav": 4937,
+      "tField": 4942,
+      "tClear": 5151,
+      "scripts": 34,
+      "external": 34,
+      "bytes": 189705,
+      "inputs": 10
+    },
+    {
+      "icon": "rect-email-addr.svg",
+      "form": "email-addr-update.html",
+      "preVisible": false,
+      "cueMs": 46.70000000298023,
+      "cueText": "Loading",
+      "tNav": 4624,
+      "tField": 4627,
+      "tClear": 4867,
+      "scripts": 34,
+      "external": 34,
+      "bytes": 191680,
+      "inputs": 10
+    },
+    {
+      "icon": "rect-email-message.svg",
+      "form": "email-message-update.html",
+      "preVisible": false,
+      "cueMs": 27,
+      "cueText": "Loading",
+      "tNav": 4932,
+      "tField": 4943,
+      "tClear": 5268,
+      "scripts": 34,
+      "external": 34,
+      "bytes": 274409,
+      "inputs": 20
+    },
+    {
+      "icon": "rect-event.svg",
+      "form": "event-update.html",
+      "preVisible": false,
+      "cueMs": 30,
+      "cueText": "Loading",
+      "tNav": 5140,
+      "tField": 5144,
+      "tClear": 5331,
+      "scripts": 34,
+      "external": 34,
+      "bytes": 482080,
+      "inputs": 23
+    }
+  ]
+}
