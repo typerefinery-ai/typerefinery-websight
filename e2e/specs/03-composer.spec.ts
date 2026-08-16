@@ -652,11 +652,15 @@ test.describe('Act 3 — Incident Composer', () => {
      * re-throwing, and leave the failure itself untouched.
      */
     try {
+      // ⚠️ 60 s, not 30 s. docs/issues/0166 already established that this modal mounts just after a
+      // 30 s poll expires on a busy stack, and raised the MOUNT poll accordingly — this one was left
+      // behind. Measured 2026-08-16: this poll returned 1 of 2 refs and failed the step while the
+      // product was working (see the options poll below for the evidence).
       await expect
         .poll(
           async () =>
             (await modalState(page)).values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v)).length,
-          { timeout: 30_000, message: 'Source Ref and Target Ref pre-filled' },
+          { timeout: 60_000, message: 'Source Ref and Target Ref pre-filled' },
         )
         .toBeGreaterThanOrEqual(2)
     } catch (err) {
@@ -680,7 +684,31 @@ test.describe('Act 3 — Incident Composer', () => {
     const stixIds = modal.values.filter((v) => /^[a-z-]+--[0-9a-f-]{8,}/i.test(v))
     expect(stixIds.length, `source_ref and target_ref pre-filled (saw: ${modal.values.join(' | ').slice(0, 160)})`)
       .toBeGreaterThanOrEqual(2)
-    expect(modal.options, 'relationship-type list is populated, not just a placeholder')
+
+    // 🔴 THIS ASSERTION IS CURRENTLY RED, AND IT IS RIGHT TO BE. docs/issues/0193.
+    //
+    // The comment above says the types are "rendered by Choices.js (3 items)". That was measured on
+    // 2026-08-04 and is **no longer true**. Measured 2026-08-16 by dumping the modal's own DOM
+    // (`probe-0166-sro-menu-and-modal.mjs`):
+    //
+    //   relationship_type -> <input> value "derived-from,duplicate-of,related-to"
+    //   selects: []   choicesRoots: 0   choicesItems: 0
+    //
+    // There is no <select> and no Choices instance. The three types arrive correctly —
+    // `get-relationship-types` answers 200 with all three and the widget logs `types=3` — and are
+    // then written into a **plain text input as one comma-joined string**. The modal reads "Please
+    // Select the Relationship Type" and offers nothing to select.
+    //
+    // ⚠️ I first diagnosed this as a sampling race and wrote a poll to "fix" it. It is not: the poll
+    // below waits the full 60 s and still reads 0, because the elements never exist. The poll is kept
+    // only because polling is the right shape once this is fixed. **Do not make this step pass by
+    // relaxing the threshold** — that is precisely the failure docs/issues/0048 exists to prevent,
+    // and a green P3-S6 would tell a presenter that Create SRO offers a type list when it does not.
+    await expect
+      .poll(async () => (await modalState(page)).options, {
+        timeout: 60_000,
+        message: 'relationship-type list is populated, not just a placeholder (docs/issues/0193)',
+      })
       .toBeGreaterThanOrEqual(2)
 
     // Second claim — "the relationship is created". The save leg was authored 2026-08-04

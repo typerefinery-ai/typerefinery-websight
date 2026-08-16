@@ -69,20 +69,70 @@ for (const line of fs.readFileSync(RUNSHEET, 'utf8').split('\n')) {
   if (!rows.has(m[1])) rows.set(m[1], cells[4].trim())
 }
 
+/**
+ * A non-✅ row is NOT understatement when it cites an OPEN issue as the reason.
+ *
+ * ⚠️ Added 2026-08-16 after this check fired on a row that was telling the truth. The gate's per-step
+ * evidence can be NARROWER than the row's claim: for P3-S6 the gate proves "SRO modal mounted", while
+ * the row claims the modal opens pre-filled AND the analyst picks a relationship type AND the
+ * relationship is created. The type field turned out to offer nothing selectable
+ * (docs/issues/0193) — so the row is ◐ and the gate is green, and **both are correct**. Forcing ✅
+ * there would have put a false claim in front of a presenter, which is the very thing 0188 is about,
+ * pointing the other way.
+ *
+ * That is docs/issues/0048's partial-claim class appearing inside an auditor: a check whose evidence
+ * covers less than the claim it is policing.
+ *
+ * The exception is deliberately narrow, or it becomes a loophole any row could use: the cited issue
+ * must EXIST and must still be Open / In Progress / Partially resolved. A row citing a Resolved issue
+ * is understatement again, and is still flagged.
+ */
+const ISSUE_DIR = path.join(path.dirname(RUNSHEET), 'issues')
+
+/**
+ * ⚠️ CURRENT claim only. Status cells append their history behind an `Earlier:` marker, and those
+ * entries cite plenty of issues — several of them still open. A first version searched the whole
+ * cell, and the control caught it immediately: with P3-S6's own citation deliberately removed, the
+ * row still excused itself on an unrelated `0075` link buried in its history. Any sufficiently long
+ * row would have been permanently exempt.
+ *
+ * Sixth occurrence of this shape in the suite — a check matching text that is HISTORICAL or QUOTED
+ * rather than asserted.
+ */
+const currentClaim = (status) => status.split(/\bEarlier:|\bPreviously:|\bPrior entry:/)[0]
+
+const openIssueCited = (status) => {
+  for (const m of currentClaim(status).matchAll(/issues\/(\d{4})-[a-z0-9-]+\.md/gi)) {
+    const file = fs.existsSync(ISSUE_DIR)
+      ? fs.readdirSync(ISSUE_DIR).find((n) => n.startsWith(`${m[1]}-`))
+      : null
+    if (!file) continue
+    const fm = fs.readFileSync(path.join(ISSUE_DIR, file), 'utf8').match(/^status:\s*(.*)$/m)
+    if (fm && /^\**\s*(open|in progress|partially)/i.test(fm[1].replace(/^["']/, ''))) return m[1]
+  }
+  return null
+}
+
 const understated = []
+const qualified = []
 for (const [id, detail] of passed) {
   const status = rows.get(id)
   if (status === undefined) {
     understated.push({ id, why: 'no row in the runsheet', detail })
     continue
   }
-  if (!status.startsWith('✅')) {
-    understated.push({ id, why: `runsheet leads with "${status.slice(0, 40)}"`, detail })
-  }
+  if (status.startsWith('✅')) continue
+  const cited = openIssueCited(status)
+  if (cited) qualified.push({ id, cited, status })
+  else understated.push({ id, why: `runsheet leads with "${status.slice(0, 40)}"`, detail })
+}
+
+for (const q of qualified) {
+  console.log(`  ok  ${q.id}  not ✅, but cites OPEN issue ${q.cited} — the gate's evidence is narrower than the row's claim`)
 }
 
 if (!understated.length) {
-  console.log('\nevery step the gate passed is marked ✅ in the runsheet — no understatement')
+  console.log('\nevery step the gate passed is marked ✅, or explains itself with an open issue')
   process.exit(0)
 }
 console.log(`\n⚠️ ${understated.length} step(s) the gate PASSED but the runsheet does not mark ✅:\n`)
