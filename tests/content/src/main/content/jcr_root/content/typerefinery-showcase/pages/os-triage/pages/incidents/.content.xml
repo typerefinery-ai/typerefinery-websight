@@ -91,7 +91,7 @@
                                     actionSuccessNavigateTo="/content/typerefinery-showcase/pages/os-triage/forms/overview-local.html"
                                     actionType="openModal"
                                     actionUrl="/content/typerefinery-showcase/pages/os-triage/forms/createincident"
-                                    buttonType="submit"
+                                    buttonType="action"
                                     id="button_1_ECWETHPFL"
                                     label="New Incident"
                                     persistColorWhenThemeSwitches="{Boolean}true"/>

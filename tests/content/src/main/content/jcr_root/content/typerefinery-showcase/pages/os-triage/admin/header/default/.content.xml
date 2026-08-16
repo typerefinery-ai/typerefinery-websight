@@ -34,7 +34,7 @@
                     actionType="openDropdown"
                     buttonStyle="warning"
                     buttonType="action"
-                    classes="btn-sm"
+                    classes="btn-sm d-none"
                     hideButtonLabel="false"
                     icon="pi pi-plus"
                     id="button_1_HHDHN8KL2"
