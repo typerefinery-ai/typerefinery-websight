@@ -1,0 +1,24 @@
+[
+  {
+    "pane": "promo_svg",
+    "nodes": 8,
+    "paneSize": "456×398",
+    "clusterSize": "197×210",
+    "fillPct": 23,
+    "marginLeft": 134,
+    "marginRight": 125,
+    "marginTop": 84,
+    "marginBottom": 104
+  },
+  {
+    "pane": "scratch_svg",
+    "nodes": 4,
+    "paneSize": "456×398",
+    "clusterSize": "347×351",
+    "fillPct": 67,
+    "marginLeft": 47,
+    "marginRight": 62,
+    "marginTop": 18,
+    "marginBottom": 30
+  }
+]
