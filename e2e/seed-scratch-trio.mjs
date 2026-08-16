@@ -78,6 +78,33 @@ const TRIO = [
       is_hidden: true,
     },
   },
+  /**
+   * ⚠️ **The address is not decoration — STIX requires it.** `NetworkTraffic` enforces
+   * *"at least one of (src_ref, dst_ref) must be populated"*, and the first version of this seed
+   * supplied neither. The object looked fine on the pane and was **invalid STIX**, which broke
+   * *Create SRO* on it: `get-relationship-types` answered **HTTP 200 with `error: true`** while its
+   * algorithm had raised `AtLeastOnePropertyError`, and the Composer silently opened nothing
+   * (docs/issues/0166).
+   *
+   * No `ipv4-addr` / `domain-name` existed in the incident to point at — the only SCO of a
+   * referenceable kind was a `url`, which `NetworkTraffic` does not accept — so the endpoint is
+   * seeded too. It is the attacker address the phishing narrative already names.
+   */
+  {
+    id: 'ipv4-addr--5c9a7f10-0000-4000-8000-00005c721004',
+    label: '203.0.113.42',
+    icon: 'ipv4-addr',
+    head: 'IPv4-Addr',
+    form: 'ipv4-addr',
+    group: 'sco-forms',
+    family: 'stix-forms',
+    original: {
+      type: 'ipv4-addr',
+      spec_version: '2.1',
+      // TEST-NET-3 (RFC 5737) — a documentation range, so it can never resolve to a real host.
+      value: '203.0.113.42',
+    },
+  },
   {
     // image5: socket icon, label "Socket Connection"
     id: 'network-traffic--5c9a7f10-0000-4000-8000-00005c721002',
@@ -94,6 +121,8 @@ const TRIO = [
       src_port: 49722,
       dst_port: 443,
       is_active: false,
+      // Required by the STIX spec — see the note above.
+      dst_ref: 'ipv4-addr--5c9a7f10-0000-4000-8000-00005c721004',
     },
   },
   {
