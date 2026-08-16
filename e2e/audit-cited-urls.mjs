@@ -42,6 +42,7 @@ const isOpen = (status) => {
 }
 
 const cited = new Map() // url -> Set(issue ids)
+const openById = new Map() // issue id -> is it open?
 let scanned = 0
 
 for (const name of fs.readdirSync(ISSUES).filter((n) => /^\d{4}-.*\.md$/.test(n))) {
@@ -50,6 +51,7 @@ for (const name of fs.readdirSync(ISSUES).filter((n) => /^\d{4}-.*\.md$/.test(n)
   if (!ALL && !isOpen(status)) continue
   scanned++
   const id = name.slice(0, 4)
+  openById.set(id, isOpen(status))
   /**
    * ⚠️ **Match PATHS as well as full URLs, or this finds almost nothing.** First cut took only
    * `https://…` and turned up **2 URLs across 49 open issues** — because issues cite form paths the
@@ -118,7 +120,7 @@ for (const r of rows) {
    * family and not another.
    */
   const tail = r.url.replace(/^https:\/\/[^/]+\/content\/typerefinery-showcase\/pages\/os-triage\//, '')
-  console.log(`  ${r.code}  ${tail.padEnd(74)} cited by ${r.ids.map((i) => '#' + i).join(' ')}`)
+  console.log(`  ${r.code}  ${tail.padEnd(74)} cited by ${r.ids.map((i) => '#' + i + (openById.get(i) ? '' : '(resolved)')).join(' ')}`)
 }
 
 const ok = rows.filter((r) => r.code === '200').length
