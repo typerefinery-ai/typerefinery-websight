@@ -108,8 +108,17 @@ for (const [url, ids] of cited) {
 
 rows.sort((a, b) => a.code.localeCompare(b.code) || a.url.localeCompare(b.url))
 for (const r of rows) {
-  const tail = r.url.replace(/^https:\/\/[^/]+/, '').split('/').slice(-3).join('/')
-  console.log(`  ${r.code}  ${tail.padEnd(62)} cited by ${r.ids.map((i) => '#' + i).join(' ')}`)
+  /**
+   * ⚠️ **Show the FAMILY, or two different URLs print identically.** The first version truncated to
+   * the last three segments, so `stix-forms/sdo-forms/sequence-forms/sequence-update.html` (200) and
+   * `os-threat-forms/sdo-forms/sequence-forms/sequence-update.html` (404) both rendered as
+   * `sdo-forms/sequence-forms/sequence-update.html` — and the run showed
+   * `identity-update.html` as **both 200 and 404**, which reads as a broken audit rather than as two
+   * different files. The family is the whole point of 0049: the same form name resolves under one
+   * family and not another.
+   */
+  const tail = r.url.replace(/^https:\/\/[^/]+\/content\/typerefinery-showcase\/pages\/os-triage\//, '')
+  console.log(`  ${r.code}  ${tail.padEnd(74)} cited by ${r.ids.map((i) => '#' + i).join(' ')}`)
 }
 
 const ok = rows.filter((r) => r.code === '200').length
