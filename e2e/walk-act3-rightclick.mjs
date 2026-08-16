@@ -38,6 +38,24 @@ const page = await (
 let toastBlocks = 0
 page.on('console', (m) => { if (/intercepts pointer events/.test(m.text())) toastBlocks++ })
 
+// docs/issues/0189 — drill into the incident the RUNSHEET STAGES before exercising the Composer.
+// Without this the Composer renders whatever incident happened to be current, so these right-click
+// steps were verified against a configuration the demo does not use, while decision 0036's built
+// 8-object cast went ungated. This is the runsheet's own preflight step 2, as a real gesture.
+await page.goto(`${CMS}/content/typerefinery-showcase/pages/os-triage/pages/incidents.html`, {
+  waitUntil: 'domcontentloaded',
+})
+await page.waitForSelector('tbody tr', { timeout: 40_000 }).catch(() => {})
+await page.waitForTimeout(2_500)
+const act3Row = page.locator('tbody tr', { hasText: 'image5 walkthrough' }).first()
+if (await act3Row.count()) {
+  await act3Row.locator('td').nth(1).click()
+  await page.waitForTimeout(8_000)
+  console.log("drilled into the runsheet's Act 3 incident (Phishing campaign - image5 walkthrough)")
+} else {
+  console.log('⚠️ image5 walkthrough row NOT FOUND — running on whatever was current (0189)')
+}
+
 await page.goto(`${CMS}${PAGE}`, { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(22_000)
 

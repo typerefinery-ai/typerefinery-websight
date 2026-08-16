@@ -152,6 +152,35 @@ await step('P2-S5', async () => {
 await page.screenshot({ path: path.join(OUT, 'gesture-act2-after-select.png') })
 
 // ---------- Act 3 ----------
+// docs/issues/0189 — drill into the incident the RUNSHEET STAGES, not whichever row sorts first.
+//
+// P1-S7 above clicks `tbody tr` .first(), and that click is what sets `current_incident` for Acts 2
+// and 3. So until now every gate walked the Composer against whatever incident happened to sort
+// first, while the runsheet says twice to open `Phishing campaign - image5 walkthrough` — the
+// incident decision 0036 was Decided and BUILT for ("Promotable 8 nodes / 9 edges"). Sixteen
+// consecutive green gates therefore reported Act 3 on a configuration the presenter is told not to
+// use, and 0036's delivered work has never been under a gate.
+//
+// This performs the runsheet's own preflight step 2 — "drill in: click the
+// `Phishing campaign - image5 walkthrough` row" — as a real gesture, not an invented API call
+// (there is deliberately no set-current endpoint: see e2e/set-current-incident-by-ui.mjs).
+await page.goto(`${CMS}${P}/pages/incidents.html`, { waitUntil: 'domcontentloaded' })
+await page.waitForSelector('tbody tr', { timeout: 40_000 })
+await page.waitForTimeout(2_500)
+const act3Row = page.locator('tbody tr', { hasText: 'image5 walkthrough' }).first()
+const act3RowFound = (await act3Row.count()) > 0
+if (act3RowFound) {
+  await act3Row.locator('td').nth(1).click()
+  await page.waitForTimeout(8_000)
+}
+record(
+  'P3-SETUP',
+  act3RowFound ? 'PASS' : 'FAIL',
+  act3RowFound
+    ? 'drilled into the runsheet\'s Act 3 incident (Phishing campaign - image5 walkthrough)'
+    : '⚠️ image5 walkthrough row NOT FOUND — Act 3 below is running on whatever was current (0189)',
+)
+
 await page.goto(`${CMS}${P}/forms/composer-local.html`, { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(20_000)
 const comp = page.frameLocator('iframe[src*="widgetdevcomposer"]').first()
