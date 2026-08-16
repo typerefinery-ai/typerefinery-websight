@@ -1,0 +1,17 @@
+{
+  "viewport": "1280×800",
+  "aside": "250×800",
+  "header": null,
+  "frames": [
+    {
+      "src": "",
+      "w": 687,
+      "h": 800
+    },
+    {
+      "src": "default.html",
+      "w": 343,
+      "h": 800
+    }
+  ]
+}

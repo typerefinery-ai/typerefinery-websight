@@ -489,6 +489,15 @@
                         persistColorWhenThemeSwitches="{Boolean}true"/>
                 </innertabs>
             </main>
+                    <aside
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/aside"
+                id="aside_MJJ2JO008"/>
+                    <header
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="typerefinery/components/layout/header"
+                id="header_C82QBVF1E"
+                cancelInheritParent="true"/>
         </rootcontainer>
     </jcr:content>
 </jcr:root>
