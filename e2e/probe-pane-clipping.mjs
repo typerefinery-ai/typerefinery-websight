@@ -31,7 +31,7 @@ const TOLERANCE = Number(process.env.CLIP_TOLERANCE || 2)
 const browser = await chromium.launch()
 const ctx = await browser.newContext({
   ignoreHTTPSErrors: true,
-  viewport: { width: 1280, height: 800 },
+  viewport: { width: Number(process.env.VW || 1280), height: Number(process.env.VH || 800) },
   ...(fs.existsSync(STATE) ? { storageState: STATE } : {}),
 })
 const page = await ctx.newPage()
