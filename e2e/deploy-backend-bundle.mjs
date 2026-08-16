@@ -23,6 +23,21 @@
  *
  * ⚠️ The CMS has stalled silently inside Felix twice in one day (docs/issues/0180 hazard-2), so this
  * defaults to a DRY RUN that only reports what it would do and proves the console is reachable.
+ *
+ * ✅ **This deploy CANNOT lose authored content — verified 2026-08-16, and worth stating because the
+ * workspace's standing hazard "a CMS redeploy REGRESSES" sounds like it applies here.** It does not:
+ * that hazard is about the **content package** (`autoInstallPackage`), which is 53 form fixes and 16
+ * forms of labels behind live (0144/0150). Inspected the built bundle itself:
+ *
+ *     Bundle-SymbolicName:     typerefinery-backend
+ *     Sling-Bundle-Resources:  /apps/typerefinery,/apps/wcm/dialogs/components/
+ *     Sling-Initial-Content:   (absent)
+ *     SLING-INF entries:       0
+ *
+ * So it replaces `/apps` component code and Java classes and never writes `/content` — authored
+ * labels, group boxes, read-only fields and component properties all survive it. ⚠️ The corollary is
+ * the real caution: anything hand-edited **under `/apps`** on the running instance IS overwritten,
+ * because `/apps/typerefinery` is exactly what the bundle ships.
  * Pass --apply to deploy, and prefer doing that with a human watching, per 0044's own gate.
  *
  *     node e2e/deploy-backend-bundle.mjs                 # dry run: probe + plan, changes nothing
