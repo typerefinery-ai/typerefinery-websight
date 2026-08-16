@@ -1,0 +1,12 @@
+{
+  "TARGET": {
+    "page": "artifacts",
+    "topic": "table_c712cd587344499eba66af31cd3f18c7"
+  },
+  "onScreen": false,
+  "logs": [
+    "[warning] [table rendering CACHED payload of unknown age, table_WOFHMJ2EL, table_c712cd587344499eba66af31cd3f18c7, 1 row(s), 211 bytes]",
+    "[error] [table cached payload is unreadable; discarding, table_WOFHMJ2EL, table_c712cd587344499eba66af31cd3f18c7, TypeError: Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array obj…]",
+    "[warning] [table has no cached payload and no dataSource configured; waiting for data, table_WOFHMJ2EL]"
+  ]
+}
