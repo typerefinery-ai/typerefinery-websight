@@ -27,7 +27,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const CMS = process.env.CMS_BASE || 'https://cms.typerefinery.localhost:8101'
-const PAGE = `${CMS}/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints.html`
+const PAGE = process.env.MODAL_PAGE || `${CMS}/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints.html`
 const STATE = path.join(__dirname, '.auth', 'cms.json')
 
 const snapshot = (page) =>
@@ -56,7 +56,10 @@ const run = async () => {
   page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`))
 
   const resp = await page.goto(PAGE, { waitUntil: 'domcontentloaded', timeout: 60000 })
-  console.log(`GET sro-constraints.html -> ${resp && resp.status()}`)
+  // ⚠️ Print the page it ACTUALLY fetched. This was hardcoded to "sro-constraints.html" and happily
+  // said so while MODAL_PAGE pointed at foreign-key-connections — a mislabelled measurement, which is
+  // the failure this project keeps paying for.
+  console.log(`GET ${PAGE.split('/').pop()} -> ${resp && resp.status()}`)
 
   const atLoad = await snapshot(page)
   console.log(`\n--- immediately after DOMContentLoaded ---`)
