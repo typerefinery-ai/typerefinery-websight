@@ -174,16 +174,64 @@ window.Typerefinery.Page.Events = Typerefinery.Page.Events || {};
       //insert into component
       $componentBody.append($newRow);
 
+      // Show the row that was just added.
+      //
+      // alpha-launch docs/issues/0057 obs 83: measured 2026-08-16 on a real form at 1280x800 —
+      // the add control sat at y=164, the row it created landed at **y=1176**, and the page did
+      // not scroll. So the row was 376px below the fold and a user clicking the control saw
+      // *nothing happen*. The feature worked; it was invisible, which for a demo is the same
+      // thing. (The measuring probe names the specific form; this component does not need to.)
+      //
+      // Deliberately generic: "a row that was just added should be on screen" carries no field
+      // name, type name or vocabulary, so it belongs in the component that owns ADD_ITEM —
+      // the same call this issue's REMOVE_ITEM change made.
+      ns.revealNewItem($newRow);
+
       //raise event that item is added
       ns.ADD_ITEM($component, componentConfig, { type: ns.selectorComponentName, action: "add_item" , "id": itemId } );
 
       console.groupEnd();
     }
 
+    /**
+     * Bring a newly added row into view, and mark it briefly so the eye can find it.
+     *
+     * `block: 'center'` rather than `'nearest'`: the row is typically far below the fold, and
+     * centring it also brings its remove control and its neighbours into frame, so the user can
+     * see what was added and undo it. Guarded because `scrollIntoView` options are ignored by
+     * older engines and the element may be detached if a caller re-renders synchronously.
+     */
+    ns.revealNewItem = ($newRow) => {
+      const el = $newRow && $newRow[0];
+      if (!el || typeof el.scrollIntoView !== 'function') { return; }
+      try {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (e) {
+        el.scrollIntoView();
+      }
+      // A short, self-clearing highlight. Uses the row's own outline so it cannot disturb layout
+      // (a background or border would reflow the form the user is reading).
+      try {
+        const previous = el.style.outline;
+        el.style.outline = '2px solid rgba(13, 110, 253, 0.75)';
+        el.style.outlineOffset = '2px';
+        setTimeout(() => { el.style.outline = previous; el.style.outlineOffset = ''; }, 1500);
+      } catch (e) {
+        console.log('revealNewItem: could not apply the highlight', e);
+      }
+      console.log('revealNewItem: scrolled the added row into view');
+    }
+
     /** A control that removes the row it sits in. Added to every row `addNewItem` creates. */
     ns.addRemoveControl = ($component, $newRow, itemId) => {
+      // alpha-launch docs/issues/0057 obs 81: this was `btn-link`, which Bootstrap renders as blue
+      // underlined text — measured 2026-08-16 as 28x31px, rgb(13,110,253), text-decoration
+      // underline. It read as a stray hyperlink beside the field rather than as a control, on a
+      // form the demo walks. `btn-outline-secondary` makes it look like the button it is, without
+      // changing its size, position or any of the three selectors the suite matches it by
+      // (`composite-remove-item`, `data-action`, `aria-label`).
       const $remove = $(
-        '<button type="button" class="composite-remove-item btn btn-sm btn-link"' +
+        '<button type="button" class="composite-remove-item btn btn-sm btn-outline-secondary"' +
         ' data-action="remove-item" aria-label="Remove item" title="Remove item">&times;</button>'
       );
       $remove.on('click', (event) => {
