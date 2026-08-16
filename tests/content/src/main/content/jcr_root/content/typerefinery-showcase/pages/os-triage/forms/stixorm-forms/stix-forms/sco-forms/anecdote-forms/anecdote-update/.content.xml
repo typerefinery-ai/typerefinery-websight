@@ -290,7 +290,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/composite"
                             borderEnabled="false"
-                            classes="\0"
+                            classes="border rounded p-3 mb-3"
                             disabled="false"
                             id="field_GZSX3H5XS"
                             inputType="field"
@@ -416,7 +416,7 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="typerefinery/components/forms/fields/composite"
                             borderEnabled="true"
-                            classes="\0"
+                            classes="border rounded p-3 mb-3"
                             disabled="false"
                             id="field_NLAIHDIWK"
                             inputType="field"
@@ -541,7 +541,7 @@
                             sling:resourceType="typerefinery/components/forms/fields/composite"
                             id="field_TFHYUKDYW"
                             label="Composite Field"
-                            name="base_optional">
+                            name="base_optional" classes="border rounded p-3 mb-3">
                             <one
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/layout/container"
@@ -824,7 +824,7 @@
                             sling:resourceType="typerefinery/components/forms/fields/composite"
                             id="field_ZM8NCZZOS"
                             label="Composite Field"
-                            name="extensions">
+                            name="extensions" classes="border rounded p-3 mb-3">
                             <composite
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="typerefinery/components/forms/composite"

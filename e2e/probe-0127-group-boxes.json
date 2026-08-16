@@ -1,0 +1,46 @@
+[
+  {
+    "caption": "extensions",
+    "captionTag": "H6",
+    "captionClass": "text-muted mb-1",
+    "groupTag": "FORM",
+    "groupClass": "col-lg-12 col-md-12 col-sm-12  card p-4 mb-3",
+    "groupId": "ref: <Node>",
+    "fields": 20,
+    "size": "1280×1313",
+    "border": "1px solid"
+  },
+  {
+    "caption": "base required",
+    "captionTag": "DIV",
+    "captionClass": "form-group-caption",
+    "groupTag": "DIV",
+    "groupClass": "border rounded p-3 mb-3 col-lg-12 col-md-12 col-sm-12 ",
+    "groupId": "field_GZSX3H5XS",
+    "fields": 7,
+    "size": "1230×344",
+    "border": "1px solid"
+  },
+  {
+    "caption": "object",
+    "captionTag": "DIV",
+    "captionClass": "form-group-caption",
+    "groupTag": "DIV",
+    "groupClass": "border rounded p-3 mb-3 col-lg-12 col-md-12 col-sm-12 ",
+    "groupId": "field_NLAIHDIWK",
+    "fields": 10,
+    "size": "1230×450",
+    "border": "1px solid"
+  },
+  {
+    "caption": "extensions",
+    "captionTag": "DIV",
+    "captionClass": "form-group-caption",
+    "groupTag": "DIV",
+    "groupClass": "border rounded p-3 mb-3 col-lg-12 col-md-12 col-sm-12 ",
+    "groupId": "field_ZM8NCZZOS",
+    "fields": 2,
+    "size": "1230×101",
+    "border": "1px solid"
+  }
+]
