@@ -116,3 +116,6 @@ console.log('  fitToPanel port at all, just the force set the other pane already
 fs.writeFileSync(path.join(__dirname, 'probe-0171-pane-forces.json'), JSON.stringify(forces, null, 2))
 console.log('  written: e2e/probe-0171-pane-forces.json')
 await browser.close()
+
+console.log('\n\u26a0 this staged the image5 walkthrough incident and did NOT restore it.')
+console.log('  restore the baseline with: node e2e/set-current-incident-by-ui.mjs 511d2ab7')

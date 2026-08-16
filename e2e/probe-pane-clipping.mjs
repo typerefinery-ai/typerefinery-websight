@@ -111,3 +111,6 @@ fs.writeFileSync(path.join(__dirname, 'probe-pane-clipping.json'), JSON.stringif
 console.log('  written: e2e/probe-pane-clipping.json')
 await browser.close()
 process.exit(total === 0 ? 0 : 1)
+
+console.log('\n\u26a0 this staged the image5 walkthrough incident and did NOT restore it.')
+console.log('  restore the baseline with: node e2e/set-current-incident-by-ui.mjs 511d2ab7')

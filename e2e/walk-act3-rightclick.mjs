@@ -119,3 +119,6 @@ await step('P3-S7', async () => {
 console.log(`\ntoast interceptions observed: ${toastBlocks}  (0148's signature — 0 expected after 43c944f)`)
 console.log(`=== ${results.filter((r) => r.v === 'PASS').length}/${results.length} right-click gestures PASS`)
 await browser.close()
+
+console.log('\n\u26a0 this staged the image5 walkthrough incident and did NOT restore it.')
+console.log('  restore the baseline with: node e2e/set-current-incident-by-ui.mjs 511d2ab7')
