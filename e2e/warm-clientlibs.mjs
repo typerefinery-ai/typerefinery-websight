@@ -26,11 +26,24 @@ const SHOWCASE = '/content/typerefinery-showcase/pages/os-triage'
 const USER = process.env.CMS_USER || 'wsadmin'
 const PASS = process.env.CMS_PASSWORD || 'wsadmin'
 
-/** The pages a run or a demo opens, in the order the runsheet opens them. */
+/**
+ * The pages a run or a demo opens, in the order the runsheet opens them.
+ *
+ * ⚠️ **Act 4's host page was missing from this list until 2026-08-16**, and it is the page with the
+ * worst cold cost in the whole demo: the vendored Navigator takes **15–25 s to first-parse** the
+ * ATT&CK bundle (recorded on 0181 / the runsheet's Act 4 header). So the one Act a presenter most
+ * needs warmed was the one Act this script skipped — the list was written while Act 4 was still
+ * considered unrunnable, and it never caught up when the Act landed. Same staleness class as 0190.
+ *
+ * Act 5's form page is here for the same reason: 0170 measures the first form open at **4.6–5.1 s**,
+ * against ~0.1 s warm.
+ */
 const PAGES = [
   `${SHOWCASE}/pages/incidents.html`,
   `${SHOWCASE}/forms/overview-local.html`,
   `${SHOWCASE}/forms/composer-local.html`,
+  `${SHOWCASE}/pages/attack-navigator.html`,
+  `${SHOWCASE}/forms/stixorm-forms/stix-forms/sdo-forms/identity-forms/identity-create.html`,
 ]
 
 const VERBOSE = process.argv.includes('--verbose')
