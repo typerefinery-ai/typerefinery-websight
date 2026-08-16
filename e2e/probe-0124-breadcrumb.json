@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Act 1 incidents",
+    "present": true,
+    "tag": "NAV",
+    "cls": "d-none col-lg-12 col-md-12 col-sm-12 ",
+    "text": "Admin Pages Content Default Header",
+    "items": 6,
+    "painted": false,
+    "size": "0×0"
+  },
+  {
+    "name": "Act 2 overview",
+    "present": true,
+    "tag": "NAV",
+    "cls": "order-first w-100 col-lg-12 col-md-12 col-sm-12 ",
+    "text": "OS-Triage Overview Local",
+    "items": 4,
+    "painted": true,
+    "size": "1030×81"
+  },
+  {
+    "name": "Act 3 composer",
+    "present": true,
+    "tag": "NAV",
+    "cls": "order-first w-100 col-lg-12 col-md-12 col-sm-12 ",
+    "text": "OS-Triage Composer - Local",
+    "items": 4,
+    "painted": true,
+    "size": "1280×81"
+  },
+  {
+    "name": "Act 4 navigator",
+    "present": true,
+    "tag": "NAV",
+    "cls": "d-none col-lg-12 col-md-12 col-sm-12 ",
+    "text": "Admin Pages Content Default Header",
+    "items": 6,
+    "painted": false,
+    "size": "0×0"
+  }
+]
