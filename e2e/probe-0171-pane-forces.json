@@ -1,0 +1,49 @@
+{
+  "found": [
+    {
+      "sim": "Widgets.Panel.Promo.promotable_sim",
+      "nodes": 8,
+      "forces": {
+        "charge": {
+          "strength": "(fn)"
+        },
+        "link": {
+          "strength": "(fn)",
+          "distance": "(fn)"
+        },
+        "collide": {
+          "strength": 1,
+          "radius": "(fn)"
+        },
+        "x": {
+          "strength": "(fn)"
+        },
+        "y": {
+          "strength": "(fn)"
+        }
+      }
+    },
+    {
+      "sim": "Widgets.Panel.Scratch.scratch_sim",
+      "nodes": 4,
+      "forces": {
+        "charge": {
+          "strength": "(fn)"
+        },
+        "link": {
+          "strength": "(fn)",
+          "distance": "(fn)"
+        },
+        "center": {
+          "strength": 1,
+          "centre": "228,199"
+        },
+        "collide": {
+          "strength": 1,
+          "radius": "(fn)"
+        }
+      }
+    }
+  ],
+  "error": null
+}
