@@ -687,7 +687,7 @@
                                             lgColSize="10"
                                             mdColSize="10"
                                             name="created_by_ref"
-                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;identity&quot;,&quot;object_field&quot;:&quot;created_by_ref&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="heading"/>
+                                            smColSize="10" readOptionsFromDataSource="https://flow.typerefinery.localhost:8101/stix-orm/utils/connections" readMethod="POST" readPayload="{&quot;object_type&quot;:&quot;identity&quot;,&quot;object_field&quot;:&quot;created_by_ref&quot;}" readPayloadType="application/json" keyNameInOptionList="tooltip.id" labelNameInOptionList="tooltip.name"/>
                                     </reference>
                                     <timestamp_1
                                         jcr:primaryType="nt:unstructured"
