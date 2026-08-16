@@ -86,6 +86,28 @@ public class Select extends BaseFormComponent {
     @Inject
     public String defaultSelectedOptions;
 
+    /**
+     * The options for this select are supplied by the HOST at runtime, not by the server and not by
+     * any configured source.
+     *
+     * alpha-launch docs/issues/0193. The clientlib degrades an option-less select to a free-text
+     * input (docs/issues/0150), because a select with no options source is a locked empty dropdown
+     * whose property can never be set. That rule tests "are there 0 options right now?" and treats it
+     * as "there is no source" — which is wrong for a field whose options depend on choices the
+     * analyst has not made yet, and are posted in afterwards. The SRO modal's relationship type is
+     * the known instance: its valid values depend on the source and target objects, so the server
+     * cannot render them.
+     *
+     * Setting this keeps the select alive with an empty list, ready to be filled.
+     *
+     * ⚠️ Deliberately says WHEN the options arrive, never WHAT they are — this component is platform,
+     * not application, and must stay data-agnostic.
+     */
+    @Getter
+    @Inject
+    @Default(booleanValues = false)
+    public Boolean deferredOptions;
+
     @Getter
     @Inject
     public String readOptionsFromDataSource;

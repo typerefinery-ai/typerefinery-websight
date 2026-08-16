@@ -766,7 +766,23 @@ window.Typerefinery.Components.Forms.Select.Instances = Typerefinery.Components.
           // stixorm forms is the known instance (STIX labels is free-form; the API coerces a
           // bare string into the list — measured, 0150's 2026-08-12 section).
           const domOptions = $component.find('option').filter((_, o) => String(o.value ?? '').trim() !== '').length;
-          if (domOptions === 0) {
+          // alpha-launch docs/issues/0193 — the rule above asks "are there 0 options RIGHT NOW?" and
+          // treats that as "there is no source". There is a third possibility it did not model: the
+          // options have a source, and that source is **the host, later**. The SRO modal's
+          // `relationship_type` is exactly that — the valid types depend on which two objects the
+          // analyst picked, so the server cannot render them and they arrive by post afterwards.
+          //
+          // Degrading it replaced the <select> with a text input before the types could arrive, and
+          // the three valid types then landed in one box as "derived-from,duplicate-of,related-to"
+          // under a heading reading "Please Select the Relationship Type".
+          //
+          // ⚠️ Opt-IN, deliberately. 0150's rule is correct for its own case and its 19 known
+          // controls must keep degrading exactly as they do; only a field that declares itself
+          // host-populated is exempt, and nothing else declares it. Kept domain-agnostic: the flag
+          // says WHEN options arrive, never WHAT they contain.
+          if (domOptions === 0 && componentConfig.deferredOptions) {
+            console.log("select: 0 options but deferredOptions is set — keeping the select for the host to fill (docs/issues/0193)", componentConfig.id);
+          } else if (domOptions === 0) {
             console.warn("select: no options from any source — degrading to free-text input (docs/issues/0150)", componentConfig.id);
             ns.degradeToFreeText($component, componentConfig, defaultSelectedOptions);
             console.groupEnd();

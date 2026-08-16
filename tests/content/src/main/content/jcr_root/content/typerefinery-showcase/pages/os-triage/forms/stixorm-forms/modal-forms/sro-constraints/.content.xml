@@ -164,6 +164,7 @@
                                         <field
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="typerefinery/components/forms/fields/select"
+                                            deferredOptions="{Boolean}true"
                                             id="field_0ZB9CYXZV"
                                             label="Select"
                                             name="relationship_type"/>
