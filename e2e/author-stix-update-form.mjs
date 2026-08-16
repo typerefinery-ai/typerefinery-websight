@@ -19,6 +19,8 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { retarget } from './form-retarget.mjs'
+import { pageToVaultXml, parseVaultXml } from './vault-xml.mjs'
+import { makeLiveJsonDeep } from './live-json.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WORKSPACE = path.resolve(__dirname, '..', '..')
@@ -30,6 +32,7 @@ const ONLY = (process.argv.find((a) => a.startsWith('--only')) || '').split('=')
 
 const FORMS = '/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms'
 const PKG = path.join(WORKSPACE, 'typerefinery/services/fastapi/__packages__/Python311/site-packages')
+const liveJsonDeep = makeLiveJsonDeep(CMS, AUTH)
 
 /**
  * ⚠️ The templates are chosen per family, not arbitrarily. An SCO has no `created`/`modified`, so
@@ -225,5 +228,48 @@ for (const t of TYPES.filter((t) => !ONLY || t.type === ONLY)) {
   const ok = heading.toLowerCase().startsWith(t.type.replaceAll('-', ' ')) && typeValue === (t.stixType || t.type)
   console.log(
     `  GET ${name}.html -> ${check.status}, ${inputs} input(s) | h1="${heading}" type="${typeValue}" ${ok ? 'OK' : '❌ MISLABELLED'}`,
+  )
+
+  /**
+   * Second leg — write the same page into the CONTENT PACKAGE. docs/issues/0194.
+   *
+   * ⚠️ Without this the form exists only in the running CMS, and a content-package redeploy deletes
+   * it. Seven pages were in that state when this was written — including `impact`, serving since
+   * 2026-08-04, and Act 2's `incident-update`. `audit-package-vs-live-content.mjs` could not see any
+   * of them, because it enumerates the package.
+   *
+   * The tree written here is the SAME object that was posted, so package and live cannot disagree by
+   * construction — which is the point. It is written only after the served-page check above passes;
+   * exporting a form that renders as the wrong type would just make the mistake durable.
+   */
+  if (!ok) {
+    console.log('  ⚠️ not exported to the package — the served page did not verify')
+    continue
+  }
+  // ⚠️ Export what the CMS STORED, not what was posted. Serialising the posted tree looks equivalent
+  // and is not: the servlet stores some JSON values with a different type, so a posted boolean `true`
+  // came back as the string `"true"` and the package got `{Boolean}true` against a live `"true"` —
+  // one attr diff on a page that had just been written from the same object. Reading the live node
+  // back makes package == live by construction, which is the whole point of the export.
+  const liveTree = await liveJsonDeep(`${parent}/${name}`)
+  if (!liveTree) {
+    console.log('  ⚠️ not exported — could not read the stored page back as JSON')
+    continue
+  }
+  const pkgDir = path.join(
+    WORKSPACE,
+    'typerefinery-websight/tests/content/src/main/content/jcr_root',
+    `${parent}/${name}`.replace(/^\//, ''),
+  )
+  fs.mkdirSync(pkgDir, { recursive: true })
+  const xmlPath = path.join(pkgDir, '.content.xml')
+  fs.writeFileSync(xmlPath, pageToVaultXml(liveTree))
+  // Read it back through the audit's own parser: a file this tool cannot re-read is a file the
+  // reconciliation cannot compare.
+  let reparsed = null
+  try { reparsed = parseVaultXml(fs.readFileSync(xmlPath, 'utf8')) } catch (e) { /* reported below */ }
+  console.log(
+    `  package: wrote ${path.relative(WORKSPACE, xmlPath).replace(/\\/g, '/')}` +
+      ` — re-parse ${reparsed ? `OK (${reparsed.children.length} child node(s))` : '🚩 FAILED'}`,
   )
 }

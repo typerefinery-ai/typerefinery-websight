@@ -26,6 +26,8 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { escapeXml, unescapeXml, decodeName, encodeName, parseVaultXml, serializeNode } from './vault-xml.mjs'
+import { makeLiveJsonDeep } from './live-json.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PKG_ROOT = path.resolve(
@@ -37,10 +39,8 @@ const auth = 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64')
 const VERBOSE = process.argv.includes('--verbose')
 const APPLY = process.argv.includes('--apply')
 const WRITE_NODES = process.argv.includes('--write-live-only')
+const liveJsonDeep = makeLiveJsonDeep(CMS, auth)
 
-const escapeXml = (v) =>
-  v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-   .replace(/\r/g, '&#xd;').replace(/\n/g, '&#xa;')
 
 // The property classes the live fix/author scripts have been changing. Anything outside this
 // list may still drift but is not what the reconciliation is about (ids, timestamps, layout).
@@ -57,50 +57,10 @@ const WHITELIST = new Set([
   'classes', 'flexEnabled', 'hideInNav', 'startLevel', 'readOnly', 'disabled', 'buttonStyle', 'isOutlinedButton',
 ])
 
-// Vault ISO9075-encodes element names that XML cannot express — a child named "0" is stored as
-// <_x0030_>. Decode for comparison with live JSON names (which are the real JCR names); without
-// this, every numbered child reports as a pkg-only/live-only PAIR (652 of the first run's ~890
-// "structural drift" lines were this artifact).
-const decodeName = (n) => n.replace(/_x([0-9a-fA-F]{4})_/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
-
-const unescapeXml = (v) =>
-  v.replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-   .replace(/&#xd;/gi, '\r').replace(/&#xa;/gi, '\n').replace(/&amp;/g, '&')
-
-/** Minimal vault-XML → tree. Returns {name, props, children[]} for jcr:root. */
-function parseVaultXml(xml) {
-  const tokens = [...xml.matchAll(/<(\/?)([\w:.\-]+)((?:"[^"]*"|[^>"])*?)(\/?)>/gs)]
-  const root = { name: '(root)', props: {}, children: [] }
-  const stack = [root]
-  for (const [, close, name, attrText, selfClose] of tokens) {
-    if (name.startsWith('?')) continue
-    if (close) { stack.pop(); continue }
-    const node = { name: decodeName(name), props: {}, children: [] }
-    for (const [, k, v] of attrText.matchAll(/([\w:.\-]+)="([^"]*)"/g)) node.props[k] = unescapeXml(v)
-    stack[stack.length - 1].children.push(node)
-    if (!selfClose) stack.push(node)
-  }
-  return root.children[0] // jcr:root
-}
-
-// Inverse of decodeName — vault ISO9075 encoding for element names XML cannot express.
-const encodeName = (n) => n.replace(/^[0-9]|[^\w.\-]/g, (c) => `_x${c.charCodeAt(0).toString(16).padStart(4, '0')}_`)
-
-/** Serialize a live JSON subtree as vault XML, indented to sit at `depth` levels (4 spaces each). */
-function serializeNode(name, node, depth) {
-  const pad = '    '.repeat(depth)
-  const attrs = [`jcr:primaryType="${node['jcr:primaryType'] || 'nt:unstructured'}"`]
-  for (const [k, v] of Object.entries(node)) {
-    if (k === 'jcr:primaryType' || k.startsWith('jcr:created')) continue
-    if (v === null || typeof v === 'object') continue
-    const val = typeof v === 'boolean' ? `{Boolean}${v}` : String(v)
-    attrs.push(`${k}="${escapeXml(val) === '' ? '\\0' : escapeXml(val)}"`)
-  }
-  const children = Object.entries(node).filter(([, v]) => v && typeof v === 'object' && !Array.isArray(v))
-  const open = `${pad}<${encodeName(name)}\n${pad}    ${attrs.join(`\n${pad}    `)}`
-  if (!children.length) return `${open}/>\n`
-  return `${open}>\n${children.map(([cn, cv]) => serializeNode(cn, cv, depth + 1)).join('')}${pad}</${encodeName(name)}>\n`
-}
+// escapeXml / unescapeXml / decodeName / encodeName / parseVaultXml / serializeNode now
+// live in ./vault-xml.mjs, shared with author-stix-update-form.mjs (docs/issues/0194).
+// Two serialisers producing subtly different XML for the same tree is how this audit
+// starts reporting drift that is really a formatting difference.
 
 /**
  * Find the [start, end) span of the OPENING TAG of the element at `nodePath`
@@ -154,45 +114,6 @@ async function liveJson(pagePath) {
   return liveJsonDeep(`${pagePath}/jcr:content`)
 }
 
-/**
- * Two Sling depth traps, both hit by this audit (the .infinity.json vacuous-walk family):
- *  1. A too-deep selector answers **HTTP 300** with a paging array — `res.ok` is false, so a
- *     naive fetcher reports the page "missing" (which silently excluded the 16 biggest form
- *     pages, identity/indicator/task among them, from the first sizing run).
- *  2. A depth-N answer TRUNCATES SILENTLY below level N — nodes deeper than N simply vanish
- *     with no marker (identity-update's external-reference labels sit at level 14).
- * Fix: fetch at a workable depth, then re-fetch every node sitting AT the depth boundary —
- * those are the only nodes whose children could have been dropped.
- */
-async function liveJsonDeep(nodePath, depth = 10) {
-  const res = await fetch(`${CMS}${nodePath}.${depth}.json`, { headers: { Authorization: auth } })
-  const j = await res.json().catch(() => null)
-  if (!j) return null
-  if (Array.isArray(j)) {
-    // paging array (HTTP 300): node itself too big at this depth — take it shallow, recurse children
-    const shallow = await (await fetch(`${CMS}${nodePath}.1.json`, { headers: { Authorization: auth } })).json().catch(() => null)
-    if (!shallow || Array.isArray(shallow)) return null
-    for (const [k, v] of Object.entries(shallow)) {
-      if (v && typeof v === 'object' && !Array.isArray(v)) {
-        const child = await liveJsonDeep(`${nodePath}/${encodeURIComponent(k)}`, depth)
-        if (child) shallow[k] = child
-      }
-    }
-    return shallow
-  }
-  // re-fetch boundary nodes (at exactly `depth` levels down) — their children may be truncated
-  const refetch = async (node, subPath, level) => {
-    for (const [k, v] of Object.entries(node)) {
-      if (!v || typeof v !== 'object' || Array.isArray(v)) continue
-      if (level + 1 >= depth) {
-        const full = await liveJsonDeep(`${nodePath}${subPath}/${encodeURIComponent(k)}`, depth)
-        if (full) node[k] = full
-      } else await refetch(v, `${subPath}/${encodeURIComponent(k)}`, level + 1)
-    }
-  }
-  await refetch(j, '', 0)
-  return j
-}
 
 function compare(xmlNode, liveNode, nodePath, out) {
   // whitelist attribute diffs
