@@ -95,7 +95,15 @@ const geom = await frame.evaluate(() => {
   return out
 })
 
-console.log('pane fill on the STAGED incident (Phishing campaign - image5 walkthrough), 1280×800:\n')
+/**
+ * ⚠️ The viewport is part of the measurement, not a detail. A sibling probe,
+ * `e2e/probe-act3-pane-fill.mjs`, measures the SAME pane at **1600×1000**, where it is ~599×499 and
+ * the same cluster fills ~37% instead of ~61%. On 2026-08-16 those two numbers were compared and the
+ * difference written up as a regression that did not exist — see 0171's retraction. The second line
+ * exists so the denominator travels with the percentage.
+ */
+console.log('pane fill on the STAGED incident (Phishing campaign - image5 walkthrough), 1280×800:')
+console.log('⚠️ do NOT compare these percentages with probe-act3-pane-fill.mjs (1600×1000, larger pane)\n')
 for (const g of geom) {
   console.log(`  ${g.pane}`)
   console.log(`     nodes ${g.nodes} · pane ${g.paneSize} · cluster ${g.clusterSize} · fill ${g.fillPct}%`)

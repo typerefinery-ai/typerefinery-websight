@@ -32,6 +32,23 @@ const MAP = path.join(
 )
 
 console.log(`current_incident: ${JSON.parse(fs.readFileSync(MAP, 'utf8')).current_incident}`)
+/**
+ * ⚠️ **Print the viewport, because the fill percentage is meaningless without it.**
+ *
+ * There are TWO probes measuring this pane, at different viewports:
+ *   this file                    1600×1000  -> pane ~599×499
+ *   e2e/probe-0171-pane-fill.mjs 1280×800   -> pane ~456×398   <- the figure 0171 argues from
+ *
+ * On 2026-08-16 a reading of 37% from this probe was compared against 0171's recorded 61% and
+ * written up as a regression, with an explanation invented for a pane that had "grown". Nothing had
+ * grown: a bigger viewport gives a bigger pane, and the same cluster fills less of it. Re-run
+ * like-for-like, 0171's own probe reads 64% against its recorded 61%.
+ *
+ * 🔑 **Do not quote this probe's percentage into 0171, or compare it with anything from the other
+ * probe.** Use `probe-0171-pane-fill.mjs` for that issue's numbers; use this one for the wider
+ * screen. The denominator is the pane, and the pane is set by the viewport.
+ */
+console.log('viewport: 1600×1000  ⚠️ 0171 argues from probe-0171-pane-fill.mjs at 1280×800 — do not compare percentages across the two')
 
 const browser = await chromium.launch({ channel: 'chrome', headless: false })
 const page = await (
