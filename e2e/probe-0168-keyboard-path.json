@@ -1,0 +1,24 @@
+{
+  "order": [
+    "BUTTON[button] \"OS-Triage\"",
+    "BUTTON[button] \"Jupyter\"",
+    "BUTTON[button] \"Roaster\"",
+    "BUTTON[button] \"Attack-Flow\"",
+    "BUTTON[button] \"Workbench\"",
+    "BUTTON[button] \"D3FEND\"",
+    "BUTTON[button] \"Caldera\"",
+    "BUTTON[button] \"New Incident\""
+  ],
+  "target": {
+    "tag": "BUTTON",
+    "text": "New Incident",
+    "type": "button",
+    "tabindex": null,
+    "ariaHidden": null,
+    "stop": 8
+  },
+  "opened": {
+    "modal": true,
+    "frame": "https://cms.typerefinery.localhost:8101/content/typerefinery-showcase/pages/os-triage/forms/createincident.html?"
+  }
+}
