@@ -1,0 +1,36 @@
+[
+  {
+    "origin": "https://typerefinery-ai.github.io/widget-graph-viz-composer",
+    "pages": [
+      "forms/composer-public",
+      "forms/vizandform"
+    ],
+    "size": 183645,
+    "markers": "Promoted×0 Object×0"
+  },
+  {
+    "origin": "https://typerefinery-ai.github.io/widget-graph-viz-overview",
+    "pages": [
+      "forms/overview-public"
+    ],
+    "size": 64275,
+    "markers": "Promoted×0 Object×0"
+  },
+  {
+    "origin": "https://widgetdevcomposer.typerefinery.localhost:8101",
+    "pages": [
+      "forms/composer-local",
+      "forms/vizandform-local"
+    ],
+    "size": 288271,
+    "markers": "Promoted×3 Object×1"
+  },
+  {
+    "origin": "https://widgetdevoverview.typerefinery.localhost:8101",
+    "pages": [
+      "forms/overview-local"
+    ],
+    "size": 112240,
+    "markers": "Promoted×0 Object×0"
+  }
+]
