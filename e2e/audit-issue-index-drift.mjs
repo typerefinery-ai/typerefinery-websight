@@ -95,6 +95,22 @@ if (!headerRow) {
 const HEADER_CELLS = headerRow.split("|").length
 const STATUS_COL = headerRow.split('|').findIndex((c) => c.trim().toLowerCase() === 'status')
 const SEVERITY_COL = headerRow.split('|').findIndex((c) => c.trim().toLowerCase() === 'severity')
+/**
+ * ⚠️ **The narrative column is called `Title`, and guessing its name cost a silent gate.** This was
+ * first written as `/summary|description|what/`, which matched nothing, so `SUMMARY_COL` was `-1`
+ * and the prose check below was skipped on every row — while the script still printed
+ * `0 summary-prose disagreement(s)` and looked green. It was caught only by injecting a synthetic
+ * `CRITICAL` into a Low row and noticing the audit did not fire.
+ *
+ * That is this project's most-repeated defect (0100, 0108, 0150, 0163): **a check that passes
+ * because it never ran.** So the column is resolved by its real name AND its absence is fatal —
+ * a gate that cannot find its input must fail, never quietly pass.
+ */
+const SUMMARY_COL = headerRow.split('|').findIndex((c) => /^(title|summary|description)$/.test(c.trim().toLowerCase()))
+if (SUMMARY_COL < 0) {
+  console.error('FAIL - could not find the Title/Summary column; refusing to report a green prose check that never ran')
+  process.exit(1)
+}
 console.log(`index Status column = ${STATUS_COL} (from the header row)\n`)
 
 /**
@@ -124,6 +140,7 @@ const indexRowsFor = (id) =>
 let checked = 0
 let drift = 0
 let severityDrift = 0
+let proseDrift = 0
 let missing = 0
 let duplicated = 0
 let malformed = 0
@@ -250,6 +267,36 @@ for (const name of fs.readdirSync(ISSUES).filter((f) => /^\d{4}-.*\.md$/.test(f)
       severityDrift++
       console.log(`${id}  SEVERITY DRIFT — file says "${a}", index Severity column says "${b}"`)
     }
+
+    /**
+     * ⚠️ **The summary PROSE can shout a severity the columns have already retracted** — and the two
+     * checks above cannot see it, because they compare cells. Measured 2026-08-16: **0169's summary
+     * opened `🔴🔴 CRITICAL — … render with NO EDGES` while its Severity column said `Low` and its
+     * file had recorded the downgrade three days earlier.** Both cell checks passed. A reader
+     * scanning the index reads the prose, not the column, so the index was still advertising a
+     * resolved Critical.
+     *
+     * Deliberately narrow: only the literal word **CRITICAL** against a Low/Medium severity. A
+     * leading 🔴 is a *narrative* marker used all over this index ("🔴 RESCOPED twice — …"), and
+     * flagging it would produce ~13 false positives that train the reader to ignore this gate. The
+     * word is a claim; the emoji is punctuation.
+     */
+    if (SUMMARY_COL >= 0 && /^(low|medium)$/.test(a)) {
+      /**
+       * ⚠️ **Only the LEAD, not the whole cell.** These summaries are paragraphs that routinely
+       * *quote the claim they are retracting* — 0169's corrected row says `this row read "🔴🔴
+       * CRITICAL …" until 2026-08-16`, which is the fix, not the fault, and tripped this check as
+       * written. What misleads a reader scanning the index is what the row **opens** with, so that
+       * is what is tested. A retraction further down is the record working as intended.
+       */
+      const summary = String(cells[SUMMARY_COL] ?? '').slice(0, 140)
+      if (/\bCRITICAL\b/.test(summary)) {
+        proseDrift++
+        console.log(
+          `${id}  SUMMARY PROSE DRIFT — severity is "${a}" but the summary still asserts "CRITICAL"`,
+        )
+      }
+    }
   }
 }
 
@@ -276,11 +323,11 @@ for (const name of fs.readdirSync(ISSUES).filter((n) => /^\d{4}-.*\.md$/.test(n)
 
 console.log(
   `\n${checked} issue(s) cross-checked · ${drift} status disagreement(s) · ` +
-  `${severityDrift} severity disagreement(s) · ` +
+  `${severityDrift} severity disagreement(s) · ${proseDrift} summary-prose disagreement(s) · ` +
   `${duplicated} with duplicate index rows · ${collisions} id collision(s) · ` +
   `${malformed} malformed row(s) · ${missing} absent from the index · ${documentedSupersessions} documented supersession(s) · ` +
   `${staleness} stale front-matter date(s).`,
 )
-if (!drift && !severityDrift && !missing && !duplicated && !malformed && !collisions && !staleness) {
+if (!drift && !severityDrift && !proseDrift && !missing && !duplicated && !malformed && !collisions && !staleness) {
   console.log('index and frontmatter agree throughout.')
 }
