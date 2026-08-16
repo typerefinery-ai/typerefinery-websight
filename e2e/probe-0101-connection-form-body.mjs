@@ -103,6 +103,18 @@ if (OUT) {
 }
 
 await browser.close()
+
+// ⚠️ Put current_incident back. Staging is a side effect that outlives this process, and
+// "the suite changes current_incident as a side effect of a passing test" is a documented trap
+// (0169) — a later measurement that trusts whatever was left behind reads the wrong incident,
+// which is exactly the mistake this probe made on its first run.
+try {
+  execSync('node e2e/set-current-incident-by-ui.mjs 511d2ab7', { stdio: 'ignore', cwd: process.cwd() })
+  console.log('\n(restored the run card’s starting incident 511d2ab7)')
+} catch (e) {
+  console.log('\n⚠ could not restore current_incident: ' + String(e.message).slice(0, 80))
+}
+
 const empty = body.visibleControls === 0 || body.nonEmptyValues === 0
 console.log(`\n0101 ${empty ? 'REPRODUCES — modal mounted, form body unusable' : 'does NOT reproduce — the modal carries a populated form'}`)
 process.exit(empty ? 1 : 0)
