@@ -466,7 +466,7 @@
                         sling:resourceType="typerefinery/components/forms/fields/button"
                         label="AI Atlas"
                         id="itab_aiatlas_composerlocal"
-                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                        persistColorWhenThemeSwitches="{Boolean}true" disabled=""/>
                     <itab_mbc
                         jcr:primaryType="nt:unstructured"
                         buttonType="navigate"
@@ -476,7 +476,7 @@
                         sling:resourceType="typerefinery/components/forms/fields/button"
                         label="Malware MBC"
                         id="itab_mbc_composerlocal"
-                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                        persistColorWhenThemeSwitches="{Boolean}true" disabled=""/>
                     <itab_d3fend
                         jcr:primaryType="nt:unstructured"
                         buttonType="navigate"
@@ -486,7 +486,7 @@
                         sling:resourceType="typerefinery/components/forms/fields/button"
                         label="D3FEND"
                         id="itab_d3fend_composerlocal"
-                        persistColorWhenThemeSwitches="{Boolean}true"/>
+                        persistColorWhenThemeSwitches="{Boolean}true" disabled=""/>
                 </innertabs>
             </main>
                     <aside
