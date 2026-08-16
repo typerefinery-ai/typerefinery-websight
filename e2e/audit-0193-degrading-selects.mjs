@@ -42,13 +42,36 @@ const files = []
   }
 })(ROOT)
 
-/** Each `<tag ... sling:resourceType=".../fields/select" ... />` element, whitespace and all. */
-const SELECT_EL = /<[a-zA-Z_][\w:.-]*\s[^>]*?sling:resourceType="typerefinery\/components\/forms\/fields\/select"[^>]*?\/?>/gs
+/**
+ * Each select-field element, whitespace and all.
+ *
+ * ⚠️ TWO resource types, and a first version matched only the first — which reported **0** fields
+ * named `labels` while docs/issues/0150 says its rule was written for 19 of them. That gap was the
+ * clue: the `labels` controls are authored as `components/stix/forms/fields/select`, whose
+ * `.content.json` declares `sling:resourceSuperType: typerefinery/components/forms/fields/select`.
+ * It **inherits the generic component**, so it renders the same HTL and runs the same clientlib —
+ * the 0150 degradation applies to it identically. Missing it made this sweep's "1 remaining" a
+ * statement about a third of the selects in the tree.
+ */
+const SELECT_EL =
+  /<[a-zA-Z_][\w:.-]*\s[^>]*?sling:resourceType="typerefinery\/components\/(?:stix\/)?forms\/fields\/select"[^>]*?\/?>/gs
 
 const attr = (el, name) => {
   const m = el.match(new RegExp(`\\s${name}="([^"]*)"`))
   return m ? m[1] : null
 }
+
+/**
+ * Is an authored attribute actually SET?
+ *
+ * ⚠️ `\0` is WebSight's escape for the empty string in `.content.xml`, and it is authored explicitly
+ * all over this tree. A first version of this sweep tested `!!attr(...)`, which is true for the
+ * two-character string `\0` — so **14 of the 16 `labels` fields, whose
+ * `readOptionsFromDataSource` is authored EMPTY, were counted as having a data source**. That is why
+ * the sweep reported 0 fields named `labels` while 0150 says its rule was written for 19 of them,
+ * and it made the "will degrade" count an undercount rather than a conservative one.
+ */
+const isSet = (v) => v !== null && v.trim() !== '' && v.trim() !== '\\0' && v.trim() !== '\0'
 
 const rows = []
 for (const f of files) {
@@ -58,7 +81,7 @@ for (const f of files) {
     const name = attr(el, 'name') || '(unnamed)'
     const has = {
       selectOptions: /selectOptions/.test(xml.slice(m.index, m.index + 4000)) && /selectOptions/.test(el),
-      dataSource: !!attr(el, 'readOptionsFromDataSource'),
+      dataSource: isSet(attr(el, "readOptionsFromDataSource")),
       deferred: /^(\{Boolean\})?true$/i.test(attr(el, 'deferredOptions') || ''),
     }
     // selectOptions is authored as CHILD nodes, not an attribute — look just after the element for a
