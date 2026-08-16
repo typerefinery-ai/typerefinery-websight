@@ -126,18 +126,18 @@ record('P1-S7', after !== before ? 'PASS' : 'FAIL',
   `row click → ${after !== before ? after.split('/').pop() : 'no navigation'}`)
 
 // ---------- Act 2 ----------
-// docs/issues/0189 (second half) — pin Act 2 to the incident ITS steps document, for the same reason
-// Act 3 is pinned below: P1-S7 clicks `tbody tr`.first(), so without this Act 2 renders whichever
-// incident happens to sort first. The runsheet's Act 2 is written against "Potential phishing email -
-// Naive Smith" (27 nodes / 52 edges).
+// docs/issues/0189 — pin Act 2 to the incident the PRESENTER'S RUN CARD uses.
 //
-// ⚠️ The locator must discriminate: there are TWO rows whose name contains "Naive Smith" — the demo
-// incident and an "(earlier capture)" twin. Matching on the name alone would pick either, which is
-// precisely the non-determinism being removed here.
+// ⚠️ Corrected 2026-08-16: this first pinned Act 2 to "Potential phishing email - Naive Smith",
+// reading the P2-S1 step text ("the default incident"). The runsheet's demo run card — the section
+// headed 'This is the presenter's page' — is explicit that the order is: Act 1 on 511d2ab7, then
+// DRILL IN to 'Phishing campaign - image5 walkthrough', then Acts 2 AND 3 on 1a9e5000 ('no switch
+// needed'). Pinning Act 2 elsewhere reproduced 0189's own defect in the opposite direction: a gate
+// walking an incident the demo does not use for that Act.
 await page.goto(`${CMS}${P}/pages/incidents.html`, { waitUntil: 'domcontentloaded' })
 await page.waitForSelector('tbody tr', { timeout: 40_000 }).catch(() => {})
 await page.waitForTimeout(2_500)
-const act2Row = page.locator('tbody tr', { hasText: 'Naive Smith' }).filter({ hasNotText: 'earlier capture' }).first()
+const act2Row = page.locator('tbody tr', { hasText: 'image5 walkthrough' }).first()
 const act2RowFound = (await act2Row.count()) > 0
 if (act2RowFound) {
   await act2Row.locator('td').nth(1).click()
@@ -147,7 +147,7 @@ record(
   'P2-SETUP',
   act2RowFound ? 'PASS' : 'FAIL',
   act2RowFound
-    ? "drilled into the runsheet's Act 2 incident (Potential phishing email - Naive Smith)"
+    ? "drilled into the run card's Act 2 incident (Phishing campaign - image5 walkthrough)"
     : '⚠️ Act 2 incident row NOT FOUND — Act 2 below is running on whatever was current (0189)',
 )
 
