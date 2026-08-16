@@ -126,6 +126,31 @@ record('P1-S7', after !== before ? 'PASS' : 'FAIL',
   `row click → ${after !== before ? after.split('/').pop() : 'no navigation'}`)
 
 // ---------- Act 2 ----------
+// docs/issues/0189 (second half) — pin Act 2 to the incident ITS steps document, for the same reason
+// Act 3 is pinned below: P1-S7 clicks `tbody tr`.first(), so without this Act 2 renders whichever
+// incident happens to sort first. The runsheet's Act 2 is written against "Potential phishing email -
+// Naive Smith" (27 nodes / 52 edges).
+//
+// ⚠️ The locator must discriminate: there are TWO rows whose name contains "Naive Smith" — the demo
+// incident and an "(earlier capture)" twin. Matching on the name alone would pick either, which is
+// precisely the non-determinism being removed here.
+await page.goto(`${CMS}${P}/pages/incidents.html`, { waitUntil: 'domcontentloaded' })
+await page.waitForSelector('tbody tr', { timeout: 40_000 }).catch(() => {})
+await page.waitForTimeout(2_500)
+const act2Row = page.locator('tbody tr', { hasText: 'Naive Smith' }).filter({ hasNotText: 'earlier capture' }).first()
+const act2RowFound = (await act2Row.count()) > 0
+if (act2RowFound) {
+  await act2Row.locator('td').nth(1).click()
+  await page.waitForTimeout(8_000)
+}
+record(
+  'P2-SETUP',
+  act2RowFound ? 'PASS' : 'FAIL',
+  act2RowFound
+    ? "drilled into the runsheet's Act 2 incident (Potential phishing email - Naive Smith)"
+    : '⚠️ Act 2 incident row NOT FOUND — Act 2 below is running on whatever was current (0189)',
+)
+
 await page.goto(`${CMS}${P}/forms/overview-local.html`, { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(18_000)
 const viz = page.frameLocator('iframe[src*="widgetdevoverview"]').first()
