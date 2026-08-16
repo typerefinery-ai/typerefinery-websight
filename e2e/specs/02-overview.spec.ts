@@ -261,31 +261,91 @@ test.describe('Act 2 — Incident Overview', () => {
     //
     // So walk the graph and require that *every* form opened resolves. A 404 renders zero inputs,
     // which is exactly what this catches.
+    //
+    // ⚠️ docs/issues/0100 — this walk used to read "is there a form frame with inputs?" after each
+    // click, which is still true from the PREVIOUS click. It could not tell a click that opened a
+    // form from a click that did nothing, and 0049 measured that shape in a real run: "8/8 opened,
+    // all sequence-update.html".
+    //
+    // 0100's Option 1 said "assert the URL changed" — `probe-0100-p2s5-walk.mjs` shows that would be
+    // WRONG: 4 of 7 consecutive pairs legitimately share a URL, because several nodes are the same
+    // type (five `sequence` nodes in the demo incident all load `sequence-update.html`). The oracle
+    // that measured SAFE is **the frame navigated**: 8/8 clicks re-navigated the form frame, same
+    // URL included. So count `framenavigated` events rather than diffing URLs.
+    //
+    // ⚠️ Precondition, measured by the same probe's control C2: re-selecting the SAME node is
+    // short-circuited by the host and produces no navigation. Two *different* nodes of the same type
+    // do navigate. So this oracle is only valid while the walk clicks distinct nodes — which the
+    // one-per-icon selection below guarantees. Do not change it to click a node twice.
+    const formNav = (u: string) => /stixorm-forms/.test(u) && !/\/default(\.html)?$/.test(u)
+    let formNavs = 0
+    page.on('framenavigated', (f: any) => {
+      if (formNav(f.url())) formNavs++
+    })
+
+    // 0100 Option 2 — determinism. "The first 8 nodes the layout happens to produce" is a lottery:
+    // which families get exercised depends on force-simulation order, which is part of why P2-S5
+    // looked intermittent (docs/issues/0084). The node's icon `href` names its type
+    // (`rect-incident-ext`, `rect-step-single`, `rect-impact-availability`, …), so take the first
+    // node of each DISTINCT icon, sorted by icon name. Same set, same order, every run — and it
+    // spreads the walk across families instead of clicking five `sequence` nodes in a row.
+    //
+    // Walk EVERY distinct type, not the first N of them: the demo incident has 18 types and an
+    // alphabetical top-8 would never reach `step-*`/`sequence`, which is one of the families 0049
+    // was actually about. The cap is a runaway guard only, and it says so out loud when it bites
+    // rather than quietly reporting partial coverage as a clean walk.
+    //
+    // ⚠️ This needs more than the default 120 s, and the reason is itself a finding: every click in
+    // this walk opens a form type that has not been opened yet, so every click pays docs/issues/0170's
+    // ~3–7 s first-open cost. 18 types × that cost is the whole budget. Buy the time — the alternative
+    // is trimming the walk back to the head of the alphabet, which is how it missed `sequence` before.
+    test.setTimeout(300_000)
+    const CAP = 20
     const nodes = graph(page).locator(NODE)
-    const total = Math.min(await nodes.count(), 8)
+    const icons: string[] = await nodes.evaluateAll((els: Element[]) =>
+      els.map((e) => (e.getAttribute('href') || e.getAttribute('xlink:href') || '').split('/').pop() || '?'),
+    )
+    const firstOfIcon = new Map<string, number>()
+    icons.forEach((icon, i) => {
+      if (!firstOfIcon.has(icon)) firstOfIcon.set(icon, i)
+    })
+    const allTypes = [...firstOfIcon.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+    const walk = allTypes.slice(0, CAP)
+    if (walk.length < allTypes.length) {
+      observe(test.info(), 'note', `⚠️ walk capped at ${CAP} of ${allTypes.length} distinct node types`)
+    }
+
     const broken: string[] = []
     const opened: string[] = []
-    for (let i = 0; i < total; i++) {
+    for (const [icon, i] of walk) {
+      const navsBefore = formNavs
       await nodes.nth(i).click()
       let url = ''
       let inputs = 0
       for (let waited = 0; waited < 12_000; waited += 1_000) {
-        const frame = page.frames().find(
-          (f) => /stixorm-forms/.test(f.url()) && !/\/default(\.html)?$/.test(f.url()),
-        )
+        await page.waitForTimeout(1_000)
+        const frame = page.frames().find((f) => formNav(f.url()))
         if (frame) {
           url = frame.url()
           inputs = await frame.locator('input').count().catch(() => 0)
-          if (inputs > 0) break
+          // Both halves matter: THIS click navigated the frame, and what it loaded has fields.
+          if (formNavs > navsBefore && inputs > 0) break
         }
-        await page.waitForTimeout(1_000)
       }
       const form = url.split('/').slice(-1)[0] || '(no form frame)'
-      if (inputs === 0) broken.push(`${form} (0 inputs)`)
-      else opened.push(form)
+      if (formNavs === navsBefore) broken.push(`${icon} -> ${form} (click opened nothing)`)
+      else if (inputs === 0) broken.push(`${icon} -> ${form} (0 inputs)`)
+      else opened.push(`${icon}->${form}`)
     }
-    observe(test.info(), 'note', `left-select opened ${opened.length}/${total} forms: ${[...new Set(opened)].join(', ')}`)
-    expect(broken, `every left-selected node opened a form that resolves (0049)`).toEqual([])
+    observe(
+      test.info(),
+      'note',
+      `left-select walked ${walk.length} distinct node types (of ${firstOfIcon.size} present), ` +
+        `${opened.length} opened a form: ${opened.join(', ')}`,
+    )
+    expect(broken, `every left-selected node re-opened a form that resolves (0049, 0100)`).toEqual([])
+    // A walk that clicked one type over and over is the failure 0100 describes, not coverage.
+    expect(walk.length, 'the walk covered more than one node type').toBeGreaterThan(1)
   })
 
   step('P2-S6', async ({ page }) => {

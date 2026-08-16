@@ -1,0 +1,74 @@
+{
+  "rows": [
+    {
+      "i": 0,
+      "before": "(no form frame)",
+      "after": "incident-update.html",
+      "inputs": 14,
+      "navs": [
+        "incident-update.html"
+      ],
+      "sel": [
+        "open form for node incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba {object_family: stix-forms, object_group: sdo-forms, object_form: incident, form_path: stix-forms/sdo-forms/incident-forms/incident}",
+        "Node selected: {id: incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba, type: incident, icon: incident-ext, name: Potential phishing email - Naive Smith, heading: Extended-Incident}"
+      ]
+    },
+    {
+      "i": 1,
+      "before": "incident-update.html",
+      "after": "sequence-update.html",
+      "inputs": 18,
+      "navs": [
+        "sequence-update.html"
+      ],
+      "sel": [
+        "open form for node sequence--7800c98a-7a7b-4de5-b6e4-de1be2087b88 {object_family: stix-forms, object_group: sdo-forms, object_form: sequence, form_path: stix-forms/sdo-forms/sequence-forms/sequence}",
+        "Node selected: {id: sequence--7800c98a-7a7b-4de5-b6e4-de1be2087b88, type: sequence, icon: step-terminal, name: event, heading: Step-Terminal}"
+      ]
+    }
+  ],
+  "navs": [
+    {
+      "click": 0,
+      "url": "incident-update.html"
+    },
+    {
+      "click": 1,
+      "url": "sequence-update.html"
+    },
+    {
+      "click": "C2",
+      "url": "incident-update.html"
+    }
+  ],
+  "selections": [
+    {
+      "click": 0,
+      "text": "open form for node incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba {object_family: stix-forms, object_group: sdo-forms, object_form: incident, form_path: stix-forms/sdo-forms/incident-forms/incident}"
+    },
+    {
+      "click": 0,
+      "text": "Node selected: {id: incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba, type: incident, icon: incident-ext, name: Potential phishing email - Naive Smith, heading: Extended-Incident}"
+    },
+    {
+      "click": 1,
+      "text": "open form for node sequence--7800c98a-7a7b-4de5-b6e4-de1be2087b88 {object_family: stix-forms, object_group: sdo-forms, object_form: sequence, form_path: stix-forms/sdo-forms/sequence-forms/sequence}"
+    },
+    {
+      "click": 1,
+      "text": "Node selected: {id: sequence--7800c98a-7a7b-4de5-b6e4-de1be2087b88, type: sequence, icon: step-terminal, name: event, heading: Step-Terminal}"
+    },
+    {
+      "click": "C2",
+      "text": "open form for node incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba {object_family: stix-forms, object_group: sdo-forms, object_form: incident, form_path: stix-forms/sdo-forms/incident-forms/incident}"
+    },
+    {
+      "click": "C2",
+      "text": "Node selected: {id: incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba, type: incident, icon: incident-ext, name: Potential phishing email - Naive Smith, heading: Extended-Incident}"
+    },
+    {
+      "click": "C2",
+      "text": "Node selected: null"
+    }
+  ]
+}
