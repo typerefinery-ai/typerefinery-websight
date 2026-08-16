@@ -99,20 +99,38 @@ for (const f of files) {
   }
 }
 
+/**
+ * A field with NO name is a repeatable-row TEMPLATE prototype, not a rendered field.
+ *
+ * ⚠️ Measured 2026-08-16 on the two `\0`-named entries this sweep flagged on the sighting forms. Their
+ * served `data-model` puts them at
+ * `…/composite_2/field/one/container1/template_1/container/vocab/field` — inside a `template_1`
+ * container, i.e. the prototype the composite clones per row. That is why *every* attribute on them is
+ * `\0`: a prototype is configured when it is cloned, not where it is authored.
+ *
+ * A real field always carries a `name`, because that is what it serialises under. Separating them
+ * keeps the "needs a human call" list to fields that actually reach a screen.
+ */
+const isTemplatePrototype = (r) => r.name === '(unnamed)' || r.name === '\\0' || r.name === '\0'
+
 const willDegrade = rows.filter((r) => !r.dataSource && !r.deferred && !r.childOptions)
-const labelsLike = willDegrade.filter((r) => /^labels$/i.test(r.name))
-const others = willDegrade.filter((r) => !/^labels$/i.test(r.name))
+const templates = willDegrade.filter(isTemplatePrototype)
+const labelsLike = willDegrade.filter((r) => !isTemplatePrototype(r) && /^labels$/i.test(r.name))
+const others = willDegrade.filter((r) => !isTemplatePrototype(r) && !/^labels$/i.test(r.name))
 
 console.log(`${files.length} .content.xml file(s) · ${rows.length} select field(s) authored`)
 console.log(`  with a data source      : ${rows.filter((r) => r.dataSource).length}`)
 console.log(`  with authored options   : ${rows.filter((r) => r.childOptions).length}`)
 console.log(`  with deferredOptions    : ${rows.filter((r) => r.deferred).length}`)
-console.log(`  → will DEGRADE to text  : ${willDegrade.length}  (${labelsLike.length} named "labels", ${others.length} other)`)
+console.log(`  → will DEGRADE to text  : ${willDegrade.length}  (${labelsLike.length} named "labels", ${templates.length} template prototype(s), ${others.length} other)`)
 
 console.log(`\n"labels" — 0150's intended case, degrading is CORRECT (${labelsLike.length}):`)
 const byName = new Map()
 for (const r of labelsLike) byName.set(r.page, (byName.get(r.page) || 0) + 1)
 console.log(`  across ${byName.size} page(s)`)
+
+console.log(`\ntemplate prototypes — cloned per row, never rendered as a field, no action (${templates.length}):`)
+for (const r of templates) console.log(`  ${r.page}`)
 
 console.log(`\n⚠️ NOT "labels" — each needs a human call: free-text by design, or options-arrive-later like 0193? (${others.length}):`)
 for (const r of others) console.log(`  ${r.name.padEnd(28)} ${r.page}`)
