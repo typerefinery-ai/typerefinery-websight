@@ -1,0 +1,33 @@
+{
+  "found": [
+    {
+      "tag": "INPUT",
+      "type": "text",
+      "options": null,
+      "visible": true,
+      "readonly": false
+    }
+  ],
+  "typed": {
+    "kind": "input",
+    "canType": true,
+    "value": "phishing/email"
+  },
+  "logs": [
+    "[log] [event config, add-optional-template-once-half-width, emit, undefined, add-optional-template-once-half-width, BUTTON_CLICK, template_labels]",
+    "[log] [registerEventActionMapping, {\"emit\":{\"BUTTON_CLICK\":{\"button_I7JWBJHDX\":{\"add-…nce-half-width\",\"config\":\"template_revoked\"}]}}}}, add-optional-template-once-half-width, emit, BUTTON_CLICK, add-option",
+    "[log] {emit: Object} button_1_QAMQ95ZFX add-optional-template-once-half-width emit BUTTON_CLICK add-optional-template-once-half-width template_labels",
+    "[log] [registerEventActionMapping, {\"emit\":{\"BUTTON_CLICK\":{\"button_I7JWBJHDX\":{\"add-…once-half-width\",\"config\":\"template_labels\"}]}}}}]",
+    "[log] [registerEventActionMapping, {\"emit\":{\"BUTTON_CLICK\":{\"button_I7JWBJHDX\":{\"add-…once-half-width\",\"config\":\"template_labels\"}]}}}}, add-optional-template-once-half-width, emit, BUTTON_CLICK, add-option",
+    "[log] [form add-button labels rendered, 8, of, 8, icon-only button(s)]",
+    "[log] [topicValue, topic, add-optional-template-once-half-width, eventType, , eventId, button_1_QAMQ95ZFX, eventAction, BUTTON_CLICK, event, add-optional-template-once-half-width, actionComponent, add-optio",
+    "[log] config template_labels",
+    "[log] [eventConfig, template_labels]",
+    "[log] eventConfig is not an object and there is no usable default, using as is template_labels",
+    "[log] combinedConfig template_labels",
+    "[log] eventData {type: add-optional-template-once-half-width, payload: Object, action: BUTTON_CLICK, componentId: button_1_QAMQ95ZFX, config: template_labels}",
+    "[log] config template_labels",
+    "[log] event emitted add-optional-template-once-half-width {type: add-optional-template-once-half-width, payload: Object, action: BUTTON_CLICK, componentId: button_1_QAMQ95ZFX, config: template_labels}",
+    "[warning] select: no options from any source ? degrading to free-text input (docs/issues/0150) composite_2_XL1MRZEVE-field_TFHYUKDYW-vocab_4EX5YA0JM-field_IDSYE6AFV"
+  ]
+}
