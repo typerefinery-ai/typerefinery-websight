@@ -71,9 +71,89 @@ walk(root)
 console.log(`scanned ${scanned} markdown files under ${root}`)
 for (const [why, n] of ignored) console.log(`  ignored ${n} known-benign byte(s): ${why}`)
 
+// ---------------------------------------------------------------------------
+// Pass 2 — dangling tombstones. alpha-launch docs/issues/0130.
+//
+// A de-dup pass overwrote nine primary records (0102-0110) with ~1 KB tombstones, each pointing at
+// a filename the same pass had already deleted. Eight of the nine targets did not exist, so the
+// records were not superseded but DESTROYED - and every one of them read as an orderly merge. It
+// was found by accident, ten minutes later, and only recovered because %TEMP% had not yet been
+// cleared. There is no VCS under docs/ (0092), so there was nothing else to fall back on.
+//
+// ⚠️ The gate is "is this file ITSELF a tombstone", never "does this file contain tombstone words".
+// 0130 quotes the exact dangling filename while describing the incident, and a phrase scan would
+// flag the record that documents the damage - the same false-positive shape that has already
+// tripped three checks in this suite by matching quoted text in a correction.
+//
+// A legitimate tombstone (the known 0078 DUP-ID pair) points at a file that exists, and passes.
+const isSupersededStatus = (text) => {
+  const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!fm) return false
+  const status = fm[1].match(/^status:\s*(.*)$/m)
+  return !!status && /^["']?superseded/i.test(status[1].trim())
+}
+
+const referencedDocs = (text) => {
+  const out = new Set()
+  // markdown links: [...](./0103-foo.md) or (0103-foo.md#anchor)
+  for (const m of text.matchAll(/\]\(([^)]+?\.md)(?:#[^)]*)?\)/g)) out.add(m[1])
+  // bare backticked filenames: `0103-foo.md`
+  for (const m of text.matchAll(/`([^`\s]+\.md)`/g)) out.add(m[1])
+  return [...out].filter((r) => !/^https?:/i.test(r))
+}
+
+const tombstones = []
+const dangling = []
+
+const walkTombstones = (dir) => {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'test-output') continue
+      walkTombstones(p)
+    } else if (entry.name.endsWith('.md')) {
+      const text = fs.readFileSync(p, 'utf8')
+      if (!isSupersededStatus(text)) continue
+      const refs = referencedDocs(text)
+      const resolved = refs.filter((r) => fs.existsSync(path.resolve(path.dirname(p), r)))
+      const rec = { file: p, bytes: Buffer.byteLength(text), refs, resolved }
+      tombstones.push(rec)
+      // A tombstone must point somewhere real. No pointer at all is just as unrecoverable as a
+      // pointer that dangles - the content is gone either way.
+      if (!resolved.length) dangling.push(rec)
+    }
+  }
+}
+
+walkTombstones(root)
+
+console.log(`\n${tombstones.length} superseded record(s) checked for a resolvable canonical target`)
+for (const t of tombstones) {
+  const mark = t.resolved.length ? 'ok  ' : '🚩 '
+  console.log(`  ${mark}${t.file}  ${t.bytes} bytes  ${t.resolved.length}/${t.refs.length} target(s) resolve`)
+}
+
+if (dangling.length) {
+  console.log(`\n🚩 ${dangling.length} SUPERSEDED record(s) whose canonical target does not exist:`)
+  for (const d of dangling) {
+    console.log(`  ${d.file}  (${d.bytes} bytes)`)
+    if (d.refs.length) for (const r of d.refs) console.log(`     points at: ${r}  — MISSING`)
+    else console.log('     points at: nothing at all')
+  }
+  console.log('\nA tombstone whose target does not exist reads as an orderly merge while the record is')
+  console.log('actually destroyed, and docs/ has no VCS to recover from. See docs/issues/0130.')
+}
+
+if (!damage.length && !dangling.length) {
+  console.log('\nno control-byte damage found; every superseded record resolves')
+  process.exit(0)
+}
+
+if (dangling.length) process.exitCode = 1
+
 if (!damage.length) {
   console.log('\nno control-byte damage found')
-  process.exit(0)
+  process.exit(process.exitCode || 0)
 }
 
 console.log(`\n🚩 ${damage.length} control byte(s) that should not be there:`)
