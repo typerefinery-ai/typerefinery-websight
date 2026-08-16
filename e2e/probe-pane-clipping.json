@@ -1,0 +1,69 @@
+[
+  {
+    "pane": "tree_svg",
+    "paneSize": "170×148",
+    "checked": 12,
+    "clipped": [
+      {
+        "tag": "g",
+        "text": "+Naive User",
+        "over": {
+          "right": 56
+        },
+        "px": 56
+      },
+      {
+        "tag": "text",
+        "text": "Naive User",
+        "over": {
+          "right": 56
+        },
+        "px": 56
+      },
+      {
+        "tag": "g",
+        "text": "+User Report",
+        "over": {
+          "right": 64
+        },
+        "px": 64
+      },
+      {
+        "tag": "text",
+        "text": "User Report",
+        "over": {
+          "right": 64
+        },
+        "px": 64
+      },
+      {
+        "tag": "g",
+        "text": "−Evidence List",
+        "over": {
+          "right": 32
+        },
+        "px": 32
+      },
+      {
+        "tag": "text",
+        "text": "Evidence List",
+        "over": {
+          "right": 32
+        },
+        "px": 32
+      }
+    ]
+  },
+  {
+    "pane": "promo_svg",
+    "paneSize": "456×398",
+    "checked": 17,
+    "clipped": []
+  },
+  {
+    "pane": "scratch_svg",
+    "paneSize": "456×398",
+    "checked": 9,
+    "clipped": []
+  }
+]
