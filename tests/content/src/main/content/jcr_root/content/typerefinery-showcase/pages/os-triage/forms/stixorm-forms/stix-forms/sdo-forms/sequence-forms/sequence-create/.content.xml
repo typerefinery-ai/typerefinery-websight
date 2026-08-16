@@ -1317,7 +1317,7 @@
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="typerefinery/components/forms/fields/label"
                                                     id="label_TBRVHCGTO"
-                                                    label="object_marking_refs,"/>
+                                                    label="Object Marking Refs"/>
                                                 <field
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="typerefinery/components/stix/forms/fields/input"
