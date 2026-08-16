@@ -26,6 +26,7 @@ const PAGES = [
   ['Act 2 overview', `${BASE}/forms/overview-local.html`],
   ['Act 3 composer', `${BASE}/forms/composer-local.html`],
   ['Act 4 navigator', `${BASE}/pages/attack-navigator.html`],
+  ['notes (precedent)', `${BASE}/pages/notes.html`],
 ]
 
 const browser = await chromium.launch()
@@ -41,18 +42,26 @@ for (const [name, url] of PAGES) {
   await page.waitForLoadState('networkidle', { timeout: 60_000 }).catch(() => {})
   await page.waitForTimeout(3_000)
   const r = await page.evaluate(() => {
-    const el = document.querySelector('[class*="breadcrumb"], nav[aria-label*="readcrumb"]')
-    if (!el) return { present: false }
-    const box = el.getBoundingClientRect()
-    return {
-      present: true,
-      tag: el.tagName,
-      cls: (el.className || '').slice(0, 60),
-      text: (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80),
-      items: el.querySelectorAll('li, a').length,
-      painted: box.width > 0 && box.height > 0,
-      size: `${Math.round(box.width)}×${Math.round(box.height)}`,
-    }
+    // ⚠️ Every `pages/*` page carries the SHARED HEADER's breadcrumb too, and it sits earlier in the
+    // DOM with `class="breadcrumb d-none"`. `querySelector` returns that one, so a first-match probe
+    // reports "not painted" no matter what the page's own node does — which is exactly what happened
+    // after authoring one here. Enumerate ALL of them and report the painted one if there is one.
+    const all = [...document.querySelectorAll('[class*="breadcrumb"], nav[aria-label*="readcrumb"]')]
+      .filter((el) => /breadcrumb(\s|$|-)/.test(el.className || '') || el.tagName === 'NAV')
+      .map((el) => {
+        const box = el.getBoundingClientRect()
+        return {
+          tag: el.tagName,
+          cls: (el.className || '').slice(0, 40),
+          text: (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80),
+          items: el.querySelectorAll('li, a').length,
+          painted: box.width > 0 && box.height > 0,
+          size: `${Math.round(box.width)}×${Math.round(box.height)}`,
+        }
+      })
+    if (!all.length) return { present: false, all: [] }
+    const painted = all.find((e) => e.painted && e.text)
+    return { present: true, ...(painted || all[0]), candidates: all.length, all }
   })
   rows.push({ name, ...r })
   console.log(

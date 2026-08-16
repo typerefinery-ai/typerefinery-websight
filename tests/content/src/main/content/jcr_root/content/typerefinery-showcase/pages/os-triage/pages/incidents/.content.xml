@@ -215,6 +215,12 @@
                         </table>
                     </container2>
                 </form>
+                            <breadcrumbs
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="typerefinery/components/layout/breadcrumbs"
+                    startLevel="3"
+                    id="breadcrumbs_incidents"
+                    classes="order-first w-100"/>
             </container1>
         </rootcontainer>
     </jcr:content>
