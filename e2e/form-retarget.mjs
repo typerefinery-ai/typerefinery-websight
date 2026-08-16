@@ -25,7 +25,18 @@ export const titleCase = (type) =>
  * shortcut produced a `writeUrl` of `stix-forms/sdo-forms/impact-forms/…`, a path with no resource
  * behind it. The endpoint is rebuilt from the target path rather than patched.
  */
-export const retarget = (tree, type, templateType, targetPath) => {
+/**
+ * @param stixType the value that SERIALISES, when it differs from the form's name.
+ *
+ * ⚠️ They are the same for every type authored before 2026-08-16, and the difference matters:
+ * `x-mitre-tactic`'s form is named `attack-tactic` (that is what the resolver routes to), but an
+ * object saved through it must serialise as `x-mitre-tactic`. Passing the form name here would write
+ * a STIX object of a type that does not exist — the failure the comment on `typeField` below already
+ * warns about, arriving through the file name instead of the value. docs/issues/0049.
+ *
+ * Defaults to `type`, so every existing caller is unchanged.
+ */
+export const retarget = (tree, type, templateType, targetPath, stixType = type) => {
   const content = tree['jcr:content']
   const header = content.rootcontainer.header?.two
   const form = content.rootcontainer.main.form
@@ -44,8 +55,8 @@ export const retarget = (tree, type, templateType, targetPath) => {
   // The `type` constant is NOT a caption — it is the value that serialises. An incident saved
   // through a form whose type reads `identity` is written as an identity.
   const typeField = form.composite?.field?.one?.container1?.string?.field
-  set(typeField, 'value', type, 'type value')
-  set(typeField, 'placeholder', type, 'type placeholder')
+  set(typeField, 'value', stixType, 'type value')
+  set(typeField, 'placeholder', stixType, 'type placeholder')
 
   // The form must post to ITS OWN path, not the template's. Rebuild from the target path so the
   // ROOT changes too (os-threat-forms vs stix-forms), keeping the template's origin and suffix.

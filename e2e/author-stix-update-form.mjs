@@ -44,6 +44,34 @@ const TYPES = [
   // real impact node. Using the stix-forms root produced a 404 "no resource at …".
   { type: 'impact',          cls: 'Impact',         py: 'stixorm/module/definitions/os_threat/classes.py', group: 'sdo-forms', root: `${FORMS.replace('/stix-forms', '')}/os-threat-forms`, template: `${FORMS}/sdo-forms/identity-forms/identity-update` },
   { type: 'malware',         cls: 'Malware',        py: 'stix2/v21/sdo.py',         group: 'sdo-forms', template: `${FORMS}/sdo-forms/identity-forms/identity-update` },
+  // docs/issues/0049 — Act 4's second half. P4-S3/S4 copy an ATT&CK technique and tactic into
+  // Scratch, and both land correctly; an analyst who then left-selects one gets a 404, because
+  // neither type has a form anywhere. "Copy this technique" is only half the capability if the copy
+  // cannot then be worked on.
+  //
+  // ⚠️ The two targets were settled EMPIRICALLY, by copying both objects through Act 4's own route
+  // and reading the stored wrappers' resolved family/group/form — not from the registry, which
+  // suggests a different answer. A technique does NOT resolve to `attack-technique`: that row tests
+  // `EQUALS x_mitre_is_subtechnique = FALSE`, comparing a JSON boolean against the STRING "FALSE",
+  // which fails, so the object falls through to the DEFAULT row under `stix-forms`. Authoring
+  // `attack-technique` would have produced a form nothing ever routes to.
+  { type: 'attack-pattern',  cls: 'AttackPattern',  py: 'stix2/v21/sdo.py',         group: 'sdo-forms', template: `${FORMS}/sdo-forms/identity-forms/identity-update` },
+  // `x-mitre-tactic` resolves into `attack-forms`, and its form is named `attack-tactic` — the form
+  // name is NOT the STIX type here, which is why `type` and `cls` disagree. Same shape as `impact`
+  // above: an os-threat/ATT&CK type whose family root is not `stix-forms`.
+  {
+    type: 'attack-tactic',
+    // ⚠️ The value that SERIALISES, and it is not the form name. `Tactic._type` is `x-mitre-tactic`;
+    // a tactic saved through a form whose type field reads `attack-tactic` would be written as a
+    // STIX type that does not exist. The form is named for what the resolver routes to, the type
+    // field for what the object IS.
+    stixType: 'x-mitre-tactic',
+    cls: 'Tactic',
+    py: 'stixorm/module/definitions/attack/classes.py',
+    group: 'sdo-forms',
+    root: `${FORMS.replace('/stix-forms', '')}/attack-forms`,
+    template: `${FORMS}/sdo-forms/identity-forms/identity-update`,
+  },
 ]
 
 const propsOf = (file, className) => {
@@ -167,13 +195,20 @@ for (const t of TYPES.filter((t) => !ONLY || t.type === ONLY)) {
   // docs/issues/0158 — strip the TEMPLATE's identity before writing, or the page renders as the
   // form it was cloned from and posts to that form's endpoint.
   const templateType = t.template.split('/').pop().replace('-update', '')
-  for (const line of retarget(tree, t.type, templateType, `${parent}/${name}`)) console.log(`  retarget ${line}`)
+  for (const line of retarget(tree, t.type, templateType, `${parent}/${name}`, t.stixType || t.type)) console.log(`  retarget ${line}`)
 
   stripReserved(tree)
 
   if (!APPLY) { console.log(`  would create ${parent}/${name}`); continue }
 
+  // ⚠️ The GROUP folder is not guaranteed to exist. `stix-forms` and `os-threat-forms` already have
+  // `sdo-forms`, so every type authored before 2026-08-16 found its parent waiting. `attack-forms`
+  // has **0 children** (docs/issues/0049), so the page POST failed with
+  // `no resource at …/attack-forms/sdo-forms/attack-tactic-forms` while the folder POST reported 404
+  // and was not read. Create the group first, and treat "already exists" as fine.
+  const group = await post({ parent: root, name: t.group, json: JSON.stringify({ 'jcr:primaryType': 'sling:Folder' }) })
   const folder = await post({ parent: `${root}/${t.group}`, name: `${t.type}-forms`, json: JSON.stringify({ 'jcr:primaryType': 'sling:Folder' }) })
+  if (group.status !== 200) console.log(`  group ${root.split('/').pop()}/${t.group}: ${group.status} (already present is fine)`)
   const page = await post({ parent, name, json: JSON.stringify(tree) })
   const body = await page.text()
   console.log(`  folder ${folder.status} · page ${page.status} ${body.slice(0, 90)}`)
@@ -187,7 +222,7 @@ for (const t of TYPES.filter((t) => !ONLY || t.type === ONLY)) {
   const heading = (/<h1>\s*([^<]+?)\s*<\/h1>/.exec(html) || [, '(none)'])[1]
   const typeValue = (/name="type"[^>]*\svalue="([^"]*)"/.exec(html) || [, '(none)'])[1]
   const inputs = (html.match(/<input/g) || []).length
-  const ok = heading.toLowerCase().startsWith(t.type.replaceAll('-', ' ')) && typeValue === t.type
+  const ok = heading.toLowerCase().startsWith(t.type.replaceAll('-', ' ')) && typeValue === (t.stixType || t.type)
   console.log(
     `  GET ${name}.html -> ${check.status}, ${inputs} input(s) | h1="${heading}" type="${typeValue}" ${ok ? 'OK' : '❌ MISLABELLED'}`,
   )
