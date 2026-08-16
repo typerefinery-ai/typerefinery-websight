@@ -343,3 +343,55 @@ console.log(`whitelist attribute diffs: ${totals.attrDiffs}`)
 console.log(`package-only nodes: ${totals.pkgOnly}   live-only nodes: ${totals.liveOnly}`)
 console.log('\nattr diffs are the safely-writable class (v2 --apply will update them in place);')
 console.log('node-level drift needs the authored-content story per node — never auto-written.')
+
+/**
+ * Pass 2 — LIVE-ONLY PAGES. docs/issues/0194.
+ *
+ * ⚠️ Everything above walks the PACKAGE and asks live about each page it finds. A page that exists
+ * ONLY live is therefore never enumerated, and `live-only nodes: 0` above is not a measurement of
+ * live-only content — it is a count of extra nodes *inside pages the package already knows about*.
+ *
+ * That distinction cost six forms. `author-stix-update-form.mjs` writes through the `component-node`
+ * servlet and nothing writes back into `tests/content`, so `impact`, `process`, `network-traffic`,
+ * `malware`, `attack-pattern` and `attack-tactic` all serve 200 and none is in the package — and this
+ * audit reported a clean bill of health immediately after two of them were created.
+ *
+ * So: walk the LIVE tree and report any page the package does not have. A page is a node with a
+ * `jcr:content` child.
+ */
+const pkgPages = new Set(
+  files
+    .map((f) => path.relative(PKG_ROOT, path.dirname(f)).replace(/\\/g, '/'))
+    .map((rel) => (rel === '' ? '' : rel)),
+)
+
+const liveOnlyPages = []
+const seen = new Set()
+const walkLive = async (rel) => {
+  if (seen.has(rel)) return
+  seen.add(rel)
+  const nodePath = `/content/typerefinery-showcase/pages/os-triage${rel ? '/' + rel : ''}`
+  const res = await fetch(`${CMS}${nodePath}.1.json`, { headers: { Authorization: auth } }).catch(() => null)
+  const j = res && res.ok ? await res.json().catch(() => null) : null
+  if (!j) return
+  if (j['jcr:content'] !== undefined && !pkgPages.has(rel)) liveOnlyPages.push(rel || '(root)')
+  for (const [k, v] of Object.entries(j)) {
+    // Skip properties, and never descend into a page's own content subtree — we are enumerating
+    // PAGES, and jcr:content is where the (already-compared) node detail lives.
+    if (k === 'jcr:content' || k.includes(':') || v === null || typeof v !== 'object' || Array.isArray(v)) continue
+    await walkLive(rel ? `${rel}/${k}` : k)
+  }
+}
+await walkLive('')
+
+console.log(`\nlive pages walked: ${seen.size} node(s) under os-triage`)
+if (!liveOnlyPages.length) {
+  console.log('every live page exists in the content package')
+} else {
+  console.log(`\n🚩 ${liveOnlyPages.length} page(s) exist LIVE and NOT in the content package —`)
+  console.log('   a content-package redeploy would remove them:')
+  for (const p of liveOnlyPages) console.log(`     ${p}`)
+  console.log('\n   See docs/issues/0194. These are whole missing pages, not attribute drift, so')
+  console.log('   --apply does not touch them: each needs its authored-content story exported.')
+  process.exitCode = 1
+}
