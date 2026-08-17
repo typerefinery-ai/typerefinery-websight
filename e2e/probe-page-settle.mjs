@@ -63,12 +63,19 @@ const PAGES = [
       if (!f) return false
       // All THREE panes — a Composer with a tree and two empty panes is not ready to demo.
       //
-      // ⚠️ The ids are `tree_svg`, `promo_svg_zoom`, `scratch_svg_zoom`. A first version used
-      // `#promo_svg` / `#scratch_svg` — the names the d3 selections carry in the widget source and
-      // the names docs/issues/0171 and 0010 quote — and reported **"Act 3 NOT READY within 40 s"**
-      // on a page the gate walks green. Selecting an element that does not exist looks exactly like
-      // a page that never loads, and it would have been reported as a demo-blocking regression.
-      for (const svg of ['#tree_svg', '#promo_svg_zoom', '#scratch_svg_zoom']) {
+      // ⚠️ Select by CLASS, which is what the rest of the suite does (probe-0171-pane-fill,
+      // probe-act3-pane-fill). Measured DOM:
+      //
+      //     id=tree_svg         class=tree_svg
+      //     id=promo_svg_zoom   class=promo_svg      ← id and class DIFFER
+      //     id=scratch_svg_zoom class=scratch_svg
+      //
+      // A first version used `#promo_svg` / `#scratch_svg` as IDs and reported **"Act 3 NOT READY
+      // within 40 s"** on a page the gate walks green — selecting an element that does not exist is
+      // indistinguishable from a page that never loads. The `_zoom` ids would also work, but the
+      // class is the selector the other probes depend on, so a rename would break them together
+      // rather than leaving this one silently disagreeing.
+      for (const svg of ['svg.tree_svg', 'svg.promo_svg', 'svg.scratch_svg']) {
         if ((await f.locator(`${svg} image, ${svg} circle, ${svg} g.node, ${svg} text`).count().catch(() => 0)) < 1) return false
       }
       return true
