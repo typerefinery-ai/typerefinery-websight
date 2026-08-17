@@ -66,6 +66,22 @@ const TARGETS = {
     ],
     guard: 'import_type',
   },
+  'table-all-incidents-shaped': {
+    // ⚠️ This flow serves TWO routes — `/viz-data/table-all-incidents` from `im0oral5p` and
+    // `/viz-data/table-all-incidents-shaped` from `rtshaped`. Taking the first route node found gives
+    // the wrong one, and the shaped algorithm (`getallshaped`) then looks "off-path". The demo's
+    // Act 1 table uses the SHAPED route.
+    flow: 'f1kuzx001jo51d',
+    node: 'getallshaped',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'import_type = import_type_factory.get_all_imports()',
+      'import importlib.util',
+    ],
+    // `sys` is also dead here — its only non-import mentions are two COMMENT lines — but it is a
+    // cheap stdlib import that is already resident, so removing it buys nothing and is left alone.
+    guard: 'import_type',
+  },
 }
 
 const which = process.argv.find((a) => a.startsWith('--route='))?.split('=')[1] || 'unattached-split'
