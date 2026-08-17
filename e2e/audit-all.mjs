@@ -43,6 +43,7 @@ const STANDING = [
   { script: 'audit-steering-todos.mjs', args: [], why: 'steering docs do not assert resolved blockers (0190)' },
   { script: 'audit-astral-regex.mjs', args: [], why: 'no emoji character class silently broken by a missing /u' },
   { script: 'check-runsheet-sync.mjs', args: [], why: 'runsheet and register stay in step' },
+  { script: 'audit-runsheet-commands.mjs', args: [], why: 'every npm/e2e command the runsheets name exists (0196)' },
 ]
 
 /**
