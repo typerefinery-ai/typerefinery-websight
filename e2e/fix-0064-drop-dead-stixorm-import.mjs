@@ -82,6 +82,108 @@ const TARGETS = {
     // cheap stdlib import that is already resident, so removing it buys nothing and is left alone.
     guard: 'import_type',
   },
+  /**
+   * The `tree-*` routes, and a correction to my own earlier claim.
+   *
+   * ⚠️ I recorded these as NOT candidates because `import_type` "has a genuine second reference, so
+   * the stixorm import is live". It does have one — and that reference is itself dead:
+   *
+   *     48   import_type = import_type_factory.get_all_imports()
+   *     112  auth_factory = get_auth_factory_instance()
+   *     113  auth        = auth_factory.get_auth_for_import(import_type)
+   *     114  auth_types  = copy.deepcopy(auth["types"])        ← assigned once, NEVER READ
+   *
+   * The whole chain terminates in a variable nobody uses, so BOTH stixorm imports die, and `copy`
+   * with them. Checking one link and stopping is exactly the "one column short" trap docs/issues/0049
+   * records — a plausible conclusion from a partial view.
+   */
+  // ⚠️ `tree-sighting` is deliberately NOT here. It carries the same seven lines, but references
+  // `auth_types` **three** times — the chain is live in that one. The guard would refuse it; listing
+  // the omission records that it was examined and rejected rather than overlooked.
+  'tree-impact': {
+    flow: 'f1fiw0001ra51d',
+    node: 'ilzqp9scv',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
+  'tree-task': {
+    flow: 'f1fiw1001ra51d',
+    node: 'ilzqp465b',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
+  'tree-company': {
+    flow: 'f1fiw5001ra51d',
+    node: 'im03tbtwq',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
+  'tree-user': {
+    flow: 'f1fiw5002ra50d',
+    node: 'im0or912a',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
+  'tree-user-2': {
+    flow: 'f1w116001pn51d',
+    node: 'im0or912a',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
+  'tree-event': {
+    flow: 'f1fiw1002ra50d',
+    node: 'ilzqpc24h',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'from stixorm.module.typedb_lib.factories.auth_factory import get_auth_factory_instance',
+      'import_type = import_type_factory.get_all_imports()',
+      'auth_factory = get_auth_factory_instance()',
+      'auth = auth_factory.get_auth_for_import(import_type)',
+      'auth_types = copy.deepcopy(auth["types"])',
+      'import copy',
+    ],
+    guard: 'auth_types',
+  },
 }
 
 const which = process.argv.find((a) => a.startsWith('--route='))?.split('=')[1] || 'unattached-split'
