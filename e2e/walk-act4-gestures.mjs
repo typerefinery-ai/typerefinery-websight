@@ -22,6 +22,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0' // Traefik leaf cert (0142)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const WORKSPACE = path.resolve(__dirname, '..', '..')
 const CMS = 'https://cms.typerefinery.localhost:8101'
+const AUTH = 'Basic ' + Buffer.from('wsadmin:wsadmin').toString('base64')
 const HOST_PAGE = '/content/typerefinery-showcase/pages/os-triage/pages/attack-navigator.html'
 const SPLIT = 'https://flow.typerefinery.localhost:8101/viz-data/unattached-split'
 const ROUTE = 'https://flow.typerefinery.localhost:8101/os-triage/transport/attack'
@@ -41,6 +42,37 @@ const step = async (name, fn) => {
 const inUnattached = async (id) => {
   const body = JSON.stringify(await (await fetch(SPLIT)).json().catch(() => ({})))
   return body.includes(id)
+}
+
+/**
+ * Does the copied object OPEN? docs/issues/0049.
+ *
+ * "It landed in Scratch" and "an analyst can work on it" are different claims, and until 2026-08-16
+ * only the first was true: neither type Act 4 copies had a form anywhere, so a copied technique opened
+ * a 404. Two forms were authored, and this asserts the whole chain rather than the form's existence —
+ * reading the stored wrapper's own `form_path`, which is the value the Composer navigates to.
+ *
+ * ⚠️ Deliberately NOT "does the form URL 200". docs/issues/0193 is the standing lesson: the API
+ * returning three relationship types was true while the modal offered none, also true. A capability is
+ * the path, not one endpoint on it.
+ *
+ * Returns a short phrase for the step's record line, and `ok` for its verdict.
+ */
+const opensAForm = async (id) => {
+  const split = await (await fetch(SPLIT)).json().catch(() => null)
+  if (!split) return { ok: false, note: 'unattached-split unreadable' }
+  const pool = [...(split.promo?.nodes || []), ...(split.scratch?.nodes || [])]
+  const node = pool.find((n) => (n.original?.id || n.id) === id)
+  if (!node) return { ok: false, note: 'not found in the pool' }
+  const formPath = node.form_path || node.formPath || node.form
+  if (!formPath) return { ok: false, note: 'no form_path on the stored wrapper' }
+  const url = `${CMS}/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/${formPath}-update.html`
+  const res = await fetch(url, { headers: { Authorization: AUTH } }).catch(() => null)
+  const html = res ? await res.text() : ''
+  const inputs = (html.match(/<input/g) || []).length
+  // A 200 that renders no inputs is a page, not a form — 0049's original symptom was an empty frame.
+  const ok = !!res && res.status === 200 && inputs >= 5
+  return { ok, note: `opens ${formPath} → ${res ? res.status : 'ERR'}, ${inputs} input(s)` }
 }
 
 const browser = await chromium.launch({ channel: 'chrome', headless: false })
@@ -100,8 +132,12 @@ await step('P4-S3', async () => {
   const confirmed = body.includes('Copied to Scratch')
   await popup.screenshot({ path: path.join(OUT, 'act4-confirmation.png') })
   const landed = techId ? await inUnattached(techId) : false
-  record('P4-S3', confirmed && landed ? 'PASS' : 'FAIL',
-    `new tab → ${confirmed ? 'confirmation page' : 'NO confirmation'}; ${techId || '(no id)'} ${landed ? 'IS' : 'NOT'} in unattached-split`)
+  // docs/issues/0049 — landing is half the capability. The Act's pitch is "copy this technique to
+  // Scratch", and the question it invites is "and then what do you do with it?". Until 2026-08-16 the
+  // answer was a 404, and nothing in this walk said so.
+  const open = techId && landed ? await opensAForm(techId) : { ok: false, note: 'not copied' }
+  record('P4-S3', confirmed && landed && open.ok ? 'PASS' : 'FAIL',
+    `new tab → ${confirmed ? 'confirmation page' : 'NO confirmation'}; ${techId || '(no id)'} ${landed ? 'IS' : 'NOT'} in unattached-split; ${open.note}`)
   await popup.close()
 })
 
@@ -140,8 +176,11 @@ await step('P4-S4', async () => {
   const confirmed = (await popup.content()).includes('Copied to Scratch')
   const isTactic = tacticId.startsWith('x-mitre-tactic--')
   const landed = tacticId ? await inUnattached(tacticId) : false
-  record('P4-S4', confirmed && isTactic && landed ? 'PASS' : 'FAIL',
-    `tactic item → ${tacticId || '(no id)'} (${isTactic ? 'is a tactic' : 'NOT a tactic id'}), ${confirmed ? 'confirmed' : 'no confirmation'}, ${landed ? 'in' : 'NOT in'} unattached`)
+  // docs/issues/0049, as P4-S3. A tactic resolves into `attack-forms`, a family that was EMPTY until
+  // 2026-08-16 — so this half of the assertion is the one that would have caught it.
+  const open = tacticId && landed ? await opensAForm(tacticId) : { ok: false, note: 'not copied' }
+  record('P4-S4', confirmed && isTactic && landed && open.ok ? 'PASS' : 'FAIL',
+    `tactic item → ${tacticId || '(no id)'} (${isTactic ? 'is a tactic' : 'NOT a tactic id'}), ${confirmed ? 'confirmed' : 'no confirmation'}, ${landed ? 'in' : 'NOT in'} unattached; ${open.note}`)
   await popup.close()
 })
 
