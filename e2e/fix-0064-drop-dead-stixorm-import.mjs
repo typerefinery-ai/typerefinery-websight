@@ -19,8 +19,8 @@
  * fails the run for. Editing only the source would leave source-ahead drift instead. Neither
  * direction alone is safe, so this writes both or neither.
  *
- *     node e2e/fix-0064-drop-dead-stixorm-import.mjs            # report
- *     node e2e/fix-0064-drop-dead-stixorm-import.mjs --apply
+ *     node e2e/fix-0064-drop-dead-stixorm-import.mjs --route=<name>            # report
+ *     node e2e/fix-0064-drop-dead-stixorm-import.mjs --route=<name> --apply
  */
 import fs from 'fs'
 import path from 'path'
@@ -31,14 +31,50 @@ const WORKSPACE = path.resolve(__dirname, '..', '..')
 const FASTAPI = process.env.FASTAPI_BASE || 'http://localhost:8000'
 const APPLY = process.argv.includes('--apply')
 
-const FLOW = 'f1uemw001rc51d'
-const NODE = 'im03tgckd'
 const SRC = path.join(WORKSPACE, 'typerefinery/services/totaljs-flow/database/demo/database.json')
 
-const DEAD = [
-  'from stixorm.module.authorise import import_type_factory',
-  'import_type = import_type_factory.get_all_imports()',
-]
+/**
+ * One entry per route. Each names the SERVING algorithm node — the one reachable from the route node
+ * through the design's connections — not merely an algorithm in the same flow.
+ *
+ * ⚠️ That distinction is load-bearing. `overview-default-incident`'s flow holds **15** algorithms and
+ * exactly **1** runs for the route; editing any of the other 14 would cost effort and change nothing.
+ */
+const TARGETS = {
+  'unattached-split': {
+    flow: 'f1uemw001rc51d',
+    node: 'im03tgckd',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'import_type = import_type_factory.get_all_imports()',
+    ],
+    // The symbol whose deadness justifies the removal; re-checked before every write.
+    guard: 'import_type',
+  },
+  'overview-default-incident': {
+    flow: 'f1kzb9001xs51d',
+    node: 'im7cs30iz',
+    dead: [
+      'from stixorm.module.authorise import import_type_factory',
+      'import_type = import_type_factory.get_all_imports()',
+      // ⚠️ `nodes` is SHADOWED by local parameters on 69 lines (`def __init__(self, nodes, edges)`,
+      // `self.nodes_by_id`), which is docs/issues/0064's own warning about `parse` verbatim. Counting
+      // cannot decide it; only removing it and comparing the payload can.
+      'from networkx import nodes',
+      // Only reference in the module is this line itself.
+      'import importlib.util',
+    ],
+    guard: 'import_type',
+  },
+}
+
+const which = process.argv.find((a) => a.startsWith('--route='))?.split('=')[1] || 'unattached-split'
+const target = TARGETS[which]
+if (!target) { console.error(`unknown route ${which}; known: ${Object.keys(TARGETS).join(', ')}`); process.exit(2) }
+const FLOW = target.flow
+const NODE = target.node
+const DEAD = target.dead
+console.log(`route: /viz-data/${which}  flow ${FLOW}  node ${NODE}  (${DEAD.length} line(s) to remove)`)
 
 /** Remove the dead lines, and refuse if the file is not the shape we measured. */
 const strip = (algorithm, where) => {
@@ -50,8 +86,9 @@ const strip = (algorithm, where) => {
   }
   // Guard: only remove when the symbol really is unread, so a later edit that starts using it
   // cannot be silently undone by re-running this.
-  const uses = lines.filter((l) => /\bimport_type\b/.test(l) && !l.includes('import_type_factory.get_all_imports')).length
-  if (uses > 1) return { error: `${where}: import_type is referenced ${uses}× — no longer dead, refusing` }
+  const g = target.guard
+  const uses = lines.filter((l) => new RegExp(`\\b${g}\\b`).test(l) && !l.includes(`${g}_factory.get_all_imports`)).length
+  if (uses > 1) return { error: `${where}: ${g} is referenced ${uses}× — no longer dead, refusing` }
   const kept = lines.filter((l, i) => !found.includes(i))
   return { text: kept.join('\n'), removed: found.length }
 }
