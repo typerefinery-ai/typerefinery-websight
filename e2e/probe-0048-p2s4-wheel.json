@@ -1,0 +1,24 @@
+{
+  "nodes": 28,
+  "wheelCount": 4,
+  "before": [
+    {
+      "transform": "translate(-256.3223579091895,-107.47293758886991) scale(1)",
+      "scales": [
+        1
+      ],
+      "product": 1
+    }
+  ],
+  "after": [
+    {
+      "transform": "translate(-256.3223579091895,-107.47293758886991) scale(1) translate(-954.9910913075173,-1113.6922347609527) scale(3.784230586902383)",
+      "scales": [
+        1,
+        3.784230586902383
+      ],
+      "product": 3.784230586902383
+    }
+  ],
+  "changed": true
+}

@@ -1,0 +1,56 @@
+{
+  "status": 200,
+  "widgets": [
+    {
+      "variant": "primaryTicker",
+      "topic": "ticker_4bfbcd4ce75147d3a51ad2727824a256",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "primaryTicker",
+      "topic": "ticker_bdae4837d76747c5a8c97d1005375a66",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "primaryTicker",
+      "topic": "ticker_5fb968a38e9a47a49bfb30f482396234",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "lineChart",
+      "topic": "chart_94754e8db33c4ff2b9f3e840ccebf965",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "barChart",
+      "topic": "chart_2f90a683f46142deb6a4925459c0d7e1",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "pieChart",
+      "topic": "chart_eef6cb3ddb284cb8bb21277ae185dbcb",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    },
+    {
+      "variant": "?",
+      "topic": "map_0a0592bd392548c8abc78101abb8f635",
+      "host": "wss://tms.typerefinery.localhost:8101/$tms",
+      "dataSource": "",
+      "coldStart": ""
+    }
+  ],
+  "placeholdersVisible": [],
+  "logs": []
+}

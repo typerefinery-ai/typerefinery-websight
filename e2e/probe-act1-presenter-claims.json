@@ -1,0 +1,19 @@
+{
+  "headers": [
+    "ID",
+    "Name",
+    "Tags",
+    "Status",
+    "Observed",
+    "Created",
+    "Tasks",
+    "Action"
+  ],
+  "rows": [
+    "incident--f853d6f8-a668-4272-b007-55eff8087ec6 Potential phishing email - Naive Smith (earlier capture) phishing, email new 2 2026-02-08 2",
+    "incident--511d2ab7-c6a8-4ab9-bf11-2e027eee3eba Potential phishing email - Naive Smith phishing, email new 2 2026-02-08 2",
+    "incident--1a9e5000-0000-4000-8000-00001a9e5000 Phishing campaign - image5 walkthrough phishing, campaign new 2 2026-02-08 2"
+  ],
+  "searchBoxes": 1,
+  "rowButtons": 6
+}

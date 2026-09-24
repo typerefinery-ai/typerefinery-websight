@@ -1,0 +1,51 @@
+{
+  "fetches": [
+    {
+      "url": "tree-sighting",
+      "status": 200,
+      "at": 1786937773491
+    },
+    {
+      "url": "tree-task",
+      "status": 200,
+      "at": 1786937773902
+    },
+    {
+      "url": "tree-task",
+      "status": 200,
+      "at": 1786937774498
+    },
+    {
+      "url": "tree-task",
+      "status": 200,
+      "at": 1786937775335
+    },
+    {
+      "url": "tree-task",
+      "status": 200,
+      "at": 1786937776128
+    }
+  ],
+  "results": [
+    {
+      "idx": 3,
+      "redrew": 67,
+      "route": "tree-sighting"
+    },
+    {
+      "idx": 5,
+      "redrew": 144,
+      "route": "tree-task"
+    },
+    {
+      "idx": 6,
+      "redrew": 263,
+      "route": "tree-task"
+    },
+    {
+      "idx": 1,
+      "redrew": 146,
+      "route": "tree-task"
+    }
+  ]
+}

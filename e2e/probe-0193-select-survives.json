@@ -1,0 +1,162 @@
+{
+  "status": 200,
+  "atLoad": {
+    "selects": [
+      {
+        "name": "relationship_type",
+        "options": 0,
+        "hidden": true,
+        "cls": "form-select mt-1 form-control choices__input",
+        "display": "none"
+      }
+    ],
+    "inputs": [
+      {
+        "name": "object",
+        "type": "text",
+        "value": "{\"source_ref\":\"\",\"target_ref\":\"\",\"relationship_type\":null}"
+      },
+      {
+        "name": "source_ref",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "name": "target_ref",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "name": "search_terms",
+        "type": "search",
+        "value": ""
+      }
+    ],
+    "choicesRoots": 1,
+    "choicesItems": 1,
+    "hasChoicesLib": "function"
+  },
+  "settled": {
+    "selects": [
+      {
+        "name": "relationship_type",
+        "options": 0,
+        "hidden": true,
+        "cls": "form-select mt-1 form-control choices__input",
+        "display": "none"
+      }
+    ],
+    "inputs": [
+      {
+        "name": "object",
+        "type": "text",
+        "value": "{\"source_ref\":\"\",\"target_ref\":\"\",\"relationship_type\":null}"
+      },
+      {
+        "name": "source_ref",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "name": "target_ref",
+        "type": "text",
+        "value": ""
+      },
+      {
+        "name": "search_terms",
+        "type": "search",
+        "value": ""
+      }
+    ],
+    "choicesRoots": 1,
+    "choicesItems": 1,
+    "hasChoicesLib": "function"
+  },
+  "interesting": [
+    "[startGroupCollapsed] initComponentBySelector [component]",
+    "[startGroupCollapsed] observeDOMForSelector [component]",
+    "[startGroupCollapsed] initComponentBySelector [component=embed]",
+    "[startGroupCollapsed] observeDOMForSelector [component=embed]",
+    "[startGroupCollapsed] initComponentBySelector [component=text]",
+    "[startGroupCollapsed] observeDOMForSelector [component=text]",
+    "[startGroupCollapsed] initComponentBySelector [component=title]",
+    "[startGroupCollapsed] observeDOMForSelector [component=title]",
+    "[startGroupCollapsed] initComponentBySelector [component=button]",
+    "[startGroupCollapsed] observeDOMForSelector [component=button]",
+    "[startGroupCollapsed] initComponentBySelector [component=checkbox]",
+    "[startGroupCollapsed] observeDOMForSelector [component=checkbox]",
+    "[startGroupCollapsed] initComponentBySelector [component=fileupload]",
+    "[startGroupCollapsed] observeDOMForSelector [component=fileupload]",
+    "[startGroupCollapsed] initComponentBySelector [component=input]",
+    "[log] validationInputMask: undefined",
+    "[log] [config, undefined, source_ref, source_ref, Object]",
+    "[log] validationInputMask: undefined",
+    "[log] [config, undefined, target_ref, target_ref, Object]",
+    "[startGroupCollapsed] observeDOMForSelector [component=input]",
+    "[startGroupCollapsed] initComponentBySelector [component=radio]",
+    "[startGroupCollapsed] observeDOMForSelector [component=radio]",
+    "[startGroupCollapsed] onDocumentReady for [component=select]:not([data-choice]) on /content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/modal-forms/sro-constraints.html",
+    "[startGroupCollapsed] initComponentBySelector [component=select]:not([data-choice])",
+    "[startGroup] select init",
+    "[log] componentConfig.id composite_IKIQVXIXM-field_ZGCNXDJNW-select_FWBBJ77KK-field_0ZB9CYXZV",
+    "[log] component select JSHandle@node",
+    "[log] select: 0 options but deferredOptions is set ? keeping the select for the host to fill (docs/issues/0193) composite_IKIQVXIXM-field_ZGCNXDJNW-select_FWBBJ77KK-field_0ZB9CYXZV",
+    "[log] init choices",
+    "[log] [config, undefined, relationship_type, relationship_type, Object]",
+    "[startGroupCollapsed] observeDOMForSelector [component=select]:not([data-choice])",
+    "[startGroupCollapsed] initComponentBySelector [component=textarea]",
+    "[startGroupCollapsed] observeDOMForSelector [component=textarea]",
+    "[startGroupCollapsed] initComponentBySelector [component=form]",
+    "[log] [event config, FORM_LOAD, listen, undefined, FORM_LOAD, FORM_LOAD]",
+    "[log] {} form_KN2HQFTGA FORM_LOAD listen FORM_LOAD FORM_LOAD undefined",
+    "[log] [event config, FORM_SUCCESS, emit, undefined, FORM_SUCCESS, FORM_SUCCESS]",
+    "[startGroup] FORM_ERROR FORM_ERROR",
+    "[log] [event config, FORM_ERROR, emit, undefined, FORM_ERROR, FORM_ERROR]",
+    "[log] [event to register, FORM_ERROR, emit, FORM_ERROR, FORM_ERROR]",
+    "[log] [registerEventActionMapping, {\"listen\":{\"FORM_LOAD\":{\"form_KN2HQFTGA\":{\"FORM_LO…ESS\",\"config\":\"{\\\"postparentwindow\\\":true}\"}]}}}}, FORM_ERROR, emit, FORM_ERROR, FORM_ERROR]",
+    "[log] {listen: Object, emit: Object} form_KN2HQFTGA FORM_ERROR emit FORM_ERROR FORM_ERROR {\"postparentwindow\":true}",
+    "[warning] event action not found FORM_ERROR in eventMap[emit], creating new action FORM_ERROR",
+    "[warning] component id not found form_KN2HQFTGA in eventMap[emit][FORM_ERROR], creating new component id form_KN2HQFTGA",
+    "[warning] event name not found FORM_ERROR in eventMap[emit][FORM_ERROR][form_KN2HQFTGA], creating new event name with topic FORM_ERROR",
+    "[startGroupCollapsed] observeDOMForSelector [component=form]",
+    "[startGroupCollapsed] initComponentBySelector [component=accordion]",
+    "[startGroupCollapsed] observeDOMForSelector [component=accordion]",
+    "[startGroupCollapsed] initComponentBySelector [component=container]",
+    "[log] [config, undefined, one_S1FFDOQUV, one_S1FFDOQUV]",
+    "[log] [config, undefined, container1_J75GH0JFC, container1_J75GH0JFC]",
+    "[log] [config, undefined, one_RY0DZNCCC, one_RY0DZNCCC]",
+    "[log] [config, undefined, container1_Y80THQRR4, container1_Y80THQRR4]",
+    "[log] [config, undefined, one_1_BKE4SQAZZ, one_1_BKE4SQAZZ]",
+    "[log] [config, undefined, container1_XBV8QLGCK, container1_XBV8QLGCK]",
+    "[startGroupCollapsed] observeDOMForSelector [component=container]",
+    "[startGroupCollapsed] initComponentBySelector [component=containerlist]",
+    "[startGroupCollapsed] observeDOMForSelector [component=containerlist]",
+    "[startGroupCollapsed] initComponentBySelector [component=treeview]",
+    "[startGroupCollapsed] observeDOMForSelector [component=treeview]",
+    "[startGroupCollapsed] initComponentBySelector [component='chart'][data-module='lineChart']",
+    "[startGroupCollapsed] observeDOMForSelector [component='chart'][data-module='lineChart']",
+    "[startGroupCollapsed] initComponentBySelector [component='chart'][data-module='barChart']",
+    "[startGroupCollapsed] observeDOMForSelector [component='chart'][data-module='barChart']",
+    "[startGroupCollapsed] initComponentBySelector [component='chart'][data-module='pieChart']",
+    "[startGroupCollapsed] observeDOMForSelector [component='chart'][data-module='pieChart']",
+    "[startGroupCollapsed] initComponentBySelector [component=editor]",
+    "[startGroupCollapsed] observeDOMForSelector [component=editor]",
+    "[startGroupCollapsed] initComponentBySelector [component='map']",
+    "[startGroupCollapsed] observeDOMForSelector [component='map']",
+    "[startGroupCollapsed] initComponentBySelector [component=modal]",
+    "[startGroupCollapsed] observeDOMForSelector [component=modal]",
+    "[startGroupCollapsed] initComponentBySelector [component='search']",
+    "[startGroupCollapsed] observeDOMForSelector [component='search']",
+    "[startGroupCollapsed] initComponentBySelector [component=stix]",
+    "[startGroupCollapsed] observeDOMForSelector [component=stix]",
+    "[startGroupCollapsed] initComponentBySelector [component=table]",
+    "[startGroupCollapsed] observeDOMForSelector [component=table]",
+    "[startGroupCollapsed] initComponentBySelector [component='tabs']",
+    "[startGroupCollapsed] observeDOMForSelector [component='tabs']",
+    "[startGroupCollapsed] initComponentBySelector [component=ticker]",
+    "[startGroupCollapsed] observeDOMForSelector [component=ticker]",
+    "[startGroupCollapsed] initComponentBySelector [component=composite][isCompositeParent]",
+    "[log] [config, undefined, composite_IKIQVXIXM-field_ZGCNXDJNW, composite_IKIQVXIXM-field_ZGCNXDJNW]",
+    "[startGroupCollapsed] observeDOMForSelector [component=composite][isCompositeParent]"
+  ]
+}

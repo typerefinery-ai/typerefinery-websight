@@ -1,0 +1,94 @@
+[
+  {
+    "panels": [
+      {
+        "cls": "promo_svg",
+        "svgAttr": {
+          "w": "600",
+          "h": "500"
+        },
+        "svgRendered": {
+          "w": 598,
+          "h": 498
+        },
+        "paneRendered": {
+          "w": 600,
+          "h": 500
+        },
+        "nodeCount": 7,
+        "spread": {
+          "x": [
+            62,
+            516
+          ],
+          "y": [
+            26,
+            436
+          ]
+        }
+      },
+      {
+        "cls": "scratch_svg",
+        "svgAttr": {
+          "w": "600",
+          "h": "500"
+        },
+        "svgRendered": {
+          "w": 598,
+          "h": 498
+        },
+        "paneRendered": {
+          "w": 600,
+          "h": 500
+        },
+        "nodeCount": 4,
+        "spread": {
+          "x": [
+            118,
+            425
+          ],
+          "y": [
+            67,
+            387
+          ]
+        }
+      },
+      {
+        "cls": "tree_svg",
+        "svgAttr": {
+          "w": "223",
+          "h": "998"
+        },
+        "svgRendered": {
+          "w": 223,
+          "h": 998
+        },
+        "paneRendered": {
+          "w": 225,
+          "h": 1000
+        },
+        "nodeCount": 6,
+        "spread": {
+          "x": [
+            25,
+            85
+          ],
+          "y": [
+            8,
+            108
+          ]
+        }
+      }
+    ],
+    "cachedBounds": {
+      "#promo_panel": {
+        "width": 600,
+        "height": 500
+      },
+      "#scratch_panel": {
+        "width": 600,
+        "height": 500
+      }
+    }
+  }
+]
