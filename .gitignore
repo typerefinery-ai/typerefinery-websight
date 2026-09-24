@@ -59,3 +59,7 @@ _reference
 .env.*
 !.env.example
 graphify-out/
+
+# local e2e scratch: 50 MB flow-DB backups taken before fix scripts, and stderr dumps
+e2e/.backup-*/
+e2e/.dump-err
