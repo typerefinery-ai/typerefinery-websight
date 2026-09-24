@@ -63,3 +63,10 @@ graphify-out/
 # local e2e scratch: 50 MB flow-DB backups taken before fix scripts, and stderr dumps
 e2e/.backup-*/
 e2e/.dump-err
+
+# screenshots written by e2e probes/walks (never committed), and outputs of e2e scripts run from the repo root
+/*.png
+e2e/*.png
+/audit-content-divergence.json
+/audit-form-save-legs.json
+/indicator-create.json
