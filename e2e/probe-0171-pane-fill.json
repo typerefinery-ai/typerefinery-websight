@@ -3,12 +3,12 @@
     "pane": "promo_svg",
     "nodes": 8,
     "paneSize": "456×398",
-    "clusterSize": "197×210",
-    "fillPct": 23,
-    "marginLeft": 134,
-    "marginRight": 125,
-    "marginTop": 84,
-    "marginBottom": 104
+    "clusterSize": "342×312",
+    "fillPct": 59,
+    "marginLeft": 54,
+    "marginRight": 60,
+    "marginTop": 51,
+    "marginBottom": 36
   },
   {
     "pane": "scratch_svg",

@@ -1,60 +1,6 @@
 {
   "perForm": [
     {
-      "rel": "sco-forms/email-addr-forms/email-addr-create",
-      "http": 200,
-      "distinct": 12,
-      "snake": 1,
-      "examples": [
-        "display_name"
-      ]
-    },
-    {
-      "rel": "sco-forms/email-addr-forms/email-addr-update",
-      "http": 200,
-      "distinct": 12,
-      "snake": 1,
-      "examples": [
-        "display_name"
-      ]
-    },
-    {
-      "rel": "sco-forms/email-message-forms/email-message-create",
-      "http": 200,
-      "distinct": 25,
-      "snake": 1,
-      "examples": [
-        "content_disposition"
-      ]
-    },
-    {
-      "rel": "sco-forms/email-message-forms/email-message-update",
-      "http": 200,
-      "distinct": 25,
-      "snake": 1,
-      "examples": [
-        "content_disposition"
-      ]
-    },
-    {
-      "rel": "sro-forms/relationship-forms/relationship-create",
-      "http": 200,
-      "distinct": 25,
-      "snake": 1,
-      "examples": [
-        "source_ref"
-      ]
-    },
-    {
-      "rel": "sro-forms/relationship-forms/relationship-update",
-      "http": 200,
-      "distinct": 25,
-      "snake": 1,
-      "examples": [
-        "source_ref"
-      ]
-    },
-    {
       "rel": "sco-forms/anecdote-forms/anecdote-create",
       "http": 200,
       "distinct": 12,
@@ -79,6 +25,34 @@
       "rel": "sco-forms/domain-name-forms/domain-name-update",
       "http": 200,
       "distinct": 11,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/email-addr-forms/email-addr-create",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/email-addr-forms/email-addr-update",
+      "http": 200,
+      "distinct": 12,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/email-message-forms/email-message-create",
+      "http": 200,
+      "distinct": 25,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sco-forms/email-message-forms/email-message-update",
+      "http": 200,
+      "distinct": 25,
       "snake": 0,
       "examples": []
     },
@@ -209,6 +183,20 @@
       "examples": []
     },
     {
+      "rel": "sro-forms/relationship-forms/relationship-create",
+      "http": 200,
+      "distinct": 25,
+      "snake": 0,
+      "examples": []
+    },
+    {
+      "rel": "sro-forms/relationship-forms/relationship-update",
+      "http": 200,
+      "distinct": 25,
+      "snake": 0,
+      "examples": []
+    },
+    {
       "rel": "sro-forms/sighting-forms/sighting-create",
       "http": 200,
       "distinct": 53,
@@ -223,18 +211,5 @@
       "examples": []
     }
   ],
-  "distinct": [
-    [
-      "display_name",
-      2
-    ],
-    [
-      "content_disposition",
-      2
-    ],
-    [
-      "source_ref",
-      2
-    ]
-  ]
+  "distinct": []
 }

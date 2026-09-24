@@ -1,5 +1,15 @@
 [
  {
+  "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/os-threat-forms/sdo-forms/impact-forms/impact-update",
+  "name": "revoked",
+  "label": "revoked",
+  "path": "/rootcontainer/main/form/composite_2/field/one/container1/template/container/boolean",
+  "rt": "input",
+  "container": "base_optional",
+  "fix": null,
+  "kind": "🟠 NOT A PROPERTY"
+ },
+ {
   "form": "/content/typerefinery-showcase/pages/os-triage/forms/stixorm-forms/stix-forms/sco-forms/email-message-forms/email-message-create",
   "label": "Reference",
   "path": "/rootcontainer/main/form/composite_1/reference",
